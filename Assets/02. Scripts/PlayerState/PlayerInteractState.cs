@@ -6,6 +6,7 @@ using UnityEngine.UIElements.Experimental;
 
 public class PlayerInteractState : PlayerBaseState
 {
+    protected GameObject target;
     public PlayerInteractState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
 
@@ -14,6 +15,17 @@ public class PlayerInteractState : PlayerBaseState
     public override void Enter()
     {
         _stateMachine.MovementSpeedModifier = 0;
+
+        // hand is empty 
+        //LayerMask ly = 1;
+        // Rseource Gathering.
+        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, 2.5f, _stateMachine.Player.targetLayers);
+        if (targets.Length != 0)
+        {            
+            target = targets[0].gameObject;
+            Debug.Log($"target Name : {target.name}");
+        }
+
         base.Enter();
         StartAnimation (_stateMachine.Player.AnimationData.InteractParameterHash);
     }
@@ -28,8 +40,11 @@ public class PlayerInteractState : PlayerBaseState
     {
         // exit 조건 설정
         float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
+        // Debug.Log("nor" + normalizedTime);
         if(normalizedTime >= 1f)
         {
+            if(target != null)
+                target.GetComponent<IInteractable>()?.Interact(_stateMachine.Player);
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }
     }

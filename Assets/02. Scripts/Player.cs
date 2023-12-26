@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
 
     private PlayerStateMachine _stateMachine;
 
+    [Header("Temp")]
+    public LayerMask targetLayers;
+
     private void Awake()
     {
         AnimationData.Initialize();

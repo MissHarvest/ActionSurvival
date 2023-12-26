@@ -6,8 +6,8 @@ using UnityEngine;
 [Serializable]
 public class ItemSlot
 {
-    public ItemData itemData;
-    public int quantity { get; private set; }
+    [field: SerializeField] public ItemData itemData;
+    [field: SerializeField] public int quantity { get; private set; }
 
     public ItemSlot()
     {
