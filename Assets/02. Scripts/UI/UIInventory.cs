@@ -4,26 +4,32 @@ using UnityEngine;
 
 public class UIInventory : UIPopup
 {
+    enum Gameobjects
+    {
+        Contents,
+        Exit,
+    }
+        
     private Transform _contents;
     private List<UIItemSlot> _uiItemSlots = new List<UIItemSlot>();
 
     private void Awake()
     {
-        _contents = FindItemSlotRoot(this.transform);
-
+        Bind<GameObject>(typeof(Gameobjects));
+        _contents = Get<GameObject>((int)Gameobjects.Contents).transform;
+        Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) => { Managers.UI.ClosePopupUI(this); });
+        
         // Create Slot
         var inventory = GameObject.Find("Player").GetComponentInChildren<InventorySystem>();
         inventory.OnUpdated += OnItemSlotUpdated;
-        CreateItemSlots(InventorySystem.maxCapacity);
-        gameObject.SetActive(false);
+        CreateItemSlots(InventorySystem.maxCapacity);//inventory 를 넘겨주는게 나을듯
     }
 
     private void CreateItemSlots(int capacity)
     {
-        var itemSlotPrefab = Resources.Load<GameObject>("UI/UI_ItemSlot");
         for(int i = 0; i < capacity; ++i)
         {
-            var itemSlotUI = Instantiate(itemSlotPrefab, _contents.transform);
+            var itemSlotUI = Managers.Resource.Instantiate("UIItemSlot", Literals.PATH_UI, _contents);
             var uiItemSlot = itemSlotUI.GetComponent<UIItemSlot>();
             uiItemSlot?.SetIndex(i);
             _uiItemSlots.Add(uiItemSlot);

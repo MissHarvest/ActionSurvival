@@ -13,6 +13,7 @@ public class UIManager
     // Popup Management
     private Stack<UIPopup> _popups = new Stack<UIPopup>();
     
+
     // Scenes Overlay
     private UIScene _scene;
 
@@ -76,6 +77,7 @@ public class UIManager
         
         _popups.Push(popupUI);
 
+        Cursor.lockState = CursorLockMode.None;
         return popupUI;
     }
 
@@ -101,12 +103,20 @@ public class UIManager
         ResourceManager.Destroy(popup.gameObject);
 
         _order -= 1;
+
+        if (_order == 0)
+            Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void CloseAllPopupUI()
     {
         while(_popups.Count > 0)
             ClosePopupUI();
+    }
+
+    public bool Check(UIPopup popup)
+    {
+        return _popups.Contains(popup);
     }
 
     #endregion

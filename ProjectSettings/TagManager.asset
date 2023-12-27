@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Mine
   - Fell
+  - Gather
   layers:
   - Default
   - TransparentFX

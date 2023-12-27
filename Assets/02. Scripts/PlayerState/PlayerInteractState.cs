@@ -16,11 +16,11 @@ public class PlayerInteractState : PlayerBaseState
     {
         _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
-        // hand is empty 
+        
         ToolItemData tool = _stateMachine.Player.equippedTool;
-        // Rseource Gathering.
+        
         var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers);
-        if (targets.Length != 0 && targets[0].CompareTag(tool.targetTagName))
+        if (targets.Length != 0 && (targets[0].CompareTag(tool.targetTagName) || targets[0].CompareTag("Gather")))
         {
             target = targets[0].gameObject;
             Debug.Log($"target Name : {target.name}");

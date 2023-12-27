@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InventorySystem : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class InventorySystem : MonoBehaviour
 
     public event Action<int, ItemSlot> OnUpdated;
 
+    private UIInventory _inventoryUI;
+
     private void Awake()
     {
         slots = new ItemSlot[maxCapacity];
@@ -19,34 +22,37 @@ public class InventorySystem : MonoBehaviour
         {
             slots[i] = new ItemSlot();
         }
+
+        var input = GetComponentInParent<PlayerInput>();
+        input.InputActions.Player.Inventory.started += OnInventoryShowAndHide;
     }
 
     public void AddItem(ItemSlot slot)
     {
-        int emptyIndex = 0; // targetindex
+        int targetindex = 0;
 
         if(slot.itemData.stackable == false)
         {
-            if(FindEmptyIndex(out emptyIndex))
+            if(FindEmptyIndex(out targetindex))
             {
-                slots[emptyIndex] = slot;
-                OnUpdated?.Invoke(emptyIndex, slot);
+                slots[targetindex] = slot;
+                OnUpdated?.Invoke(targetindex, slot);
                 return;
             }
         }
 
-        var itemSlot = FindItem(slot.itemData, out emptyIndex);
+        var itemSlot = FindItem(slot.itemData, out targetindex);
         if(itemSlot != null)
         {
             itemSlot.AddQuantity(slot.quantity);
-            OnUpdated?.Invoke(emptyIndex, slot);
+            OnUpdated?.Invoke(targetindex, slot);
             return;
         }
 
-        if(FindEmptyIndex(out emptyIndex))
+        if(FindEmptyIndex(out targetindex))
         {
-            slots[emptyIndex] = slot;
-            OnUpdated?.Invoke(emptyIndex, slot);
+            slots[targetindex] = slot;
+            OnUpdated?.Invoke(targetindex, slot);
         }
     }
 
@@ -77,5 +83,17 @@ public class InventorySystem : MonoBehaviour
         }
         index = -1;
         return null;
+    }
+
+    private void OnInventoryShowAndHide(InputAction.CallbackContext context)
+    {
+        if (_inventoryUI == null)
+        {
+            _inventoryUI = Managers.UI.ShowPopupUI<UIInventory>();
+        }
+        else
+        {
+            Managers.UI.ClosePopupUI(_inventoryUI);
+        }        
     }
 }

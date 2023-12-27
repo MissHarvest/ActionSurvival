@@ -118,8 +118,6 @@ public class PlayerBaseState : IState
         input.PlayerActions.Attack.canceled += OnAttackCanceled;
         
         input.PlayerActions.Interact.started += OnInteractStarted;
-
-        input.PlayerActions.Inventory.started += OnInventoryToggled;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
@@ -168,11 +166,6 @@ public class PlayerBaseState : IState
             _stateMachine.ChangeState(_stateMachine.InteractState);
         }        
         Debug.Log("Player Interact");
-    }
-
-    protected virtual void OnInventoryToggled(InputAction.CallbackContext context)
-    {
-        // Manager.UI.Toggle<UIInventory>();
     }
 
     protected void ForceMove()
