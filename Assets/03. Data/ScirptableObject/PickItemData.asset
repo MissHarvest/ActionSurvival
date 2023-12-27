@@ -19,6 +19,7 @@ MonoBehaviour:
   targetLayers:
     serializedVersion: 2
     m_Bits: 64
-  range: 3
+  range: 0.7
   attackPower: 1
-  tagName: Mine
+  targetTagName: Mine
+  isWeapon: 0

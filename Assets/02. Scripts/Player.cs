@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     private PlayerStateMachine _stateMachine;
 
     [Header("Temp")]
-    public LayerMask targetLayers;
+    public ToolItemData equippedTool;
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
         Input = GetComponent<PlayerInput>();
         Controller = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
-
+        
         _stateMachine = new PlayerStateMachine(this);
     }
 
@@ -50,5 +50,15 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         _stateMachine.PhysicsUpdate();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        
+        if(equippedTool != null)
+        {
+            Gizmos.DrawWireSphere(transform.position, equippedTool.range);
+        }        
     }
 }

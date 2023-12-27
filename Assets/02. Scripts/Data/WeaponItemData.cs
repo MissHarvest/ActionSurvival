@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WeaponItemData", menuName = "New Item/Weapon", order = 0)]
-public class WeaponItemData : ItemData
+[CreateAssetMenu(fileName = "ToolItemData", menuName = "New Item/Weapon", order = 0)]
+public class ToolItemData : ItemData
 {
     public LayerMask targetLayers;
     public float range;
     public int attackPower;
-    public string tagName;
+    public string targetTagName;
+    public bool isWeapon;
 
-    public WeaponItemData()
+    public ToolItemData()
     {
         stackable = false;
         registable = true;

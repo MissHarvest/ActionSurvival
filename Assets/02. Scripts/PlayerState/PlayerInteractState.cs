@@ -15,19 +15,21 @@ public class PlayerInteractState : PlayerBaseState
     public override void Enter()
     {
         _stateMachine.MovementSpeedModifier = 0;
-
+        base.Enter();
         // hand is empty 
-        //LayerMask ly = 1;
+        ToolItemData tool = _stateMachine.Player.equippedTool;
         // Rseource Gathering.
-        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, 2.5f, _stateMachine.Player.targetLayers);
-        if (targets.Length != 0)
-        {            
+        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers);
+        if (targets.Length != 0 && targets[0].CompareTag(tool.targetTagName))
+        {
             target = targets[0].gameObject;
             Debug.Log($"target Name : {target.name}");
+            StartAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
         }
-
-        base.Enter();
-        StartAnimation (_stateMachine.Player.AnimationData.InteractParameterHash);
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+        }    
     }
 
     public override void Exit()

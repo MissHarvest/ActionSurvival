@@ -118,6 +118,8 @@ public class PlayerBaseState : IState
         input.PlayerActions.Attack.canceled += OnAttackCanceled;
         
         input.PlayerActions.Interact.started += OnInteractStarted;
+
+        input.PlayerActions.Inventory.started += OnInventoryToggled;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
@@ -155,9 +157,22 @@ public class PlayerBaseState : IState
 
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
-        Debug.Log("Press E");
-        _stateMachine.ChangeState(_stateMachine.InteractState);
+        // 그냥 처음부터 weapon 을 들고 있는게 나을듯
+        var tool = _stateMachine.Player.equippedTool;
+        if (tool.isWeapon)
+        {
+            // _stateMachine.ChangeState(_stateMachine.AttackState);
+        }
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.InteractState);
+        }        
         Debug.Log("Player Interact");
+    }
+
+    protected virtual void OnInventoryToggled(InputAction.CallbackContext context)
+    {
+        // Manager.UI.Toggle<UIInventory>();
     }
 
     protected void ForceMove()
