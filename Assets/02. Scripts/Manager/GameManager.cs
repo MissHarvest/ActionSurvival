@@ -3,6 +3,8 @@ using System;
 
 public class GameManager
 {
+    public Player Player;
+
     #region Member Variables
 
     /* Timer Variables */

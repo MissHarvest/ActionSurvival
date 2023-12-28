@@ -27,6 +27,7 @@ public static class Literals
     #region Resources Path
 
     public const string PATH_UI = "UI/";
+    public const string PATH_POPUPUI = "UI/Popup/";
     public const string PATH_INIT = "Prefabs/InitOnLoad/";
     public const string PATH_RESOURCEMODEL = "Prefabs/OriginResourceModel/";
     public const string PATH_ITEM = "Prefabs/Item/";

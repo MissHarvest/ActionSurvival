@@ -33,4 +33,15 @@ public class ItemSlot
     {
         this.quantity = Math.Min(this.quantity + amount, ItemData.maxStackCount);        
     }
+
+    public void SubtractQuantity(int amount)
+    {
+        // 소모해야하는 양 보다 가지고 있는게 적으면 실패하는 로직
+    }
+
+    public void Clear()
+    {
+        itemData = null;
+        quantity = 0;
+    }
 }

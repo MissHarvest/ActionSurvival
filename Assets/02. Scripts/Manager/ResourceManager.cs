@@ -29,8 +29,10 @@ public class ResourceManager
 
     public void LoadAllPrefabs()
     {
-        LoadPrefabsByFolder(Literals.PATH_INIT);
+        LoadPrefabsByFolder();
+        LoadPrefabsByFolder(Literals.PATH_INIT);        
         LoadPrefabsByFolder(Literals.PATH_UI);
+        LoadPrefabsByFolder(Literals.PATH_POPUPUI);
         LoadPrefabsByFolder(Literals.PATH_RESOURCEMODEL);
         LoadPrefabsByFolder(Literals.PATH_HANDABLE);
         LoadPrefabsByFolder(Literals.PATH_ITEM);

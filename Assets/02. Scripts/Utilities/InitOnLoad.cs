@@ -34,7 +34,7 @@ public static class InitOnLoad
         {
             Managers.Resource.LoadAllPrefabs();
         }
-        
+
         //if (!Managers.Data.IsComplete)
         //{
         //    Managers.Data.Initialize();

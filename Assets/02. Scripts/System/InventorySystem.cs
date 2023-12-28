@@ -90,10 +90,22 @@ public class InventorySystem : MonoBehaviour
         if (_inventoryUI == null)
         {
             _inventoryUI = Managers.UI.ShowPopupUI<UIInventory>();
+            return;
+        }
+
+        if (_inventoryUI.gameObject.activeSelf)
+        {
+            Managers.UI.ClosePopupUI(_inventoryUI);
         }
         else
         {
-            Managers.UI.ClosePopupUI(_inventoryUI);
-        }        
+            Managers.UI.ShowPopupUI<UIInventory>();
+        }
+    }
+
+    public void DestroyItemByIndex(int index)
+    {
+        slots[index].Clear();
+        OnUpdated?.Invoke(index, slots[index]);
     }
 }

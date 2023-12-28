@@ -11,12 +11,13 @@ public class UIManager
     private int _order = 10;
     
     // Popup Management
-    private Stack<UIPopup> _popups = new Stack<UIPopup>();
-    
+    private Stack<UIPopup> _activatedPopups = new Stack<UIPopup>();
+    private Dictionary<string, GameObject> _popups = new Dictionary<string, GameObject>();
 
     // Scenes Overlay
     private UIScene _scene;
 
+    public bool isLoaded = false;
     #endregion
 
 
@@ -41,6 +42,19 @@ public class UIManager
     #endregion
 
 
+
+    public void LoadPopupUIs()
+    {
+        var popups = Managers.Resource.GetPrefabs(Literals.PATH_POPUPUI);
+        for(int i = 0; i < popups.Length; ++i)
+        {
+            var obj = Object.Instantiate(popups[i], Root.transform);
+            if (_popups.TryAdd(popups[i].name, obj))
+            {
+                Debug.Log($"{popups[i].name} is Added");
+            }
+        }
+    }
 
     #region Scene UI
 
@@ -69,13 +83,16 @@ public class UIManager
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
-        
-        var gameObject = Managers.Resource.Instantiate(name, Literals.PATH_UI);
-        var popupUI = Utility.GetOrAddComponent<T>(gameObject);
-        
-        gameObject.transform.SetParent(Root.transform);
-        
-        _popups.Push(popupUI);
+
+        if(_popups.TryGetValue(name, out GameObject go))
+        {
+            var canvas = go.GetOrAddComponent<Canvas>();
+            SetOrder(canvas);
+            go.SetActive(true);
+        }
+                
+        var popupUI = Utility.GetOrAddComponent<T>(go);
+        _activatedPopups.Push(popupUI);
 
         Cursor.lockState = CursorLockMode.None;
         return popupUI;
@@ -83,9 +100,9 @@ public class UIManager
 
     public void ClosePopupUI(UIPopup popup)
     {
-        if (_popups.Count == 0) return;
+        if (_activatedPopups.Count == 0) return;
 
-        if (_popups.Peek() != popup)
+        if (_activatedPopups.Peek() != popup)
         {
             Debug.LogWarning("Close Popup failed");
             return;
@@ -96,11 +113,11 @@ public class UIManager
 
     public void ClosePopupUI()
     {
-        if (_popups.Count == 0) return;
+        if (_activatedPopups.Count == 0) return;
 
-        var popup = _popups.Pop();
-        
-        ResourceManager.Destroy(popup.gameObject);
+        var popup = _activatedPopups.Pop();
+
+        popup.gameObject.SetActive(false);
 
         _order -= 1;
 
@@ -110,13 +127,13 @@ public class UIManager
 
     public void CloseAllPopupUI()
     {
-        while(_popups.Count > 0)
+        while(_activatedPopups.Count > 0)
             ClosePopupUI();
     }
 
     public bool Check(UIPopup popup)
     {
-        return _popups.Contains(popup);
+        return false;// _popups.Contains(popup);
     }
 
     #endregion
@@ -140,13 +157,18 @@ public class UIManager
 
         if(sorting)
         {
-            _order += 1;
-            canvas.sortingOrder = _order;
+            SetOrder(canvas);
         }
         else
         {
             canvas.sortingOrder = 0;
         }
+    }
+
+    private void SetOrder(Canvas canvas)
+    {
+        ++_order;
+        canvas.sortingOrder = _order;
     }
 
     #endregion

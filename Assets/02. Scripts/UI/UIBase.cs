@@ -48,8 +48,6 @@ public abstract class UIBase : MonoBehaviour
 
     #endregion
 
-
-
     #region Bind Object Properties
 
     /// <summary>

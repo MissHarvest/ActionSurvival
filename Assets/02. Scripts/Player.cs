@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     public PlayerInput Input { get; private set; }
     public CharacterController Controller { get; private set; }
     public ForceReceiver ForceReceiver { get; private set; }
+    public InventorySystem Inventory { get; private set; }
+    public Transform ViewPoint { get; private set; }
 
     [field: Header("References")]
     [field: SerializeField] public PlayerSO Data { get; private set; }
@@ -25,6 +27,8 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        Managers.Game.Player = this;
+
         AnimationData.Initialize();
 
         Rigidbody = GetComponent<Rigidbody>();
@@ -32,7 +36,10 @@ public class Player : MonoBehaviour
         Input = GetComponent<PlayerInput>();
         Controller = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
-        
+        Inventory = GetComponentInChildren<InventorySystem>();
+
+        ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
+
         _stateMachine = new PlayerStateMachine(this);
     }
 
