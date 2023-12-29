@@ -16,14 +16,13 @@ public class Player : MonoBehaviour
     public ForceReceiver ForceReceiver { get; private set; }
     public InventorySystem Inventory { get; private set; }
     public Transform ViewPoint { get; private set; }
+    public ToolSystem ToolSystem { get; private set; }
+    public ItemSlot EquippedItem => ToolSystem.ItemInUse;
 
     [field: Header("References")]
     [field: SerializeField] public PlayerSO Data { get; private set; }
 
     private PlayerStateMachine _stateMachine;
-
-    [Header("Temp")]
-    public ToolItemData equippedTool;
 
     private void Awake()
     {
@@ -37,6 +36,7 @@ public class Player : MonoBehaviour
         Controller = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
         Inventory = GetComponentInChildren<InventorySystem>();
+        ToolSystem = GetComponentInChildren<ToolSystem>();
 
         ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
 
@@ -64,9 +64,9 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.red;
         
-        if(equippedTool != null)
+        if(EquippedItem.itemData != null)
         {
-            Gizmos.DrawWireSphere(transform.position, equippedTool.range);
+            Gizmos.DrawWireSphere(transform.position, ((ToolItemData)EquippedItem.itemData).range);
         }        
     }
 }

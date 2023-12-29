@@ -17,7 +17,7 @@ public class PlayerInteractState : PlayerBaseState
         _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
         
-        ToolItemData tool = _stateMachine.Player.equippedTool;
+        ToolItemData tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
         
         var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers);
         if (targets.Length != 0 && (targets[0].CompareTag(tool.targetTagName) || targets[0].CompareTag("Gather")))
@@ -42,7 +42,7 @@ public class PlayerInteractState : PlayerBaseState
     {
         // exit 조건 설정
         float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
-        // Debug.Log("nor" + normalizedTime);
+        
         if(normalizedTime >= 1f)
         {
             if(target != null)

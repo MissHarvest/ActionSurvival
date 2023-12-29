@@ -8,6 +8,8 @@ public class ItemSlot
 {
     public ItemData itemData;
     [field: SerializeField] public int quantity { get; private set; }
+    // ³»±¸µµ 
+    public bool bUse;
 
     public ItemSlot()
     {

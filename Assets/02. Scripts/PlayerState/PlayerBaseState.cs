@@ -155,8 +155,9 @@ public class PlayerBaseState : IState
 
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
-        // 그냥 처음부터 weapon 을 들고 있는게 나을듯
-        var tool = _stateMachine.Player.equippedTool;
+        if (_stateMachine.Player.EquippedItem == null) return;
+
+        var tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
         if (tool.isWeapon)
         {
             // _stateMachine.ChangeState(_stateMachine.AttackState);

@@ -25,6 +25,21 @@ public class InventorySystem : MonoBehaviour
 
         var input = GetComponentInParent<PlayerInput>();
         input.InputActions.Player.Inventory.started += OnInventoryShowAndHide;
+
+        // TEST //
+        AddDefaultToolAsTest();
+    }
+
+    private void AddDefaultToolAsTest()
+    {
+        var itemData = Resources.Load<ScriptableObject>("SO/PickItemData") as ItemData;
+        AddItem(new ItemSlot(itemData, 1));
+
+        itemData = Resources.Load<ScriptableObject>("SO/AxeItemData") as ItemData;
+        AddItem(new ItemSlot(itemData, 1));
+
+        itemData = Resources.Load<ScriptableObject>("SO/SwordItemData") as ItemData;
+        AddItem(new ItemSlot(itemData, 1));
     }
 
     public void AddItem(ItemSlot slot)
@@ -103,9 +118,30 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
+
+    // Item Control // >> 다른 클래스로 빼낼 수 있을려나
     public void DestroyItemByIndex(int index)
     {
         slots[index].Clear();
         OnUpdated?.Invoke(index, slots[index]);
+    }
+
+    public void EquipItemByIndex(int index)
+    {
+        slots[index].bUse = true; // bUse 접근 제한자 고민하기
+        Managers.Game.Player.ToolSystem.Equip(slots[index]);
+        OnUpdated?.Invoke(index, slots[index]); // 착용 또는 등록시 E / R 표시하는 기능 추가할 예정
+    }
+
+    public void UnEquipItemByIndex(int index)
+    {
+        slots[index].bUse = false; // bUse 접근 제한자 고민하기
+        Managers.Game.Player.ToolSystem.UnEquip();
+        OnUpdated?.Invoke(index, slots[index]); // 착용 또는 등록시 E / R 표시하는 기능 추가할 예정
+    }
+
+    public void RegisteItemByIndex(int index)
+    {
+
     }
 }

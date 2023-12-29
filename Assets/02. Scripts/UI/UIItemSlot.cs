@@ -16,38 +16,31 @@ public class UIItemSlot : UIBase
         Quantity,
     }
 
-    private Image _itemIcon;
-    private TextMeshProUGUI _quantityText;
     public int index { get; private set; }
+    public RectTransform RectTransform { get; private set; }
 
     public override void Initialize()
-    {
-        
-    }
-
-    private void Awake()
     {
         Bind<Image>(typeof(Images));
         Bind<TextMeshProUGUI>(typeof(Texts));
 
-        _itemIcon = transform.Find("Icon").GetComponent<Image>();
-        if(_itemIcon == null)
-        {
-            Debug.LogWarning($"ItemSlotUI[{index}] dont have Icon Object or Image Component");
-        }
-        _itemIcon.gameObject.SetActive(false);
-        Get<Image>((int)Images.Icon).gameObject.BindEvent((x) => 
+        RectTransform = GetComponent<RectTransform>();
+    }
+
+    private void Awake()
+    {
+        Initialize();
+
+        var iconObject = Get<Image>((int)Images.Icon).gameObject;
+        iconObject.SetActive(false);
+        iconObject.BindEvent((x) => 
         {
             var helper = Managers.UI.ShowPopupUI<UIItemUsageHelper>();
-            helper.ShowOption(index, transform);
+            helper.ShowOption(index, new Vector3(transform.position.x + RectTransform.sizeDelta.x, transform.position.y));
         });
-        
-        _quantityText = transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
-        if(_quantityText == null)
-        {
-            Debug.LogWarning($"ItemSlotUI[{index}] dont have Quantity Object or TextMeshPro Component");
-        }
-        _quantityText.text = string.Empty;
+
+        var quantityText = Get<TextMeshProUGUI>((int)Texts.Quantity);
+        quantityText.text = string.Empty;
     }
 
     public void SetIndex(int index)
@@ -59,15 +52,15 @@ public class UIItemSlot : UIBase
     {
         if(itemSlot.itemData == null)
         {
-            _itemIcon.gameObject.SetActive(false);
-            _quantityText.gameObject.SetActive(false);
+            Get<Image>((int)Images.Icon).gameObject.SetActive(false);
+            Get<TextMeshProUGUI>((int)Texts.Quantity).gameObject.SetActive(false);
             return;
         }
 
-        _itemIcon.sprite = itemSlot.itemData.iconSprite;
-        _itemIcon.gameObject.SetActive(true);
+        Get<Image>((int)Images.Icon).sprite = itemSlot.itemData.iconSprite;
+        Get<Image>((int)Images.Icon).gameObject.SetActive(true);
 
-        _quantityText.text = itemSlot.quantity.ToString();
-        _quantityText.gameObject.SetActive(itemSlot.itemData.stackable);
+        Get<TextMeshProUGUI>((int)Texts.Quantity).text = itemSlot.quantity.ToString();
+        Get<TextMeshProUGUI>((int)Texts.Quantity).gameObject.SetActive(itemSlot.itemData.stackable);
     }
 }
