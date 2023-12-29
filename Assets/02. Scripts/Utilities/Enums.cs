@@ -11,3 +11,11 @@ public enum InGameStatement
     Pause,
     End
 }
+
+//
+
+public enum Conditions
+{
+    HP,
+    Hunger,
+}

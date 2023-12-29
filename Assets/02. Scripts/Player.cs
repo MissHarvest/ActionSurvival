@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.red;
         
-        if(EquippedItem.itemData != null)
+        if(EquippedItem != null)
         {
             Gizmos.DrawWireSphere(transform.position, ((ToolItemData)EquippedItem.itemData).range);
         }        
