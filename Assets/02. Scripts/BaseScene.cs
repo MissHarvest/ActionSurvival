@@ -15,6 +15,7 @@ public class BaseScene : MonoBehaviour
         virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
 
         // Managers.UI.ShowScene
+        Managers.UI.ShowSceneUI<UIMainScene>();
         Managers.UI.LoadPopupUIs();
     }
 }

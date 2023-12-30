@@ -8,7 +8,7 @@ public class ToolSystem : MonoBehaviour
     public Transform handPosition;
     public GameObject ItemObject { get; private set; }
 
-    private ItemSlot EmptyHand;
+    private ItemSlot EmptyHand;//  = new ItemSlot((ItemData)Resources.Load<ScriptableObject>("SO/EmptyHandItemData"), 1); 이게 되면 차라리 ItemSlot 쪽에 구현하는게..
 
     // public GameObject[] Tools;
     private void Awake()

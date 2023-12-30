@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 2616805751050601117}
   - component: {fileID: 4992067465563726771}
   m_Layer: 5
-  m_Name: UIQuickSlotSelector
+  m_Name: UIToolRegister
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

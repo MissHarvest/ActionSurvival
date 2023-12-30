@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIQuickSlotSelector : UIPopup
+public class UIToolRegister : UIPopup
 {
     enum GameObjects
     {
@@ -11,7 +11,7 @@ public class UIQuickSlotSelector : UIPopup
 
     public int sourceIndex { get; private set; } = -1;
 
-    [SerializeField] private List<UIQuickSlot> _slots = new List<UIQuickSlot>();
+    [SerializeField] private List<UIToolRegistSlot> _slots = new List<UIToolRegistSlot>();
 
     public override void Initialize()
     {
@@ -38,9 +38,8 @@ public class UIQuickSlotSelector : UIPopup
 
         for (int i = 0; i < QuickSlotSystem.capacity; ++i)
         {
-            var slotUI = Managers.Resource.Instantiate("UISlot", Literals.PATH_UI, parent).GetOrAddComponent<UIQuickSlot>();
-            slotUI.Set(i, this);
-            slotUI.Set(quickSlotSystem.slots[i]);
+            var slotUI = Managers.Resource.Instantiate("UIToolRegistSlot", Literals.PATH_UI, parent).GetOrAddComponent<UIToolRegistSlot>();
+            slotUI.Init(this, i, quickSlotSystem.slots[i].itemSlot);
             _slots.Add(slotUI);
         }
     }

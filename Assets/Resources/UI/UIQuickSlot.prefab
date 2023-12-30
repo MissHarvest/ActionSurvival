@@ -87,9 +87,9 @@ GameObject:
   - component: {fileID: 6040175508754136143}
   - component: {fileID: 6417837110123386826}
   - component: {fileID: 5750244046765319981}
-  - component: {fileID: 3114169804722322031}
+  - component: {fileID: 5435928792618504190}
   m_Layer: 5
-  m_Name: UISlot
+  m_Name: UIQuickSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3114169804722322031
+--- !u!114 &5435928792618504190
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

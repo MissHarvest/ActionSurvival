@@ -87,9 +87,9 @@ GameObject:
   - component: {fileID: 6040175508754136143}
   - component: {fileID: 6417837110123386826}
   - component: {fileID: 5750244046765319981}
-  - component: {fileID: 4804125959873979966}
+  - component: {fileID: 2060240429946431261}
   m_Layer: 5
-  m_Name: UIItemSlot
+  m_Name: UIToolRegistSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4804125959873979966
+--- !u!114 &2060240429946431261
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3252738167873772475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e451017767b48543b03cb466552cac9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c022495450019045a0716fb2a4fa0c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6543781199304131749

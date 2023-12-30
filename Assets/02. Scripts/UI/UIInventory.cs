@@ -11,7 +11,7 @@ public class UIInventory : UIPopup
     }
         
     private Transform _contents;
-    private List<UIItemSlot> _uiItemSlots = new List<UIItemSlot>();
+    private List<UIInventorySlot> _uiItemSlots = new List<UIInventorySlot>();
 
     public override void Initialize()
     {
@@ -28,7 +28,8 @@ public class UIInventory : UIPopup
         // Create Slot
         var inventory = Managers.Game.Player.Inventory;
         inventory.OnUpdated += OnItemSlotUpdated;
-        CreateItemSlots(inventory);//inventory 를 넘겨주는게 나을듯
+
+        CreateItemSlots(inventory);
         gameObject.SetActive(false);
     }
 
@@ -38,11 +39,10 @@ public class UIInventory : UIPopup
 
         for(int i = 0; i < capacity; ++i)
         {
-            var itemSlotUI = Managers.Resource.Instantiate("UIItemSlot", Literals.PATH_UI, _contents);
-            var uiItemSlot = itemSlotUI.GetComponent<UIItemSlot>();
-            uiItemSlot?.SetIndex(i);
-            uiItemSlot?.Set(inventory.slots[i]);
-            _uiItemSlots.Add(uiItemSlot);
+            var itemSlotUI = Managers.Resource.Instantiate("UIInventorySlot", Literals.PATH_UI, _contents);
+            var inventoryslotUI = itemSlotUI.GetComponent<UIInventorySlot>();
+            inventoryslotUI?.Init(this, i, inventory.slots[i]);
+            _uiItemSlots.Add(inventoryslotUI);
         }
     }
 

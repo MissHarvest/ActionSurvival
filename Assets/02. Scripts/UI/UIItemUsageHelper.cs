@@ -112,7 +112,7 @@ public class UIItemUsageHelper : UIPopup
         optionButton.Bind(() =>
         {
             Managers.UI.ClosePopupUI(this); // 위에서 부터 순서대로 닫는데, this 가 최근이 아니라서 안 닫힘
-            Managers.UI.ShowPopupUI<UIQuickSlotSelector>().Set(index);            
+            Managers.UI.ShowPopupUI<UIToolRegister>().Set(index);            
         });
     }
 

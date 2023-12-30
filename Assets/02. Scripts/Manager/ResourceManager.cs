@@ -33,6 +33,7 @@ public class ResourceManager
         LoadPrefabsByFolder(Literals.PATH_INIT);        
         LoadPrefabsByFolder(Literals.PATH_UI);
         LoadPrefabsByFolder(Literals.PATH_POPUPUI);
+        LoadPrefabsByFolder(Literals.PATH_SCENEUI);
         LoadPrefabsByFolder(Literals.PATH_RESOURCEMODEL);
         LoadPrefabsByFolder(Literals.PATH_HANDABLE);
         LoadPrefabsByFolder(Literals.PATH_ITEM);

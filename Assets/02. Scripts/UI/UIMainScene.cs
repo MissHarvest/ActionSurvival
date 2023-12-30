@@ -1,19 +1,13 @@
 
-public class UIMainGame : UIScene
+using UnityEngine;
+
+public class UIMainScene : UIScene
 {
     #region Enums
 
-    enum Texts
-    {
-        GameTimerText,
-    }
-
     enum GameObjects
     {
-        HPBar,
-        HungerBar,
-        MoistureBar,
-        StaminaBar
+        QuickSlotController,
     }
 
     #endregion
@@ -30,8 +24,8 @@ public class UIMainGame : UIScene
     public override void Initialize()
     {
         base.Initialize();
-        
-        //Bind<>();
+
+        Bind<GameObject>(typeof(GameObjects));
     }
 
     #endregion

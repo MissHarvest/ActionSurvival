@@ -16,51 +16,44 @@ public class UIItemSlot : UIBase
         Quantity,
     }
 
-    public int index { get; private set; }
-    public RectTransform RectTransform { get; private set; }
+    protected Image Icon => Get<Image>((int)Images.Icon);
+    protected TextMeshProUGUI Quantity => Get<TextMeshProUGUI>((int)Texts.Quantity);
 
     public override void Initialize()
     {
-        Bind<Image>(typeof(Images));
+        Bind<Image>(typeof(Images));        
         Bind<TextMeshProUGUI>(typeof(Texts));
 
-        RectTransform = GetComponent<RectTransform>();
+        Get<Image>((int)Images.Icon).raycastTarget = false;
+        Get<TextMeshProUGUI>((int)Texts.Quantity).raycastTarget = false;
+
+        Clear();
     }
 
     private void Awake()
     {
         Initialize();
-
-        var iconObject = Get<Image>((int)Images.Icon).gameObject;
-        iconObject.SetActive(false);
-        iconObject.BindEvent((x) => 
-        {
-            var helper = Managers.UI.ShowPopupUI<UIItemUsageHelper>();
-            helper.ShowOption(index, new Vector3(transform.position.x + RectTransform.sizeDelta.x, transform.position.y));
-        });
-
-        var quantityText = Get<TextMeshProUGUI>((int)Texts.Quantity);
-        quantityText.text = string.Empty;
     }
 
-    public void SetIndex(int index)
+    public virtual void Set(ItemSlot itemSlot)
     {
-        this.index = index;
-    }
-
-    public void Set(ItemSlot itemSlot)
-    {
-        if(itemSlot.itemData == null)
+        if (itemSlot.itemData == null)
         {
-            Get<Image>((int)Images.Icon).gameObject.SetActive(false);
-            Get<TextMeshProUGUI>((int)Texts.Quantity).gameObject.SetActive(false);
+            Clear();
             return;
         }
 
         Get<Image>((int)Images.Icon).sprite = itemSlot.itemData.iconSprite;
         Get<Image>((int)Images.Icon).gameObject.SetActive(true);
+        if (0 != itemSlot.quantity)
+        {
+            Get<TextMeshProUGUI>((int)Texts.Quantity).text = itemSlot.quantity.ToString();
+        }
+    }
 
-        Get<TextMeshProUGUI>((int)Texts.Quantity).text = itemSlot.quantity.ToString();
-        Get<TextMeshProUGUI>((int)Texts.Quantity).gameObject.SetActive(itemSlot.itemData.stackable);
+    public virtual void Clear()
+    {
+        Get<Image>((int)Images.Icon).gameObject.SetActive(false);
+        Get<TextMeshProUGUI>((int)Texts.Quantity).gameObject.SetActive(false);
     }
 }

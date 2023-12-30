@@ -44,6 +44,9 @@ public class InventorySystem : MonoBehaviour
 
         itemData = Resources.Load<ScriptableObject>("SO/SwordItemData") as ItemData;
         AddItem(new ItemSlot(itemData, 1));
+
+        itemData = Resources.Load<ScriptableObject>("SO/EmptyHandItemData") as ItemData;
+        AddItem(new ItemSlot(itemData, 1));
     }
 
     public void AddItem(ItemSlot slot)
@@ -134,20 +137,31 @@ public class InventorySystem : MonoBehaviour
     {
         slots[index].bUse = true; // bUse 접근 제한자 고민하기
         Owner.ToolSystem.Equip(slots[index]);
-        OnUpdated?.Invoke(index, slots[index]); // 착용 또는 등록시 E / R 표시하는 기능 추가할 예정
+        OnUpdated?.Invoke(index, slots[index]);
     }
 
     public void UnEquipItemByIndex(int index)
     {
-        slots[index].bUse = false; // bUse 접근 제한자 고민하기
+        slots[index].bUse = false;
         Owner.ToolSystem.UnEquip();
-        OnUpdated?.Invoke(index, slots[index]); // 착용 또는 등록시 E / R 표시하는 기능 추가할 예정
+        OnUpdated?.Invoke(index, slots[index]);
     }
 
-    public void RegisteItemByIndex(int index)
+    // 밑에 2개 하나로 합쳐도 될듯?
+    public ItemSlot RegistItemByIndex(int index)
     {
-
+        slots[index].bUse = true;
+        OnUpdated?.Invoke(index, slots[index]);
+        return slots[index];
     }
+
+    public ItemSlot UnRegistItemByIndex(int index)
+    {
+        slots[index].bUse = false;
+        OnUpdated?.Invoke(index, slots[index]);
+        return slots[index];
+    }
+    // 여기까지
 
     public void UseItemByIndex(int index)
     {

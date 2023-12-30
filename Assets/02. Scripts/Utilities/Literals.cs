@@ -28,6 +28,7 @@ public static class Literals
 
     public const string PATH_UI = "UI/";
     public const string PATH_POPUPUI = "UI/Popup/";
+    public const string PATH_SCENEUI = "UI/Scene/";
     public const string PATH_INIT = "Prefabs/InitOnLoad/";
     public const string PATH_RESOURCEMODEL = "Prefabs/OriginResourceModel/";
     public const string PATH_ITEM = "Prefabs/Item/";
