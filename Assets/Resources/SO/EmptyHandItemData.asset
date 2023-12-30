@@ -9,10 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e03c5cd12ae72a946848a94ab2ec2697, type: 3}
-  m_Name: MushroomItemData 1
+  m_Script: {fileID: 11500000, guid: 576468ed397be524d8e47099d9aeafbb, type: 3}
+  m_Name: EmptyHandItemData
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: "\uBE48 \uC190"
   description: 
   iconSprite: {fileID: 0}
-  conditionModifier: []
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  range: 0.7
+  attackPower: 0
+  targetTagName: Gather
+  isWeapon: 0

@@ -11,6 +11,8 @@ public class InventorySystem : MonoBehaviour
 
     public ItemSlot[] slots;
 
+    public Player Owner { get; private set; }
+
     public event Action<int, ItemSlot> OnUpdated;
 
     private UIInventory _inventoryUI;
@@ -23,7 +25,9 @@ public class InventorySystem : MonoBehaviour
             slots[i] = new ItemSlot();
         }
 
-        var input = GetComponentInParent<PlayerInput>();
+        Owner = Managers.Game.Player;
+
+        var input = Owner.Input;
         input.InputActions.Player.Inventory.started += OnInventoryShowAndHide;
 
         // TEST //
@@ -129,19 +133,42 @@ public class InventorySystem : MonoBehaviour
     public void EquipItemByIndex(int index)
     {
         slots[index].bUse = true; // bUse 접근 제한자 고민하기
-        Managers.Game.Player.ToolSystem.Equip(slots[index]);
+        Owner.ToolSystem.Equip(slots[index]);
         OnUpdated?.Invoke(index, slots[index]); // 착용 또는 등록시 E / R 표시하는 기능 추가할 예정
     }
 
     public void UnEquipItemByIndex(int index)
     {
         slots[index].bUse = false; // bUse 접근 제한자 고민하기
-        Managers.Game.Player.ToolSystem.UnEquip();
+        Owner.ToolSystem.UnEquip();
         OnUpdated?.Invoke(index, slots[index]); // 착용 또는 등록시 E / R 표시하는 기능 추가할 예정
     }
 
     public void RegisteItemByIndex(int index)
     {
 
+    }
+
+    public void UseItemByIndex(int index)
+    {
+        var consume = slots[index].itemData as ConsumeItemData;
+        var conditionHandler = Owner.ConditionHandler;
+
+        foreach(var playerCondition in consume.conditionModifier)
+        {
+            switch(playerCondition.Condition) 
+            {
+                case Conditions.HP:
+                    conditionHandler.HP.Add(playerCondition.value);
+                    break;
+
+                case Conditions.Hunger:
+                    conditionHandler.Hunger.Add(playerCondition.value);
+                    break;
+            }
+        }
+
+        slots[index].SubtractQuantity();
+        OnUpdated?.Invoke(index, slots[index]);
     }
 }

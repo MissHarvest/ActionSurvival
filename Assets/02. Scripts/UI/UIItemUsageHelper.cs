@@ -39,12 +39,25 @@ public class UIItemUsageHelper : UIPopup
             case ToolItemData _:
                 if(itemSlot.bUse)
                 {
+                    CreateUnRegistButton(index);
+                }
+                else
+                {
+                    CreateRegistButton(index);
+                }                
+
+                if(itemSlot.bUse)
+                {
                     CreateUnEquipButton(index);
                 }
                 else
                 {
                     CreateEquipButton(index);
                 }
+                break;
+
+            case ConsumeItemData _:
+                CreateUseButton(index);
                 break;
         }
         CreateDetroyButton(index);
@@ -83,13 +96,32 @@ public class UIItemUsageHelper : UIPopup
         });
     }
 
-    private void CreateRegisteButton(int index)
+    private void CreateUseButton(int index)
     {
-        var optionButton = CreateButton("Registe");
+        var optionButton = CreateButton("Use");
         optionButton.Bind(() =>
         {
-            // Managers.Game.Player.Inventory.RegisteItemByIndex(index);
-            // Mangers.UI.ShowPopup<QuickSlotRegister>();
+            Managers.Game.Player.Inventory.UseItemByIndex(index);
+            Managers.UI.ClosePopupUI(this);
+        });
+    }
+
+    private void CreateRegistButton(int index)
+    {
+        var optionButton = CreateButton("Regist");
+        optionButton.Bind(() =>
+        {
+            Managers.UI.ClosePopupUI(this); // 위에서 부터 순서대로 닫는데, this 가 최근이 아니라서 안 닫힘
+            Managers.UI.ShowPopupUI<UIQuickSlotSelector>().Set(index);            
+        });
+    }
+
+    private void CreateUnRegistButton(int index)
+    {
+        var optionButton = CreateButton("UnRegist");
+        optionButton.Bind(() =>
+        {
+            Managers.Game.Player.QuickSlot.UnRegist(index);
             Managers.UI.ClosePopupUI(this);
         });
     }

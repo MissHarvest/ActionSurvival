@@ -551,7 +551,7 @@ Transform:
   - {fileID: 5461805846050695781}
   - {fileID: 4912494475754002400}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &2545191469503889602
 CharacterController:
@@ -3052,8 +3052,9 @@ GameObject:
   - component: {fileID: 6438847687321175271}
   - component: {fileID: 6613559552095951977}
   - component: {fileID: 5563375124159021738}
+  - component: {fileID: 806639977076256140}
   m_Layer: 0
-  m_Name: Inventory
+  m_Name: System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3112,6 +3113,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handPosition: {fileID: 3925956172773519372}
+--- !u!114 &806639977076256140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7330765973162392891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8b844620312d54282d0db352b3518c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7392496694934527924
 GameObject:
   m_ObjectHideFlags: 0

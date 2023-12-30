@@ -17,7 +17,9 @@ public class Player : MonoBehaviour
     public InventorySystem Inventory { get; private set; }
     public Transform ViewPoint { get; private set; }
     public ToolSystem ToolSystem { get; private set; }
+    public QuickSlotSystem QuickSlot { get; private set; }
     public ItemSlot EquippedItem => ToolSystem.ItemInUse;
+    public PlayerConditionHandler ConditionHandler { get; private set; }
 
     [field: Header("References")]
     [field: SerializeField] public PlayerSO Data { get; private set; }
@@ -37,6 +39,8 @@ public class Player : MonoBehaviour
         ForceReceiver = GetComponent<ForceReceiver>();
         Inventory = GetComponentInChildren<InventorySystem>();
         ToolSystem = GetComponentInChildren<ToolSystem>();
+        ConditionHandler = GetComponent<PlayerConditionHandler>();
+        QuickSlot = GetComponentInChildren<QuickSlotSystem>();
 
         ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
 
