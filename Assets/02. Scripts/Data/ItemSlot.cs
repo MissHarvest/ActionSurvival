@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 [Serializable]
 public class ItemSlot
@@ -9,7 +10,9 @@ public class ItemSlot
     public ItemData itemData;
     [field: SerializeField] public int quantity { get; private set; }
     // ³»±¸µµ 
-    public bool bUse;
+
+    public bool equipped { get; private set; } = false;
+    public bool registed { get; private set; } = false;
 
     public ItemSlot()
     {
@@ -17,13 +20,7 @@ public class ItemSlot
         this.quantity = 0;
     }
 
-    public ItemSlot(ItemData itemData)
-    {
-        this.itemData = itemData;
-        this.quantity = 1;
-    }
-
-    public ItemSlot(ItemData itemData, int quantity)
+    public ItemSlot(ItemData itemData, int quantity = 1)
     {
         this.itemData = itemData;
         this.quantity = quantity;
@@ -50,5 +47,17 @@ public class ItemSlot
     {
         itemData = null;
         quantity = 0;
+        registed = false;
+        equipped = false;
+    }
+
+    public void SetRegist(bool value)
+    {
+        this.registed = value;
+    }
+
+    public void SetEquip(bool value)
+    {
+        this.equipped = value;
     }
 }

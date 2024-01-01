@@ -9,7 +9,7 @@ public class InventorySystem : MonoBehaviour
 {
     public static int maxCapacity { get; } = 30;
 
-    public ItemSlot[] slots;
+    public ItemSlot[] slots { get; private set; }
 
     public Player Owner { get; private set; }
 
@@ -19,6 +19,7 @@ public class InventorySystem : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Inventory Awake");
         slots = new ItemSlot[maxCapacity];
         for(int i = 0; i < slots.Length; ++i)
         {
@@ -32,6 +33,13 @@ public class InventorySystem : MonoBehaviour
 
         // TEST //
         AddDefaultToolAsTest();
+    }
+
+    private void Start()
+    {
+        Debug.Log("Inventory Start");
+        Managers.Game.Player.QuickSlot.OnRegisted += OnItemRegisted;
+        Managers.Game.Player.QuickSlot.OnUnRegisted += OnItemUnregisted;
     }
 
     private void AddDefaultToolAsTest()
@@ -127,39 +135,39 @@ public class InventorySystem : MonoBehaviour
 
 
     // Item Control // >> 다른 클래스로 빼낼 수 있을려나
-    public void DestroyItemByIndex(int index)
+    public void DestroyItemByIndex(QuickSlot quickSlot)
     {
+        int index = quickSlot.targetIndex;
+        if (slots[index].equipped || slots[index].registed) return;
+
         slots[index].Clear();
         OnUpdated?.Invoke(index, slots[index]);
     }
 
     public void EquipItemByIndex(int index)
     {
-        slots[index].bUse = true; // bUse 접근 제한자 고민하기
+        slots[index].SetEquip(true);
         Owner.ToolSystem.Equip(slots[index]);
         OnUpdated?.Invoke(index, slots[index]);
     }
 
     public void UnEquipItemByIndex(int index)
     {
-        slots[index].bUse = false;
+        slots[index].SetEquip(false);
         Owner.ToolSystem.UnEquip();
         OnUpdated?.Invoke(index, slots[index]);
     }
 
     // 밑에 2개 하나로 합쳐도 될듯?
-    public ItemSlot RegistItemByIndex(int index)
+    public void OnItemRegisted(int index)
     {
-        slots[index].bUse = true;
         OnUpdated?.Invoke(index, slots[index]);
-        return slots[index];
     }
 
-    public ItemSlot UnRegistItemByIndex(int index)
+    public void OnItemUnregisted(QuickSlot slot)
     {
-        slots[index].bUse = false;
+        int index = slot.targetIndex;
         OnUpdated?.Invoke(index, slots[index]);
-        return slots[index];
     }
     // 여기까지
 

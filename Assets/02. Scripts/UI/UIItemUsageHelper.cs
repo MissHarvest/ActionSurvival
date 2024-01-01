@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class UIItemUsageHelper : UIPopup
 {
@@ -11,6 +12,20 @@ public class UIItemUsageHelper : UIPopup
         Block,
         Options,        
     }
+
+    enum Functions
+    {
+        Regist,
+        UnRegist,
+        Equip,
+        UnEquip,
+        Use,
+        Destroy
+    }
+
+    private Dictionary<Functions, GameObject> Buttons = new Dictionary<Functions, GameObject>();
+
+    public QuickSlot SelectedItem { get; private set; } = new QuickSlot();
 
     public override void Initialize()
     {
@@ -22,108 +37,112 @@ public class UIItemUsageHelper : UIPopup
     private void Awake()
     {
         Initialize();
+        CreateButtons();
         gameObject.SetActive(false);
+    }
+
+    private void CreateButtons()
+    {        
+        Buttons.TryAdd(Functions.Regist, CreateRegistButton().gameObject);
+        Buttons.TryAdd(Functions.UnRegist, CreateUnRegistButton().gameObject);
+        Buttons.TryAdd(Functions.Equip, CreateEquipButton().gameObject);
+        Buttons.TryAdd(Functions.UnEquip, CreateUnEquipButton().gameObject);
+        Buttons.TryAdd(Functions.Use, CreateUseButton().gameObject);
+        Buttons.TryAdd(Functions.Destroy, CreateDetroyButton().gameObject);
     }
 
     public void ShowOption(int index, Vector3 position)
     {
         Clear();
 
-        var itemSlot = Managers.Game.Player.Inventory.slots[index];
-        if (itemSlot == null) return;
+        SelectedItem.Set(index, Managers.Game.Player.Inventory.slots[index]);
+        if (SelectedItem == null) return;
         Get<GameObject>((int)GameObjects.Options).transform.position = position;
 
         // other Button Add
-        switch(itemSlot.itemData)
+        switch (SelectedItem.itemSlot.itemData)
         {
             case ToolItemData _:
-                if(itemSlot.bUse)
-                {
-                    CreateUnRegistButton(index);
-                }
-                else
-                {
-                    CreateRegistButton(index);
-                }                
-
-                if(itemSlot.bUse)
-                {
-                    CreateUnEquipButton(index);
-                }
-                else
-                {
-                    CreateEquipButton(index);
-                }
+                ShowRegistButton(SelectedItem.itemSlot.registed);
                 break;
 
             case ConsumeItemData _:
-                CreateUseButton(index);
+                ShowRegistButton(SelectedItem.itemSlot.registed);
+                ShowButton(Functions.Use);
                 break;
         }
-        CreateDetroyButton(index);
+        ShowButton(Functions.Destroy);
 
         // Set My Size
 
     }
 
-    private void CreateDetroyButton(int index)
+    #region CreateButton
+
+    private UIOptionButton CreateDetroyButton()
     {
-        var optionButton = CreateButton("Destroy");
+        var optionButton = CreateButton(Functions.Destroy.ToString());
         optionButton.Bind(()=> 
         { 
-            Managers.Game.Player.Inventory.DestroyItemByIndex(index);
+            Managers.Game.Player.Inventory.DestroyItemByIndex(SelectedItem);
             Managers.UI.ClosePopupUI(this);
         });
+        return optionButton;
     }
 
-    private void CreateEquipButton(int index)
+    private UIOptionButton CreateEquipButton()
     {
-        var optionButton = CreateButton("Equip");
+        var optionButton = CreateButton(Functions.Equip.ToString());
         optionButton.Bind(() =>
         {
-            Managers.Game.Player.Inventory.EquipItemByIndex(index);
+            Managers.Game.Player.Inventory.EquipItemByIndex(SelectedItem.targetIndex);
             Managers.UI.ClosePopupUI(this);
         });
+        return optionButton;
     }
 
-    private void CreateUnEquipButton(int index)
+    private UIOptionButton CreateUnEquipButton()
     {
-        var optionButton = CreateButton("UnEquip");
+        var optionButton = CreateButton(Functions.UnEquip.ToString());
         optionButton.Bind(() =>
         {
-            Managers.Game.Player.Inventory.UnEquipItemByIndex(index);
+            Managers.Game.Player.Inventory.UnEquipItemByIndex(SelectedItem.targetIndex);
             Managers.UI.ClosePopupUI(this);
         });
+        return optionButton;
     }
 
-    private void CreateUseButton(int index)
+    private UIOptionButton CreateUseButton()
     {
-        var optionButton = CreateButton("Use");
+        var optionButton = CreateButton(Functions.Use.ToString());
         optionButton.Bind(() =>
         {
-            Managers.Game.Player.Inventory.UseItemByIndex(index);
+            Managers.Game.Player.Inventory.UseItemByIndex(SelectedItem.targetIndex);
             Managers.UI.ClosePopupUI(this);
         });
+        return optionButton;
     }
 
-    private void CreateRegistButton(int index)
+    private UIOptionButton CreateRegistButton()
     {
-        var optionButton = CreateButton("Regist");
+        var optionButton = CreateButton(Functions.Regist.ToString());
         optionButton.Bind(() =>
         {
             Managers.UI.ClosePopupUI(this); // 위에서 부터 순서대로 닫는데, this 가 최근이 아니라서 안 닫힘
-            Managers.UI.ShowPopupUI<UIToolRegister>().Set(index);            
+            Managers.UI.ShowPopupUI<UIToolRegister>().Set(SelectedItem);            
         });
+        return optionButton;
     }
 
-    private void CreateUnRegistButton(int index)
+    private UIOptionButton CreateUnRegistButton()
     {
-        var optionButton = CreateButton("UnRegist");
+        var optionButton = CreateButton(Functions.UnRegist.ToString());
         optionButton.Bind(() =>
         {
-            Managers.Game.Player.QuickSlot.UnRegist(index);
+            Managers.Game.Player.QuickSlot.UnRegist(SelectedItem);
             Managers.UI.ClosePopupUI(this);
         });
+        return optionButton;
     }
 
     private UIOptionButton CreateButton(string name)
@@ -134,13 +153,45 @@ public class UIItemUsageHelper : UIPopup
         return optionButton;
     }
 
+    #endregion
+
+    #region ShowButton
+    private void ShowEquipButton(bool regist)
+    {
+        if (regist)
+        {
+            ShowButton(Functions.UnEquip);
+        }
+        else
+        {
+            ShowButton(Functions.Equip);
+        }
+    }
+
+    private void ShowRegistButton(bool regist)
+    {
+        if(regist)
+        {
+            ShowButton(Functions.UnRegist);            
+        }
+        else
+        {
+            ShowButton(Functions.Regist);
+        }
+    }
+
+    private void ShowButton(Functions function)
+    {
+        Buttons[function].SetActive(true);
+    }
+
+    #endregion
+
     private void Clear()
     {
-        var root = Get<GameObject>((int)GameObjects.Options).transform;
-        var buutonCount = root.childCount;
-        for (int i = 0; i < buutonCount; ++i)
+        foreach(var go in Buttons.Values)
         {
-            Destroy(root.GetChild(i).gameObject);
+            go.SetActive(false);
         }
     }
 }

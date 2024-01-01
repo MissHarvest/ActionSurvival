@@ -8,15 +8,11 @@ public class ToolSystem : MonoBehaviour
     public Transform handPosition;
     public GameObject ItemObject { get; private set; }
 
-    private ItemSlot EmptyHand;//  = new ItemSlot((ItemData)Resources.Load<ScriptableObject>("SO/EmptyHandItemData"), 1); 이게 되면 차라리 ItemSlot 쪽에 구현하는게..
+    private ItemSlot EmptyHand;
 
-    // public GameObject[] Tools;
     private void Awake()
     {
-        var itemData = Resources.Load<ScriptableObject>("SO/EmptyHandItemData") as ItemData;
-        Debug.Log($"Awake : {itemData.name}");
-        EmptyHand = new ItemSlot(itemData, 1);
-        Equip(EmptyHand);
+        EmptyHand = new ItemSlot((ItemData)Resources.Load<ScriptableObject>("SO/EmptyHandItemData"));
     }
 
     private void Start()
@@ -26,6 +22,7 @@ public class ToolSystem : MonoBehaviour
             Debug.LogWarning("handPosition is not allocated. Do Find [Hand R] / ToolSystem");
             this.enabled = false;
         }
+        Managers.Game.Player.QuickSlot.OnUnRegisted += OnQuickSlotUpdated;
     }
 
     public void Equip(ItemSlot itemSlot)
@@ -33,19 +30,29 @@ public class ToolSystem : MonoBehaviour
         UnEquip();
 
         ItemInUse = itemSlot;
-        Debug.Log($"{itemSlot.itemData.name}");
         var prefabName = itemSlot.itemData.name.Replace("ItemData", "");
         ItemObject = Managers.Resource.Instantiate(prefabName, Literals.PATH_HANDABLE, handPosition);
-        // var go = 
-        // go.get<class>().SetItemData();
     }
 
     public void UnEquip()
     {
-        ItemInUse = null;
+        ItemInUse = EmptyHand;
         if (ItemObject != null)
         {
             Destroy(ItemObject);
         }        
+    }
+
+    public void ClearHand()
+    {
+        Equip(EmptyHand);
+    }
+
+    private void OnQuickSlotUpdated(QuickSlot slot)
+    {
+        if(ItemInUse == slot.itemSlot)
+        {
+            UnEquip();
+        }
     }
 }

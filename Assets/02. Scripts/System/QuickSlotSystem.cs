@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class QuickSlotSystem : MonoBehaviour
 {
@@ -9,43 +10,89 @@ public class QuickSlotSystem : MonoBehaviour
     public QuickSlot[] slots  = new QuickSlot[capacity];
 
     public event Action<int, ItemSlot> OnUpdated;
+    public event Action<int> OnRegisted;
+    public event Action<QuickSlot> OnUnRegisted;
+        
+    public int IndexInUse { get; private set; } = 0;
 
-    private InventorySystem _inventory;
 
     private void Awake()
     {
-        for(int i = 0; i < capacity; ++i)
+        Debug.Log("QuickSystem Awake");
+        for (int i = 0; i < capacity; ++i)
         {
             slots[i] = new QuickSlot();
         }
-        _inventory = Managers.Game.Player.Inventory;
+
+        Managers.Game.Player.Input.InputActions.Player.QuickSlot.started += OnQuickUseInput;
     }
 
-    public void Regist(int index, int target)
+    private void Start()
     {
-        var itemSlot = _inventory.RegistItemByIndex(target);
-        slots[index].Set(target, itemSlot);
-        OnUpdated?.Invoke(index, itemSlot);
+        Debug.Log("QuickSystem Start");
     }
 
-    public void UnRegist(int target)
+    public void Regist(int index, QuickSlot slot)
     {
-        var itemSlot = _inventory.UnRegistItemByIndex(target);
+        slot.itemSlot.SetRegist(true);
+        slots[index].Set(slot.targetIndex, slot.itemSlot);
 
+        OnUpdated?.Invoke(index, slot.itemSlot);
+        OnRegisted?.Invoke(slot.targetIndex);
+
+        if(index == IndexInUse)
+        {
+            IndexInUse = index;
+            QuickUse();
+        }
+    }
+
+    public void UnRegist(QuickSlot slot)
+    {
         for(int i = 0; i <  slots.Length; ++i)
         {
-            if (target == slots[i].targetIndex)
+            if (slot.targetIndex == slots[i].targetIndex)
             {
-                slots[i].itemSlot = null;
-                OnUpdated?.Invoke(i, itemSlot);
+                slots[i].itemSlot.SetRegist(false);
+                slots[i].Clear();
+                OnUpdated?.Invoke(i, slots[i].itemSlot);
+                OnUnRegisted?.Invoke(slot);
             }
         }
 
         // 손에 잡고 있는 오브젝트 였으면. 삭제
     }
 
-    public void Use(int index) // Change , Consume
+    private void OnQuickUseInput(InputAction.CallbackContext context)
     {
+        OnQuickUseInput((int)context.ReadValue<float>() - 1);
+        QuickUse();
+    }
 
+    public void OnQuickUseInput(int index)
+    {
+        IndexInUse = index;
+        QuickUse();
+    }
+
+    private void QuickUse()
+    {
+        if (slots[IndexInUse].itemSlot == null)
+        {
+            Managers.Game.Player.ToolSystem.ClearHand();
+            return;
+        }
+        switch (slots[IndexInUse].itemSlot.itemData)
+        {
+            case ToolItemData _:
+                Managers.Game.Player.ToolSystem.Equip(slots[IndexInUse].itemSlot);// targetIndex
+                break;
+
+            case ConsumeItemData _:
+                break;
+
+            default:
+                break;
+        }
     }
 }

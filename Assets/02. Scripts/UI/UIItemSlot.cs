@@ -45,9 +45,11 @@ public class UIItemSlot : UIBase
 
         Get<Image>((int)Images.Icon).sprite = itemSlot.itemData.iconSprite;
         Get<Image>((int)Images.Icon).gameObject.SetActive(true);
+
         if (0 != itemSlot.quantity)
         {
             Get<TextMeshProUGUI>((int)Texts.Quantity).text = itemSlot.quantity.ToString();
+            Get<TextMeshProUGUI>((int)Texts.Quantity).gameObject.SetActive(itemSlot.itemData.stackable);
         }
     }
 

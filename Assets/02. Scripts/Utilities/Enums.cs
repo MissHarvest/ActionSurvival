@@ -19,3 +19,10 @@ public enum Conditions
     HP,
     Hunger,
 }
+
+public enum ItemParts
+{
+    Head,
+    Body,
+    Hand,
+}

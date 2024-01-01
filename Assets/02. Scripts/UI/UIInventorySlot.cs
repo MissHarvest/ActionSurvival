@@ -8,6 +8,7 @@ public class UIInventorySlot : UIItemSlot
     enum GameObjects
     {
         Equip,
+        Regist,
     }
 
     public int index { get; private set; }
@@ -46,12 +47,14 @@ public class UIInventorySlot : UIItemSlot
     public override void Set(ItemSlot itemSlot)
     {
         base.Set(itemSlot);
-        Get<GameObject>((int)GameObjects.Equip).SetActive(itemSlot.bUse);
+        Get<GameObject>((int)GameObjects.Equip).SetActive(itemSlot.equipped);
+        Get<GameObject>((int)GameObjects.Regist).SetActive(itemSlot.registed);
     }
 
     public override void Clear()
     {
         base.Clear();
         Get<GameObject>((int)GameObjects.Equip).SetActive(false);
+        Get<GameObject>((int)GameObjects.Regist).SetActive(false);
     }
 }

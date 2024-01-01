@@ -22,14 +22,13 @@ public class UIQuickSlot : UIItemSlot
 
         gameObject.BindEvent((x) =>
         {
-            // QuickSlotSystem. 의 index. 가. 장비 / 음식 / 등 중에 무엇인가
-            // Managers.Game.Player.ToolSystem.
+            Managers.Game.Player.QuickSlot.OnQuickUseInput(index);
         });
     }
 
     public override void Set(ItemSlot itemSlot)
     {
-        if(itemSlot.bUse == false)
+        if(itemSlot == null)
         {
             Clear();
             return;

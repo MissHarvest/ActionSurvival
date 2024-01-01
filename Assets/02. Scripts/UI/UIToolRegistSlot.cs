@@ -13,7 +13,7 @@ public class UIToolRegistSlot : UIItemSlot
 
         gameObject.BindEvent((x) =>
         {
-            Managers.Game.Player.QuickSlot.Regist(index, UIToolRegister.sourceIndex);
+            Managers.Game.Player.QuickSlot.Regist(index, UIToolRegister.SelectedSlot);
             Managers.UI.ClosePopupUI(UIToolRegister);
         });
     }
@@ -27,7 +27,7 @@ public class UIToolRegistSlot : UIItemSlot
 
     public override void Set(ItemSlot itemSlot)
     {
-        if(itemSlot.bUse == false)
+        if(itemSlot == null)
         {
             Clear();
             return;

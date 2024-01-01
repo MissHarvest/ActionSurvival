@@ -9,7 +9,7 @@ public class UIToolRegister : UIPopup
         QuickSlots,
     }
 
-    public int sourceIndex { get; private set; } = -1;
+    public QuickSlot SelectedSlot { get; private set; } = new QuickSlot();
 
     [SerializeField] private List<UIToolRegistSlot> _slots = new List<UIToolRegistSlot>();
 
@@ -44,9 +44,9 @@ public class UIToolRegister : UIPopup
         }
     }
 
-    public void Set(int index) // 일단 index 값이 필요함.
+    public void Set(QuickSlot quickSlot) // 일단 index 값이 필요함.
     {
-        sourceIndex = index;
+        SelectedSlot = quickSlot;
     }
 
     public void OnQuickSlotUpdate(int index, ItemSlot itemSlot)

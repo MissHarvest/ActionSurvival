@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class QuickSlot
 {
-    public ItemSlot itemSlot = new ItemSlot();
+    public ItemSlot itemSlot = null;
     public int targetIndex = -1;
 
     public QuickSlot()
@@ -20,7 +21,7 @@ public class QuickSlot
 
     public void Clear()
     {
-        itemSlot = new ItemSlot();
+        itemSlot = null;
         this.targetIndex = -1;
     }
 }
