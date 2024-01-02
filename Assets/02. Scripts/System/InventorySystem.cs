@@ -40,49 +40,51 @@ public class InventorySystem : MonoBehaviour
         Debug.Log("Inventory Start");
         Managers.Game.Player.QuickSlot.OnRegisted += OnItemRegisted;
         Managers.Game.Player.QuickSlot.OnUnRegisted += OnItemUnregisted;
+        Managers.Game.Player.ToolSystem.OnEquip += OnItemEquipped;
+        Managers.Game.Player.ToolSystem.OnUnEquip += OnItemUnEquipped;
     }
 
     private void AddDefaultToolAsTest()
     {
         var itemData = Resources.Load<ScriptableObject>("SO/PickItemData") as ItemData;
-        AddItem(new ItemSlot(itemData, 1));
+        AddItem(itemData, 1);
 
         itemData = Resources.Load<ScriptableObject>("SO/AxeItemData") as ItemData;
-        AddItem(new ItemSlot(itemData, 1));
+        AddItem(itemData, 1);
 
         itemData = Resources.Load<ScriptableObject>("SO/SwordItemData") as ItemData;
-        AddItem(new ItemSlot(itemData, 1));
+        AddItem(itemData, 1);
 
         itemData = Resources.Load<ScriptableObject>("SO/EmptyHandItemData") as ItemData;
-        AddItem(new ItemSlot(itemData, 1));
+        AddItem(itemData, 1);
     }
 
-    public void AddItem(ItemSlot slot)
+    public void AddItem(ItemData itemData, int quantity)
     {
         int targetindex = 0;
-
-        if(slot.itemData.stackable == false)
+        
+        if(itemData.stackable == false)
         {
             if(FindEmptyIndex(out targetindex))
             {
-                slots[targetindex] = slot;
-                OnUpdated?.Invoke(targetindex, slot);
+                slots[targetindex].Set(itemData);
+                OnUpdated?.Invoke(targetindex, slots[targetindex]);
                 return;
             }
         }
 
-        var itemSlot = FindItem(slot.itemData, out targetindex);
+        var itemSlot = FindItem(itemData, out targetindex);
         if(itemSlot != null)
         {
-            itemSlot.AddQuantity(slot.quantity);
-            OnUpdated?.Invoke(targetindex, slot);
+            itemSlot.AddQuantity(quantity);
+            OnUpdated?.Invoke(targetindex, itemSlot);
             return;
         }
 
         if(FindEmptyIndex(out targetindex))
         {
-            slots[targetindex] = slot;
-            OnUpdated?.Invoke(targetindex, slot);
+            slots[targetindex].Set(itemData);
+            OnUpdated?.Invoke(targetindex, slots[targetindex]);
         }
     }
 
@@ -144,29 +146,32 @@ public class InventorySystem : MonoBehaviour
         OnUpdated?.Invoke(index, slots[index]);
     }
 
-    public void EquipItemByIndex(int index)
+    public void OnItemEquipped(QuickSlot slot)
     {
-        slots[index].SetEquip(true);
-        Owner.ToolSystem.Equip(slots[index]);
+        int index = slot.targetIndex;
+        slots[index].SetEquip(slot.itemSlot.equipped);
         OnUpdated?.Invoke(index, slots[index]);
     }
 
-    public void UnEquipItemByIndex(int index)
+    public void OnItemUnEquipped(QuickSlot slot)
     {
-        slots[index].SetEquip(false);
-        Owner.ToolSystem.UnEquip();
+        int index = slot.targetIndex;
+        slots[index].SetEquip(slot.itemSlot.equipped);
         OnUpdated?.Invoke(index, slots[index]);
     }
 
     // 밑에 2개 하나로 합쳐도 될듯?
-    public void OnItemRegisted(int index)
+    public void OnItemRegisted(QuickSlot slot)
     {
+        int index = slot.targetIndex;
+        slots[index].SetRegist(slot.itemSlot.registed);
         OnUpdated?.Invoke(index, slots[index]);
     }
 
     public void OnItemUnregisted(QuickSlot slot)
     {
         int index = slot.targetIndex;
+        slots[index].SetRegist(slot.itemSlot.registed);
         OnUpdated?.Invoke(index, slots[index]);
     }
     // 여기까지

@@ -7,7 +7,7 @@ using static UnityEngine.Rendering.DebugUI;
 [Serializable]
 public class ItemSlot
 {
-    public ItemData itemData;
+    public ItemData itemData { get; private set; } = null;
     [field: SerializeField] public int quantity { get; private set; }
     // 내구도 
 
@@ -41,6 +41,20 @@ public class ItemSlot
             this.itemData = null;
         }
         // To Do ) 소모해야하는 양 보다 가지고 있는게 적으면 실패하는 로직
+    }
+
+    public void Set(ItemData item, int quantity = 1)
+    {
+        this.itemData = item;
+        this.quantity = quantity;
+    }
+
+    public void Set(ItemSlot itemSlot)
+    {
+        itemData = itemSlot.itemData;
+        quantity = itemSlot.quantity;
+        registed = itemSlot.registed;
+        equipped = itemSlot.equipped;
     }
 
     public void Clear()

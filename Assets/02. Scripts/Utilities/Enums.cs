@@ -25,4 +25,5 @@ public enum ItemParts
     Head,
     Body,
     Hand,
+    Max
 }

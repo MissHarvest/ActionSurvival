@@ -10,7 +10,7 @@ public class QuickSlotSystem : MonoBehaviour
     public QuickSlot[] slots  = new QuickSlot[capacity];
 
     public event Action<int, ItemSlot> OnUpdated;
-    public event Action<int> OnRegisted;
+    public event Action<QuickSlot> OnRegisted;
     public event Action<QuickSlot> OnUnRegisted;
         
     public int IndexInUse { get; private set; } = 0;
@@ -36,9 +36,9 @@ public class QuickSlotSystem : MonoBehaviour
     {
         slot.itemSlot.SetRegist(true);
         slots[index].Set(slot.targetIndex, slot.itemSlot);
-
+        Debug.Log($"Quick | R[{slots[index].itemSlot.registed}] E[{slots[index].itemSlot.equipped}]");
         OnUpdated?.Invoke(index, slot.itemSlot);
-        OnRegisted?.Invoke(slot.targetIndex);
+        OnRegisted?.Invoke(slot);
 
         if(index == IndexInUse)
         {
@@ -53,20 +53,17 @@ public class QuickSlotSystem : MonoBehaviour
         {
             if (slot.targetIndex == slots[i].targetIndex)
             {
-                slots[i].itemSlot.SetRegist(false);
                 slots[i].Clear();
+                slot.itemSlot.SetRegist(false);                
                 OnUpdated?.Invoke(i, slots[i].itemSlot);
                 OnUnRegisted?.Invoke(slot);
             }
         }
-
-        // 손에 잡고 있는 오브젝트 였으면. 삭제
     }
 
     private void OnQuickUseInput(InputAction.CallbackContext context)
     {
         OnQuickUseInput((int)context.ReadValue<float>() - 1);
-        QuickUse();
     }
 
     public void OnQuickUseInput(int index)
@@ -77,15 +74,16 @@ public class QuickSlotSystem : MonoBehaviour
 
     private void QuickUse()
     {
-        if (slots[IndexInUse].itemSlot == null)
+        if (slots[IndexInUse].itemSlot.itemData == null)
         {
+            Debug.Log($"Quick Use {IndexInUse}");
             Managers.Game.Player.ToolSystem.ClearHand();
             return;
         }
         switch (slots[IndexInUse].itemSlot.itemData)
         {
             case ToolItemData _:
-                Managers.Game.Player.ToolSystem.Equip(slots[IndexInUse].itemSlot);// targetIndex
+                Managers.Game.Player.ToolSystem.Equip(slots[IndexInUse]);
                 break;
 
             case ConsumeItemData _:

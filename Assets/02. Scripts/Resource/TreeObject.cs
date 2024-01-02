@@ -8,7 +8,7 @@ public class TreeObject : MonoBehaviour, IInteractable
     {
         var inventory = player.GetComponentInChildren<InventorySystem>();
         var itemData = Resources.Load<ScriptableObject>("SO/LogItemData");
-        inventory.AddItem(new ItemSlot((ItemData)itemData, 1));
+        inventory.AddItem((ItemData)itemData, 1);
         Instantiate(Resources.Load<GameObject>("Prefabs/TreeAStump"), transform.position, transform.rotation);
         Destroy(gameObject);
     }

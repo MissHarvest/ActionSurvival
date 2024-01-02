@@ -8,7 +8,7 @@ public class MushroomObject : MonoBehaviour , IInteractable
     {
         var inventory = player.GetComponentInChildren<InventorySystem>();
         var itemData = Resources.Load<ScriptableObject>("SO/MushroomItemData");
-        inventory.AddItem(new ItemSlot((ItemData)itemData, 1));
+        inventory.AddItem((ItemData)itemData, 1);
         Destroy(gameObject);
     }
 }

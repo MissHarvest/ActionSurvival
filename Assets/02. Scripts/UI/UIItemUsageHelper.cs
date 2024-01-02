@@ -95,7 +95,7 @@ public class UIItemUsageHelper : UIPopup
         var optionButton = CreateButton(Functions.Equip.ToString());
         optionButton.Bind(() =>
         {
-            Managers.Game.Player.Inventory.EquipItemByIndex(SelectedItem.targetIndex);
+            Managers.Game.Player.ToolSystem.Equip(SelectedItem);
             Managers.UI.ClosePopupUI(this);
         });
         return optionButton;
@@ -106,7 +106,7 @@ public class UIItemUsageHelper : UIPopup
         var optionButton = CreateButton(Functions.UnEquip.ToString());
         optionButton.Bind(() =>
         {
-            Managers.Game.Player.Inventory.UnEquipItemByIndex(SelectedItem.targetIndex);
+            Managers.Game.Player.ToolSystem.UnEquip(SelectedItem);
             Managers.UI.ClosePopupUI(this);
         });
         return optionButton;
