@@ -28,7 +28,7 @@ public class PlayerConditionHandler : MonoBehaviour
         if(Hunger.GetPercentage() < 0.7f && _isFull)
         {
             _isFull = false;
-            Hunger.regenRate -= 5;
+            HP.regenRate -= 5;
         }
     }
 
