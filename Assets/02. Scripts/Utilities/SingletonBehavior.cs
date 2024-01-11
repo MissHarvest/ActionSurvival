@@ -17,11 +17,11 @@ public class SingletonBehavior<T> : SingletonBase where T : MonoBehaviour
     {
         get
         {
-            if (_isDisabled)
-            {
-                Debug.LogError(("[Singleton] Instance '" + typeof(T) + "' already destroyed. Returning Null Instance"));
-                return null;
-            }
+            //if (_isDisabled)
+            //{
+            //    Debug.LogError(("[Singleton] Instance '" + typeof(T) + "' already destroyed. Returning Null Instance"));
+            //    return null;
+            //}
 
             lock (Locked)
             {
@@ -74,6 +74,7 @@ public class SingletonBehavior<T> : SingletonBase where T : MonoBehaviour
         if (_instance == this)
         {
             _isDisabled = true;
+            _instance = null;
         }
     }
 
