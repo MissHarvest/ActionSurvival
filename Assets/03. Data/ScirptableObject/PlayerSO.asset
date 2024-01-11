@@ -18,4 +18,10 @@ MonoBehaviour:
     <WalkSpeedModifier>k__BackingField: 0.5
     <RunSpeedModifier>k__BackingField: 1
   <AttackData>k__BackingField:
-    <AttackInfoDatas>k__BackingField: []
+    <AttackInfoDatas>k__BackingField:
+    - <AttackName>k__BackingField: 
+      <ComboStateIndex>k__BackingField: 0
+      <ComboTransitionTime>k__BackingField: 0
+      <ForceTransitionTime>k__BackingField: 0
+      <Force>k__BackingField: 0
+      <Damage>k__BackingField: 0

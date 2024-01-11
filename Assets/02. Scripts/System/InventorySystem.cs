@@ -56,6 +56,9 @@ public class InventorySystem : MonoBehaviour
         itemData = Resources.Load<ScriptableObject>("SO/SwordItemData") as ItemData;
         AddItem(itemData, 1);
 
+        itemData = Resources.Load<ScriptableObject>("SO/GreatswordItemData") as ItemData;
+        AddItem(itemData, 1);
+
         itemData = Resources.Load<ScriptableObject>("SO/EmptyHandItemData") as ItemData;
         AddItem(itemData, 1);
     }
