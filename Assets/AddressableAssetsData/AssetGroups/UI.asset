@@ -18,19 +18,19 @@ MonoBehaviour:
   m_GUID: 0e8fd5714f1708b4a803a619d51533d0
   m_SerializeEntries:
   - m_GUID: de1fa54fb644b714aa3d84fb20cbe9ce
-    m_Address: UIInventory.prefab
+    m_Address: UIPopUp_UIInventory.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e13c78fc5e4a823469b1b8bd337433c2
-    m_Address: UIItemUsageHelper.prefab
+    m_Address: UIPopUp_UIItemUsageHelper.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6534fa8774f27b740a4d8cebabf03b4d
-    m_Address: UIToolRegister.prefab
+    m_Address: UIPopUp_UIToolRegister.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
