@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -197,5 +198,43 @@ public class InventorySystem : MonoBehaviour
 
         slots[index].SubtractQuantity();
         OnUpdated?.Invoke(index, slots[index]);
+    }
+
+    // 특정 아이템의 개수 반환
+    public int GetItemCount(ItemData itemData)
+    {
+        int count = 0;
+        foreach (var slot in slots)
+        {
+            if (slot.itemData == itemData)
+            {
+                count += slot.quantity;
+            }
+        }
+        return count;
+    }
+
+    public void RemoveItem(ItemData itemData, int quantity)
+    {
+        for (int i = 0; i < slots.Length; ++i)
+        {
+            if (slots[i].itemData == itemData)
+            {
+                // 해당 아이템의 수량을 감소시키고, 수량이 0 이하로 떨어지면 해당 슬롯을 비움
+                slots[i].SubtractQuantity(quantity);
+                if (slots[i].quantity <= 0)
+                {
+                    slots[i].Clear();
+                }
+                return;
+            }
+        }
+        Debug.Log($"아이템 ({itemData.name})이 인벤토리에 없어요.");
+    }
+
+    public bool IsFull()
+    {
+        // 인벤토리 슬롯이 모두 찼는지 확인
+        return slots.All(slot => slot.itemData != null && slot.quantity == ItemData.maxStackCount);
     }
 }
