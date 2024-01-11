@@ -1,4 +1,5 @@
 
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class InitOnLoad 
@@ -35,15 +36,7 @@ public static class InitOnLoad
             Managers.Resource.LoadAllPrefabs();
         }
 
-        //if (!Managers.Data.IsComplete)
-        //{
-        //    Managers.Data.Initialize();
-        //}
-
-        //if (Managers.Resource.IsLoaded && Managers.Data.IsComplete)
-        //{
-        //    isComplete = true;
-        //}
+         Managers.Game.Init();
 
         if(!Managers.Sound.isLoaded)
         {
