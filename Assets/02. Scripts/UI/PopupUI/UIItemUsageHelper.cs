@@ -147,7 +147,9 @@ public class UIItemUsageHelper : UIPopup
 
     private UIOptionButton CreateButton(string name)
     {
-        var go = Managers.Resource.Instantiate("UIOptionButton", Literals.PATH_UI, Get<GameObject>((int)GameObjects.Options).transform);
+        //var go = Managers.Resource.Instantiate("UIOptionButton", Literals.PATH_UI, Get<GameObject>((int)GameObjects.Options).transform);
+        var go = Managers.Resource.GetCache<GameObject>("UIOptionButton.prefab");
+        go = Instantiate(go, Get<GameObject>((int)GameObjects.Options).transform);
         var optionButton = go.GetComponent<UIOptionButton>();
         optionButton.SetText(name);
         return optionButton;

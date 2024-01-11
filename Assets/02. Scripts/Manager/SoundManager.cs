@@ -5,7 +5,6 @@ using static Unity.VisualScripting.Member;
 
 public class SoundManager
 {
-    public bool isLoaded = false;
     private AudioSource _bgmSource;
     private GameObject _root;
     private GameObject _bgmPlayer;
@@ -28,7 +27,8 @@ public class SoundManager
 
     private void PlayBGM(string bgmName)
     {
-        var bgmClip = Managers.Resource.GetAudioClip(bgmName);
+        //var bgmClip = Managers.Resource.GetAudioClip(bgmName);
+        var bgmClip = Managers.Resource.GetCache<AudioClip>(bgmName);
         _bgmSource.clip = bgmClip;
         _bgmSource.playOnAwake = true;
         _bgmSource.volume = 0.6f;
@@ -39,7 +39,8 @@ public class SoundManager
     {
         var effect = new GameObject($"{effectName}Sound");
         var source = effect.AddComponent<AudioSource>();
-        source.clip = Managers.Resource.GetAudioClip(effectName);
+        //source.clip = Managers.Resource.GetAudioClip(effectName);
+        source.clip = Managers.Resource.GetCache<AudioClip>(effectName);
         source.loop = false;
         float length = source.clip.length;        
         CoroutineManagement.Instance.StartCoroutine(DestroySoundObject(source, effect, length));

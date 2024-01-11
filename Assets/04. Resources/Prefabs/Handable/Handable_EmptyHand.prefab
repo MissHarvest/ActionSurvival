@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7123563281749493369}
   m_Layer: 0
-  m_Name: EmptyHand
+  m_Name: Handable_EmptyHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

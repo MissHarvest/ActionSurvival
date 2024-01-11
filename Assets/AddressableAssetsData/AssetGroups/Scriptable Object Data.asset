@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Scriptable Object Data
+  m_EditorClassIdentifier: 
+  m_GroupName: Scriptable Object Data
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c6b7f313ef980d2439488ae56f9d73c4
+  m_SerializeEntries:
+  - m_GUID: 7188b2dd9c10ceb41ab5e0579b842eb5
+    m_Address: SwordItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d1627d26846139498a9b61e489f3f90
+    m_Address: EmptyHandItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a9d537521742c04fb514243c69531da
+    m_Address: LogItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4cd9d4b48a7918e40be7d99d3ef3e74d
+    m_Address: MushroomItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 86b1f80ae679e07429a2900ae75ea4c0
+    m_Address: StoneItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 169efef296147ff47aa012ef827c9305
+    m_Address: PickItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c85809597f1da54fbc98bcc3023a6b5
+    m_Address: AxeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 393848174b5316341bdc62005f888d74, type: 2}
+    - {fileID: 11400000, guid: aff73479b1e488540a48405edbe677d7, type: 2}
