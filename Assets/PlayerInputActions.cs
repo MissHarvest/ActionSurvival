@@ -80,6 +80,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Recipe"",
+                    ""type"": ""Button"",
+                    ""id"": ""2ef9b1ba-c9cf-477f-8eb3-5e4867c2f1cf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -302,6 +311,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0bf2e46a-1b9d-4634-af77-82b91c357432"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Recipe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -364,6 +384,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_QuickSlot = m_Player.FindAction("QuickSlot", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
+        m_Player_Recipe = m_Player.FindAction("Recipe", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -431,6 +452,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_QuickSlot;
     private readonly InputAction m_Player_Inventory;
+    private readonly InputAction m_Player_Recipe;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -441,6 +463,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @QuickSlot => m_Wrapper.m_Player_QuickSlot;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
+        public InputAction @Recipe => m_Wrapper.m_Player_Recipe;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -468,6 +491,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @Recipe.started += instance.OnRecipe;
+            @Recipe.performed += instance.OnRecipe;
+            @Recipe.canceled += instance.OnRecipe;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -490,6 +516,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @Recipe.started -= instance.OnRecipe;
+            @Recipe.performed -= instance.OnRecipe;
+            @Recipe.canceled -= instance.OnRecipe;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -551,5 +580,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnQuickSlot(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnRecipe(InputAction.CallbackContext context);
     }
 }
