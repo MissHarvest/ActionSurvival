@@ -14,7 +14,7 @@ public class DayCycle
     }
 
     private int[] _cycle = { 300, 60, 120 };
-    private int[] eventCount = new int[3];
+    private int[] _eventCount = new int[3];
     private int _date = 0;
     private int _time = 0;
     private int _currentTimeZone = 0;
@@ -32,10 +32,10 @@ public class DayCycle
         CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
         Managers.Resource.Instantiate("DayLight").name = "@DayLight";
 
-        eventCount[0] = _cycle[0] / _eventInterval;
-        for (int i = 1; i < eventCount.Length; ++i)
+        _eventCount[0] = _cycle[0] / _eventInterval;
+        for (int i = 1; i < _eventCount.Length; ++i)
         {
-            eventCount[i] = eventCount[i - 1] + _cycle[i] / _eventInterval;
+            _eventCount[i] = _eventCount[i - 1] + _cycle[i] / _eventInterval;
         }
     }    
 
@@ -73,7 +73,7 @@ public class DayCycle
         ++_time;
         OnTimeUpdated?.Invoke();
         Debug.Log($"TIME : {_time}");
-        if (_time == eventCount[_currentTimeZone])
+        if (_time == _eventCount[_currentTimeZone])
         {            
             _currentTimeZone = (_currentTimeZone + 1) % (int)TimeZone.Max;
             BroadCast();
@@ -93,7 +93,7 @@ public class DayCycle
 
     IEnumerator SkipToMoring()
     {
-        while(_time != 47) // Sum Cycle - one time
+        while(_time != _eventCount[(int)TimeZone.Night] - 1) // Sum Cycle - one time
         {
             yield return new WaitForSeconds(0.1f);
             FlowTime();
@@ -107,7 +107,7 @@ public class DayCycle
 
     IEnumerator SkipToEvening()
     {
-        while (_time != 29) // 300 - one time
+        while (_time != _eventCount[(int)TimeZone.Morning] - 1) // 300 - one time
         {
             yield return new WaitForSeconds(0.1f);
             FlowTime();
@@ -121,7 +121,7 @@ public class DayCycle
 
     IEnumerator SkipToNight()
     {
-        while (_time != 35) // Sum Cycle - one time
+        while (_time != _eventCount[(int)TimeZone.Evening] - 1) // Sum Cycle - one time
         {
             yield return new WaitForSeconds(0.1f);
             FlowTime();
