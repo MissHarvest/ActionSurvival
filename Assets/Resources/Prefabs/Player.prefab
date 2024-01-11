@@ -551,7 +551,7 @@ Transform:
   - {fileID: 5461805846050695781}
   - {fileID: 4912494475754002400}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &2545191469503889602
 CharacterController:
@@ -3087,7 +3087,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d0fe197638bde4b9fedfc363951056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots: []
 --- !u!114 &6613559552095951977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3113,6 +3112,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handPosition: {fileID: 3925956172773519372}
+  Equipments:
+  - itemSlot:
+      <quantity>k__BackingField: 0
+    targetIndex: -1
+  - itemSlot:
+      <quantity>k__BackingField: 0
+    targetIndex: -1
+  - itemSlot:
+      <quantity>k__BackingField: 0
+    targetIndex: -1
 --- !u!114 &806639977076256140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3125,6 +3134,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8b844620312d54282d0db352b3518c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slots:
+  - itemSlot:
+      <quantity>k__BackingField: 0
+    targetIndex: -1
+  - itemSlot:
+      <quantity>k__BackingField: 0
+    targetIndex: -1
+  - itemSlot:
+      <quantity>k__BackingField: 0
+    targetIndex: -1
+  - itemSlot:
+      <quantity>k__BackingField: 0
+    targetIndex: -1
 --- !u!1 &7392496694934527924
 GameObject:
   m_ObjectHideFlags: 0
