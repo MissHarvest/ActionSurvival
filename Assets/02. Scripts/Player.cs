@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     public Transform ViewPoint { get; private set; }
     public ToolSystem ToolSystem { get; private set; }
     public QuickSlotSystem QuickSlot { get; private set; }
+    public Recipe Recipe { get; private set; }
     public ItemSlot EquippedItem => ToolSystem.ItemInUse;
     public PlayerConditionHandler ConditionHandler { get; private set; }
 
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
         ToolSystem = GetComponentInChildren<ToolSystem>();
         ConditionHandler = GetComponent<PlayerConditionHandler>();
         QuickSlot = GetComponentInChildren<QuickSlotSystem>();
+        Recipe = GetComponentInChildren<Recipe>();
 
         ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
 
