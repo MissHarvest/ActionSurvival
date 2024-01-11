@@ -38,7 +38,9 @@ public class UIToolRegister : UIPopup
 
         for (int i = 0; i < QuickSlotSystem.capacity; ++i)
         {
-            var slotUI = Managers.Resource.Instantiate("UIToolRegistSlot", Literals.PATH_UI, parent).GetOrAddComponent<UIToolRegistSlot>();
+            //var slotUI = Managers.Resource.Instantiate("UIToolRegistSlot", Literals.PATH_UI, parent).GetOrAddComponent<UIToolRegistSlot>();
+            var slotUIPrefab = Managers.Resource.GetCache<GameObject>("UIToolRegistSlot.prefab");
+            var slotUI = Instantiate(slotUIPrefab, parent).GetOrAddComponent<UIToolRegistSlot>();
             slotUI.Init(this, i, quickSlotSystem.slots[i].itemSlot);
             _slots.Add(slotUI);
         }

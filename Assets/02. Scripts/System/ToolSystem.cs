@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 
 public class ToolSystem : MonoBehaviour
@@ -32,9 +33,12 @@ public class ToolSystem : MonoBehaviour
             Equipments[i] = new QuickSlot();
         }
 
-        EmptyHand.Set(-1, new ItemSlot((ItemData)Resources.Load<ScriptableObject>("SO/EmptyHandItemData")));
+        var emptyHandData = Managers.Resource.GetCache<ItemData>("EmptyHandItemData.data");
+        EmptyHand.Set(-1, new(emptyHandData));
+        //EmptyHand.Set(-1, new ItemSlot((ItemData)Resources.Load<ScriptableObject>("SO/EmptyHandItemData")));
 
-        var tools = Managers.Resource.GetPrefabs(Literals.PATH_HANDABLE);
+        //var tools = Managers.Resource.GetPrefabs(Literals.PATH_HANDABLE);
+        var tools = Managers.Resource.GetCacheGroup<GameObject>("Handable_");
         foreach(var tool in tools)
         {
             var go = UnityEngine.Object.Instantiate(tool, handPosition);
@@ -95,7 +99,8 @@ public class ToolSystem : MonoBehaviour
 
     private string GetToolName(ItemSlot itemSlot)
     {
-        return itemSlot.itemData.name.Replace("ItemData", "");
+        return "Handable_" + itemSlot.itemData.name.Replace("ItemData", "");
+        //return itemSlot.itemData.name.Replace("ItemData", "");
     }
 
     public void UnEquip(QuickSlot slot)

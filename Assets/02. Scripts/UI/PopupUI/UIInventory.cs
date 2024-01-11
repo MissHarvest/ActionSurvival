@@ -39,7 +39,9 @@ public class UIInventory : UIPopup
 
         for(int i = 0; i < capacity; ++i)
         {
-            var itemSlotUI = Managers.Resource.Instantiate("UIInventorySlot", Literals.PATH_UI, _contents);
+            //var itemSlotUI = Managers.Resource.Instantiate("UIInventorySlot", Literals.PATH_UI, _contents);
+            var ItemSlotUIPrefab = Managers.Resource.GetCache<GameObject>("UIInventorySlot.prefab");
+            var itemSlotUI = Instantiate(ItemSlotUIPrefab, _contents);
             var inventoryslotUI = itemSlotUI.GetComponent<UIInventorySlot>();
             inventoryslotUI?.Init(this, i, inventory.slots[i]);
             _uiItemSlots.Add(inventoryslotUI);
