@@ -20,7 +20,7 @@ public class Recipe : MonoBehaviour
     private void Start()
     {
         Debug.Log("Recipe Start");
-        inventory = Managers.Game.Player.GetComponentInChildren<InventorySystem>();
+        inventory = Managers.Game.Player.Inventory;
     }
 
     private void Update()
@@ -44,13 +44,11 @@ public class Recipe : MonoBehaviour
 
                 // 제작에 필요한 아이템을 인벤토리에서 소모
                 ConsumeItemsForCrafting(requiredItems);
-
-                // 인벤토리 UI 업데이트 필요
             }
         }
         else
         {
-            Debug.Log($"{craftedItemData.name} 재료가 부족해요.");
+            Debug.Log($"{craftedItemData.name}을 만들 재료가 부족해요.");
         }
     }
 
@@ -98,60 +96,32 @@ public class Recipe : MonoBehaviour
         else
         {
             Managers.UI.ShowPopupUI<UIRecipe>();
-
-            //제작하려면 아래와 같이 호출
-            MakePickAxe();
         }
     }
 
-
-    private void MakeAxe()
+    // 이하는 따로 하나의 클래스로 빼도 될듯
+    public void MakeAxe()
     {
-        Dictionary<ItemData, int> requiredItemsForAxe = new Dictionary<ItemData, int>
-        {
-            { Managers.Resource.GetCache<ItemData>("LogItemData.data"), 1 },
-            { Managers.Resource.GetCache<ItemData>("StoneItemData.data"), 5 },
-            //{ Resources.Load<ScriptableObject>("SO/LogItemData") as ItemData, 1 },
-            //{ Resources.Load<ScriptableObject>("SO/StoneItemData") as ItemData, 5 }
-        };
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("AxeItemData.data"), requiredItemsForAxe);
-        //TryCraftItem(Resources.Load<ScriptableObject>("SO/AxeItemData") as ItemData, requiredItemsForAxe);
+        TryCraftItem(Managers.Resource.GetCache<ItemData>("AxeItemData.data"), Managers.Data.recipeData["Axe"]);
     }
 
-    private void MakePickAxe()
+    public void MakePickAxe()
     {
-        Dictionary<ItemData, int> requiredItemsForPickAxe = new Dictionary<ItemData, int>
-        {
-            { Managers.Resource.GetCache<ItemData>("LogItemData.data"), 1 },
-            { Managers.Resource.GetCache<ItemData>("StoneItemData.data"), 3 },
-            //{ Resources.Load<ScriptableObject>("SO/LogItemData") as ItemData, 1 },
-            //{ Resources.Load<ScriptableObject>("SO/StoneItemData") as ItemData, 3 }
-        };
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("PickItemData.data"), requiredItemsForPickAxe);
-        //TryCraftItem(Resources.Load<ScriptableObject>("SO/PickItemData") as ItemData, requiredItemsForPickAxe);
+        TryCraftItem(Managers.Resource.GetCache<ItemData>("PickItemData.data"), Managers.Data.recipeData["PickAxe"]);
     }
 
-    private void MakeSword() // 나무 막대기 필요
+    public void MakeSword()
     {
-        Dictionary<ItemData, int> requiredItemsForSword = new Dictionary<ItemData, int>
-        {
-            { Managers.Resource.GetCache<ItemData>("LogItemData.data"), 1 },
-            { Managers.Resource.GetCache<ItemData>("StoneItemData.data"), 3 },
-            //{ Resources.Load<ScriptableObject>("SO/LogItemData") as ItemData, 1 },
-            //{ Resources.Load<ScriptableObject>("SO/StoneItemData") as ItemData, 1 }
-        };
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("SwordItemData.data"), requiredItemsForSword);
-        //TryCraftItem(Resources.Load<ScriptableObject>("SO/SwordItemData") as ItemData, requiredItemsForSword);
+        TryCraftItem(Managers.Resource.GetCache<ItemData>("SwordItemData.data"), Managers.Data.recipeData["Sword"]);
     }
 
-    private void MakeCraftingTable() // 제작대 스크립터블 오브젝트 추가 필요
+    public void MakeCraftingTable() // 제작대 스크립터블 오브젝트 추가 필요
     {
-        Dictionary<ItemData, int> requiredItemsForSword = new Dictionary<ItemData, int>
-        {
-            { Managers.Resource.GetCache<ItemData>("LogItemData.data"), 1 },
-            //{ Resources.Load<ScriptableObject>("SO/LogItemData") as ItemData, 4 }
-        };
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("CraftingTableData.data"), requiredItemsForSword);
-        //TryCraftItem(Resources.Load<ScriptableObject>("SO/CraftingTableData") as ItemData, requiredItemsForSword);
+        TryCraftItem(Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data"), Managers.Data.recipeData["CraftingTable"]);
+    }
+
+    public void MakeStick()
+    {
+        TryCraftItem(Managers.Resource.GetCache<ItemData>("StickItemData.data"), Managers.Data.recipeData["Stick"]);
     }
 }

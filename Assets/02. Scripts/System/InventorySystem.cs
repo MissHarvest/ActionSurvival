@@ -243,16 +243,26 @@ public class InventorySystem : MonoBehaviour
                 if (slots[i].quantity <= 0)
                 {
                     slots[i].Clear();
+                    //OnUpdated?.Invoke(i, slots[i]);
                 }
+                OnUpdated?.Invoke(i, slots[i]);
                 return;
             }
         }
         Debug.Log($"아이템 ({itemData.name})이 인벤토리에 없어요.");
     }
 
+    //수정 필요
     public bool IsFull()
     {
-        // 인벤토리 슬롯이 모두 찼는지 확인
         return slots.All(slot => slot.itemData != null && slot.quantity == ItemData.maxStackCount);
+        //// 스택 가능한 아이템 중 하나라도 최대 스택 개수에 도달하지 않으면 false
+        //bool stackableNotFull = slots.Any(slot => slot.itemData != null && slot.itemData.stackable && slot.quantity < ItemData.maxStackCount);
+
+        //// 스택 불가능한 아이템이 있고 모든 슬롯이 찼으면 true, 아니면 false
+        //bool nonStackableFull = slots.All(slot => slot.itemData != null && !slot.itemData.stackable);
+
+        //return stackableNotFull || nonStackableFull;
     }
+
 }
