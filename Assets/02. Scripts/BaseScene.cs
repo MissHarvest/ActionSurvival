@@ -21,6 +21,7 @@ public class BaseScene : MonoBehaviour
 
                 Managers.UI.ShowSceneUI<UIMainScene>();
                 Managers.UI.LoadPopupUIs();
+                Managers.Data.InitializeRecipeData();
             }
         });
 

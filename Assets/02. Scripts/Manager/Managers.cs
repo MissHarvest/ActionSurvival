@@ -11,6 +11,7 @@ public class Managers : SingletonBehavior<Managers>
     private readonly GameManager _gameManager = new();    
     private readonly UIManager _uiManager = new();
     private readonly SoundManager _soundManager = new();
+    private readonly DataManager _dataManager = new();
 
     #endregion
 
@@ -22,5 +23,6 @@ public class Managers : SingletonBehavior<Managers>
     public static GameManager Game => Instance._gameManager;
     public static UIManager UI => Instance._uiManager;    
     public static SoundManager Sound => Instance._soundManager;
+    public static DataManager Data => Instance._dataManager;
     #endregion
 }
