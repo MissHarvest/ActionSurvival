@@ -30,7 +30,11 @@ public class DayCycle
     public void Init()
     {
         CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
-        Managers.Resource.Instantiate("DayLight").name = "@DayLight";
+
+        var dayLight = Managers.Resource.GetCache<GameObject>("DayLight.prefab");
+        dayLight = UnityEngine.Object.Instantiate(dayLight);
+        dayLight.name = "@DayLight";
+        //Managers.Resource.Instantiate("DayLight").name = "@DayLight";
 
         _eventCount[0] = _cycle[0] / _eventInterval;
         for (int i = 1; i < _eventCount.Length; ++i)

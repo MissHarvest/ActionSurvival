@@ -11,7 +11,6 @@ public class Managers : SingletonBehavior<Managers>
     private readonly GameManager _gameManager = new();    
     private readonly UIManager _uiManager = new();
     private readonly SoundManager _soundManager = new();
-    
 
     #endregion
 

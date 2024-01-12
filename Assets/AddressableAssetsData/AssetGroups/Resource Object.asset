@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Resource Object
+  m_EditorClassIdentifier: 
+  m_GroupName: Resource Object
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c31500f9cd11b984da93bfa6bbcd7c1b
+  m_SerializeEntries:
+  - m_GUID: 0b31a3f96260d794aba9f98ded3ec387
+    m_Address: Rock.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e5dd9341a58501488643313dab10db4
+    m_Address: TreeAStump.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b45541dc072a844bbefb64426eaa476
+    m_Address: TreeA.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 59d54dba7e4c00e40b04ebdd86ad3b1d
+    m_Address: Mushroom.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 7055f054d3c906d41a465ef8554ee4d9, type: 2}
+    - {fileID: 11400000, guid: 218848f7b73c2b843adbf7647b7a4384, type: 2}

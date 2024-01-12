@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Handable Tools
+  m_EditorClassIdentifier: 
+  m_GroupName: Handable Tools
+  m_Data:
+    m_SerializedData: []
+  m_GUID: d3e39c0659d555c4597c9fcee36ad463
+  m_SerializeEntries:
+  - m_GUID: ec171a0f67c8d3e4fbb107fc76c6f75c
+    m_Address: Handable_Axe.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1bdae66e35f476d45b70b26a228ac086
+    m_Address: Handable_EmptyHand.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0d604ddd08f441744a9b01f1b24b7cef
+    m_Address: Handable_Pick.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73a186779f722dd48acabf21f4101538
+    m_Address: Handable_Sword.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b9aec8589fa63143bec3870902fdf24
+    m_Address: Handable_Greatsword.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d524741d2550e7d48986737408fa335b, type: 2}
+    - {fileID: 11400000, guid: 483cf94cbd61015449cb352407d617b5, type: 2}

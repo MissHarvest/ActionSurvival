@@ -1,6 +1,4 @@
 using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseScene : MonoBehaviour
@@ -9,13 +7,30 @@ public class BaseScene : MonoBehaviour
 
     private void Awake()
     {
-        var player = Managers.Resource.Instantiate("Player");
-        player.name = "Player";
-        virtualCamera.Follow = Managers.Game.Player.ViewPoint;
-        virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
+        Managers.Resource.LoadAllAsync<UnityEngine.Object>("MainScene", (key, count, total) => 
+        {
+            //Debug.Log($"{count}/{total}: {key} load success");
 
-        // Managers.UI.ShowScene
-        Managers.UI.ShowSceneUI<UIMainScene>();
-        Managers.UI.LoadPopupUIs();
+            if (count == total)
+            {
+                var player = Managers.Resource.GetCache<GameObject>("Player.prefab");
+                player = Instantiate(player);
+                player.name = "Player";
+                virtualCamera.Follow = Managers.Game.Player.ViewPoint;
+                virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
+
+                Managers.UI.ShowSceneUI<UIMainScene>();
+                Managers.UI.LoadPopupUIs();
+            }
+        });
+
+        //var player = Managers.Resource.Instantiate("Player");
+        //player.name = "Player";
+        //virtualCamera.Follow = Managers.Game.Player.ViewPoint;
+        //virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
+
+        //// Managers.UI.ShowScene
+        //Managers.UI.ShowSceneUI<UIMainScene>();
+        //Managers.UI.LoadPopupUIs();
     }
 }

@@ -47,20 +47,35 @@ public class InventorySystem : MonoBehaviour
 
     private void AddDefaultToolAsTest()
     {
-        var itemData = Resources.Load<ScriptableObject>("SO/PickItemData") as ItemData;
+        var itemData = Managers.Resource.GetCache<ItemData>("PickItemData.data");
         AddItem(itemData, 1);
 
-        itemData = Resources.Load<ScriptableObject>("SO/AxeItemData") as ItemData;
+        itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
         AddItem(itemData, 1);
 
-        itemData = Resources.Load<ScriptableObject>("SO/SwordItemData") as ItemData;
+        itemData = Managers.Resource.GetCache<ItemData>("SwordItemData.data");
         AddItem(itemData, 1);
 
-        itemData = Resources.Load<ScriptableObject>("SO/GreatswordItemData") as ItemData;
+        itemData = Managers.Resource.GetCache<ItemData>("EmptyHandItemData.data");
         AddItem(itemData, 1);
 
-        itemData = Resources.Load<ScriptableObject>("SO/EmptyHandItemData") as ItemData;
+        itemData = Managers.Resource.GetCache<ItemData>("GreatswordItemData.data");
         AddItem(itemData, 1);
+
+        //var itemData = Resources.Load<ScriptableObject>("SO/PickItemData") as ItemData;
+        //AddItem(itemData, 1);
+
+        //itemData = Resources.Load<ScriptableObject>("SO/AxeItemData") as ItemData;
+        //AddItem(itemData, 1);
+
+        //itemData = Resources.Load<ScriptableObject>("SO/SwordItemData") as ItemData;
+        //AddItem(itemData, 1);
+
+        //itemData = Resources.Load<ScriptableObject>("SO/GreatswordItemData") as ItemData;
+        //AddItem(itemData, 1);
+
+        //itemData = Resources.Load<ScriptableObject>("SO/EmptyHandItemData") as ItemData;
+        //AddItem(itemData, 1);
     }
 
     public void AddItem(ItemData itemData, int quantity)
