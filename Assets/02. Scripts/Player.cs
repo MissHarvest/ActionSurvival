@@ -68,11 +68,11 @@ public class Player : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        //Gizmos.color = Color.red;
         
-        if(EquippedItem != null)
-        {
-            Gizmos.DrawWireSphere(transform.position, ((ToolItemData)EquippedItem.itemData).range);
-        }        
+        //if(EquippedItem != null)
+        //{
+        //    Gizmos.DrawWireSphere(transform.position, ((ToolItemData)EquippedItem.itemData).range);
+        //}        
     }
 }

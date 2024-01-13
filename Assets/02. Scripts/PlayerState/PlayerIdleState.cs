@@ -6,7 +6,7 @@ public class PlayerIdleState : PlayerGroundedState
 {
     public PlayerIdleState(PlayerStateMachine playerStateMachine) :base(playerStateMachine)
     {
-
+        
     }
     
     public override void Enter()

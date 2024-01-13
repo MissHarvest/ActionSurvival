@@ -1,3 +1,6 @@
+// 작성 날짜 : 2024. 01. 11
+// 작성자 : Park Jun Uk
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,7 +37,6 @@ public class DayCycle
         var dayLight = Managers.Resource.GetCache<GameObject>("DayLight.prefab");
         dayLight = UnityEngine.Object.Instantiate(dayLight);
         dayLight.name = "@DayLight";
-        //Managers.Resource.Instantiate("DayLight").name = "@DayLight";
 
         _eventCount[0] = _cycle[0] / _eventInterval;
         for (int i = 1; i < _eventCount.Length; ++i)
