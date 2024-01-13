@@ -17,7 +17,7 @@ public class ToolSystem : MonoBehaviour
     private Dictionary<string, GameObject> _tools = new Dictionary<string, GameObject>();
 
     public event Action<QuickSlot> OnEquip;
-    public event Action<QuickSlot> OnUnEquip;
+    public event Action<QuickSlot> OnUnEquip;    
 
     private void Awake()
     {
@@ -57,10 +57,10 @@ public class ToolSystem : MonoBehaviour
     public void Equip(QuickSlot slot)
     {
         int part = GetPart(slot);
-        if (part == -1) return;
+        if (part == -1) return;        
 
         UnEquip(part);
-        
+
         Equipments[part].Set(slot.targetIndex, slot.itemSlot);
         Equipments[part].itemSlot.SetEquip(true);
         if (part == (int)ItemParts.Hand)
@@ -78,8 +78,14 @@ public class ToolSystem : MonoBehaviour
     private void EquipTool(ItemSlot itemSlot)
     {
         ItemInUse = itemSlot;
-        var toolName = GetToolName(itemSlot);
+        var toolName = GetToolName(itemSlot);        
         _tools[toolName].SetActive(true);
+
+        // Managers.Game.Player.Animator.SetBool(Managers.Game.Player.AnimationData.EquipTwoHandedToolIdleParameterHash, true);
+
+        _tools[toolName].GetComponent<ItemObjectData>()?.OnEquipTwoHandedTool(); // lgs
+        ItemObject = _tools[toolName];
+        // 게임오브젝트 리스트를 만들었고, 딕셔너리 내부의 게임오브젝트 내부의 겟컴포넌트를 가져와서 ? 앞이 null이 아니면 함수를 호출한다.
     }
 
     public void UnEquip(int part)
@@ -93,6 +99,7 @@ public class ToolSystem : MonoBehaviour
         if(-1 != Equipments[part].targetIndex)
         {
             OnUnEquip?.Invoke(Equipments[part]);
+            _tools[toolName].GetComponent<ItemObjectData>()?.OnUnEquipTwoHandedTool(); // lgs
         }
         Equipments[part].Clear();
     }

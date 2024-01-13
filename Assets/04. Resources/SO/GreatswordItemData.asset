@@ -23,3 +23,4 @@ MonoBehaviour:
   attackPower: 1
   targetTagName: Monster
   isWeapon: 1
+  isTwoHandedTool: 1
