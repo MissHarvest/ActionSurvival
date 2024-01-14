@@ -7,9 +7,13 @@ using UnityEngine;
 
 public class MonsterChaseState : MonsterBaseState
 {
+    private float _maxSpeed;
+    private float _reach;
+
     public MonsterChaseState(MonsterStateMachine monsterStateMachine) : base(monsterStateMachine)
     {
-
+        _maxSpeed = monsterStateMachine.Monster.NavMeshAgent.speed;
+        _reach = monsterStateMachine.Monster.Data.AttackData.AttackalbeDistance;
     }
 
     public override void Enter()
@@ -45,15 +49,14 @@ public class MonsterChaseState : MonsterBaseState
         // base.Update();
 
         var dist = _stateMachine.Monster.NavMeshAgent.remainingDistance;
-        dist = dist > 4.0f ? 4.0f : dist; // 4.0f  속도
+        dist = Mathf.Min(dist, _maxSpeed);// dist > 4.0f ? 4.0f : dist; // 4.0f  속도
         _stateMachine.Monster.NavMeshAgent.stoppingDistance
-            = Mathf.Max((dist + 1) * 0.5f, _stateMachine.Monster.NavMeshAgent.stoppingDistance); // 0.5f 기본 정지거리
+            = Mathf.Max((dist + _reach) * 0.5f, _stateMachine.Monster.NavMeshAgent.stoppingDistance); // 0.5f 기본 정지거리
         // 1.0f 은 공격 사거리?
 
         var sqrLength = GetDistanceBySqr(Managers.Game.Player.transform.position);
-        var reach = _stateMachine.Monster.Data.AttackData.AttackalbeDistance;
         
-        if(sqrLength < reach * reach)
+        if(sqrLength < _reach * _reach)
         {
             _stateMachine.ChangeState(_stateMachine.AttackState);
             return;
