@@ -23,13 +23,12 @@ public class Monster : MonoBehaviour
         Animator = GetComponentInChildren<Animator>();
 
         NavMeshAgent = Utility.GetOrAddComponent<NavMeshAgent>(gameObject);
-        _stateMachine = new MonsterStateMachine(this);
-
-        RespawnPosition = transform.position;
+        _stateMachine = new MonsterStateMachine(this);   
     }
 
     private void Start()
     {
+        RespawnPosition = transform.position;
         _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 

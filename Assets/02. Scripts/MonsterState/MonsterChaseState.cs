@@ -20,7 +20,7 @@ public class MonsterChaseState : MonsterBaseState
         // 탐지 범위 증가
         _stateMachine.DetectionDistModifier = _stateMachine.Monster.Data.AttackData.ChaseDectionDistModifier;
         base.Enter();
-
+        
         // Start Animation
         StartAnimation(_stateMachine.Monster.AnimationData.RunParameterHash);
     }
@@ -35,6 +35,7 @@ public class MonsterChaseState : MonsterBaseState
         // 탐지 범위 감소
         _stateMachine.DetectionDistModifier = _stateMachine.Monster.Data.AttackData.DefaultDetectionDistModifier;
 
+        _stateMachine.Monster.NavMeshAgent.stoppingDistance = 0.5f;
         // Exit Animation
         StopAnimation(_stateMachine.Monster.AnimationData.RunParameterHash);
     }
@@ -43,20 +44,29 @@ public class MonsterChaseState : MonsterBaseState
     {
         // base.Update();
 
+        var dist = _stateMachine.Monster.NavMeshAgent.remainingDistance;
+        dist = dist > 4.0f ? 4.0f : dist; // 4.0f  속도
+        _stateMachine.Monster.NavMeshAgent.stoppingDistance
+            = Mathf.Max((dist + 1) * 0.5f, _stateMachine.Monster.NavMeshAgent.stoppingDistance); // 0.5f 기본 정지거리
+        // 1.0f 은 공격 사거리?
+
         var sqrLength = GetDistanceBySqr(Managers.Game.Player.transform.position);
         var reach = _stateMachine.Monster.Data.AttackData.AttackalbeDistance;
-
+        
         if(sqrLength < reach * reach)
         {
             _stateMachine.ChangeState(_stateMachine.AttackState);
+            return;
         }
         else if (TryDetectPlayer())
         {
             _stateMachine.Monster.NavMeshAgent.SetDestination(Managers.Game.Player.transform.position);
+            return;
         }
         else
         {
             _stateMachine.ChangeState(_stateMachine.PatrolState);
+            return;
         }
     }
 }

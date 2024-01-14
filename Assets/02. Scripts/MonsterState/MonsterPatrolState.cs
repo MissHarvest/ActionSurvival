@@ -37,9 +37,9 @@ public class MonsterPatrolState : MonsterBaseState
     {
         base.Update();
 
-        var sqrLength = GetDistanceBySqr(_destination);
-
+        var sqrLength = GetDistanceBySqr(_destination);        
         var stopDist = _stateMachine.Monster.NavMeshAgent.stoppingDistance;
+        
         if (sqrLength < stopDist * stopDist)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
@@ -55,7 +55,7 @@ public class MonsterPatrolState : MonsterBaseState
         direction.Normalize();
 
         direction *= Random.Range(1.0f, maxRadius);
-
+        Debug.Log($"Direction {direction}");
         _destination = _stateMachine.Monster.RespawnPosition + direction;
     }
 }

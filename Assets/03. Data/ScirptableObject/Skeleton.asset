@@ -21,4 +21,4 @@ MonoBehaviour:
     <DetectionDistance>k__BackingField: 5
     <DefaultDetectionDistModifier>k__BackingField: 1
     <ChaseDectionDistModifier>k__BackingField: 1.5
-    <AttackalbeDistance>k__BackingField: 0.5
+    <AttackalbeDistance>k__BackingField: 1.1

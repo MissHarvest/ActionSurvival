@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MonsterAttackState : MonsterBaseState
 {
+    private bool _isAttacking;
     public MonsterAttackState(MonsterStateMachine monsterStateMachine) : base(monsterStateMachine)
     {
 
@@ -14,23 +15,34 @@ public class MonsterAttackState : MonsterBaseState
         Debug.Log("Monster State Changed to [ Attack ]");
         _stateMachine.MovementSpeedModifier = 0.0f;
         base.Enter();
+        StartAnimation(_stateMachine.Monster.AnimationData.AttackParameterHash);
+        //_stateMachine.Monster.NavMeshAgent.isStopped = true;
     }
 
     public override void Exit()
     {
+        
         base.Exit();
+        StopAnimation(_stateMachine.Monster.AnimationData.AttackParameterHash);
+        //_stateMachine.Monster.NavMeshAgent.isStopped = false;
     }
 
     public override void Update()
     {
-        // base.Update();
+        // base.Update();        
 
-        var sqrLength = GetDistanceBySqr(Managers.Game.Player.transform.position);
-        var reach = _stateMachine.Monster.Data.AttackData.AttackalbeDistance;
-
-        if (sqrLength >= reach * reach)
+        float normalizedTime = GetNormalizedTime(_stateMachine.Monster.Animator, "Attack");
+        if (normalizedTime >= 1.0f)
         {
-            _stateMachine.ChangeState(_stateMachine.ChaseState);
+            if (TryDetectPlayer())
+            {
+                _stateMachine.ChangeState(_stateMachine.ChaseState);
+                return;
+            }
+            else
+            {
+                _stateMachine.ChangeState(_stateMachine.PatrolState);
+            }
         }
     }
 }
