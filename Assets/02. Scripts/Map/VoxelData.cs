@@ -3,9 +3,9 @@ using UnityEngine;
 // 2024-01-12 WJY
 public static class VoxelData
 {
-    // Voxel°ú °ü·ÃµÈ LookUp TableÀ» Á¤ÀÇÇØµÓ´Ï´Ù.
+    // Voxelê³¼ ê´€ë ¨ëœ LookUp Tableì„ ì •ì˜í•´ë‘¡ë‹ˆë‹¤.
 
-    /// <summary> Á¤À°¸éÃ¼ 8°³ Á¤Á¡ À§Ä¡ </summary>
+    /// <summary> ì •ìœ¡ë©´ì²´ 8ê°œ ì •ì  ìœ„ì¹˜ </summary>
     public static readonly Vector3[] voxelVerts = new Vector3[]
     {
         new(0f, 0f, 0f),
@@ -18,7 +18,7 @@ public static class VoxelData
         new(0f, 1f, 1f),
     };
 
-    /// <summary> Á¤À°¸éÃ¼ÀÇ ÇÑ ¸éÀ» ÀÌ·ç´Â µÎ »ï°¢ÇüÀÇ Á¤Á¡ ÀÎµ¦½º µ¥ÀÌÅÍ </summary>
+    /// <summary> ì •ìœ¡ë©´ì²´ì˜ í•œ ë©´ì„ ì´ë£¨ëŠ” ë‘ ì‚¼ê°í˜•ì˜ ì •ì  ì¸ë±ìŠ¤ ë°ì´í„° </summary>
     public static readonly int[][] voxelTris = new int[][]
     {
         new int[]{ 0, 3, 1, 2 },
@@ -29,7 +29,7 @@ public static class VoxelData
         new int[]{ 1, 2, 5, 6 },
     };
 
-    /// <summary> »ï°¢Çü Á¤Á¡ ÀÎµ¦½º¿¡ µû¶ó Á¤ÀÇµÈ UV µ¥ÀÌÅÍ </summary>
+    /// <summary> ì‚¼ê°í˜• ì •ì  ì¸ë±ìŠ¤ì— ë”°ë¼ ì •ì˜ëœ UV ë°ì´í„° </summary>
     public static readonly Vector2[] voxelUVs = new Vector2[]
     {
         new(0f, 0f),
@@ -38,7 +38,7 @@ public static class VoxelData
         new(1f, 1f),
     };
 
-    /// <summary> Ã»Å©ÀÇ ¹Ù±ù ¸é¸¸ ±×·ÁÁÖ±â À§ÇÑ LookUp Table </summary>
+    /// <summary> ì²­í¬ì˜ ë°”ê¹¥ ë©´ë§Œ ê·¸ë ¤ì£¼ê¸° ìœ„í•œ LookUp Table </summary>
     public static readonly Vector3[] faceChecks = new Vector3[]
     {
         new( 0.0f,  0.0f, -1.0f),
@@ -57,4 +57,10 @@ public static class VoxelData
 
     public static float NormalizeTextureAtlasWidth => 1f / TextureAtlasWidth;
     public static float NormalizeTextureAtlasHeight => 1f / TextureAtlasHeight;
+
+    // í…ìŠ¤ì³ ë‚´ì—ì„œ ì˜ë„ì¹˜ ì•Šê²Œ ë“¤ì–´ê°€ëŠ” ë¶€ë¶„ ì˜ë¼ë‚´ê¸°
+    public const float uvXBeginOffset = 0.01f;
+    public const float uvXEndOffset = -0.01f;
+    public const float uvYBeginOffset = 0.01f;
+    public const float uvYEndOffset = -0.01f;
 }
