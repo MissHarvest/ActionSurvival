@@ -55,7 +55,7 @@ public class MonsterPatrolState : MonsterBaseState
         direction.Normalize();
 
         direction *= Random.Range(1.0f, maxRadius);
-        Debug.Log($"Direction {direction}");
+        
         _destination = _stateMachine.Monster.RespawnPosition + direction;
     }
 }
