@@ -1,5 +1,5 @@
-// ÀÛ¼º ³¯Â¥ : 2024. 01. 12
-// ÀÛ¼ºÀÚ : Park Jun Uk
+// ì‘ì„± ë‚ ì§œ : 2024. 01. 12
+// ì‘ì„±ì : Park Jun Uk
 
 using System.Collections;
 using System.Collections.Generic;
@@ -24,6 +24,7 @@ public class MonsterBaseState : IState
     {
         
     }
+
     public virtual void Update()
     {
         if(TryDetectPlayer())

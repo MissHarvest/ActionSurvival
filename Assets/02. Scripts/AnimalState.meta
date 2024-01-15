@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/04. Resources/SO/WorldData.asset.meta
+guid: 836ad05f4b4ed404ea0f0375ab1931b7
+NativeFormatImporter:
+========
+guid: 9ab78319842e7f64eafd4228dce6ccb4
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> Develop1.0:Assets/02. Scripts/AnimalState.meta
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

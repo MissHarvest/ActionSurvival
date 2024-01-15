@@ -1,12 +1,13 @@
-// ÀÛ¼º ³¯Â¥ : 2024. 01. 12
-// ÀÛ¼ºÀÚ : Park Jun Uk
+// ï¿½Û¼ï¿½ ï¿½ï¿½Â¥ : 2024. 01. 12
+// ï¿½Û¼ï¿½ï¿½ï¿½ : Park Jun Uk 
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Monster : MonoBehaviour
+public abstract class Monster : MonoBehaviour, IAttack, IHit
 {
     [field : SerializeField] public MonsterAnimationData AnimationData { get; private set; }
     protected MonsterStateMachine _stateMachine;
@@ -17,13 +18,23 @@ public class Monster : MonoBehaviour
 
     public NavMeshAgent NavMeshAgent { get; private set; }
 
+    public ItemData[] looting;
+
+    public bool Dead { get; private set; }
+
+    [field : SerializeField] public Condition HP { get; private set; }
+
     private void Awake()
-    {   
+    {
         AnimationData.Initialize();
         Animator = GetComponentInChildren<Animator>();
+        Data = Managers.Resource.GetCache<MonsterSO>($"{this.GetType().Name}.data");
+        _stateMachine = new MonsterStateMachine(this);
 
         NavMeshAgent = Utility.GetOrAddComponent<NavMeshAgent>(gameObject);
-        _stateMachine = new MonsterStateMachine(this);   
+
+        HP = new Condition(Data.MaxHP);
+        HP.OnBelowedToZero += Die;
     }
 
     private void Start()
@@ -35,6 +46,35 @@ public class Monster : MonoBehaviour
     private void Update()
     {
         _stateMachine.Update();
+    }
+
+    public void Respawn()
+    {
+        Dead = false;
+        transform.position = RespawnPosition;
+        _stateMachine.ChangeState(_stateMachine.IdleState);
+
+        // [ Do ] HP ë³µêµ¬ //
+        HP.Add(Data.MaxHP);
+    }
+
+    public void Die()
+    {
+        Dead = true;
+        _stateMachine.ChangeState(_stateMachine.DieState);
+
+        // [ TEMP ] Get Looting //
+        foreach(var loot in looting)
+        {
+            Managers.Game.Player.Inventory.AddItem(loot, 1);
+        }
+    }
+    
+    public abstract void Attack(IHit target);
+
+    public void Hit(IAttack attacker, float damage)
+    {
+        HP.Subtract(damage);
     }
 
     private void OnDrawGizmos()

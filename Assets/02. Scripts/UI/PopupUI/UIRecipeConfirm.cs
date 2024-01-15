@@ -17,9 +17,9 @@ public class UIRecipeConfirm : UIPopup
         NoButton
     }
 
-    [SerializeField] private GameObject ingredientPrefab;
+    [SerializeField] private GameObject _ingredientPrefab;
 
-    private Action confirmationAction;
+    private Action _confirmationAction;
 
     private Transform _contents;
     private Transform _character;
@@ -28,7 +28,7 @@ public class UIRecipeConfirm : UIPopup
     private GameObject _noButton;
 
     // 재료 UI를 저장할 리스트
-    private List<GameObject> ingredientUIList = new List<GameObject>();
+    private List<GameObject> _ingredientUIList = new List<GameObject>();
 
     public override void Initialize()
     {
@@ -53,15 +53,15 @@ public class UIRecipeConfirm : UIPopup
 
     public void SetConfirmationAction(Action action)
     {
-        confirmationAction = action;
+        _confirmationAction = action;
     }
 
     private void OnCraftConfirmed()
     {
         // UIRecipe에서 설정한 함수를 실행
-        confirmationAction?.Invoke();
+        _confirmationAction?.Invoke();
         // 설정된 함수를 초기화
-        confirmationAction = null;
+        _confirmationAction = null;
 
         ClearIngredients();
 
@@ -84,23 +84,39 @@ public class UIRecipeConfirm : UIPopup
         // 재료 아이템 프리팹을 이용하여 UI에 추가
         foreach (var ingredient in ingredients)
         {
-            GameObject ingredientUI = Instantiate(ingredientPrefab, _contents);
+            GameObject ingredientUI = Instantiate(_ingredientPrefab, _contents);
             Image ingredientIcon = ingredientUI.transform.Find("Icon").GetComponent<Image>();
             TextMeshProUGUI ingredientQuantity = ingredientUI.GetComponentInChildren<TextMeshProUGUI>();
 
             ingredientIcon.sprite = ingredient.Key.iconSprite;
-            ingredientQuantity.text = ingredient.Value.ToString();
 
-            ingredientUIList.Add(ingredientUI);
+            // 재료의 필요 개수를 설정
+            int requiredQuantity = ingredient.Value;
+            ingredientQuantity.text = requiredQuantity.ToString();
+
+            // 인벤토리에 있는 해당 아이템의 수량 확인
+            int availableQuantity = Managers.Game.Player.Inventory.GetItemCount(ingredient.Key);
+
+            // 수량에 따라 텍스트 색상 변경(초록/빨강)
+            if (availableQuantity >= requiredQuantity)
+            {
+                ingredientQuantity.color = new Color32(0, 200, 50, 255);
+            }
+            else
+            {
+                ingredientQuantity.color = new Color32(222, 35, 0, 255);
+            }
+
+            _ingredientUIList.Add(ingredientUI);
         }
     }
 
     private void ClearIngredients()
     {
-        foreach (GameObject ingredientUI in ingredientUIList)
+        foreach (GameObject ingredientUI in _ingredientUIList)
         {
             Destroy(ingredientUI);
         }
-        ingredientUIList.Clear();
+        _ingredientUIList.Clear();
     }
 }
