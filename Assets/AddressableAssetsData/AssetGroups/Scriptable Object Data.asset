@@ -48,7 +48,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 169efef296147ff47aa012ef827c9305
-    m_Address: PickItemData.data
+    m_Address: PickAxeItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

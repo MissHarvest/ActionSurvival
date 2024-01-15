@@ -30,7 +30,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0d604ddd08f441744a9b01f1b24b7cef
-    m_Address: Handable_Pick.prefab
+    m_Address: Handable_PickAxe.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
