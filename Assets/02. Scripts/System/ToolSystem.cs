@@ -35,9 +35,7 @@ public class ToolSystem : MonoBehaviour
 
         var emptyHandData = Managers.Resource.GetCache<ItemData>("EmptyHandItemData.data");
         EmptyHand.Set(-1, new(emptyHandData));
-        //EmptyHand.Set(-1, new ItemSlot((ItemData)Resources.Load<ScriptableObject>("SO/EmptyHandItemData")));
 
-        //var tools = Managers.Resource.GetPrefabs(Literals.PATH_HANDABLE);
         var tools = Managers.Resource.GetCacheGroup<GameObject>("Handable_");
         foreach(var tool in tools)
         {
@@ -65,6 +63,7 @@ public class ToolSystem : MonoBehaviour
         Equipments[part].itemSlot.SetEquip(true);
         if (part == (int)ItemParts.Hand)
         {
+            Debug.Log($"{slot.itemSlot.itemData.displayName}");
             EquipTool(slot.itemSlot);
         }
 
@@ -80,6 +79,8 @@ public class ToolSystem : MonoBehaviour
         ItemInUse = itemSlot;
         var toolName = GetToolName(itemSlot);
         _tools[toolName].SetActive(true);
+        Debug.Log($"{toolName}");
+        ItemObject = _tools[toolName];
     }
 
     public void UnEquip(int part)
@@ -100,7 +101,6 @@ public class ToolSystem : MonoBehaviour
     private string GetToolName(ItemSlot itemSlot)
     {
         return "Handable_" + itemSlot.itemData.name.Replace("ItemData", "");
-        //return itemSlot.itemData.name.Replace("ItemData", "");
     }
 
     public void UnEquip(QuickSlot slot)
