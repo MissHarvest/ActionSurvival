@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 576468ed397be524d8e47099d9aeafbb, type: 3}
-  m_Name: PickItemData
+  m_Name: PickAxeItemData
   m_EditorClassIdentifier: 
   displayName: "\uACE1\uAD2D\uC774"
   description: "\uC870\uC7A1\uD558\uAC8C \uB9CC\uB4E4\uC5B4\uC9C4 \uACE1\uAD2D\uC774\uB2E4.

@@ -48,7 +48,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 169efef296147ff47aa012ef827c9305
-    m_Address: PickItemData.data
+    m_Address: PickAxeItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -61,6 +61,18 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 279ff602e17ed1846a01bab9d008f59a
     m_Address: GreatswordItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9515422e7b608cd4ea5174facd473388
+    m_Address: StickItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5fdc6d52b339f9a4a8daf6af2d4277f1
+    m_Address: CraftingTableItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

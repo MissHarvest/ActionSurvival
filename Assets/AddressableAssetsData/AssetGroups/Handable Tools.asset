@@ -30,7 +30,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0d604ddd08f441744a9b01f1b24b7cef
-    m_Address: Handable_Pick.prefab
+    m_Address: Handable_PickAxe.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -43,6 +43,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b9aec8589fa63143bec3870902fdf24
     m_Address: Handable_Greatsword.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d20772a35e12c04f9929da1cea091d6
+    m_Address: Handable_CraftingTable.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

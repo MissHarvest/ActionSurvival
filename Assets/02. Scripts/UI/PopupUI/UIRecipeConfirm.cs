@@ -1,22 +1,34 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 // 2024. 01. 11 Byun Jeongmin
 public class UIRecipeConfirm : UIPopup
 {
     enum Gameobjects
     {
+        Contents,
         Character,
         Exit,
         YesButton,
         NoButton
     }
 
+    [SerializeField] private GameObject ingredientPrefab;
+
+    private Action confirmationAction;
+
+    private Transform _contents;
     private Transform _character;
 
     private GameObject _yesButton;
     private GameObject _noButton;
+
+    // ì¬ë£Œ UIë¥¼ ì €ì¥í•  ë¦¬ìŠ¤íŠ¸
+    private List<GameObject> ingredientUIList = new List<GameObject>();
 
     public override void Initialize()
     {
@@ -34,23 +46,61 @@ public class UIRecipeConfirm : UIPopup
     private void Awake()
     {
         Initialize();
+        _contents = Get<GameObject>((int)Gameobjects.Contents).transform;
         _character = Get<GameObject>((int)Gameobjects.Character).transform;
         gameObject.SetActive(false);
     }
 
+    public void SetConfirmationAction(Action action)
+    {
+        confirmationAction = action;
+    }
+
     private void OnCraftConfirmed()
     {
-        Debug.Log("Á¦ÀÛ ¼º°ø");
+        // UIRecipeì—ì„œ ì„¤ì •í•œ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
+        confirmationAction?.Invoke();
+        // ì„¤ì •ëœ í•¨ìˆ˜ë¥¼ ì´ˆê¸°í™”
+        confirmationAction = null;
 
-        // ¿¹ ¹öÆ°ÀÌ ´­·ÈÀ» ¶§
+        ClearIngredients();
+
         gameObject.SetActive(false);
     }
 
     private void OnCraftCanceled()
     {
-        Debug.Log("Á¦ÀÛ Ãë¼Ò");
+        Debug.Log("ì œì‘ ì·¨ì†Œ");
 
-        // ¾Æ´Ï¿À ¹öÆ°ÀÌ ´­·ÈÀ» ¶§
+        // ì•„ë‹ˆì˜¤ ë²„íŠ¼ì´ ëˆŒë ¸ì„ ë•Œ
         gameObject.SetActive(false);
+    }
+
+    public void SetIngredients(Dictionary<ItemData, int> ingredients)
+    {
+        // ê¸°ì¡´ ì¬ë£Œ UI ì´ˆê¸°í™”
+        ClearIngredients();
+
+        // ì¬ë£Œ ì•„ì´í…œ í”„ë¦¬íŒ¹ì„ ì´ìš©í•˜ì—¬ UIì— ì¶”ê°€
+        foreach (var ingredient in ingredients)
+        {
+            GameObject ingredientUI = Instantiate(ingredientPrefab, _contents);
+            Image ingredientIcon = ingredientUI.transform.Find("Icon").GetComponent<Image>();
+            TextMeshProUGUI ingredientQuantity = ingredientUI.GetComponentInChildren<TextMeshProUGUI>();
+
+            ingredientIcon.sprite = ingredient.Key.iconSprite;
+            ingredientQuantity.text = ingredient.Value.ToString();
+
+            ingredientUIList.Add(ingredientUI);
+        }
+    }
+
+    private void ClearIngredients()
+    {
+        foreach (GameObject ingredientUI in ingredientUIList)
+        {
+            Destroy(ingredientUI);
+        }
+        ingredientUIList.Clear();
     }
 }
