@@ -1,5 +1,5 @@
-// ÀÛ¼º ³¯Â¥ : 2024. 01. 12
-// ÀÛ¼ºÀÚ : Park Jun Uk
+// ì‘ì„± ë‚ ì§œ : 2024. 01. 12
+// ì‘ì„±ì : Park Jun Uk
 
 using System.Collections;
 using System.Collections.Generic;
@@ -34,6 +34,7 @@ public class MonsterIdleState : MonsterBaseState
     IEnumerator MoveAfterSec(float sec)
     {
         yield return new WaitForSeconds(sec);
-        _stateMachine.ChangeState(_stateMachine.PatrolState);
+        if(_stateMachine.Monster.Dead == false)
+            _stateMachine.ChangeState(_stateMachine.PatrolState);
     }
 }
