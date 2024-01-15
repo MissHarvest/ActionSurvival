@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IAttack, IHit
 {
     [field: Header("Animations")]
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
@@ -64,6 +64,16 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         _stateMachine.PhysicsUpdate();
+    }
+
+    public void Attack(IHit target)
+    {
+
+    }
+
+    public void Hit(IAttack attacker, float damage)
+    {
+
     }
 
     private void OnDrawGizmos()

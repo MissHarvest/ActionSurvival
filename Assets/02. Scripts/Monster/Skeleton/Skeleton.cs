@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 public class Skeleton : Monster
 {
-    public override void Attack()
+    public override void Attack(IHit target)
     {
         
     }

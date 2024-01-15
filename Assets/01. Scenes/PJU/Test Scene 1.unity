@@ -1078,7 +1078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8131059353424769366, guid: 0e3e5fc8061efb940bfe40dd7cb5bd95, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1259,6 +1259,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9156463678968877386, guid: b9afbadc8a9a7354db3acfa9970eda4a, type: 3}
+      propertyPath: looting.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9156463678968877386, guid: b9afbadc8a9a7354db3acfa9970eda4a, type: 3}
+      propertyPath: looting.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 169efef296147ff47aa012ef827c9305, type: 2}
     - target: {fileID: 9181421994359456237, guid: b9afbadc8a9a7354db3acfa9970eda4a, type: 3}
       propertyPath: m_Name
       value: Slime

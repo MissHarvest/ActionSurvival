@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class Monster : MonoBehaviour
+public abstract class Monster : MonoBehaviour, IAttack, IHit
 {
     [field : SerializeField] public MonsterAnimationData AnimationData { get; private set; }
     protected MonsterStateMachine _stateMachine;
@@ -22,6 +22,8 @@ public abstract class Monster : MonoBehaviour
 
     public bool Dead { get; private set; }
 
+    [field : SerializeField] public Condition HP { get; private set; }
+
     private void Awake()
     {
         AnimationData.Initialize();
@@ -29,7 +31,10 @@ public abstract class Monster : MonoBehaviour
         Data = Managers.Resource.GetCache<MonsterSO>($"{this.GetType().Name}.data");
         _stateMachine = new MonsterStateMachine(this);
 
-        NavMeshAgent = Utility.GetOrAddComponent<NavMeshAgent>(gameObject);        
+        NavMeshAgent = Utility.GetOrAddComponent<NavMeshAgent>(gameObject);
+
+        HP = new Condition(Data.MaxHP);
+        HP.OnBelowedToZero += Die;
     }
 
     private void Start()
@@ -46,9 +51,11 @@ public abstract class Monster : MonoBehaviour
     public void Respawn()
     {
         Dead = false;
+        transform.position = RespawnPosition;
         _stateMachine.ChangeState(_stateMachine.IdleState);
 
-        // HP 복구
+        // [ Do ] HP 복구 //
+        HP.Add(Data.MaxHP);
     }
 
     public void Die()
@@ -56,7 +63,7 @@ public abstract class Monster : MonoBehaviour
         Dead = true;
         _stateMachine.ChangeState(_stateMachine.DieState);
 
-        // TEMP //
+        // [ TEMP ] Get Looting //
         foreach(var loot in looting)
         {
             Managers.Game.Player.Inventory.AddItem(loot, 1);
@@ -72,5 +79,10 @@ public abstract class Monster : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier);
     }
 
-    public abstract void Attack();
+    public abstract void Attack(IHit target);
+
+    public void Hit(IAttack attacker, float damage)
+    {
+        HP.Subtract(damage);
+    }
 }
