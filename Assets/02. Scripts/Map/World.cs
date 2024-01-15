@@ -10,7 +10,7 @@ public class World : MonoBehaviour
     private Transform _player;
     private bool _isDone = false;
 
-    private Dictionary<ChunkCoord, Chunk> _chunkMap = new();
+    private Dictionary<ChunkCoord, Chunk> _chunkMap = new(comparer: new ChunkCoord());
     private Dictionary<Vector3Int, BlockType> _voxelMap = new();
 
     private List<Chunk> _currentActiveChunks = new();
@@ -64,7 +64,7 @@ public class World : MonoBehaviour
                 if (_chunkMap.TryGetValue(_currentPlayerCoord + new ChunkCoord(x, z), out var currentChunk))
                 {
                     _currentActiveChunks.Add(currentChunk);
-                    currentChunk?.SetActive(true);
+                    currentChunk.SetActive(true);
                     _prevActiveChunks.Remove(currentChunk);
                 }
             }
@@ -99,16 +99,13 @@ public class World : MonoBehaviour
 
     private IEnumerator GenerateChunk()
     {
-        for (int x = -WorldData.WorldSize / 2; x < WorldData.WorldSize / 2; x++)
+        for (int x = -WorldData.WorldSize / 2; x < WorldData.WorldSize / 2; x += VoxelData.ChunkSizeX)
         {
-            for (int z = -WorldData.WorldSize / 2; z < WorldData.WorldSize / 2; z++)
+            for (int z = -WorldData.WorldSize / 2; z < WorldData.WorldSize / 2; z += VoxelData.ChunkSizeZ)
             {
-                if (x % VoxelData.ChunkSizeX == 0 && z % VoxelData.ChunkSizeZ == 0)
-                {
-                    var chunk = CreateChunk(new(x, z));
-                    chunk.IsActive = false;
-                    yield return null;
-                }
+                var chunk = CreateChunk(new(x, z));
+                chunk.IsActive = false;
+                yield return null;
             }
         }
     }
@@ -182,5 +179,6 @@ public class World : MonoBehaviour
         progressCallback?.Invoke(1f, "완료");
         completedCallback?.Invoke();
         _isDone = true;
+        UpdateChunksInViewRange();
     }
 }

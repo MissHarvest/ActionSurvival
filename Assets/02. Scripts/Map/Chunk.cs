@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -116,7 +117,7 @@ public class Chunk
     public void SetActive(bool active) => IsActive = active;
 }
 
-public struct ChunkCoord
+public struct ChunkCoord : IEqualityComparer<ChunkCoord>
 {
     public int x;
     public int z;
@@ -127,38 +128,35 @@ public struct ChunkCoord
         this.z = z;
     }
 
-    public static implicit operator ChunkCoord(Vector3 v)
-    {
-        return new ChunkCoord(Mathf.FloorToInt(v.x), Mathf.FloorToInt(v.z));
-    }
-
-    public static implicit operator ChunkCoord(Vector3Int v)
-    {
-        return new ChunkCoord(v.x, v.z);
-    }
-
-    public override int GetHashCode()
-    {
-        return 0;
-    }
-
-    public override bool Equals(object other)
-    {
-        var o = (ChunkCoord)other;
-        return Equals(o);
-    }
-
     public override string ToString()
     {
         return $"({x}, {z})";
     }
 
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(x, z);
+    }
+
+    public int GetHashCode(ChunkCoord obj)
+    {
+        return obj.GetHashCode();
+    }
+
+    public bool Equals(ChunkCoord l, ChunkCoord r)
+    {
+        return l.x == r.x && l.z == r.z;
+    }
+
+    public override bool Equals(object other)
+    {
+        var o = (ChunkCoord)other;
+        return Equals(this, o);
+    }
+
     public bool Equals(ChunkCoord other)
     {
-        if (x == other.x && z == other.z)
-            return true;
-        else
-            return false;
+        return Equals(this, other);
     }
 
     public static bool operator==(ChunkCoord lhs, ChunkCoord rhs)
@@ -174,5 +172,15 @@ public struct ChunkCoord
     public static ChunkCoord operator+(ChunkCoord lhs, ChunkCoord rhs)
     {
         return new(lhs.x + rhs.x, lhs.z + rhs.z);
+    }
+
+    public static implicit operator ChunkCoord(Vector3 v)
+    {
+        return new ChunkCoord(Mathf.FloorToInt(v.x), Mathf.FloorToInt(v.z));
+    }
+
+    public static implicit operator ChunkCoord(Vector3Int v)
+    {
+        return new ChunkCoord(v.x, v.z);
     }
 }
