@@ -25,7 +25,7 @@ public class UIRecipe : UIPopup
         Bind<GameObject>(typeof(Gameobjects));
         Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) => { Managers.UI.ClosePopupUI(this); });
 
-        //¶÷´Ù½Ä ÀÌ¿ëÇØ¼­ ¾×¼Ç ¸ÅÇÎ
+        //ëŒë‹¤ì‹ ì´ìš©í•´ì„œ ì•¡ì…˜ ë§¤í•‘
         recipeActions = new Dictionary<Gameobjects, Action>
         {
             { Gameobjects.PickAxe, () => Managers.Game.Player.Recipe.MakePickAxe() },
@@ -54,13 +54,22 @@ public class UIRecipe : UIPopup
 
     private void OnUIElementClick(Gameobjects recipeObject)
     {
-        if (recipeActions.TryGetValue(recipeObject, out var action))
+        // í™•ì¸ íŒì—… ì—´ê¸°
+        UIRecipeConfirm confirmPopup = Managers.UI.ShowPopupUI<UIRecipeConfirm>();
+        confirmPopup.SetIngredients(Managers.Data.recipeData[recipeObject.ToString()]);
+
+        // YesButtonì´ í´ë¦­ë  ë•Œ ì‹¤í–‰ë  í•¨ìˆ˜
+        confirmPopup.SetConfirmationAction(() =>
         {
-            action.Invoke();
-        }
-        else
-        {
-            Debug.Log("¹®Á¦°¡ ¹ß»ıÇØ Á¦ÀÛ¿¡ ½ÇÆĞÇß¾î¿ä.");
-        }
+            if (recipeActions.TryGetValue(recipeObject, out var action))
+            {
+                action.Invoke();
+            }
+            else
+            {
+                Debug.Log("ë¬¸ì œê°€ ë°œìƒí•´ ì œì‘ì— ì‹¤íŒ¨í–ˆì–´ìš”.");
+            }
+        });
+        gameObject.SetActive(false);
     }
 }

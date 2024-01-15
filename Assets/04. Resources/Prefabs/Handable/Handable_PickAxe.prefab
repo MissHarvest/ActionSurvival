@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 202640855389686894}
   - component: {fileID: 3530495553640869530}
   m_Layer: 0
-  m_Name: Handable_Pick
+  m_Name: Handable_PickAxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

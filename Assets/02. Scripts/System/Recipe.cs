@@ -34,21 +34,21 @@ public class Recipe : MonoBehaviour
         {
             if (inventory.IsFull())
             {
-                Debug.Log("ÀÎº¥Åä¸®°¡ °¡µæ Ã¡½À´Ï´Ù. ¾ÆÀÌÅÛÀ» Ãß°¡ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+                Debug.Log("ì¸ë²¤í† ë¦¬ê°€ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤. ì•„ì´í…œì„ ì¶”ê°€í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             }
             else
             {
-                // Á¦ÀÛ¿¡ ÇÊ¿äÇÑ ¾ÆÀÌÅÛ »ı¼º ¹× ÀÎº¥Åä¸® Ãß°¡
+                // ì œì‘ì— í•„ìš”í•œ ì•„ì´í…œ ìƒì„± ë° ì¸ë²¤í† ë¦¬ ì¶”ê°€
                 inventory.AddItem(craftedItemData, 1);
-                Debug.Log($"{craftedItemData.name}À» Á¦ÀÛÇß¾î¿ä.");
+                Debug.Log($"{craftedItemData.name}ì„ ì œì‘í–ˆì–´ìš”.");
 
-                // Á¦ÀÛ¿¡ ÇÊ¿äÇÑ ¾ÆÀÌÅÛÀ» ÀÎº¥Åä¸®¿¡¼­ ¼Ò¸ğ
+                // ì œì‘ì— í•„ìš”í•œ ì•„ì´í…œì„ ì¸ë²¤í† ë¦¬ì—ì„œ ì†Œëª¨
                 ConsumeItemsForCrafting(requiredItems);
             }
         }
         else
         {
-            Debug.Log($"{craftedItemData.name}À» ¸¸µé Àç·á°¡ ºÎÁ·ÇØ¿ä.");
+            Debug.Log($"{craftedItemData.name}ì„ ë§Œë“¤ ì¬ë£Œê°€ ë¶€ì¡±í•´ìš”.");
         }
     }
 
@@ -99,29 +99,14 @@ public class Recipe : MonoBehaviour
         }
     }
 
-    // ÀÌÇÏ´Â µû·Î ÇÏ³ªÀÇ Å¬·¡½º·Î »©µµ µÉµí
-    public void MakeAxe()
+    private void MakeItem(string itemName)
     {
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("AxeItemData.data"), Managers.Data.recipeData["Axe"]);
+        TryCraftItem(Managers.Resource.GetCache<ItemData>($"{itemName}ItemData.data"), Managers.Data.recipeData[itemName]);
     }
 
-    public void MakePickAxe()
-    {
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("PickItemData.data"), Managers.Data.recipeData["PickAxe"]);
-    }
-
-    public void MakeSword()
-    {
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("SwordItemData.data"), Managers.Data.recipeData["Sword"]);
-    }
-
-    public void MakeCraftingTable() // Á¦ÀÛ´ë ½ºÅ©¸³ÅÍºí ¿ÀºêÁ§Æ® Ãß°¡ ÇÊ¿ä
-    {
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data"), Managers.Data.recipeData["CraftingTable"]);
-    }
-
-    public void MakeStick()
-    {
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("StickItemData.data"), Managers.Data.recipeData["Stick"]);
-    }
+    public void MakeAxe() => MakeItem("Axe");
+    public void MakePickAxe() => MakeItem("PickAxe");
+    public void MakeSword() => MakeItem("Sword");
+    public void MakeCraftingTable() => MakeItem("CraftingTable");
+    public void MakeStick() => MakeItem("Stick");
 }
