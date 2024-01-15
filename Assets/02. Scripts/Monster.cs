@@ -69,6 +69,13 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
             Managers.Game.Player.Inventory.AddItem(loot, 1);
         }
     }
+    
+    public abstract void Attack(IHit target);
+
+    public void Hit(IAttack attacker, float damage)
+    {
+        HP.Subtract(damage);
+    }
 
     private void OnDrawGizmos()
     {
@@ -77,12 +84,5 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier);
-    }
-
-    public abstract void Attack(IHit target);
-
-    public void Hit(IAttack attacker, float damage)
-    {
-        HP.Subtract(damage);
     }
 }

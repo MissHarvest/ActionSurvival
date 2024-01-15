@@ -21,6 +21,6 @@ public class MonsterDieState : MonsterBaseState
     public override void Exit() 
     {
         base.Exit();
-        StopAnimation(_stateMachine.Monster.AnimationData.DieParameterHash);
+        
     }
 }
