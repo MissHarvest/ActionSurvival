@@ -25,7 +25,8 @@ public class UIClock : UIBase
     #endregion
 
     private float _angle = 0.0f;
-    private float _intervalAngle = 9.0f;
+    private float _intervalAngle = 7.5f;
+    private const float _maxAngle = 360.0f;
 
     private void Awake()
     {
@@ -49,7 +50,8 @@ public class UIClock : UIBase
 
     private void OnTimeUpdated()
     {
-        _angle = Mathf.Min(_angle + _intervalAngle, 360.0f);
+        _angle = Mathf.Min(_angle + _intervalAngle, _maxAngle);
+        if (_angle >= _maxAngle) _angle = 0.0f;
         Get<GameObject>((int)GameObjects.Pivot).transform.rotation = Quaternion.Euler(0, 0, -_angle);
     }
 }
