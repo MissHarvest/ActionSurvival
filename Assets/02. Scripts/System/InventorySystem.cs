@@ -61,6 +61,12 @@ public class InventorySystem : MonoBehaviour
 
         itemData = Managers.Resource.GetCache<ItemData>("GreatswordItemData.data");
         AddItem(itemData, 1);
+
+        // 고급 레시피 테스트용 재료
+        itemData = Managers.Resource.GetCache<ItemData>("LowStoneItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data");
+        AddItem(itemData, 1);
     }
 
     public void AddItem(ItemData itemData, int quantity)
