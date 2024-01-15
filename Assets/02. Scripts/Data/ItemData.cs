@@ -14,4 +14,6 @@ public class ItemData : ScriptableObject
 
     public bool stackable { get; protected set; } = true;
     public bool registable { get; protected set; } = false;
+
+    public float lootingRatio { get; private set; } = 0.0f;
 }

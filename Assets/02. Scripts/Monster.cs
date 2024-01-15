@@ -1,12 +1,13 @@
-// ÀÛ¼º ³¯Â¥ : 2024. 01. 12
-// ÀÛ¼ºÀÚ : Park Jun Uk
+// ï¿½Û¼ï¿½ ï¿½ï¿½Â¥ : 2024. 01. 12
+// ï¿½Û¼ï¿½ï¿½ï¿½ : Park Jun Uk 
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Monster : MonoBehaviour
+public abstract class Monster : MonoBehaviour
 {
     [field : SerializeField] public MonsterAnimationData AnimationData { get; private set; }
     protected MonsterStateMachine _stateMachine;
@@ -17,13 +18,18 @@ public class Monster : MonoBehaviour
 
     public NavMeshAgent NavMeshAgent { get; private set; }
 
+    public ItemData[] looting;
+
+    public bool Dead { get; private set; }
+
     private void Awake()
-    {   
+    {
         AnimationData.Initialize();
         Animator = GetComponentInChildren<Animator>();
+        Data = Managers.Resource.GetCache<MonsterSO>($"{this.GetType().Name}.data");
+        _stateMachine = new MonsterStateMachine(this);
 
-        NavMeshAgent = Utility.GetOrAddComponent<NavMeshAgent>(gameObject);
-        _stateMachine = new MonsterStateMachine(this);   
+        NavMeshAgent = Utility.GetOrAddComponent<NavMeshAgent>(gameObject);        
     }
 
     private void Start()
@@ -37,6 +43,26 @@ public class Monster : MonoBehaviour
         _stateMachine.Update();
     }
 
+    public void Respawn()
+    {
+        Dead = false;
+        _stateMachine.ChangeState(_stateMachine.IdleState);
+
+        // HP ë³µêµ¬
+    }
+
+    public void Die()
+    {
+        Dead = true;
+        _stateMachine.ChangeState(_stateMachine.DieState);
+
+        // TEMP //
+        foreach(var loot in looting)
+        {
+            Managers.Game.Player.Inventory.AddItem(loot, 1);
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -45,4 +71,6 @@ public class Monster : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier);
     }
+
+    public abstract void Attack();
 }
