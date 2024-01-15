@@ -1,37 +1,41 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 // 2024-01-12 WJY
 public class Chunk
 {
-    private GameObject chunkObject;
-    private MeshRenderer meshRenderer;
-    private MeshFilter meshFilter;
-    private ChunkCoord coord;
+    private GameObject _chunkObject;
+    private GameObject _chunkCollider;
+    private MeshRenderer _meshRenderer;
+    private MeshFilter _meshFilter;
+    private ChunkCoord _coord;
 
-    private int vertexIdx = 0;
-    private List<Vector3> vertices = new();
-    private List<int> triangles = new();
-    private List<Vector2> uvs = new();
+    private int _vertexIdx = 0;
+    private List<Vector3> _vertices = new();
+    private List<int> _triangles = new();
+    private List<Vector2> _uvs = new();
 
-    private World world;
+    private World _world;
 
-    public ChunkCoord ChunkCoord => coord;
+    public ChunkCoord ChunkCoord => _coord;
+    public bool IsActive
+    {
+        get => _chunkObject.activeSelf;
+        set { if (_chunkObject.activeSelf != value) _chunkObject.SetActive(value); }
+    }
 
     public Chunk(ChunkCoord coord, World world)
     {
-        this.world = world;
-        this.coord = coord;
+        _world = world;
+        _coord = coord;
 
-        chunkObject = new($"{nameof(Chunk)} {coord.x:D2}, {coord.z:D2}");
-        meshRenderer = chunkObject.AddComponent<MeshRenderer>();
-        meshFilter = chunkObject.AddComponent<MeshFilter>();
+        _chunkObject = new($"{nameof(Chunk)} {coord.x:D2}, {coord.z:D2}");
+        _meshRenderer = _chunkObject.AddComponent<MeshRenderer>();
+        _meshFilter = _chunkObject.AddComponent<MeshFilter>();
 
-        meshRenderer.material = world.Material;
-        chunkObject.transform.SetParent(world.transform);
-        //chunkObject.transform.position = new(coord.x * VoxelData.ChunkWidth, 0f, coord.z * VoxelData.ChunkWidth);
+        _meshRenderer.material = world.WorldData.Material;
+        _chunkObject.transform.SetParent(world.transform);
+        //_chunkObject.transform.position = new(coord.x, 0f, coord.z);
 
         CreateMeshData();
         CreateMesh();
@@ -39,36 +43,31 @@ public class Chunk
 
     private void CreateMeshData()
     {
-        //foreach (var pos in world.VoxelMap.Keys)
-        //    AddVoxelDataToChunk(pos);
-
-        for (int y = 0; y < VoxelData.ChunkHeight; y++)
-            for (int x = VoxelData.ChunkWidth * coord.x; x < VoxelData.ChunkWidth * (coord.x + 1); x++)
-                for (int z = VoxelData.ChunkWidth * coord.z; z < VoxelData.ChunkWidth * (coord.z + 1); z++)
-                    if (world.VoxelMap.ContainsKey(new(x, y, z)))
-                        AddVoxelDataToChunk(new(x, y, z));
+        for (int y = 0; y < VoxelData.ChunkSizeY; y++)
+            for (int x = -VoxelData.ChunkSizeX / 2; x <= VoxelData.ChunkSizeX / 2; x++)
+                for (int z = -VoxelData.ChunkSizeZ / 2; z <= VoxelData.ChunkSizeZ / 2; z++)
+                    if (_world.VoxelMap.TryGetValue(new(x + _coord.x, y, z + _coord.z), out var value))
+                        AddVoxelDataToChunk(new(x + _coord.x, y, z + _coord.z), value);
     }
 
-    private void AddVoxelDataToChunk(Vector3Int pos)
+    private void AddVoxelDataToChunk(Vector3Int pos, BlockType block)
     {
         for (int i = 0; i < 6; i++)
         {
-            if (CheckVoxel(pos + VoxelData.faceChecks[i]))
+            if (_world.CheckVoxel(pos + VoxelData.faceChecks[i]))
                 continue;
 
             for (int j = 0; j < 4; j++)
-                vertices.Add(pos + VoxelData.voxelVerts[VoxelData.voxelTris[i][j]]);
+                _vertices.Add(pos + VoxelData.voxelVerts[VoxelData.voxelTris[i][j]]);
 
-            var blockID = world.VoxelMap[pos];
-
-            AddTextureUV(world.BlockTypes[blockID].GetTextureID(i));
-            triangles.Add(vertexIdx);
-            triangles.Add(vertexIdx + 1);
-            triangles.Add(vertexIdx + 2);
-            triangles.Add(vertexIdx + 2);
-            triangles.Add(vertexIdx + 1);
-            triangles.Add(vertexIdx + 3);
-            vertexIdx += 4;
+            AddTextureUV(block.GetTextureID(i));
+            _triangles.Add(_vertexIdx);
+            _triangles.Add(_vertexIdx + 1);
+            _triangles.Add(_vertexIdx + 2);
+            _triangles.Add(_vertexIdx + 2);
+            _triangles.Add(_vertexIdx + 1);
+            _triangles.Add(_vertexIdx + 3);
+            _vertexIdx += 4;
         }
     }
 
@@ -76,22 +75,15 @@ public class Chunk
     {
         Mesh mesh = new()
         {
-            vertices = vertices.ToArray(),
-            triangles = triangles.ToArray(),
-            uv = uvs.ToArray(),
+            vertices = _vertices.ToArray(),
+            triangles = _triangles.ToArray(),
+            uv = _uvs.ToArray(),
         };
         mesh.RecalculateNormals();
-        meshFilter.mesh = mesh;
-    }
-
-    private bool CheckVoxel(Vector3 pos)
-    {
-        Vector3Int intPos = new(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
-
-        if (!world.VoxelMap.ContainsKey(intPos))
-            return false;
-        else
-            return world.BlockTypes[world.VoxelMap[intPos]].isSolid;
+        _meshFilter.mesh = mesh;
+        //_chunkCollider = new(_chunkObject.name);
+        _chunkObject.transform.SetParent(_world.transform);
+        _chunkObject.AddComponent<MeshCollider>().sharedMesh = mesh;
     }
 
     private void AddTextureUV(int textureID)
@@ -115,14 +107,16 @@ public class Chunk
         float uvX = x * nw;
         float uvY = y * nh;
 
-        uvs.Add(new Vector2(uvX + VoxelData.uvXBeginOffset, uvY + VoxelData.uvYBeginOffset));
-        uvs.Add(new Vector2(uvX + VoxelData.uvXBeginOffset, uvY + nh + VoxelData.uvYEndOffset));
-        uvs.Add(new Vector2(uvX + nw + VoxelData.uvXEndOffset, uvY + VoxelData.uvYBeginOffset));
-        uvs.Add(new Vector2(uvX + nw + VoxelData.uvXEndOffset, uvY + nh + VoxelData.uvYEndOffset));
+        _uvs.Add(new Vector2(uvX + VoxelData.uvXBeginOffset, uvY + VoxelData.uvYBeginOffset));
+        _uvs.Add(new Vector2(uvX + VoxelData.uvXBeginOffset, uvY + nh + VoxelData.uvYEndOffset));
+        _uvs.Add(new Vector2(uvX + nw + VoxelData.uvXEndOffset, uvY + VoxelData.uvYBeginOffset));
+        _uvs.Add(new Vector2(uvX + nw + VoxelData.uvXEndOffset, uvY + nh + VoxelData.uvYEndOffset));
     }
+
+    public void SetActive(bool active) => IsActive = active;
 }
 
-public class ChunkCoord
+public struct ChunkCoord
 {
     public int x;
     public int z;
@@ -131,5 +125,54 @@ public class ChunkCoord
     {
         this.x = x;
         this.z = z;
+    }
+
+    public static implicit operator ChunkCoord(Vector3 v)
+    {
+        return new ChunkCoord(Mathf.FloorToInt(v.x), Mathf.FloorToInt(v.z));
+    }
+
+    public static implicit operator ChunkCoord(Vector3Int v)
+    {
+        return new ChunkCoord(v.x, v.z);
+    }
+
+    public override int GetHashCode()
+    {
+        return 0;
+    }
+
+    public override bool Equals(object other)
+    {
+        var o = (ChunkCoord)other;
+        return Equals(o);
+    }
+
+    public override string ToString()
+    {
+        return $"({x}, {z})";
+    }
+
+    public bool Equals(ChunkCoord other)
+    {
+        if (x == other.x && z == other.z)
+            return true;
+        else
+            return false;
+    }
+
+    public static bool operator==(ChunkCoord lhs, ChunkCoord rhs)
+    {
+        return lhs.Equals(rhs);
+    }
+
+    public static bool operator!=(ChunkCoord lhs, ChunkCoord rhs)
+    {
+        return !lhs.Equals(rhs);
+    }
+
+    public static ChunkCoord operator+(ChunkCoord lhs, ChunkCoord rhs)
+    {
+        return new(lhs.x + rhs.x, lhs.z + rhs.z);
     }
 }

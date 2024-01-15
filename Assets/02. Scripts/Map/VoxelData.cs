@@ -49,8 +49,9 @@ public static class VoxelData
         new(+1.0f,  0.0f,  0.0f),
     };
 
-    public static readonly int ChunkWidth = 10;
-    public static readonly int ChunkHeight = 10;
+    public static readonly int ChunkSizeX = 10;
+    public static readonly int ChunkSizeY = 1;
+    public static readonly int ChunkSizeZ = 10;
 
     public static readonly int TextureAtlasWidth = 9;
     public static readonly int TextureAtlasHeight = 10;
@@ -59,8 +60,8 @@ public static class VoxelData
     public static float NormalizeTextureAtlasHeight => 1f / TextureAtlasHeight;
 
     // 텍스쳐 내에서 의도치 않게 들어가는 부분 잘라내기
-    public const float uvXBeginOffset = 0.01f;
-    public const float uvXEndOffset = -0.01f;
-    public const float uvYBeginOffset = 0.01f;
-    public const float uvYEndOffset = -0.01f;
+    public const float uvXBeginOffset = 0.003f;
+    public const float uvXEndOffset = -0.003f;
+    public const float uvYBeginOffset = 0.003f;
+    public const float uvYEndOffset = -0.003f;
 }

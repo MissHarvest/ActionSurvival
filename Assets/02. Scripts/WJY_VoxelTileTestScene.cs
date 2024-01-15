@@ -7,15 +7,24 @@ public class WJY_VoxelTileTestScene : MonoBehaviour
     public CinemachineVirtualCamera virtualCamera;
     private void Awake()
     {
-        // 1. ���ҽ� �ε�
+        // 1. 리소스 로드
         ResourceLoad((key, count, total) =>
         {
             if (count == total)
             {
-                // 2. ��ü ����, �ʱ�ȭ
-                SpawnPlayer();
-                UIInitialize();
-                GenerateMap();
+                
+                Managers.Game.GenerateWorldAsync((progress, argument) =>
+                {
+                    // 맵 생성 진행 중 콜백
+                    Debug.Log(progress + ": " + argument);
+                },
+                () =>
+                {
+                    // 맵 생성 완료 시 콜백
+                    // 3. 객체 생성, 초기화
+                    SpawnPlayer();
+                    UIInitialize();
+                });
             }
         });
     }
@@ -28,7 +37,7 @@ public class WJY_VoxelTileTestScene : MonoBehaviour
     private void SpawnPlayer()
     {
         var player = Managers.Resource.GetCache<GameObject>("Player.prefab");
-        player = Instantiate(player);
+        player = Instantiate(player, Vector3.up * 10f, Quaternion.identity);
         player.name = "Player";
         virtualCamera.Follow = Managers.Game.Player.ViewPoint;
         virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
