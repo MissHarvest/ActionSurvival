@@ -1,5 +1,5 @@
-// ¿€º∫ ≥Ø¬• : 2024. 01. 11
-// ¿€º∫¿⁄ : Park Jun Uk
+// ÏûëÏÑ± ÎÇ†Ïßú : 2024. 01. 11
+// ÏûëÏÑ±Ïûê : Park Jun Uk
 
 using System;
 using System.Collections;
@@ -18,7 +18,7 @@ public class DayCycle
 
     private int[] _cycle = { 300, 60, 120 };
     private int[] _eventCount = new int[3];
-    private int _date = 0;
+    public int Date { get; private set; } = 1;
     private int _time = 0;
     private int _currentTimeZone = 0;
     private int _eventInterval = 10;
@@ -59,7 +59,7 @@ public class DayCycle
         switch((TimeZone)_currentTimeZone)
         {
             case TimeZone.Morning:
-                OnDateUpdated?.Invoke(++_date);
+                OnDateUpdated?.Invoke(++Date);
                 _time = 0;
                 OnMorningCame?.Invoke();
                 break;
@@ -99,7 +99,7 @@ public class DayCycle
 
     IEnumerator SkipToMoring()
     {
-        while(_time != _eventCount[(int)TimeZone.Night] - 1) // Sum Cycle - one time
+        while(_time != _eventCount[(int)TimeZone.Night] - 1)
         {
             yield return new WaitForSeconds(0.1f);
             FlowTime();
@@ -113,7 +113,7 @@ public class DayCycle
 
     IEnumerator SkipToEvening()
     {
-        while (_time != _eventCount[(int)TimeZone.Morning] - 1) // 300 - one time
+        while (_time != _eventCount[(int)TimeZone.Morning] - 1)
         {
             yield return new WaitForSeconds(0.1f);
             FlowTime();
@@ -127,7 +127,7 @@ public class DayCycle
 
     IEnumerator SkipToNight()
     {
-        while (_time != _eventCount[(int)TimeZone.Evening] - 1) // Sum Cycle - one time
+        while (_time != _eventCount[(int)TimeZone.Evening] - 1)
         {
             yield return new WaitForSeconds(0.1f);
             FlowTime();

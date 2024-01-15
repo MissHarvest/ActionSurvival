@@ -1,5 +1,5 @@
-// ÀÛ¼º ³¯Â¥ : 2024. 01. 12
-// ÀÛ¼ºÀÚ : Park Jun Uk
+// ï¿½Û¼ï¿½ ï¿½ï¿½Â¥ : 2024. 01. 12
+// ï¿½Û¼ï¿½ï¿½ï¿½ : Park Jun Uk
 
 using System.Collections;
 using System.Collections.Generic;
@@ -8,17 +8,8 @@ using UnityEngine.AI;
 
 public class Skeleton : Monster
 {
-    public Transform destination;
-    // Start is called before the first frame update
-    void Start()
-    {
-        NavMeshAgent.SetDestination(destination.position);
-    }
-
-    // Update is called once per frame
-    void Update()
+    public override void Attack(IHit target)
     {
         
     }
-
 }

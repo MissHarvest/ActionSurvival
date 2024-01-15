@@ -1,5 +1,5 @@
-// ÀÛ¼º ³¯Â¥ : 2024. 01. 12
-// ÀÛ¼ºÀÚ : Park Jun Uk
+// ì‘ì„± ë‚ ì§œ : 2024. 01. 12
+// ì‘ì„±ì : Park Jun Uk
 
 using System.Collections;
 using System.Collections.Generic;
@@ -12,12 +12,13 @@ public class MonsterStateMachine : StateMachine
     public float MovementSpeedModifier { get; set; } = 1.0f;
     public float DetectionDist { get; private set; }
     public float DetectionDistModifier { get; set; } = 1.0f;
-    
+
     // State Branch
     public MonsterIdleState IdleState {get;}
     public MonsterPatrolState PatrolState { get; }
     public MonsterChaseState ChaseState { get; }
     public MonsterAttackState AttackState { get; }
+    public MonsterDieState DieState { get; }
 
     public MonsterStateMachine(Monster monster)
     {
@@ -29,5 +30,6 @@ public class MonsterStateMachine : StateMachine
         PatrolState = new MonsterPatrolState(this);
         ChaseState = new MonsterChaseState(this);
         AttackState = new MonsterAttackState(this);
+        DieState = new MonsterDieState(this);
     }    
 }
