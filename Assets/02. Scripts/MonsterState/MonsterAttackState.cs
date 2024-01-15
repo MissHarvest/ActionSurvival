@@ -16,7 +16,6 @@ public class MonsterAttackState : MonsterBaseState
         _stateMachine.MovementSpeedModifier = 0.0f;
         base.Enter();
         StartAnimation(_stateMachine.Monster.AnimationData.AttackParameterHash);
-        //_stateMachine.Monster.NavMeshAgent.isStopped = true;
     }
 
     public override void Exit()
@@ -24,7 +23,6 @@ public class MonsterAttackState : MonsterBaseState
         
         base.Exit();
         StopAnimation(_stateMachine.Monster.AnimationData.AttackParameterHash);
-        //_stateMachine.Monster.NavMeshAgent.isStopped = false;
     }
 
     public override void Update()
