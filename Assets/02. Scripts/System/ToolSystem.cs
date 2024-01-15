@@ -98,7 +98,7 @@ public class ToolSystem : MonoBehaviour
         Equipments[part].Clear();
     }
 
-    private string GetToolName(ItemSlot itemSlot)
+    public string GetToolName(ItemSlot itemSlot)
     {
         return "Handable_" + itemSlot.itemData.name.Replace("ItemData", "");
     }

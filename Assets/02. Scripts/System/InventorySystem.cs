@@ -62,20 +62,11 @@ public class InventorySystem : MonoBehaviour
         itemData = Managers.Resource.GetCache<ItemData>("GreatswordItemData.data");
         AddItem(itemData, 1);
 
-        //var itemData = Resources.Load<ScriptableObject>("SO/PickItemData") as ItemData;
-        //AddItem(itemData, 1);
-
-        //itemData = Resources.Load<ScriptableObject>("SO/AxeItemData") as ItemData;
-        //AddItem(itemData, 1);
-
-        //itemData = Resources.Load<ScriptableObject>("SO/SwordItemData") as ItemData;
-        //AddItem(itemData, 1);
-
-        //itemData = Resources.Load<ScriptableObject>("SO/GreatswordItemData") as ItemData;
-        //AddItem(itemData, 1);
-
-        //itemData = Resources.Load<ScriptableObject>("SO/EmptyHandItemData") as ItemData;
-        //AddItem(itemData, 1);
+        // 고급 레시피 테스트용 재료
+        itemData = Managers.Resource.GetCache<ItemData>("LowStoneItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data");
+        AddItem(itemData, 1);
     }
 
     public void AddItem(ItemData itemData, int quantity)
