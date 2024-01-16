@@ -61,15 +61,16 @@ public class World : MonoBehaviour
                     currentChunk.SetActive(true);
                     _prevActiveChunks.Remove(currentChunk);
 
-                    // NavMesh Source 전달 후 업데이트
+                    // NavMesh Source 전달
                     _navMeshBuilder.UpdateChunkSources(_currentActiveChunks);
-                    _navMeshBuilder.UpdateNavMesh();
                 }
             }
         }
 
         foreach (var chunk in _prevActiveChunks)
             chunk.IsActive = false;
+
+        _navMeshBuilder.UpdateNavMesh();
     }
 
     // TEST: 일단 Grass 블록으로 평지 만들기

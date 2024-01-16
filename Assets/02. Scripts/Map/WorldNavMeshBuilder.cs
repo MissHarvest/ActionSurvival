@@ -31,6 +31,9 @@ public class WorldNavMeshBuilder : MonoBehaviour
 
     public void UpdateChunkSources(List<Chunk> activeChunks)
     {
+        if (activeChunks.Count == 0)
+            return;
+
         if (_sources == null)
         {
             _sources = new();
