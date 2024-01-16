@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
+// 2024. 01. 15 Park Jun Uk
 public class AnimalStateMachine : StateMachine
 {
     public Animal Animal { get; }

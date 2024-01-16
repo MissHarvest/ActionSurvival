@@ -1,10 +1,8 @@
-// �ۼ� ��¥ : 2024. 01. 12
-// �ۼ��� : Park Jun Uk
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 2024. 01. 12 Park Jun Uk
 public class MonsterPatrolState : MonsterBaseState
 {
     private Vector3 _destination;

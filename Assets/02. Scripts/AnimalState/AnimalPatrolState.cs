@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 2024. 01. 15 Park Jun Uk
 public class AnimalPatrolState : AnimalBaseState
 {
     private Vector3 _destination;

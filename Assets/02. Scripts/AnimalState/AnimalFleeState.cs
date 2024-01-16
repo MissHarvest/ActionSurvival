@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 2024. 01. 15 Park Jun Uk
 public class AnimalFleeState : AnimalBaseState
 {
     private float _recentDist = 0.0f;
