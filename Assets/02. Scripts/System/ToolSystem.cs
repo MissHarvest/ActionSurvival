@@ -35,9 +35,7 @@ public class ToolSystem : MonoBehaviour
 
         var emptyHandData = Managers.Resource.GetCache<ItemData>("EmptyHandItemData.data");
         EmptyHand.Set(-1, new(emptyHandData));
-        //EmptyHand.Set(-1, new ItemSlot((ItemData)Resources.Load<ScriptableObject>("SO/EmptyHandItemData")));
 
-        //var tools = Managers.Resource.GetPrefabs(Literals.PATH_HANDABLE);
         var tools = Managers.Resource.GetCacheGroup<GameObject>("Handable_");
         foreach(var tool in tools)
         {
@@ -65,6 +63,7 @@ public class ToolSystem : MonoBehaviour
         Equipments[part].itemSlot.SetEquip(true);
         if (part == (int)ItemParts.Hand)
         {
+            Debug.Log($"{slot.itemSlot.itemData.displayName}");
             EquipTool(slot.itemSlot);
         }
 
@@ -85,7 +84,7 @@ public class ToolSystem : MonoBehaviour
 
         _tools[toolName].GetComponent<ItemObjectData>()?.OnEquipTwoHandedTool(); // lgs
         ItemObject = _tools[toolName];
-        // °ÔÀÓ¿ÀºêÁ§Æ® ¸®½ºÆ®¸¦ ¸¸µé¾ú°í, µñ¼Å³Ê¸® ³»ºÎÀÇ °ÔÀÓ¿ÀºêÁ§Æ® ³»ºÎÀÇ °ÙÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿Í¼­ ? ¾ÕÀÌ nullÀÌ ¾Æ´Ï¸é ÇÔ¼ö¸¦ È£ÃâÇÑ´Ù.
+        // ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Å³Ê¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ? ï¿½ï¿½ï¿½ï¿½ nullï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ñ´ï¿½.
     }
 
     public void UnEquip(int part)
@@ -104,10 +103,9 @@ public class ToolSystem : MonoBehaviour
         Equipments[part].Clear();
     }
 
-    private string GetToolName(ItemSlot itemSlot)
+    public string GetToolName(ItemSlot itemSlot)
     {
         return "Handable_" + itemSlot.itemData.name.Replace("ItemData", "");
-        //return itemSlot.itemData.name.Replace("ItemData", "");
     }
 
     public void UnEquip(QuickSlot slot)

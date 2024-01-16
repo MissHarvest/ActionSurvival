@@ -1,3 +1,6 @@
+// 작성 날짜 : 2024. 01. 11
+// 작성자 : Park Jun Uk
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

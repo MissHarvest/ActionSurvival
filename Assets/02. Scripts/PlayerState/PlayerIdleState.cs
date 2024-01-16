@@ -6,7 +6,7 @@ public class PlayerIdleState : PlayerGroundedState
 {
     public PlayerIdleState(PlayerStateMachine playerStateMachine) :base(playerStateMachine)
     {
-
+        
     }
     private ItemObjectData itemObjectData = new ItemObjectData();
 

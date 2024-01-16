@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static DataManager;
 
 // 2024. 01. 11 Byun Jeongmin
 public class Recipe : MonoBehaviour
 {
     public Player Owner { get; private set; }
-    private InventorySystem inventory;
+    private InventorySystem _inventory;
     private UIRecipe _recipeUI;
 
     private void Awake()
@@ -20,7 +21,7 @@ public class Recipe : MonoBehaviour
     private void Start()
     {
         Debug.Log("Recipe Start");
-        inventory = Managers.Game.Player.GetComponentInChildren<InventorySystem>();
+        _inventory = Managers.Game.Player.Inventory;
     }
 
     private void Update()
@@ -32,25 +33,23 @@ public class Recipe : MonoBehaviour
     {
         if (CanCraftItem(requiredItems))
         {
-            if (inventory.IsFull())
+            if (_inventory.IsFull())
             {
-                Debug.Log("ÀÎº¥Åä¸®°¡ °¡µæ Ã¡½À´Ï´Ù. ¾ÆÀÌÅÛÀ» Ãß°¡ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+                Debug.Log("ì¸ë²¤í† ë¦¬ê°€ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤. ì•„ì´í…œì„ ì¶”ê°€í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             }
             else
             {
-                // Á¦ÀÛ¿¡ ÇÊ¿äÇÑ ¾ÆÀÌÅÛ »ı¼º ¹× ÀÎº¥Åä¸® Ãß°¡
-                inventory.AddItem(craftedItemData, 1);
-                Debug.Log($"{craftedItemData.name}À» Á¦ÀÛÇß¾î¿ä.");
+                // ì œì‘ì— í•„ìš”í•œ ì•„ì´í…œ ìƒì„± ë° ì¸ë²¤í† ë¦¬ ì¶”ê°€
+                _inventory.AddItem(craftedItemData, 1);
+                Debug.Log($"{craftedItemData.name}ì„ ì œì‘í–ˆì–´ìš”.");
 
-                // Á¦ÀÛ¿¡ ÇÊ¿äÇÑ ¾ÆÀÌÅÛÀ» ÀÎº¥Åä¸®¿¡¼­ ¼Ò¸ğ
+                // ì œì‘ì— í•„ìš”í•œ ì•„ì´í…œì„ ì¸ë²¤í† ë¦¬ì—ì„œ ì†Œëª¨
                 ConsumeItemsForCrafting(requiredItems);
-
-                // ÀÎº¥Åä¸® UI ¾÷µ¥ÀÌÆ® ÇÊ¿ä
             }
         }
         else
         {
-            Debug.Log($"{craftedItemData.name} Àç·á°¡ ºÎÁ·ÇØ¿ä.");
+            Debug.Log($"{craftedItemData.name}ì„ ë§Œë“¤ ì¬ë£Œê°€ ë¶€ì¡±í•´ìš”.");
         }
     }
 
@@ -61,7 +60,7 @@ public class Recipe : MonoBehaviour
             ItemData requiredItemData = requiredItem.Key;
             int requiredCount = requiredItem.Value;
 
-            int availableCount = inventory.GetItemCount(requiredItemData);
+            int availableCount = _inventory.GetItemCount(requiredItemData);
 
             if (availableCount < requiredCount)
             {
@@ -79,7 +78,7 @@ public class Recipe : MonoBehaviour
             ItemData requiredItemData = requiredItem.Key;
             int requiredCount = requiredItem.Value;
 
-            inventory.RemoveItem(requiredItemData, requiredCount);
+            _inventory.RemoveItem(requiredItemData, requiredCount);
         }
     }
 
@@ -98,60 +97,45 @@ public class Recipe : MonoBehaviour
         else
         {
             Managers.UI.ShowPopupUI<UIRecipe>();
-
-            //Á¦ÀÛÇÏ·Á¸é ¾Æ·¡¿Í °°ÀÌ È£Ãâ
-            MakePickAxe();
         }
     }
 
+    //private void MakeItem(string itemName)
+    //{
+    //    TryCraftItem(Managers.Resource.GetCache<ItemData>($"{itemName}ItemData.data"), Managers.Data.recipeData[itemName]);
+    //}
 
-    private void MakeAxe()
+    private void MakeItem(string itemName)
     {
-        Dictionary<ItemData, int> requiredItemsForAxe = new Dictionary<ItemData, int>
+        DataManager.Recipe recipe = Managers.Data.recipeDataList.Find(r => r.itemName == itemName);
+
+        if (recipe != null)
         {
-            { Managers.Resource.GetCache<ItemData>("LogItemData.data"), 1 },
-            { Managers.Resource.GetCache<ItemData>("StoneItemData.data"), 5 },
-            //{ Resources.Load<ScriptableObject>("SO/LogItemData") as ItemData, 1 },
-            //{ Resources.Load<ScriptableObject>("SO/StoneItemData") as ItemData, 5 }
-        };
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("AxeItemData.data"), requiredItemsForAxe);
-        //TryCraftItem(Resources.Load<ScriptableObject>("SO/AxeItemData") as ItemData, requiredItemsForAxe);
+            TryCraftItem(Managers.Resource.GetCache<ItemData>($"{itemName}ItemData.data"), ToDictionary(recipe.requiredItems));
+        }
+        else
+        {
+            Debug.LogError($"ë ˆì‹œí”¼ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤: {itemName}");
+        }
     }
 
-    private void MakePickAxe()
+    public Dictionary<ItemData, int> ToDictionary(List<Ingredient> ingredients)
     {
-        Dictionary<ItemData, int> requiredItemsForPickAxe = new Dictionary<ItemData, int>
+        Dictionary<ItemData, int> result = new Dictionary<ItemData, int>();
+        foreach (Ingredient ingredient in ingredients)
         {
-            { Managers.Resource.GetCache<ItemData>("LogItemData.data"), 1 },
-            { Managers.Resource.GetCache<ItemData>("StoneItemData.data"), 3 },
-            //{ Resources.Load<ScriptableObject>("SO/LogItemData") as ItemData, 1 },
-            //{ Resources.Load<ScriptableObject>("SO/StoneItemData") as ItemData, 3 }
-        };
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("PickItemData.data"), requiredItemsForPickAxe);
-        //TryCraftItem(Resources.Load<ScriptableObject>("SO/PickItemData") as ItemData, requiredItemsForPickAxe);
+            result[ingredient.item] = ingredient.quantity;
+        }
+        return result;
     }
 
-    private void MakeSword() // ³ª¹« ¸·´ë±â ÇÊ¿ä
-    {
-        Dictionary<ItemData, int> requiredItemsForSword = new Dictionary<ItemData, int>
-        {
-            { Managers.Resource.GetCache<ItemData>("LogItemData.data"), 1 },
-            { Managers.Resource.GetCache<ItemData>("StoneItemData.data"), 3 },
-            //{ Resources.Load<ScriptableObject>("SO/LogItemData") as ItemData, 1 },
-            //{ Resources.Load<ScriptableObject>("SO/StoneItemData") as ItemData, 1 }
-        };
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("SwordItemData.data"), requiredItemsForSword);
-        //TryCraftItem(Resources.Load<ScriptableObject>("SO/SwordItemData") as ItemData, requiredItemsForSword);
-    }
 
-    private void MakeCraftingTable() // Á¦ÀÛ´ë ½ºÅ©¸³ÅÍºí ¿ÀºêÁ§Æ® Ãß°¡ ÇÊ¿ä
-    {
-        Dictionary<ItemData, int> requiredItemsForSword = new Dictionary<ItemData, int>
-        {
-            { Managers.Resource.GetCache<ItemData>("LogItemData.data"), 1 },
-            //{ Resources.Load<ScriptableObject>("SO/LogItemData") as ItemData, 4 }
-        };
-        TryCraftItem(Managers.Resource.GetCache<ItemData>("CraftingTableData.data"), requiredItemsForSword);
-        //TryCraftItem(Resources.Load<ScriptableObject>("SO/CraftingTableData") as ItemData, requiredItemsForSword);
-    }
+    public void MakeAxe() => MakeItem("Axe");
+    public void MakePickAxe() => MakeItem("PickAxe");
+    public void MakeSword() => MakeItem("Sword");
+    public void MakeCraftingTable() => MakeItem("CraftingTable");
+    public void MakeStick() => MakeItem("Stick");
+
+
+    public void MakeGreatsword() => MakeItem("Greatsword");
 }

@@ -47,7 +47,7 @@ public class InventorySystem : MonoBehaviour
 
     private void AddDefaultToolAsTest()
     {
-        var itemData = Managers.Resource.GetCache<ItemData>("PickItemData.data");
+        var itemData = Managers.Resource.GetCache<ItemData>("PickAxeItemData.data");
         AddItem(itemData, 1);
 
         itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
@@ -62,20 +62,11 @@ public class InventorySystem : MonoBehaviour
         itemData = Managers.Resource.GetCache<ItemData>("GreatswordItemData.data");
         AddItem(itemData, 1);
 
-        //var itemData = Resources.Load<ScriptableObject>("SO/PickItemData") as ItemData;
-        //AddItem(itemData, 1);
-
-        //itemData = Resources.Load<ScriptableObject>("SO/AxeItemData") as ItemData;
-        //AddItem(itemData, 1);
-
-        //itemData = Resources.Load<ScriptableObject>("SO/SwordItemData") as ItemData;
-        //AddItem(itemData, 1);
-
-        //itemData = Resources.Load<ScriptableObject>("SO/GreatswordItemData") as ItemData;
-        //AddItem(itemData, 1);
-
-        //itemData = Resources.Load<ScriptableObject>("SO/EmptyHandItemData") as ItemData;
-        //AddItem(itemData, 1);
+        // ê³ ê¸‰ ë ˆì‹œí”¼ í…ŒìŠ¤íŠ¸ìš© ì¬ë£Œ
+        itemData = Managers.Resource.GetCache<ItemData>("LowStoneItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data");
+        AddItem(itemData, 1);
     }
 
     public void AddItem(ItemData itemData, int quantity)
@@ -109,7 +100,7 @@ public class InventorySystem : MonoBehaviour
 
     private bool FindEmptyIndex(out int index)
     {
-        // FindItem »ç¿ëÇØ¼­ ±¸ÇöÇÒ ¼ö ÀÖÀ»Áöµµ
+        // FindItem ì‚¬ìš©í•´ì„œ êµ¬í˜„í•  ìˆ˜ ìˆì„ì§€ë„
         for(int i = 0; i < slots.Length; ++i)
         {
             if (slots[i].itemData == null)
@@ -155,7 +146,7 @@ public class InventorySystem : MonoBehaviour
     }
 
 
-    // Item Control // >> ´Ù¸¥ Å¬·¡½º·Î »©³¾ ¼ö ÀÖÀ»·Á³ª
+    // Item Control // >> ë‹¤ë¥¸ í´ë˜ìŠ¤ë¡œ ë¹¼ë‚¼ ìˆ˜ ìˆì„ë ¤ë‚˜
     public void DestroyItemByIndex(QuickSlot quickSlot)
     {
         int index = quickSlot.targetIndex;
@@ -179,7 +170,7 @@ public class InventorySystem : MonoBehaviour
         OnUpdated?.Invoke(index, slots[index]);
     }
 
-    // ¹Ø¿¡ 2°³ ÇÏ³ª·Î ÇÕÃÄµµ µÉµí?
+    // ë°‘ì— 2ê°œ í•˜ë‚˜ë¡œ í•©ì³ë„ ë ë“¯?
     public void OnItemRegisted(QuickSlot slot)
     {
         int index = slot.targetIndex;
@@ -193,7 +184,7 @@ public class InventorySystem : MonoBehaviour
         slots[index].SetRegist(slot.itemSlot.registed);
         OnUpdated?.Invoke(index, slots[index]);
     }
-    // ¿©±â±îÁö
+    // ì—¬ê¸°ê¹Œì§€
 
     public void UseItemByIndex(int index)
     {
@@ -218,7 +209,7 @@ public class InventorySystem : MonoBehaviour
         OnUpdated?.Invoke(index, slots[index]);
     }
 
-    // Æ¯Á¤ ¾ÆÀÌÅÛÀÇ °³¼ö ¹İÈ¯
+    // íŠ¹ì • ì•„ì´í…œì˜ ê°œìˆ˜ ë°˜í™˜
     public int GetItemCount(ItemData itemData)
     {
         int count = 0;
@@ -238,21 +229,29 @@ public class InventorySystem : MonoBehaviour
         {
             if (slots[i].itemData == itemData)
             {
-                // ÇØ´ç ¾ÆÀÌÅÛÀÇ ¼ö·®À» °¨¼Ò½ÃÅ°°í, ¼ö·®ÀÌ 0 ÀÌÇÏ·Î ¶³¾îÁö¸é ÇØ´ç ½½·ÔÀ» ºñ¿ò
+                // í•´ë‹¹ ì•„ì´í…œì˜ ìˆ˜ëŸ‰ì„ ê°ì†Œì‹œí‚¤ê³ , ìˆ˜ëŸ‰ì´ 0 ì´í•˜ë¡œ ë–¨ì–´ì§€ë©´ í•´ë‹¹ ìŠ¬ë¡¯ì„ ë¹„ì›€
                 slots[i].SubtractQuantity(quantity);
                 if (slots[i].quantity <= 0)
                 {
                     slots[i].Clear();
+                    //OnUpdated?.Invoke(i, slots[i]);
                 }
+                OnUpdated?.Invoke(i, slots[i]);
                 return;
             }
         }
-        Debug.Log($"¾ÆÀÌÅÛ ({itemData.name})ÀÌ ÀÎº¥Åä¸®¿¡ ¾ø¾î¿ä.");
+        Debug.Log($"ì•„ì´í…œ ({itemData.name})ì´ ì¸ë²¤í† ë¦¬ì— ì—†ì–´ìš”.");
     }
-
     public bool IsFull()
     {
-        // ÀÎº¥Åä¸® ½½·ÔÀÌ ¸ğµÎ Ã¡´ÂÁö È®ÀÎ
-        return slots.All(slot => slot.itemData != null && slot.quantity == ItemData.maxStackCount);
+        foreach (var slot in slots)
+        {
+            // ìŠ¬ë¡¯ì´ ë¹„ì–´ìˆê±°ë‚˜, ì•„ì´í…œì´ ì´ë¯¸ ì¡´ì¬í•˜ë©´ì„œ ìˆ˜ëŸ‰ì´ ìµœëŒ€ ìŠ¤íƒ ìˆ˜ì— ë„ë‹¬í•˜ì§€ ì•Šì€ ê²½ìš°
+            if (slot.itemData == null || (slot.itemData.stackable && slot.quantity < ItemData.maxStackCount))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IAttack, IHit
 {
     [field: Header("Animations")]
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
@@ -66,13 +66,23 @@ public class Player : MonoBehaviour
         _stateMachine.PhysicsUpdate();
     }
 
+    public void Attack(IHit target)
+    {
+
+    }
+
+    public void Hit(IAttack attacker, float damage)
+    {
+
+    }
+
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        //Gizmos.color = Color.red;
         
-        if(EquippedItem != null)
-        {
-            Gizmos.DrawWireSphere(transform.position, ((ToolItemData)EquippedItem.itemData).range);
-        }        
+        //if(EquippedItem != null)
+        //{
+        //    Gizmos.DrawWireSphere(transform.position, ((ToolItemData)EquippedItem.itemData).range);
+        //}        
     }
 }
