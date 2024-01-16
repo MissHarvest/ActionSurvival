@@ -26,6 +26,8 @@ public class Chunk
         get => _chunkObject.activeSelf;
         set { if (_chunkObject.activeSelf != value) _chunkObject.SetActive(value); }
     }
+    public Mesh Mesh => _meshFilter.sharedMesh;
+    public Matrix4x4 TransformMatrix => _chunkObject.transform.localToWorldMatrix;
 
     public Chunk(ChunkCoord coord, World world)
     {
@@ -39,7 +41,7 @@ public class Chunk
 
         _meshRenderer.material = world.WorldData.Material;
         _chunkObject.transform.SetParent(world.transform);
-        //_chunkObject.transform.position = new(coord.x, 0f, coord.z);
+        _chunkObject.transform.position = new(0, -0.5f, 0);
 
         CreateMeshData();
         CreateMesh();
