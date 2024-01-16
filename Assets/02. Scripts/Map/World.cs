@@ -11,6 +11,7 @@ public class World : MonoBehaviour
 {
     private Transform _player;
     private bool _isDone = false;
+    private WorldNavMeshBuilder _navMeshBuilder;
 
     private Dictionary<ChunkCoord, Chunk> _chunkMap = new(comparer: new ChunkCoord());
     private Dictionary<Vector3Int, BlockType> _voxelMap = new();
@@ -25,15 +26,7 @@ public class World : MonoBehaviour
     public VoxelData VoxelData { get; private set; }
 
     public Dictionary<Vector3Int, BlockType> VoxelMap => _voxelMap;
-
-    //private void Start()
-    //{
-    //    GenerateWorldAsync();
-    //    PopulateVoxelMap();
-    //    GenerateChunk();
-    //    CreateMeshData();
-    //    CreateMesh();
-    //}
+    public WorldNavMeshBuilder NavMeshBuilder => _navMeshBuilder;
 
     private void Update()
     {
@@ -45,7 +38,6 @@ public class World : MonoBehaviour
         _currentPlayerCoord = _player.position;
         _currentPlayerCoord.x /= VoxelData.ChunkSizeX;
         _currentPlayerCoord.z /= VoxelData.ChunkSizeZ;
-        Debug.Log(_currentPlayerCoord);
 
         if (_prevPlayerCoord != _currentPlayerCoord)
             UpdateChunksInViewRange();
@@ -54,7 +46,7 @@ public class World : MonoBehaviour
     }
 
     /// <summary> 시야범위 내의 청크 생성 </summary>
-    private void UpdateChunksInViewRange()
+    public void UpdateChunksInViewRange()
     {
         _prevActiveChunks = _currentActiveChunks;
         _currentActiveChunks = new();
@@ -68,6 +60,10 @@ public class World : MonoBehaviour
                     _currentActiveChunks.Add(currentChunk);
                     currentChunk.SetActive(true);
                     _prevActiveChunks.Remove(currentChunk);
+
+                    // NavMesh Source 전달 후 업데이트
+                    _navMeshBuilder.UpdateChunkSources(_currentActiveChunks);
+                    _navMeshBuilder.UpdateNavMesh();
                 }
             }
         }
@@ -82,7 +78,7 @@ public class World : MonoBehaviour
         int SizeX = WorldData.WorldSize / 2;
         int SizeZ = WorldData.WorldSize / 2;
 
-        for (int y = 0; y < VoxelData.ChunkSizeY; y++)
+        for (int y = 0; y < 1; y++)
         {
             for (int x = -SizeX; x < SizeX; x++)
             {
@@ -92,6 +88,23 @@ public class World : MonoBehaviour
                 }
             }
         }
+
+        // TEST: 볼록한 지형 만들어보기
+        for (int x = 10; x < 20; x++)
+        {
+            for (int z = 10; z < 20; z++)
+            {
+                int maxHeight = UnityEngine.Random.Range(2, 5);
+                for (int y = 1; y < maxHeight; y++)
+                {
+                    if (y == maxHeight - 1)
+                        _voxelMap.TryAdd(new(x, y, z), WorldData.BlockTypes[0]);
+                    else
+                        _voxelMap.TryAdd(new(x, y, z), WorldData.BlockTypes[1]);
+                }
+            }
+        }
+
         yield return null;
     }
 
@@ -141,12 +154,22 @@ public class World : MonoBehaviour
         yield return StartCoroutine(PopulateVoxelMap());
         progressCallback?.Invoke(0.5f, "청크 생성 중...");
         yield return StartCoroutine(GenerateChunk());
-        //progressCallback?.Invoke(0.75f, "메시 콜라이더 생성 중...");
-        //yield return StartCoroutine(CreateMeshData());
-        //CreateMesh();
         progressCallback?.Invoke(1f, "완료");
         completedCallback?.Invoke();
         _isDone = true;
+    }
+
+    public void InitializeWorldNavMeshBuilder()
+    {
+        StartCoroutine(InitializeWorldNavMeshBuilderCoroutine());
+    }
+
+    private IEnumerator InitializeWorldNavMeshBuilderCoroutine()
+    {
+        _navMeshBuilder = new GameObject(nameof(WorldNavMeshBuilder)).AddComponent<WorldNavMeshBuilder>();
+        _navMeshBuilder.IsActive = false; // 주기적으로 업데이트 X. 일단은 청크 정보가 바뀔 때마다 업데이트합니다.
         UpdateChunksInViewRange();
+        yield return null;
+        yield return _navMeshBuilder.UpdateNavMesh();
     }
 }

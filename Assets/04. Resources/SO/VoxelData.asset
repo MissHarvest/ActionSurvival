@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: VoxelData
   m_EditorClassIdentifier: 
   <ChunkSizeX>k__BackingField: 8
-  <ChunkSizeY>k__BackingField: 1
+  <ChunkSizeY>k__BackingField: 20
   <ChunkSizeZ>k__BackingField: 8
   <TextureAtlasWidth>k__BackingField: 9
   <TextureAtlasHeight>k__BackingField: 10
