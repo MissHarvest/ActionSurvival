@@ -14,6 +14,8 @@ public class AnimalStateMachine : StateMachine
     public AnimalFleeState FleeState { get; }
     public AnimalDieState DieState { get; }
 
+    public GameObject Attacker { get; set; }
+
     public AnimalStateMachine(Animal animal)
     {
         this.Animal = animal;

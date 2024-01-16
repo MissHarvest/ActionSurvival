@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AnimalIdleState : AnimalBaseState
 {
+    private Coroutine _changeStateCoroutine;
     public AnimalIdleState(AnimalStateMachine stateMachine) :base(stateMachine)
     {
 
@@ -14,19 +15,20 @@ public class AnimalIdleState : AnimalBaseState
         _stateMachine.MovementSpeedModifier = 0.0f;
         base.Enter();
         StartAnimation(_stateMachine.Animal.AnimationData.IdleParameterHash);
-        CoroutineManagement.Instance.StartCoroutine(MoveAfterSec(3.0f));
+        _changeStateCoroutine = CoroutineManagement.Instance.StartCoroutine(MoveAfterSec(3.0f));
     }
 
     public override void Exit()
     {
         base.Exit();
+        CoroutineManagement.Instance.StopCoroutine(_changeStateCoroutine);
+        _changeStateCoroutine = null;
         StopAnimation(_stateMachine.Animal.AnimationData.IdleParameterHash);
     }
 
     IEnumerator MoveAfterSec(float sec)
     {
         yield return new WaitForSeconds(sec);
-        if (_stateMachine.Animal.Dead == false)
-            _stateMachine.ChangeState(_stateMachine.PatrolState);
+        _stateMachine.ChangeState(_stateMachine.PatrolState);
     }
 }
