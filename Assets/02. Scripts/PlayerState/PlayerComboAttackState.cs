@@ -79,6 +79,10 @@ public class PlayerComboAttackState : PlayerAttackState
                 _stateMachine.ComboIndex = _attackInfoData.ComboStateIndex;
                 _stateMachine.ChangeState(_stateMachine.ComboAttackState);
             }
+            else
+            {
+                _stateMachine.ChangeState(_stateMachine.IdleState);
+            }
         }
     }
 

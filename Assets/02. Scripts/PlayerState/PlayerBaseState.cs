@@ -154,11 +154,11 @@ public class PlayerBaseState : IState
         if (_stateMachine.Player.EquippedItem == null) return;
 
         var tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
-        if (tool.isWeapon)
-        {
-            // _stateMachine.ChangeState(_stateMachine.AttackState);
-        }
-        else
+        //if (tool.isWeapon)
+        //{
+        //    _stateMachine.ChangeState(_stateMachine.AttackState);
+        //}
+        if (tool.isWeapon == false)
         {
             _stateMachine.ChangeState(_stateMachine.InteractState);
         }        

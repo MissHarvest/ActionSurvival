@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,7 +31,7 @@ public class PlayerGroundedState : PlayerBaseState
 
         if(_stateMachine.IsAttacking)
         {
-            // OnAttack();
+            OnAttack();
             return;
         }
     }
@@ -60,5 +62,11 @@ public class PlayerGroundedState : PlayerBaseState
     protected virtual void OnMove()
     {
         _stateMachine.ChangeState(_stateMachine.WalkState);
+    }
+    protected virtual void OnAttack()
+    {
+        // idle는 멈추는데 TwoHanded...idle는 살아 있어서 버그가 생긴다.
+        StopAnimation(_stateMachine.Player.AnimationData.EquipTwoHandedToolIdleParameterHash);
+        _stateMachine.ChangeState(_stateMachine.ComboAttackState);
     }
 }
