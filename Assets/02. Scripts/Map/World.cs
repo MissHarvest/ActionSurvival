@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 // 2024-01-12 WJY
@@ -19,12 +21,9 @@ public class World : MonoBehaviour
     private ChunkCoord _currentPlayerCoord;
     private ChunkCoord _prevPlayerCoord;
 
-    private List<Vector3> _vertices = new();
-    private List<int> _triangles = new();
-    private int _vertexIdx = 0;
-    private MeshCollider _meshCollider;
-
     public WorldData WorldData { get; private set; }
+    public VoxelData VoxelData { get; private set; }
+
     public Dictionary<Vector3Int, BlockType> VoxelMap => _voxelMap;
 
     //private void Start()
@@ -44,6 +43,9 @@ public class World : MonoBehaviour
             _player = Managers.Game.Player.transform;
 
         _currentPlayerCoord = _player.position;
+        _currentPlayerCoord.x /= VoxelData.ChunkSizeX;
+        _currentPlayerCoord.z /= VoxelData.ChunkSizeZ;
+        Debug.Log(_currentPlayerCoord);
 
         if (_prevPlayerCoord != _currentPlayerCoord)
             UpdateChunksInViewRange();
@@ -57,9 +59,9 @@ public class World : MonoBehaviour
         _prevActiveChunks = _currentActiveChunks;
         _currentActiveChunks = new();
 
-        for (int x = -WorldData.ViewRange; x < WorldData.ViewRange; x++)
+        for (int x = -WorldData.ViewChunkRange; x <= WorldData.ViewChunkRange; x++)
         {
-            for (int z = -WorldData.ViewRange; z < WorldData.ViewRange; z++)
+            for (int z = -WorldData.ViewChunkRange; z <= WorldData.ViewChunkRange; z++)
             {
                 if (_chunkMap.TryGetValue(_currentPlayerCoord + new ChunkCoord(x, z), out var currentChunk))
                 {
@@ -77,11 +79,14 @@ public class World : MonoBehaviour
     // TEST: 일단 Grass 블록으로 평지 만들기
     private IEnumerator PopulateVoxelMap()
     {
+        int SizeX = WorldData.WorldSize / 2;
+        int SizeZ = WorldData.WorldSize / 2;
+
         for (int y = 0; y < VoxelData.ChunkSizeY; y++)
         {
-            for (int x = -WorldData.WorldSize / 2; x < WorldData.WorldSize / 2; x++)
+            for (int x = -SizeX; x < SizeX; x++)
             {
-                for (int z = -WorldData.WorldSize / 2; z < WorldData.WorldSize / 2; z++)
+                for (int z = -SizeZ; z < SizeZ; z++)
                 {
                     _voxelMap.TryAdd(new(x, y, z), WorldData.BlockTypes[0]);
                 }
@@ -99,42 +104,18 @@ public class World : MonoBehaviour
 
     private IEnumerator GenerateChunk()
     {
-        for (int x = -WorldData.WorldSize / 2; x < WorldData.WorldSize / 2; x += VoxelData.ChunkSizeX)
+        int SizeX = WorldData.WorldSize / VoxelData.ChunkSizeX / 2;
+        int SizeZ = WorldData.WorldSize / VoxelData.ChunkSizeZ / 2;
+
+        for (int x = -SizeX; x <= SizeX; x++)
         {
-            for (int z = -WorldData.WorldSize / 2; z < WorldData.WorldSize / 2; z += VoxelData.ChunkSizeZ)
+            for (int z = -SizeZ; z <= SizeZ; z++)
             {
                 var chunk = CreateChunk(new(x, z));
                 chunk.IsActive = false;
-                yield return null;
             }
         }
-    }
-
-    private IEnumerator CreateMeshData()
-    {
-        foreach (var pos in _voxelMap.Keys)
-            AddVoxelData(pos);
         yield return null;
-    }
-
-    private void AddVoxelData(Vector3Int pos)
-    {
-        for (int i = 0; i < 6; i++)
-        {
-            if (CheckVoxel(pos + VoxelData.faceChecks[i]))
-                continue;
-
-            for (int j = 0; j < 4; j++)
-                _vertices.Add(pos + VoxelData.voxelVerts[VoxelData.voxelTris[i][j]]);
-
-            _triangles.Add(_vertexIdx);
-            _triangles.Add(_vertexIdx + 1);
-            _triangles.Add(_vertexIdx + 2);
-            _triangles.Add(_vertexIdx + 2);
-            _triangles.Add(_vertexIdx + 1);
-            _triangles.Add(_vertexIdx + 3);
-            _vertexIdx += 4;
-        }
     }
 
     public bool CheckVoxel(Vector3 pos)
@@ -147,23 +128,10 @@ public class World : MonoBehaviour
             return VoxelMap[intPos].isSolid;
     }
 
-    private void CreateMesh()
-    {
-        Mesh mesh = new()
-        {
-            vertices = _vertices.ToArray(),
-            triangles = _triangles.ToArray(),
-        };
-        mesh.RecalculateNormals();
-        Debug.Log(_vertices.Count);
-        Debug.Log(_triangles.Count);
-        _meshCollider = gameObject.AddComponent<MeshCollider>();
-        _meshCollider.sharedMesh = mesh;
-    }
-
     public void GenerateWorldAsync(Action<float, string> progressCallback = null, Action completedCallback = null)
     {
         WorldData = Managers.Resource.GetCache<WorldData>("WorldData.data");
+        VoxelData = Managers.Resource.GetCache<VoxelData>("VoxelData.data");
         StartCoroutine(GenerateCoroutine(progressCallback, completedCallback));
     }
 
