@@ -28,32 +28,11 @@ public class UIRecipeItemSlot : UIBase
     private void Awake()
     {
         Initialize();
-
-        //// 요리 클릭 시 UICookingConfirm 판넬 띄움
-        //gameObject.BindEvent((x) =>
-        //{
-        //    if (Icon.gameObject.activeSelf)
-        //    {  
-        //        var cookingConfirmPopup = Managers.UI.ShowPopupUI<UICookingConfirm>();
-        //        int index = GetIndex(); // 선택한 UIRecipeItemSlot의 인덱스 가져오기
-        //        _index = index;
-        //        // 선택한 레시피의 재료를 가져와서 UICookingConfirm에 전달
-        //        cookingConfirmPopup.SetIngredients(Managers.Data.cookingDataList[index].requiredItems);
-                
-        //        var cookingPanel = Managers.UI.FindPopupUI<UICooking>();
-        //        cookingPanel?.gameObject.SetActive(false);
-        //    }
-        //});
     }
 
     public void SetIndex(int index)
     {
         _index = index;
-    }
-
-    public int GetIndex()
-    {
-        return _index;
     }
 
     public virtual void Set(ItemSlot itemSlot)

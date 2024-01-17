@@ -23,6 +23,33 @@ public class Cooking : MonoBehaviour
         Debug.Log("Cooking Start");
     }
 
+    public void ConsumeIngredients(List<RecipeSO.Ingredient> ingredients)
+    {
+        foreach (var ingredient in ingredients)
+        {
+            ItemData requiredItemData = ingredient.item;
+            int requiredCount = ingredient.quantity;
+
+            Managers.Game.Player.Inventory.RemoveItem(requiredItemData, requiredCount);
+        }
+    }
+
+    public bool CheckIngredients(List<RecipeSO.Ingredient> ingredients)
+    {
+        foreach (var ingredient in ingredients)
+        {
+            int requiredQuantity = ingredient.quantity;
+            int availableQuantity = Managers.Game.Player.Inventory.GetItemCount(ingredient.item);
+
+            // 재료가 부족하면 false 반환
+            if (availableQuantity < requiredQuantity)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void OnCookingShowAndHide(InputAction.CallbackContext context)
     {
         if (_cookingUI == null)

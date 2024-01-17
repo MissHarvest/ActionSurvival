@@ -55,13 +55,12 @@ public class UICooking : UIPopup
                 if (recipeSlotGO.activeSelf)
                 {
                     var cookingConfirmPopup = Managers.UI.ShowPopupUI<UICookingConfirm>();
-                    //recipeSlot.Index = recipeSlot.GetIndex(); // 선택한 UIRecipeItemSlot의 인덱스 가져오기
-                    //_index = index;
+
                     // 선택한 레시피의 재료를 가져와서 UICookingConfirm에 전달
-                    cookingConfirmPopup.SetIngredients(Managers.Data.cookingDataList[recipeSlot.Index].requiredItems);
-                    Debug.Log("재료 인덱스는 " + recipeSlot.Index);
-                    var cookingPanel = Managers.UI.FindPopupUI<UICooking>();
-                    cookingPanel?.gameObject.SetActive(false);
+                    cookingConfirmPopup.SetIngredients(Managers.Data.cookingDataList[recipeSlot.Index].requiredItems, recipeSlot.Index);
+                    //Debug.Log("재료 인덱스는 " + recipeSlot.Index);
+
+                    gameObject.SetActive(false);
                 }
             });
 
