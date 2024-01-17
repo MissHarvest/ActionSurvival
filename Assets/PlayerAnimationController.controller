@@ -652,28 +652,28 @@ AnimatorStateMachine:
   m_EntryTransitions:
   - {fileID: -689960670246040182}
   m_StateMachineTransitions:
-  - first: {fileID: -9042788560780870431}
-    second:
-    - {fileID: 3073721666966401492}
   - first: {fileID: -6496443284698962254}
     second:
     - {fileID: 6330965939969774535}
     - {fileID: 2678402980887876940}
     - {fileID: 5909768873285881235}
-  - first: {fileID: -8024538078851108307}
+  - first: {fileID: -156304739758523850}
     second:
-    - {fileID: -7903042285299692020}
+    - {fileID: -78209632468210562}
   - first: {fileID: 3137354202516338650}
     second:
     - {fileID: 5610323722881144909}
     - {fileID: 3336264836392965528}
-  - first: {fileID: -156304739758523850}
+  - first: {fileID: -8024538078851108307}
     second:
-    - {fileID: -78209632468210562}
+    - {fileID: -7903042285299692020}
   - first: {fileID: -9303126409443890}
     second:
     - {fileID: 5416819117267067944}
     - {fileID: -200199024100722204}
+  - first: {fileID: -9042788560780870431}
+    second:
+    - {fileID: 3073721666966401492}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
@@ -1022,6 +1022,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: EquipTwinToolRun
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: '@Ground'
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
