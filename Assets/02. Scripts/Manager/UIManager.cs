@@ -80,6 +80,20 @@ public class UIManager
 
     #region Popup UI
 
+    public T FindPopupUI<T>(string name = null) where T : UIPopup
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        if (_popups.TryGetValue(name, out GameObject go))
+        {
+            return go.GetComponent<T>();
+        }
+
+        return null;
+    }
+
+
     public T ShowPopupUI<T>(string name = null) where T : UIPopup
     {
         if (string.IsNullOrEmpty(name))

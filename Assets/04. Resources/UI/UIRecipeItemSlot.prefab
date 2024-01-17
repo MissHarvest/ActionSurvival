@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 6417837110123386826}
   - component: {fileID: 5750244046765319981}
   - component: {fileID: -3839159757853674169}
+  - component: {fileID: 762632346957567325}
   m_Layer: 5
   m_Name: UIRecipeItemSlot
   m_TagString: Untagged
@@ -167,6 +168,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2435fead94033294ea71f42c1033a7a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &762632346957567325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252738167873772475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78021979e2bc26e489d4f1baa7893539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6543781199304131749
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2613240739746141951
 RectTransform:
   m_ObjectHideFlags: 0
