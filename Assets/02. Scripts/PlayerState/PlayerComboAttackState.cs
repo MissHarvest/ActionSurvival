@@ -59,6 +59,7 @@ public class PlayerComboAttackState : PlayerAttackState
 
     public override void Update()
     {
+        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
         base.Update();
 
         ForceMove();
@@ -81,7 +82,14 @@ public class PlayerComboAttackState : PlayerAttackState
             }
             else
             {
-                _stateMachine.ChangeState(_stateMachine.IdleState);
+                if (toolItemDate.isTwoHandedTool == true)
+                {
+                    _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
+                }
+                else if (toolItemDate.isTwinTool == true)
+                {
+                    _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
+                }
             }
         }
     }

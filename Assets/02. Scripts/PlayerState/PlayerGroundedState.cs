@@ -10,7 +10,7 @@ public class PlayerGroundedState : PlayerBaseState
 {
     public PlayerGroundedState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-
+        Managers.Game.Player.ToolSystem.OnEquip += OnEquipTwoHandedTool;
     }
 
     public override void Enter()
@@ -49,24 +49,74 @@ public class PlayerGroundedState : PlayerBaseState
 
     protected override void OnMovementCanceled(InputAction.CallbackContext context)
     {
-        if(_stateMachine.MovementInput == Vector2.zero)
+        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+
+        if (_stateMachine.MovementInput == Vector2.zero)
         {
             return;
         }
 
-        _stateMachine.ChangeState(_stateMachine.IdleState);
+        if (toolItemDate.isTwoHandedTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
+        }
+        else if (toolItemDate.isTwinTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
+        }
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+        }
 
         base.OnMovementCanceled(context);
     }
 
     protected virtual void OnMove()
     {
-        _stateMachine.ChangeState(_stateMachine.WalkState);
+        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+        Debug.Log(toolItemDate.name);
+
+        if (toolItemDate.isTwoHandedTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwoHandedToolWalkState);
+        }
+        else if (toolItemDate.isTwinTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwinToolWalkState);
+        }
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.WalkState);
+        }
     }
+
     protected virtual void OnAttack()
     {
-        // idle는 멈추는데 TwoHanded...idle는 살아 있어서 버그가 생긴다.
-        StopAnimation(_stateMachine.Player.AnimationData.EquipTwoHandedToolIdleParameterHash);
         _stateMachine.ChangeState(_stateMachine.ComboAttackState);
+    }
+
+    public void OnEquipTwoHandedTool(QuickSlot quickSlot)
+    {
+        // QuickSlot에 저장된 ItemData 값을 매개 변수로 받아서 TwoHandedTool에 저장
+        ItemData TwoHandedTool = quickSlot.itemSlot.itemData;
+        // ItemData에 종속된 class ToolItemData에 bool isTwoHandedTool 변수를 참조하기 위하여 형변환
+        ToolItemData toolItemDate = (ToolItemData)TwoHandedTool;
+
+        // ToolSystem의 event OnEquip에 구독하여 아래의 조건문을 이용하여 애니메이션을 켜고 끈다.
+        if (toolItemDate.isTwoHandedTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
+            Debug.Log("두 손 애니메이션 시작");
+        }
+        else if (toolItemDate.isTwinTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
+            Debug.Log("한 쌍 애니메이션 시작");
+        }
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+        }
     }
 }

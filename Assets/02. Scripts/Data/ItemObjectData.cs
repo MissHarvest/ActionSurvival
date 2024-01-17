@@ -8,30 +8,41 @@ public class ItemObjectData : MonoBehaviour
     // lg
     public ToolItemData itemData;
     public bool onEquipTwoHandedTool = false;
+    public bool onEquipTwinTool = false;
 
-    public void OnEquipTwoHandedTool()
+    public void OnEquipTypeOfTool()
     {
-        // ¿©±â¼­ Ä³¸¯ÅÍ°¡ ÀåÂø ÁßÀÎÁö °Ë»çÇÏ¸é ÁÁÀ» °Í °°Àºµğ..
+        // ì—¬ê¸°ì„œ ìºë¦­í„°ê°€ ì¥ì°© ì¤‘ì¸ì§€ ê²€ì‚¬í•˜ë©´ ì¢‹ì„ ê²ƒ ê°™ì€ë””..
         if (itemData.isTwoHandedTool == true)
         {
-            Debug.Log("¾ç ¼Õ µµ±¸¸¦ ÀåÂøÇÏ¿´½À´Ï´Ù.");
+            Debug.Log("ì–‘ ì† ë„êµ¬ë¥¼ ì¥ì°©í•˜ì˜€ìŠµë‹ˆë‹¤.");
             onEquipTwoHandedTool = true;
         }
-        else if (itemData.isTwoHandedTool == false)
+        else if (itemData.isTwinTool == true)
         {
-            Debug.Log("ÇÑ ¼Õ µµ±¸¸¦ ÀåÂøÇÏ¿´½À´Ï´Ù.");            
+            Debug.Log("í•œ ìŒ ë„êµ¬ë¥¼ ì¥ì°©í•˜ì˜€ìŠµë‹ˆë‹¤.");
+            onEquipTwinTool = true;
+        }
+        else
+        {
+            Debug.Log("í•œ ì† ë„êµ¬ë¥¼ ì¥ì°©í•˜ì˜€ìŠµë‹ˆë‹¤.");
         }
     }
-    public void OnUnEquipTwoHandedTool()
+    public void OnUnEquipTypeOfTool()
     {
         if (itemData.isTwoHandedTool == true)
         {
-            Debug.Log("¾ç ¼Õ µµ±¸¸¦ ÇØÁ¦ÇÏ¿´½À´Ï´Ù.");
+            Debug.Log("ì–‘ ì† ë„êµ¬ë¥¼ í•´ì œí•˜ì˜€ìŠµë‹ˆë‹¤.");
             onEquipTwoHandedTool = false;
         }
-        else if (itemData.isTwoHandedTool == false)
+        else if (itemData.isTwinTool == true)
         {
-            Debug.Log("ÇÑ ¼Õ µµ±¸¸¦ ÇØÁ¦ÇÏ¿´½À´Ï´Ù.");
+            Debug.Log("í•œ ìŒ ë„êµ¬ë¥¼ í•´ì œí•˜ì˜€ìŠµë‹ˆë‹¤.");
+            onEquipTwinTool = false;
+        }
+        else
+        {
+            Debug.Log("í•œ ì† ë„êµ¬ë¥¼ í•´ì œí•˜ì˜€ìŠµë‹ˆë‹¤.");
         }
     }
 }

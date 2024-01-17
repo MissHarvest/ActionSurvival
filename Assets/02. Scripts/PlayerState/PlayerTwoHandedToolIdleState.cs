@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerIdleState : PlayerGroundedState
+public class PlayerTwoHandedToolIdleState : PlayerGroundedState
 {
-    public PlayerIdleState(PlayerStateMachine playerStateMachine) :base(playerStateMachine)
+    public PlayerTwoHandedToolIdleState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
 
     }
@@ -13,13 +13,13 @@ public class PlayerIdleState : PlayerGroundedState
     {
         _stateMachine.MovementSpeedModifier = 0f;
         base.Enter();
-        StartAnimation(_stateMachine.Player.AnimationData.IdleParameterHash);
+        StartAnimation(_stateMachine.Player.AnimationData.EquipTwoHandedToolIdleParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(_stateMachine.Player.AnimationData.IdleParameterHash);
+        StopAnimation(_stateMachine.Player.AnimationData.EquipTwoHandedToolIdleParameterHash);
     }
 
     public override void Update()
@@ -30,6 +30,6 @@ public class PlayerIdleState : PlayerGroundedState
         {
             OnMove();
             return;
-        }        
+        }
     }
 }

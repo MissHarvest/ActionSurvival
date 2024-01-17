@@ -82,7 +82,7 @@ public class ToolSystem : MonoBehaviour
 
         // Managers.Game.Player.Animator.SetBool(Managers.Game.Player.AnimationData.EquipTwoHandedToolIdleParameterHash, true);
 
-        _tools[toolName].GetComponent<ItemObjectData>()?.OnEquipTwoHandedTool(); // lgs
+        _tools[toolName].GetComponent<ItemObjectData>()?.OnEquipTypeOfTool(); // lgs
         ItemObject = _tools[toolName];
         // ���ӿ�����Ʈ ����Ʈ�� �������, ��ųʸ� ������ ���ӿ�����Ʈ ������ ��������Ʈ�� �����ͼ� ? ���� null�� �ƴϸ� �Լ��� ȣ���Ѵ�.
     }
@@ -98,7 +98,7 @@ public class ToolSystem : MonoBehaviour
         if(-1 != Equipments[part].targetIndex)
         {
             OnUnEquip?.Invoke(Equipments[part]);
-            _tools[toolName].GetComponent<ItemObjectData>()?.OnUnEquipTwoHandedTool(); // lgs
+            _tools[toolName].GetComponent<ItemObjectData>()?.OnUnEquipTypeOfTool(); // lgs
         }
         Equipments[part].Clear();
     }

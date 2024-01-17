@@ -3,30 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerWalkState : PlayerGroundedState
+public class PlayerTwinToolWalkState : PlayerGroundedState
 {
-    public PlayerWalkState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+    public PlayerTwinToolWalkState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
 
     }
-
     public override void Enter()
     {
         _stateMachine.MovementSpeedModifier = _groundData.WalkSpeedModifier;
 
         base.Enter();
-        StartAnimation(_stateMachine.Player.AnimationData.WalkParameterHash);
+        StartAnimation(_stateMachine.Player.AnimationData.EquipTwinToolWalkParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(_stateMachine.Player.AnimationData.WalkParameterHash);
+        StopAnimation(_stateMachine.Player.AnimationData.EquipTwinToolWalkParameterHash);
     }
-
     protected override void OnRunStarted(InputAction.CallbackContext context)
     {
         base.OnRunStarted(context);
-        _stateMachine.ChangeState(_stateMachine.RunState);
+        _stateMachine.ChangeState(_stateMachine.TwinToolRunState);
     }
 }

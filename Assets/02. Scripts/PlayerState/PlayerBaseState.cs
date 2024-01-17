@@ -172,12 +172,20 @@ public class PlayerBaseState : IState
 
     protected void OnAttackPerformed(InputAction.CallbackContext context)
     {
-        _stateMachine.IsAttacking = true;
+        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+        if (toolItemDate.isWeapon == true)
+        {
+            _stateMachine.IsAttacking = true;
+        }
     }
 
     protected void OnAttackCanceled(InputAction.CallbackContext context)
     {
-        _stateMachine.IsAttacking = false;
+        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+        if (toolItemDate.isWeapon == true)
+        {
+            _stateMachine.IsAttacking = false;
+        }
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)
