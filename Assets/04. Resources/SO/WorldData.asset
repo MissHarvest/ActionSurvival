@@ -13,22 +13,44 @@ MonoBehaviour:
   m_Name: WorldData
   m_EditorClassIdentifier: 
   <Material>k__BackingField: {fileID: 2100000, guid: 58bedff707e604343a7e8cabaf4c8f88, type: 2}
-  <BlockTypes>k__BackingField:
-  - blockName: Grass
-    isSolid: 1
-    backFaceTexture: 43
-    frontFaceTexture: 43
-    topFaceTexture: 15
-    bottomFaceTexture: 52
-    leftFaceTexture: 43
-    rightFaceTexture: 43
-  - blockName: Dirt
-    isSolid: 1
-    backFaceTexture: 52
-    frontFaceTexture: 52
-    topFaceTexture: 52
-    bottomFaceTexture: 52
-    leftFaceTexture: 52
-    rightFaceTexture: 52
+  <NormalBlockTypes>k__BackingField:
+  - <BlockName>k__BackingField: Grass
+    <IsSolid>k__BackingField: 1
+    <BackFaceTexture>k__BackingField: 43
+    <FrontFaceTexture>k__BackingField: 43
+    <TopFaceTexture>k__BackingField: 15
+    <BottomFaceTexture>k__BackingField: 52
+    <LeftFaceTexture>k__BackingField: 43
+    <RightFaceTexture>k__BackingField: 43
+  - <BlockName>k__BackingField: Dirt
+    <IsSolid>k__BackingField: 1
+    <BackFaceTexture>k__BackingField: 52
+    <FrontFaceTexture>k__BackingField: 52
+    <TopFaceTexture>k__BackingField: 52
+    <BottomFaceTexture>k__BackingField: 52
+    <LeftFaceTexture>k__BackingField: 52
+    <RightFaceTexture>k__BackingField: 52
+  - <BlockName>k__BackingField: SnowDirt
+    <IsSolid>k__BackingField: 1
+    <BackFaceTexture>k__BackingField: 25
+    <FrontFaceTexture>k__BackingField: 25
+    <TopFaceTexture>k__BackingField: 48
+    <BottomFaceTexture>k__BackingField: 52
+    <LeftFaceTexture>k__BackingField: 25
+    <RightFaceTexture>k__BackingField: 25
+  - <BlockName>k__BackingField: VolcanoSand
+    <IsSolid>k__BackingField: 1
+    <BackFaceTexture>k__BackingField: 84
+    <FrontFaceTexture>k__BackingField: 84
+    <TopFaceTexture>k__BackingField: 31
+    <BottomFaceTexture>k__BackingField: 44
+    <LeftFaceTexture>k__BackingField: 84
+    <RightFaceTexture>k__BackingField: 84
+  <SlideBlockTypes>k__BackingField:
+  - <BlockName>k__BackingField: Grass Slide
+    <IsSolid>k__BackingField: 0
+    <FrontMaterial>k__BackingField: {fileID: 2100000, guid: bf8a4f481bdc8d349b51f6065b2bf4f0, type: 2}
+    <SideMaterial>k__BackingField: {fileID: 2100000, guid: aec2564424ff04f44824a1fa8eb160f2, type: 2}
+    <Forward>k__BackingField: {x: 0, y: 0, z: 1}
   <WorldSize>k__BackingField: 100
   <ViewChunkRange>k__BackingField: 5
