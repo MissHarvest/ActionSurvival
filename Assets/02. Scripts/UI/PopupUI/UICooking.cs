@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ public class UICooking : UIPopup
     }
 
     private Transform _contents;
-    //private List<UIInventorySlot> _uiItemSlots = new List<UIInventorySlot>();
+    private List<UIRecipeItemSlot> _uiRecipeSlots = new List<UIRecipeItemSlot>();
 
     public override void Initialize()
     {
@@ -25,32 +24,57 @@ public class UICooking : UIPopup
     {
         Initialize();
         _contents = Get<GameObject>((int)Gameobjects.Contents).transform;
-
-        // Create Slot
-        //var inventory = Managers.Game.Player.Inventory;
-        //inventory.OnUpdated += OnItemSlotUpdated;
-
-        //CreateItemSlots(inventory);
+        
+        // 비활성화 상태에서 시작
         gameObject.SetActive(false);
     }
 
-    //private void CreateItemSlots(InventorySystem inventory)
-    //{
-    //    int capacity = InventorySystem.maxCapacity;
+    private void OnEnable()
+    {
+        ShowCookingData(Managers.Data.cookingDataList);
+    }
 
-    //    for (int i = 0; i < capacity; ++i)
-    //    {
-    //        //var itemSlotUI = Managers.Resource.Instantiate("UIInventorySlot", Literals.PATH_UI, _contents);
-    //        var ItemSlotUIPrefab = Managers.Resource.GetCache<GameObject>("UIInventorySlot.prefab");
-    //        var itemSlotUI = Instantiate(ItemSlotUIPrefab, _contents);
-    //        var inventoryslotUI = itemSlotUI.GetComponent<UIInventorySlot>();
-    //        inventoryslotUI?.Init(this, i, inventory.slots[i]);
-    //        _uiItemSlots.Add(inventoryslotUI);
-    //    }
-    //}
+    // CookingData를 표시하는 메서드
+    public void ShowCookingData(List<RecipeSO> cookingDataList)
+    {
+        ClearRecipeSlots();
 
-    //private void OnItemSlotUpdated(int index, ItemSlot itemSlot)
-    //{
-    //    _uiItemSlots[index].Set(itemSlot);
-    //}
+        for (int i = 0; i < cookingDataList.Count; i++)
+        {
+            var recipeSlotPrefab = Managers.Resource.GetCache<GameObject>("UIRecipeItemSlot.prefab");
+            var recipeSlotGO = Instantiate(recipeSlotPrefab, _contents);
+            var recipeSlot = recipeSlotGO.GetComponent<UIRecipeItemSlot>();
+            recipeSlot?.Set(new ItemSlot(cookingDataList[i].completedItemData));
+
+            // UIRecipeItemSlot에 인덱스를 설정
+            recipeSlot.SetIndex(i);
+
+            // 요리 클릭 시 UICookingConfirm 판넬 띄움
+            recipeSlotGO.BindEvent((x) =>
+            {
+                if (recipeSlotGO.activeSelf)
+                {
+                    var cookingConfirmPopup = Managers.UI.ShowPopupUI<UICookingConfirm>();
+                    //recipeSlot.Index = recipeSlot.GetIndex(); // 선택한 UIRecipeItemSlot의 인덱스 가져오기
+                    //_index = index;
+                    // 선택한 레시피의 재료를 가져와서 UICookingConfirm에 전달
+                    cookingConfirmPopup.SetIngredients(Managers.Data.cookingDataList[recipeSlot.Index].requiredItems);
+                    Debug.Log("재료 인덱스는 " + recipeSlot.Index);
+                    var cookingPanel = Managers.UI.FindPopupUI<UICooking>();
+                    cookingPanel?.gameObject.SetActive(false);
+                }
+            });
+
+            _uiRecipeSlots.Add(recipeSlot);
+        }
+    }
+
+    private void ClearRecipeSlots()
+    {
+        foreach (var slot in _uiRecipeSlots)
+        {
+            Destroy(slot.gameObject);
+        }
+        _uiRecipeSlots.Clear();
+    }
 }

@@ -7,6 +7,8 @@ using UnityEngine;
 public class RecipeSO : ScriptableObject
 {
     public string itemName;
+    public ItemData completedItemData;
+    //완성 제작템 SO 추가
     public List<Ingredient> requiredItems = new List<Ingredient>();
 
     [System.Serializable]
