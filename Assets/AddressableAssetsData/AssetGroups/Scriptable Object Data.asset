@@ -113,6 +113,60 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b961231c31972e74d831abe23475d2e7
+    m_Address: AxeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf91749ba0e9c584da4068fff40034f9
+    m_Address: PickAxeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8a35d21883198c4aac044270854808a
+    m_Address: SwordRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0ef3ccdf598cd4b46a6ff339d1f94aaf
+    m_Address: CraftingTableRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5bb9e42324a34e4448569db84a69d470
+    m_Address: StickRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a57eafbf805db3848acbb94979b07be6
+    m_Address: GreatswordRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31568188c16c2c841b47200fde8f7878
+    m_Address: BonFireRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 29b6186d9f3a8dd4fa1f7a8ce21ca246
+    m_Address: BonFireItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 734f198f0f1019b43ad400a2ab3ece89
+    m_Address: GrilledRabbitMeatItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
   m_SchemaSet:

@@ -67,6 +67,10 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data");
         AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("RabbitMeatItemData.data");
+        AddItem(itemData, 1); 
     }
 
     public void AddItem(ItemData itemData, int quantity)

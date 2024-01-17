@@ -89,6 +89,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2d5d538a1e1ba14383f012f9ef981e0
+    m_Address: UIRecipeItemSlot.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
   m_SchemaSet:

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static DataManager;
 
 // 2024. 01. 11 Byun Jeongmin
 public class Recipe : MonoBehaviour
@@ -22,11 +21,6 @@ public class Recipe : MonoBehaviour
     {
         Debug.Log("Recipe Start");
         _inventory = Managers.Game.Player.Inventory;
-    }
-
-    private void Update()
-    {
-        //CountItems();
     }
 
     private void TryCraftItem(ItemData craftedItemData, Dictionary<ItemData, int> requiredItems)
@@ -100,14 +94,9 @@ public class Recipe : MonoBehaviour
         }
     }
 
-    //private void MakeItem(string itemName)
-    //{
-    //    TryCraftItem(Managers.Resource.GetCache<ItemData>($"{itemName}ItemData.data"), Managers.Data.recipeData[itemName]);
-    //}
-
-    private void MakeItem(string itemName)
+    public void MakeItem(string itemName)
     {
-        DataManager.Recipe recipe = Managers.Data.recipeDataList.Find(r => r.itemName == itemName);
+        RecipeSO recipe = Managers.Data.recipeDataList.Find(r => r.itemName == itemName);
 
         if (recipe != null)
         {
@@ -119,23 +108,13 @@ public class Recipe : MonoBehaviour
         }
     }
 
-    public Dictionary<ItemData, int> ToDictionary(List<Ingredient> ingredients)
+    public Dictionary<ItemData, int> ToDictionary(List<RecipeSO.Ingredient> ingredients)
     {
         Dictionary<ItemData, int> result = new Dictionary<ItemData, int>();
-        foreach (Ingredient ingredient in ingredients)
+        foreach (RecipeSO.Ingredient ingredient in ingredients)
         {
             result[ingredient.item] = ingredient.quantity;
         }
         return result;
     }
-
-
-    public void MakeAxe() => MakeItem("Axe");
-    public void MakePickAxe() => MakeItem("PickAxe");
-    public void MakeSword() => MakeItem("Sword");
-    public void MakeCraftingTable() => MakeItem("CraftingTable");
-    public void MakeStick() => MakeItem("Stick");
-
-
-    public void MakeGreatsword() => MakeItem("Greatsword");
 }
