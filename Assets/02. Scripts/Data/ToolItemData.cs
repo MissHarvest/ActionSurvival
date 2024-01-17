@@ -10,11 +10,15 @@ public class ToolItemData : EquipItemData
     public int attackPower;
     public string targetTagName;
     public bool isWeapon;
+    public bool isTwoHandedTool; // lgs
+    public bool isTwinTool;
     
     public ToolItemData()
     {
         //stackable = false;
         registable = true;
         part = ItemParts.Hand;
+
+        isTwoHandedTool = false;
     }
 }
