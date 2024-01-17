@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 2024. 01. 15 Park Jun Uk
 [Serializable]
 public class AnimalMovementData
 {
