@@ -47,6 +47,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 19e1cd4d78530bd4bb63d2f79a0ee55e
+    m_Address: Rabbit.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0d9b14ac7b5426845bb4d027d82c6f06
     m_Address: Slide Block.prefab
     m_ReadOnly: 0

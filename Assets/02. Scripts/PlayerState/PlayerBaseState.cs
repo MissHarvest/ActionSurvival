@@ -154,11 +154,11 @@ public class PlayerBaseState : IState
         if (_stateMachine.Player.EquippedItem == null) return;
 
         var tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
-        if (tool.isWeapon)
-        {
-            // _stateMachine.ChangeState(_stateMachine.AttackState);
-        }
-        else
+        //if (tool.isWeapon)
+        //{
+        //    _stateMachine.ChangeState(_stateMachine.AttackState);
+        //}
+        if (tool.isWeapon == false)
         {
             _stateMachine.ChangeState(_stateMachine.InteractState);
         }        
@@ -172,12 +172,20 @@ public class PlayerBaseState : IState
 
     protected void OnAttackPerformed(InputAction.CallbackContext context)
     {
-        _stateMachine.IsAttacking = true;
+        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+        if (toolItemDate.isWeapon == true)
+        {
+            _stateMachine.IsAttacking = true;
+        }
     }
 
     protected void OnAttackCanceled(InputAction.CallbackContext context)
     {
-        _stateMachine.IsAttacking = false;
+        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+        if (toolItemDate.isWeapon == true)
+        {
+            _stateMachine.IsAttacking = false;
+        }
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)

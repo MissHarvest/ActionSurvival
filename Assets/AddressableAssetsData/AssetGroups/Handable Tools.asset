@@ -53,6 +53,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae1468a8050176242833129e53d6c46b
+    m_Address: Handable_TwinDagger.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7fdcbec5f0a27804ba46e585d08f40b3
     m_Address: Handable_BonFire.prefab
     m_ReadOnly: 0

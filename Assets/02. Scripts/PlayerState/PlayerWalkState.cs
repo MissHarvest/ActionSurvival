@@ -13,6 +13,7 @@ public class PlayerWalkState : PlayerGroundedState
     public override void Enter()
     {
         _stateMachine.MovementSpeedModifier = _groundData.WalkSpeedModifier;
+
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.WalkParameterHash);
     }
@@ -27,6 +28,5 @@ public class PlayerWalkState : PlayerGroundedState
     {
         base.OnRunStarted(context);
         _stateMachine.ChangeState(_stateMachine.RunState);
-        Debug.Log("Player Run");
     }
 }

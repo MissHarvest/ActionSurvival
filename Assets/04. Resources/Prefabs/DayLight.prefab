@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!108 &1986637423504145727
 Light:
@@ -111,3 +111,7 @@ MonoBehaviour:
   - {r: 1, g: 1, b: 1, a: 0}
   - {r: 0.8901961, g: 0.7607843, b: 0.5764706, a: 1}
   - {r: 0.21960784, g: 0.24705882, b: 0.38039216, a: 1}
+  skyMaterial:
+  - {fileID: 2100000, guid: 6075488e92597c9478c885b7b54674a3, type: 2}
+  - {fileID: 2100000, guid: 77874dbfcee9b034fb544786292018c3, type: 2}
+  - {fileID: 2100000, guid: cd1b8774e71770546bec980a3d98344a, type: 2}

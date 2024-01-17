@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 202640855388556974}
   - component: {fileID: 202640855389686894}
   - component: {fileID: 3530495553640869530}
+  - component: {fileID: 7007146510023404126}
   m_Layer: 0
   m_Name: Handable_PickAxe
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 117.065, y: 0, z: 0}
 --- !u!33 &202640855388556974
 MeshFilter:
@@ -105,3 +106,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8187314, y: 0.25846228, z: 0.077000186}
   m_Center: {x: -0.00000041051973, y: 0.61130065, z: -0.0000030570395}
+--- !u!114 &7007146510023404126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202640855387427502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94119ff9e874b48489ea388cfc225dcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData: {fileID: 11400000, guid: 169efef296147ff47aa012ef827c9305, type: 2}
