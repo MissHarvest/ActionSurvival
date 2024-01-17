@@ -9,6 +9,7 @@ public class Cooking : MonoBehaviour
     public Player Owner { get; private set; }
     private UICooking _cookingUI;
 
+
     private void Awake()
     {
         Debug.Log("Cooking Awake");
@@ -22,7 +23,7 @@ public class Cooking : MonoBehaviour
         Debug.Log("Cooking Start");
     }
 
-    private void OnCookingShowAndHide(InputAction.CallbackContext context)
+    public void OnCookingShowAndHide(InputAction.CallbackContext context)
     {
         if (_cookingUI == null)
         {
@@ -39,5 +40,4 @@ public class Cooking : MonoBehaviour
             Managers.UI.ShowPopupUI<UICooking>();
         }
     }
-
 }
