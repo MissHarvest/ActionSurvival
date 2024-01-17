@@ -14,7 +14,8 @@ public class UIRecipe : UIPopup
         Sword,
         CraftingTable,
         Stick,
-        Greatsword
+        Greatsword, 
+        BonFire
     }
 
     private Transform _contents;
@@ -29,12 +30,13 @@ public class UIRecipe : UIPopup
         //람다식 이용해서 액션 매핑
         _recipeActions = new Dictionary<Gameobjects, Action>
         {
-            { Gameobjects.PickAxe, () => Managers.Game.Player.Recipe.MakePickAxe() },
-            { Gameobjects.Axe, () => Managers.Game.Player.Recipe.MakeAxe() },
-            { Gameobjects.Sword, () => Managers.Game.Player.Recipe.MakeSword() },
-            { Gameobjects.CraftingTable, () => Managers.Game.Player.Recipe.MakeCraftingTable() },
-            { Gameobjects.Stick, () => Managers.Game.Player.Recipe.MakeStick() },
-            { Gameobjects.Greatsword, () => Managers.Game.Player.Recipe.MakeGreatsword() },
+            { Gameobjects.PickAxe, () => {Managers.Game.Player.Recipe.MakeItem("PickAxe"); } },
+            { Gameobjects.Axe, () => {Managers.Game.Player.Recipe.MakeItem("Axe"); } },
+            { Gameobjects.Sword, () => {Managers.Game.Player.Recipe.MakeItem("Sword"); } },
+            { Gameobjects.CraftingTable, () => {Managers.Game.Player.Recipe.MakeItem("CraftingTable"); } },
+            { Gameobjects.Stick, () => {Managers.Game.Player.Recipe.MakeItem("Stick"); } },
+            { Gameobjects.Greatsword, () => {Managers.Game.Player.Recipe.MakeItem("Greatsword"); } },
+            { Gameobjects.BonFire, () => {Managers.Game.Player.Recipe.MakeItem("BonFire"); } },
         };
     }
 
@@ -69,34 +71,21 @@ public class UIRecipe : UIPopup
         }
     }
 
-    // Greatsword 레시피 UI의 활성화 여부를 설정하는 메서드
-    public void SetGreatswordUIActive(bool active)
+    // 고급 레시피 UI의 활성화 여부를 설정하는 메서드
+    private void SetGreatswordUIActive(bool active)
     {
-        GameObject greatswordUI = Get<GameObject>((int)Gameobjects.Greatsword);
-        greatswordUI.SetActive(active);
+        List<Gameobjects> greatswordUIElements = new List<Gameobjects>
+    {
+        Gameobjects.Greatsword,
+        Gameobjects.BonFire
+    };
+
+        foreach (Gameobjects uiElement in greatswordUIElements)
+        {
+            GameObject uiObject = Get<GameObject>((int)uiElement);
+            uiObject.SetActive(active);
+        }
     }
-
-
-    //private void OnUIElementClick(Gameobjects recipeObject)
-    //{
-    //    // 확인 팝업 열기
-    //    UIRecipeConfirm confirmPopup = Managers.UI.ShowPopupUI<UIRecipeConfirm>();
-    //    confirmPopup.SetIngredients(Managers.Data.recipeDataList[recipeObject.ToString()]);
-
-    //    // YesButton이 클릭될 때 실행될 함수
-    //    confirmPopup.SetConfirmationAction(() =>
-    //    {
-    //        if (_recipeActions.TryGetValue(recipeObject, out var action))
-    //        {
-    //            action.Invoke();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("문제가 발생해 제작에 실패했어요.");
-    //        }
-    //    });
-    //    gameObject.SetActive(false);
-    //}
 
 
     private void OnUIElementClick(Gameobjects recipeObject)
@@ -105,7 +94,7 @@ public class UIRecipe : UIPopup
         UIRecipeConfirm confirmPopup = Managers.UI.ShowPopupUI<UIRecipeConfirm>();
 
         // Managers.Data.recipeDataList에서 레시피를 찾아옴
-        DataManager.Recipe recipe = Managers.Data.recipeDataList.Find(r => r.itemName == recipeObject.ToString());
+        RecipeSO recipe = Managers.Data.recipeDataList.Find(r => r.itemName == recipeObject.ToString());
 
         if (recipe != null)
         {
