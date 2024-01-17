@@ -8,6 +8,15 @@ public class PlayerStateMachine : StateMachine
     public PlayerIdleState IdleState { get; }
     public PlayerWalkState WalkState { get; }
     public PlayerRunState RunState { get; }
+
+    public PlayerTwoHandedToolIdleState TwoHandedToolIdleState { get; } // lgs
+    public PlayerTwoHandedToolWalkState TwoHandedToolWalkState { get; }
+    public PlayerTwoHandedToolRunState TwoHandedToolRunState { get; }
+
+    public PlayerTwinToolIdleState TwinToolIdleState { get; }
+    public PlayerTwinToolWalkState TwinToolWalkState { get; }
+    public PlayerTwinToolRunState TwinToolRunState { get; }
+
     public PlayerInteractState InteractState { get; }
 
     // public PlayerJumpState JumpState { get; }
@@ -34,10 +43,19 @@ public class PlayerStateMachine : StateMachine
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
+
+        TwoHandedToolIdleState = new PlayerTwoHandedToolIdleState(this); // lgs
+        TwoHandedToolWalkState = new PlayerTwoHandedToolWalkState(this);
+        TwoHandedToolRunState = new PlayerTwoHandedToolRunState(this);
+
+        TwinToolIdleState = new PlayerTwinToolIdleState(this);
+        TwinToolWalkState = new PlayerTwinToolWalkState(this);
+        TwinToolRunState = new PlayerTwinToolRunState(this);
+
         InteractState = new PlayerInteractState(this);
         //JumpState = new PlayerJumpState(this);
         //FallState = new PlayerFallState(this);
-        //ComboAttackState = new PlayerComboAttackState(this);
+        ComboAttackState = new PlayerComboAttackState(this);
 
         MainCameraTransform = Camera.main.transform;
 
