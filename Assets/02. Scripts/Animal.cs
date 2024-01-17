@@ -14,7 +14,7 @@ public class Animal : MonoBehaviour, IHit
     public Animator Animator { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
 
-    public Vector3 RespawnPosition { get; private set; }
+    public Vector3 RespawnPosition { get; set; }
 
     public ItemData[] looting;
 
@@ -48,6 +48,7 @@ public class Animal : MonoBehaviour, IHit
     public void Hit(IAttack attacker, float damage)
     {
         HP.Subtract(damage);
+        _stateMachine.Attacker = (attacker as MonoBehaviour).gameObject;
         _stateMachine.ChangeState(_stateMachine.FleeState);
     }
 

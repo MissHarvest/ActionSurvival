@@ -1,13 +1,12 @@
-// �ۼ� ��¥ : 2024. 01. 12
-// �ۼ��� : Park Jun Uk
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 2024. 01. 12 Park Jun Uk
 public class MonsterPatrolState : MonsterBaseState
 {
     private Vector3 _destination;
+    private float _recentDist = 0.0f;
 
     public MonsterPatrolState(MonsterStateMachine monsterStateMachine) : base (monsterStateMachine)
     {
@@ -18,18 +17,19 @@ public class MonsterPatrolState : MonsterBaseState
     {
         Debug.Log("Monster State Changed to [ Patrol ]");
         _stateMachine.MovementSpeedModifier = _stateMachine.Monster.Data.MovementData.WalkSpeedModifier;
+        
         base.Enter();
+
         SetRandomDestination();
         _stateMachine.Monster.NavMeshAgent.SetDestination(_destination);
+
         StartAnimation(_stateMachine.Monster.AnimationData.WalkParameterHash);
-        // Start Animation
     }
 
     public override void Exit() 
     {
         base.Exit();
 
-        // Stop Animation
         StopAnimation(_stateMachine.Monster.AnimationData.WalkParameterHash);
     }
 
@@ -40,6 +40,12 @@ public class MonsterPatrolState : MonsterBaseState
         var sqrLength = GetDistanceBySqr(_destination);        
         var stopDist = _stateMachine.Monster.NavMeshAgent.stoppingDistance;
         
+        if (_recentDist == sqrLength)
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+            return;
+        }
+
         if (sqrLength < stopDist * stopDist)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);

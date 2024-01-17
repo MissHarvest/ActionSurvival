@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 2024. 01. 15 Park Jun Uk
 public class AnimalPatrolState : AnimalBaseState
 {
     private Vector3 _destination;
+    private float _recentDist = 0.0f;
     public AnimalPatrolState(AnimalStateMachine stateMachine) : base(stateMachine)
     {
 
@@ -31,6 +33,12 @@ public class AnimalPatrolState : AnimalBaseState
         var sqrLength = GetDistanceBySqr(_destination);
         var stopDist = _stateMachine.Animal.NavMeshAgent.stoppingDistance;
 
+        if (_recentDist == sqrLength)
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+            return;
+        }
+        
         if (sqrLength < stopDist * stopDist)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
