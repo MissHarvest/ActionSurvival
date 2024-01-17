@@ -11,6 +11,14 @@ public class PlayerAnimationData
     [SerializeField] private string walkParameterName = "Walk";
     [SerializeField] private string runParameterName = "Run";
 
+    [SerializeField] private string equipTwoHandedToolIdleParameterName = "EquipTwoHandedToolIdle";
+    [SerializeField] private string equipTwoHandedToolWalkParameterName = "EquipTwoHandedToolWalk";
+    [SerializeField] private string equipTwoHandedToolRunParameterName = "EquipTwoHandedToolRun";
+
+    [SerializeField] private string equipTwinToolIdleParameterName = "EquipTwinToolIdle";
+    [SerializeField] private string equipTwinToolWalkParameterName = "EquipTwinToolWalk";
+    [SerializeField] private string equipTwinToolRunParameterName = "EquipTwinToolRun";
+
     [SerializeField] private string airParameterName = "@Air";
     [SerializeField] private string jumpParameterName = "Jump";
     [SerializeField] private string fallParameterName = "Fall";
@@ -24,6 +32,14 @@ public class PlayerAnimationData
     public int IdleParameterHash { get; private set; }
     public int WalkParameterHash { get; private set; }
     public int RunParameterHash { get; private set; }
+
+    public int EquipTwoHandedToolIdleParameterHash { get; private set; }
+    public int EquipTwoHandedToolWalkParameterHash { get; private set; }
+    public int EquipTwoHandedToolRunParameterHash { get; private set; }
+
+    public int EquipTwinToolIdleParameterHash {  get; private set; }
+    public int EquipTwinToolWalkParameterHash { get; private set; }
+    public int EquipTwinToolRunParameterHash { get; private set; }
 
     public int AirParameterHash { get; private set; }
     public int JumpParameterHash { get; private set; }
@@ -41,6 +57,14 @@ public class PlayerAnimationData
         IdleParameterHash = Animator.StringToHash(idleParameterName);
         WalkParameterHash = Animator.StringToHash(walkParameterName);
         RunParameterHash = Animator.StringToHash(runParameterName);
+
+        EquipTwoHandedToolIdleParameterHash = Animator.StringToHash(equipTwoHandedToolIdleParameterName);
+        EquipTwoHandedToolWalkParameterHash = Animator.StringToHash(equipTwoHandedToolWalkParameterName);
+        EquipTwoHandedToolRunParameterHash = Animator.StringToHash(equipTwoHandedToolRunParameterName);
+
+        EquipTwinToolIdleParameterHash = Animator.StringToHash(equipTwinToolIdleParameterName);
+        EquipTwinToolWalkParameterHash = Animator.StringToHash(equipTwinToolWalkParameterName);
+        EquipTwinToolRunParameterHash = Animator.StringToHash(equipTwinToolRunParameterName);
 
         AirParameterHash = Animator.StringToHash(airParameterName);
         JumpParameterHash = Animator.StringToHash(jumpParameterName);

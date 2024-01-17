@@ -17,7 +17,7 @@ public class ToolSystem : MonoBehaviour
     private Dictionary<string, GameObject> _tools = new Dictionary<string, GameObject>();
 
     public event Action<QuickSlot> OnEquip;
-    public event Action<QuickSlot> OnUnEquip;
+    public event Action<QuickSlot> OnUnEquip;    
 
     private void Awake()
     {
@@ -74,10 +74,10 @@ public class ToolSystem : MonoBehaviour
     public void Equip(QuickSlot slot)
     {
         int part = GetPart(slot);
-        if (part == -1) return;
+        if (part == -1) return;        
 
         UnEquip(part);
-        
+
         Equipments[part].Set(slot.targetIndex, slot.itemSlot);
         Equipments[part].itemSlot.SetEquip(true);
         if (part == (int)ItemParts.Hand)
@@ -96,10 +96,14 @@ public class ToolSystem : MonoBehaviour
     private void EquipTool(ItemSlot itemSlot)
     {
         ItemInUse = itemSlot;
-        var toolName = GetToolName(itemSlot);
+        var toolName = GetToolName(itemSlot);        
         _tools[toolName].SetActive(true);
-        Debug.Log($"{toolName}");
+
+        // Managers.Game.Player.Animator.SetBool(Managers.Game.Player.AnimationData.EquipTwoHandedToolIdleParameterHash, true);
+
+        _tools[toolName].GetComponent<ItemObjectData>()?.OnEquipTypeOfTool(); // lgs
         ItemObject = _tools[toolName];
+        // ���ӿ�����Ʈ ����Ʈ�� �������, ��ųʸ� ������ ���ӿ�����Ʈ ������ ��������Ʈ�� �����ͼ� ? ���� null�� �ƴϸ� �Լ��� ȣ���Ѵ�.
     }
 
     public void UnEquip(int part)
@@ -113,6 +117,7 @@ public class ToolSystem : MonoBehaviour
         if(-1 != Equipments[part].targetIndex)
         {
             OnUnEquip?.Invoke(Equipments[part]);
+            _tools[toolName].GetComponent<ItemObjectData>()?.OnUnEquipTypeOfTool(); // lgs
         }
         Equipments[part].Clear();
     }

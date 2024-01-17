@@ -18,6 +18,6 @@ public class AttackInfoData
 public class PlayerAttackData
 {
     [field: SerializeField] public List<AttackInfoData> AttackInfoDatas { get; private set; }
-    public int GetAttackInfoCoun() {  return AttackInfoDatas.Count; }
+    public int GetAttackInfoCount() {  return AttackInfoDatas.Count; }
     public AttackInfoData GetAttackInfo(int index) {  return AttackInfoDatas[index]; }
 }
