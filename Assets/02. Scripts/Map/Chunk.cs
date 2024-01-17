@@ -66,22 +66,35 @@ public class Chunk
 
     private void AddVoxelDataToChunk(Vector3Int pos, BlockType block)
     {
-        for (int i = 0; i < 6; i++)
+        if (block is NormalBlockType normalBlock)
         {
-            if (_world.CheckVoxel(pos + _data.faceChecks[i]))
-                continue;
+            for (int i = 0; i < 6; i++)
+            {
+                if (_world.CheckVoxel(pos + _data.faceChecks[i]))
+                    continue;
 
-            for (int j = 0; j < 4; j++)
-                _vertices.Add(pos + _data.voxelVerts[_data.voxelTris[i][j]]);
+                for (int j = 0; j < 4; j++)
+                    _vertices.Add(pos + _data.voxelVerts[_data.voxelTris[i][j]]);
 
-            AddTextureUV(block.GetTextureID(i));
-            _triangles.Add(_vertexIdx);
-            _triangles.Add(_vertexIdx + 1);
-            _triangles.Add(_vertexIdx + 2);
-            _triangles.Add(_vertexIdx + 2);
-            _triangles.Add(_vertexIdx + 1);
-            _triangles.Add(_vertexIdx + 3);
-            _vertexIdx += 4;
+                AddTextureUV(normalBlock.GetTextureID(i));
+                _triangles.Add(_vertexIdx);
+                _triangles.Add(_vertexIdx + 1);
+                _triangles.Add(_vertexIdx + 2);
+                _triangles.Add(_vertexIdx + 2);
+                _triangles.Add(_vertexIdx + 1);
+                _triangles.Add(_vertexIdx + 3);
+                _vertexIdx += 4;
+            }
+        }
+        else if (block is SlideBlockType slideBlock)
+        {
+            var obj = Managers.Resource.GetCache<GameObject>("Slide Block.prefab");
+            obj = UnityEngine.Object.Instantiate(obj, pos, Quaternion.identity);
+            var slide = obj.GetComponent<SlideBlock>();
+            slide.Forward = slideBlock.Forward;
+            slide.FrontMaterial = slideBlock.FrontMaterial;
+            slide.SideMaterial = slideBlock.SideMaterial;
+            slide.transform.SetParent(_chunkObject.transform);
         }
     }
 
