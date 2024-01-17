@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewWorld", menuName = "WorldData", order = 2)]
+[CreateAssetMenu(fileName = "NewWorld", menuName = "WorldData/World", order = 2)]
 public class WorldData : ScriptableObject
 {
     [field: SerializeField] public Material Material { get; private set; }
     [field: SerializeField] public BlockType[] BlockTypes { get; private set; }
     [field: SerializeField] public int WorldSize { get; private set; }
-    [field: SerializeField] public int ViewRange { get; private set; }
+    [field: SerializeField] public int ViewChunkRange { get; private set; }
 }
 
 
