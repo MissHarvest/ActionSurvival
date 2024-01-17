@@ -9,6 +9,10 @@ using UnityEngine;
 // 2024. 01. 16 Park Jun Uk
 public class MonsterRespawnPositionCreater : MonoBehaviour
 {
+    [Header("Ground Size")]
+    public float width= 300.0f;
+    public float length = 300.0f;
+
     public struct Node
     {
         public bool locked;
@@ -192,5 +196,11 @@ public class MonsterRespawnPositionCreater : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawCube(transform.position, new Vector3(width, 1, length));
     }
 }

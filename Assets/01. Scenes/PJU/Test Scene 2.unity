@@ -840,6 +840,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3075a7af7d9d90e4d98809492edbd833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 300
+  length: 300
   monster: {fileID: 1301766257}
   resource: {fileID: 763434331}
   area: {fileID: 1928657307}
@@ -848,8 +850,10 @@ MonoBehaviour:
   field: 0
   monsterInterval: 5
   boundary: 40
+  _monsters: []
   centerRadius: 10
   colors:
   - {r: 0.9647059, g: 1, b: 0, a: 0}
   - {r: 0.49019608, g: 1, b: 1, a: 0}
   - {r: 1, g: 0, b: 0, a: 0}
+  rankCount: 050000000f000000
