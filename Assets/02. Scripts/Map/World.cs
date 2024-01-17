@@ -27,6 +27,7 @@ public class World : MonoBehaviour
 
     public Dictionary<Vector3Int, BlockType> VoxelMap => _voxelMap;
     public WorldNavMeshBuilder NavMeshBuilder => _navMeshBuilder;
+    public List<Chunk> CurrentActiveChunks => _currentActiveChunks;
 
     private void Update()
     {
@@ -60,9 +61,6 @@ public class World : MonoBehaviour
                     _currentActiveChunks.Add(currentChunk);
                     currentChunk.SetActive(true);
                     _prevActiveChunks.Remove(currentChunk);
-
-                    // NavMesh Source 전달
-                    _navMeshBuilder.UpdateChunkSources(_currentActiveChunks);
                 }
             }
         }
@@ -170,7 +168,7 @@ public class World : MonoBehaviour
         _navMeshBuilder = new GameObject(nameof(WorldNavMeshBuilder)).AddComponent<WorldNavMeshBuilder>();
         _navMeshBuilder.IsActive = false; // 주기적으로 업데이트 X. 일단은 청크 정보가 바뀔 때마다 업데이트합니다.
         UpdateChunksInViewRange();
-        yield return null;
+        yield return new WaitForFixedUpdate();
         yield return _navMeshBuilder.UpdateNavMesh();
     }
 }

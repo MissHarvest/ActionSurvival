@@ -56,6 +56,8 @@ public class WorldNavMeshBuilder : MonoBehaviour
 
     public AsyncOperation UpdateNavMesh(Action<AsyncOperation> callback = null)
     {
+        UpdateChunkSources(Managers.Game.World.CurrentActiveChunks);
+
         if (_data == null || _sources == null)
             return null;
 
