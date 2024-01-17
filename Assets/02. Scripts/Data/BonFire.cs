@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+// 2024. 01. 16 Byun Jeongmin
 public class BonFire : MonoBehaviour
 {
     public void DropFireFromPlayerHand(ItemSlot itemInUse, Dictionary<string, GameObject> tools)
