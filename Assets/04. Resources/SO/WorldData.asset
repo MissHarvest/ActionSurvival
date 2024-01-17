@@ -30,5 +30,5 @@ MonoBehaviour:
     bottomFaceTexture: 52
     leftFaceTexture: 52
     rightFaceTexture: 52
-  <WorldSize>k__BackingField: 200
-  <ViewRange>k__BackingField: 10
+  <WorldSize>k__BackingField: 100
+  <ViewChunkRange>k__BackingField: 5

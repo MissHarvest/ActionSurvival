@@ -12,7 +12,6 @@ public class WJY_VoxelTileTestScene : MonoBehaviour
         {
             if (count == total)
             {
-                
                 Managers.Game.GenerateWorldAsync((progress, argument) =>
                 {
                     // 맵 생성 진행 중 콜백
@@ -24,6 +23,11 @@ public class WJY_VoxelTileTestScene : MonoBehaviour
                     // 3. 객체 생성, 초기화
                     SpawnPlayer();
                     UIInitialize();
+                    Managers.Game.World.InitializeWorldNavMeshBuilder();
+
+                    var mon = Managers.Resource.GetCache<GameObject>("Skeleton.prefab");
+                    Instantiate(mon);
+                    SpawnObject();
                 });
             }
         });
@@ -37,7 +41,7 @@ public class WJY_VoxelTileTestScene : MonoBehaviour
     private void SpawnPlayer()
     {
         var player = Managers.Resource.GetCache<GameObject>("Player.prefab");
-        player = Instantiate(player, Vector3.up * 10f, Quaternion.identity);
+        player = Instantiate(player, Vector3.up, Quaternion.identity);
         player.name = "Player";
         virtualCamera.Follow = Managers.Game.Player.ViewPoint;
         virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
@@ -49,11 +53,9 @@ public class WJY_VoxelTileTestScene : MonoBehaviour
         Managers.UI.LoadPopupUIs();
     }
 
-    private void GenerateMap()
+    private void SpawnObject()
     {
-        var obj = Managers.Resource.GetCache<GameObject>("TestGround.prefab");
-        Instantiate(obj);
-        obj = Managers.Resource.GetCache<GameObject>("Mushroom.prefab");
+        var obj = Managers.Resource.GetCache<GameObject>("Mushroom.prefab");
         Instantiate(obj);
         obj = Managers.Resource.GetCache<GameObject>("Rock.prefab");
         Instantiate(obj);
