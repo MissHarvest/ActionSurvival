@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5843,16 +5843,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: DayLight
       objectReference: {fileID: 0}
-    - target: {fileID: 1986637423504145727, guid: 90f63393d7e6d5f48b088bb295f89fb6, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1986637423504145727, guid: 90f63393d7e6d5f48b088bb295f89fb6, type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1986637423504145727, guid: 90f63393d7e6d5f48b088bb295f89fb6, type: 3}
-      propertyPath: m_Color.r
+    - target: {fileID: 1009203279677828951, guid: 90f63393d7e6d5f48b088bb295f89fb6, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5874,7 +5866,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1745144864234106039, guid: 19e1cd4d78530bd4bb63d2f79a0ee55e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7960926648267465990, guid: 19e1cd4d78530bd4bb63d2f79a0ee55e, type: 3}
       propertyPath: m_RootOrder

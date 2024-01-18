@@ -17,7 +17,7 @@ public class GameManager
     {
         DayCycle.Init();
         Temperature.Init(this);
-
+        
         IceIsland.AddMonsterType(new string[][]{
             new string[] { "Skeleton" },
             new string[] { "Skeleton" },

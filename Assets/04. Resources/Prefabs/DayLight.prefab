@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!108 &1986637423504145727
 Light:
@@ -44,8 +44,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Intensity: 1.4
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -115,3 +115,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 6075488e92597c9478c885b7b54674a3, type: 2}
   - {fileID: 2100000, guid: 77874dbfcee9b034fb544786292018c3, type: 2}
   - {fileID: 2100000, guid: cd1b8774e71770546bec980a3d98344a, type: 2}
+  fogColors:
+  - {r: 0, g: 1, b: 0.49019608, a: 0}
+  - {r: 1, g: 0.44705883, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
