@@ -32,7 +32,7 @@ Transform:
   m_Children:
   - {fileID: 1836615881492687149}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &7265143104153100183
 NavMeshAgent:
@@ -68,12 +68,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24836fd3ae57324eba36fb7565d33f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: 
   <AnimationData>k__BackingField:
     idleParameterName: Idle
     walkParameterName: Walk
     runParameterName: Run
     attackParameterName: Attack
+    dieParamterName: Die
   <Data>k__BackingField: {fileID: 0}
+  looting: []
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
 --- !u!1001 &1833697263955280939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -146,6 +154,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 95457531584545886, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: f0287df8da12f34429c3e17a8b85dd7c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

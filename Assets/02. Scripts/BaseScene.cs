@@ -24,7 +24,7 @@ public class BaseScene : MonoBehaviour
                 Managers.UI.LoadPopupUIs();
                 Managers.Data.InitializeRecipeData();
 
-                var mon = Managers.Resource.GetCache<GameObject>("Skeleton.prefab");
+                var mon = Managers.Resource.GetCache<GameObject>("FireSkeleton.prefab");
                 Instantiate(mon);
             }
         });

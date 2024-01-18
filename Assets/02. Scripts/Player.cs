@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, IAttack, IHit
@@ -43,7 +44,7 @@ public class Player : MonoBehaviour, IAttack, IHit
         ConditionHandler = GetComponent<PlayerConditionHandler>();
         QuickSlot = GetComponentInChildren<QuickSlotSystem>();
         Recipe = GetComponentInChildren<Recipe>();
-
+        
         ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
 
         _stateMachine = new PlayerStateMachine(this);

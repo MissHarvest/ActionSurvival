@@ -33,7 +33,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Mini Simple Characters Armature|Idle
+      name: SkeletonIdle
       takeName: Mini Simple Tribal Armature|Idle
       internalID: 4377859179230231196
       firstFrame: 0
@@ -120,7 +120,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Mini Simple Characters Armature|Run
+      name: SkeletonRun
       takeName: Mini Simple Tribal Armature|Run
       internalID: -6217389266773117732
       firstFrame: 0
@@ -178,7 +178,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Mini Simple Characters Armature|Walk
+      name: SkeletonWalk
       takeName: Mini Simple Tribal Armature|Walk
       internalID: 2075726249656104597
       firstFrame: 0
@@ -207,7 +207,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Mini Simple Tribal Armature|Loose
+      name: SkeletonDie
       takeName: Mini Simple Tribal Armature|Loose
       internalID: 381120654436914651
       firstFrame: 22

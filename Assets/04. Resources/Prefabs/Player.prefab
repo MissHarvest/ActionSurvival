@@ -596,6 +596,12 @@ MonoBehaviour:
     idleParameterName: Idle
     walkParameterName: Walk
     runParameterName: Run
+    equipTwoHandedToolIdleParameterName: EquipTwoHandedToolIdle
+    equipTwoHandedToolWalkParameterName: EquipTwoHandedToolWalk
+    equipTwoHandedToolRunParameterName: EquipTwoHandedToolRun
+    equipTwinToolIdleParameterName: EquipTwinToolIdle
+    equipTwinToolWalkParameterName: EquipTwinToolWalk
+    equipTwinToolRunParameterName: EquipTwinToolRun
     airParameterName: '@Air'
     jumpParameterName: Jump
     fallParameterName: Fall

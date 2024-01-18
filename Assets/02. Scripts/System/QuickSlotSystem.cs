@@ -52,11 +52,12 @@ public class QuickSlotSystem : MonoBehaviour
         for(int i = 0; i <  slots.Length; ++i)
         {
             if (slot.targetIndex == slots[i].targetIndex)
-            {
-                slots[i].Clear();
-                slot.itemSlot.SetRegist(false);                
-                OnUpdated?.Invoke(i, slots[i].itemSlot);
+            {                
+                slot.itemSlot.SetRegist(false);
                 OnUnRegisted?.Invoke(slot);
+                slots[i].Clear();
+                OnUpdated?.Invoke(i, slots[i].itemSlot);
+                return;
             }
         }
     }
