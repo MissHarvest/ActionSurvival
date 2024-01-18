@@ -13,10 +13,12 @@ public class WorldData : ScriptableObject
 }
 
 [System.Serializable]
-public class BlockType
+public abstract class BlockType
 {
     [field: SerializeField] public string BlockName { get; protected set; }
     [field: SerializeField] public bool IsSolid { get; protected set; }
+
+    public abstract void AddVoxelDataToChunk(Chunk chunk, Vector3Int pos, Vector3 dir);
 }
 
 [System.Serializable]
@@ -42,6 +44,27 @@ public class NormalBlockType : BlockType
             default: Debug.LogError($"{nameof(GetTextureID)}: Invalid face index."); return 0;
         }
     }
+
+    public override void AddVoxelDataToChunk(Chunk chunk, Vector3Int pos, Vector3 dir)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (chunk.World.CheckVoxel(pos + chunk.Data.faceChecks[i]))
+                continue;
+
+            for (int j = 0; j < 4; j++)
+                chunk.Vertices.Add(pos + chunk.Data.voxelVerts[chunk.Data.voxelTris[i][j]]);
+
+            chunk.AddTextureUV(GetTextureID(i));
+            chunk.Triangles.Add(chunk.VertexIdx);
+            chunk.Triangles.Add(chunk.VertexIdx + 1);
+            chunk.Triangles.Add(chunk.VertexIdx + 2);
+            chunk.Triangles.Add(chunk.VertexIdx + 2);
+            chunk.Triangles.Add(chunk.VertexIdx + 1);
+            chunk.Triangles.Add(chunk.VertexIdx + 3);
+            chunk.VertexIdx += 4;
+        }
+    }
 }
 
 [System.Serializable]
@@ -49,16 +72,16 @@ public class SlideBlockType : BlockType
 {
     [field: SerializeField] public Material FrontMaterial { get; protected set; }
     [field: SerializeField] public Material SideMaterial { get; protected set; }
-    [field: SerializeField] public Vector3 Forward { get; protected set; } = Vector3.forward;
 
-    public SlideBlockType() { }
-
-    public SlideBlockType(SlideBlockType data, Vector3 dir)
+    public override void AddVoxelDataToChunk(Chunk chunk, Vector3Int pos, Vector3 dir)
     {
-        BlockName = data.BlockName;
-        IsSolid = data.IsSolid;
-        FrontMaterial = data.FrontMaterial;
-        SideMaterial = data.SideMaterial;
-        Forward = dir;
+        var obj = Managers.Resource.GetCache<GameObject>("Slide Block.prefab");
+        obj = UnityEngine.Object.Instantiate(obj, pos, Quaternion.identity);
+        var slide = obj.GetComponent<SlideBlock>();
+        slide.Forward = dir;
+        slide.FrontMaterial = FrontMaterial;
+        slide.SideMaterial = SideMaterial;
+        slide.transform.SetParent(chunk.InstanceBlocksParent);
+        slide.name = $"{obj.name} ({pos})";
     }
 }

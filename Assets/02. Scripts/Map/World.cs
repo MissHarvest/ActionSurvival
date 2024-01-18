@@ -12,7 +12,7 @@ public class World : MonoBehaviour
     private WorldNavMeshBuilder _navMeshBuilder;
 
     private Dictionary<ChunkCoord, Chunk> _chunkMap = new(comparer: new ChunkCoord());
-    private Dictionary<Vector3Int, BlockType> _voxelMap = new();
+    private Dictionary<Vector3Int, (BlockType type, Vector3 forward)> _voxelMap = new();
 
     private List<Chunk> _currentActiveChunks = new();
     private List<Chunk> _prevActiveChunks = new();
@@ -25,7 +25,7 @@ public class World : MonoBehaviour
     public WorldData WorldData { get; private set; }
     public VoxelData VoxelData { get; private set; }
 
-    public Dictionary<Vector3Int, BlockType> VoxelMap => _voxelMap;
+    public Dictionary<Vector3Int, (BlockType type, Vector3 forward)> VoxelMap => _voxelMap;
     public WorldNavMeshBuilder NavMeshBuilder => _navMeshBuilder;
     public List<Chunk> CurrentActiveChunks => _currentActiveChunks;
 
@@ -83,7 +83,7 @@ public class World : MonoBehaviour
             {
                 for (int z = -SizeZ; z < SizeZ; z++)
                 {
-                    _voxelMap.TryAdd(new(x, y, z), WorldData.NormalBlockTypes[0]);
+                    _voxelMap.TryAdd(new(x, y, z), (WorldData.NormalBlockTypes[0], Vector3.forward));
                 }
             }
         }
@@ -97,19 +97,28 @@ public class World : MonoBehaviour
                 for (int y = 1; y < maxHeight; y++)
                 {
                     if (y == maxHeight - 1)
-                        _voxelMap.TryAdd(new(x, y, z), WorldData.NormalBlockTypes[0]);
+                        _voxelMap.TryAdd(new(x, y, z), (WorldData.NormalBlockTypes[0], Vector3.forward));
                     else
-                        _voxelMap.TryAdd(new(x, y, z), WorldData.NormalBlockTypes[1]);
+                        _voxelMap.TryAdd(new(x, y, z), (WorldData.NormalBlockTypes[1], Vector3.forward));
                 }
             }
         }
 
         // TEST: 계단 만들어보기
-        _voxelMap.TryAdd(new(-10, 1, -10), new SlideBlockType(WorldData.SlideBlockTypes[0], Vector3.forward));
-        _voxelMap.TryAdd(new(-9, 1, -11), new SlideBlockType(WorldData.SlideBlockTypes[0], Vector3.right));
-        _voxelMap.TryAdd(new(-10, 1, -9), WorldData.NormalBlockTypes[0]);
-        _voxelMap.TryAdd(new(-8, 1, -11), WorldData.NormalBlockTypes[0]);
-        _voxelMap.TryAdd(new(-9, 1, -10), WorldData.NormalBlockTypes[0]);
+        _voxelMap.TryAdd(new(-10, 1, -10), (WorldData.SlideBlockTypes[0], Vector3.forward));
+        for (int i = -9; i < 0; i++)
+        {
+            _voxelMap.TryAdd(new(-10, 1, i), (WorldData.NormalBlockTypes[0], Vector3.forward));
+            _voxelMap.TryAdd(new(-9, 1, i), (WorldData.NormalBlockTypes[0], Vector3.forward));
+            _voxelMap.TryAdd(new(-8, 1, i), (WorldData.NormalBlockTypes[0], Vector3.forward));
+        }
+
+        _voxelMap.TryAdd(new(-9, 1, -11), (WorldData.SlideBlockTypes[0], Vector3.right));
+        _voxelMap.TryAdd(new(-9, 1, -12), (WorldData.SlideBlockTypes[0], Vector3.right));
+        _voxelMap.TryAdd(new(-8, 1, -11), (WorldData.NormalBlockTypes[0], Vector3.forward));
+        _voxelMap.TryAdd(new(-8, 1, -12), (WorldData.NormalBlockTypes[0], Vector3.forward));
+        _voxelMap.TryAdd(new(-9, 1, -10), (WorldData.NormalBlockTypes[0], Vector3.forward));
+        _voxelMap.TryAdd(new(-8, 1, -10), (WorldData.NormalBlockTypes[0], Vector3.forward));
 
         // TEST: 우측에 눈 덮인 지형 만들어보기
         for (int y = 0; y < 1; y++)
@@ -118,7 +127,7 @@ public class World : MonoBehaviour
             {
                 for (int z = -SizeZ; z < SizeZ; z++)
                 {
-                    _voxelMap.TryAdd(new(x, y, z), WorldData.NormalBlockTypes[2]);
+                    _voxelMap.TryAdd(new(x, y, z), (WorldData.NormalBlockTypes[2], Vector3.forward));
                 }
             }
         }
@@ -130,7 +139,7 @@ public class World : MonoBehaviour
             {
                 for (int z = -SizeZ; z < SizeZ; z++)
                 {
-                    _voxelMap.TryAdd(new(x, y, z), WorldData.NormalBlockTypes[3]);
+                    _voxelMap.TryAdd(new(x, y, z), (WorldData.NormalBlockTypes[3], Vector3.forward));
                 }
             }
         }
@@ -196,7 +205,7 @@ public class World : MonoBehaviour
         if (!VoxelMap.ContainsKey(intPos))
             return false;
         else
-            return VoxelMap[intPos].IsSolid;
+            return VoxelMap[intPos].type.IsSolid;
     }
 
     public void GenerateWorldAsync(Action<float, string> progressCallback = null, Action completedCallback = null)
