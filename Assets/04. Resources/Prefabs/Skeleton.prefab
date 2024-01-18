@@ -78,6 +78,11 @@ MonoBehaviour:
   looting:
   - {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
   - {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
 --- !u!1001 &4532847364228931712
 PrefabInstance:
   m_ObjectHideFlags: 0

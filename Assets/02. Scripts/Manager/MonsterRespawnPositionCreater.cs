@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Transactions;
@@ -39,6 +37,7 @@ public class MonsterRespawnPositionCreater : MonoBehaviour
 
     public Color[] colors;
     public int[] rankCount = new int[] { 5, 15 };
+    public LayerMask spawnLockLayers;
 
     private void Awake()
     {
@@ -52,22 +51,12 @@ public class MonsterRespawnPositionCreater : MonoBehaviour
 
     private void Start()
     {
-        Stopwatch watch = new Stopwatch();
+        System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
         watch.Start();
 
         CheckUnusableNodes();
         
         LockBoundary();
-
-        //for (int x = 0; x < nodes.GetLength(0); ++x)
-        //{
-        //    for (int z = 0; z < nodes.GetLength(1); ++z)
-        //    {
-        //        if (nodes[x, z].locked) continue;
-        //        var pos = new Vector3(x * _interval, 2, z * _interval) - _offset;
-        //        var go = Instantiate(monster, pos, Quaternion.identity);
-        //    }
-        //}
 
         LockCenter();
 
@@ -111,9 +100,9 @@ public class MonsterRespawnPositionCreater : MonoBehaviour
         while (!finished)
         {
             ResetData();
-            UnityEngine.Debug.Log($"Create Monster Start[{_field}]");
+            Debug.Log($"Create Monster Start[{_field}]");
             finished = CreateMonster((Node[,])nodes.Clone(), _field);
-            UnityEngine.Debug.Log($"Create Monster End[{_field}] [{finished}]");
+            Debug.Log($"Create Monster End[{_field}] [{finished}]");
         }
     }
 
@@ -130,6 +119,14 @@ public class MonsterRespawnPositionCreater : MonoBehaviour
                 {
                     nodes[x, z].locked = true;
                     --_field;
+                }
+                else
+                {
+                    if(spawnLockLayers == (spawnLockLayers | 1 << hit.collider.gameObject.layer))
+                    {
+                        nodes[x, z].locked = true;
+                        --_field;
+                    }
                 }
             }
         }
@@ -254,7 +251,7 @@ public class MonsterRespawnPositionCreater : MonoBehaviour
         {
             for (int z = 0; z < usableNodes.GetLength(1); ++z)
             {
-                if (0 == cnt) return true;
+                //if (0 == cnt) return true;
                 if (usableNodes[x, z].locked) continue;
 
                 // 배치할 갯수 / 남은 공간 과 랜덤 비교
@@ -293,10 +290,10 @@ public class MonsterRespawnPositionCreater : MonoBehaviour
 
     private void LockAround(ref Node[,] usableNodes, int x, int z, ref int field)
     {
-        var minX = Math.Max(0, x - monsterInterval);
-        var maxX = Math.Min(range - 1, x + monsterInterval);
-        var minZ = Math.Max(0, z - monsterInterval);
-        var maxZ = Math.Min(range - 1, z + monsterInterval);
+        var minX = System.Math.Max(0, x - monsterInterval);
+        var maxX = System.Math.Min(range - 1, x + monsterInterval);
+        var minZ = System.Math.Max(0, z - monsterInterval);
+        var maxZ = System.Math.Min(range - 1, z + monsterInterval);
 
         var origin = Mathf.Abs(x) + Mathf.Abs(z);
 
