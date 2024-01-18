@@ -1,79 +1,25 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 // 2024. 01. 16 Byun Jeongmin
-public class UICooking : UIPopup
+public class UICooking : UICraftBase
 {
-    enum Gameobjects
-    {
-        Contents,
-        Exit,
-    }
-
-    private Transform _contents;
-    private List<UIRecipeItemSlot> _uiRecipeSlots = new List<UIRecipeItemSlot>();
-
-    public override void Initialize()
-    {
-        base.Initialize();
-        Bind<GameObject>(typeof(Gameobjects));
-        Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) => { Managers.UI.ClosePopupUI(this); });
-    }
-
     private void Awake()
     {
-        Initialize();
-        _contents = Get<GameObject>((int)Gameobjects.Contents).transform;
-        
-        // 비활성화 상태에서 시작
-        gameObject.SetActive(false);
+        base.Awake();
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
-        ShowCookingData(Managers.Data.cookingDataList);
+        base.OnEnable();
     }
 
-    // CookingData를 표시하는 메서드
-    public void ShowCookingData(List<RecipeSO> cookingDataList)
+    protected override UIConfirmBase GetConfirmPopup()
     {
-        ClearRecipeSlots();
-
-        for (int i = 0; i < cookingDataList.Count; i++)
-        {
-            var recipeSlotPrefab = Managers.Resource.GetCache<GameObject>("UIRecipeItemSlot.prefab");
-            var recipeSlotGO = Instantiate(recipeSlotPrefab, _contents);
-            var recipeSlot = recipeSlotGO.GetComponent<UIRecipeItemSlot>();
-            recipeSlot?.Set(new ItemSlot(cookingDataList[i].completedItemData));
-
-            // UIRecipeItemSlot에 인덱스를 설정
-            recipeSlot.SetIndex(i);
-
-            // 요리 클릭 시 UICookingConfirm 판넬 띄움
-            recipeSlotGO.BindEvent((x) =>
-            {
-                if (recipeSlotGO.activeSelf)
-                {
-                    var cookingConfirmPopup = Managers.UI.ShowPopupUI<UICookingConfirm>();
-
-                    // 선택한 레시피의 재료를 가져와서 UICookingConfirm에 전달
-                    cookingConfirmPopup.SetIngredients(Managers.Data.cookingDataList[recipeSlot.Index].requiredItems, recipeSlot.Index);
-                    //Debug.Log("재료 인덱스는 " + recipeSlot.Index);
-
-                    gameObject.SetActive(false);
-                }
-            });
-
-            _uiRecipeSlots.Add(recipeSlot);
-        }
+        return Managers.UI.ShowPopupUI<UICookingConfirm>();
     }
 
-    private void ClearRecipeSlots()
+    protected override List<RecipeSO> GetDataList()
     {
-        foreach (var slot in _uiRecipeSlots)
-        {
-            Destroy(slot.gameObject);
-        }
-        _uiRecipeSlots.Clear();
+        return Managers.Data.cookingDataList;
     }
 }

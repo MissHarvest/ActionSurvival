@@ -188,7 +188,9 @@ public class InventorySystem : MonoBehaviour
     public void OnItemUnregisted(QuickSlot slot)
     {
         int index = slot.targetIndex;
+        Debug.Log("인덱스 : "+index);
         slots[index].SetRegist(slot.itemSlot.registed);
+
         OnUpdated?.Invoke(index, slots[index]);
     }
     // 여기까지

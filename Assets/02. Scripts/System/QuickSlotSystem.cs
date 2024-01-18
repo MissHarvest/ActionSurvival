@@ -53,10 +53,14 @@ public class QuickSlotSystem : MonoBehaviour
         {
             if (slot.targetIndex == slots[i].targetIndex)
             {
-                slots[i].Clear();
-                slot.itemSlot.SetRegist(false);                
-                OnUpdated?.Invoke(i, slots[i].itemSlot);
+                //slots[i].Clear();
+                //slot.itemSlot.SetRegist(false);                
+                //OnUpdated?.Invoke(i, slots[i].itemSlot);
+                //OnUnRegisted?.Invoke(slot);
+                slot.itemSlot.SetRegist(false);
                 OnUnRegisted?.Invoke(slot);
+                slots[i].Clear();
+                OnUpdated?.Invoke(i, slots[i].itemSlot);
             }
         }
     }
