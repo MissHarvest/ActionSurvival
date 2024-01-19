@@ -32,7 +32,7 @@ Transform:
   m_Children:
   - {fileID: 1983835907164592033}
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &3838537283660270642
 NavMeshAgent:
@@ -158,7 +158,8 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: ccb425518422da04f833de71281d6870, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7244921836971337943, guid: 91d4749f098c66442b36767a17342765, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

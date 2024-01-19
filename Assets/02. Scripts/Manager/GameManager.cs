@@ -20,7 +20,7 @@ public class GameManager
         DayCycle.OnNightCame += StartMonsterWave;
         Temperature.Init(this);
 
-        InitIsLands();
+        //InitIslands();
     }
 
     private void SpawnMonster()
@@ -50,7 +50,7 @@ public class GameManager
         World.GenerateWorldAsync(progressCallback, completedCallback);
     }
 
-    private void InitIsLands()
+    private void InitIslands()
     {
         IceIsland.AddMonsterType(new string[][]{            
             new string[] { "BlueSoulEater" },
