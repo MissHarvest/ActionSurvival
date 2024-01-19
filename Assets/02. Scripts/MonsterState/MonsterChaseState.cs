@@ -1,5 +1,5 @@
-// ÀÛ¼º ³¯Â¥ : 2024. 01. 12
-// ÀÛ¼ºÀÚ : Park Jun Uk
+// ì‘ì„± ë‚ ì§œ : 2024. 01. 12
+// ì‘ì„±ì : Park Jun Uk
 
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ public class MonsterChaseState : MonsterBaseState
         Debug.Log("Monster State Changed to [ Chase ]");
         // Speed Up
         _stateMachine.MovementSpeedModifier = _stateMachine.Monster.Data.MovementData.ChaseSpeedModifier;
-        // Å½Áö ¹üÀ§ Áõ°¡
+        // íƒì§€ ë²”ìœ„ ì¦ê°€
         _stateMachine.DetectionDistModifier = _stateMachine.Monster.Data.AttackData.ChaseDectionDistModifier;
         base.Enter();
         
@@ -31,7 +31,7 @@ public class MonsterChaseState : MonsterBaseState
     {        
         base.Exit();
 
-        // Å½Áö ¹üÀ§ °¨¼Ò
+        // íƒì§€ ë²”ìœ„ ê°ì†Œ
         _stateMachine.DetectionDistModifier = _stateMachine.Monster.Data.AttackData.DefaultDetectionDistModifier;
 
         _stateMachine.Monster.NavMeshAgent.stoppingDistance = 0.5f;
@@ -42,17 +42,18 @@ public class MonsterChaseState : MonsterBaseState
     public override void Update()
     {
         // base.Update();
-        
+
         var dist = _stateMachine.Monster.NavMeshAgent.remainingDistance;
         var maxSpeed = _stateMachine.Monster.NavMeshAgent.speed;
         dist = Mathf.Min(dist, maxSpeed);
         _stateMachine.Monster.NavMeshAgent.stoppingDistance
             = Mathf.Max((dist + _reach) * 0.5f, _stateMachine.Monster.NavMeshAgent.stoppingDistance);
-        
+
         var sqrLength = GetDistanceBySqr(Managers.Game.Player.transform.position);
         
         if(sqrLength < _reach * _reach)
         {
+            _stateMachine.Monster.NavMeshAgent.ResetPath();
             _stateMachine.ChangeState(_stateMachine.AttackState);
             return;
         }

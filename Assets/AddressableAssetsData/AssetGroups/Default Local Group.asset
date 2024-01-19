@@ -65,6 +65,114 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 07c7cfeca40e7a24eacc7ff7a919fd84
+    m_Address: Beholder.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4995e95a03f916d448ffbe054bdb057d
+    m_Address: IceSwarm.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1298db046b896794d8c724590bf61a13
+    m_Address: FireSwarm.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 224d9237c2f723345a2cc41388b82d85
+    m_Address: IceSkeleton.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc732571b4b4d984585dc61a8b4fcb4d
+    m_Address: FireSkeleton.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1798e5fdbd4e49b4cb0b27b6dab05fdb
+    m_Address: IceRabbitMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f9f849b96a2e5ee4cb0a89de30ba5ec3
+    m_Address: FireRabbitMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8eb9609af0d73384a82a40543d796fb4
+    m_Address: IceBat.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a03a2949e06098f4db29f3e7c28414da
+    m_Address: FireBat.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9bbee5776b6d00e40bb6cbf347a61a47
+    m_Address: Bat.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95800a0b4c7435346a91ea5ec3ffd8e8
+    m_Address: RedMetalon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0bc533665347b241ad2e4113d293170
+    m_Address: BlueMetalon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e4561012dc1ba34badee2a9b1fecf40
+    m_Address: Fuga.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7a417631ddef394d8461ebd24820168
+    m_Address: RedFuga.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ff0051b795bad1488fe3a8e35ba25fe
+    m_Address: IceElemental.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae435dc51fc3d9e4d8c16cc38dbc9813
+    m_Address: FireElemental.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd030e30aa17ff84987abf058ead4dd5
+    m_Address: RedSoulEater.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c20bed6951e25b6488817959d978dcbd
+    m_Address: BlueSoulEater.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
   m_SchemaSet:

@@ -23,4 +23,13 @@ public class MonsterDieState : MonsterBaseState
         base.Exit();
         
     }
+
+    public override void Update()
+    {
+        float normalizedTime = GetNormalizedTime(_stateMachine.Monster.Animator, "Die");
+        if (normalizedTime >= 1.0f)
+        {
+            _stateMachine.Monster.gameObject.SetActive(false);
+        }
+    }
 }

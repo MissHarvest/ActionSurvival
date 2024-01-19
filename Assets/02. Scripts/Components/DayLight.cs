@@ -12,6 +12,7 @@ public class DayLight : MonoBehaviour
 
     public Color[] lightColors = new Color[3];
     public Material[] skyMaterial = new Material[3];
+    public Color[] fogColors = new Color[3];
 
     private Skybox _skyBox;
     private void Awake()
@@ -42,22 +43,23 @@ public class DayLight : MonoBehaviour
     
     private void OnMorningCame()
     {
-        Light.color = lightColors[0];
-        _skyBox.material = skyMaterial[0];
-        RenderSettings.fogColor = Color.blue;
+        SetEnviroment(0);
     }
 
     private void OnEveningCame()
     {
-        Light.color = lightColors[1];
-        _skyBox.material = skyMaterial[1];
-        RenderSettings.fogColor = Color.red;
+        SetEnviroment(1);
     }
 
     private void OnNightCame()
     {
-        Light.color = lightColors[2];
-        _skyBox.material = skyMaterial[2];
-        RenderSettings.fogColor = Color.black;
+        SetEnviroment(2);
+    }
+
+    private void SetEnviroment(int index)
+    {
+        Light.color = lightColors[index];
+        _skyBox.material = skyMaterial[index];
+        RenderSettings.fogColor = fogColors[index];
     }
 }

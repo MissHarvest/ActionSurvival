@@ -9,6 +9,7 @@ using UnityEngine.AI;
 
 public abstract class Monster : MonoBehaviour, IAttack, IHit
 {
+    [SerializeField] protected string _name = string.Empty;
     [field : SerializeField] public MonsterAnimationData AnimationData { get; private set; }
     protected MonsterStateMachine _stateMachine;
     public Animator Animator { get; private set; }
@@ -24,11 +25,14 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     [field : SerializeField] public Condition HP { get; private set; }
 
+    private Island _habitat;
+
     private void Awake()
     {
         AnimationData.Initialize();
         Animator = GetComponentInChildren<Animator>();
-        Data = Managers.Resource.GetCache<MonsterSO>($"{this.GetType().Name}.data");
+        var name = _name == string.Empty ? this.GetType().Name : _name;
+        Data = Managers.Resource.GetCache<MonsterSO>($"{name}.data");
         _stateMachine = new MonsterStateMachine(this);
 
         NavMeshAgent = Utility.GetOrAddComponent<NavMeshAgent>(gameObject);
@@ -46,6 +50,11 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     private void Update()
     {
         _stateMachine.Update();
+    }
+
+    public void SetIsland(Island island)
+    {
+        _habitat = island;
     }
 
     public void Respawn()
@@ -68,6 +77,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         {
             Managers.Game.Player.Inventory.AddItem(loot, 1);
         }
+
+        _habitat?.DiedMonsters.Add(this.gameObject);
     }
     
     public abstract void Attack(IHit target);
