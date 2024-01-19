@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ToolItemData", menuName = "New Item/Weapon", order = 0)]
 public class ToolItemData : EquipItemData
 {
-    public int maxDurability;
-    public int currentDurability;
+    public float maxDurability;
+    public float currentDurability;
 
     public LayerMask targetLayers;
     public float range;

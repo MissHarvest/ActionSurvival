@@ -26,8 +26,8 @@ public class PlayerInteractState : PlayerBaseState
             Debug.Log($"target Name : {target.name}");
             StartAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
 
-            // 내구도 감소 로직(currentDurability를 ItemData로 옮겨야하나,,)
-            //if (Managers.Game.Player.QuickSlot.slots[0].itemSlot.itemData.currentDurability > 0)
+            ////내구도 감소 로직(currentDurability를 ItemData로 옮겨야하나,,)
+            //if (Managers.Game.Player.QuickSlot.slots[Managers.Game.Player.QuickSlot.IndexInUse].itemSlot.itemData.currentDurability > 0)
             //{
             //    currentDurability--;
             //}
