@@ -12,7 +12,10 @@ GameObject:
   - component: {fileID: 6467245052042714782}
   - component: {fileID: 568873862526569763}
   - component: {fileID: 5241761920268516080}
-  m_Layer: 0
+  - component: {fileID: 5823716019689169168}
+  - component: {fileID: 6427097988587317937}
+  - component: {fileID: 391901103220345484}
+  m_Layer: 8
   m_Name: Handable_Greatsword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,3 +101,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: 279ff602e17ed1846a01bab9d008f59a, type: 2}
   onEquipTwoHandedTool: 0
+  onEquipTwinTool: 0
+--- !u!65 &5823716019689169168
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5927746538612151566}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.29219297, y: 0.0621868, z: 1.4611529}
+  m_Center: {x: 0.057150755, y: -0.000000115599086, z: 0.47963613}
+--- !u!54 &6427097988587317937
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5927746538612151566}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &391901103220345484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5927746538612151566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4d71e9ad29b7ba4e80d693840315fb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour, IAttack, IHit
+public class Player : MonoBehaviour, IHit
 {
     [field: Header("Animations")]
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
@@ -25,6 +25,7 @@ public class Player : MonoBehaviour, IAttack, IHit
 
     [field: Header("References")]
     [field: SerializeField] public PlayerSO Data { get; private set; }
+    [field: SerializeField] public Weapon Weapon { get; set; }
 
     private PlayerStateMachine _stateMachine;
 
@@ -46,9 +47,13 @@ public class Player : MonoBehaviour, IAttack, IHit
         Recipe = GetComponentInChildren<Recipe>();
         Cooking = GetComponentInChildren<Cooking>();
 
+        Weapon = GetComponentInChildren<Weapon>();
+
         ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
 
         _stateMachine = new PlayerStateMachine(this);
+
+
     }
 
     private void Start()
@@ -68,14 +73,10 @@ public class Player : MonoBehaviour, IAttack, IHit
         _stateMachine.PhysicsUpdate();
     }
 
-    public void Attack(IHit target)
-    {
-
-    }
-
     public void Hit(IAttack attacker, float damage)
     {
-
+        ConditionHandler.HP.Subtract(damage);
+        Debug.Log(attacker);
     }
 
     private void OnDrawGizmos()
