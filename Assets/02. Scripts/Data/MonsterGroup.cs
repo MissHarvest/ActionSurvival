@@ -31,9 +31,7 @@ public class MonsterGroup
         foreach(var n in list)
         {
             _stack.Push(n);
-            Debug.Log($"monster Group Stack Push : {n}");
         }
-        Debug.Log($"monster Group Stack Count : {_stack.Count}");
     }
 
     public GameObject Get()
@@ -41,7 +39,12 @@ public class MonsterGroup
         if (_stack.Count == 0) return null;
 
         int type = _stack.Pop();
-        Debug.Log($"[POP]monster Group Stack Count : {_stack.Count}");
         return _monsterType[type];
+    }
+
+    public GameObject GetRandomMonster()
+    {
+        var index = Random.Range(0, _monsterType.Count);
+        return _monsterType[index];
     }
 }

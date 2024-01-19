@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // 2024. 01. 18 Park Jun Uk
@@ -41,6 +42,10 @@ public class Island
 
     private List<SpawnPoint> _spawnablePoints = new List<SpawnPoint>();
 
+    public List<GameObject> DiedMonsters = new List<GameObject>();
+
+    public List<GameObject> ExtraMonsters = new List<GameObject>();
+
     public Island(IsLandProperty property)
     {
         _property = property;        
@@ -50,13 +55,36 @@ public class Island
         {
             _monsterGroups[i] = new MonsterGroup();
         }
+    }
 
-        Managers.Game.DayCycle.OnMorningCame += RespawnMonsters;
+    public void Spawn(int cnt)
+    {
+        // 생성 위치 및 갯수 탐색
+        for(int i = 0; i < cnt; ++i)
+        {
+            var index = Random.Range(0, _spawnablePoints.Count);
+
+            // 일단은 하급 생성
+            var monster = _monsterGroups[(int)MonsterLevel.Lower].GetRandomMonster();
+            var pos = _spawnablePoints[index].point;
+            pos.y = 0.5f;
+            var monsterObj = Object.Instantiate(monster, pos, Quaternion.identity);
+            monsterObj.name = monsterObj.name + "[Extra]";
+            ExtraMonsters.Add(monsterObj);
+        }
     }
 
     private void RespawnMonsters()
     {
+        // [ Do ] // Set Monster RespawnDuration. (day)
+        if (DiedMonsters.Count == 0) return;
 
+        for(int i = 0; i < DiedMonsters.Count; ++i)
+        {
+            DiedMonsters[i].SetActive(true);
+            DiedMonsters[i].GetComponent<Monster>().Respawn();
+        }
+        DiedMonsters.Clear();
     }
 
     public void AddMonsterType(string[][] monsterNames)
@@ -71,6 +99,8 @@ public class Island
     #region SpawnPoint
     public void CreateMonsters()
     {
+        Managers.Game.DayCycle.OnMorningCame += RespawnMonsters;
+
         CreateSpawnPoint();
 
         SetSpawnPointRank();
@@ -82,6 +112,7 @@ public class Island
             var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();            
             pos.y = 0.5f;
             var go = Object.Instantiate(mon, pos, Quaternion.identity);
+            go.GetComponent<Monster>().SetIsland(this);
             go.name = $"{mon.name}[{_spawnablePoints[i].level}]";
         }
     }

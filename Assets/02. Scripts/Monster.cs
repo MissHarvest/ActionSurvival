@@ -25,6 +25,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     [field : SerializeField] public Condition HP { get; private set; }
 
+    private Island _habitat;
+
     private void Awake()
     {
         AnimationData.Initialize();
@@ -50,6 +52,11 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         _stateMachine.Update();
     }
 
+    public void SetIsland(Island island)
+    {
+        _habitat = island;
+    }
+
     public void Respawn()
     {
         Dead = false;
@@ -70,6 +77,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         {
             Managers.Game.Player.Inventory.AddItem(loot, 1);
         }
+
+        _habitat?.DiedMonsters.Add(this.gameObject);
     }
     
     public abstract void Attack(IHit target);

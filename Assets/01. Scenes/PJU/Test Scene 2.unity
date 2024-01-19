@@ -1792,7 +1792,7 @@ MonoBehaviour:
   resource: {fileID: 763434331}
   area: {fileID: 1928657307}
   range: 61
-  count: 50
+  count: 5
   monsterInterval: 5
   _monsters: []
   centerRadius: 8

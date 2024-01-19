@@ -16,9 +16,32 @@ public class GameManager
     public void Init()
     {
         DayCycle.Init();
+        DayCycle.OnEveningCame += SpawnMonster;
+        DayCycle.OnNightCame += StartMonsterWave;
         Temperature.Init(this);
 
         InitIsLands();
+    }
+
+    private void SpawnMonster()
+    {
+        var week = DayCycle.Date / 7;
+        var flag = week % 2;
+        switch(flag)
+        {
+            case 0:
+                FireIsLand.Spawn(1);
+                break;
+
+            case 1:
+                IceIsland.Spawn(1);
+                break;
+        }
+    }
+
+    private void StartMonsterWave()
+    {
+
     }
 
     public void GenerateWorldAsync(Action<float, string> progressCallback = null, Action completedCallback = null)
