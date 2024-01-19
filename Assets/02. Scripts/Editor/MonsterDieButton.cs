@@ -19,7 +19,7 @@ public class MonsterDieButton : Editor
 
         if (GUILayout.Button("Hit"))
         {
-            monster.Hit(Managers.Game.Player, 1.0f);
+            //monster.Hit(Managers.Game.Player, 1.0f);
         }
 
         if (GUILayout.Button("Die"))

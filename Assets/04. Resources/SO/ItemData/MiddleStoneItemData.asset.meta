@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/04. Resources/SO/ItemData/MiddleStoneItemData.asset.meta
 guid: a1020833cf086984eaddf8c111fc9f94
 NativeFormatImporter:
+========
+guid: 2cda990e2423bbf4892e6590ba056729
+DefaultImporter:
+>>>>>>>> Develop1.0:Assets/ImportAssets/08. Cainos (Item Icon Pack)/Pixel Art Icon Pack - RPG/Scene/SC Pixel Art Icon Pack - RPG.unity.meta
   externalObjects: {}
   mainObjectFileID: 11400000
   userData: 

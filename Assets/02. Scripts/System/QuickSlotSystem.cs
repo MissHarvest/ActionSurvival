@@ -51,10 +51,6 @@ public class QuickSlotSystem : MonoBehaviour
         {
             if (slot.targetIndex == slots[i].targetIndex)
             {
-                //slots[i].Clear();
-                //slot.itemSlot.SetRegist(false);                
-                //OnUpdated?.Invoke(i, slots[i].itemSlot);
-                //OnUnRegisted?.Invoke(slot);
                 slot.itemSlot.SetRegist(false);
                 OnUnRegisted?.Invoke(slot);
                 slots[i].Clear();
@@ -91,7 +87,7 @@ public class QuickSlotSystem : MonoBehaviour
                 break;
 
             case ConsumeItemData consumeItem:
-                //Debug.Log("퀵슬롯 음식 클릭");
+                //Debug.Log("������ ���� Ŭ��");
 
                 UseConsumeItem(consumeItem);
                 break;
@@ -105,25 +101,25 @@ public class QuickSlotSystem : MonoBehaviour
     {
         int indexInUse = IndexInUse;
 
-        // 인벤토리에서 아이템 사용
+        // �κ��丮���� ������ ���
         Managers.Game.Player.Inventory.UseSlotItemByIndex(indexInUse);
 
-        // 아이템 수량 감소 및 QuickSlot 업데이트
+        // ������ ���� ���� �� QuickSlot ������Ʈ
         slots[indexInUse].itemSlot.SubtractQuantity();
 
-        // 아이템 수량이 0이 되면 퀵슬롯에서 제거
+        // ������ ������ 0�� �Ǹ� �����Կ��� ����
         if (slots[indexInUse].itemSlot.quantity <= 0)
         {
             UnRegist(slots[indexInUse]);
         }
         else
         {
-            // 아이템 수량이 0이 아니면 QuickSlot 업데이트
+            // ������ ������ 0�� �ƴϸ� QuickSlot ������Ʈ
             OnUpdated?.Invoke(indexInUse, slots[indexInUse].itemSlot);
         }
     }
 
-    // 퀵슬롯 인덱스 번호로 업데이트
+    // ������ �ε��� ��ȣ�� ������Ʈ
     public void UpdateQuickSlot(int index)
     {
         IndexInUse = index;
