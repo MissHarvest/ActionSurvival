@@ -5,7 +5,6 @@ using UnityEngine;
 public class Utility : MonoBehaviour
 {
     #region Find Child => To Component
-    
     public static T FindChild<T>(GameObject go, string name = null, bool recursive = false) where T : Object
     {
         if (go == null)
@@ -27,24 +26,16 @@ public class Utility : MonoBehaviour
         return components.FirstOrDefault(comp =>
             string.IsNullOrEmpty(name) || comp.name == name);
     }
-    
     #endregion
 
-
-
     #region Find Child => To GameObject
-    
     public static GameObject FindChild(GameObject go, string name = null, bool recursive = false)
     {
         var transform = FindChild<Transform>(go, name, recursive);
         
         return (transform == null) ? null : transform.gameObject;
     }
-    
     #endregion
-
-
-
 
     public static T GetOrAddComponent<T>(GameObject go) where T : Component
     {
@@ -56,8 +47,6 @@ public class Utility : MonoBehaviour
         return component;
     }
 
-
-
     public static int GetRandomNumber(int min, int max)
     {
         var random = new System.Random();
@@ -65,5 +54,4 @@ public class Utility : MonoBehaviour
 
         return random.Next(min, max);
     }
-
 }

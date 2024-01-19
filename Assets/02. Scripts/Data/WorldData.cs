@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,16 @@ public class WorldData : ScriptableObject
     [field: SerializeField] public SlideBlockType[] SlideBlockTypes { get; private set; }
     [field: SerializeField] public int WorldSize { get; private set; }
     [field: SerializeField] public int ViewChunkRange { get; private set; }
+
+    public BlockType[] GetType(MapEditDataSource.Inherits type)
+    {
+        return type switch
+        {
+            MapEditDataSource.Inherits.Normal => NormalBlockTypes,
+            MapEditDataSource.Inherits.Slide => SlideBlockTypes,
+            _ => NormalBlockTypes,
+        };
+    }
 }
 
 [System.Serializable]

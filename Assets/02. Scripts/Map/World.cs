@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 // 2024-01-12 WJY
@@ -208,18 +207,33 @@ public class World : MonoBehaviour
             return VoxelMap[intPos].type.IsSolid;
     }
 
+    public IEnumerator ReadMapDataFile(TextAsset json)
+    {
+        var originData = json.text.DictionaryFromJson<Vector3Int, MapData>();
+        foreach (var data in originData)
+        {
+            var type = WorldData.GetType(data.Value.type)[data.Value.typeIndex];
+            _voxelMap.TryAdd(data.Key, (type, data.Value.forward));
+        }
+        yield return null;
+    }
+
     public void GenerateWorldAsync(Action<float, string> progressCallback = null, Action completedCallback = null)
     {
-        WorldData = Managers.Resource.GetCache<WorldData>("WorldData.data");
-        VoxelData = Managers.Resource.GetCache<VoxelData>("VoxelData.data");
         StartCoroutine(GenerateCoroutine(progressCallback, completedCallback));
     }
 
     private IEnumerator GenerateCoroutine(Action<float, string> progressCallback = null, Action completedCallback = null)
     {
-        progressCallback?.Invoke(0.25f, "복셀 맵 생성 중...");
-        yield return StartCoroutine(PopulateVoxelMap());
-        progressCallback?.Invoke(0.5f, "청크 생성 중...");
+        WorldData = Managers.Resource.GetCache<WorldData>("WorldData.data");
+        VoxelData = Managers.Resource.GetCache<VoxelData>("VoxelData.data");
+        var data = Managers.Resource.GetCache<TextAsset>("MapData.data");
+
+        progressCallback?.Invoke(0f, "데이터 읽는 중...");
+        yield return StartCoroutine(ReadMapDataFile(data));
+        //progressCallback?.Invoke(0.25f, "복셀 맵 생성 중...");
+        //yield return StartCoroutine(PopulateVoxelMap());
+        progressCallback?.Invoke(0.25f, "청크 생성 중...");
         yield return StartCoroutine(GenerateChunk());
         progressCallback?.Invoke(1f, "완료");
         completedCallback?.Invoke();
