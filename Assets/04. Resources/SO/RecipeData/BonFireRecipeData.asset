@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: BonFireRecipeData
   m_EditorClassIdentifier: 
   itemName: BonFire
+  completedItemData: {fileID: 11400000, guid: 29b6186d9f3a8dd4fa1f7a8ce21ca246, type: 2}
+  IsAdvancedRecipe: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
     quantity: 10

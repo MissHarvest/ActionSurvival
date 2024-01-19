@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -188,19 +184,36 @@ public class InventorySystem : MonoBehaviour
     public void OnItemUnregisted(QuickSlot slot)
     {
         int index = slot.targetIndex;
+        //Debug.Log("인덱스 : " + index);
         slots[index].SetRegist(slot.itemSlot.registed);
+
         OnUpdated?.Invoke(index, slots[index]);
     }
     // 여기까지
 
-    public void UseItemByIndex(int index)
+    // 인벤토리의 소비 아이템 Use
+    public void UseItemByIndex(int index, bool fromQuickSlot = false)
     {
-        var consume = slots[index].itemData as ConsumeItemData;
+        ItemSlot targetSlot;
+
+        if (fromQuickSlot)
+        {
+            // 퀵슬롯의 소비 아이템이 인벤토리의 몇 번째 슬롯에 있는지 확인
+            int inventoryIndex = Managers.Game.Player.QuickSlot.slots[index].targetIndex;
+            index = inventoryIndex;
+            targetSlot = slots[inventoryIndex];
+        }
+        else
+        {
+            targetSlot = slots[index];
+        }
+
+        var consume = targetSlot.itemData as ConsumeItemData;
         var conditionHandler = Owner.ConditionHandler;
 
-        foreach(var playerCondition in consume.conditionModifier)
+        foreach (var playerCondition in consume.conditionModifier)
         {
-            switch(playerCondition.Condition) 
+            switch (playerCondition.Condition)
             {
                 case Conditions.HP:
                     conditionHandler.HP.Add(playerCondition.value);
@@ -212,9 +225,51 @@ public class InventorySystem : MonoBehaviour
             }
         }
 
-        slots[index].SubtractQuantity();
-        OnUpdated?.Invoke(index, slots[index]);
+        targetSlot.SubtractQuantity();
+        OnUpdated?.Invoke(index, targetSlot);
     }
+
+    // 퀵슬롯의 소비 아이템 Use
+    public void UseSlotItemByIndex(int index)
+    {
+        UseItemByIndex(index, true);
+    }
+
+    // 인벤토리에서 Use버튼을 눌렀을 때 실행
+    public void UseConsumeItemByIndex(int index)
+    {
+        // 인벤토리 인덱스
+        int inventoryIndex = index;
+
+        // 퀵슬롯 인덱스
+        int quickSlotIndex = -1;
+        for (int i = 0; i < Managers.Game.Player.QuickSlot.slots.Length; i++)
+        {
+            if (index == Managers.Game.Player.QuickSlot.slots[i].targetIndex)
+            {
+                quickSlotIndex = i;
+                break;
+            }
+        }
+
+        // 인벤토리에서 아이템 사용
+        UseItemByIndex(inventoryIndex);
+
+        // 아이템 수량 감소 및 QuickSlot 업데이트
+        Managers.Game.Player.QuickSlot.slots[quickSlotIndex].itemSlot.SubtractQuantity();
+
+        // 아이템 수량이 0이 되면 퀵슬롯에서 제거
+        if (Managers.Game.Player.QuickSlot.slots[quickSlotIndex].itemSlot.quantity <= 0)
+        {
+            Managers.Game.Player.QuickSlot.UnRegist(Managers.Game.Player.QuickSlot.slots[quickSlotIndex]);
+        }
+        else
+        {
+            // 아이템 수량이 0이 아니면 QuickSlot 업데이트
+            Managers.Game.Player.QuickSlot.UpdateQuickSlot(quickSlotIndex);
+        }
+    }
+
 
     // 특정 아이템의 개수 반환
     public int GetItemCount(ItemData itemData)

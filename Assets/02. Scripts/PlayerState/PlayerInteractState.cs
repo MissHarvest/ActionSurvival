@@ -25,6 +25,13 @@ public class PlayerInteractState : PlayerBaseState
             target = targets[0].gameObject;
             Debug.Log($"target Name : {target.name}");
             StartAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
+
+            ////내구도 감소 로직(currentDurability를 ItemData로 옮겨야하나,,)
+            //if (Managers.Game.Player.QuickSlot.slots[Managers.Game.Player.QuickSlot.IndexInUse].itemSlot.itemData.currentDurability > 0)
+            //{
+            //    currentDurability--;
+            //}
+
         }
         else
         {
@@ -40,7 +47,7 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void Update()
     {
-        // exit ���� ����
+        // exit 조건 설정
         float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
         
         if(normalizedTime >= 1f)

@@ -8,6 +8,9 @@ public class RecipeSO : ScriptableObject
 {
     public string itemName;
     public ItemData completedItemData;
+
+    public bool IsAdvancedRecipe; // 고급 레시피 여부를 나타냄
+
     //완성 제작템 SO 추가
     public List<Ingredient> requiredItems = new List<Ingredient>();
 
