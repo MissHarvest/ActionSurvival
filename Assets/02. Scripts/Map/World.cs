@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.AI.Navigation;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 // 2024-01-12 WJY
 public class World : MonoBehaviour
@@ -21,12 +19,15 @@ public class World : MonoBehaviour
 
     private ChunkCoord _currentPlayerCoord;
     private ChunkCoord _prevPlayerCoord;
+    private ChunkCoord _minChunkCoord;
+    private ChunkCoord _maxChunkCoord;
 
     public WorldData WorldData { get; private set; }
     public VoxelData VoxelData { get; private set; }
 
     public Dictionary<Vector3Int, BlockType> VoxelMap => _voxelMap;
     public WorldNavMeshBuilder NavMeshBuilder => _navMeshBuilder;
+    public List<Chunk> CurrentActiveChunks => _currentActiveChunks;
 
     private void Update()
     {
@@ -60,9 +61,6 @@ public class World : MonoBehaviour
                     _currentActiveChunks.Add(currentChunk);
                     currentChunk.SetActive(true);
                     _prevActiveChunks.Remove(currentChunk);
-
-                    // NavMesh Source 전달
-                    _navMeshBuilder.UpdateChunkSources(_currentActiveChunks);
                 }
             }
         }
@@ -73,9 +71,9 @@ public class World : MonoBehaviour
         _navMeshBuilder.UpdateNavMesh();
     }
 
-    // TEST: 일단 Grass 블록으로 평지 만들기
     private IEnumerator PopulateVoxelMap()
     {
+        // TEST: 일단 Grass 블록으로 평지 만들기
         int SizeX = WorldData.WorldSize / 2;
         int SizeZ = WorldData.WorldSize / 2;
 
@@ -85,7 +83,7 @@ public class World : MonoBehaviour
             {
                 for (int z = -SizeZ; z < SizeZ; z++)
                 {
-                    _voxelMap.TryAdd(new(x, y, z), WorldData.BlockTypes[0]);
+                    _voxelMap.TryAdd(new(x, y, z), WorldData.NormalBlockTypes[0]);
                 }
             }
         }
@@ -99,9 +97,40 @@ public class World : MonoBehaviour
                 for (int y = 1; y < maxHeight; y++)
                 {
                     if (y == maxHeight - 1)
-                        _voxelMap.TryAdd(new(x, y, z), WorldData.BlockTypes[0]);
+                        _voxelMap.TryAdd(new(x, y, z), WorldData.NormalBlockTypes[0]);
                     else
-                        _voxelMap.TryAdd(new(x, y, z), WorldData.BlockTypes[1]);
+                        _voxelMap.TryAdd(new(x, y, z), WorldData.NormalBlockTypes[1]);
+                }
+            }
+        }
+
+        // TEST: 계단 만들어보기
+        _voxelMap.TryAdd(new(-10, 1, -10), new SlideBlockType(WorldData.SlideBlockTypes[0], Vector3.forward));
+        _voxelMap.TryAdd(new(-9, 1, -11), new SlideBlockType(WorldData.SlideBlockTypes[0], Vector3.right));
+        _voxelMap.TryAdd(new(-10, 1, -9), WorldData.NormalBlockTypes[0]);
+        _voxelMap.TryAdd(new(-8, 1, -11), WorldData.NormalBlockTypes[0]);
+        _voxelMap.TryAdd(new(-9, 1, -10), WorldData.NormalBlockTypes[0]);
+
+        // TEST: 우측에 눈 덮인 지형 만들어보기
+        for (int y = 0; y < 1; y++)
+        {
+            for (int x = -SizeX + WorldData.WorldSize; x < SizeX + WorldData.WorldSize; x++)
+            {
+                for (int z = -SizeZ; z < SizeZ; z++)
+                {
+                    _voxelMap.TryAdd(new(x, y, z), WorldData.NormalBlockTypes[2]);
+                }
+            }
+        }
+
+        // TEST: 좌측에 붉은 돌 지형 만들어보기
+        for (int y = 0; y < 1; y++)
+        {
+            for (int x = -SizeX + -WorldData.WorldSize; x < SizeX + -WorldData.WorldSize; x++)
+            {
+                for (int z = -SizeZ; z < SizeZ; z++)
+                {
+                    _voxelMap.TryAdd(new(x, y, z), WorldData.NormalBlockTypes[3]);
                 }
             }
         }
@@ -116,12 +145,28 @@ public class World : MonoBehaviour
         return chunk;
     }
 
+    // BFS로 개선해도 ???
     private IEnumerator GenerateChunk()
     {
+        //var keys = _voxelMap.Keys;
+        //_minChunkCoord.x = keys.Min(pos => pos.x) / VoxelData.ChunkSizeX - 1;
+        //_minChunkCoord.z = keys.Min(pos => pos.z) / VoxelData.ChunkSizeZ - 1;
+        //_maxChunkCoord.x = keys.Max(pos => pos.x) / VoxelData.ChunkSizeX + 1;
+        //_maxChunkCoord.z = keys.Max(pos => pos.z) / VoxelData.ChunkSizeZ + 1;
+
+        //for (int x = _minChunkCoord.x; x <= _maxChunkCoord.x; x++)
+        //{
+        //    for (int z = _minChunkCoord.z; z <= _maxChunkCoord.z; z++)
+        //    {
+        //        var chunk = CreateChunk(new(x, z));
+        //        chunk.IsActive = false;
+        //    }
+        //}
+
         int SizeX = WorldData.WorldSize / VoxelData.ChunkSizeX / 2;
         int SizeZ = WorldData.WorldSize / VoxelData.ChunkSizeZ / 2;
 
-        for (int x = -SizeX; x <= SizeX; x++)
+        for (int x = -SizeX * 3; x <= SizeX * 3; x++)
         {
             for (int z = -SizeZ; z <= SizeZ; z++)
             {
@@ -129,6 +174,18 @@ public class World : MonoBehaviour
                 chunk.IsActive = false;
             }
         }
+
+        //int SizeX = WorldData.WorldSize / VoxelData.ChunkSizeX / 2;
+        //int SizeZ = WorldData.WorldSize / VoxelData.ChunkSizeZ / 2;
+
+        //for (int x = -SizeX; x <= SizeX; x++)
+        //{
+        //    for (int z = -SizeZ; z <= SizeZ; z++)
+        //    {
+        //        var chunk = CreateChunk(new(x, z));
+        //        chunk.IsActive = false;
+        //    }
+        //}
         yield return null;
     }
 
@@ -139,7 +196,7 @@ public class World : MonoBehaviour
         if (!VoxelMap.ContainsKey(intPos))
             return false;
         else
-            return VoxelMap[intPos].isSolid;
+            return VoxelMap[intPos].IsSolid;
     }
 
     public void GenerateWorldAsync(Action<float, string> progressCallback = null, Action completedCallback = null)
@@ -170,7 +227,7 @@ public class World : MonoBehaviour
         _navMeshBuilder = new GameObject(nameof(WorldNavMeshBuilder)).AddComponent<WorldNavMeshBuilder>();
         _navMeshBuilder.IsActive = false; // 주기적으로 업데이트 X. 일단은 청크 정보가 바뀔 때마다 업데이트합니다.
         UpdateChunksInViewRange();
-        yield return null;
+        yield return new WaitForFixedUpdate();
         yield return _navMeshBuilder.UpdateNavMesh();
     }
 }
