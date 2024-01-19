@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class UIItemUsageHelper : UIPopup
 {
@@ -117,7 +113,8 @@ public class UIItemUsageHelper : UIPopup
         var optionButton = CreateButton(Functions.Use.ToString());
         optionButton.Bind(() =>
         {
-            Managers.Game.Player.Inventory.UseItemByIndex(SelectedItem.targetIndex);
+            //Managers.Game.Player.Inventory.UseItemByIndex(SelectedItem.targetIndex);
+            Managers.Game.Player.Inventory.UseConsumeItemByIndex(SelectedItem.targetIndex);
             Managers.UI.ClosePopupUI(this);
         });
         return optionButton;
@@ -128,7 +125,7 @@ public class UIItemUsageHelper : UIPopup
         var optionButton = CreateButton(Functions.Regist.ToString());
         optionButton.Bind(() =>
         {
-            Managers.UI.ClosePopupUI(this); // À§¿¡¼­ ºÎÅÍ ¼ø¼­´ë·Î ´İ´Âµ¥, this °¡ ÃÖ±ÙÀÌ ¾Æ´Ï¶ó¼­ ¾È ´İÈû
+            Managers.UI.ClosePopupUI(this); // ìœ„ì—ì„œ ë¶€í„° ìˆœì„œëŒ€ë¡œ ë‹«ëŠ”ë°, this ê°€ ìµœê·¼ì´ ì•„ë‹ˆë¼ì„œ ì•ˆ ë‹«í˜
             Managers.UI.ShowPopupUI<UIToolRegister>().Set(SelectedItem);            
         });
         return optionButton;
@@ -147,7 +144,6 @@ public class UIItemUsageHelper : UIPopup
 
     private UIOptionButton CreateButton(string name)
     {
-        //var go = Managers.Resource.Instantiate("UIOptionButton", Literals.PATH_UI, Get<GameObject>((int)GameObjects.Options).transform);
         var go = Managers.Resource.GetCache<GameObject>("UIOptionButton.prefab");
         go = Instantiate(go, Get<GameObject>((int)GameObjects.Options).transform);
         var optionButton = go.GetComponent<UIOptionButton>();

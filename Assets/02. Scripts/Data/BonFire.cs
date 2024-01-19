@@ -18,20 +18,17 @@ public class BonFire : MonoBehaviour, IInteractable
 
         if (currentToolName == "Handable_BonFire")
         {
-            //인벤토리에서 모닥불 장착 해제 및 제거
-            for (int i = 0; i < Managers.Game.Player.QuickSlot.slots.Length; i++)
-            {
-                if (Managers.Game.Player.QuickSlot.slots[i].itemSlot.itemData.displayName == "모닥불")
-                {
-                    //Debug.Log(i);
-                    //Debug.Log(Managers.Game.Player.QuickSlot.slots[i]);
-                    Managers.Game.Player.QuickSlot.UnRegist(Managers.Game.Player.QuickSlot.slots[0]);
-                    break;
-                }
-            }
-
             // 플레이어의 손에서 모닥불 비활성화
             gameObject.SetActive(false);
+
+            // 장착 해제
+            Managers.Game.Player.Inventory.FindItem(itemInUse.itemData, out int index);
+            var item = new QuickSlot();
+            item.Set(index, Managers.Game.Player.Inventory.slots[index]);
+            Managers.Game.Player.QuickSlot.UnRegist(item);
+
+            // 인벤토리에서 제거
+            Managers.Game.Player.Inventory.DestroyItemByIndex(item);
 
             GameObject droppedTool = Instantiate(gameObject);
             droppedTool.transform.position = new Vector3(transform.position.x, 2f, transform.position.z + 1f);
