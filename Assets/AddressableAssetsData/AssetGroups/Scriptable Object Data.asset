@@ -216,13 +216,31 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7c73213da80f61e498dd9ac1e39f8fc5
-    m_Address: FireBat.asset
+    m_Address: FireBat.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 98c491827b21dec44b1777268e29a718
-    m_Address: IceBat.asset
+    m_Address: IceBat.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71088cc1ab065df4b87727b8508df358
+    m_Address: RabbitMon.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 64d5a132d9268ec4dad1a3e6df90c443
+    m_Address: IceRabbitMon.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15d682d7a24c11e469c2b736888d56dc
+    m_Address: FireRabbitMon.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

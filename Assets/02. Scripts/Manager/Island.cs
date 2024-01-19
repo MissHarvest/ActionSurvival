@@ -44,7 +44,7 @@ public class Island
     public Island(IsLandProperty property)
     {
         _property = property;        
-        _offset = new Vector3(property.diameter / 2, 0, property.diameter / 2) + _property.center;  
+        _offset = new Vector3(property.diameter / 2, 0, property.diameter / 2) - _property.center;  
         
         for(int i = 0; i < _monsterGroups.Length; ++i)
         {
@@ -72,12 +72,10 @@ public class Island
         for (int i = 0; i < _spawnablePoints.Count; ++i)
         {            
             var pos = _spawnablePoints[i].point;
-            Debug.Log($"Spawn Monster Level [ {_spawnablePoints[i].level} ]");
-            var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();
-            //var mon = Managers.Resource.GetCache<GameObject>($"Skeleton.prefab");
-            mon.name = $"[{_spawnablePoints[i].level}]";
+            var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();            
             pos.y = 0.5f;
-            Object.Instantiate(mon, pos, Quaternion.identity);
+            var go = Object.Instantiate(mon, pos, Quaternion.identity);
+            go.name = $"{mon.name}[{_spawnablePoints[i].level}]";
         }
     }
 
@@ -287,6 +285,7 @@ public class Island
     private void SetSpawnPointRank()
     {
         List<(int, float)> dist = new List<(int, float)>();
+        UnityEngine.Debug.Log($"Center : {_property.center}");
         for (int i = 0; i < _spawnablePoints.Count; ++i)
         {
             var d = _spawnablePoints[i].point - _property.center;

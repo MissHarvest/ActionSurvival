@@ -152,7 +152,6 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-
     // Item Control // >> 다른 클래스로 빼낼 수 있을려나
     public void DestroyItemByIndex(QuickSlot quickSlot)
     {

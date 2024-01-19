@@ -9,8 +9,8 @@ public class GameManager
 
     public World World { get; private set; }
 
-    public Island IceIsland = new Island(new IsLandProperty(Vector3.zero));
-    public Island CenterIsland = new Island(new IsLandProperty(new Vector3(-400, 0, 0)));
+    public Island IceIsland = new Island(new IsLandProperty(new Vector3(-400, 0, 0)));
+    public Island CenterIsland = new Island(new IsLandProperty(Vector3.zero));
     public Island FireIsLand = new Island(new IsLandProperty(new Vector3(400, 0, 0)));
 
     public void Init()
@@ -18,7 +18,7 @@ public class GameManager
         DayCycle.Init();
         Temperature.Init(this);
 
-        //InitIsLands();
+        // InitIsLands();
     }
 
     public void GenerateWorldAsync(Action<float, string> progressCallback = null, Action completedCallback = null)
@@ -29,10 +29,10 @@ public class GameManager
 
     private void InitIsLands()
     {
-        IceIsland.AddMonsterType(new string[][]{
+        IceIsland.AddMonsterType(new string[][]{            
             new string[] { "Skeleton" },
             new string[] { "Skeleton" },
-            new string[] { "Skeleton" }
+            new string[] { "IceSkeleton", "IceBat", "IceSwarm", "IceRabbitMon", "Beholder" },
             });
 
         CenterIsland.AddMonsterType(new string[][]{
@@ -41,10 +41,10 @@ public class GameManager
             new string[] { "Skeleton" }
             });
 
-        FireIsLand.AddMonsterType(new string[][]{
+        FireIsLand.AddMonsterType(new string[][]{            
             new string[] { "Skeleton" },
             new string[] { "Skeleton" },
-            new string[] { "Skeleton" }
+            new string[] { "FireSkeleton", "FireBat", "FireRabbitMon", "FireSwarm", "Slime" },
             });
 
         IceIsland.CreateMonsters();
