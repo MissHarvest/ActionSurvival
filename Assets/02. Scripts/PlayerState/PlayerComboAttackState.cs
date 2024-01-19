@@ -6,18 +6,22 @@ public class PlayerComboAttackState : PlayerAttackState
 {
     private bool _alreadyAppliedForce;
     private bool _alreadyApplyCombo;
+    private Weapon _weapon;
 
     private AttackInfoData _attackInfoData;
 
     public PlayerComboAttackState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
 
-    }
+    }    
 
     public override void Enter()
     {
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
+
+        _weapon = Managers.Game.Player.GetComponentInChildren<Weapon>(); // lgs 24.01.19
+        _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;
 
         _alreadyAppliedForce = false;
         _alreadyApplyCombo = false;
@@ -31,6 +35,8 @@ public class PlayerComboAttackState : PlayerAttackState
     {
         base.Exit();
         StopAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
+
+        _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false; // lgs 24.01.19
 
         if (!_alreadyApplyCombo)
             _stateMachine.ComboIndex = 0;
@@ -89,6 +95,10 @@ public class PlayerComboAttackState : PlayerAttackState
                 else if (toolItemDate.isTwinTool == true)
                 {
                     _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
+                }
+                else
+                {
+                    _stateMachine.ChangeState(_stateMachine.IdleState);
                 }
             }
         }
