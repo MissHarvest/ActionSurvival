@@ -18,7 +18,7 @@ public class GameManager
         DayCycle.Init();
         Temperature.Init(this);
 
-        // InitIsLands();
+        InitIsLands();
     }
 
     public void GenerateWorldAsync(Action<float, string> progressCallback = null, Action completedCallback = null)
@@ -30,8 +30,8 @@ public class GameManager
     private void InitIsLands()
     {
         IceIsland.AddMonsterType(new string[][]{            
-            new string[] { "Skeleton" },
-            new string[] { "Skeleton" },
+            new string[] { "BlueSoulEater" },
+            new string[] { "Fuga" , "BlueMetalon" , "IceElemental" },
             new string[] { "IceSkeleton", "IceBat", "IceSwarm", "IceRabbitMon", "Beholder" },
             });
 
@@ -42,8 +42,8 @@ public class GameManager
             });
 
         FireIsLand.AddMonsterType(new string[][]{            
-            new string[] { "Skeleton" },
-            new string[] { "Skeleton" },
+            new string[] { "RedSoulEater" },
+            new string[] { "RedFuga" , "FireElemental" , "RedMetalon" },
             new string[] { "FireSkeleton", "FireBat", "FireRabbitMon", "FireSwarm", "Slime" },
             });
 

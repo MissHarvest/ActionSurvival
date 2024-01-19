@@ -50,6 +50,13 @@ public class Island
         {
             _monsterGroups[i] = new MonsterGroup();
         }
+
+        Managers.Game.DayCycle.OnMorningCame += RespawnMonsters;
+    }
+
+    private void RespawnMonsters()
+    {
+
     }
 
     public void AddMonsterType(string[][] monsterNames)
