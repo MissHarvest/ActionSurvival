@@ -27,7 +27,8 @@ public class MonsterAttackState : MonsterBaseState
 
     public override void Update()
     {
-        // base.Update();        
+        // base.Update();
+        // MonsterSO의 damage 값을 참조하여 여기서 사용 Weapon class의 SetAttack() 실행
 
         float normalizedTime = GetNormalizedTime(_stateMachine.Monster.Animator, "Attack");
         if (normalizedTime >= 1.0f)

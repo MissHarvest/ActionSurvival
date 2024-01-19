@@ -18,7 +18,7 @@ public class AnimalButtons : Editor
 
         if (GUILayout.Button("Hit"))
         {
-            animal.Hit(Managers.Game.Player, 1.0f);
+            //animal.Hit(Managers.Game.Player, 1.0f);
         }
 
         if (GUILayout.Button("Die"))

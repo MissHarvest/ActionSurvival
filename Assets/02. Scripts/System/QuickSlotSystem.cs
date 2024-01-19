@@ -1,18 +1,16 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class QuickSlotSystem : MonoBehaviour
 {
     public static int capacity = 4;
-    public QuickSlot[] slots  = new QuickSlot[capacity];
+    public QuickSlot[] slots = new QuickSlot[capacity];
 
     public event Action<int, ItemSlot> OnUpdated;
     public event Action<QuickSlot> OnRegisted;
     public event Action<QuickSlot> OnUnRegisted;
-        
+
     public int IndexInUse { get; private set; } = 0;
 
 
@@ -40,7 +38,7 @@ public class QuickSlotSystem : MonoBehaviour
         OnUpdated?.Invoke(index, slot.itemSlot);
         OnRegisted?.Invoke(slot);
 
-        if(index == IndexInUse)
+        if (index == IndexInUse)
         {
             IndexInUse = index;
             QuickUse();
@@ -49,10 +47,10 @@ public class QuickSlotSystem : MonoBehaviour
 
     public void UnRegist(QuickSlot slot)
     {
-        for(int i = 0; i <  slots.Length; ++i)
+        for (int i = 0; i < slots.Length; ++i)
         {
             if (slot.targetIndex == slots[i].targetIndex)
-            {                
+            {
                 slot.itemSlot.SetRegist(false);
                 OnUnRegisted?.Invoke(slot);
                 slots[i].Clear();
@@ -81,17 +79,50 @@ public class QuickSlotSystem : MonoBehaviour
             Managers.Game.Player.ToolSystem.ClearHand();
             return;
         }
+
         switch (slots[IndexInUse].itemSlot.itemData)
         {
             case ToolItemData _:
                 Managers.Game.Player.ToolSystem.Equip(slots[IndexInUse]);
                 break;
 
-            case ConsumeItemData _:
+            case ConsumeItemData consumeItem:
+                //Debug.Log("������ ���� Ŭ��");
+
+                UseConsumeItem(consumeItem);
                 break;
 
             default:
                 break;
         }
+    }
+
+    public void UseConsumeItem(ConsumeItemData consumeItem)
+    {
+        int indexInUse = IndexInUse;
+
+        // �κ��丮���� ������ ���
+        Managers.Game.Player.Inventory.UseSlotItemByIndex(indexInUse);
+
+        // ������ ���� ���� �� QuickSlot ������Ʈ
+        slots[indexInUse].itemSlot.SubtractQuantity();
+
+        // ������ ������ 0�� �Ǹ� �����Կ��� ����
+        if (slots[indexInUse].itemSlot.quantity <= 0)
+        {
+            UnRegist(slots[indexInUse]);
+        }
+        else
+        {
+            // ������ ������ 0�� �ƴϸ� QuickSlot ������Ʈ
+            OnUpdated?.Invoke(indexInUse, slots[indexInUse].itemSlot);
+        }
+    }
+
+    // ������ �ε��� ��ȣ�� ������Ʈ
+    public void UpdateQuickSlot(int index)
+    {
+        IndexInUse = index;
+        OnUpdated?.Invoke(IndexInUse, slots[IndexInUse].itemSlot);
     }
 }

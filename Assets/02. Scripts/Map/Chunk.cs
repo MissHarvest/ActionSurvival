@@ -8,6 +8,7 @@ using UnityEngine.AI;
 public class Chunk
 {
     private GameObject _chunkObject;
+    private Transform _instanceBlockParent;
     private MeshRenderer _meshRenderer;
     private MeshFilter _meshFilter;
     private ChunkCoord _coord;
@@ -26,8 +27,17 @@ public class Chunk
         get => _chunkObject.activeSelf;
         set { if (_chunkObject.activeSelf != value) _chunkObject.SetActive(value); }
     }
+
     public Mesh Mesh => _meshFilter.sharedMesh;
     public Matrix4x4 TransformMatrix => _chunkObject.transform.localToWorldMatrix;
+
+    public int VertexIdx { get => _vertexIdx; set => _vertexIdx = value; }
+    public List<Vector3> Vertices => _vertices;
+    public List<int> Triangles => _triangles;
+    public List<Vector2> Uvs => _uvs;
+    public World World => _world;
+    public VoxelData Data => _data;
+    public Transform InstanceBlocksParent => _instanceBlockParent;
 
     public Chunk(ChunkCoord coord, World world)
     {
@@ -42,6 +52,8 @@ public class Chunk
         _meshRenderer.material = world.WorldData.Material;
         _chunkObject.transform.SetParent(world.transform);
         _chunkObject.transform.position = new(0, -0.5f, 0);
+        _instanceBlockParent = new GameObject("Instance Block Parent").transform;
+        _instanceBlockParent.SetParent(_chunkObject.transform);
 
         CreateMeshData();
         CreateMesh();
@@ -58,32 +70,47 @@ public class Chunk
                     int posX = x + _coord.x * _data.ChunkSizeX;
                     int posZ = z + _coord.z * _data.ChunkSizeZ;
                     if (_world.VoxelMap.TryGetValue(new(posX, y, posZ), out var value))
-                        AddVoxelDataToChunk(new(posX, y, posZ), value);
+                        value.type.AddVoxelDataToChunk(this, new(posX, y, posZ), value.forward);
                 }
             }
         }
     }
 
-    private void AddVoxelDataToChunk(Vector3Int pos, BlockType block)
-    {
-        for (int i = 0; i < 6; i++)
-        {
-            if (_world.CheckVoxel(pos + _data.faceChecks[i]))
-                continue;
+    #region 리팩토링 전
+    //private void AddVoxelDataToChunk(Vector3Int pos, BlockType block)
+    //{
+    //    if (block is NormalBlockType normalBlock)
+    //    {
+    //        for (int i = 0; i < 6; i++)
+    //        {
+    //            if (_world.CheckVoxel(pos + _data.faceChecks[i]))
+    //                continue;
 
-            for (int j = 0; j < 4; j++)
-                _vertices.Add(pos + _data.voxelVerts[_data.voxelTris[i][j]]);
+    //            for (int j = 0; j < 4; j++)
+    //                _vertices.Add(pos + _data.voxelVerts[_data.voxelTris[i][j]]);
 
-            AddTextureUV(block.GetTextureID(i));
-            _triangles.Add(_vertexIdx);
-            _triangles.Add(_vertexIdx + 1);
-            _triangles.Add(_vertexIdx + 2);
-            _triangles.Add(_vertexIdx + 2);
-            _triangles.Add(_vertexIdx + 1);
-            _triangles.Add(_vertexIdx + 3);
-            _vertexIdx += 4;
-        }
-    }
+    //            AddTextureUV(normalBlock.GetTextureID(i));
+    //            _triangles.Add(_vertexIdx);
+    //            _triangles.Add(_vertexIdx + 1);
+    //            _triangles.Add(_vertexIdx + 2);
+    //            _triangles.Add(_vertexIdx + 2);
+    //            _triangles.Add(_vertexIdx + 1);
+    //            _triangles.Add(_vertexIdx + 3);
+    //            _vertexIdx += 4;
+    //        }
+    //    }
+    //    else if (block is SlideBlockType slideBlock)
+    //    {
+    //        var obj = Managers.Resource.GetCache<GameObject>("Slide Block.prefab");
+    //        obj = UnityEngine.Object.Instantiate(obj, pos, Quaternion.identity);
+    //        var slide = obj.GetComponent<SlideBlock>();
+    //        slide.Forward = slideBlock.Forward;
+    //        slide.FrontMaterial = slideBlock.FrontMaterial;
+    //        slide.SideMaterial = slideBlock.SideMaterial;
+    //        slide.transform.SetParent(_chunkObject.transform);
+    //    }
+    //}
+        #endregion
 
     private void CreateMesh()
     {
@@ -99,7 +126,7 @@ public class Chunk
         _chunkObject.AddComponent<MeshCollider>().sharedMesh = mesh;
     }
 
-    private void AddTextureUV(int textureID)
+    public void AddTextureUV(int textureID)
     {
         (int w, int h) = (_data.TextureAtlasWidth, _data.TextureAtlasHeight);
 
@@ -127,6 +154,18 @@ public class Chunk
     }
 
     public void SetActive(bool active) => IsActive = active;
+
+    public (Mesh, Matrix4x4)[] GetAllBlocksNavMeshSourceData()
+    {
+        (Mesh, Matrix4x4)[] result = new (Mesh, Matrix4x4)[_instanceBlockParent.childCount + 1];
+        result[0] = (Mesh, TransformMatrix);
+        for (int i = 1; i < result.Length; i++)
+        {
+            var block = _instanceBlockParent.GetChild(i - 1).GetComponent<SlideBlock>();
+            result[i] = (block.Mesh, block.TransformMatrix);
+        }
+        return result;
+    }
 }
 
 public struct ChunkCoord : IEqualityComparer<ChunkCoord>

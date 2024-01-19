@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SwordRecipeData
   m_EditorClassIdentifier: 
   itemName: Sword
+  completedItemData: {fileID: 11400000, guid: 7188b2dd9c10ceb41ab5e0579b842eb5, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
     quantity: 1

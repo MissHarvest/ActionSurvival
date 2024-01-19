@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class UIRecipeItemSlot : UIBase
@@ -11,6 +7,14 @@ public class UIRecipeItemSlot : UIBase
         Icon,
     }
 
+    private int _index;
+
+    public int Index
+    {
+        get { return _index; }
+        private set { _index = value; }
+    }
+
     protected Image Icon => Get<Image>((int)Images.Icon);
 
     public override void Initialize()
@@ -18,13 +22,17 @@ public class UIRecipeItemSlot : UIBase
         Bind<Image>(typeof(Images));
 
         Get<Image>((int)Images.Icon).raycastTarget = false;
-
         Clear();
     }
 
     private void Awake()
     {
         Initialize();
+    }
+
+    public void SetIndex(int index)
+    {
+        _index = index;
     }
 
     public virtual void Set(ItemSlot itemSlot)

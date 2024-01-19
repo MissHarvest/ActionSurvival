@@ -104,6 +104,8 @@ public class ToolSystem : MonoBehaviour
         _tools[toolName].GetComponent<ItemObjectData>()?.OnEquipTypeOfTool(); // lgs
         ItemObject = _tools[toolName];
         // ���ӿ�����Ʈ ����Ʈ�� �������, ��ųʸ� ������ ���ӿ�����Ʈ ������ ��������Ʈ�� �����ͼ� ? ���� null�� �ƴϸ� �Լ��� ȣ���Ѵ�.
+
+        Managers.Game.Player.Weapon = ItemObject.GetComponentInChildren<Weapon>();
     }
 
     public void UnEquip(int part)

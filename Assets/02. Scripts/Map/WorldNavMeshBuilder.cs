@@ -7,7 +7,7 @@ using System;
 // 2024-01-16 WJY
 public class WorldNavMeshBuilder : MonoBehaviour
 {
-    private List<NavMeshBuildSource> _sources;
+    private List<NavMeshBuildSource> _sources = new();
     private NavMeshDataInstance _instance;
     private NavMeshData _data;
     private Transform _player;
@@ -34,28 +34,28 @@ public class WorldNavMeshBuilder : MonoBehaviour
         if (activeChunks.Count == 0)
             return;
 
-        if (_sources == null)
-        {
-            _sources = new();
-            return;
-        }
-
         _sources.Clear();
         foreach (var chunk in activeChunks)
         {
-            NavMeshBuildSource source = new()
+            var tuples = chunk.GetAllBlocksNavMeshSourceData();
+            foreach (var data in tuples)
             {
-                shape = NavMeshBuildSourceShape.Mesh,
-                sourceObject = chunk.Mesh,
-                transform = chunk.TransformMatrix,
-                area = 0,
-            };
-            _sources.Add(source);
+                NavMeshBuildSource source = new()
+                {
+                    shape = NavMeshBuildSourceShape.Mesh,
+                    sourceObject = data.Item1,
+                    transform = data.Item2,
+                    area = 0,
+                };
+                _sources.Add(source);
+            }
         }
     }
 
     public AsyncOperation UpdateNavMesh(Action<AsyncOperation> callback = null)
     {
+        UpdateChunkSources(Managers.Game.World.CurrentActiveChunks);
+
         if (_data == null || _sources == null)
             return null;
 

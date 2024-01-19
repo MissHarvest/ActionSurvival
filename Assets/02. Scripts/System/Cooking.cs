@@ -1,28 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.InputSystem;
+
 
 // 2024. 01. 16 Byun Jeongmin
-public class Cooking : MonoBehaviour
+public class Cooking : CraftBase
 {
     public Player Owner { get; private set; }
     private UICooking _cookingUI;
 
     private void Awake()
     {
-        Debug.Log("Cooking Awake");
+        base.Awake();
         Owner = Managers.Game.Player;
         var input = Owner.Input;
-        input.InputActions.Player.Interact.started += OnCookingShowAndHide; //E키로 요리 UI 띄움
     }
 
     private void Start()
     {
-        Debug.Log("Cooking Start");
+        base.Start();
     }
 
-    private void OnCookingShowAndHide(InputAction.CallbackContext context)
+    public void OnCookingShowAndHide()
     {
         if (_cookingUI == null)
         {
@@ -39,5 +35,4 @@ public class Cooking : MonoBehaviour
             Managers.UI.ShowPopupUI<UICooking>();
         }
     }
-
 }
