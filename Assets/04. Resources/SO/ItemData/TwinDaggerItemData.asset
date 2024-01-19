@@ -21,6 +21,7 @@ MonoBehaviour:
     m_Bits: 128
   range: 1
   attackPower: 1
+  damage: 2
   targetTagName: Monster
   isWeapon: 1
   isTwoHandedTool: 0

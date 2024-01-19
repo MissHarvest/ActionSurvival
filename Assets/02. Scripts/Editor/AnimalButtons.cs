@@ -16,10 +16,10 @@ public class AnimalButtons : Editor
             animal.Respawn();
         }
 
-        if (GUILayout.Button("Hit"))
-        {
-            animal.Hit(Managers.Game.Player, 1.0f);
-        }
+        //if (GUILayout.Button("Hit"))
+        //{
+        //    animal.Hit(Managers.Game.Player, 1.0f);
+        //}
 
         if (GUILayout.Button("Die"))
         {

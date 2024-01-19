@@ -7,11 +7,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class Monster : MonoBehaviour, IAttack, IHit
+public abstract class Monster : MonoBehaviour, IHit
 {
     [field : SerializeField] public MonsterAnimationData AnimationData { get; private set; }
     protected MonsterStateMachine _stateMachine;
     public Animator Animator { get; private set; }
+
     [field :SerializeField] public MonsterSO Data { get; private set; }
 
     public Vector3 RespawnPosition { get; private set; }
@@ -69,8 +70,6 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
             Managers.Game.Player.Inventory.AddItem(loot, 1);
         }
     }
-    
-    public abstract void Attack(IHit target);
 
     public void Hit(IAttack attacker, float damage)
     {
