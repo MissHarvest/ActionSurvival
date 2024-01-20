@@ -1,6 +1,7 @@
 // 작성 날짜 : 2024. 01. 11
 // 작성자 : Park Jun Uk
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -11,10 +12,11 @@ public class DayLight : MonoBehaviour
     public Light Light { get; private set; }
 
     public Color[] lightColors = new Color[3];
-    public Material[] skyMaterial = new Material[3];
     public Color[] fogColors = new Color[3];
-
+    public Color[] skyColors = new Color[3];
+    public Material skyMaterial;
     private Skybox _skyBox;
+
     private void Awake()
     {       
         RenderSettings.ambientIntensity = 0.0f;
@@ -22,7 +24,8 @@ public class DayLight : MonoBehaviour
         RenderSettings.fog = true;
 
         Light = GetComponent<Light>();
-        _skyBox = Camera.main.GetComponent<Skybox>();        
+        _skyBox = Camera.main.GetComponent<Skybox>();
+        _skyBox.material = skyMaterial;
     }
 
     // Start is called before the first frame update
@@ -43,23 +46,32 @@ public class DayLight : MonoBehaviour
     
     private void OnMorningCame()
     {
-        SetEnviroment(0);
+        StartCoroutine(LerpEnviroment(2, 0));
     }
 
     private void OnEveningCame()
     {
-        SetEnviroment(1);
+        StartCoroutine(LerpEnviroment(0, 1));
     }
 
     private void OnNightCame()
     {
-        SetEnviroment(2);
+        StartCoroutine(LerpEnviroment(1, 2));
     }
 
-    private void SetEnviroment(int index)
+    IEnumerator LerpEnviroment(int start, int end)
     {
-        Light.color = lightColors[index];
-        _skyBox.material = skyMaterial[index];
-        RenderSettings.fogColor = fogColors[index];
+        float t = 0.0f;
+        while(t <= 10.0f)
+        {
+            yield return new WaitForSeconds(0.1f);
+            t += 0.1f;
+            Light.color = Color.Lerp(lightColors[start], lightColors[end], t * 0.1f);
+
+            Color skycolor = Color.Lerp(skyColors[start], skyColors[end], t * 0.1f);
+            RenderSettings.skybox.SetColor("_Tint", skycolor);
+
+            RenderSettings.fogColor = Color.Lerp(fogColors[start], fogColors[end], t * 0.1f);
+        }
     }
 }

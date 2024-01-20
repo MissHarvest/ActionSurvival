@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: d1894fa42f07f3a4c928395a7b849410, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 43af18583b1d46d4aa1e330f5d042da9, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -451,7 +451,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: f9eec6f99e5f8ab40b74a5684e2a7edb, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &241745672
 BoxCollider:
@@ -725,7 +725,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 9ff7c6e14a0f43243be85fdd08e52109, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &271112565
 BoxCollider:
@@ -1278,7 +1278,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: caddcfb059a17cc45a03e681856a15a0, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &539503903
 BoxCollider:
@@ -2265,7 +2265,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: d1218505280041643810454ef4fd6bbc, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &933769318
 BoxCollider:
@@ -2747,7 +2747,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 0a0f31e0a4f42f041ad2b0695678e091, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &1002415263
 BoxCollider:
@@ -3654,7 +3654,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 584746bbae6b28c42998085feb7aa0cf, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &1450515625
 BoxCollider:
@@ -3791,7 +3791,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 851679193bf3ea549932632ca68f99a3, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &1482497275
 BoxCollider:
@@ -4137,7 +4137,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 943ec29a516334b44ab28571a8cf8928, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &1613351144
 BoxCollider:

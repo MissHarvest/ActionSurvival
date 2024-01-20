@@ -19,15 +19,10 @@ public class MonsterChaseState : MonsterBaseState
         Debug.Log($"{_stateMachine.Monster.name} State Changed to [ Chase ]");
         // Speed Up
         _stateMachine.MovementSpeedModifier = _stateMachine.Monster.Data.MovementData.ChaseSpeedModifier;
+        
         // 탐지 범위 증가
-        if(_stateMachine.Monster.Berserk)
-        {
-            _stateMachine.DetectionDistModifier = 300;
-        }
-        else
-        {
-            _stateMachine.DetectionDistModifier = _stateMachine.Monster.Data.AttackData.ChaseDectionDistModifier;
-        }
+        _stateMachine.DetectionDistModifier 
+            = _stateMachine.Monster.Berserk ? 300 : _stateMachine.Monster.Data.AttackData.ChaseDectionDistModifier;
         
         base.Enter();
         
