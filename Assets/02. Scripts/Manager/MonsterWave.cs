@@ -54,6 +54,7 @@ public class MonsterWave
             var point = wavePoints.Pop();
             var monster = waveMonsters.Pop();
             monster.transform.position = point;
+            monster.GetComponent<Monster>().SetBerserkMode();
         }
     }
 

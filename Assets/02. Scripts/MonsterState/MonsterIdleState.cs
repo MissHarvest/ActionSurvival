@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class MonsterIdleState : MonsterBaseState
 {
+    private Coroutine _changeStateCoroutine;
+
     public MonsterIdleState(MonsterStateMachine monsterStateMachine) : base(monsterStateMachine)
     {
         
@@ -21,13 +23,14 @@ public class MonsterIdleState : MonsterBaseState
 
         // Start Animation
         StartAnimation(_stateMachine.Monster.AnimationData.IdleParameterHash);
-        CoroutineManagement.Instance.StartCoroutine(MoveAfterSec(3.0f));
+        _changeStateCoroutine = CoroutineManagement.Instance.StartCoroutine(MoveAfterSec(3.0f));
     }
 
     public override void Exit()
     {
         base.Exit();
-        // Stop Animation
+        CoroutineManagement.Instance.StopCoroutine(_changeStateCoroutine);
+        _changeStateCoroutine = null;
         StopAnimation(_stateMachine.Monster.AnimationData.IdleParameterHash);
     }
 

@@ -9,7 +9,7 @@ public class ItemSlot
 {
     public ItemData itemData { get; private set; } = null;
     [field: SerializeField] public int quantity { get; private set; }
-    // ³»±¸µµ 
+    // ë‚´êµ¬ë„ 
 
     public bool equipped { get; private set; } = false;
     public bool registed { get; private set; } = false;
@@ -40,19 +40,20 @@ public class ItemSlot
         {
             this.itemData = null;
         }
-        // To Do ) ¼Ò¸ğÇØ¾ßÇÏ´Â ¾ç º¸´Ù °¡Áö°í ÀÖ´Â°Ô ÀûÀ¸¸é ½ÇÆĞÇÏ´Â ·ÎÁ÷
+        // To Do ) ì†Œëª¨í•´ì•¼í•˜ëŠ” ì–‘ ë³´ë‹¤ ê°€ì§€ê³  ìˆëŠ”ê²Œ ì ìœ¼ë©´ ì‹¤íŒ¨í•˜ëŠ” ë¡œì§
     }
 
     public void Set(ItemData item, int quantity = 1)
     {
+        // [ Check ] // ë‚´êµ¬ë„ ë¶€ë¶„ì´ë‘ ë³‘í•© ì‹œ 
         this.itemData = item;
         this.quantity = quantity;
     }
 
     public void Set(ItemSlot itemSlot)
     {
-        itemData = itemSlot.itemData;
-        quantity = itemSlot.quantity;
+        // [ Check ] // ë‚´êµ¬ë„ ë¶€ë¶„ì´ë‘ ë³‘í•© ì‹œ 
+        Set(itemSlot.itemData, itemSlot.quantity);
         registed = itemSlot.registed;
         equipped = itemSlot.equipped;
     }

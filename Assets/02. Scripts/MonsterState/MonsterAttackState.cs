@@ -14,6 +14,7 @@ public class MonsterAttackState : MonsterBaseState
     {
         Debug.Log("Monster State Changed to [ Attack ]");
         _stateMachine.MovementSpeedModifier = 0.0f;
+        _stateMachine.Monster.NavMeshAgent.velocity = Vector3.zero;
         base.Enter();
         StartAnimation(_stateMachine.Monster.AnimationData.AttackParameterHash);
     }

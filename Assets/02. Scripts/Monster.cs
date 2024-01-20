@@ -23,6 +23,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     public bool Dead { get; private set; }
 
+    public bool Berserk { get; private set; }
+
     [field : SerializeField] public Condition HP { get; private set; }
 
     private Island _habitat;
@@ -86,6 +88,12 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     public void Hit(IAttack attacker, float damage)
     {
         HP.Subtract(damage);
+    }
+
+    public void SetBerserkMode()
+    {
+        Berserk = true;
+        _stateMachine.DetectionDistModifier = 300;
     }
 
     private void OnDrawGizmos()

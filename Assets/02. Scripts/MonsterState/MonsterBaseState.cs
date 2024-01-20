@@ -54,7 +54,6 @@ public class MonsterBaseState : IState
     {
         var sqrLength = GetDistanceBySqr(Managers.Game.Player.transform.position);
         var dist = _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier;
-
         return sqrLength < dist * dist;
     }
 
