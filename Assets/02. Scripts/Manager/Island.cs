@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -6,9 +7,9 @@ using UnityEngine;
 // 2024. 01. 18 Park Jun Uk
 public enum MonsterLevel
 {
-    Upper,    
+    Lower,    
     Middle,
-    Lower,
+    Upper,
 }
 
 public class SpawnPoint
@@ -36,15 +37,13 @@ public class Island
     private LayerMask _unspawnableLayers = 64;
 
     private IsLandProperty _property;
-    public int[] rankCount = new int[] { 5, 15, 30 };
+    public int[] rankCount = new int[] { 30, 15, 5 };
     private int _centerRadius = 10;
     private MonsterGroup[] _monsterGroups = new MonsterGroup[3];
 
     private List<SpawnPoint> _spawnablePoints = new List<SpawnPoint>();
 
     public List<GameObject> DiedMonsters = new List<GameObject>();
-
-    public List<GameObject> ExtraMonsters = new List<GameObject>();
 
     public Island(IsLandProperty property)
     {
@@ -57,21 +56,17 @@ public class Island
         }
     }
 
-    public void Spawn(int cnt)
+    public GameObject Spawn()
     {
-        // 생성 위치 및 갯수 탐색
-        for(int i = 0; i < cnt; ++i)
-        {
-            var index = Random.Range(0, _spawnablePoints.Count);
+        var index = Random.Range(0, _spawnablePoints.Count);
 
-            // 일단은 하급 생성
-            var monster = _monsterGroups[(int)MonsterLevel.Lower].GetRandomMonster();
-            var pos = _spawnablePoints[index].point;
-            pos.y = 0.5f;
-            var monsterObj = Object.Instantiate(monster, pos, Quaternion.identity);
-            monsterObj.name = monsterObj.name + "[Extra]";
-            ExtraMonsters.Add(monsterObj);
-        }
+        // 일단은 하급 생성
+        var monster = _monsterGroups[(int)MonsterLevel.Lower].GetRandomMonster();
+        var pos = _spawnablePoints[index].point;
+        pos.y = 0.5f;
+        var monsterObj = Object.Instantiate(monster, pos, Quaternion.identity);
+        monsterObj.name = monsterObj.name + "[Extra]";
+        return monsterObj;
     }
 
     private void RespawnMonsters()
@@ -100,7 +95,6 @@ public class Island
     public void CreateMonsters()
     {
         Managers.Game.DayCycle.OnMorningCame += RespawnMonsters;
-
         CreateSpawnPoint();
 
         SetSpawnPointRank();
@@ -336,12 +330,12 @@ public class Island
         dist = dist.OrderBy(x => x.Item2).ToList();
 
         // monster List. 순차적
-        for (int i = 0; i < rankCount[0]; ++i)
+        for (int i = 0; i < rankCount[2]; ++i)
         {
             _spawnablePoints[dist[i].Item1].level = MonsterLevel.Upper;
         }
 
-        for (int i = rankCount[0]; i < rankCount[0] + rankCount[1]; ++i)
+        for (int i = rankCount[2]; i < rankCount[2] + rankCount[1]; ++i)
         {
             _spawnablePoints[dist[i].Item1].level = MonsterLevel.Middle;
         }

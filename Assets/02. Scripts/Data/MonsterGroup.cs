@@ -8,7 +8,8 @@ public class MonsterGroup
 {
     private List<GameObject> _monsterType = new List<GameObject>();
     private Stack<int> _stack = new Stack<int>();
-    List<int> list = new List<int>();
+    private List<int> _list = new List<int>();
+
     public void AddMonsterType(string[] monsterNames)
     {
         // 그룹에 담을 몬스터 종류
@@ -24,14 +25,16 @@ public class MonsterGroup
         // 만들어야할 배열의 최대 길이
         for (int i = 0; i < length; ++i)
         {
-            list.Add(i % _monsterType.Count);
+            _list.Add(i % _monsterType.Count);
         }
-        list = list.OrderBy(x => Random.Range(0.0f, 1.0f)).ToList();
+        _list = _list.OrderBy(x => Random.Range(0.0f, 1.0f)).ToList();
 
-        foreach(var n in list)
+        foreach(var n in _list)
         {
             _stack.Push(n);
         }
+
+        Debug.Log($"Stack [{_stack.Count}");
     }
 
     public GameObject Get()

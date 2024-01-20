@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager
@@ -11,37 +12,47 @@ public class GameManager
 
     public Island IceIsland = new Island(new IsLandProperty(new Vector3(-400, 0, 0)));
     public Island CenterIsland = new Island(new IsLandProperty(Vector3.zero));
-    public Island FireIsLand = new Island(new IsLandProperty(new Vector3(400, 0, 0)));
+    public Island FireIsland = new Island(new IsLandProperty(new Vector3(400, 0, 0)));
+
+    public MonsterWave MonsterWave { get; private set; }
 
     public void Init()
     {
+        MonsterWave = new MonsterWave();
+
         DayCycle.Init();
         DayCycle.OnEveningCame += SpawnMonster;
         DayCycle.OnNightCame += StartMonsterWave;
+
         Temperature.Init(this);
 
-        //InitIslands();
+        InitIslands();
     }
 
     private void SpawnMonster()
     {
-        var week = DayCycle.Date / 7;
-        var flag = week % 2;
-        switch(flag)
+        int cnt = 1;
+        switch(DayCycle.Season)
         {
-            case 0:
-                FireIsLand.Spawn(1);
+            case Season.Summer:
+                for(int i = 0; i < cnt; ++i)
+                {
+                    MonsterWave.AddOverFlowedMonster(FireIsland.Spawn());
+                }
                 break;
 
-            case 1:
-                IceIsland.Spawn(1);
+            case Season.Winter:
+                for (int i = 0; i < cnt; ++i)
+                {
+                    MonsterWave.AddOverFlowedMonster(IceIsland.Spawn());
+                }
                 break;
         }
     }
 
     private void StartMonsterWave()
     {
-
+        MonsterWave.Start();
     }
 
     public void GenerateWorldAsync(Action<float, string> progressCallback = null, Action completedCallback = null)
@@ -52,10 +63,11 @@ public class GameManager
 
     private void InitIslands()
     {
-        IceIsland.AddMonsterType(new string[][]{            
-            new string[] { "BlueSoulEater" },
-            new string[] { "Fuga" , "BlueMetalon" , "IceElemental" },
+        // MonsterGroup 을 만들어서 넘기는거..?
+        IceIsland.AddMonsterType(new string[][]{
             new string[] { "IceSkeleton", "IceBat", "IceSwarm", "IceRabbitMon", "Beholder" },
+            new string[] { "Fuga" , "BlueMetalon" , "IceElemental" },
+            new string[] { "BlueSoulEater" },
             });
 
         CenterIsland.AddMonsterType(new string[][]{
@@ -64,14 +76,14 @@ public class GameManager
             new string[] { "Skeleton" }
             });
 
-        FireIsLand.AddMonsterType(new string[][]{            
-            new string[] { "RedSoulEater" },
-            new string[] { "RedFuga" , "FireElemental" , "RedMetalon" },
+        FireIsland.AddMonsterType(new string[][]{
             new string[] { "FireSkeleton", "FireBat", "FireRabbitMon", "FireSwarm", "Slime" },
+            new string[] { "RedFuga" , "FireElemental" , "RedMetalon" },
+            new string[] { "RedSoulEater" },
             });
 
         IceIsland.CreateMonsters();
         CenterIsland.CreateMonsters();
-        FireIsLand.CreateMonsters();
+        FireIsland.CreateMonsters();
     }
 }

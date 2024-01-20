@@ -6,6 +6,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Season
+{
+    Summer,
+    Winter,
+}
+
 public class DayCycle
 {
     enum TimeZone
@@ -22,6 +28,7 @@ public class DayCycle
     private int _time = 0;
     private int _currentTimeZone = 0;
     private int _eventInterval = 10;
+    public Season Season { get; private set; }
 
     public event Action OnMorningCame;
     public event Action OnEveningCame;
@@ -60,6 +67,7 @@ public class DayCycle
         {
             case TimeZone.Morning:
                 OnDateUpdated?.Invoke(++Date);
+                Season = (Season)(Date / 7 % 2);
                 _time = 0;
                 OnMorningCame?.Invoke();
                 break;
