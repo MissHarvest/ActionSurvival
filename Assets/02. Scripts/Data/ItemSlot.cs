@@ -1,15 +1,13 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 [Serializable]
 public class ItemSlot
 {
     public ItemData itemData { get; private set; } = null;
     [field: SerializeField] public int quantity { get; private set; }
-    // ³»±¸µµ 
+    // ë‚´êµ¬ë„ 
+    [field: SerializeField] public float currentDurability { get; private set; }
 
     public bool equipped { get; private set; } = false;
     public bool registed { get; private set; } = false;
@@ -18,12 +16,14 @@ public class ItemSlot
     {
         this.itemData = null;
         this.quantity = 0;
+        this.currentDurability = 0.0f;
     }
 
     public ItemSlot(ItemData itemData, int quantity = 1)
     {
         this.itemData = itemData;
         this.quantity = quantity;
+        this.currentDurability = (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f;
     }
 
     public bool IsFull => this.quantity == ItemData.maxStackCount;
@@ -40,13 +40,14 @@ public class ItemSlot
         {
             this.itemData = null;
         }
-        // To Do ) ¼Ò¸ğÇØ¾ßÇÏ´Â ¾ç º¸´Ù °¡Áö°í ÀÖ´Â°Ô ÀûÀ¸¸é ½ÇÆĞÇÏ´Â ·ÎÁ÷
+        // To Do ) ì†Œëª¨í•´ì•¼í•˜ëŠ” ì–‘ ë³´ë‹¤ ê°€ì§€ê³  ìˆëŠ”ê²Œ ì ìœ¼ë©´ ì‹¤íŒ¨í•˜ëŠ” ë¡œì§
     }
 
     public void Set(ItemData item, int quantity = 1)
     {
         this.itemData = item;
         this.quantity = quantity;
+        this.currentDurability = (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f;
     }
 
     public void Set(ItemSlot itemSlot)
@@ -55,6 +56,7 @@ public class ItemSlot
         quantity = itemSlot.quantity;
         registed = itemSlot.registed;
         equipped = itemSlot.equipped;
+        currentDurability = itemSlot.currentDurability;
     }
 
     public void Clear()
@@ -63,6 +65,7 @@ public class ItemSlot
         quantity = 0;
         registed = false;
         equipped = false;
+        currentDurability = 0.0f;
     }
 
     public void SetRegist(bool value)
@@ -73,5 +76,15 @@ public class ItemSlot
     public void SetEquip(bool value)
     {
         this.equipped = value;
+    }
+
+    public void SetDurability(float value)
+    {
+        this.currentDurability = Mathf.Clamp(value, 0f, (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f);
+    }
+
+    public void UpdateDurability(float amount)
+    {
+        SetDurability(currentDurability - amount);
     }
 }
