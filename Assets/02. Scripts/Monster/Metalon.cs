@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Metalon : Monster
+public class Metalon : MeleeMonster
 {
-    public override void Attack(IHit target)
-    {
-        
-    }
+    
 }

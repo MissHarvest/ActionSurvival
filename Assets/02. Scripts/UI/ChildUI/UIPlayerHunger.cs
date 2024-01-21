@@ -14,7 +14,7 @@ public class UIPlayerHunger : MonoBehaviour
 
         var playerConditions = GameObject.Find("Player").GetComponent<PlayerConditionHandler>();
         playerConditions.Hunger.OnUpdated += PrintHunger;
-        _playerMaxHunger = playerConditions.HP.maxValue;
+        _playerMaxHunger = playerConditions.Hunger.maxValue;
     }
 
     private void PrintHunger(float percentage)

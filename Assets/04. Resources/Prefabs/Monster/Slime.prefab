@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7790467705490574941}
   - component: {fileID: 7265143104153100183}
   - component: {fileID: 9156463678968877386}
+  - component: {fileID: 3581371217062574896}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -63,7 +64,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9181421994359456237}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b24836fd3ae57324eba36fb7565d33f5, type: 3}
   m_Name: 
@@ -82,6 +83,36 @@ MonoBehaviour:
     maxValue: 0
     regenRate: 0
     decayRate: 0
+  attackTime: 0
+  _monsterWeapon: {fileID: 0}
+--- !u!114 &3581371217062574896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9181421994359456237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e6838aee4335b438331135f00364f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Slime
+  <AnimationData>k__BackingField:
+    idleParameterName: Idle
+    walkParameterName: Walk
+    runParameterName: Run
+    attackParameterName: Attack
+    dieParamterName: Die
+  <Data>k__BackingField: {fileID: 0}
+  looting: []
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
+  attackTime: 0.35
+  _monsterWeapon: {fileID: 2974039238733788041}
 --- !u!1001 &1833697263955280939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -161,8 +192,52 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1410927325430386, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1386788985992417967}
+    - targetCorrespondingSourceObject: {fileID: 1410927325430386, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2974039238733788041}
   m_SourcePrefab: {fileID: 100100000, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
+--- !u!1 &1835105561887131225 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1410927325430386, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
+  m_PrefabInstance: {fileID: 1833697263955280939}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1386788985992417967
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835105561887131225}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2974039238733788041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835105561887131225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b733474ce4e91bf45996fbe748119e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1836615881492687149 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4047972025199878, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}

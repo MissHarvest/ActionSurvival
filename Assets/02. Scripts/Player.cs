@@ -76,7 +76,7 @@ public class Player : MonoBehaviour, IHit
     public void Hit(IAttack attacker, float damage)
     {
         ConditionHandler.HP.Subtract(damage);
-        Debug.Log(attacker);
+        Debug.Log($"[ Attacked by ] {attacker}");
     }
 
     private void OnDrawGizmos()

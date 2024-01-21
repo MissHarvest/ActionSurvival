@@ -26,7 +26,7 @@ public class GameManager
 
         Temperature.Init(this);
 
-        InitIslands();
+        //InitIslands();
     }
 
     private void SpawnMonster()

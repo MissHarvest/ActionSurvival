@@ -24,8 +24,8 @@ public class BaseScene : MonoBehaviour
                 Managers.UI.LoadPopupUIs();
                 Managers.Data.InitializeRecipeData();
 
-                //var mon = Managers.Resource.GetCache<GameObject>("Skeleton.prefab");
-                //Instantiate(mon);
+                var mon = Managers.Resource.GetCache<GameObject>("BlueMetalon.prefab");
+                Instantiate(mon);
             }
         });
     }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1835145609189902776}
   - component: {fileID: 8853438012592058224}
   - component: {fileID: 6738918713344907107}
+  - component: {fileID: -4715707597339203130}
   m_Layer: 0
   m_Name: RedMetalon
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 5953465741213275700}
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &8853438012592058224
 NavMeshAgent:
@@ -63,7 +64,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6490694777243785218}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3091039c161ccd84badcc228e9675feb, type: 3}
   m_Name: 
@@ -82,6 +83,36 @@ MonoBehaviour:
     maxValue: 0
     regenRate: 0
     decayRate: 0
+  attackTime: 0
+  _monsterWeapon: {fileID: 0}
+--- !u!114 &-4715707597339203130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6490694777243785218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e6838aee4335b438331135f00364f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: RedMetalon
+  <AnimationData>k__BackingField:
+    idleParameterName: Idle
+    walkParameterName: Walk
+    runParameterName: Run
+    attackParameterName: Attack
+    dieParamterName: Die
+  <Data>k__BackingField: {fileID: 0}
+  looting: []
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
+  attackTime: 0.2
+  _monsterWeapon: {fileID: 5122546570234033168}
 --- !u!1001 &5949606819442352028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -165,8 +196,52 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1211613045811320, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 277994948467181449}
+    - targetCorrespondingSourceObject: {fileID: 1211613045811320, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5122546570234033168}
   m_SourcePrefab: {fileID: 100100000, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}
+--- !u!1 &5950787921038096356 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1211613045811320, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}
+  m_PrefabInstance: {fileID: 5949606819442352028}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &277994948467181449
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5950787921038096356}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: -1, y: 0, z: 0}
+--- !u!114 &5122546570234033168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5950787921038096356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b733474ce4e91bf45996fbe748119e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5953465741213275700 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4444695180855720, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}

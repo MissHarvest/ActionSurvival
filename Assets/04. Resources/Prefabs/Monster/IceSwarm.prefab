@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6508966635473592203}
   - component: {fileID: 5941480864416108633}
   - component: {fileID: 2887517459309125346}
+  - component: {fileID: 6019951884117057090}
   m_Layer: 0
   m_Name: IceSwarm
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 4271182329769745953}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &5941480864416108633
 NavMeshAgent:
@@ -63,7 +64,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985128056553851084}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d88ff4a50bc1d3445bae61c9fb848da3, type: 3}
   m_Name: 
@@ -82,6 +83,36 @@ MonoBehaviour:
     maxValue: 0
     regenRate: 0
     decayRate: 0
+  attackTime: 0
+  _monsterWeapon: {fileID: 0}
+--- !u!114 &6019951884117057090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985128056553851084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e6838aee4335b438331135f00364f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: IceSwarm
+  <AnimationData>k__BackingField:
+    idleParameterName: Idle
+    walkParameterName: Walk
+    runParameterName: Run
+    attackParameterName: Attack
+    dieParamterName: Die
+  <Data>k__BackingField: {fileID: 0}
+  looting: []
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
+  attackTime: 0.3
+  _monsterWeapon: {fileID: 7052208092277103325}
 --- !u!1001 &2616953816433230502
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -157,10 +188,54 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5358192219079197694, guid: 586a8fad78c64d758ef4b7e17ea63960, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6168626841510490587}
+    - targetCorrespondingSourceObject: {fileID: 5358192219079197694, guid: 586a8fad78c64d758ef4b7e17ea63960, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7052208092277103325}
   m_SourcePrefab: {fileID: 100100000, guid: 586a8fad78c64d758ef4b7e17ea63960, type: 3}
 --- !u!4 &4271182329769745953 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2240259419076222087, guid: 586a8fad78c64d758ef4b7e17ea63960, type: 3}
   m_PrefabInstance: {fileID: 2616953816433230502}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7930089962947559768 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5358192219079197694, guid: 586a8fad78c64d758ef4b7e17ea63960, type: 3}
+  m_PrefabInstance: {fileID: 2616953816433230502}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &6168626841510490587
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7930089962947559768}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: -0.3, z: 0}
+--- !u!114 &7052208092277103325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7930089962947559768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b733474ce4e91bf45996fbe748119e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Bat : Monster
 {
-    public override void Attack(IHit target)
+    public override void TryAttack()
     {
-
+        
     }
 }

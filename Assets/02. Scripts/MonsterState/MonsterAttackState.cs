@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class MonsterAttackState : MonsterBaseState
 {
@@ -15,6 +16,8 @@ public class MonsterAttackState : MonsterBaseState
         Debug.Log("Monster State Changed to [ Attack ]");
         _stateMachine.MovementSpeedModifier = 0.0f;
         _stateMachine.Monster.NavMeshAgent.velocity = Vector3.zero;
+        _isAttacking = false;
+
         base.Enter();
         StartAnimation(_stateMachine.Monster.AnimationData.AttackParameterHash);
     }
@@ -28,12 +31,15 @@ public class MonsterAttackState : MonsterBaseState
 
     public override void Update()
     {
-        // base.Update();
-        // MonsterSO의 damage 값을 참조하여 여기서 사용 Weapon class의 SetAttack() 실행
+        if (_isAttacking == false)
+        {
+            Rotate();
+        }
 
         float normalizedTime = GetNormalizedTime(_stateMachine.Monster.Animator, "Attack");
         if (normalizedTime >= 1.0f)
         {
+            _stateMachine.Monster.OffAttack();
             if (TryDetectPlayer())
             {
                 _stateMachine.ChangeState(_stateMachine.ChaseState);
@@ -44,5 +50,19 @@ public class MonsterAttackState : MonsterBaseState
                 _stateMachine.ChangeState(_stateMachine.PatrolState);
             }
         }
+        else if(normalizedTime >= _stateMachine.Monster.attackTime && !_isAttacking)
+        {
+            _isAttacking = true;
+            _stateMachine.Monster.TryAttack();
+        }
+    }
+
+    private void Rotate()
+    {
+        var look = Managers.Game.Player.transform.position - _stateMachine.Monster.transform.position;
+        look.y = 0;
+
+        var targetRotation = Quaternion.LookRotation(look);
+        _stateMachine.Monster.transform.rotation = targetRotation;
     }
 }
