@@ -40,6 +40,8 @@ public class WorldNavMeshBuilder : MonoBehaviour
             var tuples = chunk.GetAllBlocksNavMeshSourceData();
             foreach (var data in tuples)
             {
+                if (data.Item1.vertexCount == 0) continue;
+
                 NavMeshBuildSource source = new()
                 {
                     shape = NavMeshBuildSourceShape.Mesh,

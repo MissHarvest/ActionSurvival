@@ -61,7 +61,7 @@ public class Chunk
 
     private void CreateMeshData()
     {
-        for (int y = 0; y < _data.ChunkSizeY; y++)
+        for (int y = -_data.ChunkSizeY / 2; y < _data.ChunkSizeY / 2; y++)
         {
             for (int x = -_data.ChunkSizeX / 2; x < _data.ChunkSizeX / 2; x++)
             {
@@ -179,6 +179,12 @@ public struct ChunkCoord : IEqualityComparer<ChunkCoord>
         this.z = z;
     }
 
+    #region Utility
+    public static ChunkCoord Up => new(0, 1);
+    public static ChunkCoord Down => new(0, -1);
+    public static ChunkCoord Left => new(-1, 0);
+    public static ChunkCoord Right => new(1, 0);
+
     public override string ToString()
     {
         return $"({x}, {z})";
@@ -234,4 +240,5 @@ public struct ChunkCoord : IEqualityComparer<ChunkCoord>
     {
         return new ChunkCoord(v.x, v.z);
     }
+    #endregion
 }

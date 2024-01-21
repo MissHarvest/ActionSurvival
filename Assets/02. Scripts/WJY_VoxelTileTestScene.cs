@@ -12,6 +12,7 @@ public class WJY_VoxelTileTestScene : MonoBehaviour
         {
             if (count == total)
             {
+                // 2. 맵 생성
                 Managers.Game.GenerateWorldAsync((progress, argument) =>
                 {
                     // 맵 생성 진행 중 콜백
@@ -23,11 +24,14 @@ public class WJY_VoxelTileTestScene : MonoBehaviour
                     // 3. 객체 생성, 초기화
                     SpawnPlayer();
                     UIInitialize();
-                    Managers.Game.World.InitializeWorldNavMeshBuilder();
-
-                    var mon = Managers.Resource.GetCache<GameObject>("Skeleton.prefab");
-                    Instantiate(mon);
-                    SpawnObject();
+                    Managers.Game.World.InitializeWorldNavMeshBuilder(callback: op => 
+                    {
+                        // 4. NavMesh 생성
+                        var mon = Managers.Resource.GetCache<GameObject>("Skeleton.prefab");
+                        Instantiate(mon);
+                        SpawnObject();
+                        Managers.Game.Init();
+                    });
                 });
             }
         });
