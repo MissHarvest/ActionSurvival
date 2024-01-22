@@ -8,10 +8,10 @@ public class InventorySystem : MonoBehaviour
     public static int maxCapacity { get; } = 30;
 
     public ItemSlot[] slots { get; private set; }
-
-    public Player Owner { get; private set; }
+        public Player Owner { get; private set; }
 
     public event Action<int, ItemSlot> OnUpdated;
+    public event Action<ItemData> OnItemAdd;
 
     private UIInventory _inventoryUI;
 
@@ -82,6 +82,7 @@ public class InventorySystem : MonoBehaviour
             if(FindEmptyIndex(out targetindex))
             {
                 slots[targetindex].Set(itemData);
+                OnItemAdd?.Invoke(itemData);
                 OnUpdated?.Invoke(targetindex, slots[targetindex]);
                 return;
             }
@@ -91,6 +92,7 @@ public class InventorySystem : MonoBehaviour
         if(itemSlot != null)
         {
             itemSlot.AddQuantity(quantity);
+            OnItemAdd?.Invoke(itemData);
             OnUpdated?.Invoke(targetindex, itemSlot);
             return;
         }
@@ -98,6 +100,7 @@ public class InventorySystem : MonoBehaviour
         if(FindEmptyIndex(out targetindex))
         {
             slots[targetindex].Set(itemData);
+            OnItemAdd?.Invoke(itemData);
             OnUpdated?.Invoke(targetindex, slots[targetindex]);
         }
     }

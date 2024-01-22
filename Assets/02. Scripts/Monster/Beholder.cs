@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Beholder : Monster
 {
-    public override void Attack(IHit target)
+    public override void TryAttack()
     {
         
     }

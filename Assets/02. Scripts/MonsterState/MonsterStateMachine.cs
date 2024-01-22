@@ -12,12 +12,14 @@ public class MonsterStateMachine : StateMachine
     public float MovementSpeedModifier { get; set; } = 1.0f;
     public float DetectionDist { get; private set; }
     public float DetectionDistModifier { get; set; } = 1.0f;
-
+    public bool canAttack = true;
+    
     // State Branch
     public MonsterIdleState IdleState {get;}
     public MonsterPatrolState PatrolState { get; }
     public MonsterChaseState ChaseState { get; }
     public MonsterAttackState AttackState { get; }
+    public MonsterStayState StayState { get; }
     public MonsterDieState DieState { get; }
 
     public MonsterStateMachine(Monster monster)
@@ -31,5 +33,6 @@ public class MonsterStateMachine : StateMachine
         ChaseState = new MonsterChaseState(this);
         AttackState = new MonsterAttackState(this);
         DieState = new MonsterDieState(this);
+        StayState = new MonsterStayState(this);
     }    
 }

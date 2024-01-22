@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Elemental : Monster
 {
-    public override void Attack(IHit target)
+    public override void TryAttack()
     {
         
     }

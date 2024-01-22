@@ -15,18 +15,12 @@ public class PlayerWalkState : PlayerGroundedState
         _stateMachine.MovementSpeedModifier = _groundData.WalkSpeedModifier;
         
         base.Enter();
-        StartAnimation(_stateMachine.Player.AnimationData.WalkParameterHash);
+        StartAnimation(_stateMachine.Player.AnimationData.RunParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(_stateMachine.Player.AnimationData.WalkParameterHash);
-    }
-
-    protected override void OnRunStarted(InputAction.CallbackContext context)
-    {
-        base.OnRunStarted(context);
-        _stateMachine.ChangeState(_stateMachine.RunState);
+        StopAnimation(_stateMachine.Player.AnimationData.RunParameterHash);
     }
 }

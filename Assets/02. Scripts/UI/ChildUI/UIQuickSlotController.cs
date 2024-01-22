@@ -20,12 +20,20 @@ public class UIQuickSlotController : UIBase
 
     private void CreateSlots(QuickSlotSystem quickSlotSystem)
     {
+        var slots = GetComponentsInChildren<UIQuickSlot>();
+
         for (int i = 0; i < QuickSlotSystem.capacity; ++i)
         {
             var slotUIPrefab = Managers.Resource.GetCache<GameObject>("UIQuickSlot.prefab");
             var slotUI = Instantiate(slotUIPrefab, transform).GetOrAddComponent<UIQuickSlot>();
+            slotUI.gameObject.transform.position = slots[i].transform.position;
             slotUI.Init(this, i, quickSlotSystem.slots[i].itemSlot);
             _slots.Add(slotUI);
+        }
+
+        foreach (var slot in slots)
+        {
+            Destroy(slot.gameObject);
         }
     }
 

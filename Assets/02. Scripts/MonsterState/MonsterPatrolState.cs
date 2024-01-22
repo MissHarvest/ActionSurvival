@@ -15,9 +15,10 @@ public class MonsterPatrolState : MonsterBaseState
 
     public override void Enter()
     {
-        Debug.Log("Monster State Changed to [ Patrol ]");
+        Debug.Log($"{_stateMachine.Monster.name} State Changed to [ Patrol ]");
         _stateMachine.MovementSpeedModifier = _stateMachine.Monster.Data.MovementData.WalkSpeedModifier;
-        
+        _stateMachine.DetectionDistModifier = _stateMachine.Monster.Data.AttackData.DefaultDetectionDistModifier;
+
         base.Enter();
 
         SetRandomDestination();
@@ -38,7 +39,7 @@ public class MonsterPatrolState : MonsterBaseState
         base.Update();
 
         var sqrLength = GetDistanceBySqr(_destination);        
-        var stopDist = _stateMachine.Monster.NavMeshAgent.stoppingDistance;
+        var dist = _stateMachine.Monster.NavMeshAgent.remainingDistance;
         
         if (_recentDist == sqrLength)
         {
@@ -46,7 +47,7 @@ public class MonsterPatrolState : MonsterBaseState
             return;
         }
 
-        if (sqrLength < stopDist * stopDist)
+        if (dist < 0.1f)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }

@@ -15,7 +15,7 @@ public class PlayerConditionHandler : MonoBehaviour
     {
         Player = GetComponent<Player>();
 
-        HP = new Condition(100);
+        HP = new Condition(200);
 
         Hunger = new Condition(100);
         Hunger.decayRate = 0.1f;

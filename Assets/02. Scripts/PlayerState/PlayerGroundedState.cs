@@ -49,18 +49,18 @@ public class PlayerGroundedState : PlayerBaseState
 
     protected override void OnMovementCanceled(InputAction.CallbackContext context)
     {
-        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+        ToolItemData toolItemData = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
 
-        if (_stateMachine.MovementInput == Vector2.zero)
-        {
-            return;
-        }
+        //if (_stateMachine.MovementInput == Vector2.zero)
+        //{
+        //    return;
+        //}
 
-        if (toolItemDate.isTwoHandedTool == true)
+        if (toolItemData.isTwoHandedTool == true)
         {
             _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
         }
-        else if (toolItemDate.isTwinTool == true)
+        else if (toolItemData.isTwinTool == true)
         {
             _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
         }
@@ -78,15 +78,15 @@ public class PlayerGroundedState : PlayerBaseState
 
         if (toolItemDate.isTwoHandedTool == true)
         {
-            _stateMachine.ChangeState(_stateMachine.TwoHandedToolWalkState);
+            _stateMachine.ChangeState(_stateMachine.TwoHandedToolRunState);
         }
         else if (toolItemDate.isTwinTool == true)
         {
-            _stateMachine.ChangeState(_stateMachine.TwinToolWalkState);
+            _stateMachine.ChangeState(_stateMachine.TwinToolRunState);
         }
         else
         {
-            _stateMachine.ChangeState(_stateMachine.WalkState);
+            _stateMachine.ChangeState(_stateMachine.RunState);
         }
     }
 
@@ -99,6 +99,7 @@ public class PlayerGroundedState : PlayerBaseState
     {
         // QuickSlot에 저장된 ItemData 값을 매개 변수로 받아서 TwoHandedTool에 저장
         ItemData TwoHandedTool = quickSlot.itemSlot.itemData;
+
         // ItemData에 종속된 class ToolItemData에 bool isTwoHandedTool 변수를 참조하기 위하여 형변환
         ToolItemData toolItemDate = (ToolItemData)TwoHandedTool;
 
