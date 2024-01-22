@@ -1,12 +1,10 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteractState : PlayerBaseState
 {
     protected GameObject target;
     private bool hasInteracted = false; // 내구도 소모 확인용
-    private bool _isEntering = false; // 상태가 이미 Enter 중인지 여부
-
-    private UIInventorySlot _inventorySlotUI;
 
     public PlayerInteractState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
@@ -14,10 +12,6 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void Enter()
     {
-        if (_isEntering)
-            return; // 이미 Enter 중이라면 더 이상 수행하지 않음
-
-        _isEntering = true; // Enter 중임을 표시
         _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
 
@@ -34,16 +28,25 @@ public class PlayerInteractState : PlayerBaseState
             if (!hasInteracted)
             {
                 int curIndex = Managers.Game.Player.QuickSlot.IndexInUse;
-                float curToolDurability = Managers.Game.Player.QuickSlot.slots[curIndex].itemSlot.currentDurability;
+                int inventoryIndex = Managers.Game.Player.QuickSlot.slots[curIndex].targetIndex;
 
-                if (curToolDurability > 0)
+                string currentToolName = Managers.Game.Player.ToolSystem.GetToolName(Managers.Game.Player.ToolSystem.ItemInUse);
+
+                // 빈손이 아닌 경우에만 내구도 감소
+                if (currentToolName != "Handable_EmptyHand")
                 {
-                    curToolDurability--;
-                    Debug.Log("현재 내구도 : " + curToolDurability);
+                    float curToolDurability = Managers.Game.Player.Inventory.slots[inventoryIndex].currentDurability;
 
-                    // 내구도 업데이트
-                    Managers.Game.Player.QuickSlot.slots[curIndex].itemSlot.UpdateDurability(1f);
+                    if (curToolDurability > 0)
+                    {
+                        curToolDurability--;
+                        Debug.Log("현재 내구도 : " + curToolDurability);
+
+                        // 내구도 업데이트
+                        Managers.Game.Player.Inventory.UseToolItemByIndex(inventoryIndex, 1f);
+                    }
                 }
+
                 hasInteracted = true;
             }
         }
@@ -59,24 +62,27 @@ public class PlayerInteractState : PlayerBaseState
         StopAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
 
         int curIndex = Managers.Game.Player.QuickSlot.IndexInUse;
-        float curToolDurability = Managers.Game.Player.QuickSlot.slots[curIndex].itemSlot.currentDurability;
+        int inventoryIndex = Managers.Game.Player.QuickSlot.slots[curIndex].targetIndex;
 
-        if (curToolDurability == 0)
+        string currentToolName = Managers.Game.Player.ToolSystem.GetToolName(Managers.Game.Player.ToolSystem.ItemInUse);
+
+        // 빈손이 아닌 경우에만 내구도 감소
+        if (currentToolName != "Handable_EmptyHand")
         {
-            // 장착 해제
-            Managers.Game.Player.Inventory.FindItem(Managers.Game.Player.ToolSystem.ItemInUse.itemData, out int index);
-            var item = new QuickSlot();
-            item.Set(index, Managers.Game.Player.Inventory.slots[index]);
-            Managers.Game.Player.QuickSlot.UnRegist(item);
+            float curToolDurability = Managers.Game.Player.Inventory.slots[inventoryIndex].currentDurability;
+            if (curToolDurability == 0)
+            {
+                // 장착 해제
+                Managers.Game.Player.Inventory.FindItem(Managers.Game.Player.ToolSystem.ItemInUse.itemData, out int index);
+                var item = new QuickSlot();
+                item.Set(index, Managers.Game.Player.Inventory.slots[index]);
+                Managers.Game.Player.QuickSlot.UnRegist(item);
 
-            // 인벤토리에서 제거
-            Managers.Game.Player.Inventory.DestroyItemByIndex(item);
+                // 인벤토리에서 제거
+                Managers.Game.Player.Inventory.DestroyItemByIndex(item);
+            }
         }
-
-        _isEntering = false; // Enter 종료
         hasInteracted = false;
-
-        //_inventorySlotUI.UpdateDurabilityUI(Managers.Game.Player.QuickSlot.slots[curIndex].itemSlot);
     }
 
     public override void Update()
@@ -90,5 +96,9 @@ public class PlayerInteractState : PlayerBaseState
                 target.GetComponent<IInteractable>()?.Interact(_stateMachine.Player);
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }
+    }
+
+    protected override void OnInteractStarted(InputAction.CallbackContext context)
+    {
     }
 }

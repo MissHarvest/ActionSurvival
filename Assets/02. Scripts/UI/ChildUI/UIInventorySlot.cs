@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,13 +7,13 @@ public class UIInventorySlot : UIItemSlot
     {
         Equip,
         Regist,
-        DurabilityBase,
-        DurabilityBar,
     }
 
     public int index { get; private set; }
     public RectTransform RectTransform { get; private set; }
     public UIInventory UIInventory { get; private set; }
+
+    private Slider durabilitySlider;
 
     public override void Initialize()
     {
@@ -22,6 +21,7 @@ public class UIInventorySlot : UIItemSlot
         base.Initialize();
 
         RectTransform = GetComponent<RectTransform>();
+        durabilitySlider = GetComponentInChildren<Slider>();
     }
 
     private void Awake()
@@ -56,48 +56,50 @@ public class UIInventorySlot : UIItemSlot
 
     public void UpdateDurabilityUI(ItemSlot itemSlot)
     {
-        GameObject durabilityBase = Get<GameObject>((int)GameObjects.DurabilityBase);
-        GameObject durabilityBar = Get<GameObject>((int)GameObjects.DurabilityBar);
-
         if (itemSlot.itemData is ToolItemData toolItem)
         {
-            durabilityBase.SetActive(true);
-            durabilityBar.SetActive(true);
+            if (itemSlot.itemData.displayName != "빈 손")
+            {
+                durabilitySlider.gameObject.SetActive(true);
 
-            Transform durabilityBarRectTransform = durabilityBar.GetComponent<Transform>();
-            Image durabilityBarImage = durabilityBar.GetComponent<Image>();
+                float maxDurability = toolItem.maxDurability;
+                float currentDurability = itemSlot.currentDurability;
 
-            float maxDurability = toolItem.maxDurability;
-            float currentDurability = itemSlot.currentDurability;
+                float durabilityPercentage = Mathf.Clamp01(currentDurability / maxDurability);
+                Color durabilityColor = GetDurabilityColor(durabilityPercentage);
 
-            float durabilityPercentage = Mathf.Clamp01(currentDurability / maxDurability);
-            Color durabilityColor = GetDurabilityColor(durabilityPercentage);
-
-            durabilityBarImage.color = durabilityColor;
-
-            durabilityBarRectTransform.localScale = new Vector3(1f, durabilityPercentage, 1f);
+                durabilitySlider.value = durabilityPercentage;
+                durabilitySlider.fillRect.GetComponent<Image>().color = durabilityColor;
+            }
+            else
+            {
+                durabilitySlider.gameObject.SetActive(false);
+            }
         }
         else
         {
             // 내구도가 없는 아이템은 내구도 바 비활성화
-            durabilityBase.SetActive(false);
-            durabilityBar.SetActive(false);
+            durabilitySlider.gameObject.SetActive(false);
         }
     }
 
     private Color GetDurabilityColor(float durabilityPercentage)
     {
-        if (durabilityPercentage > 0.5f)
+        if (durabilityPercentage > 0.75f)
         {
-            return Color.Lerp(Color.green, Color.yellow, (durabilityPercentage - 0.5f) * 2f);
+            return Color.Lerp(Color.green, Color.yellow, (durabilityPercentage - 0.75f) * 1f);
+        }
+        else if (durabilityPercentage > 0.5f)
+        {
+            return Color.Lerp(Color.yellow, new Color(1f, 0.5f, 0f), (durabilityPercentage - 0.5f) * 1f);
         }
         else if (durabilityPercentage > 0.25f)
         {
-            return Color.Lerp(Color.yellow, new Color(1f, 0.5f, 0f), (durabilityPercentage - 0.25f) * 4f);
+            return Color.Lerp(new Color(1f, 0.5f, 0f), Color.red, (durabilityPercentage - 0.25f) * 1f);
         }
         else
         {
-            return Color.Lerp(new Color(1f, 0.5f, 0f), Color.red, durabilityPercentage * 4f);
+            return Color.red;
         }
     }
 
@@ -106,7 +108,5 @@ public class UIInventorySlot : UIItemSlot
         base.Clear();
         Get<GameObject>((int)GameObjects.Equip).SetActive(false);
         Get<GameObject>((int)GameObjects.Regist).SetActive(false);
-        Get<GameObject>((int)GameObjects.DurabilityBase).SetActive(false);
-        Get<GameObject>((int)GameObjects.DurabilityBar).SetActive(false);
     }
 }

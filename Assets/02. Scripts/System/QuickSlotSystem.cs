@@ -28,6 +28,7 @@ public class QuickSlotSystem : MonoBehaviour
     private void Start()
     {
         Debug.Log("QuickSystem Start");
+        Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
     public void Regist(int index, QuickSlot slot)
@@ -87,7 +88,7 @@ public class QuickSlotSystem : MonoBehaviour
                 break;
 
             case ConsumeItemData consumeItem:
-                //Debug.Log("퀵슬롯 음식 클릭");
+                Debug.Log("퀵슬롯 음식 클릭");
 
                 UseConsumeItem(consumeItem);
                 break;
@@ -102,20 +103,20 @@ public class QuickSlotSystem : MonoBehaviour
         int indexInUse = IndexInUse;
 
         // 인벤토리에서 아이템 사용
-        Managers.Game.Player.Inventory.UseSlotItemByIndex(indexInUse);
+        //Managers.Game.Player.Inventory.UseSlotItemByIndex(indexInUse);
 
         // 아이템 수량 감소 및 QuickSlot 업데이트
-        slots[indexInUse].itemSlot.SubtractQuantity();
+        int inventoryIndex = slots[indexInUse].targetIndex;
+        ItemSlot inventorySlot = Managers.Game.Player.Inventory.slots[inventoryIndex];
+        inventorySlot.SubtractQuantity();
 
-        // 아이템 수량이 0이 되면 퀵슬롯에서 제거
-        if (slots[indexInUse].itemSlot.quantity <= 0)
+        if (inventorySlot.quantity <= 0)
         {
             UnRegist(slots[indexInUse]);
         }
         else
         {
-            // 아이템 수량이 0이 아니면 QuickSlot 업데이트
-            OnUpdated?.Invoke(indexInUse, slots[indexInUse].itemSlot);
+            UpdateQuickSlot(indexInUse);
         }
     }
 
@@ -123,6 +124,22 @@ public class QuickSlotSystem : MonoBehaviour
     public void UpdateQuickSlot(int index)
     {
         IndexInUse = index;
+        int inventoryIndex = slots[IndexInUse].targetIndex;
+        slots[IndexInUse].Set(inventoryIndex, Managers.Game.Player.Inventory.slots[inventoryIndex]);
         OnUpdated?.Invoke(IndexInUse, slots[IndexInUse].itemSlot);
+    }
+
+    public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)
+    {
+        for (int i = 0; i < capacity; ++i)
+        {
+            if (slots[i].targetIndex == inventoryIndex)
+            {
+                IndexInUse = i;
+                slots[IndexInUse].Set(slots[IndexInUse].targetIndex, itemSlot);
+                OnUpdated?.Invoke(IndexInUse, slots[IndexInUse].itemSlot);
+                return;
+            }
+        }
     }
 }

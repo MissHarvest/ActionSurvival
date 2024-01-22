@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class ItemSlot
 {
-    public ItemData itemData { get; private set; } = null;
+    [field: SerializeField] public ItemData itemData { get; private set; } = null;
     [field: SerializeField] public int quantity { get; private set; }
     // 내구도 
     [field: SerializeField] public float currentDurability { get; private set; }
@@ -81,10 +81,5 @@ public class ItemSlot
     public void SetDurability(float value)
     {
         this.currentDurability = Mathf.Clamp(value, 0f, (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f);
-    }
-
-    public void UpdateDurability(float amount)
-    {
-        SetDurability(currentDurability - amount);
     }
 }

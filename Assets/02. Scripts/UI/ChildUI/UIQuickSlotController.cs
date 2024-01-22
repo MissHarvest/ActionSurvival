@@ -22,7 +22,6 @@ public class UIQuickSlotController : UIBase
     {
         for (int i = 0; i < QuickSlotSystem.capacity; ++i)
         {
-            //var slotUI = Managers.Resource.Instantiate("UIQuickSlot", Literals.PATH_UI, transform).GetOrAddComponent<UIQuickSlot>();
             var slotUIPrefab = Managers.Resource.GetCache<GameObject>("UIQuickSlot.prefab");
             var slotUI = Instantiate(slotUIPrefab, transform).GetOrAddComponent<UIQuickSlot>();
             slotUI.Init(this, i, quickSlotSystem.slots[i].itemSlot);
