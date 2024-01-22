@@ -16,6 +16,7 @@ public class MonsterAttackState : MonsterBaseState
         Debug.Log("Monster State Changed to [ Attack ]");
         _stateMachine.MovementSpeedModifier = 0.0f;
         _stateMachine.Monster.NavMeshAgent.velocity = Vector3.zero;
+        _stateMachine.canAttack = false;
         _isAttacking = false;
 
         base.Enter();
@@ -42,7 +43,7 @@ public class MonsterAttackState : MonsterBaseState
             _stateMachine.Monster.OffAttack();
             if (TryDetectPlayer())
             {
-                _stateMachine.ChangeState(_stateMachine.ChaseState);
+                _stateMachine.ChangeState(_stateMachine.StayState);
                 return;
             }
             else

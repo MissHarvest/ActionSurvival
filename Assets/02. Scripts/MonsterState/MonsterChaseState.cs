@@ -17,6 +17,7 @@ public class MonsterChaseState : MonsterBaseState
     public override void Enter()
     {
         Debug.Log($"{_stateMachine.Monster.name} State Changed to [ Chase ]");
+        
         // Speed Up
         _stateMachine.MovementSpeedModifier = _stateMachine.Monster.Data.MovementData.ChaseSpeedModifier;
         
@@ -45,7 +46,12 @@ public class MonsterChaseState : MonsterBaseState
         
         if(sqrLength < _reach * _reach)
         {
-            _stateMachine.ChangeState(_stateMachine.AttackState);
+            if(_stateMachine.canAttack)
+            {
+                _stateMachine.ChangeState(_stateMachine.AttackState);
+                return;
+            }
+            _stateMachine.ChangeState(_stateMachine.StayState);
             return;
         }
         else if (TryDetectPlayer())

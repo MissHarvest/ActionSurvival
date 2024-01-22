@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 835845328272917449}
   - component: {fileID: 5863732901651105649}
-  - component: {fileID: 2939264103353132037}
   - component: {fileID: 5339052865068543313}
+  - component: {fileID: 2939264103353132037}
   m_Layer: 0
   m_Name: FireSwarm
   m_TagString: Untagged
@@ -57,34 +57,6 @@ NavMeshAgent:
   m_BaseOffset: -0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2939264103353132037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170912532362324853}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 218cc8bf768196341a2ecba1f24c670a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _name: 
-  <AnimationData>k__BackingField:
-    idleParameterName: Idle
-    walkParameterName: Walk
-    runParameterName: Run
-    attackParameterName: Attack
-    dieParamterName: Die
-  <Data>k__BackingField: {fileID: 0}
-  looting: []
-  <HP>k__BackingField:
-    currentValue: 0
-    maxValue: 0
-    regenRate: 0
-    decayRate: 0
-  attackTime: 0
-  _monsterWeapon: {fileID: 0}
 --- !u!114 &5339052865068543313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +85,34 @@ MonoBehaviour:
     decayRate: 0
   attackTime: 0.3
   _monsterWeapon: {fileID: 2076360883757458887}
+--- !u!114 &2939264103353132037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170912532362324853}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 218cc8bf768196341a2ecba1f24c670a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: 
+  <AnimationData>k__BackingField:
+    idleParameterName: Idle
+    walkParameterName: Walk
+    runParameterName: Run
+    attackParameterName: Attack
+    dieParamterName: Die
+  <Data>k__BackingField: {fileID: 0}
+  looting: []
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
+  attackTime: 0
+  _monsterWeapon: {fileID: 0}
 --- !u!1 &8829972537731854115
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,6 +239,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3309786654644649927, guid: 75f057b43e0a449dae5f6549f5107474, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: c0bbfb4c01ce9074bb6b89f8fcd00ee9, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

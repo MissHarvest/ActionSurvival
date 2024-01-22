@@ -76,8 +76,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3438876150665911640}
   - component: {fileID: 2828550385571892073}
-  - component: {fileID: 9107358697079073586}
   - component: {fileID: -8607249987316924813}
+  - component: {fileID: 9107358697079073586}
   m_Layer: 0
   m_Name: FireRabbitMon
   m_TagString: Untagged
@@ -123,34 +123,6 @@ NavMeshAgent:
   m_BaseOffset: -0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &9107358697079073586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3258334115992696807}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 605f590d08f0d6e43a5f13400f7b604f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _name: FireRabbitMon
-  <AnimationData>k__BackingField:
-    idleParameterName: Idle
-    walkParameterName: Walk
-    runParameterName: Run
-    attackParameterName: Attack
-    dieParamterName: Die
-  <Data>k__BackingField: {fileID: 0}
-  looting: []
-  <HP>k__BackingField:
-    currentValue: 0
-    maxValue: 0
-    regenRate: 0
-    decayRate: 0
-  attackTime: 0
-  _monsterWeapon: {fileID: 0}
 --- !u!114 &-8607249987316924813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +151,34 @@ MonoBehaviour:
     decayRate: 0
   attackTime: 0.35
   _monsterWeapon: {fileID: 2580259594287094840}
+--- !u!114 &9107358697079073586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3258334115992696807}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 605f590d08f0d6e43a5f13400f7b604f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: FireRabbitMon
+  <AnimationData>k__BackingField:
+    idleParameterName: Idle
+    walkParameterName: Walk
+    runParameterName: Run
+    attackParameterName: Attack
+    dieParamterName: Die
+  <Data>k__BackingField: {fileID: 0}
+  looting: []
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
+  attackTime: 0
+  _monsterWeapon: {fileID: 0}
 --- !u!1001 &6438018828026901621
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1835145609189902776}
   - component: {fileID: 8853438012592058224}
-  - component: {fileID: 6738918713344907107}
   - component: {fileID: -4715707597339203130}
+  - component: {fileID: 6738918713344907107}
   m_Layer: 0
   m_Name: RedMetalon
   m_TagString: Untagged
@@ -57,34 +57,6 @@ NavMeshAgent:
   m_BaseOffset: -0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6738918713344907107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6490694777243785218}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3091039c161ccd84badcc228e9675feb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _name: RedMetalon
-  <AnimationData>k__BackingField:
-    idleParameterName: Idle
-    walkParameterName: Walk
-    runParameterName: Run
-    attackParameterName: Attack
-    dieParamterName: Die
-  <Data>k__BackingField: {fileID: 0}
-  looting: []
-  <HP>k__BackingField:
-    currentValue: 0
-    maxValue: 0
-    regenRate: 0
-    decayRate: 0
-  attackTime: 0
-  _monsterWeapon: {fileID: 0}
 --- !u!114 &-4715707597339203130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +85,34 @@ MonoBehaviour:
     decayRate: 0
   attackTime: 0.2
   _monsterWeapon: {fileID: 5122546570234033168}
+--- !u!114 &6738918713344907107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6490694777243785218}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3091039c161ccd84badcc228e9675feb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: RedMetalon
+  <AnimationData>k__BackingField:
+    idleParameterName: Idle
+    walkParameterName: Walk
+    runParameterName: Run
+    attackParameterName: Attack
+    dieParamterName: Die
+  <Data>k__BackingField: {fileID: 0}
+  looting: []
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
+  attackTime: 0
+  _monsterWeapon: {fileID: 0}
 --- !u!1001 &5949606819442352028
 PrefabInstance:
   m_ObjectHideFlags: 0

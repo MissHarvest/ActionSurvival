@@ -41,8 +41,8 @@ GameObject:
   m_Component:
   - component: {fileID: 993229854475461216}
   - component: {fileID: 5139194411510589471}
-  - component: {fileID: 7461395532833877942}
   - component: {fileID: 7173185555151751540}
+  - component: {fileID: 7461395532833877942}
   m_Layer: 0
   m_Name: FireBat
   m_TagString: Untagged
@@ -89,33 +89,6 @@ NavMeshAgent:
   m_BaseOffset: -0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7461395532833877942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8539658517406632856}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88cc514a2261f8a458fb5839c38f63c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _name: FireBat
-  <AnimationData>k__BackingField:
-    idleParameterName: Idle
-    walkParameterName: Walk
-    runParameterName: Run
-    attackParameterName: Attack
-    dieParamterName: Die
-  <Data>k__BackingField: {fileID: 0}
-  looting: []
-  <HP>k__BackingField:
-    currentValue: 0
-    maxValue: 0
-    regenRate: 0
-    decayRate: 0
-  attackTime: 0
 --- !u!114 &7173185555151751540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +121,33 @@ MonoBehaviour:
   targetLayers:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &7461395532833877942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8539658517406632856}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88cc514a2261f8a458fb5839c38f63c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: FireBat
+  <AnimationData>k__BackingField:
+    idleParameterName: Idle
+    walkParameterName: Walk
+    runParameterName: Run
+    attackParameterName: Attack
+    dieParamterName: Die
+  <Data>k__BackingField: {fileID: 0}
+  looting: []
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
+  attackTime: 0
 --- !u!1001 &1278583848719476883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -223,7 +223,7 @@ PrefabInstance:
     - target: {fileID: 95000013319663098, guid: 5fd1210210040d34e8810388185a6063, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: dcb64d632e71cbf428e81a9b9a2c8460, type: 2}
+      objectReference: {fileID: 22100000, guid: b5dc38590a852dd45b36144031903e2a, type: 2}
     - target: {fileID: 95000013319663098, guid: 5fd1210210040d34e8810388185a6063, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0

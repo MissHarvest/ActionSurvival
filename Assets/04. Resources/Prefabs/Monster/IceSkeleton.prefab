@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1071859111687000815}
   - component: {fileID: 2176453059495721074}
-  - component: {fileID: 8878751953795546594}
   - component: {fileID: 7980261835734660352}
+  - component: {fileID: 8878751953795546594}
   m_Layer: 0
   m_Name: IceSkeleton
   m_TagString: Untagged
@@ -57,34 +57,6 @@ NavMeshAgent:
   m_BaseOffset: -0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8878751953795546594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1414879185357440407}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff73574e8c6f17f4eac3471a019d1b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _name: IceSkeleton
-  <AnimationData>k__BackingField:
-    idleParameterName: Idle
-    walkParameterName: Walk
-    runParameterName: Run
-    attackParameterName: Attack
-    dieParamterName: Die
-  <Data>k__BackingField: {fileID: 0}
-  looting: []
-  <HP>k__BackingField:
-    currentValue: 0
-    maxValue: 0
-    regenRate: 0
-    decayRate: 0
-  attackTime: 0
-  _monsterWeapon: {fileID: 0}
 --- !u!114 &7980261835734660352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +85,34 @@ MonoBehaviour:
     decayRate: 0
   attackTime: 0.2
   _monsterWeapon: {fileID: 5410289172790645679}
+--- !u!114 &8878751953795546594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414879185357440407}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff73574e8c6f17f4eac3471a019d1b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: IceSkeleton
+  <AnimationData>k__BackingField:
+    idleParameterName: Idle
+    walkParameterName: Walk
+    runParameterName: Run
+    attackParameterName: Attack
+    dieParamterName: Die
+  <Data>k__BackingField: {fileID: 0}
+  looting: []
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
+  attackTime: 0
+  _monsterWeapon: {fileID: 0}
 --- !u!1001 &1125648040037351789
 PrefabInstance:
   m_ObjectHideFlags: 0

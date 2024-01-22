@@ -103,11 +103,18 @@ public class Island
         for (int i = 0; i < _spawnablePoints.Count; ++i)
         {
             var pos = _spawnablePoints[i].point;
-            var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();
-            pos.y = 0.5f;
-            var go = Object.Instantiate(mon, pos, Quaternion.identity);
-            go.GetComponent<Monster>().SetIsland(this);
-            go.name = $"{mon.name}[{_spawnablePoints[i].level}]";
+            pos.y = 50;
+            RaycastHit hit;
+            if (Physics.Raycast(pos, Vector3.down, out hit, 100.0f, 1))
+            {
+                pos = hit.point;
+                pos.y += 0.5f;
+
+                var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();
+                var go = Object.Instantiate(mon, pos, Quaternion.identity);
+                go.GetComponent<Monster>().SetIsland(this);
+                go.name = $"{mon.name}[{_spawnablePoints[i].level}]";
+            }
         }
     }
 
