@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // 2024-01-12 WJY
@@ -18,8 +20,9 @@ public class World : MonoBehaviour
 
     private ChunkCoord _currentPlayerCoord;
     private ChunkCoord _prevPlayerCoord;
-    private ChunkCoord _minChunkCoord;
-    private ChunkCoord _maxChunkCoord;
+
+    private int _totalChunkCount = 1;
+    private int _createdChunkCount = 0;
 
     public WorldData WorldData { get; private set; }
     public VoxelData VoxelData { get; private set; }
@@ -70,82 +73,6 @@ public class World : MonoBehaviour
         _navMeshBuilder.UpdateNavMesh();
     }
 
-    private IEnumerator PopulateVoxelMap()
-    {
-        // TEST: 일단 Grass 블록으로 평지 만들기
-        int SizeX = WorldData.WorldSize / 2;
-        int SizeZ = WorldData.WorldSize / 2;
-
-        for (int y = 0; y < 1; y++)
-        {
-            for (int x = -SizeX; x < SizeX; x++)
-            {
-                for (int z = -SizeZ; z < SizeZ; z++)
-                {
-                    _voxelMap.TryAdd(new(x, y, z), (WorldData.NormalBlockTypes[0], Vector3.forward));
-                }
-            }
-        }
-
-        // TEST: 볼록한 지형 만들어보기
-        for (int x = 10; x < 20; x++)
-        {
-            for (int z = 10; z < 20; z++)
-            {
-                int maxHeight = UnityEngine.Random.Range(2, 5);
-                for (int y = 1; y < maxHeight; y++)
-                {
-                    if (y == maxHeight - 1)
-                        _voxelMap.TryAdd(new(x, y, z), (WorldData.NormalBlockTypes[0], Vector3.forward));
-                    else
-                        _voxelMap.TryAdd(new(x, y, z), (WorldData.NormalBlockTypes[1], Vector3.forward));
-                }
-            }
-        }
-
-        // TEST: 계단 만들어보기
-        _voxelMap.TryAdd(new(-10, 1, -10), (WorldData.SlideBlockTypes[0], Vector3.forward));
-        for (int i = -9; i < 0; i++)
-        {
-            _voxelMap.TryAdd(new(-10, 1, i), (WorldData.NormalBlockTypes[0], Vector3.forward));
-            _voxelMap.TryAdd(new(-9, 1, i), (WorldData.NormalBlockTypes[0], Vector3.forward));
-            _voxelMap.TryAdd(new(-8, 1, i), (WorldData.NormalBlockTypes[0], Vector3.forward));
-        }
-
-        _voxelMap.TryAdd(new(-9, 1, -11), (WorldData.SlideBlockTypes[0], Vector3.right));
-        _voxelMap.TryAdd(new(-9, 1, -12), (WorldData.SlideBlockTypes[0], Vector3.right));
-        _voxelMap.TryAdd(new(-8, 1, -11), (WorldData.NormalBlockTypes[0], Vector3.forward));
-        _voxelMap.TryAdd(new(-8, 1, -12), (WorldData.NormalBlockTypes[0], Vector3.forward));
-        _voxelMap.TryAdd(new(-9, 1, -10), (WorldData.NormalBlockTypes[0], Vector3.forward));
-        _voxelMap.TryAdd(new(-8, 1, -10), (WorldData.NormalBlockTypes[0], Vector3.forward));
-
-        // TEST: 우측에 눈 덮인 지형 만들어보기
-        for (int y = 0; y < 1; y++)
-        {
-            for (int x = -SizeX + WorldData.WorldSize; x < SizeX + WorldData.WorldSize; x++)
-            {
-                for (int z = -SizeZ; z < SizeZ; z++)
-                {
-                    _voxelMap.TryAdd(new(x, y, z), (WorldData.NormalBlockTypes[2], Vector3.forward));
-                }
-            }
-        }
-
-        // TEST: 좌측에 붉은 돌 지형 만들어보기
-        for (int y = 0; y < 1; y++)
-        {
-            for (int x = -SizeX + -WorldData.WorldSize; x < SizeX + -WorldData.WorldSize; x++)
-            {
-                for (int z = -SizeZ; z < SizeZ; z++)
-                {
-                    _voxelMap.TryAdd(new(x, y, z), (WorldData.NormalBlockTypes[3], Vector3.forward));
-                }
-            }
-        }
-
-        yield return null;
-    }
-
     private Chunk CreateChunk(ChunkCoord pos)
     {
         Chunk chunk = new(pos, this);
@@ -153,47 +80,57 @@ public class World : MonoBehaviour
         return chunk;
     }
 
-    // BFS로 개선해도 ???
-    private IEnumerator GenerateChunk()
+    private IEnumerator GenerateChunk(Action<float, string> progressCallback, float uiUpdateInterval)
     {
-        //var keys = _voxelMap.Keys;
-        //_minChunkCoord.x = keys.Min(pos => pos.x) / VoxelData.ChunkSizeX - 1;
-        //_minChunkCoord.z = keys.Min(pos => pos.z) / VoxelData.ChunkSizeZ - 1;
-        //_maxChunkCoord.x = keys.Max(pos => pos.x) / VoxelData.ChunkSizeX + 1;
-        //_maxChunkCoord.z = keys.Max(pos => pos.z) / VoxelData.ChunkSizeZ + 1;
+        float t = 0f;
 
-        //for (int x = _minChunkCoord.x; x <= _maxChunkCoord.x; x++)
-        //{
-        //    for (int z = _minChunkCoord.z; z <= _maxChunkCoord.z; z++)
-        //    {
-        //        var chunk = CreateChunk(new(x, z));
-        //        chunk.IsActive = false;
-        //    }
-        //}
+        // BFS로 생성
+        Queue<ChunkCoord> queue = new();
+        queue.Enqueue(new ChunkCoord(0, 0));
 
-        int SizeX = WorldData.WorldSize / VoxelData.ChunkSizeX / 2;
-        int SizeZ = WorldData.WorldSize / VoxelData.ChunkSizeZ / 2;
+        Dictionary<ChunkCoord, bool> visited = new();
+        int minX = _voxelMap.Keys.Min(pos => pos.x) / VoxelData.ChunkSizeX - 1;
+        int maxX = _voxelMap.Keys.Max(pos => pos.x) / VoxelData.ChunkSizeX + 1;
+        int minZ = _voxelMap.Keys.Min(pos => pos.z) / VoxelData.ChunkSizeZ - 1;
+        int maxZ = _voxelMap.Keys.Max(pos => pos.z) / VoxelData.ChunkSizeZ + 1;
+        for (int x = minX; x <= maxX; x++)
+            for (int z = minZ; z <= maxZ; z++)
+                visited.TryAdd(new(x, z), false);
+        visited[new(0, 0)] = true;
+        _totalChunkCount = visited.Count;
 
-        for (int x = -SizeX * 3; x <= SizeX * 3; x++)
+        ChunkCoord[] dxdy = { ChunkCoord.Up, ChunkCoord.Down, ChunkCoord.Left, ChunkCoord.Right };
+
+        while (queue.Count > 0)
         {
-            for (int z = -SizeZ; z <= SizeZ; z++)
+            _createdChunkCount++;
+            var current = queue.Dequeue();
+            var chunk = CreateChunk(current);
+            chunk.IsActive = false;
+
+            for (int i = 0; i < dxdy.Length; i++)
             {
-                var chunk = CreateChunk(new(x, z));
-                chunk.IsActive = false;
+                ChunkCoord next = current + dxdy[i];
+                if (visited.ContainsKey(next))
+                {
+                    if (!visited[next])
+                    {
+                        visited[next] = true;
+                        queue.Enqueue(next);
+                    }
+                }
+            }
+
+            // 일정 시간마다 UI 업데이트
+            t += Time.unscaledDeltaTime;
+            if (uiUpdateInterval < t)
+            {
+                t = 0f;
+                progressCallback?.Invoke((float)_createdChunkCount / _totalChunkCount, "Generate Chunks ...");
+                yield return null;
             }
         }
 
-        //int SizeX = WorldData.WorldSize / VoxelData.ChunkSizeX / 2;
-        //int SizeZ = WorldData.WorldSize / VoxelData.ChunkSizeZ / 2;
-
-        //for (int x = -SizeX; x <= SizeX; x++)
-        //{
-        //    for (int z = -SizeZ; z <= SizeZ; z++)
-        //    {
-        //        var chunk = CreateChunk(new(x, z));
-        //        chunk.IsActive = false;
-        //    }
-        //}
         yield return null;
     }
 
@@ -225,32 +162,31 @@ public class World : MonoBehaviour
 
     private IEnumerator GenerateCoroutine(Action<float, string> progressCallback = null, Action completedCallback = null)
     {
+        progressCallback?.Invoke(0f, "Read MapData ...");
+        yield return null;
         WorldData = Managers.Resource.GetCache<WorldData>("WorldData.data");
         VoxelData = Managers.Resource.GetCache<VoxelData>("VoxelData.data");
         var data = Managers.Resource.GetCache<TextAsset>("MapData.data");
-
-        progressCallback?.Invoke(0f, "데이터 읽는 중...");
         yield return StartCoroutine(ReadMapDataFile(data));
-        //progressCallback?.Invoke(0.25f, "복셀 맵 생성 중...");
-        //yield return StartCoroutine(PopulateVoxelMap());
-        progressCallback?.Invoke(0.25f, "청크 생성 중...");
-        yield return StartCoroutine(GenerateChunk());
-        progressCallback?.Invoke(1f, "완료");
+        progressCallback?.Invoke((float)_createdChunkCount / _totalChunkCount, "Generate Chunks ...");
+        yield return null;
+        yield return StartCoroutine(GenerateChunk(progressCallback, 0.5f));
+        progressCallback?.Invoke(1f, "Complete");
         completedCallback?.Invoke();
         _isDone = true;
     }
 
-    public void InitializeWorldNavMeshBuilder()
+    public void InitializeWorldNavMeshBuilder(bool autoUpdate = false, Action<AsyncOperation> callback = null)
     {
-        StartCoroutine(InitializeWorldNavMeshBuilderCoroutine());
+        StartCoroutine(InitializeWorldNavMeshBuilderCoroutine(autoUpdate, callback));
     }
 
-    private IEnumerator InitializeWorldNavMeshBuilderCoroutine()
+    private IEnumerator InitializeWorldNavMeshBuilderCoroutine(bool autoUpdate = false, Action<AsyncOperation> callback = null)
     {
         _navMeshBuilder = new GameObject(nameof(WorldNavMeshBuilder)).AddComponent<WorldNavMeshBuilder>();
-        _navMeshBuilder.IsActive = false; // 주기적으로 업데이트 X. 일단은 청크 정보가 바뀔 때마다 업데이트합니다.
+        _navMeshBuilder.IsActive = autoUpdate; // 주기적으로 업데이트 X. 일단은 청크 정보가 바뀔 때마다 업데이트합니다.
         UpdateChunksInViewRange();
         yield return new WaitForFixedUpdate();
-        yield return _navMeshBuilder.UpdateNavMesh();
+        yield return _navMeshBuilder.UpdateNavMesh(callback);
     }
 }

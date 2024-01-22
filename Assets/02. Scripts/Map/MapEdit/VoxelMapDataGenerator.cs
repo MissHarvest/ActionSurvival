@@ -41,19 +41,7 @@ public class VoxelMapDataGenerator : MonoBehaviour
     private void SaveDataFile()
     {
         File.WriteAllText(_dataPath, _voxelMap.DictionaryToJson());
-
-        // 이 코드는 기존 내용이 지워지지 않음,,
-        //using (FileStream fs = new(_dataPath, FileMode.OpenOrCreate, FileAccess.Write))
-        //{
-        //    using (StreamWriter sw = new StreamWriter(fs))
-        //    {
-        //        sw.Write(_voxelMap.DictionaryToJson());
-        //        sw.Close();
-        //    }
-        //    fs.Close();
-        //}
-
-        FileInfo fileInfo = new FileInfo(_dataPath);
+        FileInfo fileInfo = new(_dataPath);
         Debug.Log($"Save File Bytes : {fileInfo.Length} byte");
     }
 }

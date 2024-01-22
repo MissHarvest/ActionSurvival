@@ -51,6 +51,5 @@ MonoBehaviour:
     <IsSolid>k__BackingField: 0
     <FrontMaterial>k__BackingField: {fileID: 2100000, guid: bf8a4f481bdc8d349b51f6065b2bf4f0, type: 2}
     <SideMaterial>k__BackingField: {fileID: 2100000, guid: aec2564424ff04f44824a1fa8eb160f2, type: 2}
-    <Forward>k__BackingField: {x: 0, y: 0, z: 1}
   <WorldSize>k__BackingField: 100
-  <ViewChunkRange>k__BackingField: 5
+  <ViewChunkRange>k__BackingField: 3

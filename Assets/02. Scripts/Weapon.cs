@@ -1,3 +1,4 @@
+using OpenCover.Framework.Model;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,29 +6,29 @@ using UnityEngine;
 public class Weapon : MonoBehaviour, IAttack
 {
     // lgs 24.01.19
-    private int damage; // SO의 데미지를 받아오자
-    //private float knockback;
-
+    private int _damage; // SO의 데미지를 받아오자
 
     private void Awake()
     {
         gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
         Managers.Game.Player.ToolSystem.OnEquip += DamageOfTheEquippedWeapon;
-        //knockback = Managers.Game.Player.Data.AttackData.AttackInfoDatas[0].Force;
+    }
+
+    private void FixedUpdate()
+    {
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        //Vector3 playerPosition = Managers.Game.Player.transform.position;
         Attack(other.GetComponent<IHit>());
 
-        //if (other.TryGetComponent(out ForceReceiver forceReceiver))
-        //{
-        //    Vector3 direction = (other.transform.position - playerPosition).normalized;
-        //    forceReceiver.AddForce(direction * knockback);
-        //    Debug.Log(direction);
-        //}
+        //Transform monsterPosition = other.GetComponent<Transform>();
+        //Transform weaponPosition = GetComponent<Transform>();
+
+        //Vector3 knockback = (monsterPosition.position - weaponPosition.position).normalized;
+
+        //monsterPosition.transform.position += knockback;
     }
 
     public void Attack(IHit target)
@@ -36,7 +37,7 @@ public class Weapon : MonoBehaviour, IAttack
         {
             return;
         }
-        target.Hit(this, damage);
+        target.Hit(this, _damage);
     }
 
     public void DamageOfTheEquippedWeapon(QuickSlot quickSlot)
@@ -44,6 +45,6 @@ public class Weapon : MonoBehaviour, IAttack
         ItemData weapon = quickSlot.itemSlot.itemData;
         ToolItemData toolItemDate = (ToolItemData)weapon;
 
-        damage += toolItemDate.damage;
+        _damage += toolItemDate.damage;
     }
 }
