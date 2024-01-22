@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IceSwarm : Monster
+public class IceSwarm : MeleeMonster
 {
-    public override void Attack(IHit target)
-    {
-
-    }
+    
 }

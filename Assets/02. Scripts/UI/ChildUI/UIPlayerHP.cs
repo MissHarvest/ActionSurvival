@@ -5,16 +5,13 @@ using UnityEngine;
 
 public class UIPlayerHP : MonoBehaviour
 {
-    private TextMeshProUGUI HPText { get; }
+    public TextMeshProUGUI HPText { get; private set; }
     private float _playerMaxHP;
-
-    public UIPlayerHP()
-    {
-        HPText = GetComponent<TextMeshProUGUI>();
-    }
 
     private void Awake()
     {
+        HPText = GetComponent<TextMeshProUGUI>();
+
         var playerConditions = GameObject.Find("Player").GetComponent<PlayerConditionHandler>();
         playerConditions.HP.OnUpdated += PrintHP;
         _playerMaxHP = playerConditions.HP.maxValue;

@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoulEater : Monster
+public class SoulEater : MeleeMonster
 {
-    public override void Attack(IHit target)
-    {
-        
-    }
+    
 }

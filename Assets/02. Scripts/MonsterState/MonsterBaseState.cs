@@ -3,12 +3,13 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class MonsterBaseState : IState
 {
-    protected MonsterStateMachine _stateMachine;
+    protected MonsterStateMachine _stateMachine;    
 
     public MonsterBaseState(MonsterStateMachine monsterStateMachine)
     {
@@ -54,7 +55,6 @@ public class MonsterBaseState : IState
     {
         var sqrLength = GetDistanceBySqr(Managers.Game.Player.transform.position);
         var dist = _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier;
-
         return sqrLength < dist * dist;
     }
 

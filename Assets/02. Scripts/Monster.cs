@@ -22,12 +22,17 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     public ItemData[] looting;
     public bool Dead { get; private set; }
 
+    public bool Berserk { get; private set; }
+
     [field : SerializeField] public Condition HP { get; private set; }
 
     private Island _habitat;
     private Rigidbody _rigidbody; //lgs
 
-    private void Awake()
+    [Header("Attack")]
+    public float attackTime;
+
+    protected virtual void Awake()
     {
         AnimationData.Initialize();
         Animator = GetComponentInChildren<Animator>();
@@ -84,12 +89,28 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         _habitat?.DiedMonsters.Add(this.gameObject);
     }
     
-    public abstract void Attack(IHit target);
+    public void Attack(IHit target)
+    {
+        target.Hit(this, 10);
+    }
 
     public void Hit(IAttack attacker, float damage)
     {
         HP.Subtract(damage);
     }
+
+    public void SetBerserkMode()
+    {
+        Berserk = true;
+        _stateMachine.DetectionDistModifier = 300;
+    }
+
+    public virtual void OffAttack()
+    {
+
+    }
+
+    public abstract void TryAttack();
 
     private void OnDrawGizmos()
     {

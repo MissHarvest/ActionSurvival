@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fuga : Monster
+public class Fuga : MeleeMonster
 {
-    public override void Attack(IHit target)
-    {
-        
-    }
+    
 }

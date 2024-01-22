@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -6,9 +7,9 @@ using UnityEngine;
 // 2024. 01. 18 Park Jun Uk
 public enum MonsterLevel
 {
-    Upper,    
+    Lower,    
     Middle,
-    Lower,
+    Upper,
 }
 
 public class SpawnPoint
@@ -24,7 +25,7 @@ public class SpawnPoint
 }
 
 public class Island
-{    
+{
     // 각 등급 별 몬스터 위치
 
     public int cellCount = 61;
@@ -36,7 +37,7 @@ public class Island
     private LayerMask _unspawnableLayers = 64;
 
     private IsLandProperty _property;
-    public int[] rankCount = new int[] { 5, 15, 30 };
+    public int[] rankCount = new int[] { 30, 15, 5 };
     private int _centerRadius = 10;
     private MonsterGroup[] _monsterGroups = new MonsterGroup[3];
 
@@ -44,34 +45,28 @@ public class Island
 
     public List<GameObject> DiedMonsters = new List<GameObject>();
 
-    public List<GameObject> ExtraMonsters = new List<GameObject>();
-
     public Island(IsLandProperty property)
     {
-        _property = property;        
-        _offset = new Vector3(property.diameter / 2, 0, property.diameter / 2) - _property.center;  
-        
-        for(int i = 0; i < _monsterGroups.Length; ++i)
+        _property = property;
+        _offset = new Vector3(property.diameter / 2, 0, property.diameter / 2) - _property.center;
+
+        for (int i = 0; i < _monsterGroups.Length; ++i)
         {
             _monsterGroups[i] = new MonsterGroup();
         }
     }
 
-    public void Spawn(int cnt)
+    public GameObject Spawn()
     {
-        // 생성 위치 및 갯수 탐색
-        for(int i = 0; i < cnt; ++i)
-        {
-            var index = Random.Range(0, _spawnablePoints.Count);
+        var index = Random.Range(0, _spawnablePoints.Count);
 
-            // 일단은 하급 생성
-            var monster = _monsterGroups[(int)MonsterLevel.Lower].GetRandomMonster();
-            var pos = _spawnablePoints[index].point;
-            pos.y = 0.5f;
-            var monsterObj = Object.Instantiate(monster, pos, Quaternion.identity);
-            monsterObj.name = monsterObj.name + "[Extra]";
-            ExtraMonsters.Add(monsterObj);
-        }
+        // 일단은 하급 생성
+        var monster = _monsterGroups[(int)MonsterLevel.Lower].GetRandomMonster();
+        var pos = _spawnablePoints[index].point;
+        pos.y = 0.5f;
+        var monsterObj = Object.Instantiate(monster, pos, Quaternion.identity);
+        monsterObj.name = monsterObj.name + "[Extra]";
+        return monsterObj;
     }
 
     private void RespawnMonsters()
@@ -79,7 +74,7 @@ public class Island
         // [ Do ] // Set Monster RespawnDuration. (day)
         if (DiedMonsters.Count == 0) return;
 
-        for(int i = 0; i < DiedMonsters.Count; ++i)
+        for (int i = 0; i < DiedMonsters.Count; ++i)
         {
             DiedMonsters[i].SetActive(true);
             DiedMonsters[i].GetComponent<Monster>().Respawn();
@@ -89,7 +84,7 @@ public class Island
 
     public void AddMonsterType(string[][] monsterNames)
     {
-        for(int i = 0; i < monsterNames.Length; ++i)
+        for (int i = 0; i < monsterNames.Length; ++i)
         {
             _monsterGroups[i].AddMonsterType(monsterNames[i]);
             _monsterGroups[i].SetLength(rankCount[i]);
@@ -100,20 +95,26 @@ public class Island
     public void CreateMonsters()
     {
         Managers.Game.DayCycle.OnMorningCame += RespawnMonsters;
-
         CreateSpawnPoint();
 
         SetSpawnPointRank();
 
         // SpawnMonster
         for (int i = 0; i < _spawnablePoints.Count; ++i)
-        {            
+        {
             var pos = _spawnablePoints[i].point;
-            var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();            
-            pos.y = 0.5f;
-            var go = Object.Instantiate(mon, pos, Quaternion.identity);
-            go.GetComponent<Monster>().SetIsland(this);
-            go.name = $"{mon.name}[{_spawnablePoints[i].level}]";
+            pos.y = 50;
+            RaycastHit hit;
+            if (Physics.Raycast(pos, Vector3.down, out hit, 100.0f, 1))
+            {
+                pos = hit.point;
+                pos.y += 0.5f;
+
+                var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();
+                var go = Object.Instantiate(mon, pos, Quaternion.identity);
+                go.GetComponent<Monster>().SetIsland(this);
+                go.name = $"{mon.name}[{_spawnablePoints[i].level}]";
+            }
         }
     }
 
@@ -134,20 +135,20 @@ public class Island
     private void LockUnusablePoint(bool[,] points, ref int field)
     {
         float maxDistance = 100;
-        for(int x = 0; x < cellCount; ++x)
+        for (int x = 0; x < cellCount; ++x)
         {
-            for(int z = 0; z < cellCount; ++z)
+            for (int z = 0; z < cellCount; ++z)
             {
                 RaycastHit hit;
                 var start = new Vector3(x * _interval, 10, z * _interval) - _offset;
-                if(!Physics.BoxCast(start, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, maxDistance))
+                if (!Physics.BoxCast(start, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, maxDistance))
                 {
                     points[x, z] = true;
                     --field;
                 }
                 else
                 {
-                    if(_unspawnableLayers == (_unspawnableLayers | 1 << hit.collider.gameObject.layer))
+                    if (_unspawnableLayers == (_unspawnableLayers | 1 << hit.collider.gameObject.layer))
                     {
                         points[x, z] = true;
                         --field;
@@ -182,7 +183,7 @@ public class Island
                 for (int i = 0; i < directionIndexs.Count; ++i)
                 {
                     var next = current + directions[directionIndexs[i]];
-                    
+
                     if (next.x < 0 || next.x >= cellCount || next.y < 0 || next.y >= cellCount) continue;
 
                     if (points[(int)(next.x), (int)(next.y)] == false)
@@ -252,7 +253,7 @@ public class Island
     private void LoopCreateMonsterSpawnPoint(bool[,] points, int field)
     {
         bool finished = false;
-        while(!finished)
+        while (!finished)
         {
             _spawnablePoints.Clear();
             finished = CreateMonsterSpawnPoint(points, field);
@@ -264,22 +265,22 @@ public class Island
         int cnt = _property.monsterCount;
         bool[,] copyPoint = (bool[,])points.Clone();
 
-        for(int x = 0; x < copyPoint.GetLength(0); ++x)
+        for (int x = 0; x < copyPoint.GetLength(0); ++x)
         {
-            for(int z = 0; z < copyPoint.GetLength(1); ++z)
+            for (int z = 0; z < copyPoint.GetLength(1); ++z)
             {
                 if (copyPoint[x, z]) continue;
 
-                if(CheckSpawnablePercentage(cnt, field))
+                if (CheckSpawnablePercentage(cnt, field))
                 {
                     var point = new Vector3(x * _interval, 10, z * _interval) - _offset;
-                    SpawnPoint spawnPoint = new SpawnPoint(point);                    
+                    SpawnPoint spawnPoint = new SpawnPoint(point);
                     _spawnablePoints.Add(spawnPoint);
                     --cnt;
                     LockMonsterAroundPoint(copyPoint, x, z, ref field);
                 }
                 --field;
-                copyPoint[x, z] = true;                
+                copyPoint[x, z] = true;
             }
         }
 
@@ -323,7 +324,7 @@ public class Island
     private void SetSpawnPointRank()
     {
         List<(int, float)> dist = new List<(int, float)>();
-        UnityEngine.Debug.Log($"Center : {_property.center}");
+
         for (int i = 0; i < _spawnablePoints.Count; ++i)
         {
             var d = _spawnablePoints[i].point - _property.center;
@@ -335,15 +336,15 @@ public class Island
         // sort
         dist = dist.OrderBy(x => x.Item2).ToList();
 
-        // monster List. 순차적
-        for (int i = 0; i < rankCount[0]; ++i)
+        int adaptedLevel = 2;
+        int cnt = rankCount[adaptedLevel];
+        for(int i = 0; i < dist.Count; ++i)
         {
-            _spawnablePoints[dist[i].Item1].level = MonsterLevel.Upper;
-        }
-
-        for (int i = rankCount[0]; i < rankCount[0] + rankCount[1]; ++i)
-        {
-            _spawnablePoints[dist[i].Item1].level = MonsterLevel.Middle;
+            if(i >= cnt)
+            {
+                cnt += rankCount[--adaptedLevel];
+            }
+            _spawnablePoints[dist[i].Item1].level = (MonsterLevel)adaptedLevel;
         }
     }
     #endregion

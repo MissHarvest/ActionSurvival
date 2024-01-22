@@ -16,11 +16,15 @@ public class MonsterChaseState : MonsterBaseState
 
     public override void Enter()
     {
-        Debug.Log("Monster State Changed to [ Chase ]");
+        Debug.Log($"{_stateMachine.Monster.name} State Changed to [ Chase ]");
+        
         // Speed Up
         _stateMachine.MovementSpeedModifier = _stateMachine.Monster.Data.MovementData.ChaseSpeedModifier;
+        
         // 탐지 범위 증가
-        _stateMachine.DetectionDistModifier = _stateMachine.Monster.Data.AttackData.ChaseDectionDistModifier;
+        _stateMachine.DetectionDistModifier 
+            = _stateMachine.Monster.Berserk ? 300 : _stateMachine.Monster.Data.AttackData.ChaseDectionDistModifier;
+        
         base.Enter();
         
         // Start Animation
@@ -31,11 +35,6 @@ public class MonsterChaseState : MonsterBaseState
     {        
         base.Exit();
 
-        // 탐지 범위 감소
-        _stateMachine.DetectionDistModifier = _stateMachine.Monster.Data.AttackData.DefaultDetectionDistModifier;
-
-        _stateMachine.Monster.NavMeshAgent.stoppingDistance = 0.5f;
-        // Exit Animation
         StopAnimation(_stateMachine.Monster.AnimationData.RunParameterHash);
     }
 
@@ -43,18 +42,16 @@ public class MonsterChaseState : MonsterBaseState
     {
         // base.Update();
 
-        var dist = _stateMachine.Monster.NavMeshAgent.remainingDistance;
-        var maxSpeed = _stateMachine.Monster.NavMeshAgent.speed;
-        dist = Mathf.Min(dist, maxSpeed);
-        _stateMachine.Monster.NavMeshAgent.stoppingDistance
-            = Mathf.Max((dist + _reach) * 0.5f, _stateMachine.Monster.NavMeshAgent.stoppingDistance);
-
         var sqrLength = GetDistanceBySqr(Managers.Game.Player.transform.position);
         
         if(sqrLength < _reach * _reach)
         {
-            _stateMachine.Monster.NavMeshAgent.ResetPath();
-            _stateMachine.ChangeState(_stateMachine.AttackState);
+            if(_stateMachine.canAttack)
+            {
+                _stateMachine.ChangeState(_stateMachine.AttackState);
+                return;
+            }
+            _stateMachine.ChangeState(_stateMachine.StayState);
             return;
         }
         else if (TryDetectPlayer())

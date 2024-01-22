@@ -58,7 +58,7 @@ public class Player : MonoBehaviour, IHit
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 
@@ -76,7 +76,7 @@ public class Player : MonoBehaviour, IHit
     public void Hit(IAttack attacker, float damage)
     {
         ConditionHandler.HP.Subtract(damage);
-        Debug.Log(attacker);
+        Debug.Log($"[ Attacked by ] {attacker}");
     }
 
     private void OnDrawGizmos()
