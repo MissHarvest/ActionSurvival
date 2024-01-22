@@ -20,17 +20,20 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     public NavMeshAgent NavMeshAgent { get; private set; }
 
     public ItemData[] looting;
-
     public bool Dead { get; private set; }
 
     [field : SerializeField] public Condition HP { get; private set; }
 
     private Island _habitat;
+    private Rigidbody _rigidbody; //lgs
 
     private void Awake()
     {
         AnimationData.Initialize();
         Animator = GetComponentInChildren<Animator>();
+
+        _rigidbody = GetComponent<Rigidbody>(); //lgs
+
         var name = _name == string.Empty ? this.GetType().Name : _name;
         Data = Managers.Resource.GetCache<MonsterSO>($"{name}.data");
         _stateMachine = new MonsterStateMachine(this);
@@ -95,5 +98,15 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other == null)
+        {
+            return;
+        }
+        _rigidbody.AddForce(transform.position - other.transform.position, ForceMode.Impulse);
+        Debug.Log("충돌");
     }
 }
