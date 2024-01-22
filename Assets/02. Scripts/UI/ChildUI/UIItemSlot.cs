@@ -24,7 +24,7 @@ public class UIItemSlot : UIBase
         Get<Image>((int)Images.Icon).raycastTarget = false;
         Get<TextMeshProUGUI>((int)Texts.Quantity).raycastTarget = false;
 
-        Clear();
+        //Clear();
     }
 
     private void Awake()

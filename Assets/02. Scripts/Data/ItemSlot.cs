@@ -38,7 +38,7 @@ public class ItemSlot
         this.quantity = Math.Max(this.quantity - amount, 0);
         if(quantity == 0)
         {
-            this.itemData = null;
+            Clear();
         }
         // To Do ) 소모해야하는 양 보다 가지고 있는게 적으면 실패하는 로직
     }

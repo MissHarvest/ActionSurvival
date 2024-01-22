@@ -43,16 +43,7 @@ public class UIQuickSlot : UIItemSlot
         }
 
         base.Set(itemSlot);
-
-        if (itemSlot.registed)
-        {
-            durabilitySlider.gameObject.SetActive(true);
-            UpdateDurabilityUI(itemSlot);
-        }
-        else
-        {
-            durabilitySlider.gameObject.SetActive(false);
-        }
+        UpdateDurabilityUI(itemSlot);
     }
 
 
@@ -60,23 +51,16 @@ public class UIQuickSlot : UIItemSlot
     {
         if (itemSlot.itemData is ToolItemData toolItem)
         {
-            if (Managers.Game.Player.QuickSlot.slots[0].itemSlot.itemData != null)
-            {
-                durabilitySlider.gameObject.SetActive(true);
+            durabilitySlider.gameObject.SetActive(true);
 
-                float maxDurability = toolItem.maxDurability;
-                float currentDurability = itemSlot.currentDurability;
+            float maxDurability = toolItem.maxDurability;
+            float currentDurability = itemSlot.currentDurability;
 
-                float durabilityPercentage = Mathf.Clamp01(currentDurability / maxDurability);
-                Color durabilityColor = GetDurabilityColor(durabilityPercentage);
+            float durabilityPercentage = Mathf.Clamp01(currentDurability / maxDurability);
+            Color durabilityColor = GetDurabilityColor(durabilityPercentage);
 
-                durabilitySlider.value = durabilityPercentage;
-                durabilitySlider.fillRect.GetComponent<Image>().color = durabilityColor;
-            }
-            else
-            {
-                durabilitySlider.gameObject.SetActive(false);
-            }
+            durabilitySlider.value = durabilityPercentage;
+            durabilitySlider.fillRect.GetComponent<Image>().color = durabilityColor;
         }
         else
         {
@@ -108,7 +92,6 @@ public class UIQuickSlot : UIItemSlot
     public override void Clear()
     {
         base.Clear();
-        durabilitySlider = GetComponentInChildren<Slider>();
         durabilitySlider.gameObject.SetActive(false);
     }
 }
