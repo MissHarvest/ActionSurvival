@@ -45,6 +45,7 @@ public class ItemSlot
 
     public void Set(ItemData item, int quantity = 1)
     {
+        // [ Check ] // 내구도 부분이랑 병합 시 
         this.itemData = item;
         this.quantity = quantity;
         this.currentDurability = (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f;
@@ -52,8 +53,8 @@ public class ItemSlot
 
     public void Set(ItemSlot itemSlot)
     {
-        itemData = itemSlot.itemData;
-        quantity = itemSlot.quantity;
+        // [ Check ] // 내구도 부분이랑 병합 시 
+        Set(itemSlot.itemData, itemSlot.quantity);
         registed = itemSlot.registed;
         equipped = itemSlot.equipped;
         currentDurability = itemSlot.currentDurability;

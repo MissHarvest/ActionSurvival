@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab1c885b2d326546a01d8d30a7ede07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: 
+  _name: Beholder
   <AnimationData>k__BackingField:
     idleParameterName: Idle
     walkParameterName: Walk

@@ -14,7 +14,7 @@ public class UIQuickSlot : UIItemSlot
     public override void Initialize()
     {
         base.Initialize();
-        durabilitySlider = GetComponentInChildren<Slider>();
+        //durabilitySlider = GetComponentInChildren<Slider>();
     }
 
     public void Init(UIQuickSlotController quickSlotControllerUI, int index, ItemSlot itemSlot)
@@ -43,7 +43,7 @@ public class UIQuickSlot : UIItemSlot
         }
 
         base.Set(itemSlot);
-        UpdateDurabilityUI(itemSlot);
+        //UpdateDurabilityUI(itemSlot);
     }
 
 
@@ -92,6 +92,6 @@ public class UIQuickSlot : UIItemSlot
     public override void Clear()
     {
         base.Clear();
-        durabilitySlider.gameObject.SetActive(false);
+        //durabilitySlider.gameObject.SetActive(false);
     }
 }
