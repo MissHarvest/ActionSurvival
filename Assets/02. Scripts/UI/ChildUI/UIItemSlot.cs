@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class UIItemSlot : UIBase
@@ -21,13 +18,13 @@ public class UIItemSlot : UIBase
 
     public override void Initialize()
     {
-        Bind<Image>(typeof(Images));        
+        Bind<Image>(typeof(Images));
         Bind<TextMeshProUGUI>(typeof(Texts));
 
         Get<Image>((int)Images.Icon).raycastTarget = false;
         Get<TextMeshProUGUI>((int)Texts.Quantity).raycastTarget = false;
 
-        Clear();
+        //Clear();
     }
 
     private void Awake()

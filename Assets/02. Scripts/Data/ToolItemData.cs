@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ToolItemData", menuName = "New Item/Weapon", order = 0)]
 public class ToolItemData : EquipItemData
 {
-    public float maxDurability;
-    public float currentDurability;
+    public float maxDurability = 10f;
 
     public LayerMask targetLayers;
     public float range;
@@ -22,7 +19,6 @@ public class ToolItemData : EquipItemData
     {
         //stackable = false;
         registable = true;
-        currentDurability = maxDurability;
         part = ItemParts.Hand;
 
         isTwoHandedTool = false;

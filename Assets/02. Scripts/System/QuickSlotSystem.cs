@@ -28,6 +28,7 @@ public class QuickSlotSystem : MonoBehaviour
     private void Start()
     {
         Debug.Log("QuickSystem Start");
+        Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
     public void Regist(int index, QuickSlot slot)
@@ -87,9 +88,9 @@ public class QuickSlotSystem : MonoBehaviour
                 break;
 
             case ConsumeItemData consumeItem:
-                //Debug.Log("������ ���� Ŭ��");
+                //Debug.Log("퀵슬롯 음식 클릭");
 
-                UseConsumeItem(consumeItem);
+                Managers.Game.Player.Inventory.UseConsumeItemByIndex(slots[IndexInUse].targetIndex);
                 break;
 
             default:
@@ -97,32 +98,25 @@ public class QuickSlotSystem : MonoBehaviour
         }
     }
 
-    public void UseConsumeItem(ConsumeItemData consumeItem)
-    {
-        int indexInUse = IndexInUse;
-
-        // �κ��丮���� ������ ���
-        Managers.Game.Player.Inventory.UseSlotItemByIndex(indexInUse);
-
-        // ������ ���� ���� �� QuickSlot ������Ʈ
-        slots[indexInUse].itemSlot.SubtractQuantity();
-
-        // ������ ������ 0�� �Ǹ� �����Կ��� ����
-        if (slots[indexInUse].itemSlot.quantity <= 0)
-        {
-            UnRegist(slots[indexInUse]);
-        }
-        else
-        {
-            // ������ ������ 0�� �ƴϸ� QuickSlot ������Ʈ
-            OnUpdated?.Invoke(indexInUse, slots[indexInUse].itemSlot);
-        }
-    }
-
-    // ������ �ε��� ��ȣ�� ������Ʈ
+    // 퀵슬롯 인덱스 번호로 업데이트
     public void UpdateQuickSlot(int index)
     {
         IndexInUse = index;
+        int inventoryIndex = slots[IndexInUse].targetIndex;
+        slots[IndexInUse].Set(inventoryIndex, Managers.Game.Player.Inventory.slots[inventoryIndex]);
         OnUpdated?.Invoke(IndexInUse, slots[IndexInUse].itemSlot);
+    }
+
+    public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)
+    {
+        for (int i = 0; i < capacity; ++i)
+        {
+            if (slots[i].targetIndex == inventoryIndex)
+            {
+                slots[i].Set(slots[i].targetIndex, itemSlot);
+                OnUpdated?.Invoke(i, slots[i].itemSlot);
+                return;
+            }
+        }
     }
 }
