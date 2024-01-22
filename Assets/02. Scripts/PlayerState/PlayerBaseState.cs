@@ -75,7 +75,7 @@ public class PlayerBaseState : IState
             );
     }
     
-    private void Rotate(Vector3 movementDirection) // 가상함수로 만든 뒤 어택 스테이트에서 오버라이드 후 비우기
+    public virtual void Rotate(Vector3 movementDirection) // 가상함수로 만든 뒤 어택 스테이트에서 오버라이드 후 비우기
     {
         if(movementDirection != Vector3.zero)
         {

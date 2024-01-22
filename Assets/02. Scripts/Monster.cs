@@ -4,16 +4,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
 public abstract class Monster : MonoBehaviour, IAttack, IHit
 {
     [SerializeField] protected string _name = string.Empty;
-    [field : SerializeField] public MonsterAnimationData AnimationData { get; private set; }
+    [field: SerializeField] public MonsterAnimationData AnimationData { get; private set; }
     protected MonsterStateMachine _stateMachine;
     public Animator Animator { get; private set; }
-    [field :SerializeField] public MonsterSO Data { get; private set; }
+    [field: SerializeField] public MonsterSO Data { get; private set; }
 
     public Vector3 RespawnPosition { get; private set; }
 
@@ -24,10 +25,11 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     public bool Berserk { get; private set; }
 
-    [field : SerializeField] public Condition HP { get; private set; }
+    [field: SerializeField] public Condition HP { get; private set; }
 
     private Island _habitat;
     private Rigidbody _rigidbody; //lgs
+    private float _knockbackTime = 0f;
 
     [Header("Attack")]
     public float attackTime;
@@ -53,11 +55,21 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         RespawnPosition = transform.position;
         _stateMachine.ChangeState(_stateMachine.IdleState);
+        _rigidbody.isKinematic = true; //lgs 24.01.22
     }
 
     private void Update()
     {
         _stateMachine.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        _knockbackTime -= Time.deltaTime;
+        if (_knockbackTime <= 0f)
+        {
+            _rigidbody.isKinematic = true;
+        }
     }
 
     public void SetIsland(Island island)
@@ -81,14 +93,14 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         _stateMachine.ChangeState(_stateMachine.DieState);
 
         // [ TEMP ] Get Looting //
-        foreach(var loot in looting)
+        foreach (var loot in looting)
         {
             Managers.Game.Player.Inventory.AddItem(loot, 1);
         }
 
         _habitat?.DiedMonsters.Add(this.gameObject);
     }
-    
+
     public void Attack(IHit target)
     {
         target.Hit(this, 10);
@@ -97,6 +109,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     public void Hit(IAttack attacker, float damage)
     {
         HP.Subtract(damage);
+        Debug.Log("피격");
     }
 
     public void SetBerserkMode()
@@ -127,7 +140,17 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         {
             return;
         }
-        _rigidbody.AddForce(transform.position - other.transform.position, ForceMode.Impulse);
-        Debug.Log("충돌");
+
+        if (other.gameObject.layer == 8 && _rigidbody.isKinematic == true)
+        {
+            _rigidbody.isKinematic = false;
+            _rigidbody.AddForce((transform.position - other.transform.position).normalized, ForceMode.Impulse);
+            _knockbackTime = 0.5f;
+            Debug.Log("충돌");
+        }
+        else
+        { 
+            return;
+        }
     }
 }

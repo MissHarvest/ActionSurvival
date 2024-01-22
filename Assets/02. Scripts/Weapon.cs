@@ -1,4 +1,5 @@
 using OpenCover.Framework.Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,21 +15,9 @@ public class Weapon : MonoBehaviour, IAttack
         Managers.Game.Player.ToolSystem.OnEquip += DamageOfTheEquippedWeapon;
     }
 
-    private void FixedUpdate()
-    {
-
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         Attack(other.GetComponent<IHit>());
-
-        //Transform monsterPosition = other.GetComponent<Transform>();
-        //Transform weaponPosition = GetComponent<Transform>();
-
-        //Vector3 knockback = (monsterPosition.position - weaponPosition.position).normalized;
-
-        //monsterPosition.transform.position += knockback;
     }
 
     public void Attack(IHit target)
