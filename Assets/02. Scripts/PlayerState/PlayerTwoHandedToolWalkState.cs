@@ -22,9 +22,4 @@ public class PlayerTwoHandedToolWalkState : PlayerGroundedState
         base.Exit();
         StopAnimation(_stateMachine.Player.AnimationData.EquipTwoHandedToolWalkParameterHash);
     }
-    protected override void OnRunStarted(InputAction.CallbackContext context)
-    {
-        base.OnRunStarted(context);
-        _stateMachine.ChangeState(_stateMachine.TwoHandedToolRunState);
-    }
 }

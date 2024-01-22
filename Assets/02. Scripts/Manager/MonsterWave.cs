@@ -14,7 +14,7 @@ public class MonsterWave
     
     public MonsterWave()
     {
-        _defaultMonsters.AddMonsterType(new string[] { "Skeleton", "Bat" });
+        _defaultMonsters.AddMonsterType(new string[] { "FireSkeleton", "Bat" });
     }
 
     public void AddOverFlowedMonster(GameObject monster)

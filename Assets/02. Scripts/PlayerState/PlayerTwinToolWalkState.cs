@@ -22,9 +22,4 @@ public class PlayerTwinToolWalkState : PlayerGroundedState
         base.Exit();
         StopAnimation(_stateMachine.Player.AnimationData.EquipTwinToolWalkParameterHash);
     }
-    protected override void OnRunStarted(InputAction.CallbackContext context)
-    {
-        base.OnRunStarted(context);
-        _stateMachine.ChangeState(_stateMachine.TwinToolRunState);
-    }
 }

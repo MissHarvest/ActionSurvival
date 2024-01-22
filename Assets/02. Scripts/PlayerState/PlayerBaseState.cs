@@ -54,9 +54,7 @@ public class PlayerBaseState : IState
     private Vector3 GetMovementDirection()
     {
         Vector3 forward = _stateMachine.MainCameraTransform.forward;
-        //Vector3 forward = _stateMachine.Player.transform.forward;
         Vector3 right = _stateMachine.MainCameraTransform.right;
-        //Vector3 right = _stateMachine.Player.transform.right;
 
         forward.y = 0;
         right.y = 0;
@@ -107,11 +105,6 @@ public class PlayerBaseState : IState
     {
         PlayerInput input = _stateMachine.Player.Input;
         input.PlayerActions.Move.canceled += OnMovementCanceled;
-        input.PlayerActions.Run.started += OnRunStarted;
-        input.PlayerActions.Run.canceled += OnRunCanceled;
-        //input.PlayerActions.Jump.started += OnJumpStarted;
-        input.PlayerActions.Attack.performed += OnAttackPerformed;
-        input.PlayerActions.Attack.canceled += OnAttackCanceled;
         
         input.PlayerActions.Interact.started += OnInteractStarted;
     }
@@ -120,33 +113,13 @@ public class PlayerBaseState : IState
     {
         PlayerInput input = _stateMachine.Player.Input;
         input.PlayerActions.Move.canceled -= OnMovementCanceled;
-        input.PlayerActions.Run.started -= OnRunStarted;
-        input.PlayerActions.Run.canceled -= OnRunCanceled;
-        //input.PlayerActions.Jump.started -= OnJumpStarted;
-        input.PlayerActions.Attack.performed -= OnAttackPerformed;
-        input.PlayerActions.Attack.canceled -= OnAttackCanceled;
 
         input.PlayerActions.Interact.started -= OnInteractStarted;
-    }
-
-    protected virtual void OnRunStarted(InputAction.CallbackContext context)
-    {
-       
-    }
-
-    protected virtual void OnRunCanceled(InputAction.CallbackContext context)
-    {
-
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
     {
         
-    }
-
-    protected virtual void OnJumpStarted(InputAction.CallbackContext context)
-    {
-
     }
 
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
@@ -170,23 +143,23 @@ public class PlayerBaseState : IState
         _stateMachine.Player.Controller.Move(_stateMachine.Player.ForceReceiver.Movement * Time.deltaTime);
     }
 
-    protected void OnAttackPerformed(InputAction.CallbackContext context)
-    {
-        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
-        if (toolItemDate.isWeapon == true)
-        {
-            _stateMachine.IsAttacking = true;
-        }
-    }
+    //protected void OnAttackPerformed(InputAction.CallbackContext context)
+    //{
+    //    ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+    //    if (toolItemDate.isWeapon == true)
+    //    {
+    //        _stateMachine.IsAttacking = true;
+    //    }
+    //}
 
-    protected void OnAttackCanceled(InputAction.CallbackContext context)
-    {
-        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
-        if (toolItemDate.isWeapon == true)
-        {
-            _stateMachine.IsAttacking = false;
-        }
-    }
+    //protected void OnAttackCanceled(InputAction.CallbackContext context)
+    //{
+    //    ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+    //    if (toolItemDate.isWeapon == true)
+    //    {
+    //        _stateMachine.IsAttacking = false;
+    //    }
+    //}
 
     protected float GetNormalizedTime(Animator animator, string tag)
     {

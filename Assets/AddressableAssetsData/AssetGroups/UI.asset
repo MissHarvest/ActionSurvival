@@ -59,13 +59,13 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d0b07dad1fbddcc4d80804ad9f22db00
+  - m_GUID: 21744b960ecd6874289cce145225238c
     m_Address: UIQuickSlot.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9d9cc95d631aeb642a81a0d48f9260b6
+  - m_GUID: c2ebe1814cd7a544da945a975312a7fa
     m_Address: UIToolRegistSlot.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
