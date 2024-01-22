@@ -120,10 +120,9 @@ public class World : MonoBehaviour
             }
 
             // 일정 시간마다 UI 업데이트
-            t += Time.unscaledDeltaTime;
-            if (uiUpdateInterval < t)
+            if (Time.realtimeSinceStartup - t > uiUpdateInterval)
             {
-                t = 0f;
+                t = Time.realtimeSinceStartup;
                 progressCallback?.Invoke((float)createdChunkCount / totalChunkCount, "Generate Chunks ...");
                 yield return null;
             }
@@ -168,7 +167,7 @@ public class World : MonoBehaviour
         yield return StartCoroutine(ReadMapDataFile(data));
         progressCallback?.Invoke(0f, "Generate Chunks ...");
         yield return null;
-        yield return StartCoroutine(GenerateChunk(progressCallback, 0.5f));
+        yield return StartCoroutine(GenerateChunk(progressCallback, 0.035f));
         progressCallback?.Invoke(1f, "Complete");
         completedCallback?.Invoke();
         _isDone = true;
