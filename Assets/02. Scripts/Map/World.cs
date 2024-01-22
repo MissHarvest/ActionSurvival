@@ -21,9 +21,6 @@ public class World : MonoBehaviour
     private ChunkCoord _currentPlayerCoord;
     private ChunkCoord _prevPlayerCoord;
 
-    private int _totalChunkCount = 1;
-    private int _createdChunkCount = 0;
-
     public WorldData WorldData { get; private set; }
     public VoxelData VoxelData { get; private set; }
 
@@ -97,13 +94,14 @@ public class World : MonoBehaviour
             for (int z = minZ; z <= maxZ; z++)
                 visited.TryAdd(new(x, z), false);
         visited[new(0, 0)] = true;
-        _totalChunkCount = visited.Count;
+        int totalChunkCount = visited.Count;
+        int createdChunkCount = 0;
 
         ChunkCoord[] dxdy = { ChunkCoord.Up, ChunkCoord.Down, ChunkCoord.Left, ChunkCoord.Right };
 
         while (queue.Count > 0)
         {
-            _createdChunkCount++;
+            createdChunkCount++;
             var current = queue.Dequeue();
             var chunk = CreateChunk(current);
             chunk.IsActive = false;
@@ -126,7 +124,7 @@ public class World : MonoBehaviour
             if (uiUpdateInterval < t)
             {
                 t = 0f;
-                progressCallback?.Invoke((float)_createdChunkCount / _totalChunkCount, "Generate Chunks ...");
+                progressCallback?.Invoke((float)createdChunkCount / totalChunkCount, "Generate Chunks ...");
                 yield return null;
             }
         }
@@ -168,7 +166,7 @@ public class World : MonoBehaviour
         VoxelData = Managers.Resource.GetCache<VoxelData>("VoxelData.data");
         var data = Managers.Resource.GetCache<TextAsset>("MapData.data");
         yield return StartCoroutine(ReadMapDataFile(data));
-        progressCallback?.Invoke((float)_createdChunkCount / _totalChunkCount, "Generate Chunks ...");
+        progressCallback?.Invoke(0f, "Generate Chunks ...");
         yield return null;
         yield return StartCoroutine(GenerateChunk(progressCallback, 0.5f));
         progressCallback?.Invoke(1f, "Complete");
