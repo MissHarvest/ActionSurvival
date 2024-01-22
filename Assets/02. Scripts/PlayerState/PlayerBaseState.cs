@@ -107,6 +107,7 @@ public class PlayerBaseState : IState
         input.PlayerActions.Move.canceled += OnMovementCanceled;
         
         input.PlayerActions.Interact.started += OnInteractStarted;
+        input.PlayerActions.Interact.canceled += OnInteractCanceled;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
@@ -115,6 +116,7 @@ public class PlayerBaseState : IState
         input.PlayerActions.Move.canceled -= OnMovementCanceled;
 
         input.PlayerActions.Interact.started -= OnInteractStarted;
+        input.PlayerActions.Interact.canceled -= OnInteractCanceled;
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
@@ -129,6 +131,7 @@ public class PlayerBaseState : IState
         var tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
         if (tool.isWeapon)
         {
+            _stateMachine.IsAttacking = true;
             _stateMachine.ChangeState(_stateMachine.ComboAttackState);
         }
         if (tool.isWeapon == false)
@@ -136,6 +139,11 @@ public class PlayerBaseState : IState
             _stateMachine.ChangeState(_stateMachine.InteractState);
         }        
         Debug.Log("Player Interact");
+    }
+
+    protected virtual void OnInteractCanceled(InputAction.CallbackContext context)
+    {
+        _stateMachine.IsAttacking = false;
     }
 
     protected void ForceMove()
