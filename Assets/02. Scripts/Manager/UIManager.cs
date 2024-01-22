@@ -69,9 +69,18 @@ public class UIManager
         
         gameObject.transform.SetParent(Root.transform);
 
+        if (_scene != null)
+            Object.Destroy(_scene.gameObject); // [WJY]: UILoadingScene -> UIMainScene 교체
         _scene = sceneUI;
 
         return sceneUI;
+    }
+
+    // [WJY]: 현재 씬 UI에 접근하기 위해 작성
+    public bool TryGetSceneUI<T>(out T sceneUI) where T : UIScene
+    {
+        sceneUI = _scene as T;
+        return sceneUI != null;
     }
 
     #endregion

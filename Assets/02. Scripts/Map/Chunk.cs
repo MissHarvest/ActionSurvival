@@ -61,7 +61,7 @@ public class Chunk
 
     private void CreateMeshData()
     {
-        for (int y = 0; y < _data.ChunkSizeY; y++)
+        for (int y = -_data.ChunkSizeY / 2; y < _data.ChunkSizeY / 2; y++)
         {
             for (int x = -_data.ChunkSizeX / 2; x < _data.ChunkSizeX / 2; x++)
             {
@@ -75,42 +75,6 @@ public class Chunk
             }
         }
     }
-
-    #region 리팩토링 전
-    //private void AddVoxelDataToChunk(Vector3Int pos, BlockType block)
-    //{
-    //    if (block is NormalBlockType normalBlock)
-    //    {
-    //        for (int i = 0; i < 6; i++)
-    //        {
-    //            if (_world.CheckVoxel(pos + _data.faceChecks[i]))
-    //                continue;
-
-    //            for (int j = 0; j < 4; j++)
-    //                _vertices.Add(pos + _data.voxelVerts[_data.voxelTris[i][j]]);
-
-    //            AddTextureUV(normalBlock.GetTextureID(i));
-    //            _triangles.Add(_vertexIdx);
-    //            _triangles.Add(_vertexIdx + 1);
-    //            _triangles.Add(_vertexIdx + 2);
-    //            _triangles.Add(_vertexIdx + 2);
-    //            _triangles.Add(_vertexIdx + 1);
-    //            _triangles.Add(_vertexIdx + 3);
-    //            _vertexIdx += 4;
-    //        }
-    //    }
-    //    else if (block is SlideBlockType slideBlock)
-    //    {
-    //        var obj = Managers.Resource.GetCache<GameObject>("Slide Block.prefab");
-    //        obj = UnityEngine.Object.Instantiate(obj, pos, Quaternion.identity);
-    //        var slide = obj.GetComponent<SlideBlock>();
-    //        slide.Forward = slideBlock.Forward;
-    //        slide.FrontMaterial = slideBlock.FrontMaterial;
-    //        slide.SideMaterial = slideBlock.SideMaterial;
-    //        slide.transform.SetParent(_chunkObject.transform);
-    //    }
-    //}
-        #endregion
 
     private void CreateMesh()
     {
@@ -179,6 +143,12 @@ public struct ChunkCoord : IEqualityComparer<ChunkCoord>
         this.z = z;
     }
 
+    #region Utility
+    public static ChunkCoord Up => new(0, 1);
+    public static ChunkCoord Down => new(0, -1);
+    public static ChunkCoord Left => new(-1, 0);
+    public static ChunkCoord Right => new(1, 0);
+
     public override string ToString()
     {
         return $"({x}, {z})";
@@ -234,4 +204,5 @@ public struct ChunkCoord : IEqualityComparer<ChunkCoord>
     {
         return new ChunkCoord(v.x, v.z);
     }
+    #endregion
 }

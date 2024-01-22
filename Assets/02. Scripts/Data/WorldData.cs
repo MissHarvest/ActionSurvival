@@ -9,7 +9,6 @@ public class WorldData : ScriptableObject
     [field: SerializeField] public Material Material { get; private set; }
     [field: SerializeField] public NormalBlockType[] NormalBlockTypes { get; private set; }
     [field: SerializeField] public SlideBlockType[] SlideBlockTypes { get; private set; }
-    [field: SerializeField] public int WorldSize { get; private set; }
     [field: SerializeField] public int ViewChunkRange { get; private set; }
 
     public BlockType[] GetType(MapEditDataSource.Inherits type)
