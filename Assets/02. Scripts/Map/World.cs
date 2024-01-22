@@ -170,7 +170,7 @@ public class World : MonoBehaviour
         yield return StartCoroutine(ReadMapDataFile(data));
         progressCallback?.Invoke((float)_createdChunkCount / _totalChunkCount, "Generate Chunks ...");
         yield return null;
-        yield return StartCoroutine(GenerateChunk(progressCallback, 3f));
+        yield return StartCoroutine(GenerateChunk(progressCallback, 0.5f));
         progressCallback?.Invoke(1f, "Complete");
         completedCallback?.Invoke();
         _isDone = true;
