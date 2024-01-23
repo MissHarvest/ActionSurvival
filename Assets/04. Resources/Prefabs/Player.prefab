@@ -1570,7 +1570,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 6d818e14f91cdd94ab03595ab084d248, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -3123,13 +3123,19 @@ MonoBehaviour:
   handPosition: {fileID: 3925956172773519372}
   Equipments:
   - itemSlot:
+      <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
+      <currentDurability>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
+      <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
+      <currentDurability>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
+      <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
+      <currentDurability>k__BackingField: 0
     targetIndex: -1
 --- !u!114 &806639977076256140
 MonoBehaviour:
@@ -3145,16 +3151,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slots:
   - itemSlot:
+      <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
+      <currentDurability>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
+      <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
+      <currentDurability>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
+      <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
+      <currentDurability>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
+      <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
+      <currentDurability>k__BackingField: 0
     targetIndex: -1
 --- !u!114 &5718102191932996010
 MonoBehaviour:

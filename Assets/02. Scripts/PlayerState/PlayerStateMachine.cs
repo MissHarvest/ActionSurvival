@@ -17,6 +17,8 @@ public class PlayerStateMachine : StateMachine
     public PlayerTwinToolRunState TwinToolRunState { get; }
 
     public PlayerInteractState InteractState { get; }
+    public PlayerBuildState BuildState { get; }
+    public PlayerMakeState MakeState { get; }
         
     public PlayerComboAttackState ComboAttackState { get; }
 
@@ -46,6 +48,8 @@ public class PlayerStateMachine : StateMachine
         TwinToolRunState = new PlayerTwinToolRunState(this);
 
         InteractState = new PlayerInteractState(this);
+        BuildState = new PlayerBuildState(this);
+        MakeState = new PlayerMakeState(this);
         ComboAttackState = new PlayerComboAttackState(this);
 
         MainCameraTransform = Camera.main.transform;

@@ -10,7 +10,7 @@ public class PlayerGroundedState : PlayerBaseState
 {
     public PlayerGroundedState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-        Managers.Game.Player.ToolSystem.OnEquip += OnEquipTypeOfTool;
+        
     }
 
     public override void Enter()
@@ -47,29 +47,16 @@ public class PlayerGroundedState : PlayerBaseState
         }
     }
 
-    protected override void OnMovementCanceled(InputAction.CallbackContext context)
+    protected override void AddInputActionsCallbacks()
     {
-        ToolItemData toolItemData = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+        base.AddInputActionsCallbacks();
+        Managers.Game.Player.ToolSystem.OnEquip += OnEquipTypeOfTool;
+    }
 
-        //if (_stateMachine.MovementInput == Vector2.zero)
-        //{
-        //    return;
-        //}
-
-        if (toolItemData.isTwoHandedTool == true)
-        {
-            _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
-        }
-        else if (toolItemData.isTwinTool == true)
-        {
-            _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
-        }
-        else
-        {
-            _stateMachine.ChangeState(_stateMachine.IdleState);
-        }
-
-        base.OnMovementCanceled(context);
+    protected override void RemoveInputActionsCallbacks()
+    {
+        base.RemoveInputActionsCallbacks();
+        Managers.Game.Player.ToolSystem.OnEquip -= OnEquipTypeOfTool;
     }
 
     protected virtual void OnMove()
@@ -95,7 +82,7 @@ public class PlayerGroundedState : PlayerBaseState
         _stateMachine.ChangeState(_stateMachine.ComboAttackState);
     }
 
-    public void OnEquipTypeOfTool(QuickSlot quickSlot)
+    protected virtual void OnEquipTypeOfTool(QuickSlot quickSlot)
     {
         // QuickSlot에 저장된 ItemData 값을 매개 변수로 받아서 TwoHandedTool에 저장
         ItemData TwoHandedTool = quickSlot.itemSlot.itemData;
