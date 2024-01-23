@@ -7,7 +7,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour, IAttack
 {
     // lgs 24.01.19
-    private int _damage; // SO의 데미지를 받아오자
+    [SerializeField] private int _damage; // SO의 데미지를 받아오자
 
     private void Awake()
     {

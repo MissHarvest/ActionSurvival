@@ -22,6 +22,7 @@ public class PlayerRunState : PlayerGroundedState
         base.Exit();
         StopAnimation(_stateMachine.Player.AnimationData.RunParameterHash);
     }
+
     protected override void OnMovementCanceled(InputAction.CallbackContext context)
     {
         base.OnMovementCanceled(context);

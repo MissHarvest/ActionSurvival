@@ -105,7 +105,10 @@ public class ToolSystem : MonoBehaviour
     private void EquipTool(ItemSlot itemSlot)
     {
         ItemInUse = itemSlot;
-        var toolName = GetToolName(itemSlot);
+
+        // var toolName = itemSlot.itemData is Build ? "string" : GetToolName(itemSlot);
+        
+        var toolName = GetToolName(itemSlot);        
         _tools[toolName].SetActive(true);
         Debug.Log(toolName);
 

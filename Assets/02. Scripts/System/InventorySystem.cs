@@ -53,9 +53,6 @@ public class InventorySystem : MonoBehaviour
         itemData = Managers.Resource.GetCache<ItemData>("SwordItemData.data");
         AddItem(itemData, 1);
 
-        //itemData = Managers.Resource.GetCache<ItemData>("EmptyHandItemData.data");
-        //AddItem(itemData, 1);
-
         itemData = Managers.Resource.GetCache<ItemData>("GreatswordItemData.data");
         AddItem(itemData, 1);
 
@@ -172,6 +169,7 @@ public class InventorySystem : MonoBehaviour
     public void OnItemUnEquipped(QuickSlot slot)
     {
         int index = slot.targetIndex;
+        if (slots[index].itemData == null) return;
         slots[index].SetEquip(slot.itemSlot.equipped);
         OnUpdated?.Invoke(index, slots[index]);
     }
@@ -192,23 +190,11 @@ public class InventorySystem : MonoBehaviour
 
         OnUpdated?.Invoke(index, slots[index]);
     }
-    // 여기까지
-
 
     public void UseConsumeItemByIndex(int index)
     {
         // 인벤토리 인덱스
         int inventoryIndex = index;
-        int quickSlotIndex = -1;
-
-        // 퀵슬롯 인덱스(현재 등록한 소비아이템의 퀵슬롯인덱스)
-        for (int i = 0; i < 4; ++i)
-        {
-            if (Managers.Game.Player.QuickSlot.slots[i].targetIndex == inventoryIndex)
-            {
-                quickSlotIndex = i;
-            }
-        }
 
         // 허기 채워줌
         ItemSlot targetSlot = slots[inventoryIndex];
@@ -264,10 +250,6 @@ public class InventorySystem : MonoBehaviour
             {
                 // 해당 아이템의 수량을 감소시키고, 수량이 0 이하로 떨어지면 해당 슬롯을 비움
                 slots[i].SubtractQuantity(quantity);
-                if (slots[i].quantity <= 0)
-                {
-                    slots[i].Clear();
-                }
                 OnUpdated?.Invoke(i, slots[i]);
                 return;
             }

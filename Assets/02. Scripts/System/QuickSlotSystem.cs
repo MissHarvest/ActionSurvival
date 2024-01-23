@@ -13,7 +13,6 @@ public class QuickSlotSystem : MonoBehaviour
 
     public int IndexInUse { get; private set; } = 0;
 
-
     private void Awake()
     {
         Debug.Log("QuickSystem Awake");
@@ -68,8 +67,11 @@ public class QuickSlotSystem : MonoBehaviour
 
     public void OnQuickUseInput(int index)
     {
-        IndexInUse = index;
-        QuickUse();
+        if (index != IndexInUse)
+        {
+            IndexInUse = index;
+            QuickUse();
+        }
     }
 
     private void QuickUse()
@@ -87,9 +89,7 @@ public class QuickSlotSystem : MonoBehaviour
                 Managers.Game.Player.ToolSystem.Equip(slots[IndexInUse]);
                 break;
 
-            case ConsumeItemData consumeItem:
-                //Debug.Log("퀵슬롯 음식 클릭");
-
+            case ConsumeItemData _:
                 Managers.Game.Player.Inventory.UseConsumeItemByIndex(slots[IndexInUse].targetIndex);
                 break;
 
@@ -115,6 +115,10 @@ public class QuickSlotSystem : MonoBehaviour
             {
                 slots[i].Set(slots[i].targetIndex, itemSlot);
                 OnUpdated?.Invoke(i, slots[i].itemSlot);
+                if (itemSlot.itemData == null)
+                {
+                    Managers.Game.Player.ToolSystem.ClearHand();
+                }
                 return;
             }
         }
