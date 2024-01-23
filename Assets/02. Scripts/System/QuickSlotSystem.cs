@@ -11,7 +11,7 @@ public class QuickSlotSystem : MonoBehaviour
     public event Action<QuickSlot> OnRegisted;
     public event Action<QuickSlot> OnUnRegisted;
 
-    public int IndexInUse { get; private set; } = 0;
+    public int IndexInUse { get; private set; } = -1;
 
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class QuickSlotSystem : MonoBehaviour
 
         if (index == IndexInUse)
         {
-            IndexInUse = index;
+            //IndexInUse = index;
             QuickUse();
         }
     }
@@ -76,9 +76,11 @@ public class QuickSlotSystem : MonoBehaviour
 
     private void QuickUse()
     {
+        if (IndexInUse == -1) return;
         if (slots[IndexInUse].itemSlot.itemData == null)
         {
             Debug.Log($"Quick Use {IndexInUse}");
+            IndexInUse = -1;
             Managers.Game.Player.ToolSystem.ClearHand();
             return;
         }
@@ -117,6 +119,7 @@ public class QuickSlotSystem : MonoBehaviour
                 OnUpdated?.Invoke(i, slots[i].itemSlot);
                 if (itemSlot.itemData == null)
                 {
+                    IndexInUse = -1;
                     Managers.Game.Player.ToolSystem.ClearHand();
                 }
                 return;
