@@ -37,6 +37,7 @@ public class MainScene : MonoBehaviour
                     loadingUI.ReceiveCallbacks($"Game Initialize ...");
                     SpawnPlayer();
                     UIInitialize();
+                    Managers.Data.InitializeRecipeData();
                     Managers.Game.World.InitializeWorldNavMeshBuilder(callback: op => 
                     {
                         // 4. NavMesh 생성

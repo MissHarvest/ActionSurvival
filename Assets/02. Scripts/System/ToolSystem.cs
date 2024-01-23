@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 
 public class ToolSystem : MonoBehaviour
 {
@@ -112,8 +109,18 @@ public class ToolSystem : MonoBehaviour
 
         // var toolName = itemSlot.itemData is Build ? "string" : GetToolName(itemSlot);
 
-        var toolName = GetToolName(itemSlot);
-        _tools[toolName].SetActive(true);
+        // ToolItemData의 isArchitecture가 true면 나뭇잎을 손에 들게
+        var toolName = GetToolName(itemSlot);        
+        if (ItemInUse.itemData is ToolItemData toolItem && toolItem.isArchitecture)
+        {
+            _tools["Handable_Base"].SetActive(true);
+        }
+        else
+        {
+            _tools[toolName].SetActive(true);
+        }
+        Debug.Log(toolName);
+
 
         if (itemSlot.itemData.name.Contains("Twin")) //lgs 24.01.23
         {
@@ -132,8 +139,16 @@ public class ToolSystem : MonoBehaviour
         if (Equipments[part].itemSlot.itemData == null) return;
 
         Equipments[part].itemSlot.SetEquip(false);
+
         var toolName = GetToolName(Equipments[part].itemSlot);
-        _tools[toolName].SetActive(false);
+        if (ItemInUse.itemData is ToolItemData toolItem && toolItem.isArchitecture)
+        {
+            _tools["Handable_Base"].SetActive(false);
+        }
+        else
+        {
+            _tools[toolName].SetActive(false);
+        }
 
         if (Equipments[part].itemSlot.itemData.name.Contains("Twin")) //lgs 24.01.23
         {

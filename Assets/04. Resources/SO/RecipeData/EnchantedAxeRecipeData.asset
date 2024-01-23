@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feededd13c148ab41a55e68ae3f83574, type: 3}
+  m_Name: EnchantedAxeRecipeData
+  m_EditorClassIdentifier: 
+  itemName: EnchantedAxe
+  completedItemData: {fileID: 11400000, guid: 9efb30a1af99d4648918261bb2556429, type: 2}
+  IsAdvancedRecipe: 1
+  requiredItems:
+  - item: {fileID: 11400000, guid: 9c85809597f1da54fbc98bcc3023a6b5, type: 2}
+    quantity: 1
+  - item: {fileID: 11400000, guid: c48d0f569a835d44fa7bd6c45421d9ff, type: 2}
+    quantity: 10

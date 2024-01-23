@@ -47,8 +47,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6d20772a35e12c04f9929da1cea091d6
-    m_Address: Handable_CraftingTable.prefab
+  - m_GUID: 923b09df98a75754ebe9b7f8fe7cbcbe
+    m_Address: Handable_Chest.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -59,7 +59,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7fdcbec5f0a27804ba46e585d08f40b3
+  - m_GUID: 9991bce912d15714a99498438e0e144d
     m_Address: Handable_BonFire.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -67,6 +67,18 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf276339c7f32e3489d0d52338e8e0be
     m_Address: Handable_L_TwinDagger.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc750156998b0914abd25d06a80178c4
+    m_Address: Handable_Base.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dffab87be3fcdae4b9243e690082a677
+    m_Address: Handable_CraftingTable.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

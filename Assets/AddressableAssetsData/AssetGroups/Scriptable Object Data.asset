@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: c6b7f313ef980d2439488ae56f9d73c4
   m_SerializeEntries:
   - m_GUID: 7188b2dd9c10ceb41ab5e0579b842eb5
-    m_Address: SwordItemData.data
+    m_Address: WoodSwordItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -132,7 +132,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c8a35d21883198c4aac044270854808a
-    m_Address: SwordRecipeData.data
+    m_Address: WoodSwordRecipeData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -319,6 +319,120 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 14407b2c17a3dbe4a810689dba8c4789
     m_Address: RedSoulEater.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d838ec4e05b8fa44ba2c5b8e3bcddea
+    m_Address: EnchantedPickAxeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52562f6422be7814a9c292b0f9e98cbd
+    m_Address: TwinDaggerRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3cfdfed5fdd1c4947bdbac8812fcca05
+    m_Address: EnchantedPickAxeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54004a6d893b1d049b6845b6d9ff9c08
+    m_Address: ChestItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b10825306c09e244ead322ce2a6f02f6
+    m_Address: ChestRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9efb30a1af99d4648918261bb2556429
+    m_Address: EnchantedAxeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dde59db6b420ef7418e064ea6dea6287
+    m_Address: EnchantedAxeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13dbad5903b2f1845ba772ebf1829c78
+    m_Address: WebItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6da7e8dc2cbba744da724536ad72f584
+    m_Address: RopeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f10c8daece86fb14285d83b22b5642fa
+    m_Address: RopeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 010f81f8f6dffcd4d9cd16d14af36a94
+    m_Address: FenceItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 83958a2ae354d9d4fa362a73934e8fc9
+    m_Address: SwordItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31e3e346428c44f449ad739169c319f3
+    m_Address: SwordRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe20ce3e87e1da74286c6c3103e192ff
+    m_Address: EnchantedSwordItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71da600f1dd20f644aa42a79c809075e
+    m_Address: EnchantedSwordRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5cf354e2e1b3e984fb07c3e15a0f06f6
+    m_Address: EnchantedGreatswordItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4bab64d3ab237854cb7e2f546ee3eb88
+    m_Address: EnchantedGreatswordRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3af86f924f19ee348aa2053f634168d8
+    m_Address: FurnaceItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd8d4ae17b870be499c90365b0b08a96
+    m_Address: FurnaceRecipeData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
