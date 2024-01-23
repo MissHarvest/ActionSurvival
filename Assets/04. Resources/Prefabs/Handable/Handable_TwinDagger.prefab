@@ -45,7 +45,6 @@ GameObject:
   - component: {fileID: 1980112296143727895}
   - component: {fileID: 9060903970917172200}
   - component: {fileID: 4986884410885685779}
-  - component: {fileID: 8516877192331096294}
   - component: {fileID: 5742809113370341184}
   - component: {fileID: 1027757516533660978}
   m_Layer: 8
@@ -132,21 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d71e9ad29b7ba4e80d693840315fb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8516877192331096294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5082704537059178861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94119ff9e874b48489ea388cfc225dcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: b328e8f130ceabf47b71258505fa55d0, type: 2}
-  onEquipTwoHandedTool: 0
-  onEquipTwinTool: 0
+  _damage: 0
 --- !u!65 &5742809113370341184
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -207,7 +192,6 @@ GameObject:
   - component: {fileID: 733814638633952548}
   - component: {fileID: 4894683657296116535}
   - component: {fileID: 3696206454985926596}
-  - component: {fileID: 2996611941081084662}
   - component: {fileID: 5008364143043157113}
   - component: {fileID: 7388920531224530863}
   m_Layer: 8
@@ -294,21 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d71e9ad29b7ba4e80d693840315fb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2996611941081084662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5963199683491817971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94119ff9e874b48489ea388cfc225dcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: b328e8f130ceabf47b71258505fa55d0, type: 2}
-  onEquipTwoHandedTool: 0
-  onEquipTwinTool: 0
+  _damage: 0
 --- !u!65 &5008364143043157113
 BoxCollider:
   m_ObjectHideFlags: 0

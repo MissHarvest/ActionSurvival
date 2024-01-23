@@ -58,7 +58,7 @@ public class PlayerComboAttackState : PlayerAttackState
         _stateMachine.Player.ForceReceiver.AddForce(_stateMachine.Player.transform.forward * _attackInfoData.Force);
     }
 
-    public override void Rotate(Vector3 movementDirection)
+    protected override void Rotate(Vector3 movementDirection)
     {
 
     }

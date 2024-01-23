@@ -100,6 +100,10 @@ public class ToolSystem : MonoBehaviour
             Debug.Log($"Tool | R[{Equipments[part].itemSlot.registed}] E[{Equipments[part].itemSlot.equipped}]");
             OnEquip?.Invoke(Equipments[part]);
         }
+        else
+        {
+            //idlestate 실행이 되면?
+        }
     }
 
     private void EquipTool(ItemSlot itemSlot)
@@ -112,17 +116,12 @@ public class ToolSystem : MonoBehaviour
         _tools[toolName].SetActive(true);
         Debug.Log(toolName);
 
-        if (_tools[toolName].GetComponentInChildren<ItemObjectData>().onEquipTwinTool == true)
-        {
-            GameObject.Find("Hand_L").transform.Find(toolName + "(Clone)").gameObject.SetActive(true);
-        }
+        //if (_tools[toolName].GetComponentInChildren<ItemObjectData>().onEquipTwinTool == true)
+        //{
+        //    GameObject.Find("Hand_L").transform.Find(toolName + "(Clone)").gameObject.SetActive(true);
+        //}
 
-        // Managers.Game.Player.Animator.SetBool(Managers.Game.Player.AnimationData.EquipTwoHandedToolIdleParameterHash, true);
-
-        _tools[toolName].GetComponent<ItemObjectData>()?.OnEquipTypeOfTool(); // lgs
         ItemObject = _tools[toolName];
-        // ���ӿ�����Ʈ ����Ʈ�� �������, ��ųʸ� ������ ���ӿ�����Ʈ ������ ��������Ʈ�� �����ͼ� ? ���� null�� �ƴϸ� �Լ��� ȣ���Ѵ�.
-
         Managers.Game.Player.Weapon = ItemObject.GetComponentInChildren<Weapon>();
     }
 
@@ -137,7 +136,6 @@ public class ToolSystem : MonoBehaviour
         if(-1 != Equipments[part].targetIndex)
         {
             OnUnEquip?.Invoke(Equipments[part]);
-            _tools[toolName].GetComponent<ItemObjectData>()?.OnUnEquipTypeOfTool(); // lgs
         }
         Equipments[part].Clear();
     }
