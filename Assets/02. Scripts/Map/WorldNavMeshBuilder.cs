@@ -41,7 +41,7 @@ public class WorldNavMeshBuilder : MonoBehaviour
             foreach (var data in tuples)
             {
                 if (data.Item1.vertexCount == 0) continue;
-
+                
                 NavMeshBuildSource source = new()
                 {
                     shape = NavMeshBuildSourceShape.Mesh,
@@ -70,9 +70,9 @@ public class WorldNavMeshBuilder : MonoBehaviour
 
     private Bounds CalculateViewBounds()
     {
-        float sizeX = _world.VoxelData.ChunkSizeX * _world.WorldData.ViewChunkRange * 2f;
-        float sizeY = _world.VoxelData.ChunkSizeY + 30f;
-        float sizeZ = _world.VoxelData.ChunkSizeZ * _world.WorldData.ViewChunkRange * 2f;
+        float sizeX = _world.VoxelData.ChunkSizeX * (_world.WorldData.ViewChunkRange + 2);
+        float sizeY = _world.VoxelData.ChunkSizeY;
+        float sizeZ = _world.VoxelData.ChunkSizeZ * (_world.WorldData.ViewChunkRange + 2);
 
         Bounds bounds = new()
         {

@@ -3205,6 +3205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handPosition: {fileID: 3925956172773519372}
+  leftHandPosition: {fileID: 4378630651380572091}
   Equipments:
   - itemSlot:
       <itemData>k__BackingField: {fileID: 0}

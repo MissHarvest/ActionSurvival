@@ -9,15 +9,17 @@ public class ToolSystem : MonoBehaviour
 {
     public ItemSlot ItemInUse { get; private set; }
     public Transform handPosition;
+    public Transform leftHandPosition; //lgs 24.01.23
     public GameObject ItemObject { get; private set; }
 
     public QuickSlot[] Equipments = new QuickSlot[(int)ItemParts.Max];
     private QuickSlot EmptyHand = new QuickSlot();
 
     private Dictionary<string, GameObject> _tools = new Dictionary<string, GameObject>();
+    private Dictionary<string, GameObject> _twinTools = new Dictionary<string, GameObject>();
 
     public event Action<QuickSlot> OnEquip;
-    public event Action<QuickSlot> OnUnEquip;    
+    public event Action<QuickSlot> OnUnEquip;
 
     private void Awake()
     {
@@ -28,7 +30,7 @@ public class ToolSystem : MonoBehaviour
             return;
         }
 
-        for(int i = 0; i < Equipments.Length; ++i)
+        for (int i = 0; i < Equipments.Length; ++i)
         {
             Equipments[i] = new QuickSlot();
         }
@@ -36,12 +38,21 @@ public class ToolSystem : MonoBehaviour
         var emptyHandData = Managers.Resource.GetCache<ItemData>("EmptyHandItemData.data");
         EmptyHand.Set(-1, new(emptyHandData));
 
+
         var tools = Managers.Resource.GetCacheGroup<GameObject>("Handable_");
-        foreach(var tool in tools)
+        foreach (var tool in tools)
         {
             var go = UnityEngine.Object.Instantiate(tool, handPosition);
             go.SetActive(false);
             _tools.TryAdd(tool.name, go);
+        }
+
+        var twinTools = Managers.Resource.GetCacheGroup<GameObject>("Handable_L_"); //lgs 24.01.23 TwinTool의 왼 손 도구를 새로운 컬렉션에 저장한다.
+        foreach (var tool in twinTools)
+        {
+            var go = UnityEngine.Object.Instantiate(tool, leftHandPosition);
+            go.SetActive(false);
+            _twinTools.TryAdd(tool.name, go);
         }
 
         Equip(EmptyHand);
@@ -73,8 +84,10 @@ public class ToolSystem : MonoBehaviour
 
     public void Equip(QuickSlot slot)
     {
+        //_twinToolList[0].SetActive(true);
+
         int part = GetPart(slot);
-        if (part == -1) return;        
+        if (part == -1) return;
 
         UnEquip(part);
 
@@ -98,17 +111,20 @@ public class ToolSystem : MonoBehaviour
         ItemInUse = itemSlot;
 
         // var toolName = itemSlot.itemData is Build ? "string" : GetToolName(itemSlot);
-        
-        var toolName = GetToolName(itemSlot);        
+
+        var toolName = GetToolName(itemSlot);
         _tools[toolName].SetActive(true);
 
-        // Managers.Game.Player.Animator.SetBool(Managers.Game.Player.AnimationData.EquipTwoHandedToolIdleParameterHash, true);
+        if (itemSlot.itemData.name.Contains("Twin")) //lgs 24.01.23
+        {
+            var twinToolName = GetTwinToolLeftHandName(itemSlot); 
+            if (twinToolName.Contains("Handable_L_") == true)
+            {
+                _twinTools[twinToolName].SetActive(true);
+            }
+        }
 
-        _tools[toolName].GetComponent<ItemObjectData>()?.OnEquipTypeOfTool(); // lgs
         ItemObject = _tools[toolName];
-        // ���ӿ�����Ʈ ����Ʈ�� �������, ��ųʸ� ������ ���ӿ�����Ʈ ������ ��������Ʈ�� �����ͼ� ? ���� null�� �ƴϸ� �Լ��� ȣ���Ѵ�.
-
-        Managers.Game.Player.Weapon = ItemObject.GetComponentInChildren<Weapon>();
     }
 
     public void UnEquip(int part)
@@ -119,10 +135,18 @@ public class ToolSystem : MonoBehaviour
         var toolName = GetToolName(Equipments[part].itemSlot);
         _tools[toolName].SetActive(false);
 
-        if(-1 != Equipments[part].targetIndex)
+        if (Equipments[part].itemSlot.itemData.name.Contains("Twin")) //lgs 24.01.23
+        {
+            var twinToolName = GetTwinToolLeftHandName(Equipments[part].itemSlot); 
+            if (twinToolName.Contains("Handable_L_") == true)
+            {
+                _twinTools[twinToolName].SetActive(false);
+            }
+        }            
+
+        if (-1 != Equipments[part].targetIndex)
         {
             OnUnEquip?.Invoke(Equipments[part]);
-            _tools[toolName].GetComponent<ItemObjectData>()?.OnUnEquipTypeOfTool(); // lgs
         }
         Equipments[part].Clear();
     }
@@ -130,6 +154,11 @@ public class ToolSystem : MonoBehaviour
     public string GetToolName(ItemSlot itemSlot)
     {
         return "Handable_" + itemSlot.itemData.name.Replace("ItemData", "");
+    }
+
+    public string GetTwinToolLeftHandName(ItemSlot itemSlot) //lgs 24.01.23 TwinTool의 왼 손 도구의 이름을 재정의한다.
+    {
+        return "Handable_L_" + itemSlot.itemData.name.Replace("ItemData", "");
     }
 
     public void UnEquip(QuickSlot slot)
@@ -140,7 +169,7 @@ public class ToolSystem : MonoBehaviour
         if (Equipments[part].itemSlot.itemData == slot.itemSlot.itemData)
         {
             UnEquip(part);
-        }        
+        }
     }
 
     private int GetPart(QuickSlot slot)
