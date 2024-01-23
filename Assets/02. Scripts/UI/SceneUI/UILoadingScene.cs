@@ -22,26 +22,12 @@ public class UILoadingScene : UIScene
     [SerializeField] private Gradient gradient;
     [SerializeField] private AnimationCurve _curve1;
     [SerializeField] private AnimationCurve _curve2;
-    private float time = 0f;
+    private float _time = 0f;
     private Image _loadingCircleImage;
     private Transform _loadingCircleTransform;
     private TMP_Text _loadingArgumentText;
 
     #region Initialize
-
-    private void Start()
-    {
-        Initialize();
-    }
-
-    private void Update()
-    {
-        time += Time.deltaTime;
-        if (time > 1f) time -= 1f;
-        _loadingCircleImage.color = gradient.Evaluate(time);
-        _loadingCircleImage.fillAmount = _curve1.Evaluate(time);
-        _loadingCircleTransform.Rotate(0, 0, -820f * _curve2.Evaluate(time) * Time.deltaTime);
-    }
 
     public override void Initialize()
     {
@@ -54,11 +40,24 @@ public class UILoadingScene : UIScene
         _loadingCircleTransform = _loadingCircleImage.transform;
         _loadingArgumentText = GetText((int)Texts.LoadingArgument);
     }
+    #endregion
+
+    private void Start()
+    {
+        Initialize();
+    }
+
+    private void Update()
+    {
+        _time += Time.deltaTime;
+        if (_time > 1f) _time -= 1f;
+        _loadingCircleImage.color = gradient.Evaluate(_time);
+        _loadingCircleImage.fillAmount = _curve1.Evaluate(_time);
+        _loadingCircleTransform.Rotate(0, 0, -820f * _curve2.Evaluate(_time) * Time.deltaTime);
+    }
 
     public void ReceiveCallbacks(string argument)
     {
         _loadingArgumentText.text = argument;
     }
-
-    #endregion
 }
