@@ -25,7 +25,6 @@ public class Player : MonoBehaviour, IHit
 
     [field: Header("References")]
     [field: SerializeField] public PlayerSO Data { get; private set; }
-    [field: SerializeField] public Weapon Weapon { get; set; }
 
     private PlayerStateMachine _stateMachine;
 
@@ -46,8 +45,6 @@ public class Player : MonoBehaviour, IHit
         QuickSlot = GetComponentInChildren<QuickSlotSystem>();
         Recipe = GetComponentInChildren<Recipe>();
         Cooking = GetComponentInChildren<Cooking>();
-
-        Weapon = GetComponentInChildren<Weapon>();
 
         ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
 
