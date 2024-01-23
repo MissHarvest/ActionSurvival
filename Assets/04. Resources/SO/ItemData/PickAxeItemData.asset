@@ -28,3 +28,4 @@ MonoBehaviour:
   isWeapon: 0
   isTwoHandedTool: 0
   isTwinTool: 0
+  isArchitecture: 0
