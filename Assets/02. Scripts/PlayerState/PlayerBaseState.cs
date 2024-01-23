@@ -75,7 +75,7 @@ public class PlayerBaseState : IState
             );
     }
     
-    private void Rotate(Vector3 movementDirection)
+    protected virtual void Rotate(Vector3 movementDirection)
     {
         if(movementDirection != Vector3.zero)
         {
