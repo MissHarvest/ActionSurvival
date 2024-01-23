@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3138921529145656839}
   - component: {fileID: 3138921529145656836}
   - component: {fileID: 3138921529145656837}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Fire Alone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4855,7 +4855,7 @@ GameObject:
   - component: {fileID: 3138921530084191580}
   - component: {fileID: 3138921530084191582}
   - component: {fileID: 3138921530084191583}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Fire_ADD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9695,7 +9695,7 @@ GameObject:
   - component: {fileID: 3138921530115337809}
   - component: {fileID: 3138921530115337811}
   - component: {fileID: 3138921530115337808}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14535,7 +14535,7 @@ GameObject:
   - component: {fileID: 3138921530808931685}
   - component: {fileID: 3138921530808931682}
   - component: {fileID: 3138921530808931683}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Fire_ALPHA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19375,7 +19375,7 @@ GameObject:
   - component: {fileID: 3362529784642773717}
   - component: {fileID: 3362529784645673717}
   - component: {fileID: 3362529784644542517}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Firewood02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19458,7 +19458,7 @@ GameObject:
   - component: {fileID: 8152494868921440988}
   - component: {fileID: 4425070716093164151}
   - component: {fileID: 6289762643131555975}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24301,9 +24301,9 @@ GameObject:
   - component: {fileID: 558973773031948735}
   - component: {fileID: 8105229109541844980}
   - component: {fileID: -7461252986195513175}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Handable_BonFire
-  m_TagString: Gather
+  m_TagString: Make
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29203,7 +29203,7 @@ GameObject:
   - component: {fileID: 6059971187151584576}
   - component: {fileID: 6059971187151584575}
   - component: {fileID: 6059971187151584574}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Fire Alone_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}

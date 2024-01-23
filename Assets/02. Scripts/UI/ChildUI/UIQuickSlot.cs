@@ -6,10 +6,6 @@ public class UIQuickSlot : UIItemSlot
     enum GameObjects
     {
         QuantityBackground,
-    }
-
-    enum GameObjects
-    {
         DurabilityCircle,
     }
 
@@ -21,7 +17,6 @@ public class UIQuickSlot : UIItemSlot
     public override void Initialize()
     {
         base.Initialize();
-        Bind<GameObject>(typeof(GameObjects));
         BindObject(typeof(GameObjects));
         durabilityCircle = Get<GameObject>((int)GameObjects.DurabilityCircle);
     }

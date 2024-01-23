@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 645237637705206332}
   - component: {fileID: 7513593925922871941}
   - component: {fileID: 5601027550287107511}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Chest_01_1_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3797990212273909453}
   - component: {fileID: 2711221246493060806}
   - component: {fileID: 6444080418055254405}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Chest_01_1_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 2288837289977574887}
   - component: {fileID: 6103521924158838604}
   - component: {fileID: 1604745903563634166}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Chest_01_1_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 5813411405191556968}
   - component: {fileID: 3447150378314007166}
   - component: {fileID: 2015554388633951298}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Chest_01_2_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,9 +388,9 @@ GameObject:
   - component: {fileID: 7977312002142338109}
   - component: {fileID: 3073586280045906246}
   - component: {fileID: 6068953386404790204}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Handable_Chest
-  m_TagString: Untagged
+  m_TagString: Make
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -500,7 +500,7 @@ GameObject:
   - component: {fileID: 3593161490073941904}
   - component: {fileID: 1762049537556122807}
   - component: {fileID: 3011418879041763966}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Chest_01_2_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -583,7 +583,7 @@ GameObject:
   - component: {fileID: 6521293299551291728}
   - component: {fileID: 1053177042971717886}
   - component: {fileID: 4758499162538046069}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Chest_01_2_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -665,7 +665,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7327407730605995735}
   - component: {fileID: 2587934998257861030}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Chest_01_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
