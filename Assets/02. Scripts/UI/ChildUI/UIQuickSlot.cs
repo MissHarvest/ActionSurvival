@@ -1,20 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIQuickSlot : UIItemSlot
 {
+    enum GameObjects
+    {
+        DurabilityCircle,
+    }
+
     public UIQuickSlotController UIQuickSlotController { get; private set; }
     public int index { get; private set; }
 
-    private Slider durabilitySlider;
+    private GameObject durabilityCircle;
 
     public override void Initialize()
     {
         base.Initialize();
-        //durabilitySlider = GetComponentInChildren<Slider>();
+        BindObject(typeof(GameObjects));
+        durabilityCircle = Get<GameObject>((int)GameObjects.DurabilityCircle);
     }
 
     public void Init(UIQuickSlotController quickSlotControllerUI, int index, ItemSlot itemSlot)
@@ -41,17 +44,18 @@ public class UIQuickSlot : UIItemSlot
             Clear();
             return;
         }
-
+        
         base.Set(itemSlot);
-        //UpdateDurabilityUI(itemSlot);
+        UpdateDurabilityUI(itemSlot);
     }
 
-
-    public void UpdateDurabilityUI(ItemSlot itemSlot)
+    private void UpdateDurabilityUI(ItemSlot itemSlot)
     {
         if (itemSlot.itemData is ToolItemData toolItem)
         {
-            durabilitySlider.gameObject.SetActive(true);
+            durabilityCircle.SetActive(true);
+
+            Image _durabilityCircleImage = durabilityCircle.GetComponent<Image>();
 
             float maxDurability = toolItem.maxDurability;
             float currentDurability = itemSlot.currentDurability;
@@ -59,13 +63,13 @@ public class UIQuickSlot : UIItemSlot
             float durabilityPercentage = Mathf.Clamp01(currentDurability / maxDurability);
             Color durabilityColor = GetDurabilityColor(durabilityPercentage);
 
-            durabilitySlider.value = durabilityPercentage;
-            durabilitySlider.fillRect.GetComponent<Image>().color = durabilityColor;
+            _durabilityCircleImage.fillAmount = durabilityPercentage;
+            _durabilityCircleImage.color = durabilityColor;
         }
         else
         {
             // 내구도가 없는 아이템은 내구도 바 비활성화
-            durabilitySlider.gameObject.SetActive(false);
+            durabilityCircle.SetActive(false);
         }
     }
 
@@ -92,6 +96,6 @@ public class UIQuickSlot : UIItemSlot
     public override void Clear()
     {
         base.Clear();
-        //durabilitySlider.gameObject.SetActive(false);
+        durabilityCircle.SetActive(false);
     }
 }

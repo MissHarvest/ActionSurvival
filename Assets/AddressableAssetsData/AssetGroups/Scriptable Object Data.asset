@@ -323,6 +323,36 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d838ec4e05b8fa44ba2c5b8e3bcddea
+    m_Address: EnchantedPickAxeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52562f6422be7814a9c292b0f9e98cbd
+    m_Address: TwinDaggerRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3cfdfed5fdd1c4947bdbac8812fcca05
+    m_Address: EnchantedPickAxeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54004a6d893b1d049b6845b6d9ff9c08
+    m_Address: ChestItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b10825306c09e244ead322ce2a6f02f6
+    m_Address: ChestRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
   m_SchemaSet:
