@@ -50,7 +50,7 @@ public class InventorySystem : MonoBehaviour
         itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
         AddItem(itemData, 1);
 
-        itemData = Managers.Resource.GetCache<ItemData>("SwordItemData.data");
+        itemData = Managers.Resource.GetCache<ItemData>("WoodSwordItemData.data");
         AddItem(itemData, 1);
 
         itemData = Managers.Resource.GetCache<ItemData>("GreatswordItemData.data");

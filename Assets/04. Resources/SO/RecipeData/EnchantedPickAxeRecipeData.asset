@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feededd13c148ab41a55e68ae3f83574, type: 3}
   m_Name: EnchantedPickAxeRecipeData
   m_EditorClassIdentifier: 
-  itemName: EnchangedPickAxe
+  itemName: EnchantedPickAxe
   completedItemData: {fileID: 11400000, guid: 6d838ec4e05b8fa44ba2c5b8e3bcddea, type: 2}
   IsAdvancedRecipe: 1
   requiredItems:

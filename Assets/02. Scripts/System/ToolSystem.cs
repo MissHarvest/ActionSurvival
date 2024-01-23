@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 
 public class ToolSystem : MonoBehaviour
 {
@@ -111,9 +108,17 @@ public class ToolSystem : MonoBehaviour
         ItemInUse = itemSlot;
 
         // var toolName = itemSlot.itemData is Build ? "string" : GetToolName(itemSlot);
-        
+
+        // ToolItemData의 isArchitecture가 true면 나뭇잎을 손에 들게
         var toolName = GetToolName(itemSlot);        
-        _tools[toolName].SetActive(true);
+        if (ItemInUse.itemData is ToolItemData toolItem && toolItem.isArchitecture)
+        {
+            _tools["Handable_Base"].SetActive(true);
+        }
+        else
+        {
+            _tools[toolName].SetActive(true);
+        }
         Debug.Log(toolName);
 
         //if (_tools[toolName].GetComponentInChildren<ItemObjectData>().onEquipTwinTool == true)
@@ -130,8 +135,16 @@ public class ToolSystem : MonoBehaviour
         if (Equipments[part].itemSlot.itemData == null) return;
 
         Equipments[part].itemSlot.SetEquip(false);
+
         var toolName = GetToolName(Equipments[part].itemSlot);
-        _tools[toolName].SetActive(false);
+        if (ItemInUse.itemData is ToolItemData toolItem && toolItem.isArchitecture)
+        {
+            _tools["Handable_Base"].SetActive(false);
+        }
+        else
+        {
+            _tools[toolName].SetActive(false);
+        }
 
         if(-1 != Equipments[part].targetIndex)
         {
