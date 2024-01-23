@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1f8d77f1588064dbf99c610dc0ea3f, type: 3}
   m_Name: VoxelData
   m_EditorClassIdentifier: 
-  <ChunkSizeX>k__BackingField: 16
-  <ChunkSizeY>k__BackingField: 32
-  <ChunkSizeZ>k__BackingField: 16
+  <ChunkSizeX>k__BackingField: 12
+  <ChunkSizeY>k__BackingField: 20
+  <ChunkSizeZ>k__BackingField: 12
   <TextureAtlasWidth>k__BackingField: 9
   <TextureAtlasHeight>k__BackingField: 10
   <uvXBeginOffset>k__BackingField: 0.01

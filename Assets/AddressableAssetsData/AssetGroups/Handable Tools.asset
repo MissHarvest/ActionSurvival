@@ -53,7 +53,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ae1468a8050176242833129e53d6c46b
+  - m_GUID: 8434f9dcd8f4762489ca8c69624b4f40
     m_Address: Handable_TwinDagger.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -61,6 +61,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9991bce912d15714a99498438e0e144d
     m_Address: Handable_BonFire.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf276339c7f32e3489d0d52338e8e0be
+    m_Address: Handable_L_TwinDagger.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

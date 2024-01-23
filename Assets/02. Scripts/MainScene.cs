@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class WJY_VoxelTileTestScene : MonoBehaviour
+public class MainScene : MonoBehaviour
 {
     public CinemachineVirtualCamera virtualCamera;
     private IEnumerator Start()

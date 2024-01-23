@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &122045734408528799
+--- !u!1 &988888860327052614
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 803408870097067940}
-  - component: {fileID: 9176665518272196742}
-  - component: {fileID: 4956107557308626607}
-  - component: {fileID: 5957903483955636626}
-  - component: {fileID: 7958327920024157926}
-  - component: {fileID: 9009976274764435664}
+  - component: {fileID: 4432555156501949233}
+  - component: {fileID: 8022784360045620520}
+  - component: {fileID: 2015069556043938897}
+  - component: {fileID: 811919256960745102}
+  - component: {fileID: 5707772858576948608}
+  - component: {fileID: 8451417807200588898}
   m_Layer: 8
-  m_Name: Handable_TwinDagger
+  m_Name: Handable_L_TwinDagger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &803408870097067940
+--- !u!4 &4432555156501949233
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122045734408528799}
-  m_LocalRotation: {x: 0.987057, y: -0.11272269, z: 0.113333724, w: -0.012942801}
-  m_LocalPosition: {x: -0.057, y: 0.007, z: 0.037}
+  m_GameObject: {fileID: 988888860327052614}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.028, y: 0.018, z: -0.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 166.9, z: 193.03}
---- !u!33 &9176665518272196742
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8022784360045620520
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122045734408528799}
-  m_Mesh: {fileID: 6439093757326580039, guid: c0ebdb230c595b04cb736b16f37c59c4, type: 3}
---- !u!23 &4956107557308626607
+  m_GameObject: {fileID: 988888860327052614}
+  m_Mesh: {fileID: -5459943456829393970, guid: 50ac0be924e355245b643db100ca996e, type: 3}
+--- !u!23 &2015069556043938897
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122045734408528799}
+  m_GameObject: {fileID: 988888860327052614}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -86,26 +86,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5957903483955636626
+--- !u!114 &811919256960745102
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122045734408528799}
+  m_GameObject: {fileID: 988888860327052614}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4d71e9ad29b7ba4e80d693840315fb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 0
---- !u!65 &7958327920024157926
+--- !u!65 &5707772858576948608
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122045734408528799}
+  m_GameObject: {fileID: 988888860327052614}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -120,13 +120,13 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.093868375, y: 0.0371382, z: 0.42793846}
   m_Center: {x: -0.022932963, y: -0.000000030131396, z: -0.12857135}
---- !u!54 &9009976274764435664
+--- !u!54 &8451417807200588898
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122045734408528799}
+  m_GameObject: {fileID: 988888860327052614}
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0

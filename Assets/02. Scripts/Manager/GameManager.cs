@@ -16,8 +16,12 @@ public class GameManager
 
     public MonsterWave MonsterWave { get; private set; }
 
+    public bool _isRunning = false;
+    public bool IsRunning => _isRunning;
+
     public void Init()
     {
+        _isRunning = true;
         MonsterWave = new MonsterWave();
 
         DayCycle.Init();
