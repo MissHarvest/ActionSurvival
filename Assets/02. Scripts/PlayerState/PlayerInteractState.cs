@@ -49,7 +49,7 @@ public class PlayerInteractState : PlayerBaseState
         // exit 조건 설정
         float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
 
-        if (normalizedTime >= 1f)
+        if (normalizedTime >= 3f)
         {
             if (target != null)
             {

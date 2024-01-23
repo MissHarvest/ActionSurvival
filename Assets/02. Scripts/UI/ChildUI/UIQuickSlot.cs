@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class UIQuickSlot : UIItemSlot
 {
+    enum GameObjects
+    {
+        QuantityBackground,
+    }
+
     public UIQuickSlotController UIQuickSlotController { get; private set; }
     public int index { get; private set; }
 
@@ -14,7 +19,7 @@ public class UIQuickSlot : UIItemSlot
     public override void Initialize()
     {
         base.Initialize();
-        //durabilitySlider = GetComponentInChildren<Slider>();
+        Bind<GameObject>(typeof(GameObjects));
     }
 
     public void Init(UIQuickSlotController quickSlotControllerUI, int index, ItemSlot itemSlot)
@@ -42,8 +47,11 @@ public class UIQuickSlot : UIItemSlot
             return;
         }
 
+        if(itemSlot.itemData.stackable)
+        {
+            Get<GameObject>((int)GameObjects.QuantityBackground).SetActive(true);
+        }
         base.Set(itemSlot);
-        //UpdateDurabilityUI(itemSlot);
     }
 
 
@@ -92,6 +100,6 @@ public class UIQuickSlot : UIItemSlot
     public override void Clear()
     {
         base.Clear();
-        //durabilitySlider.gameObject.SetActive(false);
+        Get<GameObject>((int)GameObjects.QuantityBackground).SetActive(false);
     }
 }

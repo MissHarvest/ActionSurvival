@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 6772195520878623164}
   - component: {fileID: 613134084174598464}
   - component: {fileID: 7811310514292190282}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Handable_CraftingTable
-  m_TagString: Untagged
+  m_TagString: Make
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
