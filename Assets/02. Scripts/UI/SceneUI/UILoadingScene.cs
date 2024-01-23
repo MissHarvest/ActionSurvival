@@ -29,6 +29,19 @@ public class UILoadingScene : UIScene
 
     #region Initialize
 
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        BindImage(typeof(Images));
+        BindText(typeof(Texts));
+
+        _loadingCircleImage = GetImage((int)Images.LoadingCircle);
+        _loadingCircleTransform = _loadingCircleImage.transform;
+        _loadingArgumentText = GetText((int)Texts.LoadingArgument);
+    }
+    #endregion
+
     private void Start()
     {
         Initialize();
@@ -43,22 +56,8 @@ public class UILoadingScene : UIScene
         _loadingCircleTransform.Rotate(0, 0, -820f * _curve2.Evaluate(_time) * Time.deltaTime);
     }
 
-    public override void Initialize()
-    {
-        base.Initialize();
-
-        BindImage(typeof(Images));
-        BindText(typeof(Texts));
-
-        _loadingCircleImage = GetImage((int)Images.LoadingCircle);
-        _loadingCircleTransform = _loadingCircleImage.transform;
-        _loadingArgumentText = GetText((int)Texts.LoadingArgument);
-    }
-
     public void ReceiveCallbacks(string argument)
     {
         _loadingArgumentText.text = argument;
     }
-
-    #endregion
 }
