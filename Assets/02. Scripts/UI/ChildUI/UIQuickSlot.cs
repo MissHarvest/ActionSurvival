@@ -5,6 +5,11 @@ public class UIQuickSlot : UIItemSlot
 {
     enum GameObjects
     {
+        QuantityBackground,
+    }
+
+    enum GameObjects
+    {
         DurabilityCircle,
     }
 
@@ -16,6 +21,7 @@ public class UIQuickSlot : UIItemSlot
     public override void Initialize()
     {
         base.Initialize();
+        Bind<GameObject>(typeof(GameObjects));
         BindObject(typeof(GameObjects));
         durabilityCircle = Get<GameObject>((int)GameObjects.DurabilityCircle);
     }
@@ -43,6 +49,11 @@ public class UIQuickSlot : UIItemSlot
         {
             Clear();
             return;
+        }
+
+        if(itemSlot.itemData.stackable)
+        {
+            Get<GameObject>((int)GameObjects.QuantityBackground).SetActive(true);
         }
         
         base.Set(itemSlot);
@@ -96,6 +107,7 @@ public class UIQuickSlot : UIItemSlot
     public override void Clear()
     {
         base.Clear();
+        Get<GameObject>((int)GameObjects.QuantityBackground).SetActive(false);
         durabilityCircle.SetActive(false);
     }
 }
