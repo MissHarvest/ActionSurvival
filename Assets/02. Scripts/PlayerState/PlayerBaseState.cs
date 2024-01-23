@@ -75,7 +75,7 @@ public class PlayerBaseState : IState
             );
     }
     
-    private void Rotate(Vector3 movementDirection) // 가상함수로 만든 뒤 어택 스테이트에서 오버라이드 후 비우기
+    private void Rotate(Vector3 movementDirection)
     {
         if(movementDirection != Vector3.zero)
         {
@@ -127,18 +127,23 @@ public class PlayerBaseState : IState
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
         if (_stateMachine.Player.EquippedItem == null) return;
+        Debug.Log("Player Interact");
 
         var tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
-        if (tool.isWeapon)
+        
+        if(tool.isArchitecture)
+        {
+            _stateMachine.ChangeState(_stateMachine.BuildState);
+        }
+        else if (tool.isWeapon)
         {
             _stateMachine.IsAttacking = true;
             _stateMachine.ChangeState(_stateMachine.ComboAttackState);
         }
-        if (tool.isWeapon == false)
+        else
         {
             _stateMachine.ChangeState(_stateMachine.InteractState);
-        }        
-        Debug.Log("Player Interact");
+        }                
     }
 
     protected virtual void OnInteractCanceled(InputAction.CallbackContext context)
@@ -150,24 +155,6 @@ public class PlayerBaseState : IState
     {
         _stateMachine.Player.Controller.Move(_stateMachine.Player.ForceReceiver.Movement * Time.deltaTime);
     }
-
-    //protected void OnAttackPerformed(InputAction.CallbackContext context)
-    //{
-    //    ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
-    //    if (toolItemDate.isWeapon == true)
-    //    {
-    //        _stateMachine.IsAttacking = true;
-    //    }
-    //}
-
-    //protected void OnAttackCanceled(InputAction.CallbackContext context)
-    //{
-    //    ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
-    //    if (toolItemDate.isWeapon == true)
-    //    {
-    //        _stateMachine.IsAttacking = false;
-    //    }
-    //}
 
     protected float GetNormalizedTime(Animator animator, string tag)
     {

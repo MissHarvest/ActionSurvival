@@ -82,5 +82,7 @@ public class ItemSlot
     public void SetDurability(float value)
     {
         this.currentDurability = Mathf.Clamp(value, 0f, (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f);
+        if (currentDurability <= 0)
+            Clear();
     }
 }

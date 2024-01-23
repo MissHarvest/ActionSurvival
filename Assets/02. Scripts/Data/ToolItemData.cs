@@ -14,7 +14,9 @@ public class ToolItemData : EquipItemData
     public bool isWeapon;
     public bool isTwoHandedTool; // lgs
     public bool isTwinTool;
-    
+
+    public bool isArchitecture;
+
     public ToolItemData()
     {
         //stackable = false;
