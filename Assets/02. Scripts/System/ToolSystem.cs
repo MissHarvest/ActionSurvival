@@ -9,6 +9,7 @@ public class ToolSystem : MonoBehaviour
 {
     public ItemSlot ItemInUse { get; private set; }
     public Transform handPosition;
+    public Transform leftHandPosition; //lgs 24.01.23
     public GameObject ItemObject { get; private set; }
 
     public QuickSlot[] Equipments = new QuickSlot[(int)ItemParts.Max];
@@ -17,7 +18,7 @@ public class ToolSystem : MonoBehaviour
     private Dictionary<string, GameObject> _tools = new Dictionary<string, GameObject>();
 
     public event Action<QuickSlot> OnEquip;
-    public event Action<QuickSlot> OnUnEquip;    
+    public event Action<QuickSlot> OnUnEquip;
 
     private void Awake()
     {
@@ -39,10 +40,18 @@ public class ToolSystem : MonoBehaviour
         var tools = Managers.Resource.GetCacheGroup<GameObject>("Handable_");
         foreach(var tool in tools)
         {
-            var go = UnityEngine.Object.Instantiate(tool, handPosition);
+            var go = UnityEngine.Object.Instantiate(tool, handPosition); // isTwinTool이면 왼 손에도 장착을 . . .
             go.SetActive(false);
-            _tools.TryAdd(tool.name, go);
+            _tools.TryAdd(tool.name, go);            
         }
+
+        var twinTools = Managers.Resource.GetCacheGroup<GameObject>("Handable_Twin");
+        foreach (var tool in twinTools)
+        {
+            var go = UnityEngine.Object.Instantiate(tool, leftHandPosition); // isTwinTool이면 왼 손에도 장착을 . . .
+            go.SetActive(false);
+        }
+
 
         Equip(EmptyHand);
     }
@@ -91,20 +100,28 @@ public class ToolSystem : MonoBehaviour
             Debug.Log($"Tool | R[{Equipments[part].itemSlot.registed}] E[{Equipments[part].itemSlot.equipped}]");
             OnEquip?.Invoke(Equipments[part]);
         }
+        else
+        {
+            //idlestate 실행이 되면?
+        }
     }
 
     private void EquipTool(ItemSlot itemSlot)
     {
         ItemInUse = itemSlot;
+
+        // var toolName = itemSlot.itemData is Build ? "string" : GetToolName(itemSlot);
+        
         var toolName = GetToolName(itemSlot);        
         _tools[toolName].SetActive(true);
+        Debug.Log(toolName);
 
-        // Managers.Game.Player.Animator.SetBool(Managers.Game.Player.AnimationData.EquipTwoHandedToolIdleParameterHash, true);
+        //if (_tools[toolName].GetComponentInChildren<ItemObjectData>().onEquipTwinTool == true)
+        //{
+        //    GameObject.Find("Hand_L").transform.Find(toolName + "(Clone)").gameObject.SetActive(true);
+        //}
 
-        _tools[toolName].GetComponent<ItemObjectData>()?.OnEquipTypeOfTool(); // lgs
         ItemObject = _tools[toolName];
-        // ���ӿ�����Ʈ ����Ʈ�� �������, ��ųʸ� ������ ���ӿ�����Ʈ ������ ��������Ʈ�� �����ͼ� ? ���� null�� �ƴϸ� �Լ��� ȣ���Ѵ�.
-
         Managers.Game.Player.Weapon = ItemObject.GetComponentInChildren<Weapon>();
     }
 
@@ -119,7 +136,6 @@ public class ToolSystem : MonoBehaviour
         if(-1 != Equipments[part].targetIndex)
         {
             OnUnEquip?.Invoke(Equipments[part]);
-            _tools[toolName].GetComponent<ItemObjectData>()?.OnUnEquipTypeOfTool(); // lgs
         }
         Equipments[part].Clear();
     }

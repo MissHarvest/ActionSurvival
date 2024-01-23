@@ -20,9 +20,6 @@ public class PlayerComboAttackState : PlayerAttackState
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
 
-        _weapon = Managers.Game.Player.GetComponentInChildren<Weapon>(); // lgs 24.01.19
-        _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;
-
         _alreadyAppliedForce = false;
         _alreadyApplyCombo = false;
 
@@ -35,8 +32,6 @@ public class PlayerComboAttackState : PlayerAttackState
     {
         base.Exit();
         StopAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
-
-        _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false; // lgs 24.01.19
 
         if (!_alreadyApplyCombo)
             _stateMachine.ComboIndex = 0;
@@ -63,6 +58,11 @@ public class PlayerComboAttackState : PlayerAttackState
         _stateMachine.Player.ForceReceiver.AddForce(_stateMachine.Player.transform.forward * _attackInfoData.Force);
     }
 
+    protected override void Rotate(Vector3 movementDirection)
+    {
+
+    }
+
     public override void Update()
     {
         ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
@@ -74,10 +74,16 @@ public class PlayerComboAttackState : PlayerAttackState
         if (normalizedTime < 1f)
         {
             if (normalizedTime >= _attackInfoData.ForceTransitionTime)
+            {
                 TryApplyForce();
+            }
 
             if (normalizedTime >= _attackInfoData.ComboTransitionTime)
+            {
+                _weapon = Managers.Game.Player.GetComponentInChildren<Weapon>(); // lgs 24.01.22 애니메이션 재생 중에 콜라이더가 켜지고 꺼지게 수정함.
+                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;
                 TryComboAttack();
+            }
         }
         else
         {
@@ -88,6 +94,7 @@ public class PlayerComboAttackState : PlayerAttackState
             }
             else
             {
+                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false; // lgs 24.01.22
                 if (toolItemDate.isTwoHandedTool == true)
                 {
                     _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);

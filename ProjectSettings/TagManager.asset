@@ -7,6 +7,7 @@ TagManager:
   - Mine
   - Fell
   - Gather
+  - Make
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Weapon
   - Player
   - MonsterWeapon
-  - 
+  - Architecture
   - 
   - 
   - 

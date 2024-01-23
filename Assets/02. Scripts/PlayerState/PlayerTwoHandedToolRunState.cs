@@ -22,4 +22,10 @@ public class PlayerTwoHandedToolRunState : PlayerGroundedState
         base.Exit();
         StopAnimation(_stateMachine.Player.AnimationData.EquipTwoHandedToolRunParameterHash);
     }
+
+    protected override void OnMovementCanceled(InputAction.CallbackContext context)
+    {
+        base.OnMovementCanceled(context);
+        _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
+    }
 }

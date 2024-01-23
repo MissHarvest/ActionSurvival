@@ -22,4 +22,10 @@ public class PlayerTwinToolRunState : PlayerGroundedState
         base.Exit();
         StopAnimation(_stateMachine.Player.AnimationData.EquipTwinToolRunParameterHash);
     }
+
+    protected override void OnMovementCanceled(InputAction.CallbackContext context)
+    {
+        base.OnMovementCanceled(context);
+        _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
+    }
 }
