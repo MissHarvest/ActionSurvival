@@ -16,7 +16,8 @@ public class MainScene : MonoBehaviour
             Managers.UI.TryGetSceneUI(out loadingUI);
         });
 
-        yield return new WaitWhile(() => loadingUI == null);
+        var waitWhile = new WaitWhile(() => loadingUI == null);
+        yield return waitWhile;
 
         // 1. 리소스 로드
         ResourceLoad((key, count, total) =>
@@ -43,7 +44,6 @@ public class MainScene : MonoBehaviour
                         // 4. NavMesh 생성
                         var mon = Managers.Resource.GetCache<GameObject>("Skeleton.prefab");
                         Instantiate(mon);
-                        SpawnObject();
                         Managers.Game.Init();
                     });
                 });
@@ -69,17 +69,5 @@ public class MainScene : MonoBehaviour
     {
         Managers.UI.ShowSceneUI<UIMainScene>();
         Managers.UI.LoadPopupUIs();
-    }
-
-    private void SpawnObject()
-    {
-        var obj = Managers.Resource.GetCache<GameObject>("Mushroom.prefab");
-        Instantiate(obj);
-        obj = Managers.Resource.GetCache<GameObject>("Rock.prefab");
-        Instantiate(obj);
-        obj = Managers.Resource.GetCache<GameObject>("TreeA.prefab");
-        Instantiate(obj);
-        obj = Managers.Resource.GetCache<GameObject>("TreeAStump.prefab");
-        Instantiate(obj);
     }
 }
