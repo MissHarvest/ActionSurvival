@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,20 +43,28 @@ public class UILoadingScene : UIScene
     }
     #endregion
 
-    private void Start()
+    private IEnumerator Start()
     {
         Initialize();
+
+        var waitForEndOfFrame = new WaitForEndOfFrame();
+        while (true)
+        {
+            yield return waitForEndOfFrame;
+            LoadingAnimation();
+        }
     }
 
-    private void Update()
+    private void LoadingAnimation()
     {
-        _time += Time.deltaTime;
+        float delta = Mathf.Min(0.035f, Time.deltaTime);
+
+        _time += delta;
         if (_time > 1f) _time -= 1f;
         _loadingCircleImage.color = gradient.Evaluate(_time);
         _loadingCircleImage.fillAmount = _curve1.Evaluate(_time);
-        _loadingCircleTransform.Rotate(0, 0, -820f * _curve2.Evaluate(_time) * Time.deltaTime);
+        _loadingCircleTransform.Rotate(0, 0, -820f * _curve2.Evaluate(_time) * delta);
     }
-
     public void ReceiveCallbacks(string argument)
     {
         _loadingArgumentText.text = argument;

@@ -437,6 +437,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ca96c2cb81bda541b4f05314edc7c1e
+    m_Address: ResourceObjectSpawnData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
   m_SchemaSet:

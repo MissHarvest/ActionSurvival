@@ -42,6 +42,16 @@ public class World : MonoBehaviour
         _prevPlayerCoord = _currentPlayerCoord;
     }
 
+    // TODO: ObjectManager? 아무튼 다른 매니저의 기능으로 옮기면 좋을 것 같습니다.
+    public GameObject SpawnObjectInWorld(GameObject prefab, Vector3 pos)
+    {
+        var coord = ConvertChunkCoord(pos);
+        Chunk chunk = _chunkMap[coord];
+        var obj = Instantiate(prefab, pos, Quaternion.identity);
+        chunk.AddInstanceObject(obj);
+        return obj;
+    }
+
     public ChunkCoord ConvertChunkCoord(Vector3 pos)
     {
         ChunkCoord res = pos;
@@ -83,11 +93,11 @@ public class World : MonoBehaviour
         _navMeshBuilder.UpdateNavMesh();
     }
 
-    private Chunk CreateChunk(ChunkCoord pos)
+    private void InitializeChunk(ChunkCoord pos, WorldMapData blockData)
     {
-        Chunk chunk = new(pos, this);
-        _chunkMap.Add(pos, chunk);
-        return chunk;
+        if (!_chunkMap.ContainsKey(pos))
+            _chunkMap.Add(pos, new(pos, this));
+        _chunkMap[pos].AddVoxel(blockData);
     }
 
     private IEnumerator GenerateChunk(Action<float, string> progressCallback, float uiUpdateInterval)
@@ -110,55 +120,6 @@ public class World : MonoBehaviour
                 yield return null;
             }
         }
-
-        //float t = 0f;
-
-        //// BFS로 생성
-        //Queue<ChunkCoord> queue = new();
-        //queue.Enqueue(new ChunkCoord(0, 0));
-
-        //Dictionary<ChunkCoord, bool> visited = new();
-        //int minX = _voxelMap.Keys.Min(pos => pos.x) / VoxelData.ChunkSizeX - 1;
-        //int maxX = _voxelMap.Keys.Max(pos => pos.x) / VoxelData.ChunkSizeX + 1;
-        //int minZ = _voxelMap.Keys.Min(pos => pos.z) / VoxelData.ChunkSizeZ - 1;
-        //int maxZ = _voxelMap.Keys.Max(pos => pos.z) / VoxelData.ChunkSizeZ + 1;
-        //for (int x = minX; x <= maxX; x++)
-        //    for (int z = minZ; z <= maxZ; z++)
-        //        visited.TryAdd(new(x, z), false);
-        //visited[new(0, 0)] = true;
-        //int totalChunkCount = visited.Count;
-        //int createdChunkCount = 0;
-
-        //ChunkCoord[] dxdy = { ChunkCoord.Up, ChunkCoord.Down, ChunkCoord.Left, ChunkCoord.Right };
-
-        //while (queue.Count > 0)
-        //{
-        //    createdChunkCount++;
-        //    var current = queue.Dequeue();
-        //    var chunk = CreateChunk(current);
-        //    chunk.IsActive = false;
-
-        //    for (int i = 0; i < dxdy.Length; i++)
-        //    {
-        //        ChunkCoord next = current + dxdy[i];
-        //        if (visited.ContainsKey(next))
-        //        {
-        //            if (!visited[next])
-        //            {
-        //                visited[next] = true;
-        //                queue.Enqueue(next);
-        //            }
-        //        }
-        //    }
-
-        //    // 일정 시간마다 UI 업데이트
-        //    if (Time.realtimeSinceStartup - t > uiUpdateInterval)
-        //    {
-        //        t = Time.realtimeSinceStartup;
-        //        progressCallback?.Invoke((float)createdChunkCount / totalChunkCount, "Generate Chunks ...");
-        //        yield return null;
-        //    }
-        //}
 
         yield return null;
     }
@@ -194,13 +155,7 @@ public class World : MonoBehaviour
             // 현재 블럭이 속한 청크 좌표에 청크 생성
             // 생성한 청크에 블럭 정보 추가
             var coord = ConvertChunkCoord(data.Key);
-            if (!_chunkMap.ContainsKey(coord))
-            {
-                var chunk = CreateChunk(coord);
-                chunk.AddVoxel(worldMapData);
-            }
-            else
-                _chunkMap[coord].AddVoxel(worldMapData);
+            InitializeChunk(coord, worldMapData);
 
             currentCount++;
 

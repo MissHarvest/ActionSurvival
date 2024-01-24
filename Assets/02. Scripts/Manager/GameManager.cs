@@ -9,6 +9,7 @@ public class GameManager
     public DayCycle DayCycle { get; private set; } = new DayCycle();
 
     public World World { get; private set; }
+    private ResourceObjectSpawner _resourceObjectSpawner = new();
 
     public Island IceIsland = new Island(new IsLandProperty(new Vector3(-400, 0, 0)));
     public Island CenterIsland = new Island(new IsLandProperty(Vector3.zero));
@@ -16,12 +17,10 @@ public class GameManager
 
     public MonsterWave MonsterWave { get; private set; }
 
-    public bool _isRunning = false;
-    public bool IsRunning => _isRunning;
+    public bool IsRunning { get; private set; } = false;
 
     public void Init()
     {
-        _isRunning = true;
         MonsterWave = new MonsterWave();
 
         DayCycle.Init();
@@ -30,7 +29,10 @@ public class GameManager
 
         Temperature.Init(this);
 
+        _resourceObjectSpawner.Initialize();
+
         //InitIslands();
+        IsRunning = true;
     }
 
     private void SpawnMonster()
