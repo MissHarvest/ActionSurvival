@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1570407854871324878}
   - component: {fileID: 1129217846401278239}
   m_Layer: 8
-  m_Name: Handable_Sword
+  m_Name: Handable_WoodSword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

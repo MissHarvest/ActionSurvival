@@ -9,8 +9,8 @@ public class ItemSlot
     // 내구도 
     [field: SerializeField] public float currentDurability { get; private set; }
 
-    public bool equipped { get; private set; } = false;
-    public bool registed { get; private set; } = false;
+    [field: SerializeField] public bool equipped { get; private set; } = false;
+    [field: SerializeField] public bool registed { get; private set; } = false;
 
     public ItemSlot()
     {

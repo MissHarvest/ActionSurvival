@@ -39,7 +39,7 @@ public class PlayerBaseState : IState
 
     private void ReadMovementInput()
     {
-        _stateMachine.MovementInput = _stateMachine.Player.Input.PlayerActions.Move.ReadValue<Vector2>();
+        _stateMachine.MovementInput = _stateMachine.Player.Input.PlayerActions.Move.ReadValue<Vector2>().normalized;
     }
 
     private void Move()
@@ -108,6 +108,8 @@ public class PlayerBaseState : IState
         
         input.PlayerActions.Interact.started += OnInteractStarted;
         input.PlayerActions.Interact.canceled += OnInteractCanceled;
+
+        input.PlayerActions.Inventory.started += OnInventoryShowAndHide;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
@@ -117,6 +119,7 @@ public class PlayerBaseState : IState
 
         input.PlayerActions.Interact.started -= OnInteractStarted;
         input.PlayerActions.Interact.canceled -= OnInteractCanceled;
+        input.PlayerActions.Inventory.started -= OnInventoryShowAndHide;
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
@@ -154,6 +157,20 @@ public class PlayerBaseState : IState
     protected void ForceMove()
     {
         _stateMachine.Player.Controller.Move(_stateMachine.Player.ForceReceiver.Movement * Time.deltaTime);
+    }
+
+    private void OnInventoryShowAndHide(InputAction.CallbackContext context)
+    {
+        var ui = Managers.UI.GetPopupUI<UIInventory>();
+        Debug.Log($"[Inventory UI] {ui == null}");
+        if (ui.gameObject.activeSelf)
+        {
+            Managers.UI.ClosePopupUI(ui);
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UIInventory>();            
+        }
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)

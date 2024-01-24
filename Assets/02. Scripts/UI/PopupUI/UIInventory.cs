@@ -1,55 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEngine;
 
 public class UIInventory : UIPopup
 {
     enum Gameobjects
     {
-        Contents,
         Exit,
     }
-        
-    private Transform _contents;
-    private List<UIInventorySlot> _uiItemSlots = new List<UIInventorySlot>();
+
+    enum Container
+    {
+        Contents,
+    }
+
+    enum Helper
+    {
+        UsageHelper,
+    }
 
     public override void Initialize()
     {
         base.Initialize();
         Bind<GameObject>(typeof(Gameobjects));
+        Bind<UIItemSlotContainer>(typeof(Container));
+        //Bind<UIItemUsageHelper>(typeof(Helper));
         Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) => { Managers.UI.ClosePopupUI(this); });
     }
 
     private void Awake()
     {
         Initialize();
-        _contents = Get<GameObject>((int)Gameobjects.Contents).transform;
-
-        // Create Slot
         var inventory = Managers.Game.Player.Inventory;
-        inventory.OnUpdated += OnItemSlotUpdated;
+        var prefab = Managers.Resource.GetCache<GameObject>("UIInventorySlot.prefab");
+        var container = Get<UIItemSlotContainer>((int)Container.Contents);
+        container.CreateItemSlots<UIInventorySlot>(prefab, inventory.maxCapacity);
+        container.Init<UIInventorySlot>(inventory, ActivateItemUsageHelper);
 
-        CreateItemSlots(inventory);
+        inventory.OnUpdated += container.OnItemSlotUpdated;
+
         gameObject.SetActive(false);
     }
 
-    private void CreateItemSlots(InventorySystem inventory)
+    private void ActivateItemUsageHelper(UIItemSlot itemslotUI)
     {
-        int capacity = InventorySystem.maxCapacity;
-
-        for(int i = 0; i < capacity; ++i)
-        {
-            //var itemSlotUI = Managers.Resource.Instantiate("UIInventorySlot", Literals.PATH_UI, _contents);
-            var ItemSlotUIPrefab = Managers.Resource.GetCache<GameObject>("UIInventorySlot.prefab");
-            var itemSlotUI = Instantiate(ItemSlotUIPrefab, _contents);
-            var inventoryslotUI = itemSlotUI.GetComponent<UIInventorySlot>();
-            inventoryslotUI?.Init(this, i, inventory.slots[i]);
-            _uiItemSlots.Add(inventoryslotUI);
-        }
-    }
-
-    private void OnItemSlotUpdated(int index, ItemSlot itemSlot)
-    {
-        _uiItemSlots[index].Set(itemSlot);
+        var helper = Managers.UI.ShowPopupUI<UIItemUsageHelper>();
+        var inventoryslotui = itemslotUI as UIInventorySlot;
+        var pos = new Vector3(inventoryslotui.transform.position.x + inventoryslotui.RectTransform.sizeDelta.x,
+            inventoryslotui.transform.position.y);
+        helper.ShowOption(inventoryslotui.Index, pos);
     }
 }

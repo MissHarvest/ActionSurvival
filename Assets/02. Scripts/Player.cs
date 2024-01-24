@@ -14,7 +14,7 @@ public class Player : MonoBehaviour, IHit
     public PlayerInput Input { get; private set; }
     public CharacterController Controller { get; private set; }
     public ForceReceiver ForceReceiver { get; private set; }
-    public InventorySystem Inventory { get; private set; }
+    public PlayerInventorySystem Inventory { get; private set; }
     public Transform ViewPoint { get; private set; }
     public ToolSystem ToolSystem { get; private set; }
     public QuickSlotSystem QuickSlot { get; private set; }
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour, IHit
         Input = GetComponent<PlayerInput>();
         Controller = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
-        Inventory = GetComponentInChildren<InventorySystem>();
+        Inventory = GetComponentInChildren<PlayerInventorySystem>();
         ToolSystem = GetComponentInChildren<ToolSystem>();
         ConditionHandler = GetComponent<PlayerConditionHandler>();
         QuickSlot = GetComponentInChildren<QuickSlotSystem>();
@@ -49,14 +49,13 @@ public class Player : MonoBehaviour, IHit
         ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
 
         _stateMachine = new PlayerStateMachine(this);
-
-
     }
 
     private void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
         _stateMachine.ChangeState(_stateMachine.IdleState);
+
+        Inventory.AddDefaultToolAsTest();
     }
 
     private void Update()
