@@ -8,10 +8,8 @@ public class UIInventorySlot : UIItemSlot
         Equip,
         Regist,
     }
-
-    public int index { get; private set; }
-    public RectTransform RectTransform { get; private set; }
-    public UIInventory UIInventory { get; private set; }
+        
+    public RectTransform RectTransform { get; private set; }    
 
     private Slider durabilitySlider;
 
@@ -27,22 +25,6 @@ public class UIInventorySlot : UIItemSlot
     private void Awake()
     {
         Initialize();
-
-        gameObject.BindEvent((x) =>
-        {
-            if (Icon.gameObject.activeSelf)
-            {
-                var helper = Managers.UI.ShowPopupUI<UIItemUsageHelper>();
-                helper.ShowOption(index, new Vector3(transform.position.x + RectTransform.sizeDelta.x, transform.position.y));
-            }
-        });
-    }
-
-    public void Init(UIInventory inventoryUI, int index, ItemSlot itemSlot)
-    {
-        UIInventory = inventoryUI;
-        this.index = index;
-        Set(itemSlot);
     }
 
     public override void Set(ItemSlot itemSlot)

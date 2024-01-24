@@ -7,10 +7,10 @@ public class UIQuickSlot : UIItemSlot
     {
         QuantityBackground,
         DurabilityCircle,
+        ActivateMark
     }
 
     public UIQuickSlotController UIQuickSlotController { get; private set; }
-    public int index { get; private set; }
 
     private GameObject durabilityCircle;
 
@@ -24,7 +24,7 @@ public class UIQuickSlot : UIItemSlot
     public void Init(UIQuickSlotController quickSlotControllerUI, int index, ItemSlot itemSlot)
     {
         UIQuickSlotController = quickSlotControllerUI;
-        this.index = index;
+        BindGroup(null, index);
         Set(itemSlot);
     }
 
@@ -34,7 +34,7 @@ public class UIQuickSlot : UIItemSlot
 
         gameObject.BindEvent((x) =>
         {
-            Managers.Game.Player.QuickSlot.OnQuickUseInput(index);
+            Managers.Game.Player.QuickSlot.OnQuickUseInput(Index);
         });
     }
 
@@ -50,6 +50,8 @@ public class UIQuickSlot : UIItemSlot
         {
             Get<GameObject>((int)GameObjects.QuantityBackground).SetActive(true);
         }
+
+        Get<GameObject>((int)GameObjects.ActivateMark).SetActive(itemSlot.equipped);
         
         base.Set(itemSlot);
         UpdateDurabilityUI(itemSlot);
@@ -102,6 +104,7 @@ public class UIQuickSlot : UIItemSlot
     public override void Clear()
     {
         base.Clear();
+        Get<GameObject>((int)GameObjects.ActivateMark).SetActive(false);
         Get<GameObject>((int)GameObjects.QuantityBackground).SetActive(false);
         durabilityCircle.SetActive(false);
     }

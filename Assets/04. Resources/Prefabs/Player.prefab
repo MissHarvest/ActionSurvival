@@ -3139,7 +3139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4912494475754002400}
-  - component: {fileID: 6438847687321175271}
+  - component: {fileID: 4468172161151111883}
   - component: {fileID: 6613559552095951977}
   - component: {fileID: 5563375124159021738}
   - component: {fileID: 806639977076256140}
@@ -3169,7 +3169,7 @@ Transform:
   m_Father: {fileID: 5287284951471504124}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6438847687321175271
+--- !u!114 &4468172161151111883
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3178,7 +3178,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7330765973162392891}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92d0fe197638bde4b9fedfc363951056, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d75f8dbc15ab66498b74fcf9b908a47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &6613559552095951977
@@ -3212,16 +3212,22 @@ MonoBehaviour:
       <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
+      <equipped>k__BackingField: 0
+      <registed>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
       <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
+      <equipped>k__BackingField: 0
+      <registed>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
       <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
+      <equipped>k__BackingField: 0
+      <registed>k__BackingField: 0
     targetIndex: -1
 --- !u!114 &806639977076256140
 MonoBehaviour:
@@ -3240,21 +3246,29 @@ MonoBehaviour:
       <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
+      <equipped>k__BackingField: 0
+      <registed>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
       <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
+      <equipped>k__BackingField: 0
+      <registed>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
       <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
+      <equipped>k__BackingField: 0
+      <registed>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
       <itemData>k__BackingField: {fileID: 0}
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
+      <equipped>k__BackingField: 0
+      <registed>k__BackingField: 0
     targetIndex: -1
 --- !u!114 &5718102191932996010
 MonoBehaviour:

@@ -108,6 +108,19 @@ public class UIManager
         return popupUI;
     }
 
+    public T GetPopupUI<T>(string name = null) where T: UIPopup
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        if (_popups.TryGetValue(name, out GameObject go))
+        {
+            return go.GetComponent<T>();
+        }
+
+        return null;
+    }
+
     public void ClosePopupUI(UIPopup popup)
     {
         if (_activatedPopups.Count == 0) return;

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [Serializable]
 public class ItemSlot
@@ -9,11 +10,21 @@ public class ItemSlot
     // 내구도 
     [field: SerializeField] public float currentDurability { get; private set; }
 
-    public bool equipped { get; private set; } = false;
-    public bool registed { get; private set; } = false;
+    [field: SerializeField] public bool equipped { get; private set; } = false;
+    [field: SerializeField] public bool registed { get; private set; } = false;
+
+    public InventorySystem inventory { get; set; }
 
     public ItemSlot()
     {
+        this.itemData = null;
+        this.quantity = 0;
+        this.currentDurability = 0.0f;
+    }
+
+    public ItemSlot(InventorySystem inventory)
+    {
+        this.inventory = inventory;
         this.itemData = null;
         this.quantity = 0;
         this.currentDurability = 0.0f;
@@ -30,7 +41,13 @@ public class ItemSlot
 
     public void AddQuantity(int amount)
     {
-        this.quantity = Math.Min(this.quantity + amount, ItemData.maxStackCount);        
+        this.quantity += amount;
+        if(this.quantity > ItemData.maxStackCount)
+        {
+            int extra = this.quantity - ItemData.maxStackCount;
+            this.quantity = ItemData.maxStackCount;
+            inventory.AddItem(itemData, extra);
+        }
     }
 
     public void SubtractQuantity(int amount = 1)
@@ -58,6 +75,15 @@ public class ItemSlot
         registed = itemSlot.registed;
         equipped = itemSlot.equipped;
         currentDurability = itemSlot.currentDurability;
+    }
+
+    public void Copy(ItemSlot itemslot)
+    {
+        Set(itemslot.itemData, itemslot.quantity);
+        registed = itemslot.registed;
+        equipped = itemslot.equipped;
+        currentDurability = itemslot.currentDurability;
+        inventory = itemslot.inventory;
     }
 
     public void Clear()

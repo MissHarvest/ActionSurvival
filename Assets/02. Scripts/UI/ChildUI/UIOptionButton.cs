@@ -15,7 +15,6 @@ public class UIOptionButton : UIBase
     public override void Initialize()
     {
         Bind<TextMeshProUGUI>(typeof(Texts));
-
     }
 
     private void Awake()
