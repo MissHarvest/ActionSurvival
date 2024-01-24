@@ -8,10 +8,12 @@ public class UILooting : UIBase
     enum GameObjects
     {
         Contents,
+        HideContents,
     }
 
     private Stack<UILootingItemSlot> _usableSlots = new Stack<UILootingItemSlot>();
     private Stack<UILootingItemSlot> _usedSlots = new Stack<UILootingItemSlot>();
+    private Stack<ItemData> _lootingItems = new Stack<ItemData>();
 
     public override void Initialize()
     {
@@ -28,7 +30,26 @@ public class UILooting : UIBase
         player.Inventory.OnItemAdd += OnItemAdd;
 
         CreateSlots();
-        //gameObject.SetActive(false);
+        StartCoroutine(ShowLootingItem());
+    }
+
+    IEnumerator ShowLootingItem()
+    {
+        while(true)
+        {
+            yield return null;
+            if(_lootingItems.Count > 0)
+            {
+                var itemdata = _lootingItems.Pop();
+                var slot = GetSlot();
+                StartCoroutine(DeleteSlot(slot));
+                slot.Set(new ItemSlot(itemdata, 1));
+                slot.gameObject.transform.SetParent(Get<GameObject>((int)GameObjects.Contents).transform, true);
+                slot.gameObject.SetActive(true);
+                _usedSlots.Push(slot);
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
     }
 
     private void CreateSlots()
@@ -36,7 +57,7 @@ public class UILooting : UIBase
         var go = Managers.Resource.GetCache<GameObject>("UILootingItemSlot.prefab");
         for(int i = 0; i < 10; ++i)
         {
-            var slot = Instantiate(go, Get<GameObject>((int)GameObjects.Contents).transform);
+            var slot = Instantiate(go, Get<GameObject>((int)GameObjects.HideContents).transform);
             slot.SetActive(false);
             _usableSlots.Push(slot.GetComponent<UILootingItemSlot>());
         }
@@ -53,18 +74,13 @@ public class UILooting : UIBase
 
     private void OnItemAdd(ItemData itemdata)
     {
-        var slot = GetSlot();
-        StartCoroutine(DeleteSlot(slot));
-        slot.Set(new ItemSlot(itemdata, 1));
-        slot.gameObject.transform.parent = Get<GameObject>((int)GameObjects.Contents).transform;
-        slot.gameObject.SetActive(true);
-        _usedSlots.Push(slot);
+        _lootingItems.Push(itemdata);
     }
 
     IEnumerator DeleteSlot(UILootingItemSlot slot)
     {
         yield return new WaitForSeconds(1.0f);
-        slot.gameObject.transform.parent = null;
+        slot.gameObject.transform.SetParent(Get<GameObject>((int)GameObjects.HideContents).transform, true);
         slot.gameObject.SetActive(false);
         _usableSlots.Push(slot);
     }

@@ -110,6 +110,8 @@ public class PlayerBaseState : IState
         input.PlayerActions.Interact.canceled += OnInteractCanceled;
 
         input.PlayerActions.Inventory.started += OnInventoryShowAndHide;
+
+        input.PlayerActions.Esc.started += PauseGame;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
@@ -120,6 +122,7 @@ public class PlayerBaseState : IState
         input.PlayerActions.Interact.started -= OnInteractStarted;
         input.PlayerActions.Interact.canceled -= OnInteractCanceled;
         input.PlayerActions.Inventory.started -= OnInventoryShowAndHide;
+        input.PlayerActions.Esc.started -= PauseGame;
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
@@ -171,6 +174,11 @@ public class PlayerBaseState : IState
         {
             Managers.UI.ShowPopupUI<UIInventory>();            
         }
+    }
+
+    private void PauseGame(InputAction.CallbackContext context)
+    {
+        Managers.UI.ShowPopupUI<UIPauseGame>();
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)

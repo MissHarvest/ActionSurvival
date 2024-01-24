@@ -15,11 +15,12 @@ public class InventorySystem : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Inventory Awake");
+        Debug.Log($"Inventory Awake [{gameObject.name}] [{this.name}]");
         slots = new ItemSlot[maxCapacity];
+
         for(int i = 0; i < slots.Length; ++i)
         {
-            slots[i] = new ItemSlot();
+            slots[i] = new ItemSlot(this);
         }
 
         Owner = Managers.Game.Player;
@@ -58,6 +59,41 @@ public class InventorySystem : MonoBehaviour
         maxCapacity = capacity;
     }
 
+    public void AddItem(ItemSlot itemslot)
+    {
+        int targetIndex = 0;
+
+        // stack 가능한가?
+        if (itemslot.itemData.stackable == false)
+        {
+            if (FindEmptyIndex(out targetIndex))
+            {
+                slots[targetIndex].Set(itemslot);
+                OnItemAdd?.Invoke(itemslot.itemData);
+                OnUpdated?.Invoke(targetIndex, slots[targetIndex]);
+                return;
+            }
+        }
+
+        var itemSlot = FindItem(itemslot.itemData, out int targetindex);
+        if (itemSlot != null)
+        {
+            itemSlot.AddQuantity(itemslot.quantity);
+            OnItemAdd?.Invoke(itemslot.itemData);
+            OnUpdated?.Invoke(targetindex, itemSlot);
+            return;
+        }
+
+        if (FindEmptyIndex(out targetindex))
+        {
+            slots[targetindex].Set(itemslot);
+            OnItemAdd?.Invoke(itemslot.itemData);
+            OnUpdated?.Invoke(targetindex, slots[targetindex]);
+        }
+
+        // stack 이 가능하면 > 있는지 확인 
+    }
+
     public void AddItem(ItemData itemData, int quantity)
     {
         int targetindex = 0;
@@ -84,7 +120,7 @@ public class InventorySystem : MonoBehaviour
 
         if(FindEmptyIndex(out targetindex))
         {
-            slots[targetindex].Set(itemData);
+            slots[targetindex].Set(itemData, quantity);
             OnItemAdd?.Invoke(itemData);
             OnUpdated?.Invoke(targetindex, slots[targetindex]);
         }
@@ -159,6 +195,20 @@ public class InventorySystem : MonoBehaviour
         }
         return true;
     }
+    
+    public void TransitionItem(InventorySystem targetInventory, int index)
+    {
+        if (slots[index].equipped || slots[index].registed)
+        {
+            var ui = Managers.UI.ShowPopupUI<UIWarning>();
+            ui.SetWarning("Unregist or UnEquip item");
+            return;// 경고문
+        }
+        targetInventory.AddItem(slots[index]);
+        slots[index].Clear();
+        OnUpdated?.Invoke(index, slots[index]);
+    }
+
 
     protected void BroadCastUpdatedSlot(int index, ItemSlot itemslot)
     {
