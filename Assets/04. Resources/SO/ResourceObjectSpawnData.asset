@@ -16,6 +16,7 @@ MonoBehaviour:
   - {fileID: -7969844303379580191, guid: 92f64a14234031344b215e65fbb8d605, type: 3}
   - {fileID: 5291787235389981194, guid: fa933bd20c5287347b5cf96dd77d16e8, type: 3}
   - {fileID: -3957180596629071883, guid: 82202f6bc7fdf564bac33beb0551d2f8, type: 3}
+  - {fileID: 5746413910420056433, guid: c5eadd273f0d32e4bb8f222f24130af2, type: 3}
   _spawnList:
   - _object: {fileID: -7969844303379580191, guid: 92f64a14234031344b215e65fbb8d605, type: 3}
     spawnPosition: {x: -4, y: 0, z: 1}
@@ -23,3 +24,5 @@ MonoBehaviour:
     spawnPosition: {x: 0, y: 0, z: -3}
   - _object: {fileID: -3957180596629071883, guid: 82202f6bc7fdf564bac33beb0551d2f8, type: 3}
     spawnPosition: {x: 2, y: 0, z: 0}
+  - _object: {fileID: 5746413910420056433, guid: c5eadd273f0d32e4bb8f222f24130af2, type: 3}
+    spawnPosition: {x: 5, y: 0, z: -5}

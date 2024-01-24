@@ -9,17 +9,20 @@ public class ResourceObjectDebris : ResourceObjectBase
 
     private void Update()
     {
-        Respawn();
+        TimeLapse();
     }
 
     public void Respawn()
     {
+        _remainingTime = _respawnTime;
+        _parent.SwitchObject(_toObjectID);
+    }
+
+    private void TimeLapse()
+    {
         _remainingTime -= Time.deltaTime;
         if (_remainingTime < 0f)
-        {
-            _parent.SwitchObject(_toObjectID);
-            _remainingTime = _respawnTime;
-        }
+            Respawn();
     }
 
     public override void Initialize()

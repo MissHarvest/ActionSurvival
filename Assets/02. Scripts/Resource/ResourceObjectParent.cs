@@ -33,4 +33,22 @@ public class ResourceObjectParent : MonoBehaviour
         _currentObject.SetActive(false);
         _currentObject = toObject;
     }
+
+    #region Test Code ...
+    public void TestInteract()
+    {
+        if (_currentObject == null) return;
+
+        if (_currentObject.activeSelf)
+            _currentObject.GetComponent<ResourceObjectGathering>()?.Interact(Managers.Game.Player);
+    }
+
+    public void TestRespawn()
+    {
+        if (_currentObject == null) return;
+
+        if (_currentObject.activeSelf)
+            _currentObject.GetComponent<ResourceObjectDebris>()?.Respawn();
+    }
+    #endregion
 }

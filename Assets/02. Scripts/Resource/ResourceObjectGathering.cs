@@ -6,12 +6,11 @@ public class ResourceObjectGathering : ResourceObjectBase, IInteractable
 
     public void Interact(Player player)
     {
-        Managers.Game.Player.Inventory.AddItem(_lootingItem, 1);
-        _parent.SwitchObject(_toObjectID);
-    }
+        if (!gameObject.activeSelf)
+            return;
 
-    public override void Initialize()
-    {
-        base.Initialize();
+        if (_lootingItem != null)
+            player.Inventory.AddItem(_lootingItem, 1);
+        _parent.SwitchObject(_toObjectID);
     }
 }
