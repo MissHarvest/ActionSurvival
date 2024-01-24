@@ -18,7 +18,17 @@ public class ResourceObjectSpawner
 
     private void SpawnObject()
     {
+        // TEST SCENE CODE
+        if (_world == null)
+        {
+            foreach (var data in _spawnData.SpawnList)
+                UnityEngine.Object.Instantiate(data.Prefab, data.spawnPosition, Quaternion.identity);
+            return;
+        }
+
         foreach (var data in _spawnData.SpawnList)
             _world.SpawnObjectInWorld(data.Prefab, data.spawnPosition);
+
+        
     }
 }
