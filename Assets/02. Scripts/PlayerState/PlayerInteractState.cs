@@ -40,7 +40,12 @@ public class PlayerInteractState : PlayerBaseState
     public override void Exit()
     {
         base.Exit();
-        _stateMachine.Player.Animator.SetBool(targetTag, false);
+        if(target != null)
+        {
+            _stateMachine.Player.Animator.SetBool(targetTag, false);
+            target = null;
+        }
+        
         StopAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
     }
 
