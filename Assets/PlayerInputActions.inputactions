@@ -69,6 +69,69 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "CreatBluePrintArchitecture",
+                    "type": "Button",
+                    "id": "71088a00-4310-4cdd-91c6-a13b030f6f22",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateArchitectureLeft",
+                    "type": "Button",
+                    "id": "ccfdd6c8-a752-45e1-aa3e-d6c42b9960be",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateArchitectureRight",
+                    "type": "Button",
+                    "id": "0f7c5e3d-1ef6-4fe8-8285-5be67cba171e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CancelBuildMode",
+                    "type": "Button",
+                    "id": "26461ee9-8a92-42ea-b70e-66be29d1e9f2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "InstallArchitecture",
+                    "type": "Button",
+                    "id": "bdd861a3-58b8-4d07-a03c-97a18d1c11f7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BreakMode",
+                    "type": "Button",
+                    "id": "978785c0-e3d3-40c7-ace9-77674d2ebf8a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BreakArchitecture",
+                    "type": "Button",
+                    "id": "e91a8925-8885-47fb-954b-22cbba7342bd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Esc",
                     "type": "Value",
                     "id": "82f9d3c7-f678-401b-988c-cebe9e8df95b",
@@ -307,6 +370,83 @@
                     "processors": "",
                     "groups": "",
                     "action": "Recipe",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6963acec-15d7-4e6b-8b98-f8f87a58b85b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CreatBluePrintArchitecture",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "21977c6c-bcd8-4164-88ab-b3315c6cfeb2",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateArchitectureLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31a5eea8-e970-4b7d-9fa5-69d14f827388",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateArchitectureRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f8c89182-5523-4637-95e5-43911b15d51d",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CancelBuildMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "36f66a0c-e5f6-4b5e-a743-9de5eb413fed",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InstallArchitecture",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bb02c678-40b1-4ce0-9878-25fc627e1882",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BreakMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da24dacc-3e3b-4af0-93d0-d08e31cec708",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BreakArchitecture",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

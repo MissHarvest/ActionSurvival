@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,6 +25,12 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     protected OnScreenStick handleStickController = null;
     protected CanvasGroup bgCanvasGroup = null;
     protected Vector2 initialPosition = Vector2.zero;
+
+    public RectTransform Handle
+    {
+        get { return handle; }
+        private set { handle = value; }
+    }
 
     protected virtual void Awake()
     {
