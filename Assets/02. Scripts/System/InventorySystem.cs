@@ -8,7 +8,7 @@ public class InventorySystem : MonoBehaviour
     public static int maxCapacity { get; } = 30;
 
     public ItemSlot[] slots { get; private set; }
-        public Player Owner { get; private set; }
+    public Player Owner { get; private set; }
 
     public event Action<int, ItemSlot> OnUpdated;
     public event Action<ItemData> OnItemAdd;
@@ -67,7 +67,9 @@ public class InventorySystem : MonoBehaviour
         itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("RabbitMeatItemData.data");
-        AddItem(itemData, 1); 
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
     }
 
     public void AddItem(ItemData itemData, int quantity)
