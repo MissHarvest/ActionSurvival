@@ -152,6 +152,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Esc"",
+                    ""type"": ""Value"",
+                    ""id"": ""82f9d3c7-f678-401b-988c-cebe9e8df95b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -462,6 +471,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""BreakArchitecture"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f8f4c78-f651-4b8e-ba90-cb6e99c49944"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Esc"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -532,6 +552,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_InstallArchitecture = m_Player.FindAction("InstallArchitecture", throwIfNotFound: true);
         m_Player_BreakMode = m_Player.FindAction("BreakMode", throwIfNotFound: true);
         m_Player_BreakArchitecture = m_Player.FindAction("BreakArchitecture", throwIfNotFound: true);
+        m_Player_Esc = m_Player.FindAction("Esc", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -607,6 +628,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_InstallArchitecture;
     private readonly InputAction m_Player_BreakMode;
     private readonly InputAction m_Player_BreakArchitecture;
+    private readonly InputAction m_Player_Esc;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -625,6 +647,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @InstallArchitecture => m_Wrapper.m_Player_InstallArchitecture;
         public InputAction @BreakMode => m_Wrapper.m_Player_BreakMode;
         public InputAction @BreakArchitecture => m_Wrapper.m_Player_BreakArchitecture;
+        public InputAction @Esc => m_Wrapper.m_Player_Esc;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -676,6 +699,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @BreakArchitecture.started += instance.OnBreakArchitecture;
             @BreakArchitecture.performed += instance.OnBreakArchitecture;
             @BreakArchitecture.canceled += instance.OnBreakArchitecture;
+            @Esc.started += instance.OnEsc;
+            @Esc.performed += instance.OnEsc;
+            @Esc.canceled += instance.OnEsc;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -722,6 +748,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @BreakArchitecture.started -= instance.OnBreakArchitecture;
             @BreakArchitecture.performed -= instance.OnBreakArchitecture;
             @BreakArchitecture.canceled -= instance.OnBreakArchitecture;
+            @Esc.started -= instance.OnEsc;
+            @Esc.performed -= instance.OnEsc;
+            @Esc.canceled -= instance.OnEsc;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -791,5 +820,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnInstallArchitecture(InputAction.CallbackContext context);
         void OnBreakMode(InputAction.CallbackContext context);
         void OnBreakArchitecture(InputAction.CallbackContext context);
+        void OnEsc(InputAction.CallbackContext context);
     }
 }

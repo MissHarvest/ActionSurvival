@@ -32,6 +32,8 @@ public class QuickSlotSystem : MonoBehaviour
 
     public void Regist(int index, QuickSlot slot)
     {
+        UnRegist(slots[index]);
+
         slot.itemSlot.SetRegist(true);
         slots[index].Set(slot.targetIndex, slot.itemSlot);
         Debug.Log($"Quick | R[{slots[index].itemSlot.registed}] E[{slots[index].itemSlot.equipped}]");
@@ -47,6 +49,8 @@ public class QuickSlotSystem : MonoBehaviour
 
     public void UnRegist(QuickSlot slot)
     {
+        if (slot.itemSlot.itemData == null) return;
+
         for (int i = 0; i < slots.Length; ++i)
         {
             if (slot.targetIndex == slots[i].targetIndex)

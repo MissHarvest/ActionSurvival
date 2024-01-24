@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 8012077876549735768}
   - component: {fileID: 3797990212273909453}
   - component: {fileID: 2711221246493060806}
-  - component: {fileID: 6444080418055254405}
   m_Layer: 11
   m_Name: Chest_01_1_LOD0
   m_TagString: Untagged
@@ -167,27 +166,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6444080418055254405
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1280780995942195368}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.9671867, y: 0.40225488, z: 0.54809195}
-  m_Center: {x: -0.0000078082085, y: 0.20064405, z: -0.009868294}
 --- !u!1 &1461912706293654116
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +260,6 @@ GameObject:
   - component: {fileID: 2596761288826690782}
   - component: {fileID: 5813411405191556968}
   - component: {fileID: 3447150378314007166}
-  - component: {fileID: 2015554388633951298}
   m_Layer: 11
   m_Name: Chest_01_2_LOD0
   m_TagString: Untagged
@@ -355,27 +332,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2015554388633951298
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3415190173524330611}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.805943, y: 0.3415225, z: 0.55096793}
-  m_Center: {x: -0.000007838011, y: 0.12139494, z: 0.27292293}
 --- !u!1 &5498974891038828070
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,6 +344,8 @@ GameObject:
   - component: {fileID: 7977312002142338109}
   - component: {fileID: 3073586280045906246}
   - component: {fileID: 6068953386404790204}
+  - component: {fileID: 3909581088976549348}
+  - component: {fileID: 4490236650320304335}
   m_Layer: 11
   m_Name: Handable_Chest
   m_TagString: Make
@@ -404,15 +362,15 @@ Transform:
   m_GameObject: {fileID: 5498974891038828070}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -0.279, y: -0.221, z: -0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8012077876549735768}
   - {fileID: 645237637705206332}
   - {fileID: 2288837289977574887}
   - {fileID: 7327407730605995735}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!205 &7977312002142338109
 LODGroup:
@@ -489,6 +447,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &3909581088976549348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5498974891038828070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b5a398ff7d4d0942beb2125fd2e58a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4490236650320304335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5498974891038828070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92d0fe197638bde4b9fedfc363951056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7179283271781072803
 GameObject:
   m_ObjectHideFlags: 0

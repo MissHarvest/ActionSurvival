@@ -5,6 +5,8 @@ public class BaseScene : MonoBehaviour
 {
     public CinemachineVirtualCamera virtualCamera;
 
+    public GameObject[] objectsBeLoaded;
+
     private void Awake()
     {
         Managers.Resource.LoadAllAsync<UnityEngine.Object>("MainScene", (key, count, total) => 
@@ -23,6 +25,14 @@ public class BaseScene : MonoBehaviour
                 Managers.UI.ShowSceneUI<UIMainScene>();
                 Managers.UI.LoadPopupUIs();
                 Managers.Data.InitializeRecipeData();
+
+                if(objectsBeLoaded.Length > 0)
+                {
+                    foreach(var obj in objectsBeLoaded)
+                    {
+                        obj.SetActive(true);
+                    }
+                }
 
                 var mon = Managers.Resource.GetCache<GameObject>("Skeleton.prefab");
                 Instantiate(mon);

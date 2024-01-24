@@ -5,7 +5,7 @@ using static UnityEditor.Experimental.GraphView.Port;
 
 public class InventorySystem : MonoBehaviour
 {
-    public static int maxCapacity { get; } = 30;
+    public int maxCapacity { get; private set; } = 30;
 
     public ItemSlot[] slots { get; private set; }
     public Player Owner { get; private set; }
@@ -13,36 +13,20 @@ public class InventorySystem : MonoBehaviour
     public event Action<int, ItemSlot> OnUpdated;
     public event Action<ItemData> OnItemAdd;
 
-    private UIInventory _inventoryUI;
-
     private void Awake()
     {
-        Debug.Log("Inventory Awake");
+        Debug.Log($"Inventory Awake [{gameObject.name}] [{this.name}]");
         slots = new ItemSlot[maxCapacity];
+
         for(int i = 0; i < slots.Length; ++i)
         {
-            slots[i] = new ItemSlot();
+            slots[i] = new ItemSlot(this);
         }
 
         Owner = Managers.Game.Player;
-
-        var input = Owner.Input;
-        input.InputActions.Player.Inventory.started += OnInventoryShowAndHide;
-
-        // TEST //
-        AddDefaultToolAsTest();
     }
 
-    private void Start()
-    {
-        Debug.Log("Inventory Start");
-        Managers.Game.Player.QuickSlot.OnRegisted += OnItemRegisted;
-        Managers.Game.Player.QuickSlot.OnUnRegisted += OnItemUnregisted;
-        Managers.Game.Player.ToolSystem.OnEquip += OnItemEquipped;
-        Managers.Game.Player.ToolSystem.OnUnEquip += OnItemUnEquipped;
-    }
-
-    private void AddDefaultToolAsTest()
+    public void AddDefaultToolAsTest()
     {
         var itemData = Managers.Resource.GetCache<ItemData>("PickAxeItemData.data");
         AddItem(itemData, 1);
@@ -72,6 +56,46 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 1);
     }
 
+    public void SetCapacity(int capacity)
+    {
+        maxCapacity = capacity;
+    }
+
+    public void AddItem(ItemSlot itemslot)
+    {
+        int targetIndex = 0;
+
+        // stack 가능한가?
+        if (itemslot.itemData.stackable == false)
+        {
+            if (FindEmptyIndex(out targetIndex))
+            {
+                slots[targetIndex].Set(itemslot);
+                OnItemAdd?.Invoke(itemslot.itemData);
+                OnUpdated?.Invoke(targetIndex, slots[targetIndex]);
+                return;
+            }
+        }
+
+        var itemSlot = FindItem(itemslot.itemData, out int targetindex);
+        if (itemSlot != null)
+        {
+            itemSlot.AddQuantity(itemslot.quantity);
+            OnItemAdd?.Invoke(itemslot.itemData);
+            OnUpdated?.Invoke(targetindex, itemSlot);
+            return;
+        }
+
+        if (FindEmptyIndex(out targetindex))
+        {
+            slots[targetindex].Set(itemslot);
+            OnItemAdd?.Invoke(itemslot.itemData);
+            OnUpdated?.Invoke(targetindex, slots[targetindex]);
+        }
+
+        // stack 이 가능하면 > 있는지 확인 
+    }
+
     public void AddItem(ItemData itemData, int quantity)
     {
         int targetindex = 0;
@@ -98,7 +122,7 @@ public class InventorySystem : MonoBehaviour
 
         if(FindEmptyIndex(out targetindex))
         {
-            slots[targetindex].Set(itemData);
+            slots[targetindex].Set(itemData, quantity);
             OnItemAdd?.Invoke(itemData);
             OnUpdated?.Invoke(targetindex, slots[targetindex]);
         }
@@ -131,103 +155,6 @@ public class InventorySystem : MonoBehaviour
         }
         index = -1;
         return null;
-    }
-
-    private void OnInventoryShowAndHide(InputAction.CallbackContext context)
-    {
-        if (_inventoryUI == null)
-        {
-            _inventoryUI = Managers.UI.ShowPopupUI<UIInventory>();
-            return;
-        }
-
-        if (_inventoryUI.gameObject.activeSelf)
-        {
-            Managers.UI.ClosePopupUI(_inventoryUI);
-        }
-        else
-        {
-            Managers.UI.ShowPopupUI<UIInventory>();
-        }
-    }
-
-    // Item Control // >> 다른 클래스로 빼낼 수 있을려나
-    public void DestroyItemByIndex(QuickSlot quickSlot)
-    {
-        int index = quickSlot.targetIndex;
-        if (slots[index].equipped || slots[index].registed) return;
-
-        slots[index].Clear();
-        OnUpdated?.Invoke(index, slots[index]);
-    }
-
-    public void OnItemEquipped(QuickSlot slot)
-    {
-        int index = slot.targetIndex;
-        slots[index].SetEquip(slot.itemSlot.equipped);
-        OnUpdated?.Invoke(index, slots[index]);
-    }
-
-    public void OnItemUnEquipped(QuickSlot slot)
-    {
-        int index = slot.targetIndex;
-        if (slots[index].itemData == null) return;
-        slots[index].SetEquip(slot.itemSlot.equipped);
-        OnUpdated?.Invoke(index, slots[index]);
-    }
-
-    // 밑에 2개 하나로 합쳐도 될듯?
-    public void OnItemRegisted(QuickSlot slot)
-    {
-        int index = slot.targetIndex;
-        slots[index].SetRegist(slot.itemSlot.registed);
-        OnUpdated?.Invoke(index, slots[index]);
-    }
-
-    public void OnItemUnregisted(QuickSlot slot)
-    {
-        int index = slot.targetIndex;
-        //Debug.Log("인덱스 : " + index);
-        slots[index].SetRegist(slot.itemSlot.registed);
-
-        OnUpdated?.Invoke(index, slots[index]);
-    }
-
-    public void UseConsumeItemByIndex(int index)
-    {
-        // 인벤토리 인덱스
-        int inventoryIndex = index;
-
-        // 허기 채워줌
-        ItemSlot targetSlot = slots[inventoryIndex];
-        var consume = targetSlot.itemData as ConsumeItemData;
-        var conditionHandler = Owner.ConditionHandler;
-
-        foreach (var playerCondition in consume.conditionModifier)
-        {
-            switch (playerCondition.Condition)
-            {
-                case Conditions.HP:
-                    conditionHandler.HP.Add(playerCondition.value);
-                    break;
-
-                case Conditions.Hunger:
-                    conditionHandler.Hunger.Add(playerCondition.value);
-                    break;
-            }
-        }
-        
-        slots[inventoryIndex].SubtractQuantity();
-        OnUpdated?.Invoke(inventoryIndex, targetSlot);
-    }
-
-
-    public void UseToolItemByIndex(int index, float amount)
-    {
-        float currentDurability = slots[index].currentDurability;
-        slots[index].SetDurability(currentDurability - amount);
-        ItemSlot targetSlot = slots[index];
-        OnUpdated?.Invoke(index, targetSlot);
     }
 
     // 특정 아이템의 개수 반환
@@ -269,5 +196,24 @@ public class InventorySystem : MonoBehaviour
             }
         }
         return true;
+    }
+    
+    public void TransitionItem(InventorySystem targetInventory, int index)
+    {
+        if (slots[index].equipped || slots[index].registed)
+        {
+            var ui = Managers.UI.ShowPopupUI<UIWarning>();
+            ui.SetWarning("Unregist or UnEquip item");
+            return;// 경고문
+        }
+        targetInventory.AddItem(slots[index]);
+        slots[index].Clear();
+        OnUpdated?.Invoke(index, slots[index]);
+    }
+
+
+    protected void BroadCastUpdatedSlot(int index, ItemSlot itemslot)
+    {
+        OnUpdated?.Invoke(index, itemslot);
     }
 }
