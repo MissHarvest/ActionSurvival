@@ -611,7 +611,6 @@ MonoBehaviour:
     baseAttackParameterName: BaseAttack
     interactParameterName: Interact
   <Data>k__BackingField: {fileID: 11400000, guid: 708617a31d531ad489f80b860079136a, type: 2}
-  <Weapon>k__BackingField: {fileID: 0}
 --- !u!114 &787385280888539790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3146,6 +3145,8 @@ GameObject:
   - component: {fileID: 806639977076256140}
   - component: {fileID: 5718102191932996010}
   - component: {fileID: 4649982659158114381}
+  - component: {fileID: 4543093439048481785}
+  - component: {fileID: 8398114442306152323}
   m_Layer: 9
   m_Name: System
   m_TagString: Untagged
@@ -3279,6 +3280,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd9bff334eaf7a47af6a9a540cc8969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4543093439048481785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7330765973162392891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d81b1db92cd37464e8705798c09f9db7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tempPrefab: {fileID: 182127046930023793, guid: 33f02be2a0b0c0647ba9e47eed9bab7b, type: 3}
+  _previewMat: {fileID: 2100000, guid: 3ccf5f2feeac4154b9a14ef7ae1f6693, type: 2}
+  _nonBuildableMat: {fileID: 2100000, guid: 4cea252e4cd4c1241bbe5bf6a09e2e64, type: 2}
+  _buildableLayer:
+    serializedVersion: 2
+    m_Bits: 6144
+  _destroyLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  _raycastRange: 20
+  _yGridSize: 0.1
+  _rotationAngle: 45
+  _obj: {fileID: 0}
+--- !u!114 &8398114442306152323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7330765973162392891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: e75f888963f490645a8b67ba9aed0041, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &7392496694934527924
 GameObject:
   m_ObjectHideFlags: 0
