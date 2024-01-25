@@ -73,6 +73,10 @@ public class PlayerGroundedState : PlayerBaseState
         {
             _stateMachine.ChangeState(_stateMachine.TwinToolRunState);
         }
+        //else if (toolItemDate.displayName == "망치")
+        //{
+        //    _stateMachine.ChangeState(_stateMachine.DestroyState);
+        //}
         else
         {
             _stateMachine.ChangeState(_stateMachine.RunState);
@@ -103,6 +107,10 @@ public class PlayerGroundedState : PlayerBaseState
         {
             _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
             Debug.Log("한 쌍 도구 애니메이션 시작");
+        }
+        else if (equippedToolItemDate.displayName == "망치")
+        {
+            _stateMachine.ChangeState(_stateMachine.DestroyState);
         }
         else
         {

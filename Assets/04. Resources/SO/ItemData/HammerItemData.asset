@@ -19,11 +19,11 @@ MonoBehaviour:
   maxDurability: 10
   targetLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2048
   range: 0.7
   attackPower: 0
   damage: 0
-  targetTagName: Untagged
+  targetTagName: Architecture
   isWeapon: 0
   isTwoHandedTool: 0
   isTwinTool: 0
