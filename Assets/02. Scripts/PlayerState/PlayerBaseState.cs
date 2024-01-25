@@ -147,6 +147,10 @@ public class PlayerBaseState : IState
             _stateMachine.IsAttacking = true;
             _stateMachine.ChangeState(_stateMachine.ComboAttackState);
         }
+        else if (tool.displayName == "망치")
+        {
+            _stateMachine.ChangeState(_stateMachine.DestroyState);
+        }
         else
         {
             _stateMachine.ChangeState(_stateMachine.InteractState);
