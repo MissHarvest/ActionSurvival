@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.Port;
 
 public class InventorySystem : MonoBehaviour
 {
@@ -191,6 +190,7 @@ public class InventorySystem : MonoBehaviour
         }
         Debug.Log($"아이템 ({itemData.name})이 인벤토리에 없어요.");
     }
+
     public bool IsFull()
     {
         foreach (var slot in slots)

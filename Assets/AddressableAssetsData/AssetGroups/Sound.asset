@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sound
+  m_EditorClassIdentifier: 
+  m_GroupName: Sound
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c6aff80ba2674374f8673c7f14ce1b8d
+  m_SerializeEntries:
+  - m_GUID: 585d6ca6ae45d1949b2c5191281f4c15
+    m_Address: TitleBGM.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b9c195a73b97384c86596b08585da88
+    m_Address: Mine.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df7087e4d8a8bb546bc08ce68632903f
+    m_Address: FootStep.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ffb159a21c8a04135a5616979c828fab
+    m_Address: Looting1.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf6c0e7fbef9449c98a0cdb5ea0c4d9f
+    m_Address: Looting2.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79180f511d89441b9aa23ccae1992fe0
+    m_Address: Looting3.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 29bde6326b4c34ad8a12da475f79b50a
+    m_Address: Looting4.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d46323e22e74e46baa241cbf48c85671
+    m_Address: Swing.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 69c9a9fffd602ee43a60df4ea572155c
+    m_Address: Fell.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d97fd5d1ab1a414f85bf0d270312403
+    m_Address: BonFire.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6647d95cb13f24a49aa1581f390547f5
+    m_Address: AudioMixer.mixer
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4d73640383f87594a95912d9791fa96e, type: 2}
+    - {fileID: 11400000, guid: b87c3c2b0a59258449c48ca9f483f9bb, type: 2}
