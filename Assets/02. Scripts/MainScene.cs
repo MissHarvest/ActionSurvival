@@ -35,6 +35,10 @@ public class MainScene : MonoBehaviour
                 {
                     // 맵 생성 완료 시 콜백
                     // 3. 객체 생성, 초기화
+
+                    // Player 정보 로드
+                    // SaveData.CheckPlayerData
+
                     loadingUI.ReceiveCallbacks($"Game Initialize ...");
                     SpawnPlayer();
                     UIInitialize();

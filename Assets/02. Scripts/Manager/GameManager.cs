@@ -8,6 +8,8 @@ public class GameManager
     public TemperatureManager Temperature { get; private set; } = new TemperatureManager();
     public DayCycle DayCycle { get; private set; } = new DayCycle();
 
+    public event Action OnSaveCallback;
+
     public World World { get; private set; }
     private ResourceObjectSpawner _resourceObjectSpawner = new();
 
@@ -26,6 +28,8 @@ public class GameManager
         DayCycle.Init();
         DayCycle.OnEveningCame += SpawnMonster;
         DayCycle.OnNightCame += StartMonsterWave;
+
+        DayCycle.OnMorningCame += SaveCallback;
 
         Temperature.Init(this);
 
@@ -91,5 +95,10 @@ public class GameManager
         IceIsland.CreateMonsters();
         CenterIsland.CreateMonsters();
         FireIsland.CreateMonsters();
+    }
+
+    private void SaveCallback()
+    {
+        OnSaveCallback?.Invoke();
     }
 }
