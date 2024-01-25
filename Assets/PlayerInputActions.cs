@@ -91,15 +91,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""CreatBluePrintArchitecture"",
-                    ""type"": ""Button"",
-                    ""id"": ""71088a00-4310-4cdd-91c6-a13b030f6f22"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""RotateArchitectureLeft"",
                     ""type"": ""Button"",
                     ""id"": ""ccfdd6c8-a752-45e1-aa3e-d6c42b9960be"",
@@ -112,42 +103,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""RotateArchitectureRight"",
                     ""type"": ""Button"",
                     ""id"": ""0f7c5e3d-1ef6-4fe8-8285-5be67cba171e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""CancelBuildMode"",
-                    ""type"": ""Button"",
-                    ""id"": ""26461ee9-8a92-42ea-b70e-66be29d1e9f2"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""InstallArchitecture"",
-                    ""type"": ""Button"",
-                    ""id"": ""bdd861a3-58b8-4d07-a03c-97a18d1c11f7"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""BreakMode"",
-                    ""type"": ""Button"",
-                    ""id"": ""978785c0-e3d3-40c7-ace9-77674d2ebf8a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""BreakArchitecture"",
-                    ""type"": ""Button"",
-                    ""id"": ""e91a8925-8885-47fb-954b-22cbba7342bd"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -397,17 +352,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6963acec-15d7-4e6b-8b98-f8f87a58b85b"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CreatBluePrintArchitecture"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""21977c6c-bcd8-4164-88ab-b3315c6cfeb2"",
                     ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
@@ -425,50 +369,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RotateArchitectureRight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f8c89182-5523-4637-95e5-43911b15d51d"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CancelBuildMode"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""36f66a0c-e5f6-4b5e-a743-9de5eb413fed"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""InstallArchitecture"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""bb02c678-40b1-4ce0-9878-25fc627e1882"",
-                    ""path"": ""<Keyboard>/b"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""BreakMode"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""da24dacc-3e3b-4af0-93d0-d08e31cec708"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""BreakArchitecture"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -545,13 +445,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_QuickSlot = m_Player.FindAction("QuickSlot", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_Recipe = m_Player.FindAction("Recipe", throwIfNotFound: true);
-        m_Player_CreatBluePrintArchitecture = m_Player.FindAction("CreatBluePrintArchitecture", throwIfNotFound: true);
         m_Player_RotateArchitectureLeft = m_Player.FindAction("RotateArchitectureLeft", throwIfNotFound: true);
         m_Player_RotateArchitectureRight = m_Player.FindAction("RotateArchitectureRight", throwIfNotFound: true);
-        m_Player_CancelBuildMode = m_Player.FindAction("CancelBuildMode", throwIfNotFound: true);
-        m_Player_InstallArchitecture = m_Player.FindAction("InstallArchitecture", throwIfNotFound: true);
-        m_Player_BreakMode = m_Player.FindAction("BreakMode", throwIfNotFound: true);
-        m_Player_BreakArchitecture = m_Player.FindAction("BreakArchitecture", throwIfNotFound: true);
         m_Player_Esc = m_Player.FindAction("Esc", throwIfNotFound: true);
     }
 
@@ -621,13 +516,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_QuickSlot;
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_Recipe;
-    private readonly InputAction m_Player_CreatBluePrintArchitecture;
     private readonly InputAction m_Player_RotateArchitectureLeft;
     private readonly InputAction m_Player_RotateArchitectureRight;
-    private readonly InputAction m_Player_CancelBuildMode;
-    private readonly InputAction m_Player_InstallArchitecture;
-    private readonly InputAction m_Player_BreakMode;
-    private readonly InputAction m_Player_BreakArchitecture;
     private readonly InputAction m_Player_Esc;
     public struct PlayerActions
     {
@@ -640,13 +530,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @QuickSlot => m_Wrapper.m_Player_QuickSlot;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputAction @Recipe => m_Wrapper.m_Player_Recipe;
-        public InputAction @CreatBluePrintArchitecture => m_Wrapper.m_Player_CreatBluePrintArchitecture;
         public InputAction @RotateArchitectureLeft => m_Wrapper.m_Player_RotateArchitectureLeft;
         public InputAction @RotateArchitectureRight => m_Wrapper.m_Player_RotateArchitectureRight;
-        public InputAction @CancelBuildMode => m_Wrapper.m_Player_CancelBuildMode;
-        public InputAction @InstallArchitecture => m_Wrapper.m_Player_InstallArchitecture;
-        public InputAction @BreakMode => m_Wrapper.m_Player_BreakMode;
-        public InputAction @BreakArchitecture => m_Wrapper.m_Player_BreakArchitecture;
         public InputAction @Esc => m_Wrapper.m_Player_Esc;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -678,27 +563,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Recipe.started += instance.OnRecipe;
             @Recipe.performed += instance.OnRecipe;
             @Recipe.canceled += instance.OnRecipe;
-            @CreatBluePrintArchitecture.started += instance.OnCreatBluePrintArchitecture;
-            @CreatBluePrintArchitecture.performed += instance.OnCreatBluePrintArchitecture;
-            @CreatBluePrintArchitecture.canceled += instance.OnCreatBluePrintArchitecture;
             @RotateArchitectureLeft.started += instance.OnRotateArchitectureLeft;
             @RotateArchitectureLeft.performed += instance.OnRotateArchitectureLeft;
             @RotateArchitectureLeft.canceled += instance.OnRotateArchitectureLeft;
             @RotateArchitectureRight.started += instance.OnRotateArchitectureRight;
             @RotateArchitectureRight.performed += instance.OnRotateArchitectureRight;
             @RotateArchitectureRight.canceled += instance.OnRotateArchitectureRight;
-            @CancelBuildMode.started += instance.OnCancelBuildMode;
-            @CancelBuildMode.performed += instance.OnCancelBuildMode;
-            @CancelBuildMode.canceled += instance.OnCancelBuildMode;
-            @InstallArchitecture.started += instance.OnInstallArchitecture;
-            @InstallArchitecture.performed += instance.OnInstallArchitecture;
-            @InstallArchitecture.canceled += instance.OnInstallArchitecture;
-            @BreakMode.started += instance.OnBreakMode;
-            @BreakMode.performed += instance.OnBreakMode;
-            @BreakMode.canceled += instance.OnBreakMode;
-            @BreakArchitecture.started += instance.OnBreakArchitecture;
-            @BreakArchitecture.performed += instance.OnBreakArchitecture;
-            @BreakArchitecture.canceled += instance.OnBreakArchitecture;
             @Esc.started += instance.OnEsc;
             @Esc.performed += instance.OnEsc;
             @Esc.canceled += instance.OnEsc;
@@ -727,27 +597,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Recipe.started -= instance.OnRecipe;
             @Recipe.performed -= instance.OnRecipe;
             @Recipe.canceled -= instance.OnRecipe;
-            @CreatBluePrintArchitecture.started -= instance.OnCreatBluePrintArchitecture;
-            @CreatBluePrintArchitecture.performed -= instance.OnCreatBluePrintArchitecture;
-            @CreatBluePrintArchitecture.canceled -= instance.OnCreatBluePrintArchitecture;
             @RotateArchitectureLeft.started -= instance.OnRotateArchitectureLeft;
             @RotateArchitectureLeft.performed -= instance.OnRotateArchitectureLeft;
             @RotateArchitectureLeft.canceled -= instance.OnRotateArchitectureLeft;
             @RotateArchitectureRight.started -= instance.OnRotateArchitectureRight;
             @RotateArchitectureRight.performed -= instance.OnRotateArchitectureRight;
             @RotateArchitectureRight.canceled -= instance.OnRotateArchitectureRight;
-            @CancelBuildMode.started -= instance.OnCancelBuildMode;
-            @CancelBuildMode.performed -= instance.OnCancelBuildMode;
-            @CancelBuildMode.canceled -= instance.OnCancelBuildMode;
-            @InstallArchitecture.started -= instance.OnInstallArchitecture;
-            @InstallArchitecture.performed -= instance.OnInstallArchitecture;
-            @InstallArchitecture.canceled -= instance.OnInstallArchitecture;
-            @BreakMode.started -= instance.OnBreakMode;
-            @BreakMode.performed -= instance.OnBreakMode;
-            @BreakMode.canceled -= instance.OnBreakMode;
-            @BreakArchitecture.started -= instance.OnBreakArchitecture;
-            @BreakArchitecture.performed -= instance.OnBreakArchitecture;
-            @BreakArchitecture.canceled -= instance.OnBreakArchitecture;
             @Esc.started -= instance.OnEsc;
             @Esc.performed -= instance.OnEsc;
             @Esc.canceled -= instance.OnEsc;
@@ -813,13 +668,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnQuickSlot(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnRecipe(InputAction.CallbackContext context);
-        void OnCreatBluePrintArchitecture(InputAction.CallbackContext context);
         void OnRotateArchitectureLeft(InputAction.CallbackContext context);
         void OnRotateArchitectureRight(InputAction.CallbackContext context);
-        void OnCancelBuildMode(InputAction.CallbackContext context);
-        void OnInstallArchitecture(InputAction.CallbackContext context);
-        void OnBreakMode(InputAction.CallbackContext context);
-        void OnBreakArchitecture(InputAction.CallbackContext context);
         void OnEsc(InputAction.CallbackContext context);
     }
 }
