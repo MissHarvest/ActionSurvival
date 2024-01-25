@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: d3e39c0659d555c4597c9fcee36ad463
   m_SerializeEntries:
   - m_GUID: ec171a0f67c8d3e4fbb107fc76c6f75c
-    m_Address: Handable_Axe.prefab
+    m_Address: Handable_EnchantedAxe.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -30,19 +30,19 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0d604ddd08f441744a9b01f1b24b7cef
-    m_Address: Handable_PickAxe.prefab
+    m_Address: Handable_EnchantedPickAxe.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 73a186779f722dd48acabf21f4101538
-    m_Address: Handable_Sword.prefab
+    m_Address: Handable_WoodSword.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b9aec8589fa63143bec3870902fdf24
-    m_Address: Handable_Greatsword.prefab
+    m_Address: Handable_EnchantedGreatsword.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -54,7 +54,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8434f9dcd8f4762489ca8c69624b4f40
-    m_Address: Handable_TwinDagger.prefab
+    m_Address: Handable_EnchantedTwinDagger.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -66,7 +66,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf276339c7f32e3489d0d52338e8e0be
-    m_Address: Handable_L_TwinDagger.prefab
+    m_Address: Handable_L_EnchantedTwinDagger.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -95,10 +95,50 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ee812b2b16f80d54c99213d61314648c
-    m_Address: Handable_EnchantedAxe.prefab
+  - m_GUID: 77580328970cdb2448381f1de7668955
+    m_Address: Handable_Axe.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9d92352cfd8845340a846a54032e2913
     m_Address: Handable_Hammer.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 721414967679be749a2faa411c21fe83
+    m_Address: Handable_Sword.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d4fcf72f1d8c75746875eccd87931d74
+    m_Address: Handable_EnchantedSword.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75e41b35c30f3eb46a33866b0204545b
+    m_Address: Handable_Greatsword.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78274d526f662da40bed763f7a344606
+    m_Address: Handable_PickAxe.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41fe860894299fb4982079294acee88b
+    m_Address: Handable_TwinDagger.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cfcd83d275ae9d64aba779f3d9882071
+    m_Address: Handable_L_TwinDagger.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

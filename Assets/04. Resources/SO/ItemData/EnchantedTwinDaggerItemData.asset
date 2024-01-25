@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 576468ed397be524d8e47099d9aeafbb, type: 3}
+  m_Name: EnchantedTwinDaggerItemData
+  m_EditorClassIdentifier: 
+  displayName: "\uAC15\uD654\uB41C \uB2E8\uAC80"
+  description: "\uB354 \uB0A0\uCE74\uB85C\uC6CC\uC9C4 \uB2E8\uAC80\uC774\uB2E4."
+  iconSprite: {fileID: 21300000, guid: 8b8637fcdb508ff47a8a2ff19b8a352d, type: 3}
+  part: 2
+  maxDurability: 10
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  range: 1
+  attackPower: 1
+  damage: 4
+  targetTagName: Monster
+  isWeapon: 1
+  isTwoHandedTool: 0
+  isTwinTool: 1
+  isArchitecture: 0

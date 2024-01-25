@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: "\uAC80"
   description: "\uC870\uC7A1\uD558\uAC8C \uB9CC\uB4E4\uC5B4\uC9C4 \uAC80\uC774\uB2E4. "
-  iconSprite: {fileID: 21300000, guid: 8f28955d92038974a9b04aafaeea79b0, type: 3}
+  iconSprite: {fileID: 21300000, guid: 9ae06fab692af934e8989d06df512880, type: 3}
   part: 2
   maxDurability: 10
   targetLayers:
     serializedVersion: 2
     m_Bits: 128
   range: 1
-  attackPower: 2
-  damage: 1
+  attackPower: 1
+  damage: 2
   targetTagName: Monster
   isWeapon: 1
   isTwoHandedTool: 0

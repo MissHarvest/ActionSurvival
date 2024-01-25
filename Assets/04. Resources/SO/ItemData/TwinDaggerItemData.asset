@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: "\uB2E8\uAC80"
   description: "\uAC00\uBCCD\uACE0 \uB0A0\uCE74\uB86D\uB2E4."
-  iconSprite: {fileID: 21300000, guid: 8b8637fcdb508ff47a8a2ff19b8a352d, type: 3}
+  iconSprite: {fileID: 21300000, guid: fa53b6b132d93ff4e9963eefcbbecafe, type: 3}
   part: 2
+  maxDurability: 10
   targetLayers:
     serializedVersion: 2
     m_Bits: 128
@@ -26,3 +27,4 @@ MonoBehaviour:
   isWeapon: 1
   isTwoHandedTool: 0
   isTwinTool: 1
+  isArchitecture: 0
