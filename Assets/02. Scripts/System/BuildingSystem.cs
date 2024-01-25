@@ -34,6 +34,7 @@ public class BuildingSystem : MonoBehaviour
 
     public Player Owner { get; private set; }
 
+    // 얘네 없애도 돌아가게
     public event Action OnCreateBluePrintAction;
     public event Action OnInstallArchitectureAction;
     public event Action OnRotateArchitectureLeftAction;
@@ -114,16 +115,23 @@ public class BuildingSystem : MonoBehaviour
     {
         Vector3 currentPosition = RaycastHit().point;
 
-        // 이동 속도
-        float movementSpeed = 0.3f;
+        float movementSpeed = 0.4f;
 
-        // 울타리 이동 및 위치 조정
-        _obj.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
+        Vector3 newPosition = _obj.transform.position + new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
 
+        float distance = Vector3.Distance(_obj.transform.position, newPosition);
 
-        Vector3 newPosition = _obj.transform.position;
-        newPosition.Set(Mathf.Round(newPosition.x), Mathf.Round(newPosition.y / _yGridSize) * _yGridSize, Mathf.Round(newPosition.z));
-        _obj.transform.position = newPosition;
+        float smoothingFactor = 10f;
+        float smoothing = Mathf.Clamp01(smoothingFactor / distance);
+
+        // 새로운 위치로 보간
+        _obj.transform.position = Vector3.Lerp(_obj.transform.position, newPosition, smoothing);
+
+        _obj.transform.position = new Vector3(
+            Mathf.Round(_obj.transform.position.x),
+            Mathf.Round(_obj.transform.position.y / _yGridSize) * _yGridSize,
+            Mathf.Round(_obj.transform.position.z)
+        );
     }
 
     private void CreateBluePrintObject(Vector2 pos)
