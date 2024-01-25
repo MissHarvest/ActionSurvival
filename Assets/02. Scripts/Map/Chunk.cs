@@ -50,6 +50,7 @@ public class Chunk
         _data = _world.VoxelData;
 
         _chunkObject = new($"{nameof(Chunk)} {coord.x:D2}, {coord.z:D2}");
+        _chunkObject.layer = LayerMask.NameToLayer("Ground");
         _meshRenderer = _chunkObject.AddComponent<MeshRenderer>();
         _meshFilter = _chunkObject.AddComponent<MeshFilter>();
 
