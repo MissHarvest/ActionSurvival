@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 2024-01-24 WJY
 public class ResourceObjectParent : MonoBehaviour
 {
     private ResourceObjectGathering[] _gatherings;
@@ -27,7 +28,8 @@ public class ResourceObjectParent : MonoBehaviour
 
     public void SwitchObject(int ID)
     {
-        // 자기 자신의 ID와 같다면 모든 Object가 꺼지게 해놨습니다. (버섯의 경우 때문. 임시)
+        // 버섯의 경우 채집 후에는 다른 상태로 전환되는게 아니라 사라져야합니다.
+        // 따라서, 현재 오브젝트의 ID와 같다면 모든 Object가 꺼지게 해놨습니다.
         var toObject = transform.GetChild(ID).gameObject;
         toObject.SetActive(true);
         _currentObject.SetActive(false);

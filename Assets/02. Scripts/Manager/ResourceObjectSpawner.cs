@@ -28,7 +28,5 @@ public class ResourceObjectSpawner
 
         foreach (var data in _spawnData.SpawnList)
             _world.SpawnObjectInWorld(data.Prefab, data.spawnPosition);
-
-        
     }
 }
