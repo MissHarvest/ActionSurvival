@@ -35,6 +35,7 @@ public class PlayerInteractState : PlayerBaseState
             _stateMachine.Player.Animator.SetBool(targetTag, true);
             return;
         }
+        _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 
     public override void Exit()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,19 @@ public class TitleScene : MonoBehaviour
     public Button LoadNewScene;
 
     private void Awake()
-    {
+    {        
         LoadNewScene.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene("Test Scene");
+            SceneManager.LoadScene("Main Scene");
+        });
+    }
+
+    private void Start()
+    {
+        Managers.Resource.LoadAsync<UnityEngine.Object>("TitleBGM.wav",(x) => 
+        {
+            Managers.Sound.Init();
+            Managers.Sound.PlayBGM("TitleBGM");
         });
     }
 }

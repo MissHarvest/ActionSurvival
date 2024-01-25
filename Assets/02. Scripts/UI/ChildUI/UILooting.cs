@@ -13,7 +13,7 @@ public class UILooting : UIBase
 
     private Stack<UILootingItemSlot> _usableSlots = new Stack<UILootingItemSlot>();
     private Stack<UILootingItemSlot> _usedSlots = new Stack<UILootingItemSlot>();
-    private Stack<ItemData> _lootingItems = new Stack<ItemData>();
+    private Queue<ItemData> _lootingItems = new Queue<ItemData>();
 
     public override void Initialize()
     {
@@ -40,12 +40,13 @@ public class UILooting : UIBase
             yield return null;
             if(_lootingItems.Count > 0)
             {
-                var itemdata = _lootingItems.Pop();
+                var itemdata = _lootingItems.Dequeue();
                 var slot = GetSlot();
                 StartCoroutine(DeleteSlot(slot));
                 slot.Set(new ItemSlot(itemdata, 1));
                 slot.gameObject.transform.SetParent(Get<GameObject>((int)GameObjects.Contents).transform, true);
                 slot.gameObject.SetActive(true);
+                Managers.Sound.PlayEffectSound(Managers.Game.Player.transform.position, "Looting3");
                 _usedSlots.Push(slot);
                 yield return new WaitForSeconds(0.1f);
             }
@@ -74,7 +75,7 @@ public class UILooting : UIBase
 
     private void OnItemAdd(ItemData itemdata)
     {
-        _lootingItems.Push(itemdata);
+        _lootingItems.Enqueue(itemdata);
     }
 
     IEnumerator DeleteSlot(UILootingItemSlot slot)

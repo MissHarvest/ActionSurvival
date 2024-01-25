@@ -32,22 +32,20 @@ public class QuickSlotSystem : MonoBehaviour
 
     public void Regist(int index, QuickSlot slot)
     {
-        UnRegist(slots[index]);
+        UnRegist(slots[index], true);
 
         slot.itemSlot.SetRegist(true);
         slots[index].Set(slot.targetIndex, slot.itemSlot);
-        Debug.Log($"Quick | R[{slots[index].itemSlot.registed}] E[{slots[index].itemSlot.equipped}]");
         OnUpdated?.Invoke(index, slot.itemSlot);
         OnRegisted?.Invoke(slot);
 
         if (index == IndexInUse)
         {
-            //IndexInUse = index;
             QuickUse();
         }
     }
 
-    public void UnRegist(QuickSlot slot)
+    private void UnRegist(QuickSlot slot, bool indexInUseStay)
     {
         if (slot.itemSlot.itemData == null) return;
 
@@ -55,6 +53,7 @@ public class QuickSlotSystem : MonoBehaviour
         {
             if (slot.targetIndex == slots[i].targetIndex)
             {
+                IndexInUse = indexInUseStay ? IndexInUse : -1;
                 slot.itemSlot.SetRegist(false);
                 OnUnRegisted?.Invoke(slot);
                 slots[i].Clear();
@@ -62,6 +61,11 @@ public class QuickSlotSystem : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void UnRegist(QuickSlot slot)
+    {
+        UnRegist(slot, false);
     }
 
     private void OnQuickUseInput(InputAction.CallbackContext context)
@@ -119,13 +123,18 @@ public class QuickSlotSystem : MonoBehaviour
         {
             if (slots[i].targetIndex == inventoryIndex)
             {
-                slots[i].Set(slots[i].targetIndex, itemSlot);
-                OnUpdated?.Invoke(i, slots[i].itemSlot);
-                if (itemSlot.itemData == null)
+                if(itemSlot.itemData == null)
                 {
+                    slots[i].Clear();
                     IndexInUse = -1;
                     Managers.Game.Player.ToolSystem.ClearHand();
                 }
+                else
+                {
+                    slots[i].Set(slots[i].targetIndex, itemSlot);
+                }
+                
+                OnUpdated?.Invoke(i, slots[i].itemSlot);
                 return;
             }
         }

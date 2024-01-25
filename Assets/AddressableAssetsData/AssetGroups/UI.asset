@@ -136,9 +136,13 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fafeb48581c5d47468cfc9cbba6e9362
+    m_Address: UIPopUp_UISoundSetting.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
   m_SchemaSet:
-    m_Schemas:
-    - {fileID: 11400000, guid: ec3ea50a9d0dbf9468bed093b5079f32, type: 2}
-    - {fileID: 11400000, guid: 160cd3466aa29c947ae9e7c23c73533e, type: 2}
+    m_Schemas: []

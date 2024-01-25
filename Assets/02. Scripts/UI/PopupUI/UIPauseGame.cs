@@ -46,6 +46,11 @@ public class UIPauseGame : UIPopup
 
     private void BindEventOfButtons()
     {
+        Get<Button>((int)Buttons.SoundButton).gameObject.BindEvent((x) =>
+        {
+            Managers.UI.ShowPopupUI<UISoundSetting>();
+        });
+
         Get<Button>((int)Buttons.ExitButton).gameObject.BindEvent((x) =>
         {
 #if UNITY_EDITOR

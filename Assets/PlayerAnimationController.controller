@@ -849,20 +849,20 @@ AnimatorStateMachine:
     - {fileID: 570451963313729233}
     - {fileID: 5373545061704496674}
     - {fileID: 5462130125227871788}
-  - first: {fileID: -8024538078851108307}
-    second:
-    - {fileID: -7903042285299692020}
   - first: {fileID: 3137354202516338650}
     second:
     - {fileID: 5610323722881144909}
     - {fileID: 3336264836392965528}
-  - first: {fileID: -156304739758523850}
-    second:
-    - {fileID: -78209632468210562}
   - first: {fileID: -9303126409443890}
     second:
     - {fileID: 5416819117267067944}
     - {fileID: -200199024100722204}
+  - first: {fileID: -156304739758523850}
+    second:
+    - {fileID: -78209632468210562}
+  - first: {fileID: -8024538078851108307}
+    second:
+    - {fileID: -7903042285299692020}
   - first: {fileID: -9042788560780870431}
     second:
     - {fileID: 3073721666966401492}
@@ -1072,7 +1072,7 @@ AnimatorStateMachine:
     m_Position: {x: 200, y: 400, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8080220391216402640}
-    m_Position: {x: 480, y: 360, z: 0}
+    m_Position: {x: 480, y: 370, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -1860,23 +1860,6 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
---- !u!1109 &5373545061704496674
-AnimatorTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: EquipTwinToolRun
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: -9303126409443890}
-  m_DstState: {fileID: 0}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 1
 --- !u!1101 &5338010205648155884
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1902,6 +1885,23 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1109 &5373545061704496674
+AnimatorTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: EquipTwinToolRun
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: -9303126409443890}
+  m_DstState: {fileID: 0}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 1
 --- !u!1109 &5416819117267067944
 AnimatorTransition:
   m_ObjectHideFlags: 1

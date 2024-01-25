@@ -22,10 +22,10 @@ public class DayLight : MonoBehaviour
         RenderSettings.ambientIntensity = 0.0f;
         RenderSettings.reflectionIntensity = 0.0f;
         RenderSettings.fog = true;
-
+        
         Light = GetComponent<Light>();
-        _skyBox = Camera.main.GetComponent<Skybox>();
-        _skyBox.material = skyMaterial;
+        //_skyBox = Camera.main.GetComponent<Skybox>();
+        RenderSettings.skybox = skyMaterial;
     }
 
     // Start is called before the first frame update

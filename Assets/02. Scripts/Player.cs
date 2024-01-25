@@ -76,7 +76,7 @@ public class Player : MonoBehaviour, IHit
         ConditionHandler.HP.Subtract(damage);
         Debug.Log($"[ Attacked by ] {attacker}");
     }
-
+       
     private void OnDrawGizmos()
     {
         //Gizmos.color = Color.red;

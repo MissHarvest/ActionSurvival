@@ -62,6 +62,8 @@ public class Island
 
         // 일단은 하급 생성
         var monster = _monsterGroups[(int)MonsterLevel.Lower].GetRandomMonster();
+        if (monster == null) return null;
+
         var pos = _spawnablePoints[index].point;
         pos.y = 0.5f;
         var monsterObj = Object.Instantiate(monster, pos, Quaternion.identity);
@@ -335,7 +337,7 @@ public class Island
         // 거리 계산, 리스트 담기
         // sort
         dist = dist.OrderBy(x => x.Item2).ToList();
-
+        
         int adaptedLevel = 2;
         int cnt = rankCount[adaptedLevel];
         for(int i = 0; i < dist.Count; ++i)

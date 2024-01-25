@@ -48,6 +48,6 @@ public class MonsterGroup
     public GameObject GetRandomMonster()
     {
         var index = Random.Range(0, _monsterType.Count);
-        return _monsterType[index];
+        return index == _monsterType.Count ? null : _monsterType[index];
     }
 }
