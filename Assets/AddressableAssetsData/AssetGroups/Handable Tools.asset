@@ -97,6 +97,8 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ee812b2b16f80d54c99213d61314648c
     m_Address: Handable_EnchantedAxe.prefab
+  - m_GUID: 9d92352cfd8845340a846a54032e2913
+    m_Address: Handable_Hammer.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

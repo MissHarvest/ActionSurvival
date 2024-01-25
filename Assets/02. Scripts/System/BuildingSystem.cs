@@ -86,7 +86,7 @@ public class BuildingSystem : MonoBehaviour
 
         // 플레이어의 위치와 방향 받아서 ray 쏘기
         Vector3 playerPosition = transform.position;
-        Vector3 raycastStartPoint = playerPosition + transform.forward * 3.0f + transform.right * 3.0f;
+        Vector3 raycastStartPoint = playerPosition + transform.forward * 1.0f;
 
         Ray ray = new Ray(raycastStartPoint, Vector3.down);
         validHIt = Physics.Raycast(ray, out hit, _raycastRange, _currentLayer);
@@ -112,14 +112,14 @@ public class BuildingSystem : MonoBehaviour
 
     private void SetObjPositionWithJoystick(Vector2 joystickInput)
     {
-        //Vector3 currentPosition = _obj.transform.position;
         Vector3 currentPosition = RaycastHit().point;
 
         // 이동 속도
         float movementSpeed = 0.3f;
 
-        // 울타리 이동 및 위치 조정(transform + 또는 translate 말고 다른 함수)
-        _obj.transform.Translate(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
+        // 울타리 이동 및 위치 조정
+        _obj.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
+
 
         Vector3 newPosition = _obj.transform.position;
         newPosition.Set(Mathf.Round(newPosition.x), Mathf.Round(newPosition.y / _yGridSize) * _yGridSize, Mathf.Round(newPosition.z));
@@ -359,7 +359,7 @@ public class BuildingSystem : MonoBehaviour
     private void OnDrawGizmos()
     {
         Vector3 playerPosition = transform.position;
-        Vector3 raycastStartPoint = playerPosition + transform.forward * 3.0f + transform.right * 3.0f;
+        Vector3 raycastStartPoint = playerPosition + transform.forward * 1.0f;
 
         Gizmos.color = Color.red;
 
