@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// 2024-01-23 WJY
 public abstract class ResourceObjectBase : MonoBehaviour
 {
     protected ResourceObjectParent _parent;

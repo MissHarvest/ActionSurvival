@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// 2024-01-24 WJY
 public class ResourceObjectGathering : ResourceObjectBase, IInteractable
 {
     [SerializeField] private ItemData _lootingItem;
