@@ -31,7 +31,7 @@ public class PlayerInteractState : PlayerBaseState
             target = targets[0].gameObject;
             targetTag = target.tag;
             Debug.Log($"target Name : {targetTag}");
-            Rotate();
+            RotateOfTarget();
             _stateMachine.Player.Animator.SetBool(targetTag, true);
             return;
         }
@@ -76,7 +76,7 @@ public class PlayerInteractState : PlayerBaseState
 
     }
 
-    private void Rotate()
+    private void RotateOfTarget()
     {
         var look = target.transform.position - _stateMachine.Player.transform.position;
         look.y = 0;

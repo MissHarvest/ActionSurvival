@@ -95,6 +95,14 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee812b2b16f80d54c99213d61314648c
+    m_Address: Handable_EnchantedAxe.prefab
+  - m_GUID: 9d92352cfd8845340a846a54032e2913
+    m_Address: Handable_Hammer.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
   m_SchemaSet:

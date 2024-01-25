@@ -44,7 +44,7 @@ public class InventorySystem : MonoBehaviour
 
         // 고급 레시피 테스트용 재료
         itemData = Managers.Resource.GetCache<ItemData>("LowStoneItemData.data");
-        AddItem(itemData, 1);
+        AddItem(itemData, 99);
         itemData = Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
@@ -53,6 +53,12 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
         AddItem(itemData, 1);
+
+        // lgs
+        itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
+        AddItem(itemData, 99);
+        itemData = Managers.Resource.GetCache<ItemData>("LogItemData.data");
+        AddItem(itemData, 99);
     }
 
     public void SetCapacity(int capacity)

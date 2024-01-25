@@ -8,6 +8,7 @@ TagManager:
   - Fell
   - Gather
   - Make
+  - Monster
   layers:
   - Default
   - TransparentFX
