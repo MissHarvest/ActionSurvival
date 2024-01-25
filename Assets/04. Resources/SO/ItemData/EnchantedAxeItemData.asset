@@ -23,7 +23,7 @@ MonoBehaviour:
   range: 0.7
   attackPower: 1
   damage: 0
-  targetTagName: Mine
+  targetTagName: Fell
   isWeapon: 0
   isTwoHandedTool: 0
   isTwinTool: 0

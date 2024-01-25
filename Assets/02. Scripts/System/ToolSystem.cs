@@ -6,7 +6,7 @@ public class ToolSystem : MonoBehaviour
 {
     public ItemSlot ItemInUse { get; private set; }
     public Transform handPosition;
-    public Transform leftHandPosition; //lgs 24.01.23
+    public Transform leftHandPosition;
     public GameObject ItemObject { get; private set; }
 
     public QuickSlot[] Equipments = new QuickSlot[(int)ItemParts.Max];
@@ -81,8 +81,6 @@ public class ToolSystem : MonoBehaviour
 
     public void Equip(QuickSlot slot)
     {
-        //_twinToolList[0].SetActive(true);
-
         int part = GetPart(slot);
         if (part == -1) return;
 
@@ -122,7 +120,7 @@ public class ToolSystem : MonoBehaviour
         Debug.Log(toolName);
 
 
-        if (itemSlot.itemData.name.Contains("Twin")) //lgs 24.01.23
+        if (itemSlot.itemData.name.Contains("Twin")) // TwinTool의 왼 손 도구를 활성화한다.
         {
             var twinToolName = GetTwinToolLeftHandName(itemSlot); 
             if (twinToolName.Contains("Handable_L_") == true)
@@ -150,7 +148,7 @@ public class ToolSystem : MonoBehaviour
             _tools[toolName].SetActive(false);
         }
 
-        if (Equipments[part].itemSlot.itemData.name.Contains("Twin")) //lgs 24.01.23
+        if (Equipments[part].itemSlot.itemData.name.Contains("Twin"))
         {
             var twinToolName = GetTwinToolLeftHandName(Equipments[part].itemSlot); 
             if (twinToolName.Contains("Handable_L_") == true)

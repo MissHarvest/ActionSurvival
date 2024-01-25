@@ -7,6 +7,8 @@ public class PlayerComboAttackState : PlayerAttackState
     private bool _alreadyAppliedForce;
     private bool _alreadyApplyCombo;
     private Weapon _weapon;
+    protected GameObject target;
+    protected string targetTag;
 
     private AttackInfoData _attackInfoData;
 
@@ -26,6 +28,21 @@ public class PlayerComboAttackState : PlayerAttackState
         int comboIndex = _stateMachine.ComboIndex;
         _attackInfoData = _stateMachine.Player.Data.AttackData.GetAttackInfo(comboIndex);
         _stateMachine.Player.Animator.SetInteger("Combo", comboIndex);
+
+        ToolItemData tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
+
+        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers);
+        if (targets.Length == 0)
+        {
+            return;
+        }
+        if (targets[0].CompareTag(tool.targetTagName))
+        {
+            target = targets[0].gameObject;
+            targetTag = target.tag;
+            RotateOfTarget();
+            return;
+        }
     }
 
     public override void Exit()
@@ -60,7 +77,18 @@ public class PlayerComboAttackState : PlayerAttackState
 
     protected override void Rotate(Vector3 movementDirection)
     {
+        // Player의 조이스틱 입력으로 인한 방향 전환을 배제한다.
+    }
 
+    private void RotateOfTarget()
+    {
+        var look = target.transform.position - _stateMachine.Player.transform.position;
+        look.y = 0;
+
+        var targetRotation = Quaternion.LookRotation(look);
+
+        _stateMachine.Player.transform.rotation = targetRotation;
+        //_stateMachine.Player.transform.rotation = Quaternion.Slerp(_stateMachine.Player.transform.rotation, Quaternion.LookRotation(look), Time.deltaTime);
     }
 
     public override void Update()
@@ -80,7 +108,7 @@ public class PlayerComboAttackState : PlayerAttackState
 
             if (normalizedTime >= _attackInfoData.ComboTransitionTime)
             {
-                _weapon = Managers.Game.Player.GetComponentInChildren<Weapon>(); // lgs 24.01.22 애니메이션 재생 중에 콜라이더가 켜지고 꺼지게 수정함.
+                _weapon = Managers.Game.Player.GetComponentInChildren<Weapon>();
                 _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;
                 TryComboAttack();
             }
@@ -94,7 +122,7 @@ public class PlayerComboAttackState : PlayerAttackState
             }
             else
             {
-                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false; // lgs 24.01.22
+                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
                 if (toolItemDate.isTwoHandedTool == true)
                 {
                     _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
