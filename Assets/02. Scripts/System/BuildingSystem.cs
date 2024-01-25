@@ -115,10 +115,10 @@ public class BuildingSystem : MonoBehaviour
         Vector3 currentPosition = RaycastHit().point;
 
         // 이동 속도
-        float movementSpeed = 0.3f;
+        float movementSpeed = 1.0f;
 
         // 울타리 이동 및 위치 조정
-        _obj.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
+        _obj.transform.position += new Vector3(joystickInput.x, 0, joystickInput.y) * movementSpeed * Time.deltaTime;
 
 
         Vector3 newPosition = _obj.transform.position;

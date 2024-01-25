@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UIQuickSlotController : UIBase
@@ -20,20 +21,11 @@ public class UIQuickSlotController : UIBase
 
     private void CreateSlots(QuickSlotSystem quickSlotSystem)
     {
-        var slots = GetComponentsInChildren<UIQuickSlot>();
+        _slots = GetComponentsInChildren<UIQuickSlot>().ToList();
 
-        for (int i = 0; i < QuickSlotSystem.capacity; ++i)
+        for (int i = 0; i < _slots.Count; ++i)
         {
-            var slotUIPrefab = Managers.Resource.GetCache<GameObject>("UIQuickSlot.prefab");
-            var slotUI = Instantiate(slotUIPrefab, transform).GetOrAddComponent<UIQuickSlot>();
-            slotUI.gameObject.transform.position = slots[i].transform.position;
-            slotUI.Init(this, i, quickSlotSystem.slots[i].itemSlot);
-            _slots.Add(slotUI);
-        }
-
-        foreach (var slot in slots)
-        {
-            Destroy(slot.gameObject);
+            _slots[i].Init(this, i, quickSlotSystem.slots[i].itemSlot);
         }
     }
 

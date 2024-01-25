@@ -23,19 +23,10 @@ public class UIQuickSlot : UIItemSlot
 
     public void Init(UIQuickSlotController quickSlotControllerUI, int index, ItemSlot itemSlot)
     {
+        Initialize();
         UIQuickSlotController = quickSlotControllerUI;
         BindGroup(null, index);
         Set(itemSlot);
-    }
-
-    private void Awake()
-    {
-        Initialize();
-
-        gameObject.BindEvent((x) =>
-        {
-            Managers.Game.Player.QuickSlot.OnQuickUseInput(Index);
-        });
     }
 
     public override void Set(ItemSlot itemSlot)

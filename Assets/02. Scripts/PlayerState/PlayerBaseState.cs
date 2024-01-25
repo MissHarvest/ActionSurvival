@@ -108,7 +108,7 @@ public class PlayerBaseState : IState
         
         input.PlayerActions.Interact.started += OnInteractStarted;
         input.PlayerActions.Interact.canceled += OnInteractCanceled;
-
+        input.PlayerActions.QuickSlot.started += OnQuickUseStarted;
         input.PlayerActions.Inventory.started += OnInventoryShowAndHide;
 
         input.PlayerActions.Esc.started += PauseGame;
@@ -121,6 +121,7 @@ public class PlayerBaseState : IState
 
         input.PlayerActions.Interact.started -= OnInteractStarted;
         input.PlayerActions.Interact.canceled -= OnInteractCanceled;
+        input.PlayerActions.QuickSlot.started -= OnQuickUseStarted;
         input.PlayerActions.Inventory.started -= OnInventoryShowAndHide;
         input.PlayerActions.Esc.started -= PauseGame;
     }
@@ -155,6 +156,11 @@ public class PlayerBaseState : IState
     protected virtual void OnInteractCanceled(InputAction.CallbackContext context)
     {
         _stateMachine.IsAttacking = false;
+    }
+
+    protected virtual void OnQuickUseStarted(InputAction.CallbackContext context)
+    {
+        _stateMachine.Player.QuickSlot.OnQuickUseInput((int)context.ReadValue<float>() - 1);
     }
 
     protected void ForceMove()

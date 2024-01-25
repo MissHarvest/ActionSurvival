@@ -20,8 +20,6 @@ public class QuickSlotSystem : MonoBehaviour
         {
             slots[i] = new QuickSlot();
         }
-
-        Managers.Game.Player.Input.InputActions.Player.QuickSlot.started += OnQuickUseInput;
     }
 
     private void Start()
@@ -66,11 +64,6 @@ public class QuickSlotSystem : MonoBehaviour
     public void UnRegist(QuickSlot slot)
     {
         UnRegist(slot, false);
-    }
-
-    private void OnQuickUseInput(InputAction.CallbackContext context)
-    {
-        OnQuickUseInput((int)context.ReadValue<float>() - 1);
     }
 
     public void OnQuickUseInput(int index)
