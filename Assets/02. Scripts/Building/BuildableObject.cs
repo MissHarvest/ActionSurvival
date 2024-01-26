@@ -13,10 +13,18 @@ public class BuildableObject : MonoBehaviour
     private int buildingLayer = 11; // Architecture 레이어 번호
 
     private void Awake()
-    {
+    {   
         _originMat = new Material(_renderer.material);
         _colliderManager = GetComponentInChildren<BuildableObjectColliderManager>();
         _navMeshObstacle = GetComponent<NavMeshObstacle>();
+    }
+
+    private void Start()
+    {
+        if (gameObject.name.Contains("(Clone)"))
+        {
+            Managers.Game.Architecture.Add(this);
+        }        
     }
 
     public void SetInitialObject()
@@ -53,5 +61,12 @@ public class BuildableObject : MonoBehaviour
     public void DestroyColliderManager()
     {
         Destroy(_colliderManager);
+    }
+
+    private void OnDestroy()
+    {
+
+        // Destroy 별도로 호출하자. DestoryObject
+        Managers.Game.Architecture.Remove(this);
     }
 }

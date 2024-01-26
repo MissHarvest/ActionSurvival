@@ -82,7 +82,7 @@ GameObject:
   - component: {fileID: 6674881163834139487}
   - component: {fileID: 6972203120136134567}
   m_Layer: 11
-  m_Name: Handable_Fence
+  m_Name: Architecture_Fence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

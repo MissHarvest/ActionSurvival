@@ -293,7 +293,7 @@ public class BuildingSystem : MonoBehaviour
                 var handItemData = Managers.Game.Player.QuickSlot.slots[Managers.Game.Player.QuickSlot.IndexInUse].itemSlot.itemData as ToolItemData;
                 if (handItemData.isArchitecture && handItemData.displayName == "울타리")
                 {
-                    _tempPrefab = Managers.Resource.GetCache<GameObject>("Handable_Fence.prefab");
+                    _tempPrefab = Managers.Resource.GetCache<GameObject>("Architecture_Fence.prefab");
                     HandleCreateBluePrint();
                 }
             }

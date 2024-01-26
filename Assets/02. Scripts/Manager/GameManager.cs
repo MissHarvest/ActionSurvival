@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class GameManager
 {
     public Player Player;
     public TemperatureManager Temperature { get; private set; } = new TemperatureManager();
+    public ArchitectureManager Architecture { get; private set; } = new();
     public DayCycle DayCycle { get; private set; } = new DayCycle();
 
     public event Action OnSaveCallback;
@@ -28,7 +30,9 @@ public class GameManager
         DayCycle.Init();
         DayCycle.OnEveningCame += SpawnMonster;
         DayCycle.OnNightCame += StartMonsterWave;
-
+        
+        Architecture.Init();
+        
         DayCycle.OnMorningCame += SaveCallback;
 
         Temperature.Init(this);

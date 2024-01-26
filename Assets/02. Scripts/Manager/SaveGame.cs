@@ -75,6 +75,7 @@ public class SaveGame
         byte[] data = new byte[fs.Length];
         fs.Read(data, 0, data.Length);
         string json = Encoding.UTF8.GetString(data);
+        fs.Close();
         return JsonUtility.FromJson<T>(json);
     }
 
@@ -111,5 +112,6 @@ public class SaveGame
         fs.Read(data, 0, data.Length);
         string json = Encoding.UTF8.GetString(data);
         JsonUtility.FromJsonOverwrite(json, obj);
+        fs.Close();
     }
 }
