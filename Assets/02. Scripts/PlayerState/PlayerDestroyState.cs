@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerDestroyState : PlayerBaseState
+public class PlayerDestroyState : PlayerGroundedState
 {
     protected GameObject target;
     protected string targetTag;
@@ -16,40 +16,57 @@ public class PlayerDestroyState : PlayerBaseState
     {
         _stateMachine.MovementSpeedModifier = _groundData.RunSpeedModifier;
         base.Enter();
-        StartAnimation(_stateMachine.Player.AnimationData.InteractParameterHash); //interact하자마자 파괴 해쉬
+        Debug.Log("ㅁㄴㅇㄻㄴㄹㅇㅁㄴㄹ");
+        StartAnimation(_stateMachine.Player.AnimationData.IdleParameterHash); //interact하자마자 파괴 해쉬
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
+        if (target != null)
+        {
+            _stateMachine.Player.Animator.SetBool(targetTag, false);
+            target = null;
+        }
+        StopAnimation(_stateMachine.Player.AnimationData.IdleParameterHash);
     }
 
-    //public override void Update()
-    //{
-    //    // exit 조건 설정
-    //    float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
+    public override void Update()
+    {
+        base.Update();
+        if (_stateMachine.MovementInput != Vector2.zero)
+        {
+            OnMove();
+            return;
+        }
 
-    //    if (normalizedTime >= 3f)
-    //    {
-    //        if (target != null)
-    //        {
-    //            target.GetComponent<IInteractable>()?.Interact(_stateMachine.Player);
-    //            if (target.CompareTag("Gather") == false)
-    //            {
-                    
-    //            }
-    //        }
-    //        _stateMachine.ChangeState(_stateMachine.IdleState);
-    //    }
-    //}
+        if (target != null)
+        {
+            target.GetComponent<IInteractable>()?.Interact(_stateMachine.Player);
+            GameObject.Destroy(target);
+        }
+
+        //// exit 조건 설정
+        //float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
+
+        //if (normalizedTime >= 3f)
+        //{
+        //    if (target != null)
+        //    {
+        //        target.GetComponent<IInteractable>()?.Interact(_stateMachine.Player);
+        //        GameObject.Destroy(target);
+        //    }
+        //    //_stateMachine.ChangeState(_stateMachine.IdleState);
+        //}
+    }
 
     protected override void AddInputActionsCallbacks()
     {
         PlayerInput input = _stateMachine.Player.Input;
         base.AddInputActionsCallbacks();
         _stateMachine.Player.ToolSystem.OnUnEquip += OnItemEquiped;
-        input.PlayerActions.Interact.started += OnInteractStarted;
+        //input.PlayerActions.Interact.started += OnInteractStarted;
+        input.PlayerActions.Interact.started += OnDestroyStarted;
     }
 
     protected override void RemoveInputActionsCallbacks()
@@ -57,17 +74,12 @@ public class PlayerDestroyState : PlayerBaseState
         PlayerInput input = _stateMachine.Player.Input;
         base.RemoveInputActionsCallbacks();
         _stateMachine.Player.ToolSystem.OnUnEquip -= OnItemEquiped;
-        input.PlayerActions.Interact.started -= OnInteractStarted;
+        //input.PlayerActions.Interact.started -= OnInteractStarted;
+        input.PlayerActions.Interact.started -= OnDestroyStarted;
     }
 
-    //제작대 경우 고려해서 따로 만들기(제작대를 interact하면 파괴, 제작이 동시에 되는 문제)
-    protected override void OnInteractStarted(InputAction.CallbackContext context) //E키 눌렀을 때
+    public void OnDestroyStarted(InputAction.CallbackContext context)
     {
-        // 파괴 상태 시 상호작용 재 입력 시
-
-        //base.OnInteractStarted(context); //이러면 빌드 모드 중 인벤토리가 열림
-
-        // 망치 들고 상호작용하면 아이템 파괴
         Debug.Log("파괴 모드 on");
 
         ToolItemData hammer = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
@@ -82,9 +94,11 @@ public class PlayerDestroyState : PlayerBaseState
         targetTag = target.tag;
         Debug.Log($"target Name : {targetTag}");
         RotateOfTarget();
-        //_stateMachine.Player.Animator.SetBool(targetTag, true);
+        _stateMachine.Player.Animator.SetBool(targetTag, true);
+
         return;
     }
+
 
     private void OnItemEquiped(QuickSlot quickSlot)
     {

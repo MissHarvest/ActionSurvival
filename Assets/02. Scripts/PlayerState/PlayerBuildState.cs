@@ -35,8 +35,6 @@ public class PlayerBuildState : PlayerBaseState
         _stateMachine.Player.ToolSystem.OnUnEquip += OnItemEquiped;
 
         input.PlayerActions.Interact.started += OnInteractStarted;
-        //input.PlayerActions.Interact.canceled += OnInteractCanceled;
-        //input.PlayerActions.InstallArchitecture.started += OnInstallArchitectureStarted;
         input.PlayerActions.RotateArchitectureLeft.started += OnRotateArchitectureLeftStarted;
         input.PlayerActions.RotateArchitectureRight.started += OnRotateArchitectureRightStarted;
     }
@@ -48,8 +46,6 @@ public class PlayerBuildState : PlayerBaseState
         _stateMachine.Player.ToolSystem.OnUnEquip -= OnItemEquiped;
 
         input.PlayerActions.Interact.started -= OnInteractStarted;
-        //input.PlayerActions.Interact.canceled -= OnInteractCanceled;
-        //input.PlayerActions.InstallArchitecture.started -= OnInstallArchitectureStarted;
         input.PlayerActions.RotateArchitectureLeft.started -= OnRotateArchitectureLeftStarted;
         input.PlayerActions.RotateArchitectureRight.started -= OnRotateArchitectureRightStarted;
     }
@@ -100,11 +96,6 @@ public class PlayerBuildState : PlayerBaseState
         
     }
 
-    //private void OnInstallArchitectureStarted(InputAction.CallbackContext context)
-    //{
-    //    //_stateMachine.Player.Building.OnInstallArchitecture();
-    //}
-
     public void OnRotateArchitectureLeftStarted(InputAction.CallbackContext context)
     {
         _stateMachine.Player.Building.OnRotateArchitectureLeft();
@@ -115,6 +106,10 @@ public class PlayerBuildState : PlayerBaseState
         _stateMachine.Player.Building.OnRotateArchitectureRight();
     }
 
+    public override void HandleInput()
+    {
+        base.HandleInput();
+    }
 
     // _stateMachine.MovementInput 활용!
     // basestate의 ReadMovementInput()

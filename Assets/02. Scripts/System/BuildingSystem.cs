@@ -70,6 +70,7 @@ public class BuildingSystem : MonoBehaviour
             if (_virtualJoystick != null)
             {
                 Vector2 joystickInput = _virtualJoystick.Handle.anchoredPosition;
+                //Vector2 joystickInput = _stateMachine.MovementInput;
                 SetObjPositionWithJoystick(joystickInput);
             }
         }

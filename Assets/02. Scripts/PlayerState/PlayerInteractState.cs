@@ -46,7 +46,7 @@ public class PlayerInteractState : PlayerBaseState
             _stateMachine.Player.Animator.SetBool(targetTag, false);
             target = null;
         }
-        
+
         StopAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
     }
 
