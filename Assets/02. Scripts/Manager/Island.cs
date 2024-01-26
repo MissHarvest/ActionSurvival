@@ -27,7 +27,6 @@ public class SpawnPoint
 public class Island
 {
     // 각 등급 별 몬스터 위치
-
     public int cellCount = 61;
 
     // 스폰할 몬스터 종류
@@ -114,6 +113,7 @@ public class Island
 
                 var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();
                 var go = Object.Instantiate(mon, pos, Quaternion.identity);
+                go.transform.SetParent(hit.transform);
                 go.GetComponent<Monster>().SetIsland(this);
                 go.name = $"{mon.name}[{_spawnablePoints[i].level}]";
             }

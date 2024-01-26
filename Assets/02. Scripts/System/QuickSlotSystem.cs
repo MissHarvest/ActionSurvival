@@ -11,7 +11,7 @@ public class QuickSlotSystem : MonoBehaviour
     public event Action<QuickSlot> OnRegisted;
     public event Action<QuickSlot> OnUnRegisted;
 
-    public int IndexInUse { get; private set; } = -1;
+    [field: SerializeField] public int IndexInUse { get; private set; } = -1;
 
     private void Awake()
     {
@@ -21,7 +21,9 @@ public class QuickSlotSystem : MonoBehaviour
             slots[i] = new QuickSlot();
         }
 
-        Managers.Game.Player.Input.InputActions.Player.QuickSlot.started += OnQuickUseInput;
+        Load();        
+
+        Managers.Game.OnSaveCallback += Save;
     }
 
     private void Start()
@@ -66,11 +68,6 @@ public class QuickSlotSystem : MonoBehaviour
     public void UnRegist(QuickSlot slot)
     {
         UnRegist(slot, false);
-    }
-
-    private void OnQuickUseInput(InputAction.CallbackContext context)
-    {
-        OnQuickUseInput((int)context.ReadValue<float>() - 1);
     }
 
     public void OnQuickUseInput(int index)
@@ -138,5 +135,22 @@ public class QuickSlotSystem : MonoBehaviour
                 return;
             }
         }
+    }
+
+    private void Load()
+    {
+        if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "PlayerQuickSlot"))
+        {
+            if (IndexInUse != -1 && slots[IndexInUse].itemSlot.itemData is ToolItemData)
+            {
+                QuickUse();
+            }
+        }
+    }
+
+    private void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile("PlayerQuickSlot", json, SaveGame.SaveType.Runtime);
     }
 }

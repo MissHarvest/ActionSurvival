@@ -577,6 +577,8 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: df7dcb1c7df50a94b863b2d3d763d652
     m_Address: LuxuriousSetCookingData.data
+  - m_GUID: 4a400f54997a10d4cad59cad838fc084
+    m_Address: FenceRecipeData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

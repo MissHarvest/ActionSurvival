@@ -46,7 +46,7 @@ public class PlayerInteractState : PlayerBaseState
             _stateMachine.Player.Animator.SetBool(targetTag, false);
             target = null;
         }
-        
+
         StopAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
     }
 
@@ -72,6 +72,11 @@ public class PlayerInteractState : PlayerBaseState
     }
 
     protected override void OnInteractStarted(InputAction.CallbackContext context)
+    {
+
+    }
+
+    protected override void OnQuickUseStarted(InputAction.CallbackContext context)
     {
 
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -38,17 +39,23 @@ public class ResourceObjectSpawnDataEditor : Editor
         List<ResourceObjectSpawnData.DataTuple> list = data.SpawnList;
         list.Clear();
         foreach (var e in FindAllResourceObjects())
-            list.Add(new() { _object = data.Dict[e.name], spawnPosition = e.transform.position });
+        {
+            string key = e.name.Split('(')[0];
+            key = key.TrimEnd(' ');
+            list.Add(new() { _object = data.Dict[key], spawnPosition = e.transform.position });
+        }
     }
 
     private void LoadObjects()
     {
         ClearObjects();
         var data = target as ResourceObjectSpawnData;
+        var root = GetRoot();
         foreach (var e in data.SpawnList)
         {
             var obj = Instantiate(e.Prefab, e.spawnPosition, Quaternion.identity);
             obj.name = e.Prefab.name;
+            obj.transform.parent = root;
         }
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
     }
@@ -57,7 +64,16 @@ public class ResourceObjectSpawnDataEditor : Editor
     {
         foreach (var e in FindAllResourceObjects())
             DestroyImmediate(e.gameObject, false);
+        DestroyImmediate(GetRoot().gameObject, false);
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+    }
+
+    private Transform GetRoot()
+    {
+        var root = GameObject.Find("@ResourceObjectSpawnEditorRoot");
+        if (root == null)
+            root = new GameObject("@ResourceObjectSpawnEditorRoot");
+        return root.transform;
     }
 
     public ResourceObjectParent[] FindAllResourceObjects()

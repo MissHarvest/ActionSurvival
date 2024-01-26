@@ -4,15 +4,16 @@ using UnityEngine.InputSystem;
 
 public class InventorySystem : MonoBehaviour
 {
-    public int maxCapacity { get; private set; } = 30;
+    [field: SerializeField] public int maxCapacity { get; private set; } = 30;
 
-    public ItemSlot[] slots { get; private set; }
+    [field: SerializeField] public ItemSlot[] slots { get; private set; }
+    
     public Player Owner { get; private set; }
 
     public event Action<int, ItemSlot> OnUpdated;
     public event Action<ItemData> OnItemAdd;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Debug.Log($"Inventory Awake [{gameObject.name}] [{this.name}]");
         slots = new ItemSlot[maxCapacity];
@@ -23,6 +24,8 @@ public class InventorySystem : MonoBehaviour
         }
 
         Owner = Managers.Game.Player;
+
+        Managers.Game.OnSaveCallback += Save;
     }
 
     public void AddDefaultToolAsTest()
@@ -45,6 +48,8 @@ public class InventorySystem : MonoBehaviour
         // 고급 레시피 테스트용 재료
         itemData = Managers.Resource.GetCache<ItemData>("LowStoneItemData.data");
         AddItem(itemData, 99);
+        itemData = Managers.Resource.GetCache<ItemData>("ChestItemData.data");
+        AddItem(itemData, 99);
         itemData = Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("RabbitMeatItemData.data");
@@ -52,6 +57,8 @@ public class InventorySystem : MonoBehaviour
         itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
         AddItem(itemData, 1);        
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("HammerItemData.data");
         AddItem(itemData, 1);
 
         // lgs
@@ -241,9 +248,19 @@ public class InventorySystem : MonoBehaviour
         OnUpdated?.Invoke(index, slots[index]);
     }
 
-
     protected void BroadCastUpdatedSlot(int index, ItemSlot itemslot)
     {
         OnUpdated?.Invoke(index, itemslot);
+    }
+
+    public virtual void Load()
+    {
+        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"{gameObject.name}Inventory");
+    }
+
+    protected virtual void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile($"{gameObject.name}Inventory", json, SaveGame.SaveType.Runtime);
     }
 }

@@ -6,51 +6,102 @@ using UnityEngine;
 // 2024-01-24 WJY
 public class ResourceObjectParent : MonoBehaviour
 {
-    private ResourceObjectGathering[] _gatherings;
-    private ResourceObjectDebris[] _debris;
+    private Dictionary<int, ResourceObjectGathering> _gatherings = new();
+    private Dictionary<int, ResourceObjectDebris> _debris = new();
+    private Dictionary<int, GameObject> _objects = new();
 
-    private GameObject _currentObject;
+    public int CurrentState { get; private set; }
+    public float RemainingTime { get; private set; }
+
+    private bool _isInitialized = false;
 
     private void Start()
     {
         Initialize();
     }
 
-    private void Initialize()
+    public void Update()
     {
-        _gatherings = GetComponentsInChildren<ResourceObjectGathering>(true);
-        _debris = GetComponentsInChildren<ResourceObjectDebris>(true);
-        _currentObject = transform.GetChild(0).gameObject;
-
-        foreach (var e in _gatherings) e.Initialize();
-        foreach (var e in _debris) e.Initialize();
+        if (_debris.TryGetValue(CurrentState, out var debris))
+        {
+            RemainingTime -= Time.deltaTime;
+            if (RemainingTime <= 0)
+                debris.Respawn();
+        }
     }
 
-    public void SwitchObject(int ID)
+    private void Initialize()
     {
-        // 버섯의 경우 채집 후에는 다른 상태로 전환되는게 아니라 사라져야합니다.
-        // 따라서, 현재 오브젝트의 ID와 같다면 모든 Object가 꺼지게 해놨습니다.
-        var toObject = transform.GetChild(ID).gameObject;
-        toObject.SetActive(true);
-        _currentObject.SetActive(false);
-        _currentObject = toObject;
+        if (_isInitialized) return;
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            var child = transform.GetChild(i);
+            if (child.TryGetComponent<ResourceObjectGathering>(out var gathering))
+            {
+                _gatherings.TryAdd(i, gathering);
+                gathering.Initialize();
+                _objects.TryAdd(i, child.gameObject);
+            }
+            if (child.TryGetComponent<ResourceObjectDebris>(out var debris))
+            {
+                _debris.TryAdd(i, debris);
+                debris.Initialize();
+                _objects.TryAdd(i, child.gameObject);
+            }
+        }
+        CurrentState = 0;
+        RemainingTime = GetCurrentDebrisRespawnTime();
+
+        _isInitialized = true;
+    }
+
+    public void SwitchState(int stateID)
+    {
+        // -1을 전달받을 경우 삭제
+        if (stateID == -1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        foreach (var obj in _objects.Values)
+            obj.SetActive(false);
+
+        CurrentState = stateID;
+        _objects[CurrentState].SetActive(true);
+        RemainingTime = GetCurrentDebrisRespawnTime();
+    }
+
+    public float GetCurrentDebrisRespawnTime()
+    {
+        if (_debris.TryGetValue(CurrentState, out var debris))
+            return debris.RespawnTime;
+        else return 0;
+    }
+
+    public void SetInfo(int stateID, float remainingTime)
+    {
+        Initialize();
+        SwitchState(stateID);
+        RemainingTime = remainingTime;
     }
 
     #region Test Code ...
     public void TestInteract()
     {
-        if (_currentObject == null) return;
+        if (_objects == null) return;
 
-        if (_currentObject.activeSelf)
-            _currentObject.GetComponent<ResourceObjectGathering>()?.Interact(Managers.Game.Player);
+        if (_objects[CurrentState].activeSelf)
+            _objects[CurrentState].GetComponent<ResourceObjectGathering>()?.Interact(Managers.Game.Player);
     }
 
     public void TestRespawn()
     {
-        if (_currentObject == null) return;
+        if (_objects == null) return;
 
-        if (_currentObject.activeSelf)
-            _currentObject.GetComponent<ResourceObjectDebris>()?.Respawn();
+        if (_objects[CurrentState].activeSelf)
+            _objects[CurrentState].GetComponent<ResourceObjectDebris>()?.Respawn();
     }
     #endregion
 }

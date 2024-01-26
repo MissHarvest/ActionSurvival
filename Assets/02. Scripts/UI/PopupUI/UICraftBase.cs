@@ -24,7 +24,7 @@ public abstract class UICraftBase : UIPopup
         Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) => { Managers.UI.ClosePopupUI(this); });
     }
 
-    protected void Awake()
+    public virtual void Awake()
     {
         Initialize();
         _contents = Get<GameObject>((int)Gameobjects.Contents).transform;
@@ -33,7 +33,7 @@ public abstract class UICraftBase : UIPopup
         gameObject.SetActive(false);
     }
 
-    protected void OnEnable()
+    public virtual void OnEnable()
     {
         ShowData(GetDataList());
     }

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,7 +9,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour, IHit
 {
     [field: Header("Animations")]
-    [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
+    public PlayerAnimationData AnimationData { get; private set; } = new PlayerAnimationData();
 
     public Rigidbody Rigidbody { get; private set; }
     public Animator Animator { get; private set; }
@@ -25,7 +27,7 @@ public class Player : MonoBehaviour, IHit
     public PlayerConditionHandler ConditionHandler { get; private set; }
 
     [field: Header("References")]
-    [field: SerializeField] public PlayerSO Data { get; private set; }
+    public PlayerSO Data { get; private set; }
 
     private PlayerStateMachine _stateMachine;
 
@@ -48,16 +50,23 @@ public class Player : MonoBehaviour, IHit
         Cooking = GetComponentInChildren<Cooking>();
         Building = GetComponentInChildren<BuildingSystem>();
 
+        Data = Managers.Resource.GetCache<PlayerSO>("PlayerSO.data");
+
         ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
 
         _stateMachine = new PlayerStateMachine(this);
+
+        // [ Save Test ] //
+        Managers.Game.OnSaveCallback += Save;
+        if(SaveGame.TryLoadJsonFile<Vector3>(SaveGame.SaveType.Runtime, "PlayerPosition", out Vector3 pos))
+        {
+            transform.position = pos;
+        }
     }
 
     private void Start()
     {
         _stateMachine.ChangeState(_stateMachine.IdleState);
-
-        Inventory.AddDefaultToolAsTest();
     }
 
     private void Update()
@@ -77,13 +86,9 @@ public class Player : MonoBehaviour, IHit
         Debug.Log($"[ Attacked by ] {attacker}");
     }
        
-    private void OnDrawGizmos()
+    public void Save()
     {
-        //Gizmos.color = Color.red;
-        
-        //if(EquippedItem != null)
-        //{
-        //    Gizmos.DrawWireSphere(transform.position, ((ToolItemData)EquippedItem.itemData).range);
-        //}        
+        var json = JsonUtility.ToJson(transform.position);
+        SaveGame.CreateJsonFile("PlayerPosition", json, SaveGame.SaveType.Runtime);
     }
 }

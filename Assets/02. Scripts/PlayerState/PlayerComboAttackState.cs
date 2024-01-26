@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerComboAttackState : PlayerAttackState
 {
@@ -70,8 +71,6 @@ public class PlayerComboAttackState : PlayerAttackState
         if (_alreadyAppliedForce) return;
         _alreadyAppliedForce = true;
 
-        //_stateMachine.Player.ForceReceiver.Reset();
-
         _stateMachine.Player.ForceReceiver.AddForce(_stateMachine.Player.transform.forward * _attackInfoData.Force);
     }
 
@@ -139,4 +138,13 @@ public class PlayerComboAttackState : PlayerAttackState
         }
     }
 
+    protected override void OnInteractStarted(InputAction.CallbackContext context)
+    {
+        _stateMachine.ChangeState(_stateMachine.ComboAttackState);
+    }
+
+    protected override void OnQuickUseStarted(InputAction.CallbackContext context)
+    {
+        
+    }
 }

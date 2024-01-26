@@ -7,13 +7,13 @@ public class UIRecipeConfirm : UIConfirmBase
 {
     [SerializeField] private GameObject _materialPrefab;
 
-    private void Awake()
+    public override void Awake()
     {
         base.Awake();
         _itemPrefab = _materialPrefab;
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
         base.OnEnable();
     }

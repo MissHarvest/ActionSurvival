@@ -9,6 +9,7 @@ TagManager:
   - Gather
   - Make
   - Monster
+  - Architecture
   layers:
   - Default
   - TransparentFX

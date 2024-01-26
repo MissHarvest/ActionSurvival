@@ -23,19 +23,10 @@ public class UIQuickSlot : UIItemSlot
 
     public void Init(UIQuickSlotController quickSlotControllerUI, int index, ItemSlot itemSlot)
     {
+        Initialize();
         UIQuickSlotController = quickSlotControllerUI;
         BindGroup(null, index);
         Set(itemSlot);
-    }
-
-    private void Awake()
-    {
-        Initialize();
-
-        gameObject.BindEvent((x) =>
-        {
-            Managers.Game.Player.QuickSlot.OnQuickUseInput(Index);
-        });
     }
 
     public override void Set(ItemSlot itemSlot)
@@ -46,11 +37,7 @@ public class UIQuickSlot : UIItemSlot
             return;
         }
 
-        if(itemSlot.itemData.stackable)
-        {
-            Get<GameObject>((int)GameObjects.QuantityBackground).SetActive(true);
-        }
-
+        Get<GameObject>((int)GameObjects.QuantityBackground).SetActive(itemSlot.itemData.stackable);
         Get<GameObject>((int)GameObjects.ActivateMark).SetActive(itemSlot.equipped);
         
         base.Set(itemSlot);

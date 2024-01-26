@@ -7,7 +7,7 @@ public class Recipe : CraftBase
     private InventorySystem _inventory;
     private UIRecipe _recipeUI;
 
-    private void Awake()
+    public override void Awake()
     {
         base.Awake();
         Owner = Managers.Game.Player;
@@ -15,7 +15,7 @@ public class Recipe : CraftBase
         input.InputActions.Player.Recipe.started += OnRecipeShowAndHide;
     }
 
-    private void Start()
+    public override void Start()
     {
         base.Start();
         _inventory = Managers.Game.Player.Inventory;

@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// 2024. 01. 24 Byun Jeongmin
 public class PlayerBuildState : PlayerBaseState
 {
+    private UIBuilding _buildingUI;
+
     public PlayerBuildState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         
@@ -14,26 +15,23 @@ public class PlayerBuildState : PlayerBaseState
     {
         _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
-        _stateMachine.Player.Building.OnCreateBluePrintArchitecture();
-        Managers.UI.ShowPopupUI<UIBuilding>();
+        _stateMachine.Player.Building.CreateAndSetArchitecture();
+        _buildingUI = Managers.UI.ShowPopupUI<UIBuilding>();
     }
 
     public override void Exit()
     {
         base.Exit();
-        var ui = Managers.UI.GetPopupUI<UIBuilding>();
-        Managers.UI.ClosePopupUI(ui);
+        Managers.UI.ClosePopupUI(_buildingUI);
     }
 
     protected override void AddInputActionsCallbacks()
     {
         PlayerInput input = _stateMachine.Player.Input;
-        base.AddInputActionsCallbacks();
         _stateMachine.Player.ToolSystem.OnUnEquip += OnItemEquiped;
 
         input.PlayerActions.Interact.started += OnInteractStarted;
-        //input.PlayerActions.Interact.canceled += OnInteractCanceled;
-        //input.PlayerActions.InstallArchitecture.started += OnInstallArchitectureStarted;
+        input.PlayerActions.QuickSlot.started += OnQuickUseStarted;
         input.PlayerActions.RotateArchitectureLeft.started += OnRotateArchitectureLeftStarted;
         input.PlayerActions.RotateArchitectureRight.started += OnRotateArchitectureRightStarted;
     }
@@ -41,12 +39,10 @@ public class PlayerBuildState : PlayerBaseState
     protected override void RemoveInputActionsCallbacks()
     {
         PlayerInput input = _stateMachine.Player.Input;
-        base.RemoveInputActionsCallbacks();
         _stateMachine.Player.ToolSystem.OnUnEquip -= OnItemEquiped;
 
         input.PlayerActions.Interact.started -= OnInteractStarted;
-        //input.PlayerActions.Interact.canceled -= OnInteractCanceled;
-        //input.PlayerActions.InstallArchitecture.started -= OnInstallArchitectureStarted;
+        input.PlayerActions.QuickSlot.started -= OnQuickUseStarted;
         input.PlayerActions.RotateArchitectureLeft.started -= OnRotateArchitectureLeftStarted;
         input.PlayerActions.RotateArchitectureRight.started -= OnRotateArchitectureRightStarted;
     }
@@ -55,7 +51,7 @@ public class PlayerBuildState : PlayerBaseState
     {
         // 빌드 상태 나가기
         Debug.Log("Exit Build");
-        _stateMachine.Player.Building.OnCancelBuildMode();
+        _stateMachine.Player.Building.HandleCancelBuildMode();
         if (quickSlot.itemSlot.itemData is ToolItemData tooldata)
         {
             if(tooldata.isTwoHandedTool)
@@ -75,43 +71,30 @@ public class PlayerBuildState : PlayerBaseState
 
     protected override void OnInteractStarted(InputAction.CallbackContext context) //E키 눌렀을 때
     {
-        // 건축 상태 시 상호작용 재 입력 시
-
-        base.OnInteractStarted(context);
-
-        //_stateMachine.Player.Building.OnCreateBluePrintArchitecture();
-        _stateMachine.Player.Building.OnInstallArchitecture();
-        Debug.Log("건축 모드 on");
+        _stateMachine.Player.Building.CreateAndSetArchitecture();
+        //Debug.Log("건축 모드 on");
     }
 
-    //protected override void OnInteractCanceled(InputAction.CallbackContext context)
-    //{
-
-    //    base.OnInteractCanceled(context);
-    //    //_stateMachine.Player.Building.OnCancelBuildMode();
-    //    Debug.Log("건축 모드 off");
-    //}
-
+    // override 안하면 건축 시 조이스틱을 움직이면 플레이어 방향이 돌아간다
     public override void Update()
     {
-        
+        ////SetObjPositionWithJoystick 가져다가 쓰기 
+        //if (Managers.Game.Player.Building.IsHold)
+        //{
+        //    Managers.Game.Player.Building.SetObjPosition(_stateMachine.MovementInput);
+        //    //Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
+        //}
     }
 
-    //private void OnInstallArchitectureStarted(InputAction.CallbackContext context)
-    //{
-    //    //_stateMachine.Player.Building.OnInstallArchitecture();
-    //}
-
-    private void OnRotateArchitectureLeftStarted(InputAction.CallbackContext context)
+    public void OnRotateArchitectureLeftStarted(InputAction.CallbackContext context)
     {
-        _stateMachine.Player.Building.OnRotateArchitectureLeft();
+        _stateMachine.Player.Building.HandleRotateArchitectureLeft();
     }
 
-    private void OnRotateArchitectureRightStarted(InputAction.CallbackContext context)
+    public void OnRotateArchitectureRightStarted(InputAction.CallbackContext context)
     {
-        _stateMachine.Player.Building.OnRotateArchitectureRight();
+        _stateMachine.Player.Building.HandleRotateArchitectureRight();
     }
-
 
     // _stateMachine.MovementInput 활용!
     // basestate의 ReadMovementInput()
