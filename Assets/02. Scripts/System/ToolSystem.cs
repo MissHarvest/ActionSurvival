@@ -7,7 +7,6 @@ public class ToolSystem : MonoBehaviour
     public ItemSlot ItemInUse { get; private set; }
     public Transform handPosition;
     public Transform leftHandPosition;
-    public GameObject ItemObject { get; private set; }
 
     public QuickSlot[] Equipments = new QuickSlot[(int)ItemParts.Max];
     private QuickSlot EmptyHand = new QuickSlot();
@@ -51,6 +50,7 @@ public class ToolSystem : MonoBehaviour
             go.SetActive(false);
             _twinTools.TryAdd(tool.name, go);
         }
+
 
         Equip(EmptyHand);
     }
@@ -108,11 +108,6 @@ public class ToolSystem : MonoBehaviour
             {
                 _twinTools[twinToolName].SetActive(true);
             }
-        }
-
-        if (_tools.ContainsKey(toolName))
-        {
-            ItemObject = _tools[toolName];
         }
     }
 

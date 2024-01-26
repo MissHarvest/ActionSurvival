@@ -15,16 +15,15 @@ public class DayLight : MonoBehaviour
     public Color[] fogColors = new Color[3];
     public Color[] skyColors = new Color[3];
     public Material skyMaterial;
-    private Skybox _skyBox;
 
     private void Awake()
     {       
         RenderSettings.ambientIntensity = 0.0f;
         RenderSettings.reflectionIntensity = 0.0f;
         RenderSettings.fog = true;
+        RenderSettings.fogDensity = 0.02f;
         
         Light = GetComponent<Light>();
-        //_skyBox = Camera.main.GetComponent<Skybox>();
         RenderSettings.skybox = skyMaterial;
     }
 

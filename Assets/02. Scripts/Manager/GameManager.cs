@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -6,7 +7,10 @@ public class GameManager
 {
     public Player Player;
     public TemperatureManager Temperature { get; private set; } = new TemperatureManager();
+    public ArchitectureManager Architecture { get; private set; } = new();
     public DayCycle DayCycle { get; private set; } = new DayCycle();
+
+    public event Action OnSaveCallback;
 
     public World World { get; private set; }
     private ResourceObjectSpawner _resourceObjectSpawner = new();
@@ -26,11 +30,15 @@ public class GameManager
         DayCycle.Init();
         DayCycle.OnEveningCame += SpawnMonster;
         DayCycle.OnNightCame += StartMonsterWave;
+        
+        Architecture.Init();
+        
+        DayCycle.OnMorningCame += SaveCallback;
 
         Temperature.Init(this);
 
         _resourceObjectSpawner.Initialize();
-
+        
         //InitIslands();
         IsRunning = true;
     }
@@ -67,7 +75,7 @@ public class GameManager
         World.GenerateWorldAsync(progressCallback, completedCallback);
     }
 
-    private void InitIslands()
+    public void InitIslands()
     {
         // MonsterGroup 을 만들어서 넘기는거..?
         IceIsland.AddMonsterType(new string[][]{
@@ -89,7 +97,12 @@ public class GameManager
             });
 
         IceIsland.CreateMonsters();
-        CenterIsland.CreateMonsters();
-        FireIsland.CreateMonsters();
+        //CenterIsland.CreateMonsters();
+        //FireIsland.CreateMonsters();
+    }
+
+    private void SaveCallback()
+    {
+        OnSaveCallback?.Invoke();
     }
 }

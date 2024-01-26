@@ -76,6 +76,11 @@ public class PlayerInteractState : PlayerBaseState
 
     }
 
+    protected override void OnQuickUseStarted(InputAction.CallbackContext context)
+    {
+
+    }
+
     private void RotateOfTarget()
     {
         var look = target.transform.position - _stateMachine.Player.transform.position;

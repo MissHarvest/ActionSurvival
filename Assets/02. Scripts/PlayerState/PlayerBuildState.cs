@@ -31,6 +31,7 @@ public class PlayerBuildState : PlayerBaseState
         _stateMachine.Player.ToolSystem.OnUnEquip += OnItemEquiped;
 
         input.PlayerActions.Interact.started += OnInteractStarted;
+        input.PlayerActions.QuickSlot.started += OnQuickUseStarted;
         input.PlayerActions.RotateArchitectureLeft.started += OnRotateArchitectureLeftStarted;
         input.PlayerActions.RotateArchitectureRight.started += OnRotateArchitectureRightStarted;
     }
@@ -41,6 +42,7 @@ public class PlayerBuildState : PlayerBaseState
         _stateMachine.Player.ToolSystem.OnUnEquip -= OnItemEquiped;
 
         input.PlayerActions.Interact.started -= OnInteractStarted;
+        input.PlayerActions.QuickSlot.started -= OnQuickUseStarted;
         input.PlayerActions.RotateArchitectureLeft.started -= OnRotateArchitectureLeftStarted;
         input.PlayerActions.RotateArchitectureRight.started -= OnRotateArchitectureRightStarted;
     }
