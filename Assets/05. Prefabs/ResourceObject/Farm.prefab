@@ -153,6 +153,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _toObjectID: 0
   _lootingItem: {fileID: 11400000, guid: 13dbad5903b2f1845ba772ebf1829c78, type: 2}
+  _itemTable:
+    _lootings:
+    - _item: {fileID: 11400000, guid: 13dbad5903b2f1845ba772ebf1829c78, type: 2}
+      _distribution:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 136
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 2
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 136
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 4
 --- !u!23 &3709215876538054320
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -271,6 +298,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _toObjectID: 1
   _lootingItem: {fileID: 0}
+  _itemTable:
+    _lootings: []
 --- !u!1 &5420459721711242409
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +419,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _toObjectID: 0
   _lootingItem: {fileID: 0}
+  _itemTable:
+    _lootings: []
 --- !u!114 &3595890187043907313
 MonoBehaviour:
   m_ObjectHideFlags: 0
