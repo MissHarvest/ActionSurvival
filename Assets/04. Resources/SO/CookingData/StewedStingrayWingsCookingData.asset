@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feededd13c148ab41a55e68ae3f83574, type: 3}
+  m_Name: StewedStingrayWingsCookingData
+  m_EditorClassIdentifier: 
+  itemName: StewedStingrayWings
+  completedItemData: {fileID: 11400000, guid: 0bd31217bba863f4bb9b5461c806472b, type: 2}
+  IsAdvancedRecipe: 0
+  requiredItems:
+  - item: {fileID: 11400000, guid: 3721c8ba8e74a7442838a963bed67ed9, type: 2}
+    quantity: 2
+  - item: {fileID: 11400000, guid: 5dd63cd46cf3a174da82b9136f74f149, type: 2}
+    quantity: 2

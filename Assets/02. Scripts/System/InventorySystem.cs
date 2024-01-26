@@ -48,9 +48,7 @@ public class InventorySystem : MonoBehaviour
         itemData = Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
-        AddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("RabbitMeatItemData.data");
-        AddItem(itemData, 1);
+        AddItem(itemData, 1);        
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
         AddItem(itemData, 1);
 
@@ -63,7 +61,24 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 99);
         itemData = Managers.Resource.GetCache<ItemData>("MiddleStoneItemData.data");
         AddItem(itemData, 99);
-        
+
+        itemData = Managers.Resource.GetCache<ItemData>("RabbitMeatItemData.data");
+        AddItem(itemData, 99);
+        itemData = Managers.Resource.GetCache<ItemData>("BatMeatItemData.data");
+        AddItem(itemData, 99);
+        itemData = Managers.Resource.GetCache<ItemData>("InsectIntestinesItemData.data");
+        AddItem(itemData, 99);
+        itemData = Managers.Resource.GetCache<ItemData>("DriedStingrayWingsItemData.data");
+        AddItem(itemData, 99);
+        itemData = Managers.Resource.GetCache<ItemData>("DragonMeatItemData.data");
+        AddItem(itemData, 99);
+        itemData = Managers.Resource.GetCache<ItemData>("AppleItemData.data");
+        AddItem(itemData, 99);
+        itemData = Managers.Resource.GetCache<ItemData>("CarrotItemData.data");
+        AddItem(itemData, 99);
+        itemData = Managers.Resource.GetCache<ItemData>("CornerItemData.data");
+        AddItem(itemData, 99);
+
 
 
     }

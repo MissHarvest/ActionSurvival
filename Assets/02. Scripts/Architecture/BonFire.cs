@@ -27,7 +27,7 @@ public class BonFire : MonoBehaviour, IInteractable
         // 현재 플레이어가 들고 있는 도구의 이름을 가져옴
         string currentToolName = Managers.Game.Player.ToolSystem.GetToolName(itemInUse);
 
-        if (currentToolName == "Handable_BonFire")
+        if (currentToolName == "Handable_BonFire" || currentToolName == "Handable_Furnace") //lgs 24.01.26
         {
             // 플레이어의 손에서 모닥불 비활성화
             gameObject.SetActive(false);
@@ -42,7 +42,7 @@ public class BonFire : MonoBehaviour, IInteractable
             Managers.Game.Player.Inventory.DestroyItemByIndex(item);
 
             GameObject droppedTool = Instantiate(gameObject);
-            droppedTool.transform.position = new Vector3(transform.position.x, 2f, transform.position.z + 1f);
+            droppedTool.transform.position = new Vector3(transform.position.x + 2f, 0.5f, transform.position.z + 2f); //lgs
             droppedTool.SetActive(true);
         }
     }
