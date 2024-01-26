@@ -47,7 +47,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 923b09df98a75754ebe9b7f8fe7cbcbe
+  - m_GUID: 02bd8bc841859a742aeb792ea73bf55d
     m_Address: Handable_Chest.prefab
     m_ReadOnly: 0
     m_SerializedLabels:

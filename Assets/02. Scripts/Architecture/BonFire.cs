@@ -18,11 +18,6 @@ public class BonFire : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        //망치를 들고 있는 경우
-        if (player.EquippedItem != null && player.EquippedItem.itemData is ToolItemData toolData && toolData.displayName == "망치")
-        {
-            return;
-        }
         Managers.Game.Player.Cooking.OnCookingShowAndHide();
         //Debug.Log("모닥불에서 요리 판넬 띄우기");
     }

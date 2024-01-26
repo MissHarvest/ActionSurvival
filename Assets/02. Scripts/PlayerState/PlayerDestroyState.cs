@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+// 2024. 01. 25 Byun Jeongmin
 public class PlayerDestroyState : PlayerGroundedState
 {
     protected GameObject target;
@@ -14,10 +12,26 @@ public class PlayerDestroyState : PlayerGroundedState
 
     public override void Enter()
     {
-        _stateMachine.MovementSpeedModifier = _groundData.RunSpeedModifier;
+        Debug.Log("파괴 모드 on");
+        _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
-        Debug.Log("ㅁㄴㅇㄻㄴㄹㅇㅁㄴㄹ");
-        StartAnimation(_stateMachine.Player.AnimationData.IdleParameterHash); //interact하자마자 파괴 해쉬
+        StartAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
+
+        ToolItemData hammer = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
+
+        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, hammer.range, hammer.targetLayers);
+        if (targets.Length == 0)
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+            return;
+        }
+
+        target = targets[0].gameObject;
+        targetTag = target.tag;
+        Debug.Log($"target Name : {targetTag}");
+        RotateOfTarget();
+        _stateMachine.Player.Animator.SetBool(targetTag, true);
+        return;
     }
 
     public override void Exit()
@@ -28,97 +42,21 @@ public class PlayerDestroyState : PlayerGroundedState
             _stateMachine.Player.Animator.SetBool(targetTag, false);
             target = null;
         }
-        StopAnimation(_stateMachine.Player.AnimationData.IdleParameterHash);
+        StopAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
     }
 
     public override void Update()
     {
-        base.Update();
-        if (_stateMachine.MovementInput != Vector2.zero)
+        // exit 조건 설정
+        float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
+
+        if (normalizedTime >= 3f)
         {
-            OnMove();
-            return;
-        }
-
-        if (target != null)
-        {
-            target.GetComponent<IInteractable>()?.Interact(_stateMachine.Player);
-            GameObject.Destroy(target);
-        }
-
-        //// exit 조건 설정
-        //float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
-
-        //if (normalizedTime >= 3f)
-        //{
-        //    if (target != null)
-        //    {
-        //        target.GetComponent<IInteractable>()?.Interact(_stateMachine.Player);
-        //        GameObject.Destroy(target);
-        //    }
-        //    //_stateMachine.ChangeState(_stateMachine.IdleState);
-        //}
-    }
-
-    protected override void AddInputActionsCallbacks()
-    {
-        PlayerInput input = _stateMachine.Player.Input;
-        base.AddInputActionsCallbacks();
-        _stateMachine.Player.ToolSystem.OnUnEquip += OnItemEquiped;
-        //input.PlayerActions.Interact.started += OnInteractStarted;
-        input.PlayerActions.Interact.started += OnDestroyStarted;
-    }
-
-    protected override void RemoveInputActionsCallbacks()
-    {
-        PlayerInput input = _stateMachine.Player.Input;
-        base.RemoveInputActionsCallbacks();
-        _stateMachine.Player.ToolSystem.OnUnEquip -= OnItemEquiped;
-        //input.PlayerActions.Interact.started -= OnInteractStarted;
-        input.PlayerActions.Interact.started -= OnDestroyStarted;
-    }
-
-    public void OnDestroyStarted(InputAction.CallbackContext context)
-    {
-        Debug.Log("파괴 모드 on");
-
-        ToolItemData hammer = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
-
-        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, hammer.range, hammer.targetLayers);
-        if (targets.Length == 0)
-        {
-            return;
-        }
-
-        target = targets[0].gameObject;
-        targetTag = target.tag;
-        Debug.Log($"target Name : {targetTag}");
-        RotateOfTarget();
-        _stateMachine.Player.Animator.SetBool(targetTag, true);
-
-        return;
-    }
-
-
-    private void OnItemEquiped(QuickSlot quickSlot)
-    {
-        // 파괴 상태 나가기
-        Debug.Log("Exit Destroy");
-        _stateMachine.Player.Building.OnCancelBuildMode();
-        if (quickSlot.itemSlot.itemData is ToolItemData tooldata)
-        {
-            if (tooldata.isTwoHandedTool)
+            if (target != null)
             {
-                _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
+                GameObject.Destroy(target);
             }
-            else if (tooldata.isTwinTool)
-            {
-                _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
-            }
-            else
-            {
-                _stateMachine.ChangeState(_stateMachine.IdleState);
-            }
+            _stateMachine.ChangeState(_stateMachine.IdleState);
         }
     }
 
