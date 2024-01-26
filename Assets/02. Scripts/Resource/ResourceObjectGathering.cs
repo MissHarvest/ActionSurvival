@@ -11,7 +11,7 @@ public class ResourceObjectGathering : ResourceObjectBase, IInteractable
             return;
 
         if (_lootingItem != null)
-            player.Inventory.AddItem(_lootingItem, 1);
-        _parent.SwitchObject(_toObjectID);
+            player.Inventory.AddItem(_lootingItem, 0);
+        _parent.SwitchState(_toObjectID);
     }
 }
