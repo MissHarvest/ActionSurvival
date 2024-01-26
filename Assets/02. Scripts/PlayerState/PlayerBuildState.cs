@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -73,15 +71,17 @@ public class PlayerBuildState : PlayerBaseState
     protected override void OnInteractStarted(InputAction.CallbackContext context) //E키 눌렀을 때
     {
         _stateMachine.Player.Building.OnInstallArchitecture();
-        Debug.Log("건축 모드 on");
+        //Debug.Log("건축 모드 on");
     }
 
+    // override 안하면 건축 시 조이스틱을 움직이면 플레이어 방향이 돌아간다
     public override void Update()
     {
         ////SetObjPositionWithJoystick 가져다가 쓰기 
         //if (Managers.Game.Player.Building.IsHold)
         //{
-        //    Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
+        //    Managers.Game.Player.Building.SetObjPosition(_stateMachine.MovementInput);
+        //    //Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
         //}
     }
 

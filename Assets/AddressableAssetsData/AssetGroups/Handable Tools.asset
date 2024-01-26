@@ -47,20 +47,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 02bd8bc841859a742aeb792ea73bf55d
-    m_Address: Handable_Chest.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8434f9dcd8f4762489ca8c69624b4f40
     m_Address: Handable_TwinDagger.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9991bce912d15714a99498438e0e144d
-    m_Address: Handable_BonFire.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -73,24 +61,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dc750156998b0914abd25d06a80178c4
     m_Address: Handable_Base.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: dffab87be3fcdae4b9243e690082a677
-    m_Address: Handable_CraftingTable.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 33f02be2a0b0c0647ba9e47eed9bab7b
-    m_Address: Handable_BuildableObject.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a683c6761c4205043b67b53608741c46
-    m_Address: Handable_Fence.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

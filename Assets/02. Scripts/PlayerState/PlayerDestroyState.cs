@@ -12,7 +12,7 @@ public class PlayerDestroyState : PlayerGroundedState
 
     public override void Enter()
     {
-        Debug.Log("파괴 모드 on");
+        //Debug.Log("파괴 모드 on");
         _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 // 2024. 01. 11 Byun Jeongmin
 public class UIRecipe : UICraftBase
 {
-
     private void Awake()
     {
         base.Awake();
@@ -27,7 +26,7 @@ public class UIRecipe : UICraftBase
     }
 
     // 고급 레시피 UI의 활성화 여부를 설정하는 메서드
-    private void SetAdvancedRecipeUIActive(bool active)
+    public void SetAdvancedRecipeUIActive(bool active)
     {
         foreach (var slot in _uiRecipeSlots)
         {
