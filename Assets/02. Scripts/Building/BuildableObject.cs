@@ -4,7 +4,6 @@ using UnityEngine.AI;
 // 2024. 01. 24 Byun Jeongmin
 public class BuildableObject : MonoBehaviour
 {
-    //[SerializeField] private int _buildingHealth = 1;
     [SerializeField] private Renderer _renderer;
     private NavMeshObstacle _navMeshObstacle;
 
@@ -26,7 +25,7 @@ public class BuildableObject : MonoBehaviour
 
         gameObject.layer = buildingLayer;
         for (int i = 0; i < transform.childCount; ++i)
-            transform.GetChild(i).gameObject.layer = buildingLayer;
+            //transform.GetChild(i).gameObject.layer = buildingLayer;
 
         _navMeshObstacle.enabled = true;
     }

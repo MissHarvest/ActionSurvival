@@ -53,6 +53,8 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
         AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("HammerItemData.data");
+        AddItem(itemData, 1);
 
         // lgs
         itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
