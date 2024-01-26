@@ -55,18 +55,12 @@ public class BuildableObject : MonoBehaviour
 
     public void DestroyObject()
     {
+        Managers.Game.Architecture.Remove(this);
         Destroy(gameObject);
     }
 
     public void DestroyColliderManager()
     {
         Destroy(_colliderManager);
-    }
-
-    private void OnDestroy()
-    {
-
-        // Destroy 별도로 호출하자. DestoryObject
-        Managers.Game.Architecture.Remove(this);
     }
 }

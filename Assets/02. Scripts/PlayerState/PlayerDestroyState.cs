@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 // 2024. 01. 25 Byun Jeongmin
 public class PlayerDestroyState : PlayerGroundedState
@@ -54,7 +55,7 @@ public class PlayerDestroyState : PlayerGroundedState
         {
             if (target != null)
             {
-                GameObject.Destroy(target);
+                target.GetComponent<BuildableObject>().DestroyObject();
             }
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }

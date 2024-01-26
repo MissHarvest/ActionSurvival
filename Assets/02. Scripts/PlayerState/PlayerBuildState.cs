@@ -80,11 +80,7 @@ public class PlayerBuildState : PlayerBaseState
 
     public override void Update()
     {
-        ////SetObjPositionWithJoystick 가져다가 쓰기 
-        //if (Managers.Game.Player.Building.IsHold)
-        //{
-        //    Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
-        //}
+        //Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
     }
 
     public void OnRotateArchitectureLeftStarted(InputAction.CallbackContext context)

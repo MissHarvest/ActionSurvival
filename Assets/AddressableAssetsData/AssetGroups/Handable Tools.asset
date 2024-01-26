@@ -47,12 +47,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 02bd8bc841859a742aeb792ea73bf55d
-    m_Address: Handable_Chest.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8434f9dcd8f4762489ca8c69624b4f40
     m_Address: Handable_TwinDagger.prefab
     m_ReadOnly: 0
