@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1630260877290586505}
   - component: {fileID: 3405816407193562018}
   m_Layer: 11
-  m_Name: Handable_BuildableObject
+  m_Name: Architecture_BuildableObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

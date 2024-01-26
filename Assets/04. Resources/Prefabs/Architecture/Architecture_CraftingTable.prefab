@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8621939427471479183}
   - component: {fileID: 4049764048469855699}
   m_Layer: 11
-  m_Name: Handable_CraftingTable
+  m_Name: Architecture_CraftingTable
   m_TagString: Make
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
