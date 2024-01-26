@@ -4,15 +4,16 @@ using UnityEngine.InputSystem;
 
 public class InventorySystem : MonoBehaviour
 {
-    public int maxCapacity { get; private set; } = 30;
+    [field: SerializeField] public int maxCapacity { get; private set; } = 30;
 
-    public ItemSlot[] slots { get; private set; }
+    [field: SerializeField] public ItemSlot[] slots { get; private set; }
+    
     public Player Owner { get; private set; }
 
     public event Action<int, ItemSlot> OnUpdated;
     public event Action<ItemData> OnItemAdd;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Debug.Log($"Inventory Awake [{gameObject.name}] [{this.name}]");
         slots = new ItemSlot[maxCapacity];
@@ -218,7 +219,6 @@ public class InventorySystem : MonoBehaviour
         slots[index].Clear();
         OnUpdated?.Invoke(index, slots[index]);
     }
-
 
     protected void BroadCastUpdatedSlot(int index, ItemSlot itemslot)
     {

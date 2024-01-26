@@ -7,7 +7,6 @@ public class ToolSystem : MonoBehaviour
     public ItemSlot ItemInUse { get; private set; }
     public Transform handPosition;
     public Transform leftHandPosition;
-    public GameObject ItemObject { get; private set; }
 
     public QuickSlot[] Equipments = new QuickSlot[(int)ItemParts.Max];
     private QuickSlot EmptyHand = new QuickSlot();
@@ -52,31 +51,13 @@ public class ToolSystem : MonoBehaviour
             _twinTools.TryAdd(tool.name, go);
         }
 
+
         Equip(EmptyHand);
     }
 
     private void Start()
     {
         Managers.Game.Player.QuickSlot.OnUnRegisted += OnItemUnregisted;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            // 현재 손에 들고 있는 도구의 이름 가져오기
-            string toolName = GetToolName(ItemInUse);
-
-            // _tools에서 해당 도구를 가져와서 타입을 확인
-            if (_tools.TryGetValue(toolName, out GameObject toolObject))
-            {
-                if (toolObject.GetComponent<BonFire>() != null)
-                {
-                    BonFire bonFireScript = toolObject.GetComponent<BonFire>();
-                    bonFireScript.DropFireFromPlayerHand(ItemInUse, _tools);
-                }
-            }
-        }
     }
 
     public void Equip(QuickSlot slot)
@@ -128,8 +109,6 @@ public class ToolSystem : MonoBehaviour
                 _twinTools[twinToolName].SetActive(true);
             }
         }
-
-        ItemObject = _tools[toolName];
     }
 
     public void UnEquip(int part)

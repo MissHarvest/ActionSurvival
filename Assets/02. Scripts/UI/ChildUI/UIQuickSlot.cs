@@ -37,11 +37,7 @@ public class UIQuickSlot : UIItemSlot
             return;
         }
 
-        if(itemSlot.itemData.stackable)
-        {
-            Get<GameObject>((int)GameObjects.QuantityBackground).SetActive(true);
-        }
-
+        Get<GameObject>((int)GameObjects.QuantityBackground).SetActive(itemSlot.itemData.stackable);
         Get<GameObject>((int)GameObjects.ActivateMark).SetActive(itemSlot.equipped);
         
         base.Set(itemSlot);

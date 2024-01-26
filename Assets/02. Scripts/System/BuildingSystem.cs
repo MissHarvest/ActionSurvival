@@ -115,8 +115,8 @@ public class BuildingSystem : MonoBehaviour
     {
         Vector3 currentPosition = RaycastHit().point;
 
-        float movementSpeed = 0.4f;
-
+        float movementSpeed = 1.0f;
+        Debug.Log($"[Joy Stick Input] {joystickInput}");
         Vector3 newPosition = _obj.transform.position + new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
 
         float distance = Vector3.Distance(_obj.transform.position, newPosition);

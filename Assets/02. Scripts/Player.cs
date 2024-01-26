@@ -67,8 +67,6 @@ public class Player : MonoBehaviour, IHit
     private void Start()
     {
         _stateMachine.ChangeState(_stateMachine.IdleState);
-
-        Inventory.AddDefaultToolAsTest();
     }
 
     private void Update()

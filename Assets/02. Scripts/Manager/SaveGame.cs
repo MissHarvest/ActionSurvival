@@ -77,4 +77,39 @@ public class SaveGame
         string json = Encoding.UTF8.GetString(data);
         return JsonUtility.FromJson<T>(json);
     }
+
+    public static bool TryLoadJsonToObject(object obj, SaveType type, string name)
+    {
+        var path = GetPathByType(type);
+        
+        if (File.Exists($"{path}{name}.json") == false) return false;
+
+        LoadJsonToObject(path, name, obj);
+        return true;
+    }
+
+    private static string GetPathByType(SaveType type)
+    {
+        string path = "";
+        switch (type)
+        {
+            case SaveType.Compile:
+                path = $"{Application.dataPath}/Resources/";
+                break;
+
+            case SaveType.Runtime:
+                path = $"{Application.persistentDataPath}/";
+                break;
+        }
+        return path;
+    }
+
+    public static void LoadJsonToObject(string path, string name, object obj)
+    {
+        FileStream fs = new FileStream($"{path}/{name}.json", FileMode.Open);
+        byte[] data = new byte[fs.Length];
+        fs.Read(data, 0, data.Length);
+        string json = Encoding.UTF8.GetString(data);
+        JsonUtility.FromJsonOverwrite(json, obj);
+    }
 }
