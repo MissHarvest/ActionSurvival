@@ -29,12 +29,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 02bd8bc841859a742aeb792ea73bf55d
-    m_Address: Architecture_Chest.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a683c6761c4205043b67b53608741c46
     m_Address: Architecture_Fence.prefab
     m_ReadOnly: 0
