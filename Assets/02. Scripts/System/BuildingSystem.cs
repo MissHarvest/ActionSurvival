@@ -34,15 +34,6 @@ public class BuildingSystem : MonoBehaviour
         private set { _isHold = value; }
     }
 
-    // 얘네 없애도 돌아가게
-    public event Action OnCreateBluePrintAction;
-    public event Action OnInstallArchitectureAction;
-    public event Action OnRotateArchitectureLeftAction;
-    public event Action OnRotateArchitectureRightAction;
-    public event Action OnCancelBuildModeAction;
-    public event Action OnBreakModeAction;
-    public event Action OnBreakArchitectureAction;
-
     private void Awake()
     {
         _cam = Camera.main;
@@ -53,25 +44,20 @@ public class BuildingSystem : MonoBehaviour
 
     private void Start()
     {
-        OnInstallArchitectureAction += CreateAndSetArchitecture;
-        OnRotateArchitectureLeftAction += HandleRotateArchitectureLeft;
-        OnRotateArchitectureRightAction += HandleRotateArchitectureRight;
-        OnCancelBuildModeAction += HandleCancelBuildMode;
-
         _virtualJoystick = FindObjectOfType<VirtualJoystick>();
     }
 
     private void Update()
     {
-        //if (_isHold)
-        //{
-        //    if (_virtualJoystick != null)
-        //    {
-        //        Vector2 joystickInput = _virtualJoystick.Handle.anchoredPosition;
-        //        //Vector2 joystickInput = _stateMachine.MovementInput;
-        //        SetObjPositionWithJoystick(joystickInput);
-        //    }
-        //}
+        if (_isHold)
+        {
+            if (_virtualJoystick != null)
+            {
+                Vector2 joystickInput = _virtualJoystick.Handle.anchoredPosition;
+                //Debug.Log("x값 :" + joystickInput.x + ", y값 : " + joystickInput.y);
+                SetObjPositionWithJoystick(joystickInput);
+            }
+        }
     }
 
     #region
@@ -89,7 +75,7 @@ public class BuildingSystem : MonoBehaviour
         return hit;
     }
 
-    private void SetObjPosition(Vector3 hitPos)
+    public void SetObjPosition(Vector3 hitPos)
     {
         Vector3 _location = hitPos;
         _location.Set(Mathf.Round(_location.x), Mathf.Round(_location.y / _yGridSize) * _yGridSize, Mathf.Round(_location.z));
@@ -97,24 +83,21 @@ public class BuildingSystem : MonoBehaviour
         _obj.transform.position = _location;
     }
 
-    private void SetObjPosition()
-    {
-        Vector3 _location = RaycastHit().point;
-        _location.Set(Mathf.Round(_location.x), Mathf.Round(_location.y / _yGridSize) * _yGridSize, Mathf.Round(_location.z));
-
-        _obj.transform.position = _location;
-    }
-
-    public void SetObjPositionWithJoystick(Vector2 joystickInput)
+    public void SetObjPositionWithJoystick(Vector2 joystickInput) //조이스틱인풋을 raycast할 지점 바꾸기
     {
         Vector3 currentPosition = RaycastHit().point;
 
         // 이동 속도
         //float movementSpeed = 0.3f;
-        float movementSpeed = 2.0f;
-        Debug.Log($"[Joy Stick] {joystickInput}");
+        float movementSpeed = 1.0f;
+
         // 울타리 이동 및 위치 조정
-        _obj.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);        
+        _obj.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
+
+        //round 쓰지말기
+        Vector3 newPosition = _obj.transform.position;
+        newPosition.Set(Mathf.Round(newPosition.x), Mathf.Round(newPosition.y / _yGridSize) * _yGridSize, Mathf.Round(newPosition.z));
+        _obj.transform.position = newPosition;
     }
 
     private void CreateBluePrintObject(Vector2 pos)
@@ -123,19 +106,6 @@ public class BuildingSystem : MonoBehaviour
         _obj = Instantiate(_tempPrefab);
 
         SetObjPosition(pos);
-
-        _buildableObject = _obj.GetComponent<BuildableObject>();
-        _buildableObject.SetMaterial(_previewMat);
-
-        BuildableObjectColliderManager buildableObject = _obj.GetComponentInChildren<BuildableObjectColliderManager>();
-        buildableObject.OnRedMatAction += HandleBuildableObjectTriggerEnter;
-        buildableObject.OnBluePrintMatAction += HandleBuildableObjectTriggerExit;
-    }
-
-    private void CreateBluePrintObject(GameObject go)
-    {
-        _obj = go;
-        //SetObjPosition(pos);
 
         _buildableObject = _obj.GetComponent<BuildableObject>();
         _buildableObject.SetMaterial(_previewMat);
@@ -159,19 +129,19 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
-    private void HandleRotateArchitectureLeft()
+    public void HandleRotateArchitectureLeft()
     {
         if (_isHold)
             _obj.transform.Rotate(Vector3.up, -_rotationAngle);
     }
 
-    private void HandleRotateArchitectureRight()
+    public void HandleRotateArchitectureRight()
     {
         if (_isHold)
             _obj.transform.Rotate(Vector3.up, _rotationAngle);
     }
 
-    private void HandleCancelBuildMode()
+    public void HandleCancelBuildMode()
     {
         if (_isHold)
         {
@@ -180,6 +150,7 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
+    // 건축물 설치
     private void HandleInstallArchitecture()
     {
         if (_isHold && _canCreateObject)
@@ -189,6 +160,15 @@ public class BuildingSystem : MonoBehaviour
 
             _buildableObject.SetInitialObject();
             _buildableObject.DestroyColliderManager();
+
+            // 건축물 장착 해제
+            Managers.Game.Player.Inventory.FindItem(Managers.Game.Player.ToolSystem.ItemInUse.itemData, out int index);
+            var item = new QuickSlot();
+            item.Set(index, Managers.Game.Player.Inventory.slots[index]);
+            Managers.Game.Player.QuickSlot.UnRegist(item);
+
+            // 인벤토리에서 제거
+            Managers.Game.Player.Inventory.DestroyItemByIndex(item);
         }
     }
 
@@ -208,7 +188,7 @@ public class BuildingSystem : MonoBehaviour
 
     #endregion
 
-    private void CreateAndSetArchitecture()
+    public void CreateAndSetArchitecture()
     {
         if (_isHold)
         {
@@ -234,31 +214,6 @@ public class BuildingSystem : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void OnCreateBluePrintArchitecture()
-    {
-        OnCreateBluePrintAction?.Invoke();
-    }
-
-    public void OnRotateArchitectureLeft()
-    {
-        OnRotateArchitectureLeftAction?.Invoke();
-    }
-
-    public void OnRotateArchitectureRight()
-    {
-        OnRotateArchitectureRightAction?.Invoke();
-    }
-
-    public void OnCancelBuildMode()
-    {
-        OnCancelBuildModeAction?.Invoke();
-    }
-
-    public void OnInstallArchitecture()
-    {
-        OnInstallArchitectureAction?.Invoke();
     }
 
     private void OnDrawGizmos()

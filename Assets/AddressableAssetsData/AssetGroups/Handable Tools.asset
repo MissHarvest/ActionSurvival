@@ -53,12 +53,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9991bce912d15714a99498438e0e144d
-    m_Address: Handable_BonFire.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf276339c7f32e3489d0d52338e8e0be
     m_Address: Handable_L_TwinDagger.prefab
     m_ReadOnly: 0
@@ -71,24 +65,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: dffab87be3fcdae4b9243e690082a677
-    m_Address: Handable_CraftingTable.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 33f02be2a0b0c0647ba9e47eed9bab7b
-    m_Address: Handable_BuildableObject.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a683c6761c4205043b67b53608741c46
-    m_Address: Handable_Fence.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ee812b2b16f80d54c99213d61314648c
     m_Address: Handable_EnchantedAxe.prefab
     m_ReadOnly: 0
@@ -96,6 +72,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e92c0c3bd6001494b8b1004c26614a13
     m_Address: Handable_Hammer.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32757cf6579103a4aa51be1f1f026a30
+    m_Address: Handable_Chest.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

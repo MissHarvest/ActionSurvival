@@ -4,12 +4,12 @@ using UnityEngine;
 // 제작, 요리를 포함하는 기본 클래스
 public class CraftBase : MonoBehaviour
 {
-    protected void Awake()
+    public virtual void Awake()
     {
         Debug.Log($"{GetType().Name} Awake");
     }
 
-    protected void Start()
+    public virtual void Start()
     {
         Debug.Log($"{GetType().Name} Start");
     }
