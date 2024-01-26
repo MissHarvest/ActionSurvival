@@ -25,7 +25,7 @@ public class BuildableObject : MonoBehaviour
 
         gameObject.layer = buildingLayer;
         for (int i = 0; i < transform.childCount; ++i)
-            transform.GetChild(i).gameObject.layer = buildingLayer;
+            //transform.GetChild(i).gameObject.layer = buildingLayer;
 
         _navMeshObstacle.enabled = true;
     }
