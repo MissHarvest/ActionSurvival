@@ -17,7 +17,11 @@ public class Weapon : MonoBehaviour, IAttack
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Rigidbody>()?.isKinematic == true) // isKinematic이 꺼지고 켜지면서 충돌이 두 번 발생하는 것을 배제한다.
+        if (other.GetComponent<Rigidbody>() == null) // other이 rigidbody를 가지고 있지 않으면 넘어간다.
+        {
+
+        }
+        else if (other.GetComponent<Rigidbody>().isKinematic == true) // isKinematic이 꺼지고 켜지면서 충돌이 두 번 발생하는 것을 배제한다.
         {
             return;
         }

@@ -28,8 +28,6 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     [field: SerializeField] public Condition HP { get; private set; }
 
     private Island _habitat;
-    //private Rigidbody _rigidbody; //lgs
-    //private float _knockbackTime = 0f;
 
     [Header("Attack")]
     public float attackTime;
@@ -38,8 +36,6 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         AnimationData.Initialize();
         Animator = GetComponentInChildren<Animator>();
-
-        //_rigidbody = GetComponent<Rigidbody>(); //lgs
 
         var name = _name == string.Empty ? this.GetType().Name : _name;
         Data = Managers.Resource.GetCache<MonsterSO>($"{name}.data");
@@ -55,22 +51,12 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         RespawnPosition = transform.position;
         _stateMachine.ChangeState(_stateMachine.IdleState);
-        //_rigidbody.isKinematic = true; //lgs 24.01.22
     }
 
     private void Update()
     {
         _stateMachine.Update();
     }
-
-    //private void FixedUpdate()
-    //{
-    //    _knockbackTime -= Time.deltaTime;
-    //    if (_knockbackTime <= 0f)
-    //    {
-    //        _rigidbody.isKinematic = true;
-    //    }
-    //}
 
     public void SetIsland(Island island)
     {
@@ -133,24 +119,4 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier);
     }
-
-    //public void OnTriggerEnter(Collider other)
-    //{
-    //    if (other == null)
-    //    {
-    //        return;
-    //    }
-
-    //    if (other.gameObject.layer == 8 && _rigidbody.isKinematic == true)
-    //    {
-    //        _rigidbody.isKinematic = false;
-    //        _rigidbody.AddForce((transform.position - other.transform.position).normalized, ForceMode.Impulse);
-    //        _knockbackTime = 0.5f;
-    //        Debug.Log("충돌");
-    //    }
-    //    else
-    //    {
-    //        return;
-    //    }
-    //}
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: "\uBAA8\uB2E5\uBD88"
   description: "\uC74C\uC2DD\uC744 \uC870\uB9AC\uD560 \uC218 \uC788\uB2E4."
-  iconSprite: {fileID: 21300000, guid: 13597b049430824468ca1d48477afb9b, type: 3}
+  iconSprite: {fileID: 21300000, guid: 0fb7c2a6dca139c4cbbaa6f04ed72d83, type: 3}
   part: 2
   maxDurability: 10
   targetLayers:

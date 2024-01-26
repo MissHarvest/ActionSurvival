@@ -455,6 +455,128 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 09ec62d69570d664a952a5ac0fb9a2b5
+    m_Address: EnchantedTwinDaggerItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 06fe604fa8665ad41b0542b8c690b7e2
+    m_Address: EnchantedTwinDaggerRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cbb888e46821d3d41b6bd05183bc5ccf
+    m_Address: BatMeatItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15cd5a240bf6e9149bba27940cf9fa3e
+    m_Address: GrilledBatMeatItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ab6a5c398eba2746b0d9afafe4048fe
+    m_Address: GrilledBatMeatCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3721c8ba8e74a7442838a963bed67ed9
+    m_Address: DriedStingrayWingsItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fdfb6677cc678244ea9dcb9d2292074c
+    m_Address: InsectIntestinesItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9910fbaa1ab0a0745900d8c7fc6f25f0
+    m_Address: DragonMeatItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e99452afc6013a46b0fcaa854d7a0e0
+    m_Address: AppleItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eaac63f19a4e191489080679244faec7
+    m_Address: CornerItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5dd63cd46cf3a174da82b9136f74f149
+    m_Address: CarrotItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: abeb64e4ea40d5e41bb8f69997bd6e01
+    m_Address: MeatballStewItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3697d8a35a1a1e7459dee7beab2c69a4
+    m_Address: MeatballStewCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4cf10e7e87f888e428fc93bca9417d49
+    m_Address: CornSaladItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7815ba250b922f44eb2f400b452acf5a
+    m_Address: CornSaladCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0bd31217bba863f4bb9b5461c806472b
+    m_Address: StewedStingrayWingsItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3e45a7a7ff805243bfc0fd8a91b2030
+    m_Address: StewedStingrayWingsCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1169faa730c754c4ea50756a8ba9fbe5
+    m_Address: SweetSaladItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99c1b56b41f827f48b9332e325a1dfbd
+    m_Address: SweetSaladCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e24cec6279a69f94093c8834f2550ff0
+    m_Address: LuxuriousSetItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df7dcb1c7df50a94b863b2d3d763d652
+    m_Address: LuxuriousSetCookingData.data
   - m_GUID: 4a400f54997a10d4cad59cad838fc084
     m_Address: FenceRecipeData.data
     m_ReadOnly: 0

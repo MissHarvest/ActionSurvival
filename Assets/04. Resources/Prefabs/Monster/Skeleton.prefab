@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 6368073807775977417}
   - component: {fileID: 948987761074656331}
   - component: {fileID: 581296906199782141}
-  - component: {fileID: 313100024742435762}
+  - component: {fileID: 7430939492966216153}
+  - component: {fileID: 7044767279793405642}
   m_Layer: 7
   m_Name: Skeleton
   m_TagString: Monster
@@ -111,7 +112,7 @@ CapsuleCollider:
   m_Height: 1.27
   m_Direction: 1
   m_Center: {x: 0, y: 0.6, z: 0}
---- !u!54 &313100024742435762
+--- !u!54 &7430939492966216153
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,7 +120,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6953505979713780382}
   serializedVersion: 4
-  m_Mass: 0.3
+  m_Mass: 0.25
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -138,6 +139,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7044767279793405642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6953505979713780382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b420351d1a7e48845b9568ae9d799363, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4532847364228931712
 PrefabInstance:
   m_ObjectHideFlags: 0
