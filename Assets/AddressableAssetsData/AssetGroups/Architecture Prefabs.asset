@@ -12,11 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: Architecture Prefabs
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: Architecture Prefabs
   m_Data:
     m_SerializedData: []
   m_GUID: 077d833282fdba04c88c1a7cf4b8a865
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 9991bce912d15714a99498438e0e144d
+    m_Address: Architecture_BonFire.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33f02be2a0b0c0647ba9e47eed9bab7b
+    m_Address: Architecture_BuildableObject.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 02bd8bc841859a742aeb792ea73bf55d
+    m_Address: Architecture_Chest.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a683c6761c4205043b67b53608741c46
+    m_Address: Architecture_Fence.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dffab87be3fcdae4b9243e690082a677
+    m_Address: Architecture_CraftingTable.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
   m_SchemaSet:

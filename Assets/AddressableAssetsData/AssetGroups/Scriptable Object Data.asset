@@ -455,8 +455,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 68a9bba7c97dc024f84ab4c246757bad
-    m_Address: AppleItemData.data
+  - m_GUID: 4a400f54997a10d4cad59cad838fc084
+    m_Address: FenceRecipeData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

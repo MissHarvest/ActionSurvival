@@ -60,25 +60,6 @@ public class ToolSystem : MonoBehaviour
         Managers.Game.Player.QuickSlot.OnUnRegisted += OnItemUnregisted;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            // 현재 손에 들고 있는 도구의 이름 가져오기
-            string toolName = GetToolName(ItemInUse);
-
-            // _tools에서 해당 도구를 가져와서 타입을 확인
-            if (_tools.TryGetValue(toolName, out GameObject toolObject))
-            {
-                if (toolObject.GetComponent<BonFire>() != null)
-                {
-                    BonFire bonFireScript = toolObject.GetComponent<BonFire>();
-                    bonFireScript.DropFireFromPlayerHand(ItemInUse, _tools);
-                }
-            }
-        }
-    }
-
     public void Equip(QuickSlot slot)
     {
         int part = GetPart(slot);
@@ -129,7 +110,10 @@ public class ToolSystem : MonoBehaviour
             }
         }
 
-        ItemObject = _tools[toolName];
+        if (_tools.ContainsKey(toolName))
+        {
+            ItemObject = _tools[toolName];
+        }
     }
 
     public void UnEquip(int part)
