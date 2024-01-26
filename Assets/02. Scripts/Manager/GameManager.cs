@@ -38,7 +38,7 @@ public class GameManager
         Temperature.Init(this);
 
         _resourceObjectSpawner.Initialize();
-
+        
         //InitIslands();
         IsRunning = true;
     }
@@ -75,7 +75,7 @@ public class GameManager
         World.GenerateWorldAsync(progressCallback, completedCallback);
     }
 
-    private void InitIslands()
+    public void InitIslands()
     {
         // MonsterGroup 을 만들어서 넘기는거..?
         IceIsland.AddMonsterType(new string[][]{
@@ -97,8 +97,8 @@ public class GameManager
             });
 
         IceIsland.CreateMonsters();
-        CenterIsland.CreateMonsters();
-        FireIsland.CreateMonsters();
+        //CenterIsland.CreateMonsters();
+        //FireIsland.CreateMonsters();
     }
 
     private void SaveCallback()

@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class PlayerInventorySystem : InventorySystem
 {
-    protected override void Awake()
+    private void Awake()
     {
         base.Awake();
-
-        if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "PlayerInventory") == false)
-        {
-            AddDefaultToolAsTest();
-        }
-
-        Managers.Game.OnSaveCallback += Save;
+        Load();
     }
-
     private void Start()
     {
         Owner.QuickSlot.OnRegisted += OnItemRegisted;
@@ -100,7 +93,15 @@ public class PlayerInventorySystem : InventorySystem
         BroadCastUpdatedSlot(index, targetSlot);
     }
 
-    private void Save()
+    public override void Load()
+    {
+        if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "PlayerInventory") == false)
+        {
+            AddDefaultToolAsTest();
+        }
+    }
+
+    protected override void Save()
     {
         var json = JsonUtility.ToJson(this);
         SaveGame.CreateJsonFile("PlayerInventory", json, SaveGame.SaveType.Runtime);

@@ -42,6 +42,7 @@ public class MainScene : MonoBehaviour
                     loadingUI.ReceiveCallbacks($"Game Initialize ...");
                     SpawnPlayer();
                     UIInitialize();
+
                     Managers.Data.InitializeRecipeData();
 
                     Managers.Sound.Init();

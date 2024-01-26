@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,6 +13,8 @@ public class BuildableObject : MonoBehaviour
 
     private int buildingLayer = 11; // Architecture 레이어 번호
 
+    public event Action OnRenamed;
+
     private void Awake()
     {   
         _originMat = new Material(_renderer.material);
@@ -24,7 +27,8 @@ public class BuildableObject : MonoBehaviour
         if (gameObject.name.Contains("(Clone)"))
         {
             Managers.Game.Architecture.Add(this);
-        }        
+        }
+        OnRenamed?.Invoke();
     }
 
     public void SetInitialObject()

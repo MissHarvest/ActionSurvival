@@ -63,15 +63,15 @@ public class BuildingSystem : MonoBehaviour
 
     private void Update()
     {
-        if (_isHold)
-        {
-            if (_virtualJoystick != null)
-            {
-                Vector2 joystickInput = _virtualJoystick.Handle.anchoredPosition;
-                //Vector2 joystickInput = _stateMachine.MovementInput;
-                SetObjPositionWithJoystick(joystickInput);
-            }
-        }
+        //if (_isHold)
+        //{
+        //    if (_virtualJoystick != null)
+        //    {
+        //        Vector2 joystickInput = _virtualJoystick.Handle.anchoredPosition;
+        //        //Vector2 joystickInput = _stateMachine.MovementInput;
+        //        SetObjPositionWithJoystick(joystickInput);
+        //    }
+        //}
     }
 
     #region
@@ -105,21 +105,16 @@ public class BuildingSystem : MonoBehaviour
         _obj.transform.position = _location;
     }
 
-    private void SetObjPositionWithJoystick(Vector2 joystickInput)
+    public void SetObjPositionWithJoystick(Vector2 joystickInput)
     {
         Vector3 currentPosition = RaycastHit().point;
 
         // 이동 속도
         //float movementSpeed = 0.3f;
-        float movementSpeed = 1.0f;
-
+        float movementSpeed = 2.0f;
+        Debug.Log($"[Joy Stick] {joystickInput}");
         // 울타리 이동 및 위치 조정
-        _obj.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
-
-
-        Vector3 newPosition = _obj.transform.position;
-        newPosition.Set(Mathf.Round(newPosition.x), Mathf.Round(newPosition.y / _yGridSize) * _yGridSize, Mathf.Round(newPosition.z));
-        _obj.transform.position = newPosition;
+        _obj.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);        
     }
 
     private void CreateBluePrintObject(Vector2 pos)

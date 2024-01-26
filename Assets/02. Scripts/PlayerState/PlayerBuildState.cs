@@ -17,7 +17,6 @@ public class PlayerBuildState : PlayerBaseState
     {
         _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
-        _stateMachine.Player.Building.OnCreateBluePrintArchitecture();
         _stateMachine.Player.Building.OnInstallArchitecture();
         _buildingUI = Managers.UI.ShowPopupUI<UIBuilding>();
     }
@@ -80,7 +79,7 @@ public class PlayerBuildState : PlayerBaseState
 
     public override void Update()
     {
-        //Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
+        Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
     }
 
     public void OnRotateArchitectureLeftStarted(InputAction.CallbackContext context)

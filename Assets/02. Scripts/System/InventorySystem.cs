@@ -24,6 +24,8 @@ public class InventorySystem : MonoBehaviour
         }
 
         Owner = Managers.Game.Player;
+
+        Managers.Game.OnSaveCallback += Save;
     }
 
     public void AddDefaultToolAsTest()
@@ -225,5 +227,16 @@ public class InventorySystem : MonoBehaviour
     protected void BroadCastUpdatedSlot(int index, ItemSlot itemslot)
     {
         OnUpdated?.Invoke(index, itemslot);
+    }
+
+    public virtual void Load()
+    {
+        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"{gameObject.name}Inventory");
+    }
+
+    protected virtual void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile($"{gameObject.name}Inventory", json, SaveGame.SaveType.Runtime);
     }
 }
