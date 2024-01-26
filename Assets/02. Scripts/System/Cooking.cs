@@ -6,14 +6,14 @@ public class Cooking : CraftBase
     public Player Owner { get; private set; }
     private UICooking _cookingUI;
 
-    private void Awake()
+    public override void Awake()
     {
         base.Awake();
         Owner = Managers.Game.Player;
         var input = Owner.Input;
     }
 
-    private void Start()
+    public override void Start()
     {
         base.Start();
     }

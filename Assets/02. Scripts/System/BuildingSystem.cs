@@ -34,13 +34,6 @@ public class BuildingSystem : MonoBehaviour
         private set { _isHold = value; }
     }
 
-    // 얘네 없애도 돌아가게
-    public event Action OnCreateBluePrintAction;
-    public event Action OnInstallArchitectureAction;
-    public event Action OnRotateArchitectureLeftAction;
-    public event Action OnRotateArchitectureRightAction;
-    public event Action OnCancelBuildModeAction;
-
     private void Awake()
     {
         _cam = Camera.main;
@@ -51,11 +44,6 @@ public class BuildingSystem : MonoBehaviour
 
     private void Start()
     {
-        OnInstallArchitectureAction += CreateAndSetArchitecture;
-        OnRotateArchitectureLeftAction += HandleRotateArchitectureLeft;
-        OnRotateArchitectureRightAction += HandleRotateArchitectureRight;
-        OnCancelBuildModeAction += HandleCancelBuildMode;
-
         _virtualJoystick = FindObjectOfType<VirtualJoystick>();
     }
 
@@ -95,7 +83,7 @@ public class BuildingSystem : MonoBehaviour
         _obj.transform.position = _location;
     }
 
-    public void SetObjPositionWithJoystick(Vector2 joystickInput)
+    public void SetObjPositionWithJoystick(Vector2 joystickInput) //조이스틱인풋을 raycast할 지점 바꾸기
     {
         Vector3 currentPosition = RaycastHit().point;
 
@@ -141,19 +129,19 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
-    private void HandleRotateArchitectureLeft()
+    public void HandleRotateArchitectureLeft()
     {
         if (_isHold)
             _obj.transform.Rotate(Vector3.up, -_rotationAngle);
     }
 
-    private void HandleRotateArchitectureRight()
+    public void HandleRotateArchitectureRight()
     {
         if (_isHold)
             _obj.transform.Rotate(Vector3.up, _rotationAngle);
     }
 
-    private void HandleCancelBuildMode()
+    public void HandleCancelBuildMode()
     {
         if (_isHold)
         {
@@ -200,7 +188,7 @@ public class BuildingSystem : MonoBehaviour
 
     #endregion
 
-    private void CreateAndSetArchitecture()
+    public void CreateAndSetArchitecture()
     {
         if (_isHold)
         {
@@ -226,31 +214,6 @@ public class BuildingSystem : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void OnCreateBluePrintArchitecture()
-    {
-        OnCreateBluePrintAction?.Invoke();
-    }
-
-    public void OnRotateArchitectureLeft()
-    {
-        OnRotateArchitectureLeftAction?.Invoke();
-    }
-
-    public void OnRotateArchitectureRight()
-    {
-        OnRotateArchitectureRightAction?.Invoke();
-    }
-
-    public void OnCancelBuildMode()
-    {
-        OnCancelBuildModeAction?.Invoke();
-    }
-
-    public void OnInstallArchitecture()
-    {
-        OnInstallArchitectureAction?.Invoke();
     }
 
     private void OnDrawGizmos()

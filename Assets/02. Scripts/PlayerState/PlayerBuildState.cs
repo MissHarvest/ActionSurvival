@@ -15,8 +15,7 @@ public class PlayerBuildState : PlayerBaseState
     {
         _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
-        _stateMachine.Player.Building.OnCreateBluePrintArchitecture();
-        _stateMachine.Player.Building.OnInstallArchitecture();
+        _stateMachine.Player.Building.CreateAndSetArchitecture();
         _buildingUI = Managers.UI.ShowPopupUI<UIBuilding>();
     }
 
@@ -50,7 +49,7 @@ public class PlayerBuildState : PlayerBaseState
     {
         // 빌드 상태 나가기
         Debug.Log("Exit Build");
-        _stateMachine.Player.Building.OnCancelBuildMode();
+        _stateMachine.Player.Building.HandleCancelBuildMode();
         if (quickSlot.itemSlot.itemData is ToolItemData tooldata)
         {
             if(tooldata.isTwoHandedTool)
@@ -70,7 +69,7 @@ public class PlayerBuildState : PlayerBaseState
 
     protected override void OnInteractStarted(InputAction.CallbackContext context) //E키 눌렀을 때
     {
-        _stateMachine.Player.Building.OnInstallArchitecture();
+        _stateMachine.Player.Building.CreateAndSetArchitecture();
         //Debug.Log("건축 모드 on");
     }
 
@@ -87,12 +86,12 @@ public class PlayerBuildState : PlayerBaseState
 
     public void OnRotateArchitectureLeftStarted(InputAction.CallbackContext context)
     {
-        _stateMachine.Player.Building.OnRotateArchitectureLeft();
+        _stateMachine.Player.Building.HandleRotateArchitectureLeft();
     }
 
     public void OnRotateArchitectureRightStarted(InputAction.CallbackContext context)
     {
-        _stateMachine.Player.Building.OnRotateArchitectureRight();
+        _stateMachine.Player.Building.HandleRotateArchitectureRight();
     }
 
     // _stateMachine.MovementInput 활용!

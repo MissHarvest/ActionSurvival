@@ -3,12 +3,12 @@ using System.Collections.Generic;
 // 2024. 01. 11 Byun Jeongmin
 public class UIRecipe : UICraftBase
 {
-    private void Awake()
+    public override void Awake()
     {
         base.Awake();
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
         base.OnEnable();
         

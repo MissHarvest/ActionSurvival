@@ -54,8 +54,17 @@ public class PlayerDestroyState : PlayerGroundedState
         {
             if (target != null)
             {
-                GameObject.Destroy(target);
+                BuildableObject buildableObject = target.GetComponent<BuildableObject>();
+                if (buildableObject != null)
+                {
+                    buildableObject.DestroyObject();
+                }
+                else
+                {
+                    GameObject.Destroy(target);
+                }
             }
+
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }
     }

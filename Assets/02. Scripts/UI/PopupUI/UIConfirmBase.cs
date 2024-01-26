@@ -41,7 +41,7 @@ public class UIConfirmBase : UIPopup
         _noButton.BindEvent((x) => { OnCanceledBase(); });
     }
 
-    protected void Awake()
+    public virtual void Awake()
     {
         Initialize();
         _contents = Get<GameObject>((int)Gameobjects.Contents).transform;
@@ -49,7 +49,7 @@ public class UIConfirmBase : UIPopup
         gameObject.SetActive(false);
     }
 
-    protected void OnEnable()
+    public virtual void OnEnable()
     {
         var dataList = GetRequiredDataList();
     }
