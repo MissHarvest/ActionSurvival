@@ -78,7 +78,6 @@ public class ArchitectureManager
         }
         
         var json = JsonUtility.ToJson(saveData);
-        Debug.Log($"[Save Json] / {json}");
         SaveGame.CreateJsonFile("Architectures", json, SaveGame.SaveType.Runtime);
     }
 
