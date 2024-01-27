@@ -592,24 +592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d852ce5160cb14c9ef96c27a8c203d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AnimationData>k__BackingField:
-    groundParameterName: '@Ground'
-    idleParameterName: Idle
-    walkParameterName: Walk
-    runParameterName: Run
-    equipTwoHandedToolIdleParameterName: EquipTwoHandedToolIdle
-    equipTwoHandedToolWalkParameterName: EquipTwoHandedToolWalk
-    equipTwoHandedToolRunParameterName: EquipTwoHandedToolRun
-    equipTwinToolIdleParameterName: EquipTwinToolIdle
-    equipTwinToolWalkParameterName: EquipTwinToolWalk
-    equipTwinToolRunParameterName: EquipTwinToolRun
-    airParameterName: '@Air'
-    jumpParameterName: Jump
-    fallParameterName: Fall
-    attackParameterName: '@Attack'
-    comboAttackParameterName: ComboAttack
-    interactParameterName: Interact
-  <Data>k__BackingField: {fileID: 11400000, guid: 708617a31d531ad489f80b860079136a, type: 2}
 --- !u!114 &787385280888539790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3192,6 +3174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d75f8dbc15ab66498b74fcf9b908a47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <maxCapacity>k__BackingField: 30
+  <slots>k__BackingField: []
 --- !u!114 &6613559552095951977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3281,6 +3265,7 @@ MonoBehaviour:
       <equipped>k__BackingField: 0
       <registed>k__BackingField: 0
     targetIndex: -1
+  <IndexInUse>k__BackingField: -1
 --- !u!114 &5718102191932996010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3326,7 +3311,7 @@ MonoBehaviour:
   _destroyLayer:
     serializedVersion: 2
     m_Bits: 2048
-  _raycastRange: 20
+  _raycastRange: 2
   _yGridSize: 0.1
   _rotationAngle: 45
   _obj: {fileID: 0}

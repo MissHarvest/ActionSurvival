@@ -53,25 +53,28 @@ public class BuildingSystem : MonoBehaviour
         {
             if (_virtualJoystick != null)
             {
-                Vector2 joystickInput = _virtualJoystick.Handle.anchoredPosition;
-                //Debug.Log("x값 :" + joystickInput.x + ", y값 : " + joystickInput.y);
-                SetObjPositionWithJoystick(joystickInput);
+                //Vector2 joystickInput = _virtualJoystick.Handle.anchoredPosition;
+                //Debug.Log("조이스틱 x값 :" + joystickInput.x + ", y값 : " + joystickInput.y);
+                //SetObjPositionWithJoystick(joystickInput);
             }
         }
     }
 
     #region
-    private RaycastHit RaycastHit()
+    private RaycastHit RaycastHit() // 매개변수를 transform.positon으로 받아서 플레이어/울타리 위치 나누기
     {
         RaycastHit hit;
 
         // 플레이어의 위치와 방향 받아서 ray 쏘기
         Vector3 playerPosition = transform.position;
-        Vector3 raycastStartPoint = playerPosition + transform.forward * 1.0f;
+        Vector3 raycastStartPoint = playerPosition;
+
+        float offsetY = 1.0f;
+        raycastStartPoint.y += offsetY;
 
         Ray ray = new Ray(raycastStartPoint, Vector3.down);
-        validHIt = Physics.Raycast(ray, out hit, _raycastRange, _currentLayer);
-
+        validHIt = Physics.Raycast(ray, out hit, _raycastRange, _currentLayer); //지금은 buildableLayer만 검사 중이므로 필터링 빼기
+        Debug.Log("현재 레이어 : " + hit.collider.gameObject.layer);
         return hit;
     }
 
@@ -86,21 +89,23 @@ public class BuildingSystem : MonoBehaviour
     public void SetObjPositionWithJoystick(Vector2 joystickInput) //조이스틱인풋을 raycast할 지점 바꾸기
     {
         Vector3 currentPosition = RaycastHit().point;
-
+        Debug.Log("레이캐스트 위치: " + currentPosition);
         // 이동 속도
         //float movementSpeed = 0.3f;
-        float movementSpeed = 1.0f;
+        float movementSpeed = 4.0f;
 
         // 울타리 이동 및 위치 조정
         _obj.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
-
+        Debug.Log("x값: " + _obj.transform.position.x + " y값: " + _obj.transform.position.y + " z값: " + _obj.transform.position.z);
         //round 쓰지말기
         Vector3 newPosition = _obj.transform.position;
-        newPosition.Set(Mathf.Round(newPosition.x), Mathf.Round(newPosition.y / _yGridSize) * _yGridSize, Mathf.Round(newPosition.z));
-        _obj.transform.position = newPosition;
+        //Debug.Log("x값 " + newPosition.x + " y값 " + newPosition.y);
+        //newPosition.Set(Mathf.Round(newPosition.x), Mathf.Round(newPosition.y / _yGridSize) * _yGridSize, Mathf.Round(newPosition.z));
+
+        //_obj.transform.position = newPosition;
     }
 
-    private void CreateBluePrintObject(Vector2 pos)
+    private void CreateBluePrintObject(Vector3 pos)
     {
         //Debug.Log("이건 임시 프리팹 이름이에요 : " + _tempPrefab.name);
         _obj = Instantiate(_tempPrefab);
@@ -125,7 +130,8 @@ public class BuildingSystem : MonoBehaviour
         {
             _isHold = true;
             _currentLayer = _buildableLayer;
-            CreateBluePrintObject(RaycastHit().point);
+            Vector3 newPosition = RaycastHit().point;
+            CreateBluePrintObject(newPosition);
         }
     }
 
@@ -219,7 +225,10 @@ public class BuildingSystem : MonoBehaviour
     private void OnDrawGizmos()
     {
         Vector3 playerPosition = transform.position;
-        Vector3 raycastStartPoint = playerPosition + transform.forward * 1.0f;
+        Vector3 raycastStartPoint = playerPosition;
+
+        float offsetY = 1.0f;
+        raycastStartPoint.y += offsetY;
 
         Gizmos.color = Color.red;
 

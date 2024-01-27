@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3673843736854378356}
   - component: {fileID: 5000764239965891001}
   - component: {fileID: 5193086928236528033}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BuildableCollider
   m_TagString: Architecture
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 102524, guid: da8e893168526164591f81d60c0e06b1, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 102524, guid: da8e893168526164591f81d60c0e06b1, type: 3}
       propertyPath: m_TagString

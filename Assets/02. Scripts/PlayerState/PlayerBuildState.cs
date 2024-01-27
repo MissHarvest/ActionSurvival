@@ -54,36 +54,37 @@ public class PlayerBuildState : PlayerBaseState
         _stateMachine.Player.Building.HandleCancelBuildMode();
         if (quickSlot.itemSlot.itemData is ToolItemData tooldata)
         {
-            if(tooldata.isTwoHandedTool)
+            if (tooldata.isTwoHandedTool)
             {
                 _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
             }
-            else if(tooldata.isTwinTool)
+            else if (tooldata.isTwinTool)
             {
                 _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
             }
-            else 
+            else
             {
                 _stateMachine.ChangeState(_stateMachine.IdleState);
             }
-        }        
+        }
     }
 
     protected override void OnInteractStarted(InputAction.CallbackContext context) //E키 눌렀을 때
     {
         _stateMachine.Player.Building.CreateAndSetArchitecture();
-        //Debug.Log("건축 모드 on");
+        _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 
     // override 안하면 건축 시 조이스틱을 움직이면 플레이어 방향이 돌아간다
     public override void Update()
     {
-        ////SetObjPositionWithJoystick 가져다가 쓰기 
-        //if (Managers.Game.Player.Building.IsHold)
-        //{
-        //    Managers.Game.Player.Building.SetObjPosition(_stateMachine.MovementInput);
-        //    //Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
-        //}
+        //Debug.Log("상태머신 x값: "+_stateMachine.MovementInput.x + "y값: "+_stateMachine.MovementInput.y);
+        //SetObjPositionWithJoystick 가져다가 쓰기 
+        if (Managers.Game.Player.Building.IsHold)
+        {
+            //Managers.Game.Player.Building.SetObjPosition(_stateMachine.MovementInput);
+            Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
+        }
     }
 
     public void OnRotateArchitectureLeftStarted(InputAction.CallbackContext context)
