@@ -24,7 +24,9 @@ public class ArchitectureManager
                 var prefab = Managers.Resource.GetCache<GameObject>($"{prefabName}.prefab");
                 var go = UnityEngine.Object.Instantiate(prefab, data.position, data.rotation);
                 go.name = data.name;
-                
+                                
+                //go.GetComponent<BuildableObject>().DestroyColliderManager();
+                                
                 if(architectures.TryGetValue(prefabName, out List<GameObject> list))
                 {
                     list.Add(go);
@@ -76,6 +78,11 @@ public class ArchitectureManager
                 saveData.transformData.Add(new ArchitecutreTransform(go.name, go.transform.position, go.transform.rotation));
             }
         }
+
+        //foreach(var farm in architectures["Farm"])
+        //{
+
+        //}
         
         var json = JsonUtility.ToJson(saveData);
         SaveGame.CreateJsonFile("Architectures", json, SaveGame.SaveType.Runtime);

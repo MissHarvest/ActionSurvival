@@ -15,9 +15,14 @@ public class ResourceObjectParent : MonoBehaviour
 
     private bool _isInitialized = false;
 
+    private void Awake()
+    {
+        Initialize();        
+    }
+
     private void Start()
     {
-        Initialize();
+        SetInfo(CurrentState, RemainingTime);
     }
 
     public void Update()
@@ -82,7 +87,7 @@ public class ResourceObjectParent : MonoBehaviour
 
     public void SetInfo(int stateID, float remainingTime)
     {
-        Initialize();
+        //Initialize();
         SwitchState(stateID);
         RemainingTime = remainingTime;
     }

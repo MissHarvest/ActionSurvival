@@ -23,9 +23,10 @@ public class SoundManager
         var bgmPlayer = new GameObject("@BGM");
         bgmPlayer.transform.parent = _root.transform;
 
-        _bgmSource = bgmPlayer.AddComponent<AudioSource>();
+        _bgmSource = bgmPlayer.AddComponent<AudioSource>();        
         _bgmSource.outputAudioMixerGroup = _audioMixer.FindMatchingGroups("BGM")[0];
         _bgmSource.loop = true;
+        _bgmSource.volume = 1.0f;
     }
 
     private void CreateSFXPlayers()
@@ -50,7 +51,6 @@ public class SoundManager
         var bgmClip = Managers.Resource.GetCache<AudioClip>($"{bgmName}.wav");
         _bgmSource.clip = bgmClip;
         _bgmSource.playOnAwake = true;
-        _bgmSource.volume = 0.6f;
         _bgmSource.Play();
     }
 
@@ -73,5 +73,6 @@ public class SoundManager
     public void Set(string group, float volume)
     {
         _audioMixer.SetFloat(group, volume);
+        PlayerPrefs.SetFloat($"{group}Volume", volume);
     }
 }

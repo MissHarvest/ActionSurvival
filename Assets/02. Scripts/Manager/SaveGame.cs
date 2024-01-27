@@ -13,6 +13,7 @@ public class SaveGame
         Runtime,
     }
 
+    #region Json Data
     public static void CreateJsonFile(string name, string json, SaveType type)
     {
         string path = "";
@@ -114,4 +115,33 @@ public class SaveGame
         JsonUtility.FromJsonOverwrite(json, obj);
         fs.Close();
     }
+
+    public static void DeleteAllFiles()
+    {
+        var path = $"{Application.persistentDataPath}";
+        DirectoryInfo di = new DirectoryInfo(path);
+        foreach(var file in di.GetFiles("*.json"))
+        {
+            file.Delete();
+        }
+    }
+    #endregion
+
+    #region PlayerPrefs
+    public static float[] GetSoundSetting()
+    {
+        float[] volumes = new float[3];
+        var type = new string[] { "MasterVolume", "BGMVolume", "SFXVolume" };
+        
+        for(int i = 0; i < volumes.Length; ++i)
+        {
+            if (PlayerPrefs.HasKey(type[i]))
+            {
+                volumes[i] = PlayerPrefs.GetFloat(type[i]);
+            }
+        }
+
+        return volumes;
+    }
+    #endregion
 }
