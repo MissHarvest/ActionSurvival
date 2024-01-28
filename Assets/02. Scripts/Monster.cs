@@ -20,7 +20,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     public NavMeshAgent NavMeshAgent { get; private set; }
 
-    public ItemData[] looting;
+    public ItemDropTable looting;
     public bool Dead { get; private set; }
 
     public bool Berserk { get; private set; }
@@ -34,6 +34,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     protected virtual void Awake()
     {
+        gameObject.layer = 7;
         AnimationData.Initialize();
         Animator = GetComponentInChildren<Animator>();
 
@@ -77,12 +78,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         Dead = true;
         _stateMachine.ChangeState(_stateMachine.DieState);
-
-        // [ TEMP ] Get Looting //
-        foreach (var loot in looting)
-        {
-            Managers.Game.Player.Inventory.AddItem(loot, 1);
-        }
+        looting.AddInventory(Managers.Game.Player.Inventory);
 
         _habitat?.DiedMonsters.Add(this.gameObject);
     }
@@ -94,8 +90,16 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     public void Hit(IAttack attacker, float damage)
     {
+        gameObject.layer = 14;
         HP.Subtract(damage);
         Debug.Log("피격");
+        StartCoroutine(Avoid());
+    }
+
+    IEnumerator Avoid()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameObject.layer = 7;
     }
 
     public void SetBerserkMode()

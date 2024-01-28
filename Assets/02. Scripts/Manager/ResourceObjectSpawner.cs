@@ -40,7 +40,7 @@ public class ResourceObjectSpawner
             var data = _spawnData.SpawnList[i];
             var go = _world.SpawnObjectInWorld(data.Prefab, data.spawnPosition);
             var resourceObjectParent = go.GetComponent<ResourceObjectParent>();
-            if(json.resourceObjectsState.Count > 0)
+            if(json!=null)
             {
                 resourceObjectParent.SetInfo(json.resourceObjectsState[i].state, json.resourceObjectsState[i].remainingTime);
             }

@@ -577,8 +577,23 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: df7dcb1c7df50a94b863b2d3d763d652
     m_Address: LuxuriousSetCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4a400f54997a10d4cad59cad838fc084
     m_Address: FenceRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: acea11c72c18ae646b68643bb390dc34
+    m_Address: FarmItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b70139d5f6d96a94bad599d9c8fee871
+    m_Address: SkeletonBoneItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

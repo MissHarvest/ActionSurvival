@@ -17,6 +17,7 @@ public class Weapon : MonoBehaviour, IAttack
 
     private void OnTriggerEnter(Collider other)
     {
+        Attack(other.GetComponent<IHit>());
         if (other.GetComponent<Rigidbody>() == null) // other이 rigidbody를 가지고 있지 않으면 넘어간다.
         {
 
@@ -25,7 +26,7 @@ public class Weapon : MonoBehaviour, IAttack
         {
             return;
         }
-        Attack(other.GetComponent<IHit>());
+        
     }
 
     public void Attack(IHit target)

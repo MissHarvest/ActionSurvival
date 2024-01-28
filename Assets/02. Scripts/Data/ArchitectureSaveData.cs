@@ -39,5 +39,5 @@ public class ArchitectureSaveData
 {
     [field: SerializeField] public List<ArchitectureKeyValue> architectureDicData { get; set; } = new();
     [field: SerializeField] public List<ArchitecutreTransform> transformData { get; set; } = new();
-    //[field: SerializeField] public List<ResourceObjectState> farmData { get; set; } = new();
+    [field: SerializeField] public List<ResourceObjectState> farmData { get; set; } = new();
 }
