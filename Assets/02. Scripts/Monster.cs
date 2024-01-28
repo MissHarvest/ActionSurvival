@@ -1,6 +1,7 @@
 // �ۼ� ��¥ : 2024. 01. 12
 // �ۼ��� : Park Jun Uk 
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -28,6 +29,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     [field: SerializeField] public Condition HP { get; private set; }
 
     private Island _habitat;
+
+    public event Action<IAttack> OnHit;
 
     [Header("Attack")]
     public float attackTime;
@@ -93,6 +96,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         gameObject.layer = 14;
         HP.Subtract(damage);
         Debug.Log("피격");
+        OnHit?.Invoke(attacker);
         StartCoroutine(Avoid());
     }
 

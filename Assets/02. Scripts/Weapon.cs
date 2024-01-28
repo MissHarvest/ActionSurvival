@@ -25,8 +25,7 @@ public class Weapon : MonoBehaviour, IAttack
         else if (other.GetComponent<Rigidbody>().isKinematic == true) // isKinematic이 꺼지고 켜지면서 충돌이 두 번 발생하는 것을 배제한다.
         {
             return;
-        }
-        
+        }        
     }
 
     public void Attack(IHit target)

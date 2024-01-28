@@ -32,11 +32,12 @@ public class PlayerComboAttackState : PlayerAttackState
 
         ToolItemData tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
 
-        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers);
+        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range * 1f, tool.targetLayers);
         if (targets.Length == 0)
         {
             return;
         }
+
         if (targets[0].CompareTag(tool.targetTagName))
         {
             target = targets[0].gameObject;
@@ -49,6 +50,7 @@ public class PlayerComboAttackState : PlayerAttackState
     public override void Exit()
     {
         base.Exit();
+        target = null;
         StopAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
 
         if (!_alreadyApplyCombo)
