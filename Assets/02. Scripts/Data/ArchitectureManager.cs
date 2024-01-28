@@ -38,10 +38,10 @@ public class ArchitectureManager
                 }
             }
             
-            for(int i = 0; i < architectures["Architecture_Farm"].Count;++i)
-            {
-                architectures["Architecture_Farm"][i].GetComponent<ResourceObjectParent>()?.SetInfo(json.farmData[i].state, json.farmData[i].remainingTime);
-            }
+            //for(int i = 0; i < architectures["Architecture_Farm"].Count;++i)
+            //{
+            //    architectures["Architecture_Farm"][i].GetComponent<ResourceObjectParent>()?.SetInfo(json.farmData[i].state, json.farmData[i].remainingTime);
+            //}
         }
 
         Managers.Game.OnSaveCallback += Save;
@@ -84,10 +84,10 @@ public class ArchitectureManager
             }
         }
 
-        foreach(var farm in architectures["Architecture_Farm"])
-        {
-            saveData.farmData.Add(new ResourceObjectState(farm.GetComponent<ResourceObjectParent>()));
-        }
+        //foreach(var farm in architectures["Architecture_Farm"])
+        //{
+        //    saveData.farmData.Add(new ResourceObjectState(farm.GetComponent<ResourceObjectParent>()));
+        //}
         
         var json = JsonUtility.ToJson(saveData);
         SaveGame.CreateJsonFile("Architectures", json, SaveGame.SaveType.Runtime);

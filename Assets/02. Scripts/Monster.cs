@@ -87,8 +87,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     }
 
     public void Attack(IHit target)
-    {
-        target.Hit(this, 10);
+    {        
+        target.Hit(this, Data.AttackData.Atk);
     }
 
     public void Hit(IAttack attacker, float damage)
