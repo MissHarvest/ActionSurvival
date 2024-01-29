@@ -54,18 +54,18 @@ public class ObjectManager
         });
     }
 
-    public void ManageObject(ObjectManagingProtocol protocol, bool chunkEnabled)
+    public void ManageObject(ObjectManagementProtocol protocol, bool chunkEnabled)
     {
         _process[protocol.key]?.Invoke(protocol.target, chunkEnabled);
     }
 }
 
-public class ObjectManagingProtocol
+public class ObjectManagementProtocol
 {
     public object target;
     public Type key;
 
-    public ObjectManagingProtocol(object target, Type key)
+    public ObjectManagementProtocol(object target, Type key)
     {
         this.target = target;
         this.key = key;

@@ -13,7 +13,7 @@ public class ManagementedObject : MonoBehaviour
     private Transform _tranform;
     private ObjectManager _manager;
 
-    public List<ObjectManagingProtocol> managedTargets = new();
+    public List<ObjectManagementProtocol> managedTargets = new();
     
     private void Start()
     {
@@ -21,7 +21,6 @@ public class ManagementedObject : MonoBehaviour
         _manager = Managers.Game.ObjectManager;
         _tranform = transform;
 
-        _coord = _world.ConvertChunkCoord(_tranform.position);
         _world.OnWorldUpdated += SwitchEnabled;
         SwitchEnabled();
     }
