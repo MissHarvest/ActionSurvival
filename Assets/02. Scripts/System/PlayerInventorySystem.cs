@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInventorySystem : InventorySystem
 {
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
         Load();

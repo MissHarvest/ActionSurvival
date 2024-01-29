@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.Port;
+//using static UnityEditor.Experimental.GraphView.Port; lgs 24.01.29
 
 public class UIItemSlotContainer : UIBase
 {
