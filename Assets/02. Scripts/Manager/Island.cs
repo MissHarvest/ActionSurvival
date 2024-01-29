@@ -106,7 +106,7 @@ public class Island
             var pos = _spawnablePoints[i].point;
             pos.y = 50;
             RaycastHit hit;
-            if (Physics.Raycast(pos, Vector3.down, out hit, 100.0f, 1))
+            if (Physics.Raycast(pos, Vector3.down, out hit, 100.0f, 1 << 12))
             {
                 pos = hit.point;
                 pos.y += 0.5f;

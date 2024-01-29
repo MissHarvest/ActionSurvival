@@ -26,6 +26,7 @@ public class World : MonoBehaviour
     public Dictionary<Vector3Int, WorldMapData> VoxelMap => _voxelMap;
     public WorldNavMeshBuilder NavMeshBuilder => _navMeshBuilder;
     public List<Chunk> CurrentActiveChunks => _currentActiveChunks;
+    public Dictionary<ChunkCoord, Chunk> ChunkMap => _chunkMap;
 
     private void Update()
     {
@@ -90,7 +91,7 @@ public class World : MonoBehaviour
         foreach (var chunk in _prevActiveChunks)
             chunk.IsActive = false;
 
-        _navMeshBuilder.UpdateNavMesh();
+        //_navMeshBuilder.UpdateNavMesh();
     }
 
     private void InitializeChunk(ChunkCoord pos, WorldMapData blockData)
@@ -120,6 +121,8 @@ public class World : MonoBehaviour
                 yield return null;
             }
         }
+
+        UpdateChunksInViewRange();
 
         yield return null;
     }
@@ -198,11 +201,16 @@ public class World : MonoBehaviour
 
     private IEnumerator InitializeWorldNavMeshBuilderCoroutine(bool autoUpdate = false, Action<AsyncOperation> callback = null)
     {
+        // legacy code. 플레이어 주변 일정범위만 생성하던 코드
+        //_navMeshBuilder = new GameObject(nameof(WorldNavMeshBuilder)).AddComponent<WorldNavMeshBuilder>();
+        //_navMeshBuilder.IsActive = autoUpdate; // 주기적으로 업데이트 X. 일단은 청크 정보가 바뀔 때마다 업데이트합니다.
+        //UpdateChunksInViewRange();
+        //yield return new WaitForFixedUpdate();
+        //yield return _navMeshBuilder.UpdateNavMesh(callback);
+
         _navMeshBuilder = new GameObject(nameof(WorldNavMeshBuilder)).AddComponent<WorldNavMeshBuilder>();
-        _navMeshBuilder.IsActive = autoUpdate; // 주기적으로 업데이트 X. 일단은 청크 정보가 바뀔 때마다 업데이트합니다.
-        UpdateChunksInViewRange();
-        yield return new WaitForFixedUpdate();
-        yield return _navMeshBuilder.UpdateNavMesh(callback);
+        _navMeshBuilder.IsActive = autoUpdate; // 주기적으로 업데이트 X. 게임 초기화 시 한 번만 생성합니다.
+        yield return _navMeshBuilder.GenerateNavMeshAsync(callback);
     }
 }
 

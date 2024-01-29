@@ -13,11 +13,16 @@ public class Chunk
     private MeshRenderer _meshRenderer;
     private MeshFilter _meshFilter;
     private ChunkCoord _coord;
+    private List<WorldMapData> _localMap = new();
+    private bool _isActive;
 
     private int _vertexIdx = 0;
     private List<Vector3> _vertices = new();
     private List<int> _triangles = new();
     private List<Vector2> _uvs = new();
+
+    // TODO: 나중에 인스턴스 블럭의 리스트로 교체
+    private List<SlideBlock> _instanceBlocks = new();
 
     private World _world;
     private VoxelData _data;
@@ -25,8 +30,8 @@ public class Chunk
     public ChunkCoord ChunkCoord => _coord;
     public bool IsActive
     {
-        get => _meshRenderer.enabled;
-        set { if (_meshRenderer.enabled != value) _meshRenderer.enabled = value; }
+        get => _isActive;
+        set => SetActive(value);
     }
 
     public Mesh Mesh => _meshFilter.sharedMesh;
@@ -41,7 +46,7 @@ public class Chunk
     public Transform InstanceBlocksParent => _instanceBlockParent;
     public Transform InstanceObjectParent => _instanceObjectParent;
 
-    private List<WorldMapData> _localMap = new();
+    public List<SlideBlock> InstanceBlocks => _instanceBlocks;
 
     public Chunk(ChunkCoord coord, World world)
     {
@@ -120,7 +125,13 @@ public class Chunk
         _uvs.Add(new Vector2(uvX + nw + _data.uvXEndOffset, uvY + nh + _data.uvYEndOffset));
     }
 
-    public void SetActive(bool active) => IsActive = active;
+    public void SetActive(bool active)
+    {
+        _isActive = active;
+        _meshRenderer.enabled = active;
+        foreach (var e in _instanceBlocks)
+            e.MeshRenderer.enabled = active;
+    }
 
     public (Mesh, Matrix4x4)[] GetAllBlocksNavMeshSourceData()
     {

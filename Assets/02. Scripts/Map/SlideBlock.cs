@@ -12,12 +12,11 @@ public class SlideBlock : MonoBehaviour
     public Vector3 Forward { get => GetModel().forward; set => GetModel().forward = value; }
     public Mesh Mesh => GetMesh();
     public Matrix4x4 TransformMatrix => GetModel().GetChild(0).transform.localToWorldMatrix;
+    public MeshRenderer MeshRenderer => GetMeshRenderer();
 
     private Material[] GetMaterials()
     {
-        if (_meshRenderer == null)
-            _meshRenderer = GetModel().GetChild(0).GetComponent<MeshRenderer>();
-        return _meshRenderer.sharedMaterials;
+        return GetMeshRenderer().sharedMaterials;
     }
 
     private Transform GetModel()
@@ -32,5 +31,12 @@ public class SlideBlock : MonoBehaviour
         if (_meshFilter == null)
             _meshFilter = GetModel().GetChild(0).GetComponent<MeshFilter>();
         return _meshFilter.sharedMesh;
+    }
+
+    private MeshRenderer GetMeshRenderer()
+    {
+        if (_meshRenderer == null)
+            _meshRenderer = GetModel().GetChild(0).GetComponent<MeshRenderer>();
+        return _meshRenderer;
     }
 }

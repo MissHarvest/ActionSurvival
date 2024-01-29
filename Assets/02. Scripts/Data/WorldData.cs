@@ -93,5 +93,6 @@ public class SlideBlockType : BlockType
         slide.SideMaterial = SideMaterial;
         slide.transform.SetParent(chunk.InstanceBlocksParent);
         slide.name = $"{obj.name} ({pos})";
+        chunk.InstanceBlocks.Add(slide);
     }
 }

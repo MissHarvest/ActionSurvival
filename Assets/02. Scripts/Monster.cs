@@ -75,6 +75,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
         // [ Do ] HP 복구 //
         HP.Add(Data.MaxHP);
+        gameObject.SetActive(true);
     }
 
     public void Die()

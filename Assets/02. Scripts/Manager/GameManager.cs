@@ -39,7 +39,7 @@ public class GameManager
 
         _resourceObjectSpawner.Initialize();
         
-        //InitIslands();
+        InitIslands();
         IsRunning = true;
     }
 
@@ -96,9 +96,9 @@ public class GameManager
             new string[] { "RedSoulEater" },
             });
 
-        IceIsland.CreateMonsters();
+        //IceIsland.CreateMonsters();
         CenterIsland.CreateMonsters();
-        FireIsland.CreateMonsters();
+        //FireIsland.CreateMonsters();
     }
 
     private void SaveCallback()
