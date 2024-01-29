@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4342116440431310008}
   - component: {fileID: 6368073807775977417}
-  - component: {fileID: 948987761074656331}
+  - component: {fileID: 4088729018705217602}
   - component: {fileID: 581296906199782141}
   - component: {fileID: 7430939492966216153}
   - component: {fileID: 7044767279793405642}
@@ -59,7 +59,7 @@ NavMeshAgent:
   m_BaseOffset: -0.08
   m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
---- !u!114 &948987761074656331
+--- !u!114 &4088729018705217602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,10 +68,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6953505979713780382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff73574e8c6f17f4eac3471a019d1b8d, type: 3}
+  m_Script: {fileID: 11500000, guid: 21e6838aee4335b438331135f00364f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: 
+  _name: Skeleton
   <AnimationData>k__BackingField:
     idleParameterName: Idle
     walkParameterName: Walk
@@ -80,8 +80,75 @@ MonoBehaviour:
     dieParamterName: Die
   <Data>k__BackingField: {fileID: 0}
   looting:
-  - {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
-  - {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}
+    _lootings:
+    - _item: {fileID: 11400000, guid: c48d0f569a835d44fa7bd6c45421d9ff, type: 2}
+      _distribution:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.5
+          value: 1
+          inSlope: -0.009756835
+          outSlope: -0.009756835
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.483333
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+    - _item: {fileID: 11400000, guid: b70139d5f6d96a94bad599d9c8fee871, type: 2}
+      _distribution:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.5
+          value: 1
+          inSlope: 0.000003708732
+          outSlope: 0.000003708732
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.45000017
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0
@@ -175,6 +242,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1116371902028168016, guid: 4a46e821c58b5cd42b14eaab6d197266, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 2010986609b1b494dbd5ed4fae5f7f25, type: 2}
     - target: {fileID: 1116371902028168016, guid: 4a46e821c58b5cd42b14eaab6d197266, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0

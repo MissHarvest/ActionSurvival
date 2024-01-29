@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 1071859111687000815}
   - component: {fileID: 2176453059495721074}
   - component: {fileID: 7980261835734660352}
-  - component: {fileID: 8878751953795546594}
+  - component: {fileID: 1263887585254859856}
+  - component: {fileID: 1377614618397431294}
+  - component: {fileID: -3488469780617345815}
   m_Layer: 7
   m_Name: IceSkeleton
   m_TagString: Monster
@@ -77,7 +79,76 @@ MonoBehaviour:
     attackParameterName: Attack
     dieParamterName: Die
   <Data>k__BackingField: {fileID: 0}
-  looting: []
+  looting:
+    _lootings:
+    - _item: {fileID: 11400000, guid: c48d0f569a835d44fa7bd6c45421d9ff, type: 2}
+      _distribution:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.5
+          value: 1
+          inSlope: 0.005702085
+          outSlope: 0.005702085
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.35833335
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+    - _item: {fileID: 11400000, guid: b70139d5f6d96a94bad599d9c8fee871, type: 2}
+      _distribution:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: -0
+          outSlope: -0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.48333332
+        - serializedVersion: 3
+          time: 0.5
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0
@@ -85,34 +156,68 @@ MonoBehaviour:
     decayRate: 0
   attackTime: 0.2
   _monsterWeapon: {fileID: 5410289172790645679}
---- !u!114 &8878751953795546594
+--- !u!136 &1263887585254859856
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414879185357440407}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.17
+  m_Height: 1.27
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!54 &1377614618397431294
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414879185357440407}
+  serializedVersion: 4
+  m_Mass: 0.25
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &-3488469780617345815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414879185357440407}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff73574e8c6f17f4eac3471a019d1b8d, type: 3}
+  m_Script: {fileID: 11500000, guid: b420351d1a7e48845b9568ae9d799363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: IceSkeleton
-  <AnimationData>k__BackingField:
-    idleParameterName: Idle
-    walkParameterName: Walk
-    runParameterName: Run
-    attackParameterName: Attack
-    dieParamterName: Die
-  <Data>k__BackingField: {fileID: 0}
-  looting: []
-  <HP>k__BackingField:
-    currentValue: 0
-    maxValue: 0
-    regenRate: 0
-    decayRate: 0
-  attackTime: 0
-  _monsterWeapon: {fileID: 0}
 --- !u!1001 &1125648040037351789
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 563050570767098211}
   m_Layer: 0
   m_Name: RedSoulEater
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,12 +76,15 @@ MonoBehaviour:
     attackParameterName: Attack
     dieParamterName: Die
   <Data>k__BackingField: {fileID: 0}
-  looting: []
+  looting:
+    _lootings: []
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0
     regenRate: 0
     decayRate: 0
+  attackTime: 0
+  _monsterWeapon: {fileID: 0}
 --- !u!1001 &5276120481684618380
 PrefabInstance:
   m_ObjectHideFlags: 0

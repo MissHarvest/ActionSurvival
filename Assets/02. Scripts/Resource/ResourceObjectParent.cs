@@ -15,9 +15,14 @@ public class ResourceObjectParent : MonoBehaviour
 
     private bool _isInitialized = false;
 
+    private void Awake()
+    {
+        Initialize();        
+    }
+
     private void Start()
     {
-        Initialize();
+        SetInfo(CurrentState, RemainingTime);
     }
 
     public void Update()
@@ -82,7 +87,7 @@ public class ResourceObjectParent : MonoBehaviour
 
     public void SetInfo(int stateID, float remainingTime)
     {
-        Initialize();
+        //Initialize();
         SwitchState(stateID);
         RemainingTime = remainingTime;
     }
@@ -90,18 +95,18 @@ public class ResourceObjectParent : MonoBehaviour
     #region Test Code ...
     public void TestInteract()
     {
-        if (_objects == null) return;
+        if (!_isInitialized) return;
 
-        if (_objects[CurrentState].activeSelf)
-            _objects[CurrentState].GetComponent<ResourceObjectGathering>()?.Interact(Managers.Game.Player);
+        if (_gatherings.TryGetValue(CurrentState, out var gathering))
+            gathering.Interact(Managers.Game.Player);
     }
 
     public void TestRespawn()
     {
-        if (_objects == null) return;
+        if (!_isInitialized) return;
 
-        if (_objects[CurrentState].activeSelf)
-            _objects[CurrentState].GetComponent<ResourceObjectDebris>()?.Respawn();
+        if (_debris.TryGetValue(CurrentState, out var debris))
+            debris.Respawn();
     }
     #endregion
 }

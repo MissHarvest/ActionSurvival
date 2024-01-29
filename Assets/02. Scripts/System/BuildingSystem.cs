@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 // 2024. 01. 24 Byun Jeongmin
 public class BuildingSystem : MonoBehaviour

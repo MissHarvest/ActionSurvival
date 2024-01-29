@@ -1,5 +1,5 @@
-// ÀÛ¼º ³¯Â¥ : 2024. 01. 12
-// ÀÛ¼ºÀÚ : Park Jun Uk
+// ì‘ì„± ë‚ ì§œ : 2024. 01. 12
+// ì‘ì„±ì : Park Jun Uk
 
 using System;
 using System.Collections;
@@ -9,6 +9,7 @@ using UnityEngine;
 [Serializable]
 public class MonsterAttackData
 {
+    [field: SerializeField] public int Atk { get; set; }
     [field : SerializeField] public float DetectionDistance { get; private set; }
     [field : SerializeField] public float DefaultDetectionDistModifier { get; private set; }
     [field : SerializeField] public float ChaseDectionDistModifier { get; private set; }

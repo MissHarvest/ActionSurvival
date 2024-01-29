@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feededd13c148ab41a55e68ae3f83574, type: 3}
   m_Name: FenceRecipeData
   m_EditorClassIdentifier: 
-  itemName: CraftingTable
+  itemName: Fence
   completedItemData: {fileID: 11400000, guid: 5fdc6d52b339f9a4a8daf6af2d4277f1, type: 2}
   IsAdvancedRecipe: 1
   requiredItems:

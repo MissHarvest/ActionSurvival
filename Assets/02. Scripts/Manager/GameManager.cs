@@ -29,7 +29,7 @@ public class GameManager
 
         DayCycle.Init();
         DayCycle.OnEveningCame += SpawnMonster;
-        DayCycle.OnNightCame += StartMonsterWave;
+        //DayCycle.OnNightCame += StartMonsterWave;
         
         Architecture.Init();
         
@@ -97,8 +97,8 @@ public class GameManager
             });
 
         IceIsland.CreateMonsters();
-        //CenterIsland.CreateMonsters();
-        //FireIsland.CreateMonsters();
+        CenterIsland.CreateMonsters();
+        FireIsland.CreateMonsters();
     }
 
     private void SaveCallback()
