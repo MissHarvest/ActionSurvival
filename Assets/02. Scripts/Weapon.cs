@@ -1,4 +1,4 @@
-using OpenCover.Framework.Model;
+//using OpenCover.Framework.Model; lgs 24.01.29
 using System;
 using System.Collections;
 using System.Collections.Generic;
