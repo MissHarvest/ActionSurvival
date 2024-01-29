@@ -14,7 +14,7 @@ public class ManagementedObject : MonoBehaviour
     private ObjectManager _manager;
 
     public List<ObjectManagementProtocol> managedTargets = new();
-    
+
     private void Start()
     {
         _world = Managers.Game.World;
@@ -28,11 +28,11 @@ public class ManagementedObject : MonoBehaviour
     public void SwitchEnabled()
     {
         _coord = _world.ConvertChunkCoord(_tranform.position);
-        if (_world.ChunkMap.TryGetValue(_coord, out var chunk))
-        {
-            bool enabled = chunk.IsActive;
-            foreach (var target in managedTargets)
-                _manager.ManageObject(target, enabled);
-        }
+        if (!_world.ChunkMap.TryGetValue(_coord, out var chunk))
+            return;
+
+        bool enabled = chunk.IsActive;
+        foreach (var target in managedTargets)
+            _manager.ManageObject(target, enabled);
     }
 }
