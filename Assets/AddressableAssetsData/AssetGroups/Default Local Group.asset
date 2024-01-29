@@ -174,9 +174,10 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9fd43508d8ee6954d8da11ac10998922
-    m_Address: Assets/04. Resources/Prefabs/Sphere.prefab
+    m_Address: Sphere.prefab
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3abcb6023a271ff43b783ee9a2b7abdf
     m_Address: SFXSound.prefab
@@ -186,6 +187,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 708617a31d531ad489f80b860079136a
     m_Address: PlayerSO.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d749c2a061db8194293269778cfd7d54
+    m_Address: RayPointer.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

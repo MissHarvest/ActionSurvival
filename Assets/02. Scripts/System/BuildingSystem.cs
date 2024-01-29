@@ -1,239 +1,129 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
 // 2024. 01. 24 Byun Jeongmin
 public class BuildingSystem : MonoBehaviour
 {
-    private Camera _cam;
-    private VirtualJoystick _virtualJoystick;
+    private GameObject _rayPointer;
 
-    [SerializeField] private GameObject _tempPrefab;
-    [SerializeField] private Material _previewMat;
-    [SerializeField] private Material _nonBuildableMat;
-    private Material _origionmat;
+    [SerializeField] private LayerMask _buildableLayer;
 
-    [SerializeField] private LayerMask _buildableLayer; // creatingLayer
-    [SerializeField] private LayerMask _destroyLayer;
-    private LayerMask _currentLayer;
-
-    [SerializeField] private int _raycastRange = 20;
-    [SerializeField] private float _yGridSize = 0.1f;
+    private int _raycastRange = 20;
+    private float gridSize = 1.0f;
     [SerializeField] private int _rotationAngle = 45;
 
-    [SerializeField] private GameObject _obj;
     private BuildableObject _buildableObject;
 
-    private bool _isHold = false;
-    private bool _canCreateObject = true;
-    private bool validHIt = false;
-
     public Player Owner { get; private set; }
-    public bool IsHold
-    {
-        get { return _isHold; }
-        private set { _isHold = value; }
-    }
 
     private void Awake()
     {
-        _cam = Camera.main;
-
         Owner = Managers.Game.Player;
-        var input = Owner.Input;
+        CreateRayPointer();
     }
 
-    private void Start()
+    public void CreateRayPointer()
     {
-        _virtualJoystick = FindObjectOfType<VirtualJoystick>();
+        var pos = transform.position + Vector3.up * 2;
+        _rayPointer = Instantiate(Managers.Resource.GetCache<GameObject>("RayPointer.prefab"), pos, Quaternion.identity);
+        _rayPointer.name = "RayPointer";
+        _rayPointer.SetActive(false);
     }
 
-    private void Update()
+    public void CreateArchitecture()
     {
-        if (_isHold)
+        var handItemData = Managers.Game.Player.QuickSlot.slots[Managers.Game.Player.QuickSlot.IndexInUse].itemSlot.itemData as ToolItemData;
+
+        if (handItemData.isArchitecture)
         {
-            if (_virtualJoystick != null)
-            {
-                //Vector2 joystickInput = _virtualJoystick.Handle.anchoredPosition;
-                //Debug.Log("조이스틱 x값 :" + joystickInput.x + ", y값 : " + joystickInput.y);
-                //SetObjPositionWithJoystick(joystickInput);
-            }
+            // "아이템명"+ItemData에서 "ItemData" 부분 제거
+            string itemNameWithoutItemData = handItemData.name.Replace("ItemData", "");
+
+            string prefabName = "Architecture_" + itemNameWithoutItemData + ".prefab";
+            var prefab = Managers.Resource.GetCache<GameObject>(prefabName);
+            _buildableObject = Instantiate(prefab).GetComponent<BuildableObject>();
+            _buildableObject.Create();
         }
     }
 
-    #region
+    public bool BuildArchitecture()
+    {
+        if (_buildableObject.canBuild == false) return false;
+        if (CanBuild() == false) return false;
+
+        _buildableObject.Build();
+        _rayPointer.SetActive(false);
+
+        // 인벤토리에서 제거
+        var useQuick = Owner.QuickSlot.slots[Owner.QuickSlot.IndexInUse];        
+        Managers.Game.Player.Inventory.DestroyItemByIndex(useQuick);
+        return true;
+    }
+
+
+    private bool CanBuild()
+    {
+        _buildableObject.canBuild = 
+            ( _buildableLayer == (_buildableLayer | 1 << RaycastHit().collider.gameObject.layer) )
+            && _buildableObject.isOverlap;
+        Debug.Log("[] " + RaycastHit().collider.gameObject.name);
+        return _buildableObject.canBuild;
+    }
+
+    public void CancelBuilding()
+    {
+        Destroy(_buildableObject.gameObject);
+        _rayPointer.SetActive(false);
+    }
+
     private RaycastHit RaycastHit() // 매개변수를 transform.positon으로 받아서 플레이어/울타리 위치 나누기
     {
         RaycastHit hit;
 
-        // 플레이어의 위치와 방향 받아서 ray 쏘기
-        Vector3 playerPosition = transform.position;
-        Vector3 raycastStartPoint = playerPosition;
+        Vector3 playerPosition = _rayPointer.transform.position;
 
-        float offsetY = 1.0f;
-        raycastStartPoint.y += offsetY;
-
-        Ray ray = new Ray(raycastStartPoint, Vector3.down);
-        validHIt = Physics.Raycast(ray, out hit, _raycastRange, _currentLayer); //지금은 buildableLayer만 검사 중이므로 필터링 빼기
-        Debug.Log("현재 레이어 : " + hit.collider.gameObject.layer);
+        Ray ray = new Ray(playerPosition, Vector3.down);
+        Physics.Raycast(ray, out hit, _raycastRange);
         return hit;
     }
 
-    public void SetObjPosition(Vector3 hitPos)
+    public void SetObjPosition()
     {
-        Vector3 _location = hitPos;
-        _location.Set(Mathf.Round(_location.x), Mathf.Round(_location.y / _yGridSize) * _yGridSize, Mathf.Round(_location.z));
-
-        _obj.transform.position = _location;
+        Vector3 _location = RaycastHit().point;
+        _location.Set(
+            Mathf.Round(_location.x/gridSize) * gridSize,
+            _buildableObject.gameObject.transform.position.y,
+            Mathf.Round(_location.z / gridSize) * gridSize
+            );
+        CanBuild();
+        _buildableObject.gameObject.transform.position = _location;
     }
 
     public void SetObjPositionWithJoystick(Vector2 joystickInput) //조이스틱인풋을 raycast할 지점 바꾸기
     {
-        Vector3 currentPosition = RaycastHit().point;
-        Debug.Log("레이캐스트 위치: " + currentPosition);
-        // 이동 속도
-        //float movementSpeed = 0.3f;
+        if (_buildableObject == null) return;
         float movementSpeed = 4.0f;
 
         // 울타리 이동 및 위치 조정
-        _obj.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
-        Debug.Log("x값: " + _obj.transform.position.x + " y값: " + _obj.transform.position.y + " z값: " + _obj.transform.position.z);
-        //round 쓰지말기
-        Vector3 newPosition = _obj.transform.position;
-        //Debug.Log("x값 " + newPosition.x + " y값 " + newPosition.y);
-        //newPosition.Set(Mathf.Round(newPosition.x), Mathf.Round(newPosition.y / _yGridSize) * _yGridSize, Mathf.Round(newPosition.z));
+        _rayPointer.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
 
-        //_obj.transform.position = newPosition;
+        SetObjPosition();
     }
-
-    private void CreateBluePrintObject(Vector3 pos)
-    {
-        //Debug.Log("이건 임시 프리팹 이름이에요 : " + _tempPrefab.name);
-        _obj = Instantiate(_tempPrefab);
-
-        SetObjPosition(pos);
-
-        _buildableObject = _obj.GetComponent<BuildableObject>();
-        _buildableObject.SetMaterial(_previewMat);
-
-        BuildableObjectColliderManager buildableObject = _obj.GetComponentInChildren<BuildableObjectColliderManager>();
-        buildableObject.OnRedMatAction += HandleBuildableObjectTriggerEnter;
-        buildableObject.OnBluePrintMatAction += HandleBuildableObjectTriggerExit;
-    }
-
-    #endregion
 
     #region Player Input Action Handle
 
-    private void HandleCreateBluePrint()
-    {
-        if (!_isHold)
-        {
-            _isHold = true;
-            _currentLayer = _buildableLayer;
-            Vector3 newPosition = RaycastHit().point;
-            CreateBluePrintObject(newPosition);
-        }
-    }
-
     public void HandleRotateArchitectureLeft()
     {
-        if (_isHold)
-            _obj.transform.Rotate(Vector3.up, -_rotationAngle);
+        if(_buildableObject == null) return;
+        _buildableObject.gameObject.transform.Rotate(Vector3.up, -_rotationAngle);
+
     }
 
     public void HandleRotateArchitectureRight()
     {
-        if (_isHold)
-            _obj.transform.Rotate(Vector3.up, _rotationAngle);
+        if (_buildableObject == null) return;
+        _buildableObject.gameObject.transform.Rotate(Vector3.up, _rotationAngle);
     }
-
-    public void HandleCancelBuildMode()
-    {
-        if (_isHold)
-        {
-            Destroy(_obj);
-            _isHold = false;
-        }
-    }
-
-    // 건축물 설치
-    private void HandleInstallArchitecture()
-    {
-        if (_isHold && _canCreateObject)
-        {
-            _isHold = false;
-            _obj.GetComponentInChildren<BoxCollider>().isTrigger = false;
-
-            _buildableObject.SetInitialObject();
-            _buildableObject.DestroyColliderManager();
-
-            // 건축물 장착 해제
-            Managers.Game.Player.Inventory.FindItem(Managers.Game.Player.ToolSystem.ItemInUse.itemData, out int index);
-            var item = new QuickSlot();
-            item.Set(index, Managers.Game.Player.Inventory.slots[index]);
-            Managers.Game.Player.QuickSlot.UnRegist(item);
-
-            // 인벤토리에서 제거
-            Managers.Game.Player.Inventory.DestroyItemByIndex(item);
-        }
-    }
-
     #endregion
-
-    #region Architecture Collider Action Handle
-
-    private void HandleBuildableObjectTriggerEnter()
-    {
-        _canCreateObject = false;
-    }
-
-    private void HandleBuildableObjectTriggerExit()
-    {
-        _canCreateObject = true;
-    }
-
-    #endregion
-
-    public void CreateAndSetArchitecture()
-    {
-        if (_isHold)
-        {
-            // 청사진 위치에 건축물 생성
-            HandleInstallArchitecture();
-        }
-        else
-        {
-            // 청사진 생성
-            if (Managers.Game.Player.QuickSlot.IndexInUse > -1)
-            {
-                var handItemData = Managers.Game.Player.QuickSlot.slots[Managers.Game.Player.QuickSlot.IndexInUse].itemSlot.itemData as ToolItemData;
-
-                if (handItemData.isArchitecture)
-                {
-                    // "아이템명"+ItemData에서 "ItemData" 부분 제거
-                    string itemNameWithoutItemData = handItemData.name.Replace("ItemData", "");
-
-                    string prefabName = "Architecture_" + itemNameWithoutItemData + ".prefab";
-                    _tempPrefab = Managers.Resource.GetCache<GameObject>(prefabName);
-
-                    HandleCreateBluePrint();
-                }
-            }
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Vector3 playerPosition = transform.position;
-        Vector3 raycastStartPoint = playerPosition;
-
-        float offsetY = 1.0f;
-        raycastStartPoint.y += offsetY;
-
-        Gizmos.color = Color.red;
-
-        Vector3 cubeCenter = raycastStartPoint + Vector3.down * _raycastRange * 0.5f;
-        Vector3 cubeSize = new Vector3(0.1f, _raycastRange, 0.1f);
-        Gizmos.DrawCube(cubeCenter, cubeSize);
-    }
 }

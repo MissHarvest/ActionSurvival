@@ -13,9 +13,10 @@ public class PlayerBuildState : PlayerBaseState
 
     public override void Enter()
     {
+        Debug.Log("[Player State Enter Building]");
         _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
-        _stateMachine.Player.Building.CreateAndSetArchitecture();
+        _stateMachine.Player.Building.CreateArchitecture();
         _buildingUI = Managers.UI.ShowPopupUI<UIBuilding>();
     }
 
@@ -51,7 +52,6 @@ public class PlayerBuildState : PlayerBaseState
     {
         // 빌드 상태 나가기
         Debug.Log("Exit Build");
-        _stateMachine.Player.Building.HandleCancelBuildMode();
         if (quickSlot.itemSlot.itemData is ToolItemData tooldata)
         {
             if (tooldata.isTwoHandedTool)
@@ -71,20 +71,16 @@ public class PlayerBuildState : PlayerBaseState
 
     protected override void OnInteractStarted(InputAction.CallbackContext context) //E키 눌렀을 때
     {
-        _stateMachine.Player.Building.CreateAndSetArchitecture();
-        _stateMachine.ChangeState(_stateMachine.IdleState);
+        if(_stateMachine.Player.Building.BuildArchitecture())
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+        }
     }
 
     // override 안하면 건축 시 조이스틱을 움직이면 플레이어 방향이 돌아간다
     public override void Update()
     {
-        //Debug.Log("상태머신 x값: "+_stateMachine.MovementInput.x + "y값: "+_stateMachine.MovementInput.y);
-        //SetObjPositionWithJoystick 가져다가 쓰기 
-        if (Managers.Game.Player.Building.IsHold)
-        {
-            //Managers.Game.Player.Building.SetObjPosition(_stateMachine.MovementInput);
-            Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
-        }
+        Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
     }
 
     public void OnRotateArchitectureLeftStarted(InputAction.CallbackContext context)
@@ -96,7 +92,4 @@ public class PlayerBuildState : PlayerBaseState
     {
         _stateMachine.Player.Building.HandleRotateArchitectureRight();
     }
-
-    // _stateMachine.MovementInput 활용!
-    // basestate의 ReadMovementInput()
 }
