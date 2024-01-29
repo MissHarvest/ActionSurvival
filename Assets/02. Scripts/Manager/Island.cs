@@ -35,16 +35,17 @@ public class Island
     private readonly int _interval = 5;
     private LayerMask _unspawnableLayers = 64;
 
-    private IsLandProperty _property;
+    private IslandProperty _property;
     public int[] rankCount = new int[] { 30, 15, 5 };
     private int _centerRadius = 10;
     private MonsterGroup[] _monsterGroups = new MonsterGroup[3];
+    private Transform _islandMonsterRoot;
 
     private List<SpawnPoint> _spawnablePoints = new List<SpawnPoint>();
 
     public List<GameObject> DiedMonsters = new List<GameObject>();
 
-    public Island(IsLandProperty property)
+    public Island(IslandProperty property)
     {
         _property = property;
         _offset = new Vector3(property.diameter / 2, 0, property.diameter / 2) - _property.center;
@@ -52,6 +53,16 @@ public class Island
         for (int i = 0; i < _monsterGroups.Length; ++i)
         {
             _monsterGroups[i] = new MonsterGroup();
+        }
+    }
+
+    public Transform SpawnMonsterRoot
+    {
+        get
+        {
+            if (_islandMonsterRoot == null)
+                _islandMonsterRoot = new GameObject(_property.name).transform;
+            return _islandMonsterRoot;
         }
     }
 
@@ -113,7 +124,8 @@ public class Island
 
                 var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();
                 var go = Object.Instantiate(mon, pos, Quaternion.identity);
-                go.transform.SetParent(hit.transform);
+                //go.transform.SetParent(hit.transform);    // [WJY] 청크 비활성화 로직이 바뀌어서 청크의 자식으로 넣을 필요가 없어졌습니다.
+                go.transform.SetParent(SpawnMonsterRoot);   // [WJY] 섬 마다 스폰된 몬스터들을 하이어라키에서 정렬해두변 보기 편할 것 같아서 추가했습니다.
                 go.GetComponent<Monster>().SetIsland(this);
                 go.name = $"{mon.name}[{_spawnablePoints[i].level}]";
             }

@@ -8,6 +8,7 @@ public class GameManager
     public Player Player;
     public TemperatureManager Temperature { get; private set; } = new TemperatureManager();
     public ArchitectureManager Architecture { get; private set; } = new();
+    public ObjectManager ObjectManager { get; private set; } = new();
     public DayCycle DayCycle { get; private set; } = new DayCycle();
 
     public event Action OnSaveCallback;
@@ -15,9 +16,9 @@ public class GameManager
     public World World { get; private set; }
     private ResourceObjectSpawner _resourceObjectSpawner = new();
 
-    public Island IceIsland = new Island(new IsLandProperty(new Vector3(-400, 0, 0)));
-    public Island CenterIsland = new Island(new IsLandProperty(Vector3.zero));
-    public Island FireIsland = new Island(new IsLandProperty(new Vector3(400, 0, 0)));
+    public Island IceIsland = new Island(new IslandProperty(new Vector3(-317, 0, 0), nameof(IceIsland)));
+    public Island CenterIsland = new Island(new IslandProperty(Vector3.zero, nameof(CenterIsland)));
+    public Island FireIsland = new Island(new IslandProperty(new Vector3(317, 0, 0), nameof(FireIsland)));
 
     public MonsterWave MonsterWave { get; private set; }
 
@@ -96,9 +97,9 @@ public class GameManager
             new string[] { "RedSoulEater" },
             });
 
-        //IceIsland.CreateMonsters();
+        IceIsland.CreateMonsters();
         CenterIsland.CreateMonsters();
-        //FireIsland.CreateMonsters();
+        FireIsland.CreateMonsters();
     }
 
     private void SaveCallback()

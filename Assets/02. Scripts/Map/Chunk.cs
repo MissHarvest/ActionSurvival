@@ -9,7 +9,6 @@ public class Chunk
 {
     private GameObject _chunkObject;
     private Transform _instanceBlockParent;
-    private Transform _instanceObjectParent;
     private MeshRenderer _meshRenderer;
     private MeshFilter _meshFilter;
     private ChunkCoord _coord;
@@ -44,7 +43,6 @@ public class Chunk
     public World World => _world;
     public VoxelData Data => _data;
     public Transform InstanceBlocksParent => _instanceBlockParent;
-    public Transform InstanceObjectParent => _instanceObjectParent;
 
     public List<SlideBlock> InstanceBlocks => _instanceBlocks;
 
@@ -63,8 +61,6 @@ public class Chunk
         _chunkObject.transform.SetParent(world.transform);
         _instanceBlockParent = new GameObject("Instance Block Parent").transform;
         _instanceBlockParent.SetParent(_chunkObject.transform);
-        _instanceObjectParent = new GameObject("Instance Object Parent").transform;
-        _instanceObjectParent.SetParent(_chunkObject.transform);
     }
 
     public void AddVoxel(WorldMapData data)
@@ -143,21 +139,6 @@ public class Chunk
             result[i] = (block.Mesh, block.TransformMatrix);
         }
         return result;
-    }
-
-    public void AddInstanceObject(Transform obj)
-    {
-        obj.parent = _instanceObjectParent;
-    }
-
-    public void AddInstanceObject(GameObject obj)
-    {
-        AddInstanceObject(obj.transform);
-    }
-
-    public void AddInstanceObject<T>(T obj) where T : MonoBehaviour
-    {
-        AddInstanceObject(obj.transform);
     }
 }
 

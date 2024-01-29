@@ -27,6 +27,7 @@ public class World : MonoBehaviour
     public WorldNavMeshBuilder NavMeshBuilder => _navMeshBuilder;
     public List<Chunk> CurrentActiveChunks => _currentActiveChunks;
     public Dictionary<ChunkCoord, Chunk> ChunkMap => _chunkMap;
+    public event Action OnWorldUpdated;
 
     private void Update()
     {
@@ -41,16 +42,6 @@ public class World : MonoBehaviour
             UpdateChunksInViewRange();
 
         _prevPlayerCoord = _currentPlayerCoord;
-    }
-
-    // TODO: ObjectManager? 아무튼 다른 매니저의 기능으로 옮기면 좋을 것 같습니다.
-    public GameObject SpawnObjectInWorld(GameObject prefab, Vector3 pos)
-    {
-        var coord = ConvertChunkCoord(pos);
-        Chunk chunk = _chunkMap[coord];
-        var obj = Instantiate(prefab, pos, Quaternion.identity);
-        chunk.AddInstanceObject(obj);
-        return obj;
     }
 
     public ChunkCoord ConvertChunkCoord(Vector3 pos)
@@ -92,6 +83,7 @@ public class World : MonoBehaviour
             chunk.IsActive = false;
 
         //_navMeshBuilder.UpdateNavMesh();
+        OnWorldUpdated?.Invoke();
     }
 
     private void InitializeChunk(ChunkCoord pos, WorldMapData blockData)

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 // 2024-01-23 WJY
 public class ResourceObjectSpawner
 {
     [SerializeField] private ResourceObjectSpawnData _spawnData;
+    private Transform _resourceObjectRoot;
 
     private World _world;
 
@@ -14,6 +14,7 @@ public class ResourceObjectSpawner
     public void Initialize()
     {
         _spawnData = Managers.Resource.GetCache<ResourceObjectSpawnData>("ResourceObjectSpawnData.data");
+        _resourceObjectRoot = new GameObject("ResourceObjectRoot").transform;
 
         _world = Managers.Game.World;
         SpawnObject();
@@ -23,14 +24,6 @@ public class ResourceObjectSpawner
 
     private void SpawnObject()
     {
-        // TEST SCENE CODE
-        if (_world == null)
-        {
-            foreach (var data in _spawnData.SpawnList)
-                UnityEngine.Object.Instantiate(data.Prefab, data.spawnPosition, Quaternion.identity);
-            return;
-        }
-
         //Load//
         SaveGame.TryLoadJsonFile<ResourceObjectSaveData>(SaveGame.SaveType.Runtime, "ResourceObjectsState", out ResourceObjectSaveData json);
         
@@ -38,7 +31,9 @@ public class ResourceObjectSpawner
         for(int i = 0; i < _spawnData.SpawnList.Count; ++i)
         {
             var data = _spawnData.SpawnList[i];
-            var go = _world.SpawnObjectInWorld(data.Prefab, data.spawnPosition);
+            //var go = _world.SpawnObjectInWorld(data.Prefab, data.spawnPosition);
+            var go = UnityEngine.Object.Instantiate(data.Prefab, data.spawnPosition, Quaternion.identity);
+            go.transform.parent = _resourceObjectRoot;
             var resourceObjectParent = go.GetComponent<ResourceObjectParent>();
             if(json!=null)
             {
