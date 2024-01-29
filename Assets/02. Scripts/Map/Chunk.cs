@@ -25,8 +25,8 @@ public class Chunk
     public ChunkCoord ChunkCoord => _coord;
     public bool IsActive
     {
-        get => _chunkObject.activeSelf;
-        set { if (_chunkObject.activeSelf != value) _chunkObject.SetActive(value); }
+        get => _meshRenderer.enabled;
+        set { if (_meshRenderer.enabled != value) _meshRenderer.enabled = value; }
     }
 
     public Mesh Mesh => _meshFilter.sharedMesh;
