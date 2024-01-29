@@ -3307,12 +3307,11 @@ MonoBehaviour:
   _nonBuildableMat: {fileID: 2100000, guid: 4cea252e4cd4c1241bbe5bf6a09e2e64, type: 2}
   _buildableLayer:
     serializedVersion: 2
-    m_Bits: 6144
+    m_Bits: 6145
   _destroyLayer:
     serializedVersion: 2
     m_Bits: 2048
   _raycastRange: 2
-  _yGridSize: 0.1
   _rotationAngle: 45
   _obj: {fileID: 0}
 --- !u!1 &7392496694934527924

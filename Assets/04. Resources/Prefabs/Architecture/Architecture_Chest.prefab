@@ -68,7 +68,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.07, y: 0.74, z: 0.72}
+  m_Size: {x: 0.98, y: 0.74, z: 0.6}
   m_Center: {x: 0, y: 0.37, z: 0}
 --- !u!1 &4883130150509036519
 GameObject:
@@ -140,7 +140,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1, y: 0.76, z: 0.84}
+  m_Size: {x: 0.98, y: 0.7, z: 0.72}
   m_Center: {x: 0, y: 0.38, z: 0}
 --- !u!114 &7305817652366244504
 MonoBehaviour:
@@ -167,6 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d0fe197638bde4b9fedfc363951056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <maxCapacity>k__BackingField: 30
+  <slots>k__BackingField: []
 --- !u!208 &2527162279892946340
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -177,7 +179,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.55, y: 0.38, z: 0.42}
+  m_Extents: {x: 0.485, y: 0.365, z: 0.345}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1

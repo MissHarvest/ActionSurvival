@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 // 2024. 01. 24 Byun Jeongmin
 public class BuildingSystem : MonoBehaviour
@@ -23,6 +24,8 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private GameObject _obj;
     private BuildableObject _buildableObject;
 
+    private GameObject _bird;
+
     private bool _isHold = false;
     private bool _canCreateObject = true;
     private bool validHIt = false;
@@ -32,6 +35,12 @@ public class BuildingSystem : MonoBehaviour
     {
         get { return _isHold; }
         private set { _isHold = value; }
+    }
+
+    public bool CanCreateObject
+    {
+        get { return _canCreateObject; }
+        private set { _canCreateObject = value; }
     }
 
     private void Awake()
@@ -61,57 +70,85 @@ public class BuildingSystem : MonoBehaviour
     }
 
     #region
-    private RaycastHit RaycastHit() // 매개변수를 transform.positon으로 받아서 플레이어/울타리 위치 나누기
+
+    public void SetRayBird()
+    {
+        Vector3 birdPosition = transform.position + Vector3.up * 1f;
+        //_bird = Instantiate(Managers.Resource.GetCache<GameObject>("RaycastBird.prefab"), birdPosition, Quaternion.identity, _tempPrefab.transform);
+        _bird = Instantiate(Managers.Resource.GetCache<GameObject>("RaycastBird.prefab"), birdPosition, Quaternion.identity);
+    }
+
+    private RaycastHit RaycastHit()
+    {
+        RaycastHit hit;
+        Vector3 raycastStartPoint = _bird.transform.position;
+        Ray ray = new Ray(raycastStartPoint, Vector3.down);
+        //validHIt = Physics.Raycast(ray, out hit, _raycastRange, _currentLayer);
+        Physics.Raycast(ray, out hit, _raycastRange, Physics.DefaultRaycastLayers);
+
+        if (hit.collider != null && IsInLayerMask(hit.collider.gameObject.layer, _currentLayer))
+        {
+            _canCreateObject = true;
+            Debug.Log("건축 가능한 레이어입니다. 레이어: " + hit.collider.gameObject.layer);
+            return hit;
+        }
+        else
+        {
+            _canCreateObject = false;
+            Debug.Log("건축 불가능한 레이어입니다. 레이어: " + hit.collider.gameObject.layer);
+            return hit;
+        }
+    }
+
+    private RaycastHit PlayerRaycastHit()
     {
         RaycastHit hit;
 
-        // 플레이어의 위치와 방향 받아서 ray 쏘기
         Vector3 playerPosition = transform.position;
         Vector3 raycastStartPoint = playerPosition;
 
-        float offsetY = 1.0f;
-        raycastStartPoint.y += offsetY;
-
         Ray ray = new Ray(raycastStartPoint, Vector3.down);
-        validHIt = Physics.Raycast(ray, out hit, _raycastRange, _currentLayer); //지금은 buildableLayer만 검사 중이므로 필터링 빼기
-        Debug.Log("현재 레이어 : " + hit.collider.gameObject.layer);
+        validHIt = Physics.Raycast(ray, out hit, _raycastRange, _currentLayer);
+        //Debug.Log("현재 레이어 : " + hit.collider.gameObject.layer);
         return hit;
     }
 
-    public void SetObjPosition(Vector3 hitPos)
+    private bool IsInLayerMask(int layer, LayerMask layerMask)
     {
-        Vector3 _location = hitPos;
-        _location.Set(Mathf.Round(_location.x), Mathf.Round(_location.y / _yGridSize) * _yGridSize, Mathf.Round(_location.z));
-
-        _obj.transform.position = _location;
+        return (layerMask.value & (1 << layer)) != 0;
     }
 
-    public void SetObjPositionWithJoystick(Vector2 joystickInput) //조이스틱인풋을 raycast할 지점 바꾸기
+    //오브젝트의 가로 세로 크기만큼 움직임 -> 1칸씩 움직이게 수정
+    public void SetObjPosition(Vector3 hitPos)
     {
-        Vector3 currentPosition = RaycastHit().point;
-        Debug.Log("레이캐스트 위치: " + currentPosition);
+        Vector3 location = hitPos;
+        location.Set(Mathf.Round(location.x), Mathf.Round(location.y / _yGridSize) * _yGridSize, Mathf.Round(location.z));
+        location.y = _obj.transform.position.y;
+        _obj.transform.position = location;
+    }
+
+    public void SetObjPositionWithJoystick(Vector2 joystickInput)
+    {
         // 이동 속도
-        //float movementSpeed = 0.3f;
         float movementSpeed = 4.0f;
 
         // 울타리 이동 및 위치 조정
-        _obj.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
+        _bird.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
         Debug.Log("x값: " + _obj.transform.position.x + " y값: " + _obj.transform.position.y + " z값: " + _obj.transform.position.z);
-        //round 쓰지말기
-        Vector3 newPosition = _obj.transform.position;
-        //Debug.Log("x값 " + newPosition.x + " y값 " + newPosition.y);
-        //newPosition.Set(Mathf.Round(newPosition.x), Mathf.Round(newPosition.y / _yGridSize) * _yGridSize, Mathf.Round(newPosition.z));
 
-        //_obj.transform.position = newPosition;
+        SetObjPosition(RaycastHit().point);
     }
 
     private void CreateBluePrintObject(Vector3 pos)
     {
+        SetRayBird();
+        Vector3 position = _bird.transform.position - Vector3.up * 1f;
         //Debug.Log("이건 임시 프리팹 이름이에요 : " + _tempPrefab.name);
         _obj = Instantiate(_tempPrefab);
 
-        SetObjPosition(pos);
-
+        //SetObjPosition();
+        _obj.transform.position = position;
+        //_obj.transform.position = pos;
         _buildableObject = _obj.GetComponent<BuildableObject>();
         _buildableObject.SetMaterial(_previewMat);
 
@@ -130,7 +167,7 @@ public class BuildingSystem : MonoBehaviour
         {
             _isHold = true;
             _currentLayer = _buildableLayer;
-            Vector3 newPosition = RaycastHit().point;
+            Vector3 newPosition = PlayerRaycastHit().point;
             CreateBluePrintObject(newPosition);
         }
     }
@@ -152,6 +189,7 @@ public class BuildingSystem : MonoBehaviour
         if (_isHold)
         {
             Destroy(_obj);
+            Destroy(_bird);
             _isHold = false;
         }
     }
@@ -166,6 +204,7 @@ public class BuildingSystem : MonoBehaviour
 
             _buildableObject.SetInitialObject();
             _buildableObject.DestroyColliderManager();
+            Destroy(_bird);
 
             // 건축물 장착 해제
             Managers.Game.Player.Inventory.FindItem(Managers.Game.Player.ToolSystem.ItemInUse.itemData, out int index);
@@ -175,6 +214,10 @@ public class BuildingSystem : MonoBehaviour
 
             // 인벤토리에서 제거
             Managers.Game.Player.Inventory.DestroyItemByIndex(item);
+        }
+        else if (_isHold && !_canCreateObject)
+        {
+            HandleCancelBuildMode();
         }
     }
 
@@ -224,16 +267,11 @@ public class BuildingSystem : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3 playerPosition = transform.position;
-        Vector3 raycastStartPoint = playerPosition;
+        RaycastHit hit = RaycastHit();
 
-        float offsetY = 1.0f;
-        raycastStartPoint.y += offsetY;
+        //Debug.DrawLine(_bird.transform.position, hit.point, Color.red);
 
         Gizmos.color = Color.red;
-
-        Vector3 cubeCenter = raycastStartPoint + Vector3.down * _raycastRange * 0.5f;
-        Vector3 cubeSize = new Vector3(0.1f, _raycastRange, 0.1f);
-        Gizmos.DrawCube(cubeCenter, cubeSize);
+        Gizmos.DrawCube(hit.point, new Vector3(0.1f, 0.1f, 0.1f));
     }
 }
