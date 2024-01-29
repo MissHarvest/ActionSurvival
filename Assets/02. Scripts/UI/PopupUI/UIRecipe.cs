@@ -11,18 +11,7 @@ public class UIRecipe : UICraftBase
     public override void OnEnable()
     {
         base.OnEnable();
-        
-        string currentToolName = Managers.Game.Player.ToolSystem.GetToolName(Managers.Game.Player.ToolSystem.ItemInUse);
-
-        // 고급 레시피 UI 활성화
-        if (currentToolName == "Handable_CraftingTable")
-        {
-            SetAdvancedRecipeUIActive(true);
-        }
-        else
-        {
-            SetAdvancedRecipeUIActive(false);
-        }
+        SetAdvancedRecipeUIActive(false);
     }
 
     // 고급 레시피 UI의 활성화 여부를 설정하는 메서드

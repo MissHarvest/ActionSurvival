@@ -14,10 +14,15 @@ public class BuildableObjectColliderManager : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other != _thisObjectAnotherCollider)
+        if (other != _thisObjectAnotherCollider || !Managers.Game.Player.Building.CanCreateObject)
         {
             _thisObjectRenderer.material = _redMat;
             OnRedMatAction?.Invoke();
+        }
+        else
+        {
+            _thisObjectRenderer.material = _bluePrintMat;
+            OnBluePrintMatAction?.Invoke();
         }
     }
 

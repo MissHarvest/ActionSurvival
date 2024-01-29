@@ -10,15 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: feededd13c148ab41a55e68ae3f83574, type: 3}
-  m_Name: FenceRecipeData
+  m_Name: FarmRecipeData
   m_EditorClassIdentifier: 
-  itemName: Fence
-  completedItemData: {fileID: 11400000, guid: 5fdc6d52b339f9a4a8daf6af2d4277f1, type: 2}
+  itemName: Farm
+  completedItemData: {fileID: 11400000, guid: e9d0b5d90db9fee41831d73c1781f2b8, type: 2}
   IsAdvancedRecipe: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
     quantity: 2
-  - item: {fileID: 11400000, guid: 6da7e8dc2cbba744da724536ad72f584, type: 2}
-    quantity: 1
-  - item: {fileID: 11400000, guid: 9515422e7b608cd4ea5174facd473388, type: 2}
-    quantity: 4
