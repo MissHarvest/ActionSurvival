@@ -37,11 +37,14 @@ public class ArchitectureManager
                     architectures[prefabName].Add(go);
                 }
             }
-            
-            //for(int i = 0; i < architectures["Architecture_Farm"].Count;++i)
-            //{
-            //    architectures["Architecture_Farm"][i].GetComponent<ResourceObjectParent>()?.SetInfo(json.farmData[i].state, json.farmData[i].remainingTime);
-            //}
+
+            if (architectures.ContainsKey("Architecture_Farm"))
+            {
+                for (int i = 0; i < architectures["Architecture_Farm"].Count; ++i)
+                {
+                    architectures["Architecture_Farm"][i].GetComponent<Farm>()?.SetInfo(json.farmData[i].state, json.farmData[i].remainingTime);
+                }
+            }
         }
 
         Managers.Game.OnSaveCallback += Save;
@@ -50,8 +53,7 @@ public class ArchitectureManager
     public void Add(BuildableObject architecture)
     {
         var name = architecture.name.Replace("(Clone)", "");
-        Debug.Log($"{name} is build");
-
+        
         if(architectures.TryGetValue(name, out List<GameObject> list))
         {
             list.Add(architecture.gameObject);            
@@ -60,6 +62,7 @@ public class ArchitectureManager
             return;
         }
 
+        Debug.Log($"[{name}] Dictionary Create");
         architectures.Add(name, new List<GameObject>());
         numbering.Add(name, 0);
 
@@ -84,11 +87,14 @@ public class ArchitectureManager
             }
         }
 
-        //foreach(var farm in architectures["Architecture_Farm"])
-        //{
-        //    saveData.farmData.Add(new ResourceObjectState(farm.GetComponent<ResourceObjectParent>()));
-        //}
-        
+        if (architectures.ContainsKey("Architecture_Farm"))
+        {
+            foreach (var farm in architectures["Architecture_Farm"])
+            {
+                saveData.farmData.Add(new FarmData(farm.GetComponent<Farm>()));
+            }
+        }
+
         var json = JsonUtility.ToJson(saveData);
         SaveGame.CreateJsonFile("Architectures", json, SaveGame.SaveType.Runtime);
     }

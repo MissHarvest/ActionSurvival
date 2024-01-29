@@ -71,6 +71,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         Dead = false;
         transform.position = RespawnPosition;
+        gameObject.SetActive(true);
         _stateMachine.ChangeState(_stateMachine.IdleState);
 
         // [ Do ] HP 복구 //

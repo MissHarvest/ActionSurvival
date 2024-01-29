@@ -31,8 +31,6 @@ public class Player : MonoBehaviour, IHit
 
     private PlayerStateMachine _stateMachine;
 
-    public Vector3 moveDir;
-
     private void Awake()
     {
         Managers.Game.Player = this;
