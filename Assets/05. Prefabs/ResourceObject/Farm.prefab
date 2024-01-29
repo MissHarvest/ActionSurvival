@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 0
-  _lootingItem: {fileID: 11400000, guid: 13dbad5903b2f1845ba772ebf1829c78, type: 2}
   _itemTable:
     _lootings:
     - _item: {fileID: 11400000, guid: 13dbad5903b2f1845ba772ebf1829c78, type: 2}
@@ -297,7 +296,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 1
-  _lootingItem: {fileID: 0}
   _itemTable:
     _lootings: []
 --- !u!1 &5420459721711242409
@@ -418,7 +416,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 0
-  _lootingItem: {fileID: 0}
   _itemTable:
     _lootings: []
 --- !u!114 &3595890187043907313

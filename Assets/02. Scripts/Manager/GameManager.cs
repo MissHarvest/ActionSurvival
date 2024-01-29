@@ -97,8 +97,8 @@ public class GameManager
             });
 
         IceIsland.CreateMonsters();
-        //CenterIsland.CreateMonsters();
-        //FireIsland.CreateMonsters();
+        CenterIsland.CreateMonsters();
+        FireIsland.CreateMonsters();
     }
 
     private void SaveCallback()
