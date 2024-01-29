@@ -19,7 +19,7 @@ MonoBehaviour:
   maxDurability: 10
   targetLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 16512
   range: 1
   attackPower: 1
   damage: 5

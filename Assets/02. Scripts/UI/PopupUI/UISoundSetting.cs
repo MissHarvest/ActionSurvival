@@ -42,6 +42,13 @@ public class UISoundSetting : UIPopup
     private void Awake()
     {
         Initialize();
+        var volumes = SaveGame.GetSoundSetting();
+
+        for(int i = 0; i < volumes.Length; ++i)
+        {
+            Get<UISoundController>(i).Slider.value = volumes[i];
+        }
+
         gameObject.SetActive(false);
     }
 

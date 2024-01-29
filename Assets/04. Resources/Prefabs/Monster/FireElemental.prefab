@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8879218030718658345}
   - component: {fileID: 9177270123640894533}
+  - component: {fileID: 3034330799788723572}
   - component: {fileID: 1640740400150477035}
   m_Layer: 0
   m_Name: FireElemental
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 1321615996506219566}
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &9177270123640894533
 NavMeshAgent:
@@ -56,7 +57,7 @@ NavMeshAgent:
   m_BaseOffset: -0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1640740400150477035
+--- !u!114 &3034330799788723572
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,6 +65,60 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 50150865664755383}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e6838aee4335b438331135f00364f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: FireElemental
+  <AnimationData>k__BackingField:
+    idleParameterName: Idle
+    walkParameterName: Walk
+    runParameterName: Run
+    attackParameterName: Attack
+    dieParamterName: Die
+  <Data>k__BackingField: {fileID: 0}
+  looting:
+    _lootings:
+    - _item: {fileID: 11400000, guid: a1020833cf086984eaddf8c111fc9f94, type: 2}
+      _distribution:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
+  attackTime: 0
+  _monsterWeapon: {fileID: 7255844484588517003}
+--- !u!114 &1640740400150477035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50150865664755383}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9da69d7f83c48940a2a0ab60dc82f15, type: 3}
   m_Name: 
@@ -76,12 +131,14 @@ MonoBehaviour:
     attackParameterName: Attack
     dieParamterName: Die
   <Data>k__BackingField: {fileID: 0}
-  looting: []
+  looting:
+    _lootings: []
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0
     regenRate: 0
     decayRate: 0
+  attackTime: 0
 --- !u!1001 &3315763239597375964
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -165,10 +222,54 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8053979606857944103, guid: 45e99415f7c19dc4e92b2e6aa30963d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7255844484588517003}
+    - targetCorrespondingSourceObject: {fileID: 8053979606857944103, guid: 45e99415f7c19dc4e92b2e6aa30963d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9152295114443699816}
   m_SourcePrefab: {fileID: 100100000, guid: 45e99415f7c19dc4e92b2e6aa30963d6, type: 3}
 --- !u!4 &1321615996506219566 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4347283873449256434, guid: 45e99415f7c19dc4e92b2e6aa30963d6, type: 3}
   m_PrefabInstance: {fileID: 3315763239597375964}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4739632744412351995 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8053979606857944103, guid: 45e99415f7c19dc4e92b2e6aa30963d6, type: 3}
+  m_PrefabInstance: {fileID: 3315763239597375964}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7255844484588517003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4739632744412351995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b733474ce4e91bf45996fbe748119e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &9152295114443699816
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4739632744412351995}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}

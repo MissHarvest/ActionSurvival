@@ -642,7 +642,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 1
-  _lootingItem: {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}
   _itemTable:
     _lootings:
     - _item: {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}

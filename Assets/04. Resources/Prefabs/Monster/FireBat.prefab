@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 7461395532833877942}
   m_Layer: 0
   m_Name: FireBat
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,7 +109,76 @@ MonoBehaviour:
     attackParameterName: Attack
     dieParamterName: Die
   <Data>k__BackingField: {fileID: 0}
-  looting: []
+  looting:
+    _lootings:
+    - _item: {fileID: 11400000, guid: cbb888e46821d3d41b6bd05183bc5ccf, type: 2}
+      _distribution:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.5
+          value: 1
+          inSlope: 0.00000065023227
+          outSlope: 0.00000065023227
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.3666668
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+    - _item: {fileID: 11400000, guid: c48d0f569a835d44fa7bd6c45421d9ff, type: 2}
+      _distribution:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.5
+          value: 1
+          inSlope: 0.00000065023227
+          outSlope: 0.00000065023227
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.3666668
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0
@@ -141,7 +210,8 @@ MonoBehaviour:
     attackParameterName: Attack
     dieParamterName: Die
   <Data>k__BackingField: {fileID: 0}
-  looting: []
+  looting:
+    _lootings: []
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0

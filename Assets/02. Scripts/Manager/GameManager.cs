@@ -29,7 +29,7 @@ public class GameManager
 
         DayCycle.Init();
         DayCycle.OnEveningCame += SpawnMonster;
-        DayCycle.OnNightCame += StartMonsterWave;
+        //DayCycle.OnNightCame += StartMonsterWave;
         
         Architecture.Init();
         

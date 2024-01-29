@@ -8,21 +8,32 @@ using UnityEngine.UI;
 public class TitleScene : MonoBehaviour
 {
     public Button LoadNewScene;
+    public Button NewStart;
 
-    private void Awake()
-    {        
-        LoadNewScene.onClick.AddListener(() =>
+    public IEnumerator Start()
+    {
+        UITitleScene titleScene = null;
+        Managers.Resource.LoadAsync<UnityEngine.Object>("UITitleScene.prefab", (obj) =>
         {
-            SceneManager.LoadScene("Main Scene");
+            titleScene = Managers.UI.ShowSceneUI<UITitleScene>();
+        });
+
+        yield return new WaitWhile(()=> titleScene == null);
+
+        ResourceLoad((key, count, total) =>
+        {            
+            if (count == total)
+            {
+                titleScene.ActivateButtons();
+
+                Managers.Sound.Init();
+                Managers.Sound.PlayBGM("TitleBGM");
+            }
         });
     }
 
-    private void Start()
+    private void ResourceLoad(Action<string, int, int> callback)
     {
-        Managers.Resource.LoadAsync<UnityEngine.Object>("TitleBGM.wav",(x) => 
-        {
-            Managers.Sound.Init();
-            Managers.Sound.PlayBGM("TitleBGM");
-        });
+        Managers.Resource.LoadAllAsync<UnityEngine.Object>("MainScene", callback);
     }
 }

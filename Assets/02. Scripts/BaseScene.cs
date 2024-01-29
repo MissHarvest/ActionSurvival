@@ -21,7 +21,7 @@ public class BaseScene : MonoBehaviour
                 virtualCamera.Follow = Managers.Game.Player.ViewPoint;
                 virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
 
-                
+                Managers.Sound.Init();
                 Managers.UI.ShowSceneUI<UIMainScene>();
                 Managers.UI.LoadPopupUIs();
                 Managers.Data.InitializeRecipeData();
@@ -34,7 +34,7 @@ public class BaseScene : MonoBehaviour
                     }
                 }
 
-                var mon = Managers.Resource.GetCache<GameObject>("Skeleton.prefab");
+                var mon = Managers.Resource.GetCache<GameObject>("FireRabbitMon.prefab");
                 Instantiate(mon);
             }
         });

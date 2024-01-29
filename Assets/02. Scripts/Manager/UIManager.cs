@@ -18,8 +18,6 @@ public class UIManager
     private UIScene _scene;
     #endregion
 
-
-
     #region Properties => Set Root UI
 
     public GameObject Root
@@ -31,6 +29,7 @@ public class UIManager
             if(root == null)
             {
                 root = new GameObject { name = "@UI_Root" };
+                Object.DontDestroyOnLoad(root);
             }
 
             return root;
@@ -99,6 +98,16 @@ public class UIManager
             var canvas = go.GetOrAddComponent<Canvas>();
             SetOrder(canvas);
             go.SetActive(true);
+        }
+
+        if(go == null)
+        {
+            var prefab = Managers.Resource.GetCache<GameObject>($"UIPopUp_{name}.prefab");
+            go = Object.Instantiate(prefab, Root.transform);
+            var canvas = go.GetOrAddComponent<Canvas>();
+            SetOrder(canvas);
+            go.SetActive(true);
+            _popups.TryAdd(name, go);
         }
 
         var popupUI = Utility.GetOrAddComponent<T>(go);

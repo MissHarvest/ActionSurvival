@@ -1,6 +1,7 @@
 // �ۼ� ��¥ : 2024. 01. 12
 // �ۼ��� : Park Jun Uk 
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -20,7 +21,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     public NavMeshAgent NavMeshAgent { get; private set; }
 
-    public ItemData[] looting;
+    public ItemDropTable looting;
     public bool Dead { get; private set; }
 
     public bool Berserk { get; private set; }
@@ -29,11 +30,14 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     private Island _habitat;
 
+    public event Action<IAttack> OnHit;
+
     [Header("Attack")]
     public float attackTime;
 
     protected virtual void Awake()
     {
+        gameObject.layer = 7;
         AnimationData.Initialize();
         Animator = GetComponentInChildren<Animator>();
 
@@ -77,25 +81,29 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         Dead = true;
         _stateMachine.ChangeState(_stateMachine.DieState);
-
-        // [ TEMP ] Get Looting //
-        foreach (var loot in looting)
-        {
-            Managers.Game.Player.Inventory.AddItem(loot, 1);
-        }
+        looting.AddInventory(Managers.Game.Player.Inventory);
 
         _habitat?.DiedMonsters.Add(this.gameObject);
     }
 
     public void Attack(IHit target)
-    {
-        target.Hit(this, 10);
+    {        
+        target.Hit(this, Data.AttackData.Atk);
     }
 
     public void Hit(IAttack attacker, float damage)
     {
+        gameObject.layer = 14;
         HP.Subtract(damage);
         Debug.Log("피격");
+        OnHit?.Invoke(attacker);
+        StartCoroutine(Avoid());
+    }
+
+    IEnumerator Avoid()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameObject.layer = 7;
     }
 
     public void SetBerserkMode()

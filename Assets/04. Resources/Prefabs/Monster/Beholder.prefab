@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3379201429456984453}
   m_Layer: 0
   m_Name: Beholder
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,8 @@ MonoBehaviour:
     attackParameterName: Attack
     dieParamterName: Die
   <Data>k__BackingField: {fileID: 11400000, guid: ed9bb1dc6fbdb0241ae69201728809ae, type: 2}
-  looting: []
+  looting:
+    _lootings: []
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0

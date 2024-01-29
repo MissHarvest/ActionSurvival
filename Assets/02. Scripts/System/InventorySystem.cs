@@ -11,7 +11,7 @@ public class InventorySystem : MonoBehaviour
     public Player Owner { get; private set; }
 
     public event Action<int, ItemSlot> OnUpdated;
-    public event Action<ItemData> OnItemAdd;
+    public event Action<ItemSlot> OnItemAdd;
 
     protected virtual void Awake()
     {
@@ -106,7 +106,7 @@ public class InventorySystem : MonoBehaviour
             if (FindEmptyIndex(out targetIndex))
             {
                 slots[targetIndex].Set(itemslot);
-                OnItemAdd?.Invoke(itemslot.itemData);
+                OnItemAdd?.Invoke(itemslot);
                 OnUpdated?.Invoke(targetIndex, slots[targetIndex]);
                 return;
             }
@@ -116,7 +116,7 @@ public class InventorySystem : MonoBehaviour
         if (itemSlot != null)
         {
             itemSlot.AddQuantity(itemslot.quantity);
-            OnItemAdd?.Invoke(itemslot.itemData);
+            OnItemAdd?.Invoke(itemslot);
             OnUpdated?.Invoke(targetindex, itemSlot);
             return;
         }
@@ -124,7 +124,7 @@ public class InventorySystem : MonoBehaviour
         if (FindEmptyIndex(out targetindex))
         {
             slots[targetindex].Set(itemslot);
-            OnItemAdd?.Invoke(itemslot.itemData);
+            OnItemAdd?.Invoke(itemslot);
             OnUpdated?.Invoke(targetindex, slots[targetindex]);
         }
 
@@ -140,7 +140,7 @@ public class InventorySystem : MonoBehaviour
             if(FindEmptyIndex(out targetindex))
             {
                 slots[targetindex].Set(itemData);
-                OnItemAdd?.Invoke(itemData);
+                OnItemAdd?.Invoke(new ItemSlot(itemData, quantity));
                 OnUpdated?.Invoke(targetindex, slots[targetindex]);
                 return;
             }
@@ -150,7 +150,7 @@ public class InventorySystem : MonoBehaviour
         if(itemSlot != null)
         {
             itemSlot.AddQuantity(quantity);
-            OnItemAdd?.Invoke(itemData);
+            OnItemAdd?.Invoke(new ItemSlot(itemData, quantity));
             OnUpdated?.Invoke(targetindex, itemSlot);
             return;
         }
@@ -158,7 +158,7 @@ public class InventorySystem : MonoBehaviour
         if(FindEmptyIndex(out targetindex))
         {
             slots[targetindex].Set(itemData, quantity);
-            OnItemAdd?.Invoke(itemData);
+            OnItemAdd?.Invoke(new ItemSlot(itemData, quantity));
             OnUpdated?.Invoke(targetindex, slots[targetindex]);
         }
     }

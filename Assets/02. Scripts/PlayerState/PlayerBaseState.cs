@@ -67,6 +67,11 @@ public class PlayerBaseState : IState
 
     private void Move(Vector3 movementDirection)
     {
+        RaycastHit hit;
+        Physics.Raycast(_stateMachine.Player.transform.position, Vector3.down, out hit, 10.0f, 4096);
+        movementDirection -= hit.normal;
+        movementDirection.Normalize();
+
         float movementSpeed = GetMovementSpeed();
         _stateMachine.Player.Controller.Move(
             ((movementDirection * movementSpeed) +

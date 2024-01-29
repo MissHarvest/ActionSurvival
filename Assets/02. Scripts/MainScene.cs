@@ -50,7 +50,7 @@ public class MainScene : MonoBehaviour
                     Managers.Game.World.InitializeWorldNavMeshBuilder(callback: op => 
                     {
                         // 4. NavMesh 생성
-                        var mon = Managers.Resource.GetCache<GameObject>("Skeleton.prefab");
+                        var mon = Managers.Resource.GetCache<GameObject>("Slime.prefab");
                         Instantiate(mon);
                         Managers.Game.Init();
                     });
