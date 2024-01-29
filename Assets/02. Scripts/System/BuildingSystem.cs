@@ -10,7 +10,7 @@ public class BuildingSystem : MonoBehaviour
 
     [SerializeField] private LayerMask _buildableLayer;
 
-    private int _raycastRange = 20;
+    private float _raycastRange = 20.0f;
     private float gridSize = 1.0f;
     [SerializeField] private int _rotationAngle = 45;
 
@@ -38,6 +38,7 @@ public class BuildingSystem : MonoBehaviour
 
         if (handItemData.isArchitecture)
         {
+            _rayPointer.transform.position = transform.position + Vector3.up * 2;
             // "아이템명"+ItemData에서 "ItemData" 부분 제거
             string itemNameWithoutItemData = handItemData.name.Replace("ItemData", "");
 
@@ -68,7 +69,6 @@ public class BuildingSystem : MonoBehaviour
         _buildableObject.canBuild = 
             ( _buildableLayer == (_buildableLayer | 1 << RaycastHit().collider.gameObject.layer) )
             && _buildableObject.isOverlap;
-        Debug.Log("[] " + RaycastHit().collider.gameObject.name);
         return _buildableObject.canBuild;
     }
 
@@ -85,7 +85,10 @@ public class BuildingSystem : MonoBehaviour
         Vector3 playerPosition = _rayPointer.transform.position;
 
         Ray ray = new Ray(playerPosition, Vector3.down);
-        Physics.Raycast(ray, out hit, _raycastRange);
+
+        Physics.BoxCast(_rayPointer.transform.position, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, _raycastRange);
+
+        //Physics.Raycast(ray, out hit, _raycastRange);
         return hit;
     }
 
@@ -104,7 +107,7 @@ public class BuildingSystem : MonoBehaviour
     public void SetObjPositionWithJoystick(Vector2 joystickInput) //조이스틱인풋을 raycast할 지점 바꾸기
     {
         if (_buildableObject == null) return;
-        float movementSpeed = 4.0f;
+        float movementSpeed = 2.0f;
 
         // 울타리 이동 및 위치 조정
         _rayPointer.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);

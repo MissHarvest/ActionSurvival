@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,23 +14,22 @@ public class BuildableObject : MonoBehaviour
     public Material redMat;
     public Material blueMat;
 
-    private int buildingLayer = 11; // Architecture 레이어 번호
     public bool canBuild { get; set; } = true;
     public bool isOverlap { get; private set; } = false;
+
     public event Action OnRenamed;
 
     private void Awake()
     {
-        _renderer= GetComponentInChildren<Renderer>();
+        _renderer= GetComponentInChildren<MeshRenderer>();
         _originMat = new Material(_renderer.material);
-        _renderer.material = _originMat;
         _collider = GetComponent<Collider>();
         _navMeshObstacle = GetComponent<NavMeshObstacle>();
     }
 
     public void Create()
     {
-        _renderer.material = blueMat;
+        SetMaterial(blueMat);
         _collider.isTrigger = true;
         StartCoroutine(StartBuild());
     }
@@ -39,16 +39,22 @@ public class BuildableObject : MonoBehaviour
         while(true)
         {
             yield return null;
-            _renderer.material = canBuild ? blueMat : redMat;
+            var mat = canBuild ? blueMat : redMat;
+            if(_collider.isTrigger) SetMaterial(mat);
         }
     }
 
     public void Build()
     {
-        _renderer.material = _originMat;
         _collider.isTrigger = false;
-        _navMeshObstacle.enabled = true;
         StopCoroutine(StartBuild());
+        SetMaterial(_originMat);
+        _navMeshObstacle.enabled = true;
+    }
+
+    private void SetMaterial(Material material)
+    {
+        _renderer.material = material;
     }
 
     private void Start()
@@ -57,7 +63,7 @@ public class BuildableObject : MonoBehaviour
         {
             Managers.Game.Architecture.Add(this);
         }
-        OnRenamed?.Invoke();
+        
     }
 
     public void DestroyObject()

@@ -52,6 +52,8 @@ public class PlayerBuildState : PlayerBaseState
     {
         // 빌드 상태 나가기
         Debug.Log("Exit Build");
+
+        _stateMachine.Player.Building.CancelBuilding();
         if (quickSlot.itemSlot.itemData is ToolItemData tooldata)
         {
             if (tooldata.isTwoHandedTool)
