@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Architecture Prefabs
+  m_EditorClassIdentifier: 
+  m_GroupName: Architecture Prefabs
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 077d833282fdba04c88c1a7cf4b8a865
+  m_SerializeEntries:
+  - m_GUID: 9991bce912d15714a99498438e0e144d
+    m_Address: Architecture_BonFire.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33f02be2a0b0c0647ba9e47eed9bab7b
+    m_Address: Architecture_BuildableObject.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dffab87be3fcdae4b9243e690082a677
+    m_Address: Architecture_CraftingTable.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32757cf6579103a4aa51be1f1f026a30
+    m_Address: Architecture_Chest.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b0476ff13888be42a0941ffe8459300
+    m_Address: Architecture_Fence.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f2119e1062c42f48b5bbd7c98be7584
+    m_Address: Architecture_Furnace.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f4d002869159b84fa36527d8c71b9e0
+    m_Address: Architecture_Farm.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32757cf6579103a4aa51be1f1f026a30
+    m_Address: Architecture_Chest.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2c8bf36c95d5baa40bc0d434aebd869a
+    m_Address: Architecture_Farm.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 3d37e13ea18d9e0448f1d2495efbd28f, type: 2}
+    - {fileID: 11400000, guid: 820d14684d128c84ba81beefee24482c, type: 2}

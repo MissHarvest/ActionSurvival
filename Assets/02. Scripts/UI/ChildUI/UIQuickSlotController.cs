@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UIQuickSlotController : UIBase
@@ -20,11 +21,11 @@ public class UIQuickSlotController : UIBase
 
     private void CreateSlots(QuickSlotSystem quickSlotSystem)
     {
-        for (int i = 0; i < QuickSlotSystem.capacity; ++i)
+        _slots = GetComponentsInChildren<UIQuickSlot>().ToList();
+
+        for (int i = 0; i < _slots.Count; ++i)
         {
-            var slotUI = Managers.Resource.Instantiate("UIQuickSlot", Literals.PATH_UI, transform).GetOrAddComponent<UIQuickSlot>();
-            slotUI.Init(this, i, quickSlotSystem.slots[i].itemSlot);
-            _slots.Add(slotUI);
+            _slots[i].Init(this, i, quickSlotSystem.slots[i].itemSlot);
         }
     }
 

@@ -1,36 +1,54 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.UIElements;
 
 [Serializable]
 public class ItemSlot
 {
-    public ItemData itemData { get; private set; } = null;
+    [field: SerializeField] public ItemData itemData { get; private set; } = null;
     [field: SerializeField] public int quantity { get; private set; }
-    // ³»±¸µµ 
+    // ë‚´êµ¬ë„ 
+    [field: SerializeField] public float currentDurability { get; private set; }
 
-    public bool equipped { get; private set; } = false;
-    public bool registed { get; private set; } = false;
+    [field: SerializeField] public bool equipped { get; private set; } = false;
+    [field: SerializeField] public bool registed { get; private set; } = false;
+
+    public InventorySystem inventory { get; set; }
 
     public ItemSlot()
     {
         this.itemData = null;
         this.quantity = 0;
+        this.currentDurability = 0.0f;
+    }
+
+    public ItemSlot(InventorySystem inventory)
+    {
+        this.inventory = inventory;
+        this.itemData = null;
+        this.quantity = 0;
+        this.currentDurability = 0.0f;
     }
 
     public ItemSlot(ItemData itemData, int quantity = 1)
     {
         this.itemData = itemData;
         this.quantity = quantity;
+        this.currentDurability = (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f;
     }
 
     public bool IsFull => this.quantity == ItemData.maxStackCount;
 
     public void AddQuantity(int amount)
     {
-        this.quantity = Math.Min(this.quantity + amount, ItemData.maxStackCount);        
+        this.quantity += amount;
+        if(this.quantity > ItemData.maxStackCount)
+        {
+            int extra = this.quantity - ItemData.maxStackCount;
+            this.quantity = ItemData.maxStackCount;
+            inventory.AddItem(itemData, extra);
+        }
     }
 
     public void SubtractQuantity(int amount = 1)
@@ -38,23 +56,35 @@ public class ItemSlot
         this.quantity = Math.Max(this.quantity - amount, 0);
         if(quantity == 0)
         {
-            this.itemData = null;
+            Clear();
         }
-        // To Do ) ¼Ò¸ğÇØ¾ßÇÏ´Â ¾ç º¸´Ù °¡Áö°í ÀÖ´Â°Ô ÀûÀ¸¸é ½ÇÆĞÇÏ´Â ·ÎÁ÷
+        // To Do ) ì†Œëª¨í•´ì•¼í•˜ëŠ” ì–‘ ë³´ë‹¤ ê°€ì§€ê³  ìˆëŠ”ê²Œ ì ìœ¼ë©´ ì‹¤íŒ¨í•˜ëŠ” ë¡œì§
     }
 
     public void Set(ItemData item, int quantity = 1)
     {
+        // [ Check ] // ë‚´êµ¬ë„ ë¶€ë¶„ì´ë‘ ë³‘í•© ì‹œ 
         this.itemData = item;
         this.quantity = quantity;
+        this.currentDurability = (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f;
     }
 
     public void Set(ItemSlot itemSlot)
     {
-        itemData = itemSlot.itemData;
-        quantity = itemSlot.quantity;
+        // [ Check ] // ë‚´êµ¬ë„ ë¶€ë¶„ì´ë‘ ë³‘í•© ì‹œ 
+        Set(itemSlot.itemData, itemSlot.quantity);
         registed = itemSlot.registed;
         equipped = itemSlot.equipped;
+        currentDurability = itemSlot.currentDurability;
+    }
+
+    public void Copy(ItemSlot itemslot)
+    {
+        Set(itemslot.itemData, itemslot.quantity);
+        registed = itemslot.registed;
+        equipped = itemslot.equipped;
+        currentDurability = itemslot.currentDurability;
+        inventory = itemslot.inventory;
     }
 
     public void Clear()
@@ -63,6 +93,7 @@ public class ItemSlot
         quantity = 0;
         registed = false;
         equipped = false;
+        currentDurability = 0.0f;
     }
 
     public void SetRegist(bool value)
@@ -73,5 +104,12 @@ public class ItemSlot
     public void SetEquip(bool value)
     {
         this.equipped = value;
+    }
+
+    public void SetDurability(float value)
+    {
+        this.currentDurability = Mathf.Clamp(value, 0f, (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f);
+        if (currentDurability <= 0)
+            Clear();
     }
 }

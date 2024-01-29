@@ -15,7 +15,7 @@ public class PlayerConditionHandler : MonoBehaviour
     {
         Player = GetComponent<Player>();
 
-        HP = new Condition(100);
+        HP = new Condition(200);
 
         Hunger = new Condition(100);
         Hunger.decayRate = 0.1f;
@@ -28,7 +28,7 @@ public class PlayerConditionHandler : MonoBehaviour
         if(Hunger.GetPercentage() < 0.7f && _isFull)
         {
             _isFull = false;
-            Hunger.regenRate -= 5;
+            HP.regenRate -= 5;
         }
     }
 

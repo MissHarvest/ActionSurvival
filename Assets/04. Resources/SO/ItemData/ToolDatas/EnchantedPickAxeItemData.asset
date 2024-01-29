@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 576468ed397be524d8e47099d9aeafbb, type: 3}
+  m_Name: EnchantedPickAxeItemData
+  m_EditorClassIdentifier: 
+  displayName: "\uAC15\uD654\uB41C \uACE1\uAD2D\uC774"
+  description: "\uC880 \uB354 \uD2BC\uD2BC\uD574\uBCF4\uC774\uB294 \uACE1\uAD2D\uC774\uB2E4. "
+  iconSprite: {fileID: 21300000, guid: d3d4719a49d3c7c4bad3188632708c02, type: 3}
+  part: 2
+  maxDurability: 20
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  range: 0.7
+  attackPower: 1
+  damage: 0
+  targetTagName: Mine
+  isWeapon: 0
+  isTwoHandedTool: 0
+  isTwinTool: 0
+  isArchitecture: 0

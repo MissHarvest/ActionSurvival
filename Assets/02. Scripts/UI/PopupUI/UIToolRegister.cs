@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UIToolRegister : UIPopup
 {
     enum GameObjects
     {
-        QuickSlots,
+        //QuickSlots_PC,
+        QuickSlots_Mobile,
     }
 
     public QuickSlot SelectedSlot { get; private set; } = new QuickSlot();
@@ -34,17 +36,25 @@ public class UIToolRegister : UIPopup
 
     private void CreateSlots(QuickSlotSystem quickSlotSystem)
     {        
-        var parent = Get<GameObject>((int)GameObjects.QuickSlots).transform;
+        var parent = Get<GameObject>((int)GameObjects.QuickSlots_Mobile).transform;
+        var slots = parent.GetComponentsInChildren<UIToolRegistSlot>();
 
         for (int i = 0; i < QuickSlotSystem.capacity; ++i)
         {
-            var slotUI = Managers.Resource.Instantiate("UIToolRegistSlot", Literals.PATH_UI, parent).GetOrAddComponent<UIToolRegistSlot>();
+            var slotUIPrefab = Managers.Resource.GetCache<GameObject>("UIToolRegistSlot.prefab");            
+            var slotUI = Instantiate(slotUIPrefab, parent).GetOrAddComponent<UIToolRegistSlot>();
+            slotUI.gameObject.transform.position = slots[i].transform.position;
             slotUI.Init(this, i, quickSlotSystem.slots[i].itemSlot);
             _slots.Add(slotUI);
         }
+
+        foreach(var slot in slots)
+        {
+            Destroy(slot.gameObject);
+        }
     }
 
-    public void Set(QuickSlot quickSlot) // ¿œ¥‹ index ∞™¿Ã « ø‰«‘.
+    public void Set(QuickSlot quickSlot) // ÏùºÎã® index Í∞íÏù¥ ÌïÑÏöîÌï®.
     {
         SelectedSlot = quickSlot;
     }

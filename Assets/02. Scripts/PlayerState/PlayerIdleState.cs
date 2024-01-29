@@ -8,9 +8,10 @@ public class PlayerIdleState : PlayerGroundedState
     {
 
     }
-    
+
     public override void Enter()
     {
+        Debug.Log("Player Enter State [ IDLE ]");
         _stateMachine.MovementSpeedModifier = 0f;
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.IdleParameterHash);
@@ -26,10 +27,10 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.Update();
 
-        if(_stateMachine.MovementInput != Vector2.zero)
+        if (_stateMachine.MovementInput != Vector2.zero)
         {
             OnMove();
             return;
-        }
+        }        
     }
 }

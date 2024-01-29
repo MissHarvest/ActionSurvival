@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+//using UnityEditorInternal; lgs 24.01.29
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +10,7 @@ public class PlayerGroundedState : PlayerBaseState
 {
     public PlayerGroundedState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-
+        
     }
 
     public override void Enter()
@@ -29,7 +31,7 @@ public class PlayerGroundedState : PlayerBaseState
 
         if(_stateMachine.IsAttacking)
         {
-            // OnAttack();
+            OnAttack();
             return;
         }
     }
@@ -45,20 +47,71 @@ public class PlayerGroundedState : PlayerBaseState
         }
     }
 
-    protected override void OnMovementCanceled(InputAction.CallbackContext context)
+    protected override void AddInputActionsCallbacks()
     {
-        if(_stateMachine.MovementInput == Vector2.zero)
-        {
-            return;
-        }
+        base.AddInputActionsCallbacks();
+        Managers.Game.Player.ToolSystem.OnEquip += OnEquipTypeOfTool;
+        Managers.Game.Player.ToolSystem.OnUnEquip += OnUnEquipTypeOfTool;
+    }
 
-        _stateMachine.ChangeState(_stateMachine.IdleState);
-
-        base.OnMovementCanceled(context);
+    protected override void RemoveInputActionsCallbacks()
+    {
+        base.RemoveInputActionsCallbacks();
+        Managers.Game.Player.ToolSystem.OnEquip -= OnEquipTypeOfTool;
+        Managers.Game.Player.ToolSystem.OnUnEquip -= OnUnEquipTypeOfTool;
     }
 
     protected virtual void OnMove()
     {
-        _stateMachine.ChangeState(_stateMachine.WalkState);
+        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+
+        if (toolItemDate.isTwoHandedTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwoHandedToolRunState);
+        }
+        else if (toolItemDate.isTwinTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwinToolRunState);
+        }
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.RunState);
+        }
+    }
+
+    protected virtual void OnAttack()
+    {
+        _stateMachine.ChangeState(_stateMachine.ComboAttackState);
+    }
+
+    protected virtual void OnEquipTypeOfTool(QuickSlot quickSlot)
+    {
+        // QuickSlot에 저장된 ItemData 값을 매개 변수로 받아서 TwoHandedTool에 저장
+        ItemData equippedItemData = quickSlot.itemSlot.itemData;
+
+        // ItemData에 종속된 class ToolItemData에 bool isTwoHandedTool 변수를 참조하기 위하여 형변환
+        ToolItemData equippedToolItemDate = (ToolItemData)equippedItemData;
+
+        // ToolSystem의 event OnEquip에 구독하여 아래의 조건문을 이용하여 애니메이션을 켜고 끈다.
+
+        if (equippedToolItemDate.isWeapon == true && equippedToolItemDate.isTwoHandedTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
+            Debug.Log("두 손  도구애니메이션 시작");
+        }
+        else if (equippedToolItemDate.isWeapon == true && equippedToolItemDate.isTwinTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
+            Debug.Log("한 쌍 도구 애니메이션 시작");
+        }
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+        }
+    }
+
+    protected virtual void OnUnEquipTypeOfTool(QuickSlot quickSlot)
+    {
+        _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 }

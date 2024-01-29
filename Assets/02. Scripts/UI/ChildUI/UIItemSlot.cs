@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class UIItemSlot : UIBase
@@ -16,23 +14,29 @@ public class UIItemSlot : UIBase
         Quantity,
     }
 
-    protected Image Icon => Get<Image>((int)Images.Icon);
+    public int Index { get; private set; }
+    public UIItemSlotContainer Container { get; private set; }
+    public Image Icon => Get<Image>((int)Images.Icon);
     protected TextMeshProUGUI Quantity => Get<TextMeshProUGUI>((int)Texts.Quantity);
 
     public override void Initialize()
     {
-        Bind<Image>(typeof(Images));        
+        Bind<Image>(typeof(Images));
         Bind<TextMeshProUGUI>(typeof(Texts));
 
         Get<Image>((int)Images.Icon).raycastTarget = false;
         Get<TextMeshProUGUI>((int)Texts.Quantity).raycastTarget = false;
-
-        Clear();
     }
 
     private void Awake()
     {
         Initialize();
+    }
+
+    public virtual void BindGroup(UIItemSlotContainer container, int index)
+    {
+        Container = container;
+        Index = index;
     }
 
     public virtual void Set(ItemSlot itemSlot)
@@ -57,5 +61,16 @@ public class UIItemSlot : UIBase
     {
         Get<Image>((int)Images.Icon).gameObject.SetActive(false);
         Get<TextMeshProUGUI>((int)Texts.Quantity).gameObject.SetActive(false);
+    }
+
+    public virtual void OnClicked(Action<UIItemSlot> action)
+    {
+        gameObject.BindEvent((x) =>
+        {
+            if (Icon.gameObject.activeSelf)
+            {
+                action(this);
+            }
+        });
     }
 }

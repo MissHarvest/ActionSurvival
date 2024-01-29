@@ -1,55 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.VisualScripting.Member;
+using UnityEngine.Audio;
 
 public class SoundManager
 {
-    public bool isLoaded = false;
     private AudioSource _bgmSource;
     private GameObject _root;
-    private GameObject _bgmPlayer;
+    private AudioMixer _audioMixer;
+    private Stack<SFXSound> _inactivated = new Stack<SFXSound>();
 
     public void Init()
     {
         _root = new GameObject("@Sound");
+        _audioMixer = Managers.Resource.GetCache<AudioMixer>("AudioMixer.mixer");
         CreateBgmPlayer();
-        PlayBGM("BGM2");
+        CreateSFXPlayers();
     }
 
     private void CreateBgmPlayer()
     {
-        _bgmPlayer = new GameObject("@BGM");
-        _bgmPlayer.transform.parent = _root.transform;
+        var bgmPlayer = new GameObject("@BGM");
+        bgmPlayer.transform.parent = _root.transform;
 
-        _bgmSource = _bgmPlayer.AddComponent<AudioSource>();
+        _bgmSource = bgmPlayer.AddComponent<AudioSource>();        
+        _bgmSource.outputAudioMixerGroup = _audioMixer.FindMatchingGroups("BGM")[0];
         _bgmSource.loop = true;
+        _bgmSource.volume = 1.0f;
     }
 
-    private void PlayBGM(string bgmName)
+    private void CreateSFXPlayers()
     {
-        var bgmClip = Managers.Resource.GetAudioClip(bgmName);
+        var soundBox = new GameObject("@SFX");
+        soundBox.transform.parent = _root.transform;
+
+        for(int i = 0; i < 30; ++i)
+        {
+            var soundPrefab = Managers.Resource.GetCache<GameObject>("SFXSound.prefab");
+            var go = Object.Instantiate(soundPrefab, soundBox.transform); // [ true / false ]
+            go.SetActive(false);
+            var sfxsound = go.GetComponent<SFXSound>();
+            sfxsound.AudioSource.outputAudioMixerGroup = _audioMixer.FindMatchingGroups("SFX")[0];
+            sfxsound.OnPlayEnd += PushInActivatedObject;
+            _inactivated.Push(sfxsound);
+        }
+    }
+
+    public void PlayBGM(string bgmName)
+    {
+        var bgmClip = Managers.Resource.GetCache<AudioClip>($"{bgmName}.wav");
         _bgmSource.clip = bgmClip;
         _bgmSource.playOnAwake = true;
-        _bgmSource.volume = 0.6f;
         _bgmSource.Play();
     }
 
-    public void PlayEffectSound(Transform transform, string effectName)
+    public void PlayEffectSound(Vector3 position, string effectName, float volume = 0.3f)
     {
-        var effect = new GameObject($"{effectName}Sound");
-        var source = effect.AddComponent<AudioSource>();
-        source.clip = Managers.Resource.GetAudioClip(effectName);
-        source.loop = false;
-        float length = source.clip.length;        
-        CoroutineManagement.Instance.StartCoroutine(DestroySoundObject(source, effect, length));
+        if (_inactivated.Count <= 0) return;
+        var sound = _inactivated.Pop();
+        sound.AudioSource.volume = volume;
+        sound.transform.position = position;
+        var clip = Managers.Resource.GetCache<AudioClip>($"{effectName}.wav");
+        sound.Play(clip);
     }
 
-    IEnumerator DestroySoundObject(AudioSource source, GameObject go, float afterSec)
+    private void PushInActivatedObject(SFXSound sfx)
     {
-        yield return new WaitForSeconds(0.7f);
-        source.Play();
-        yield return new WaitForSeconds(afterSec);
-        Object.Destroy(go);
+        sfx.gameObject.SetActive(false);
+        _inactivated.Push(sfx);
+    }
+
+    public void Set(string group, float volume)
+    {
+        _audioMixer.SetFloat(group, volume);
+        PlayerPrefs.SetFloat($"{group}Volume", volume);
     }
 }

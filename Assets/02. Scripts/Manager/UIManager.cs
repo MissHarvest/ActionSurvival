@@ -16,11 +16,7 @@ public class UIManager
 
     // Scenes Overlay
     private UIScene _scene;
-
-    public bool isLoaded = false;
     #endregion
-
-
 
     #region Properties => Set Root UI
 
@@ -33,6 +29,7 @@ public class UIManager
             if(root == null)
             {
                 root = new GameObject { name = "@UI_Root" };
+                Object.DontDestroyOnLoad(root);
             }
 
             return root;
@@ -45,8 +42,9 @@ public class UIManager
 
     public void LoadPopupUIs()
     {
-        var popups = Managers.Resource.GetPrefabs(Literals.PATH_POPUPUI);
-        for(int i = 0; i < popups.Length; ++i)
+        //var popups = Managers.Resource.GetPrefabs(Literals.PATH_POPUPUI);
+        var popups = Managers.Resource.GetCacheGroup<GameObject>("UIPopUp_");
+        for (int i = 0; i < popups.Length; ++i)
         {
             var obj = Object.Instantiate(popups[i], Root.transform);
             if (_popups.TryAdd(popups[i].name, obj))
@@ -63,14 +61,25 @@ public class UIManager
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        var gameObject = Managers.Resource.Instantiate(name, Literals.PATH_UI);
+        //var gameObject = Managers.Resource.Instantiate(name, Literals.PATH_UI);
+        var gameObject = Managers.Resource.GetCache<GameObject>($"{name}.prefab");
+        gameObject = Object.Instantiate(gameObject);
         var sceneUI = Utility.GetOrAddComponent<T>(gameObject);
         
         gameObject.transform.SetParent(Root.transform);
 
+        if (_scene != null)
+            Object.Destroy(_scene.gameObject); // [WJY]: UILoadingScene -> UIMainScene 교체
         _scene = sceneUI;
 
         return sceneUI;
+    }
+
+    // [WJY]: 현재 씬 UI에 접근하기 위해 작성
+    public bool TryGetSceneUI<T>(out T sceneUI) where T : UIScene
+    {
+        sceneUI = _scene as T;
+        return sceneUI != null;
     }
 
     #endregion
@@ -84,18 +93,41 @@ public class UIManager
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        if(_popups.TryGetValue(name, out GameObject go))
+        if (_popups.TryGetValue(name, out GameObject go))
         {
             var canvas = go.GetOrAddComponent<Canvas>();
             SetOrder(canvas);
             go.SetActive(true);
         }
-                
+
+        if(go == null)
+        {
+            var prefab = Managers.Resource.GetCache<GameObject>($"UIPopUp_{name}.prefab");
+            go = Object.Instantiate(prefab, Root.transform);
+            var canvas = go.GetOrAddComponent<Canvas>();
+            SetOrder(canvas);
+            go.SetActive(true);
+            _popups.TryAdd(name, go);
+        }
+
         var popupUI = Utility.GetOrAddComponent<T>(go);
         _activatedPopups.Push(popupUI);
 
         Cursor.lockState = CursorLockMode.None;
         return popupUI;
+    }
+
+    public T GetPopupUI<T>(string name = null) where T: UIPopup
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        if (_popups.TryGetValue(name, out GameObject go))
+        {
+            return go.GetComponent<T>();
+        }
+
+        return null;
     }
 
     public void ClosePopupUI(UIPopup popup)

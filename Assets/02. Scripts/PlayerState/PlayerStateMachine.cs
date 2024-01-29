@@ -6,14 +6,23 @@ public class PlayerStateMachine : StateMachine
 {
     public Player Player { get; }
     public PlayerIdleState IdleState { get; }
-    public PlayerWalkState WalkState { get; }
     public PlayerRunState RunState { get; }
-    public PlayerInteractState InteractState { get; }
 
-    // public PlayerJumpState JumpState { get; }
+    public PlayerTwoHandedToolIdleState TwoHandedToolIdleState { get; }
     
-    // public PlayerFallState FallState { get; }
+    public PlayerTwoHandedToolRunState TwoHandedToolRunState { get; }
+
+    public PlayerTwinToolIdleState TwinToolIdleState { get; }
+    
+    public PlayerTwinToolRunState TwinToolRunState { get; }
+
+    public PlayerInteractState InteractState { get; }
+    public PlayerBuildState BuildState { get; }
+    public PlayerMakeState MakeState { get; }
+        
     public PlayerComboAttackState ComboAttackState { get; }
+
+    public PlayerDestroyState DestroyState { get; }
 
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; private set; }
@@ -32,12 +41,19 @@ public class PlayerStateMachine : StateMachine
         this.Player = player;
 
         IdleState = new PlayerIdleState(this);
-        WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
+
+        TwoHandedToolIdleState = new PlayerTwoHandedToolIdleState(this);  
+        TwoHandedToolRunState = new PlayerTwoHandedToolRunState(this);
+
+        TwinToolIdleState = new PlayerTwinToolIdleState(this);
+        TwinToolRunState = new PlayerTwinToolRunState(this);
+
         InteractState = new PlayerInteractState(this);
-        //JumpState = new PlayerJumpState(this);
-        //FallState = new PlayerFallState(this);
-        //ComboAttackState = new PlayerComboAttackState(this);
+        BuildState = new PlayerBuildState(this);
+        MakeState = new PlayerMakeState(this);
+        ComboAttackState = new PlayerComboAttackState(this);
+        DestroyState = new PlayerDestroyState(this);
 
         MainCameraTransform = Camera.main.transform;
 

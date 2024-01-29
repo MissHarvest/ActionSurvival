@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class PlayerBaseState : IState
 {
@@ -43,7 +39,7 @@ public class PlayerBaseState : IState
 
     private void ReadMovementInput()
     {
-        _stateMachine.MovementInput = _stateMachine.Player.Input.PlayerActions.Move.ReadValue<Vector2>();
+        _stateMachine.MovementInput = _stateMachine.Player.Input.PlayerActions.Move.ReadValue<Vector2>().normalized;
     }
 
     private void Move()
@@ -58,9 +54,7 @@ public class PlayerBaseState : IState
     private Vector3 GetMovementDirection()
     {
         Vector3 forward = _stateMachine.MainCameraTransform.forward;
-        //Vector3 forward = _stateMachine.Player.transform.forward;
         Vector3 right = _stateMachine.MainCameraTransform.right;
-        //Vector3 right = _stateMachine.Player.transform.right;
 
         forward.y = 0;
         right.y = 0;
@@ -73,6 +67,11 @@ public class PlayerBaseState : IState
 
     private void Move(Vector3 movementDirection)
     {
+        RaycastHit hit;
+        Physics.Raycast(_stateMachine.Player.transform.position, Vector3.down, out hit, 10.0f, 4096);
+        movementDirection -= hit.normal;
+        movementDirection.Normalize();
+
         float movementSpeed = GetMovementSpeed();
         _stateMachine.Player.Controller.Move(
             ((movementDirection * movementSpeed) +
@@ -81,7 +80,7 @@ public class PlayerBaseState : IState
             );
     }
     
-    private void Rotate(Vector3 movementDirection)
+    protected virtual void Rotate(Vector3 movementDirection)
     {
         if(movementDirection != Vector3.zero)
         {
@@ -111,36 +110,25 @@ public class PlayerBaseState : IState
     {
         PlayerInput input = _stateMachine.Player.Input;
         input.PlayerActions.Move.canceled += OnMovementCanceled;
-        input.PlayerActions.Run.started += OnRunStarted;
-        input.PlayerActions.Run.canceled += OnRunCanceled;
-        //input.PlayerActions.Jump.started += OnJumpStarted;
-        input.PlayerActions.Attack.performed += OnAttackPerformed;
-        input.PlayerActions.Attack.canceled += OnAttackCanceled;
         
         input.PlayerActions.Interact.started += OnInteractStarted;
+        input.PlayerActions.Interact.canceled += OnInteractCanceled;
+        input.PlayerActions.QuickSlot.started += OnQuickUseStarted;
+        input.PlayerActions.Inventory.started += OnInventoryShowAndHide;
+
+        input.PlayerActions.Esc.started += PauseGame;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
     {
         PlayerInput input = _stateMachine.Player.Input;
         input.PlayerActions.Move.canceled -= OnMovementCanceled;
-        input.PlayerActions.Run.started -= OnRunStarted;
-        input.PlayerActions.Run.canceled -= OnRunCanceled;
-        //input.PlayerActions.Jump.started -= OnJumpStarted;
-        input.PlayerActions.Attack.performed -= OnAttackPerformed;
-        input.PlayerActions.Attack.canceled -= OnAttackCanceled;
 
         input.PlayerActions.Interact.started -= OnInteractStarted;
-    }
-
-    protected virtual void OnRunStarted(InputAction.CallbackContext context)
-    {
-       
-    }
-
-    protected virtual void OnRunCanceled(InputAction.CallbackContext context)
-    {
-
+        input.PlayerActions.Interact.canceled -= OnInteractCanceled;
+        input.PlayerActions.QuickSlot.started -= OnQuickUseStarted;
+        input.PlayerActions.Inventory.started -= OnInventoryShowAndHide;
+        input.PlayerActions.Esc.started -= PauseGame;
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
@@ -148,25 +136,40 @@ public class PlayerBaseState : IState
         
     }
 
-    protected virtual void OnJumpStarted(InputAction.CallbackContext context)
-    {
-
-    }
-
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
         if (_stateMachine.Player.EquippedItem == null) return;
+        Debug.Log("Player Interact");
 
         var tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
-        if (tool.isWeapon)
+        
+        if(tool.isArchitecture)
         {
-            // _stateMachine.ChangeState(_stateMachine.AttackState);
+            _stateMachine.ChangeState(_stateMachine.BuildState);
+        }
+        else if (tool.isWeapon)
+        {
+            _stateMachine.IsAttacking = true;
+            _stateMachine.ChangeState(_stateMachine.ComboAttackState);
+        }
+        else if (tool.displayName == "망치")
+        {
+            _stateMachine.ChangeState(_stateMachine.DestroyState);
         }
         else
         {
             _stateMachine.ChangeState(_stateMachine.InteractState);
-        }        
-        Debug.Log("Player Interact");
+        }                
+    }
+
+    protected virtual void OnInteractCanceled(InputAction.CallbackContext context)
+    {
+        _stateMachine.IsAttacking = false;
+    }
+
+    protected virtual void OnQuickUseStarted(InputAction.CallbackContext context)
+    {
+        _stateMachine.Player.QuickSlot.OnQuickUseInput((int)context.ReadValue<float>() - 1);
     }
 
     protected void ForceMove()
@@ -174,14 +177,23 @@ public class PlayerBaseState : IState
         _stateMachine.Player.Controller.Move(_stateMachine.Player.ForceReceiver.Movement * Time.deltaTime);
     }
 
-    protected void OnAttackPerformed(InputAction.CallbackContext context)
+    private void OnInventoryShowAndHide(InputAction.CallbackContext context)
     {
-        _stateMachine.IsAttacking = true;
+        var ui = Managers.UI.GetPopupUI<UIInventory>();
+        Debug.Log($"[Inventory UI] {ui == null}");
+        if (ui.gameObject.activeSelf)
+        {
+            Managers.UI.ClosePopupUI(ui);
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UIInventory>();            
+        }
     }
 
-    protected void OnAttackCanceled(InputAction.CallbackContext context)
+    private void PauseGame(InputAction.CallbackContext context)
     {
-        _stateMachine.IsAttacking = false;
+        Managers.UI.ShowPopupUI<UIPauseGame>();
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)
