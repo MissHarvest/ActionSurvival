@@ -60,10 +60,6 @@ public class PlayerDestroyState : PlayerGroundedState
                 {
                     buildableObject.DestroyObject();
                 }
-                else
-                {
-                    GameObject.Destroy(target);
-                }
             }
 
             _stateMachine.ChangeState(_stateMachine.IdleState);

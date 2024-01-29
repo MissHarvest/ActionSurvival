@@ -36,7 +36,7 @@ public class BuildableObject : MonoBehaviour
         SetOriginMaterial();
 
         gameObject.layer = buildingLayer;
-        for (int i = 0; i < transform.childCount; ++i)
+        //for (int i = 0; i < transform.childCount; ++i)
             //transform.GetChild(i).gameObject.layer = buildingLayer;
 
         _navMeshObstacle.enabled = true;

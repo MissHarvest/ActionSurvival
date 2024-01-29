@@ -578,7 +578,8 @@ MonoBehaviour:
   - m_GUID: df7dcb1c7df50a94b863b2d3d763d652
     m_Address: LuxuriousSetCookingData.data
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4a400f54997a10d4cad59cad838fc084
     m_Address: FenceRecipeData.data
@@ -586,26 +587,14 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: acea11c72c18ae646b68643bb390dc34
+  - m_GUID: e9d0b5d90db9fee41831d73c1781f2b8
     m_Address: FarmItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b70139d5f6d96a94bad599d9c8fee871
-    m_Address: SkeletonBoneItemData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5fded2f244d0fab48b7df97ca5686ed5
-    m_Address: Assets/04. Resources/SO/ItemData/Looting/SkeletonBoneItemData 1.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bc0cfbd15c1da8446a87bd558384c08d
-    m_Address: SlimeMucus.data
+  - m_GUID: 2abc881539b10e64597e1dafe040dc89
+    m_Address: FarmRecipeData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

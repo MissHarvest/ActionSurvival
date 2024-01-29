@@ -592,7 +592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d852ce5160cb14c9ef96c27a8c203d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDir: {x: 0, y: 0, z: 0}
 --- !u!114 &787385280888539790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3308,12 +3307,11 @@ MonoBehaviour:
   _nonBuildableMat: {fileID: 2100000, guid: 4cea252e4cd4c1241bbe5bf6a09e2e64, type: 2}
   _buildableLayer:
     serializedVersion: 2
-    m_Bits: 6144
+    m_Bits: 6145
   _destroyLayer:
     serializedVersion: 2
     m_Bits: 2048
-  _raycastRange: 20
-  _yGridSize: 0.1
+  _raycastRange: 2
   _rotationAngle: 45
   _obj: {fileID: 0}
 --- !u!1 &7392496694934527924

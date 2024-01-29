@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: FarmItemData
   m_EditorClassIdentifier: 
   displayName: "\uBC2D"
-  description: "\uAC01\uC885 \uC544\uC774\uD15C\uC744 \uAD6C\uC6B8 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
-  iconSprite: {fileID: 21300000, guid: 44dc65116207f4b46aa85443dae5ad96, type: 3}
+  description: "\uB2E4\uC591\uD55C \uC791\uBB3C\uC744 \uC7AC\uBC30\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+  iconSprite: {fileID: 21300000, guid: 9b93b28672c3b5648a8e4701a14a1945, type: 3}
   part: 2
   maxDurability: 10
   targetLayers:
