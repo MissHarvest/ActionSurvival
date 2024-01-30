@@ -12,10 +12,14 @@ public class VoxelMapDataGenerator : MonoBehaviour
 
     public void Start()
     {
+        float t = Time.realtimeSinceStartup;
         GetDataSources();
         GenerateMapData();
         SaveDataFile();
-        Debug.Log($"Progress Time : {Time.realtimeSinceStartup}");
+        Debug.Log($"Progress Time : {Time.realtimeSinceStartup - t}");
+#if UNITY_EDITOR
+        UnityEditor.AssetDatabase.Refresh();
+#endif
     }
 
     private void GetDataSources()
