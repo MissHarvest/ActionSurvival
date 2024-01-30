@@ -79,10 +79,8 @@ public class PlayerBuildState : PlayerBaseState
     public override void Update()
     {
         //Debug.Log("상태머신 x값: "+_stateMachine.MovementInput.x + "y값: "+_stateMachine.MovementInput.y);
-        //SetObjPositionWithJoystick 가져다가 쓰기 
         if (Managers.Game.Player.Building.IsHold)
         {
-            //Managers.Game.Player.Building.SetObjPosition(_stateMachine.MovementInput);
             Managers.Game.Player.Building.SetObjPositionWithJoystick(_stateMachine.MovementInput);
         }
     }
@@ -96,7 +94,4 @@ public class PlayerBuildState : PlayerBaseState
     {
         _stateMachine.Player.Building.HandleRotateArchitectureRight();
     }
-
-    // _stateMachine.MovementInput 활용!
-    // basestate의 ReadMovementInput()
 }

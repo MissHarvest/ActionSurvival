@@ -25,8 +25,9 @@ public class BaseScene : MonoBehaviour
                 Managers.UI.ShowSceneUI<UIMainScene>();
                 Managers.UI.LoadPopupUIs();
                 Managers.Data.InitializeRecipeData();
+                Managers.Game.Player.Tutorial.Initialize();
 
-                if(objectsBeLoaded.Length > 0)
+                if (objectsBeLoaded.Length > 0)
                 {
                     foreach(var obj in objectsBeLoaded)
                     {
