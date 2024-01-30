@@ -26,16 +26,16 @@ public class UISoundSetting : UIPopup
         
         UISoundController soundController;
         soundController = Get<UISoundController>((int)SoundControllers.MasterController);
-        soundController.Init("Master");
+        soundController.Init("전체");
         soundController.Slider.onValueChanged.AddListener(OnMasterVolumeChanged);
 
         soundController = Get<UISoundController>((int)SoundControllers.BGMController);
-        soundController.Init("BGM");
+        soundController.Init("배경 음악");
         soundController.Slider.onValueChanged.AddListener(OnBGMVolumeChanged);
 
 
         soundController = Get<UISoundController>((int)SoundControllers.SFXController);
-        soundController.Init("SFX");
+        soundController.Init("효과음");
         soundController.Slider.onValueChanged.AddListener(OnSFXVolumeChanged);
     }
 

@@ -71,6 +71,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         Dead = false;
         transform.position = RespawnPosition;
+        gameObject.layer = 7;
         gameObject.SetActive(true);
         _stateMachine.ChangeState(_stateMachine.IdleState);
 
@@ -96,9 +97,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         gameObject.layer = 14;
         HP.Subtract(damage);
-        Debug.Log("피격");
         OnHit?.Invoke(attacker);
-        StartCoroutine(Avoid());
+        if(HP.currentValue > 0) StartCoroutine(Avoid());
     }
 
     IEnumerator Avoid()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ToolSystem : MonoBehaviour
 {
-    public ItemSlot ItemInUse { get; private set; }
+    [field : SerializeField] public ItemSlot ItemInUse { get; private set; }
     public Transform handPosition;
     public Transform leftHandPosition;
 
@@ -21,7 +21,6 @@ public class ToolSystem : MonoBehaviour
     {
         if (handPosition == null)
         {
-            Debug.LogWarning("handPosition is not allocated. Do Find [Hand R] / ToolSystem");
             this.enabled = false;
             return;
         }
@@ -69,41 +68,39 @@ public class ToolSystem : MonoBehaviour
 
         Equipments[part].Set(slot.targetIndex, slot.itemSlot);
         Equipments[part].itemSlot.SetEquip(true);
+        
         if (part == (int)ItemParts.Hand)
         {
-            Debug.Log($"{slot.itemSlot.itemData.displayName}");
-            EquipTool(slot.itemSlot);
+            Debug.Log($"[Equip]{slot.itemSlot.itemData.displayName}");
+            //EquipTool(Equipments[part].itemSlot);
+            EquipTool(slot);
         }
 
         if (slot.itemSlot != EmptyHand.itemSlot)
         {
-            Debug.Log($"Tool | R[{Equipments[part].itemSlot.registed}] E[{Equipments[part].itemSlot.equipped}]");
             OnEquip?.Invoke(Equipments[part]);
         }
     }
 
-    private void EquipTool(ItemSlot itemSlot)
+    private void EquipTool(QuickSlot slot)
     {
-        ItemInUse = itemSlot;
-
-        // var toolName = itemSlot.itemData is Build ? "string" : GetToolName(itemSlot);
+        ItemInUse = slot.itemSlot;
 
         // ToolItemData의 isArchitecture가 true면 나뭇잎을 손에 들게
-        var toolName = GetToolName(itemSlot);        
         if (ItemInUse.itemData is ToolItemData toolItem && toolItem.isArchitecture)
         {
             _tools["Handable_Base"].SetActive(true);
         }
         else
         {
+            var toolName = GetToolName(ItemInUse);
             _tools[toolName].SetActive(true);
+            _tools[toolName].GetComponent<Weapon>()?.Link(slot);
         }
-        Debug.Log(toolName);
 
-
-        if (itemSlot.itemData.name.Contains("Twin")) // TwinTool의 왼 손 도구를 활성화한다.
+        if (ItemInUse.itemData.name.Contains("Twin")) // TwinTool의 왼 손 도구를 활성화한다.
         {
-            var twinToolName = GetTwinToolLeftHandName(itemSlot); 
+            var twinToolName = GetTwinToolLeftHandName(ItemInUse); 
             if (twinToolName.Contains("Handable_L_") == true)
             {
                 _twinTools[twinToolName].SetActive(true);
@@ -118,6 +115,7 @@ public class ToolSystem : MonoBehaviour
         Equipments[part].itemSlot.SetEquip(false);
 
         var toolName = GetToolName(Equipments[part].itemSlot);
+        Debug.Log($"[UnEquip ToolName] {toolName}");
         if (ItemInUse.itemData is ToolItemData toolItem && toolItem.isArchitecture)
         {
             _tools["Handable_Base"].SetActive(false);

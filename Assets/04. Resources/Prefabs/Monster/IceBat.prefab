@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8755120173782132657}
   - component: {fileID: 6151270292157462725}
   - component: {fileID: -7148508437981449533}
-  - component: {fileID: 6163955625924035893}
+  - component: {fileID: 8618242366466400709}
   m_Layer: 0
   m_Name: IceBat
   m_TagString: Monster
@@ -159,34 +159,29 @@ MonoBehaviour:
   targetLayers:
     serializedVersion: 2
     m_Bits: 512
---- !u!114 &6163955625924035893
-MonoBehaviour:
+--- !u!136 &8618242366466400709
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5315391604698028408}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88cc514a2261f8a458fb5839c38f63c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _name: IceBat
-  <AnimationData>k__BackingField:
-    idleParameterName: Idle
-    walkParameterName: Walk
-    runParameterName: Run
-    attackParameterName: Attack
-    dieParamterName: Die
-  <Data>k__BackingField: {fileID: 0}
-  looting:
-    _lootings: []
-  <HP>k__BackingField:
-    currentValue: 0
-    maxValue: 0
-    regenRate: 0
-    decayRate: 0
-  attackTime: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.17
+  m_Height: 1.27
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!1 &5349786588179144343
 GameObject:
   m_ObjectHideFlags: 0

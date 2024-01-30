@@ -10,7 +10,7 @@ public class UIConfirmBase : UIPopup
     protected enum Gameobjects
     {
         Contents,
-        Character,
+        AskingText,
         Exit,
         YesButton,
         NoButton
@@ -19,7 +19,6 @@ public class UIConfirmBase : UIPopup
     protected GameObject _itemPrefab;
     protected int _selectedIndex = -1;
     protected Transform _contents;
-    private Transform _character;
 
     protected GameObject _yesButton;
     protected GameObject _noButton;
@@ -45,7 +44,6 @@ public class UIConfirmBase : UIPopup
     {
         Initialize();
         _contents = Get<GameObject>((int)Gameobjects.Contents).transform;
-        _character = Get<GameObject>((int)Gameobjects.Character).transform;
         gameObject.SetActive(false);
     }
 
@@ -64,7 +62,8 @@ public class UIConfirmBase : UIPopup
             {
                 if (Managers.Game.Player.Inventory.IsFull())
                 {
-                    Debug.Log("인벤토리가 가득 찼습니다. 아이템을 추가할 수 없습니다.");
+                    var warning = Managers.UI.ShowPopupUI<UIWarning>();
+                    warning.SetWarning("인벤토리가 가득 찼습니다.");
                 }
                 else
                 {
@@ -77,7 +76,8 @@ public class UIConfirmBase : UIPopup
             }
             else
             {
-                Debug.Log("재료가 부족합니다.");
+                var warning = Managers.UI.ShowPopupUI<UIWarning>();
+                warning.SetWarning("재료가 부족합니다.");
             }
         }
         ClearItems();

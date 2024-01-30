@@ -98,6 +98,7 @@ public class QuickSlotSystem : MonoBehaviour
 
             case ConsumeItemData _:
                 Managers.Game.Player.Inventory.UseConsumeItemByIndex(slots[IndexInUse].targetIndex);
+                IndexInUse = -1;
                 break;
 
             default:

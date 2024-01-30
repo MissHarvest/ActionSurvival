@@ -56,10 +56,10 @@ public class BuildingSystem : MonoBehaviour
 
         _buildableObject.Build();
         _rayPointer.SetActive(false);
-
+        _buildableObject = null;
         // 인벤토리에서 제거
         var useQuick = Owner.QuickSlot.slots[Owner.QuickSlot.IndexInUse];        
-        Managers.Game.Player.Inventory.DestroyItemByIndex(useQuick);
+        Managers.Game.Player.Inventory.UseArchitectureItem(useQuick.targetIndex);
         return true;
     }
 
@@ -74,7 +74,7 @@ public class BuildingSystem : MonoBehaviour
 
     public void CancelBuilding()
     {
-        Destroy(_buildableObject.gameObject);
+        if(_buildableObject != null) Destroy(_buildableObject.gameObject);
         _rayPointer.SetActive(false);
     }
 

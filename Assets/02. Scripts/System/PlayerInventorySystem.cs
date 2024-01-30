@@ -20,9 +20,20 @@ public class PlayerInventorySystem : InventorySystem
     public void DestroyItemByIndex(QuickSlot quickSlot)
     {
         int index = quickSlot.targetIndex;
-        if (slots[index].equipped || slots[index].registed) return;
+        if (slots[index].equipped || slots[index].registed)
+        {
+            var ui = Managers.UI.ShowPopupUI<UIWarning>();
+            ui.SetWarning("등록했거나, 착용 중인 아이템은 버릴 수 없습니다.");
+            return;
+        }
 
         slots[index].Clear();
+        BroadCastUpdatedSlot(index, slots[index]);
+    }
+
+    public void UseArchitectureItem(int index)
+    {
+        slots[index].SubtractQuantity();
         BroadCastUpdatedSlot(index, slots[index]);
     }
 

@@ -62,7 +62,6 @@ public class ArchitectureManager
             return;
         }
 
-        Debug.Log($"[{name}] Dictionary Create");
         architectures.Add(name, new List<GameObject>());
         numbering.Add(name, 0);
 
