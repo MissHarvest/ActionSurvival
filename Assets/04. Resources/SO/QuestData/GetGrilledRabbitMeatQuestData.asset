@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetGrilledRabbitMeatQuestData
   m_EditorClassIdentifier: 
   questName: GetGrilledRabbitMeat
-  questInfo: "\uAD6C\uC6B4 \uD1A0\uB07C \uACE0\uAE30 \uD558\uB098\uB97C \uC81C\uC791\uD558\uC138\uC694.
+  questInfo: "\uAD6C\uC6B4 \uD1A0\uB07C \uACE0\uAE30 \uD558\uB098\uB97C \uC694\uB9AC\uD558\uC138\uC694.
     \uD78C\uD2B8 : \uC0AC\uB0E5\uC73C\uB85C \uC5BB\uC740 \uACE0\uAE30\uB294 \uBAA8\uB2E5\uBD88\uC5D0\uC11C
     \uAD6C\uC6B8 \uC218 \uC788\uC5B4\uC694."
   isCompleted: 0
