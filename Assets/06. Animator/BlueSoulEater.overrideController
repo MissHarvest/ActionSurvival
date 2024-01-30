@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SoulEater
+  m_Name: BlueSoulEater
   m_Controller: {fileID: 9100000, guid: 209100f844c35a249b1d040c670561b9, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 4377859179230231196, guid: e5901ce40e7bc6f45be465c564aa05e0, type: 3}

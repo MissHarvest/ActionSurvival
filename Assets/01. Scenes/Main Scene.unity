@@ -631,7 +631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CollideAgainst:
     serializedVersion: 2
-    m_Bits: 7671
+    m_Bits: 7543
   m_IgnoreTag: 
   m_TransparentLayers:
     serializedVersion: 2

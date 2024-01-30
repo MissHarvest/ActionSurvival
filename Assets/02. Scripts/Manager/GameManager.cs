@@ -85,9 +85,9 @@ public class GameManager
             });
 
         CenterIsland.AddMonsterType(new string[][]{
-            new string[] { "IceSkeleton" },
-            new string[] { "IceSkeleton" },
-            new string[] { "IceSkeleton" }
+            new string[] { "Skeleton", "Bat" },
+            new string[] { "Skeleton", "Bat" },
+            new string[] { "Skeleton", "Bat" },
             });
 
         FireIsland.AddMonsterType(new string[][]{

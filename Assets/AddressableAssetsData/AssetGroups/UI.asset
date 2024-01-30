@@ -23,12 +23,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e13c78fc5e4a823469b1b8bd337433c2
-    m_Address: UIPopUp_UIItemUsageHelper.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6534fa8774f27b740a4d8cebabf03b4d
     m_Address: UIPopUp_UIToolRegister.prefab
     m_ReadOnly: 0

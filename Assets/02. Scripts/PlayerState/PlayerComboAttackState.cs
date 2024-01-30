@@ -31,8 +31,13 @@ public class PlayerComboAttackState : PlayerAttackState
         _stateMachine.Player.Animator.SetInteger("Combo", comboIndex);
 
         ToolItemData tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
+        if(tool.isWeapon == false)
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+        }
 
-        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range * 1f, tool.targetLayers);
+
+        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range * 1.5f, tool.targetLayers);
         if (targets.Length == 0)
         {
             return;

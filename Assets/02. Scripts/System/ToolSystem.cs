@@ -84,7 +84,7 @@ public class ToolSystem : MonoBehaviour
 
     private void EquipTool(QuickSlot slot)
     {
-        ItemInUse = slot.itemSlot;
+        ItemInUse.Set(slot.itemSlot);
 
         // ToolItemData의 isArchitecture가 true면 나뭇잎을 손에 들게
         if (ItemInUse.itemData is ToolItemData toolItem && toolItem.isArchitecture)
@@ -104,6 +104,7 @@ public class ToolSystem : MonoBehaviour
             if (twinToolName.Contains("Handable_L_") == true)
             {
                 _twinTools[twinToolName].SetActive(true);
+                _twinTools[twinToolName].GetComponent<Weapon>()?.Link(slot);
             }
         }
     }

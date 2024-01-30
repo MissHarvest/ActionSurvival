@@ -7,15 +7,16 @@ public class MonsterStayState : MonsterBaseState
 {
     private float _attackTimer = 0.0f;
     private float _reach;
+    private float _attackDelay = 0.0f;
 
     public MonsterStayState(MonsterStateMachine monsterStateMachine) : base(monsterStateMachine)
     {
         _reach = monsterStateMachine.Monster.Data.AttackData.AttackalbeDistance * 2.0f;
+        _attackDelay = monsterStateMachine.Monster.Data.AttackData.AttackDelay;
     }
 
     public override void Enter()
     {
-        Debug.Log("Monster State Changed to [ Stay ]");
         _stateMachine.MovementSpeedModifier = 0.0f;
         _stateMachine.Monster.NavMeshAgent.velocity = Vector3.zero;
         _attackTimer = 0.0f;
@@ -33,7 +34,7 @@ public class MonsterStayState : MonsterBaseState
     public override void Update()
     {
         _attackTimer += Time.deltaTime;
-        if (_attackTimer >= 3.0f)//_stateMachine.Monster.Data.AttackData
+        if (_attackTimer >= _attackDelay)//_stateMachine.Monster.Data.AttackData
         {
             _stateMachine.ChangeState(_stateMachine.ChaseState);
         }
@@ -42,7 +43,6 @@ public class MonsterStayState : MonsterBaseState
 
         if (sqrLength > _reach * _reach)
         {
-            Debug.Log($"Change to chase [{_stateMachine.canAttack}]");
             _stateMachine.ChangeState(_stateMachine.ChaseState);
         }
     }

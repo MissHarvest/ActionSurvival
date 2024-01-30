@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 105282784490744100}
   - component: {fileID: 5992420080571425968}
-  - component: {fileID: 2590028360224108963}
+  - component: {fileID: 6554599215003683725}
+  - component: {fileID: 6406154325480590357}
   m_Layer: 0
   m_Name: BlueSoulEater
   m_TagString: Monster
@@ -32,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 2064822600489467696}
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &5992420080571425968
 NavMeshAgent:
@@ -56,7 +57,7 @@ NavMeshAgent:
   m_BaseOffset: -0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2590028360224108963
+--- !u!114 &6554599215003683725
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,7 +66,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7619597387248084094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b4cd52bcb0f08e4191329c3d6fd4ff7, type: 3}
+  m_Script: {fileID: 11500000, guid: 21e6838aee4335b438331135f00364f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _name: BlueSoulEater
@@ -83,8 +84,29 @@ MonoBehaviour:
     maxValue: 0
     regenRate: 0
     decayRate: 0
-  attackTime: 0
-  _monsterWeapon: {fileID: 0}
+  attackTime: 0.13
+  _monsterWeapon: {fileID: 9042095020296099374}
+--- !u!135 &6406154325480590357
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7619597387248084094}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.706275
+  m_Center: {x: 0, y: 1.4191465, z: 0.102493525}
 --- !u!1001 &1515871036328019341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -164,10 +186,54 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7698556714987879841, guid: 46f5c004c20094c49889487b4f6d72c6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9042095020296099374}
+    - targetCorrespondingSourceObject: {fileID: 7698556714987879841, guid: 46f5c004c20094c49889487b4f6d72c6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6912577704301531341}
   m_SourcePrefab: {fileID: 100100000, guid: 46f5c004c20094c49889487b4f6d72c6, type: 3}
 --- !u!4 &2064822600489467696 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 697721053865966269, guid: 46f5c004c20094c49889487b4f6d72c6, type: 3}
   m_PrefabInstance: {fileID: 1515871036328019341}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &9214277040913414188 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7698556714987879841, guid: 46f5c004c20094c49889487b4f6d72c6, type: 3}
+  m_PrefabInstance: {fileID: 1515871036328019341}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9042095020296099374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9214277040913414188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b733474ce4e91bf45996fbe748119e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &6912577704301531341
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9214277040913414188}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 135
+  m_Center: {x: 0, y: -47.5, z: 0}
