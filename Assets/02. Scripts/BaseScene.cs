@@ -35,8 +35,8 @@ public class BaseScene : MonoBehaviour
                     }
                 }
 
-                var mon = Managers.Resource.GetCache<GameObject>("FireRabbitMon.prefab");
-                Instantiate(mon);
+                //var mon = Managers.Resource.GetCache<GameObject>("FireRabbitMon.prefab");
+                //Instantiate(mon);
             }
         });
     }
