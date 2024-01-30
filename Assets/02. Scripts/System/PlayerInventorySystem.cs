@@ -67,6 +67,13 @@ public class PlayerInventorySystem : InventorySystem
         var consume = targetSlot.itemData as ConsumeItemData;
         var conditionHandler = Owner.ConditionHandler;
 
+        //Debug.Log("먹은 아이템명 : "+targetSlot.itemData.name);
+        //if (targetSlot.itemData.name == "AppleItemData")
+        //{
+        //    //사과 퀘스트 클리어
+        //    Managers.Game.Player.Tutorial.CheckQuestCompletion("EatAppleQuest");
+        //}
+
         foreach (var playerCondition in consume.conditionModifier)
         {
             switch (playerCondition.Condition)

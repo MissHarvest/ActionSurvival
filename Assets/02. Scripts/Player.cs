@@ -23,6 +23,7 @@ public class Player : MonoBehaviour, IHit
     public Recipe Recipe { get; private set; }
     public Cooking Cooking { get; private set; }
     public BuildingSystem Building { get; private set; }
+    public Tutorial Tutorial { get; private set; }
     public ItemSlot EquippedItem => ToolSystem.ItemInUse;
     public PlayerConditionHandler ConditionHandler { get; private set; }
 
@@ -51,6 +52,7 @@ public class Player : MonoBehaviour, IHit
         Recipe = GetComponentInChildren<Recipe>();
         Cooking = GetComponentInChildren<Cooking>();
         Building = GetComponentInChildren<BuildingSystem>();
+        Tutorial = GetComponentInChildren<Tutorial>();
 
         Data = Managers.Resource.GetCache<PlayerSO>("PlayerSO.data");
 
