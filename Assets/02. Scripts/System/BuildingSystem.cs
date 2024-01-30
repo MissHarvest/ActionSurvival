@@ -267,6 +267,8 @@ public class BuildingSystem : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (_bird == null) return;
+
         RaycastHit hit = RaycastHit();
 
         //Debug.DrawLine(_bird.transform.position, hit.point, Color.red);

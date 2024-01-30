@@ -55,11 +55,21 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         RespawnPosition = transform.position;
         _stateMachine.ChangeState(_stateMachine.IdleState);
+        SetManagementedObject();
     }
 
     private void Update()
     {
         _stateMachine.Update();
+    }
+
+    // 2024-01-29 WJY
+    public void SetManagementedObject()
+    {
+        var managedObject = gameObject.AddComponent<ManagementedObject>();
+        managedObject.managedTargets.Add(new(this, typeof(Behaviour)));
+        managedObject.managedTargets.Add(new(GetComponentsInChildren<Renderer>(), typeof(Renderer[])));
+        managedObject.managedTargets.Add(new(GetComponentsInChildren<Collider>(), typeof(Collider[])));
     }
 
     public void SetIsland(Island island)
@@ -75,6 +85,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
         // [ Do ] HP 복구 //
         HP.Add(Data.MaxHP);
+        gameObject.SetActive(true);
     }
 
     public void Die()

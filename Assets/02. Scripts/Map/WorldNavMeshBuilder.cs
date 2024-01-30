@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using System.Linq;
 
 // 2024-01-16 WJY
 public class WorldNavMeshBuilder : MonoBehaviour
@@ -12,20 +13,48 @@ public class WorldNavMeshBuilder : MonoBehaviour
     private NavMeshData _data;
     private Transform _player;
     private World _world;
+    private bool _isInitialized = false;
 
     public bool IsActive { get; set; }
     public NavMeshDataInstance NavMeshDataInstance => _instance;
 
     private IEnumerator Start()
     {
+        Initialize();
+
+        while (IsActive)
+        {
+            yield return UpdateNavMesh();
+        }
+    }
+
+    public void Initialize()
+    {
+        if (_isInitialized) return;
+
         _player = Managers.Game.Player.transform;
         _world = Managers.Game.World;
         _data = new NavMeshData();
         _instance = NavMesh.AddNavMeshData(_data);
 
-        while (IsActive)
+        _isInitialized = true;
+    }
+
+    public void AddChunkSources(Chunk chunk)
+    {
+        var tuples = chunk.GetAllBlocksNavMeshSourceData();
+        foreach (var data in tuples)
         {
-            yield return UpdateNavMesh();
+            if (data.Item1?.vertexCount == 0) continue;
+
+            NavMeshBuildSource source = new()
+            {
+                shape = NavMeshBuildSourceShape.Mesh,
+                sourceObject = data.Item1,
+                transform = data.Item2,
+                area = 0,
+            };
+            _sources.Add(source);
         }
     }
 
@@ -36,22 +65,7 @@ public class WorldNavMeshBuilder : MonoBehaviour
 
         _sources.Clear();
         foreach (var chunk in activeChunks)
-        {
-            var tuples = chunk.GetAllBlocksNavMeshSourceData();
-            foreach (var data in tuples)
-            {
-                if (data.Item1.vertexCount == 0) continue;
-                
-                NavMeshBuildSource source = new()
-                {
-                    shape = NavMeshBuildSourceShape.Mesh,
-                    sourceObject = data.Item1,
-                    transform = data.Item2,
-                    area = 0,
-                };
-                _sources.Add(source);
-            }
-        }
+            AddChunkSources(chunk);
     }
 
     public AsyncOperation UpdateNavMesh(Action<AsyncOperation> callback = null)
@@ -68,6 +82,20 @@ public class WorldNavMeshBuilder : MonoBehaviour
         return op;
     }
 
+    public AsyncOperation GenerateNavMeshAsync(Action<AsyncOperation> callback = null)
+    {
+        Initialize();
+
+        foreach (var chunk in _world.ChunkMap.Values)
+            AddChunkSources(chunk);
+
+        var buildSettings = NavMesh.GetSettingsByID(0);
+        var bounds = CaculateWorldBounds();
+        var op = NavMeshBuilder.UpdateNavMeshDataAsync(_data, buildSettings, _sources, bounds);
+        op.completed += callback;
+        return op;
+    }
+
     private Bounds CalculateViewBounds()
     {
         float sizeX = _world.VoxelData.ChunkSizeX * (_world.WorldData.ViewChunkRange + 2);
@@ -79,6 +107,23 @@ public class WorldNavMeshBuilder : MonoBehaviour
             center = _player.position,
             size = Vector3.one,
             extents = new Vector3(sizeX, sizeY, sizeZ),
+        };
+
+        return bounds;
+    }
+
+    private Bounds CaculateWorldBounds()
+    {
+        var minX = _world.ChunkMap.Keys.Min(x => x.x);
+        var minZ = _world.ChunkMap.Keys.Min(x => x.z);
+        var maxX = _world.ChunkMap.Keys.Max(x => x.x);
+        var maxZ = _world.ChunkMap.Keys.Max(x => x.z);
+
+        Bounds bounds = new()
+        {
+            center = Vector3.zero,
+            size = Vector3.one,
+            extents = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue),
         };
 
         return bounds;
