@@ -94,15 +94,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Tutorial",
-                    "type": "Button",
-                    "id": "5202846a-d06d-4ea1-a9d5-9ab5317f48ea",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -367,17 +358,6 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "Esc",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "80099b84-abe1-41d8-b746-7e781d1dc0c6",
-                    "path": "<Keyboard>/t",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Tutorial",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

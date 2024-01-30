@@ -37,9 +37,9 @@ public class UITutorial : UIPopup
         gameObject.SetActive(false);
     }
 
-    //public void SetQuests(List<Quest> quests)
+    //public void SetQuests(List<Quest> _quests)
     //{
-    //    _quests = quests;
+    //    _quests = _quests;
     //}
 
     //public void AddQuest(Quest quest)
@@ -62,18 +62,18 @@ public class UITutorial : UIPopup
         //    return;
         
         // i < QuestList.Count
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 9; i++)
         {
             var questPrefab = Managers.Resource.GetCache<GameObject>("UIQuest.prefab");
-            var questGO = Instantiate(questPrefab, _content); //instantiate 말고 오브젝트 풀링
+            var questGO = Instantiate(questPrefab, _content); //instantiate 말고 오브젝트 풀링?비슷하게 쓰면 좋음
             var questSlot = questGO.GetComponent<UIQuest>();
 
-            // 퀘스트 클릭 시 판넬 띄우기
+            // 퀘스트 클릭 시 판넬 띄우기?
             questGO.BindEvent((x) =>
             {
                 if (questGO.activeSelf)
                 {
-
+                    
                     gameObject.SetActive(false);
                 }
             });

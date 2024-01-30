@@ -5,25 +5,27 @@ using UnityEngine;
 // 2024. 01. 29 Byun Jeongmin
 public class Tutorial : MonoBehaviour
 {
-    private List<string> questCompletionStatus = new List<string>(); //진행중인 퀘스트만 UI에 떠야하니까 따로 처리 필요
-    private List<QuestSO> quests;
+    [SerializeField] private List<QuestSO> _quests; // 모든 퀘스트 리스트
+    [SerializeField] private List<QuestSO> _activeQuests = new List<QuestSO>(); // 현재 활성화된 퀘스트 리스트
+    [SerializeField] private List<string> _questCompletionStatus = new List<string>(); //완료한 퀘스트 리스트
     private UITutorial _tutorialUI; //childUI
+
 
     public void Initialize() //튜토리얼 저장 관련해서 초기화 부분은 바뀔수도??
     {
         // QuestSO 초기화
-        quests = new List<QuestSO>(Managers.Resource.GetCacheGroup<QuestSO>("QuestData"));
-        foreach (var quest in quests)
+        _quests = new List<QuestSO>(Managers.Resource.GetCacheGroup<QuestSO>("QuestData"));
+        _activeQuests.Clear();
+
+        foreach (var quest in _quests)
         {
             quest.InitializeQuest();
-            //questCompletionStatus[quest.questName] = false; //add로 추가
-            questCompletionStatus.Clear();
+            _questCompletionStatus.Clear();
+            if (IsPreQuestsCleared(quest))
+            {
+                _activeQuests.Add(quest);
+            }
         }
-    }
-
-    private void Awake()
-    {
-        BindInventoryEvents();
     }
 
     private void OnEnable()
@@ -40,7 +42,24 @@ public class Tutorial : MonoBehaviour
     {
         //_mainSceneUI = Managers.UI.ShowSceneUI<UIMainScene>(); // UIMainScene 내에서 UITutorial로 처리
         //Managers.UI.TryGetSceneUI(out mainSceneUI);
-        //_mainSceneUI.SetQuests(quests); // UITutoriral에서 Manager.game.player.tutorial로 접근(이벤트)
+        //_mainSceneUI.SetQuests(_activeQuests); // UITutoriral에서 Manager.game.player.tutorial로 접근(이벤트)
+    }
+
+    // preQuests(선행퀘)가 비어 있거나, 모든 preQuests가 클리어된 경우에만 true
+    private bool IsPreQuestsCleared(QuestSO quest)
+    {
+        if (quest.preQuests == null || quest.preQuests.Count == 0)
+        {
+            return true;
+        }
+        foreach (var preQuest in quest.preQuests)
+        {
+            if (!_questCompletionStatus.Contains(preQuest.questName))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void BindInventoryEvents()
@@ -54,33 +73,35 @@ public class Tutorial : MonoBehaviour
     }
 
 
-    //인벤토리가 업데이트되면 클리어 조건 확인(사과, getapplequestdata 일반화하기)
+    //인벤토리가 업데이트되면 클리어 조건 확인
     private void OnInventoryUpdated(int index, ItemSlot itemSlot)
     {
-        foreach (var activeQuest in GetActiveQuests())
+        List<QuestSO> questsToRemove = new List<QuestSO>();
+
+        foreach (var activeQuest in _activeQuests)
         {
-            Debug.Log("퀘스트명"+activeQuest.name);
             if (IsEnoughRequirements(activeQuest, itemSlot))
             {
-                CheckQuestCompletion(activeQuest);
+                ConfirmQuestCompletion(activeQuest);
+                questsToRemove.Add(activeQuest);
             }
         }
-    }
 
-    //활성화된 퀘스트 리스트에 퀘스트 추가
-    private List<QuestSO> GetActiveQuests()
-    {
-        List<QuestSO> activeQuests = new List<QuestSO>();
-        
-
-        foreach (var quest in quests)
+        //클리어된 퀘스트는 activeQuests, quests에서 제외
+        foreach (var questToRemove in questsToRemove)
         {
-            if (!questCompletionStatus.Exists(questName => questName == quest.questName))
+            _activeQuests.Remove(questToRemove);
+            _quests.Remove(questToRemove);
+        }
+
+        // 선행 퀘가 모두 클리어된 경우 activeQuests에 추가
+        foreach (var quest in _quests)
+        {
+            if (!_activeQuests.Contains(quest) && IsPreQuestsCleared(quest))
             {
-                activeQuests.Add(quest);
+                _activeQuests.Add(quest);
             }
         }
-        return activeQuests;
     }
 
     private bool IsEnoughRequirements(QuestSO quest, ItemSlot itemSlot)
@@ -90,7 +111,7 @@ public class Tutorial : MonoBehaviour
             if (itemSlot.itemData != null && itemSlot.itemData.name == requiredItem.item.name)
             {
                 requiredItem.OnItemAcquired();
-                Debug.Log($"{requiredItem.item.displayName} 1개 획득");
+                //Debug.Log($"{requiredItem.item.displayName} 1개 획득");
 
                 if (requiredItem.currentQuantity >= requiredItem.quantity)
                 {
@@ -101,15 +122,15 @@ public class Tutorial : MonoBehaviour
         return false;
     }
 
-    private void QuestCompleted(string questName)
+    private void ConfirmQuestCompletion(QuestSO quest)
     {
-        Debug.Log($"{questName} 퀘스트 클리어");
-    }
-
-    private void CheckQuestCompletion(QuestSO quest)
-    {
-        questCompletionStatus.Add(quest.questName);
+        _questCompletionStatus.Add(quest.questName);
         quest.CompleteQuest();
         QuestCompleted(quest.questName);
+    }
+
+    private void QuestCompleted(string questName)
+    {
+        //Debug.Log($"{questName} 퀘스트 클리어!!!!!!!!!!!!");
     }
 }

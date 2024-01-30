@@ -71,7 +71,7 @@ public class PlayerInventorySystem : InventorySystem
         //if (targetSlot.itemData.name == "AppleItemData")
         //{
         //    //사과 퀘스트 클리어
-        //    Managers.Game.Player.Tutorial.CheckQuestCompletion("EatAppleQuest");
+        //    Managers.Game.Player.Tutorial.ConfirmQuestCompletion("EatAppleQuest");
         //}
 
         foreach (var playerCondition in consume.conditionModifier)

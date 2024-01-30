@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static RecipeSO;
 
+// 2024. 01. 29 Byun Jeongmin
 [CreateAssetMenu(fileName = "NewQuest", menuName = "Quest/New Quest")]
 public class QuestSO : ScriptableObject
 {
@@ -11,13 +12,14 @@ public class QuestSO : ScriptableObject
 
     public bool isCompleted;
 
+    public List<QuestSO> preQuests; // 선행 퀘스트 리스트
+
     public List<RequiredItem> requiredItems = new List<RequiredItem>();
 
     public void InitializeQuest()
     {
         foreach (var requiredItem in requiredItems)
         {
-            Debug.Log("asdf");
             requiredItem.currentQuantity = 0; //SO가 이렇게 직접적으로 변경되는 건 안 좋은 것 같다 ,,
             isCompleted = false;
         }
