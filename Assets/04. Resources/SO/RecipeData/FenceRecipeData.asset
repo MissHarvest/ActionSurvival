@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FenceRecipeData
   m_EditorClassIdentifier: 
   itemName: Fence
-  completedItemData: {fileID: 11400000, guid: 5fdc6d52b339f9a4a8daf6af2d4277f1, type: 2}
+  completedItemData: {fileID: 11400000, guid: 010f81f8f6dffcd4d9cd16d14af36a94, type: 2}
   IsAdvancedRecipe: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}

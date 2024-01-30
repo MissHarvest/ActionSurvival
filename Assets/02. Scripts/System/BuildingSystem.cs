@@ -89,13 +89,13 @@ public class BuildingSystem : MonoBehaviour
         if (hit.collider != null && IsInLayerMask(hit.collider.gameObject.layer, _currentLayer))
         {
             _canCreateObject = true;
-            Debug.Log("건축 가능한 레이어입니다. 레이어: " + hit.collider.gameObject.layer);
+            //Debug.Log("건축 가능한 레이어입니다. 레이어: " + hit.collider.gameObject.layer);
             return hit;
         }
         else
         {
             _canCreateObject = false;
-            Debug.Log("건축 불가능한 레이어입니다. 레이어: " + hit.collider.gameObject.layer);
+            //Debug.Log("건축 불가능한 레이어입니다. 레이어: " + hit.collider.gameObject.layer);
             return hit;
         }
     }
@@ -134,7 +134,7 @@ public class BuildingSystem : MonoBehaviour
 
         // 울타리 이동 및 위치 조정
         _bird.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
-        Debug.Log("x값: " + _obj.transform.position.x + " y값: " + _obj.transform.position.y + " z값: " + _obj.transform.position.z);
+        //Debug.Log("x값: " + _obj.transform.position.x + " y값: " + _obj.transform.position.y + " z값: " + _obj.transform.position.z);
 
         SetObjPosition(RaycastHit().point);
     }
