@@ -17,6 +17,5 @@ public class BonFire : MonoBehaviour, IInteractable
     public void Interact(Player player)
     {
         Managers.Game.Player.Cooking.OnCookingShowAndHide();
-        //Debug.Log("모닥불에서 요리 판넬 띄우기");
     }
 }

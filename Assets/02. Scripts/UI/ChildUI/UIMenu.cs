@@ -10,7 +10,7 @@ public class UIMenu : UIBase
         Toggle,
     }
 
-    private bool _isHidden = true;
+    private bool _isHidden = false;
     public override void Initialize()
     {
         Bind<Button>(typeof(Buttons));

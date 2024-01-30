@@ -31,8 +31,13 @@ public class PlayerComboAttackState : PlayerAttackState
         _stateMachine.Player.Animator.SetInteger("Combo", comboIndex);
 
         ToolItemData tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
+        if(tool.isWeapon == false)
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+        }
 
-        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range * 1f, tool.targetLayers);
+
+        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range * 1.5f, tool.targetLayers);
         if (targets.Length == 0)
         {
             return;
@@ -94,7 +99,13 @@ public class PlayerComboAttackState : PlayerAttackState
 
     public override void Update()
     {
-        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+        ToolItemData toolItemData = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+        if(toolItemData.isWeapon == false)
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+            return;
+        }
+
         base.Update();
 
         ForceMove();
@@ -110,7 +121,7 @@ public class PlayerComboAttackState : PlayerAttackState
             if (normalizedTime >= _attackInfoData.ComboTransitionTime)
             {
                 _weapon = Managers.Game.Player.GetComponentInChildren<Weapon>();
-                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;
+                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;//
                 TryComboAttack();
             }
         }
@@ -123,20 +134,25 @@ public class PlayerComboAttackState : PlayerAttackState
             }
             else
             {
-                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
-                if (toolItemDate.isTwoHandedTool == true)
-                {
-                    _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
-                }
-                else if (toolItemDate.isTwinTool == true)
-                {
-                    _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
-                }
-                else
-                {
-                    _stateMachine.ChangeState(_stateMachine.IdleState);
-                }
+                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;//
+                ExitState(toolItemData);
             }
+        }
+    }
+
+    private void ExitState(ToolItemData toolItemData)
+    {
+        if (toolItemData.isTwoHandedTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
+        }
+        else if (toolItemData.isTwinTool == true)
+        {
+            _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
+        }
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
         }
     }
 

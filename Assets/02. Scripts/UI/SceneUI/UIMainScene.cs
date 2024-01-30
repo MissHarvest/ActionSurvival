@@ -8,17 +8,20 @@ public class UIMainScene : UIScene
     enum GameObjects
     {
         QuickSlotController,
+        PC,
     }
 
     #endregion
-
-
 
     #region Initialize
 
     private void Start()
     {
         Initialize();
+
+#if UNITY_ANDROID
+        Get<GameObject>((int)GameObjects.PC).SetActive(false);
+#endif
     }
 
     public override void Initialize()
@@ -26,7 +29,11 @@ public class UIMainScene : UIScene
         base.Initialize();
 
         Bind<GameObject>(typeof(GameObjects));
+        Get<GameObject>((int)GameObjects.PC).BindEvent((x) =>
+        {
+            Get<GameObject>((int)GameObjects.PC).SetActive(false);
+        });
     }
 
-    #endregion
+#endregion
 }

@@ -265,7 +265,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b7403afa-ae49-414b-a67c-caaa119f02ea"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
@@ -312,17 +312,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/4"",
                     ""interactions"": ""Press(pressPoint=0.5)"",
                     ""processors"": ""Scale(factor=4)"",
-                    ""groups"": """",
-                    ""action"": ""QuickSlot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f9b0e44e-8dbf-47a7-8208-743a5e7ea491"",
-                    ""path"": ""<Keyboard>/5"",
-                    ""interactions"": ""Press(pressPoint=0.5)"",
-                    ""processors"": ""Scale(factor=5)"",
                     ""groups"": """",
                     ""action"": ""QuickSlot"",
                     ""isComposite"": false,

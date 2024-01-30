@@ -28,6 +28,6 @@ public class UILootingItemSlot : UIItemSlot
     public override void Set(ItemSlot itemSlot)
     {
         base.Set(itemSlot);
-        Get<TextMeshProUGUI>((int)Texts.Name).text = itemSlot.itemData.name.Replace("ItemData","");
+        Get<TextMeshProUGUI>((int)Texts.Name).text = itemSlot.itemData.displayName;
     }
 }

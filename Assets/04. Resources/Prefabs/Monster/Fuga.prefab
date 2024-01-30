@@ -52,8 +52,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: -1, y: 0, z: 0}
+  m_Radius: 0.36979267
+  m_Center: {x: -0.15829399, y: 0.29974797, z: 0.13972}
 --- !u!114 &7394809304215902068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 3336182386523525600}
   - component: {fileID: 1410436969525244648}
   - component: {fileID: 8920282696189405673}
-  - component: {fileID: 4389380863112074153}
+  - component: {fileID: 7641184038205987147}
   m_Layer: 0
   m_Name: Fuga
   m_TagString: Monster
@@ -114,7 +114,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 240
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
@@ -236,35 +236,27 @@ MonoBehaviour:
     decayRate: 0
   attackTime: 0
   _monsterWeapon: {fileID: 7394809304215902068}
---- !u!114 &4389380863112074153
-MonoBehaviour:
+--- !u!135 &7641184038205987147
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6640049734764929922}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8ce69f1dbea5043824c8583cd98f5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _name: 
-  <AnimationData>k__BackingField:
-    idleParameterName: Idle
-    walkParameterName: Walk
-    runParameterName: Run
-    attackParameterName: Attack
-    dieParamterName: Die
-  <Data>k__BackingField: {fileID: 0}
-  looting:
-    _lootings: []
-  <HP>k__BackingField:
-    currentValue: 0
-    maxValue: 0
-    regenRate: 0
-    decayRate: 0
-  attackTime: 0
-  _monsterWeapon: {fileID: 0}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.61247706
+  m_Center: {x: 0, y: 0.5255743, z: 0}
 --- !u!1001 &8769502925896270730
 PrefabInstance:
   m_ObjectHideFlags: 0

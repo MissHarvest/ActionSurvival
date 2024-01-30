@@ -19,6 +19,11 @@ public class MonsterPatrolState : MonsterBaseState
         _stateMachine.MovementSpeedModifier = _stateMachine.Monster.Data.MovementData.WalkSpeedModifier;
         _stateMachine.DetectionDistModifier = _stateMachine.Monster.Data.AttackData.DefaultDetectionDistModifier;
 
+        if(_stateMachine.Monster.HP.GetPercentage() < 1.0f)
+        {
+            _stateMachine.Monster.HP.regenRate += _stateMachine.Monster.HP.maxValue * 0.1f;
+        }
+
         base.Enter();
 
         SetRandomDestination();

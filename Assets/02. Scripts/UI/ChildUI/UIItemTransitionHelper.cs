@@ -12,6 +12,8 @@ public class UIItemTransitionHelper : UIItemHelper
         TakeOut,
     }
 
+    private string[] _functions = new string[] { "보관하기", "꺼내기" };
+
     public void BindEventOfButton(Functions functions, UnityAction action)
     {
         string name = functions.ToString();
@@ -25,9 +27,11 @@ public class UIItemTransitionHelper : UIItemHelper
     {
         Clear();
         gameObject.SetActive(true);
-        OptionBox.transform.position = position;
+        SetItemName(selectedSlot.itemData.displayName);
 
-        if(selectedSlot.inventory)
+        Container.transform.position = position;
+
+        if (selectedSlot.inventory)
         {
             if(selectedSlot.inventory == Managers.Game.Player.Inventory)
             {
@@ -42,7 +46,9 @@ public class UIItemTransitionHelper : UIItemHelper
 
     protected override void CreateButtons()
     {
-        CreateButton(Functions.Store.ToString());
-        CreateButton(Functions.TakeOut.ToString());
+        //CreateButton(Functions.Store.ToString());
+        //CreateButton(Functions.TakeOut.ToString());
+        CreateButton(Functions.Store.ToString(), _functions[(int)Functions.Store]);
+        CreateButton(Functions.TakeOut.ToString(), _functions[(int)Functions.TakeOut]);
     }
 }

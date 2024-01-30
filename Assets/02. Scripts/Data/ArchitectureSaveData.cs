@@ -33,11 +33,23 @@ public struct ArchitecutreTransform
     public Quaternion rotation;
 }
 
+[Serializable]
+public struct FarmData
+{
+    public FarmData(Farm farm)
+    {
+        this.state = farm.State;
+        this.remainingTime = farm.RemainingTime;
+    }
+
+    public int state;
+    public float remainingTime;
+}
 
 [System.Serializable]
 public class ArchitectureSaveData
 {
     [field: SerializeField] public List<ArchitectureKeyValue> architectureDicData { get; set; } = new();
     [field: SerializeField] public List<ArchitecutreTransform> transformData { get; set; } = new();
-    [field: SerializeField] public List<ResourceObjectState> farmData { get; set; } = new();
+    [field: SerializeField] public List<FarmData> farmData { get; set; } = new();
 }

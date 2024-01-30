@@ -14,4 +14,5 @@ public class MonsterAttackData
     [field : SerializeField] public float DefaultDetectionDistModifier { get; private set; }
     [field : SerializeField] public float ChaseDectionDistModifier { get; private set; }
     [field : SerializeField] public float AttackalbeDistance { get; private set; }
+    [field: SerializeField] public float AttackDelay { get; private set; }
 }

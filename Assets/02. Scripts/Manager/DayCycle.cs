@@ -12,6 +12,7 @@ public enum Season
     Winter,
 }
 
+[System.Serializable]
 public class DayCycle
 {
     enum TimeZone
@@ -24,7 +25,7 @@ public class DayCycle
 
     private int[] _cycle = { 300, 60, 120 };
     private int[] _eventCount = new int[3];
-    public int Date { get; private set; } = 1;
+    [field:SerializeField] public int Date { get; private set; } = 1;
     private int _time = 0;
     private int _currentTimeZone = 0;
     private int _eventInterval = 10;
@@ -50,6 +51,7 @@ public class DayCycle
         {
             _eventCount[i] = _eventCount[i - 1] + _cycle[i] / _eventInterval;
         }
+        Load();
     }    
 
     IEnumerator StartDayCycle()
@@ -69,6 +71,7 @@ public class DayCycle
                 OnDateUpdated?.Invoke(++Date);
                 Season = (Season)(Date / 7 % 2);
                 _time = 0;
+                Save();
                 OnMorningCame?.Invoke();
                 break;
 
@@ -92,6 +95,18 @@ public class DayCycle
             _currentTimeZone = (_currentTimeZone + 1) % (int)TimeZone.Max;
             BroadCast();
         }
+    }
+
+    private void Load()
+    {
+        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "WorldDate");
+        OnDateUpdated?.Invoke(Date);
+    }
+
+    private void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile("WorldDate", json, SaveGame.SaveType.Runtime);
     }
 
 #if UNITY_EDITOR

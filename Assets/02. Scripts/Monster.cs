@@ -3,9 +3,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +10,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 {
     [SerializeField] protected string _name = string.Empty;
     [field: SerializeField] public MonsterAnimationData AnimationData { get; private set; }
+
     protected MonsterStateMachine _stateMachine;
     public Animator Animator { get; private set; }
     [field: SerializeField] public MonsterSO Data { get; private set; }
@@ -48,6 +46,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         NavMeshAgent = Utility.GetOrAddComponent<NavMeshAgent>(gameObject);
 
         HP = new Condition(Data.MaxHP);
+        HP.OnUpdated += OnHpUpdated;
         HP.OnBelowedToZero += Die;
     }
 
@@ -60,6 +59,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     private void Update()
     {
+        HP.Update();
         _stateMachine.Update();
     }
 
@@ -81,6 +81,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         Dead = false;
         transform.position = RespawnPosition;
+        gameObject.layer = 7;
+        gameObject.SetActive(true);
         _stateMachine.ChangeState(_stateMachine.IdleState);
 
         // [ Do ] HP 복구 //
@@ -106,14 +108,13 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         gameObject.layer = 14;
         HP.Subtract(damage);
-        Debug.Log("피격");
         OnHit?.Invoke(attacker);
-        StartCoroutine(Avoid());
+        if(HP.currentValue > 0) StartCoroutine(Avoid());
     }
 
     IEnumerator Avoid()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.55f);
         gameObject.layer = 7;
     }
 
@@ -126,6 +127,14 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     public virtual void OffAttack()
     {
 
+    }
+
+    private void OnHpUpdated(float amount)
+    {
+        if(amount >= 1.0f)
+        {
+            HP.regenRate = 0;
+        }
     }
 
     public abstract void TryAttack();

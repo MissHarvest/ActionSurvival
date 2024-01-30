@@ -26,6 +26,7 @@ public class SpawnPoint
 
 public class Island
 {
+    private string name;
     // 각 등급 별 몬스터 위치
     public int cellCount = 61;
 
@@ -41,7 +42,7 @@ public class Island
     private MonsterGroup[] _monsterGroups = new MonsterGroup[3];
     private Transform _islandMonsterRoot;
 
-    private List<SpawnPoint> _spawnablePoints = new List<SpawnPoint>();
+    [SerializeField] private List<SpawnPoint> _spawnablePoints = new List<SpawnPoint>();
 
     public List<GameObject> DiedMonsters = new List<GameObject>();
 
@@ -103,13 +104,27 @@ public class Island
         }
     }
 
+    private void Load()
+    {
+        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Compile, $"{name}Island");
+    }
+
+    private void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile($"{name}Island", json, SaveGame.SaveType.Runtime);
+    }
+
     #region SpawnPoint
     public void CreateMonsters()
     {
         Managers.Game.DayCycle.OnMorningCame += RespawnMonsters;
+
         CreateSpawnPoint();
 
         SetSpawnPointRank();
+
+        Save();
 
         // SpawnMonster
         for (int i = 0; i < _spawnablePoints.Count; ++i)

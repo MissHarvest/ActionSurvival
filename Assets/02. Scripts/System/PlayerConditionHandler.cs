@@ -16,11 +16,15 @@ public class PlayerConditionHandler : MonoBehaviour
         Player = GetComponent<Player>();
 
         HP = new Condition(200);
-
+        
         Hunger = new Condition(100);
         Hunger.decayRate = 0.1f;
         Hunger.OnRecovered += OnHungerRecevered;
         Hunger.OnDecreased += OnHungerDecrease;
+
+        Load();
+
+        Managers.Game.OnSaveCallback += Save;
     }
 
     public void OnHungerDecrease(float amount)
@@ -45,5 +49,16 @@ public class PlayerConditionHandler : MonoBehaviour
     {
         HP.Update();
         Hunger.Update();
+    }
+
+    private void Load()
+    {
+        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"PlayerConditions");
+    }
+
+    private void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile($"PlayerConditions", json, SaveGame.SaveType.Runtime);
     }
 }

@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8546507708883505702}
+  - component: {fileID: -3313673196324547483}
   - component: {fileID: 7285319032723581233}
-  - component: {fileID: 563050570767098211}
+  - component: {fileID: -6790643078946795203}
   m_Layer: 0
   m_Name: RedSoulEater
   m_TagString: Monster
@@ -32,8 +33,41 @@ Transform:
   m_Children:
   - {fileID: 6746643623543249950}
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-3313673196324547483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5045475273313045350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e23d11709f6df37428583fca635884d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: RedSoulEater
+  <AnimationData>k__BackingField:
+    idleParameterName: Idle
+    walkParameterName: Walk
+    runParameterName: Run
+    attackParameterName: Attack
+    dieParamterName: Die
+  <Data>k__BackingField: {fileID: 0}
+  looting:
+    _lootings: []
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
+  attackTime: 0.45
+  projectileWeapon: {fileID: 4634576362250552279, guid: 9fd43508d8ee6954d8da11ac10998922, type: 3}
+  fireTransform: {fileID: 8197502211002789674}
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!195 &7285319032723581233
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -56,110 +90,27 @@ NavMeshAgent:
   m_BaseOffset: -0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &563050570767098211
-MonoBehaviour:
+--- !u!135 &-6790643078946795203
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5045475273313045350}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b4cd52bcb0f08e4191329c3d6fd4ff7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _name: RedSoulEater
-  <AnimationData>k__BackingField:
-    idleParameterName: Idle
-    walkParameterName: Walk
-    runParameterName: Run
-    attackParameterName: Attack
-    dieParamterName: Die
-  <Data>k__BackingField: {fileID: 0}
-  looting:
-    _lootings:
-    - _item: {fileID: 11400000, guid: ad1b22b8f3b330d4d987f33be6a13778, type: 2}
-      _distribution:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 0
-    - _item: {fileID: 11400000, guid: 9910fbaa1ab0a0745900d8c7fc6f25f0, type: 2}
-      _distribution:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 0
-    - _item: {fileID: 11400000, guid: a53ebd078a840354baea2678453b9184, type: 2}
-      _distribution:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 0
-  <HP>k__BackingField:
-    currentValue: 0
-    maxValue: 0
-    regenRate: 0
-    decayRate: 0
-  attackTime: 0
-  _monsterWeapon: {fileID: 0}
+  serializedVersion: 3
+  m_Radius: 1.706275
+  m_Center: {x: 0, y: 1.4191465, z: 0.102493525}
 --- !u!1001 &5276120481684618380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -235,7 +186,7 @@ PrefabInstance:
     - target: {fileID: 7439186059543906664, guid: 318830e16c9af9a449459f9b35ed0179, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: 9900a76930030224ab6c8a7072d55b50, type: 2}
+      objectReference: {fileID: 22100000, guid: 2bc4c2042b2fefd4ca8e75a1b8e06db3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -244,5 +195,10 @@ PrefabInstance:
 --- !u!4 &6746643623543249950 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1484058393081176210, guid: 318830e16c9af9a449459f9b35ed0179, type: 3}
+  m_PrefabInstance: {fileID: 5276120481684618380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8197502211002789674 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4106134195229004710, guid: 318830e16c9af9a449459f9b35ed0179, type: 3}
   m_PrefabInstance: {fileID: 5276120481684618380}
   m_PrefabAsset: {fileID: 0}

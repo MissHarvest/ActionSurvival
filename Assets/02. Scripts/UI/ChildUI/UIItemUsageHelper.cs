@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 public class UIItemUsageHelper : UIItemHelper
 {
@@ -13,6 +14,8 @@ public class UIItemUsageHelper : UIItemHelper
         Destroy
     }
 
+    private string[] _functions = new string[] { "등록하기", "해제하기", "사용하기", "버리기" };
+    
     public override void Initialize()
     {
         base.Initialize();
@@ -20,20 +23,20 @@ public class UIItemUsageHelper : UIItemHelper
 
     protected override void CreateButtons()
     {
-        CreateButtonByEnum(Functions.Regist);//, RegistItem);
-        CreateButtonByEnum(Functions.UnRegist);//, UnregistItem);
-        CreateButtonByEnum(Functions.Use);//, ConsumeItem);
-        CreateButtonByEnum(Functions.Destroy);//, DestryoItem);
+        CreateButtonByEnum(Functions.Regist);
+        CreateButtonByEnum(Functions.UnRegist);
+        CreateButtonByEnum(Functions.Use);
+        CreateButtonByEnum(Functions.Destroy);
     }
 
     public override void ShowOption(ItemSlot selectedSlot, Vector3 position)
     {
         Clear();
         gameObject.SetActive(true);
+        SetItemName(selectedSlot.itemData.displayName);
 
-        OptionBox.transform.position = position;
+        Container.transform.position = position;
 
-        // other Button Add
         switch (selectedSlot.itemData)
         {
             case ToolItemData _:
@@ -65,9 +68,9 @@ public class UIItemUsageHelper : UIItemHelper
         }
     }
 
-    private void CreateButtonByEnum(Functions label)//, UnityAction action)
+    private void CreateButtonByEnum(Functions label)
     {
-        CreateButton(label.ToString());//, action);
+        CreateButton(label.ToString(), _functions[(int)label]);
     }
 
     private void ShowButtonByEnum(Functions function)
