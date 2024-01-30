@@ -57,8 +57,16 @@ public class ResourceObjectParent : MonoBehaviour
         }
         CurrentState = 0;
         RemainingTime = GetCurrentDebrisRespawnTime();
+        SetManagementedObject();
 
         _isInitialized = true;
+    }
+
+    public void SetManagementedObject()
+    {
+        var managedObject = gameObject.AddComponent<ManagementedObject>();
+        managedObject.managedTargets.Add(new(GetComponentsInChildren<Renderer>(), typeof(Renderer[])));
+        managedObject.managedTargets.Add(new(GetComponentsInChildren<Collider>(), typeof(Collider[])));
     }
 
     public void SwitchState(int stateID)

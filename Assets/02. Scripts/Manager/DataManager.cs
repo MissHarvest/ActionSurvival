@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 // 2024. 01. 12 Byun Jeongmin
 public class DataManager
@@ -15,5 +14,10 @@ public class DataManager
     {
         recipeDataList.AddRange(Managers.Resource.GetCacheGroup<RecipeSO>("RecipeData.data"));
         cookingDataList.AddRange(Managers.Resource.GetCacheGroup<RecipeSO>("CookingData.data"));
+    }
+
+    public RecipeSO GetRecipeDataByItemName(string itemName)
+    {
+        return recipeDataList.Find(recipe => recipe.itemName == itemName);
     }
 }
