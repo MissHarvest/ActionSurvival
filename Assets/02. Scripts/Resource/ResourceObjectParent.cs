@@ -65,8 +65,8 @@ public class ResourceObjectParent : MonoBehaviour
     public void SetManagementedObject()
     {
         var managedObject = gameObject.AddComponent<ManagementedObject>();
-        managedObject.managedTargets.Add(new(GetComponentsInChildren<Renderer>(), typeof(Renderer[])));
-        managedObject.managedTargets.Add(new(GetComponentsInChildren<Collider>(), typeof(Collider[])));
+        managedObject.managedTargets.Add(new(GetComponentsInChildren<Renderer>(true), typeof(Renderer[])));
+        managedObject.managedTargets.Add(new(GetComponentsInChildren<Collider>(true), typeof(Collider[])));
     }
 
     public void SwitchState(int stateID)

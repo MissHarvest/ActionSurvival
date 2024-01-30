@@ -68,8 +68,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         var managedObject = gameObject.AddComponent<ManagementedObject>();
         managedObject.managedTargets.Add(new(this, typeof(Behaviour)));
-        managedObject.managedTargets.Add(new(GetComponentsInChildren<Renderer>(), typeof(Renderer[])));
-        managedObject.managedTargets.Add(new(GetComponentsInChildren<Collider>(), typeof(Collider[])));
+        managedObject.managedTargets.Add(new(GetComponentsInChildren<Renderer>(true), typeof(Renderer[])));
+        managedObject.managedTargets.Add(new(GetComponentsInChildren<Collider>(true), typeof(Collider[])));
     }
 
     public void SetIsland(Island island)
