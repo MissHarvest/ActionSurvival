@@ -43,7 +43,7 @@ public class PlayerGroundedState : PlayerBaseState
         if(!_stateMachine.Player.Controller.isGrounded
             && _stateMachine.Player.Controller.velocity.y < Physics.gravity.y * Time.fixedDeltaTime)
         {
-            //_stateMachine.ChangeState(_stateMachine.FallState);
+            _stateMachine.ChangeState(_stateMachine.FallState);
         }
     }
 
