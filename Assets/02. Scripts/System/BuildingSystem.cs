@@ -13,8 +13,11 @@ public class BuildingSystem : MonoBehaviour
     private float _raycastRange = 20.0f;
     private float gridSize = 1.0f;
     [SerializeField] private int _rotationAngle = 45;
+    private int _inventoryIndex;
 
     private BuildableObject _buildableObject;
+
+    public event Action<int> OnBuildRequested;
 
     public Player Owner { get; private set; }
 
@@ -32,9 +35,14 @@ public class BuildingSystem : MonoBehaviour
         _rayPointer.SetActive(false);
     }
 
-    public void CreateArchitecture()
+    public void CreateArchitecture() // _buildableObject가 null이 아닌 경우 return하게 하면 return 이후는 실행 x
     {
-        var handItemData = Managers.Game.Player.QuickSlot.slots[Managers.Game.Player.QuickSlot.IndexInUse].itemSlot.itemData as ToolItemData;
+        if (_buildableObject != null)
+            return;
+
+        var indexInUse = Managers.Game.Player.QuickSlot.IndexInUse;
+        var handItemData = Managers.Game.Player.QuickSlot.slots[indexInUse].itemSlot.itemData as ToolItemData;
+        _inventoryIndex = Managers.Game.Player.QuickSlot.slots[indexInUse].targetIndex;
 
         if (handItemData.isArchitecture)
         {
@@ -49,6 +57,22 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
+    public void CreateArchitectureByIndex(int index) //index값 멤버로 저장
+    {
+        _inventoryIndex = index;
+        var handItemData = Managers.Game.Player.Inventory.slots[index].itemData as ToolItemData;
+
+        _rayPointer.transform.position = transform.position + Vector3.up * 2;
+        // "아이템명"+ItemData에서 "ItemData" 부분 제거
+        string itemNameWithoutItemData = handItemData.name.Replace("ItemData", "");
+
+        string prefabName = "Architecture_" + itemNameWithoutItemData + ".prefab";
+        var prefab = Managers.Resource.GetCache<GameObject>(prefabName);
+        _buildableObject = Instantiate(prefab).GetComponent<BuildableObject>();
+        _buildableObject.Create();
+        OnBuildRequested?.Invoke(index);
+    }
+
     public bool BuildArchitecture()
     {
         if (_buildableObject.canBuild == false) return false;
@@ -58,8 +82,8 @@ public class BuildingSystem : MonoBehaviour
         _rayPointer.SetActive(false);
         _buildableObject = null;
         // 인벤토리에서 제거
-        var useQuick = Owner.QuickSlot.slots[Owner.QuickSlot.IndexInUse];        
-        Managers.Game.Player.Inventory.UseArchitectureItem(useQuick.targetIndex);
+        //var useQuick = Owner.QuickSlot.slots[Owner.QuickSlot.IndexInUse];        
+        Managers.Game.Player.Inventory.UseArchitectureItem(_inventoryIndex);
         return true;
     }
 
