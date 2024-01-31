@@ -13,13 +13,11 @@ MonoBehaviour:
   m_Name: GetBonFireQuestData
   m_EditorClassIdentifier: 
   questName: GetBonFire
-  questInfo: "\uBAA8\uB2E5\uBD88 \uD558\uB098\uB97C \uC81C\uC791\uD558\uC138\uC694.
-    \uD78C\uD2B8 : \uBAA8\uB2E5\uBD88\uC740 \uC81C\uC791\uB300\uC5D0\uC11C \uB9CC\uB4E4
-    \uC218 \uC788\uC5B4\uC694."
+  questUIName: "\uC81C\uC791\uB300\uC5D0\uC11C \uBAA8\uB2E5\uBD88 \uD558\uB098\uB97C
+    \uC81C\uC791\uD558\uC138\uC694."
+  questID: 4
   isCompleted: 1
   preQuests:
   - {fileID: 11400000, guid: 969d6bb569150a54bb82e791f6c013c4, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 29b6186d9f3a8dd4fa1f7a8ce21ca246, type: 2}
-    quantity: 1
-    currentQuantity: 1

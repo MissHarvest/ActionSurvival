@@ -43,7 +43,6 @@ public class MainScene : MonoBehaviour
                     SpawnPlayer();
 
                     Managers.Data.InitializeRecipeData();
-                    Managers.Game.Player.Tutorial.Initialize();
                     Managers.Sound.Init();
 
                     Managers.Game.World.InitializeWorldNavMeshBuilder(callback: op => 
