@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -264,6 +264,7 @@ GameObject:
   - component: {fileID: 541727436}
   - component: {fileID: 541727439}
   - component: {fileID: 541727440}
+  - component: {fileID: 541727441}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -388,6 +389,23 @@ Skybox:
   m_GameObject: {fileID: 541727435}
   m_Enabled: 1
   m_CustomSkybox: {fileID: 2100000, guid: 43af18583b1d46d4aa1e330f5d042da9, type: 2}
+--- !u!114 &541727441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541727435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7428a57e9c3b3124181db8082292adaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _camera: {fileID: 541727437}
+  _player: {fileID: 0}
 --- !u!1 &640520600
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CollideAgainst:
     serializedVersion: 2
-    m_Bits: 7543
+    m_Bits: 7479
   m_IgnoreTag: 
   m_TransparentLayers:
     serializedVersion: 2

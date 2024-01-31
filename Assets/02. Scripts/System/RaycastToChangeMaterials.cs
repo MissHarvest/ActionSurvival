@@ -1,32 +1,41 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+// 24.01.30 Lee gyuseong
 public class RaycastToChangeMaterials : MonoBehaviour
 {
     [SerializeField]
     private LayerMask _layerMask;
     [SerializeField]
     private Camera _camera;
-
+    [SerializeField]
     private Transform _player;
+
+    public Action OnRaycastHit;
 
     private RaycastHit[] _hits = new RaycastHit[10];
 
-    private IEnumerable Start() // 코루틴, 디렉션은 캐릭터 뷰포인트에
+    private void Start()
     {
-
-        if (_player != null)
-        {
-            _player = Managers.Game.Player.GetComponent<Transform>();
-        }
-        yield return null;
+        StartCoroutine(CheckPlayer());
     }
 
+    private IEnumerator CheckPlayer()
+    {
+        while (Managers.Game.Player == null)
+        {
+            yield return null;
+        }
+        _player = Managers.Game.Player.ViewPoint;
+    }
 
     private void FixedUpdate()
     {
-        CheckForObjects();
+        if (_player != null)
+        {
+            CheckForObjects();
+        }
     }
 
     private void CheckForObjects()
@@ -37,9 +46,9 @@ public class RaycastToChangeMaterials : MonoBehaviour
         {
             for (int i = 0; i < hits; i++)
             {
-                Debug.Log(_hits[i].collider.gameObject.name);
-                //Debug.Log(hits);
+                //_hits[i].transform.gameObject.GetComponent<ChangeMaterials>().ChangeFadeMaterials();
+                OnRaycastHit();
             }
         }
-    } 
+    }
 }
