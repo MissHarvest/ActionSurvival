@@ -58,7 +58,7 @@ public class WorldNavMeshBuilder : MonoBehaviour
         }
     }
 
-    public void UpdateChunkSources(List<Chunk> activeChunks)
+    public void UpdateChunkSources(HashSet<Chunk> activeChunks)
     {
         if (activeChunks.Count == 0)
             return;
