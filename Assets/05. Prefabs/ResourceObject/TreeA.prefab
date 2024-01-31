@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 7322910851493420959}
   - component: {fileID: 8514915229941023673}
   - component: {fileID: 6781940709236792047}
-  m_Layer: 0
+  - component: {fileID: 4324052240420261533}
+  m_Layer: 6
   m_Name: PT_Fruit_Tree_01_green_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 629039827185455485}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -61,8 +62,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 648efc313c92d884796ff2110bd2d62f, type: 2}
-  - {fileID: 2100000, guid: 6e487988df533ac4eabdae2144640b9b, type: 2}
+  - {fileID: 2100000, guid: 3922c043c1c52cb47a7b1bfed562a4b6, type: 2}
+  - {fileID: 2100000, guid: 0a1f44318dd467a45bfef81ad0e8855a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,6 +85,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4324052240420261533
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629039827185455485}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.4, y: 4.32, z: 0.1}
+  m_Center: {x: -0.05, y: 4, z: 0.3}
 --- !u!1 &1228660060964930895
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +286,7 @@ GameObject:
   - component: {fileID: 1267481987177584195}
   - component: {fileID: 2189547155065721224}
   - component: {fileID: 5205752359748586872}
+  - component: {fileID: 5345412286509698188}
   m_Layer: 6
   m_Name: gathering
   m_TagString: Fell
@@ -335,8 +358,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7, y: 0.7, z: 0.7}
-  m_Center: {x: 0, y: 0.33, z: 0}
+  m_Size: {x: 0.7, y: 6.25, z: 0.7}
+  m_Center: {x: 0, y: 2.83, z: 0}
 --- !u!114 &5205752359748586872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +400,24 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 4
+--- !u!114 &5345412286509698188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6667244048229858184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6baeab9a94ed0fb49af7836ef3ac7d81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeMaterials:
+  - {fileID: 2100000, guid: 71e847fd5c5384e4293b75d183209401, type: 2}
+  - {fileID: 2100000, guid: f16594686a6bd6449b518495d1091539, type: 2}
+  originMaterials:
+  - {fileID: 2100000, guid: 3922c043c1c52cb47a7b1bfed562a4b6, type: 2}
+  - {fileID: 2100000, guid: 0a1f44318dd467a45bfef81ad0e8855a, type: 2}
 --- !u!1 &8307394930990584907
 GameObject:
   m_ObjectHideFlags: 0
