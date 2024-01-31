@@ -36,13 +36,7 @@ public class InventorySystem : MonoBehaviour
         itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
         AddItem(itemData, 1);
 
-        itemData = Managers.Resource.GetCache<ItemData>("WoodSwordItemData.data");
-        AddItem(itemData, 1);
-
-        itemData = Managers.Resource.GetCache<ItemData>("GreatswordItemData.data");
-        AddItem(itemData, 1);
-
-        itemData = Managers.Resource.GetCache<ItemData>("TwinDaggerItemData.data");
+        itemData = Managers.Resource.GetCache<ItemData>("EnchantedSwordItemData.data");
         AddItem(itemData, 1);
 
         // 고급 레시피 테스트용 재료
@@ -52,12 +46,18 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 99);
         itemData = Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data");
         AddItem(itemData, 1);
-        //itemData = Managers.Resource.GetCache<ItemData>("RabbitMeatItemData.data");
-        //AddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
-        AddItem(itemData, 1);        
-        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        itemData = Managers.Resource.GetCache<ItemData>("RabbitMeatItemData.data");
         AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 4);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 4);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 4);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 4);
         itemData = Managers.Resource.GetCache<ItemData>("HammerItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FarmItemData.data");

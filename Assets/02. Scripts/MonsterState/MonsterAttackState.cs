@@ -13,7 +13,6 @@ public class MonsterAttackState : MonsterBaseState
 
     public override void Enter()
     {
-        Debug.Log("Monster State Changed to [ Attack ]");
         _stateMachine.MovementSpeedModifier = 0.0f;
         _stateMachine.Monster.NavMeshAgent.velocity = Vector3.zero;
         _stateMachine.canAttack = false;

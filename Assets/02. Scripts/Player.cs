@@ -10,7 +10,6 @@ public class Player : MonoBehaviour, IHit
 {
     [field: Header("Animations")]
     public PlayerAnimationData AnimationData { get; private set; } = new PlayerAnimationData();
-
     public Rigidbody Rigidbody { get; private set; }
     public Animator Animator { get; private set; }
     public PlayerInput Input { get; private set; }
@@ -31,6 +30,8 @@ public class Player : MonoBehaviour, IHit
     public PlayerSO Data { get; private set; }
 
     private PlayerStateMachine _stateMachine;
+
+    [field : SerializeField] public string island { get; private set; } = "열대섬";
 
     private void Awake()
     {
@@ -86,6 +87,13 @@ public class Player : MonoBehaviour, IHit
     {
         ConditionHandler.HP.Subtract(damage);
         Debug.Log($"[ Attacked by ] {attacker}");
+    }
+
+    public void Die()
+    {
+        _stateMachine.ChangeState(_stateMachine.DieState);
+        SaveGame.DeleteAllFiles();
+        Managers.UI.ShowPopupUI<UIDeath>();
     }
        
     public void Save()

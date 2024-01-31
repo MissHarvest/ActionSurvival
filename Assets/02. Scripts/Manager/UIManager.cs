@@ -29,7 +29,6 @@ public class UIManager
             if(root == null)
             {
                 root = new GameObject { name = "@UI_Root" };
-                Object.DontDestroyOnLoad(root);
             }
 
             return root;
@@ -38,11 +37,8 @@ public class UIManager
 
     #endregion
 
-
-
     public void LoadPopupUIs()
     {
-        //var popups = Managers.Resource.GetPrefabs(Literals.PATH_POPUPUI);
         var popups = Managers.Resource.GetCacheGroup<GameObject>("UIPopUp_");
         for (int i = 0; i < popups.Length; ++i)
         {
@@ -61,7 +57,8 @@ public class UIManager
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        //var gameObject = Managers.Resource.Instantiate(name, Literals.PATH_UI);
+        _popups.Clear();
+
         var gameObject = Managers.Resource.GetCache<GameObject>($"{name}.prefab");
         gameObject = Object.Instantiate(gameObject);
         var sceneUI = Utility.GetOrAddComponent<T>(gameObject);
@@ -136,7 +133,7 @@ public class UIManager
 
         if (_activatedPopups.Peek() != popup)
         {
-            Debug.LogWarning("Close Popup failed");
+            Debug.LogWarning("Close Popup failed"); 
             return;
         }
         

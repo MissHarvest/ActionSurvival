@@ -16,13 +16,13 @@ MonoBehaviour:
   description: "\uBB35\uC9C1\uD568\uC774 \uB290\uAEF4\uC9C0\uB294 \uAC80\uC774\uB2E4."
   iconSprite: {fileID: 21300000, guid: 8aafc0a817cbae34c95dee474ddbcaa1, type: 3}
   part: 2
-  maxDurability: 10
+  maxDurability: 30
   targetLayers:
     serializedVersion: 2
     m_Bits: 16512
   range: 1
   attackPower: 1
-  damage: 5
+  damage: 4
   targetTagName: Monster
   isWeapon: 1
   isTwoHandedTool: 1

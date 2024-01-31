@@ -16,7 +16,6 @@ public class MonsterIdleState : MonsterBaseState
 
     public override void Enter()
     {
-        Debug.Log("Monster State Changed to [ Idle ]");
         // Set Speed zero
         _stateMachine.MovementSpeedModifier = 0.0f;
         base.Enter();

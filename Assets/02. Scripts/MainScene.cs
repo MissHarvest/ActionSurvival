@@ -2,6 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainScene : MonoBehaviour
 {
@@ -41,11 +42,11 @@ public class MainScene : MonoBehaviour
 
                     loadingUI.ReceiveCallbacks($"Game Initialize ...");
                     SpawnPlayer();
-                    UIInitialize();
+                    
 
                     Managers.Data.InitializeRecipeData();
                     Managers.Game.Player.Tutorial.Initialize();
-                    Managers.Sound.Init();
+                    Managers.Sound.Init();                    
 
                     Managers.Game.World.InitializeWorldNavMeshBuilder(callback: op => 
                     {
@@ -53,6 +54,7 @@ public class MainScene : MonoBehaviour
                         var mon = Managers.Resource.GetCache<GameObject>("Slime.prefab");
                         Instantiate(mon);
                         Managers.Game.Init();
+                        UIInitialize();
                     });
                 });
             }

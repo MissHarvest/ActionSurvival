@@ -49,7 +49,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 4348350309070992265}
-  _originMat: {fileID: 0}
   redMat: {fileID: 2100000, guid: 4cea252e4cd4c1241bbe5bf6a09e2e64, type: 2}
   blueMat: {fileID: 2100000, guid: 3ccf5f2feeac4154b9a14ef7ae1f6693, type: 2}
 --- !u!208 &5116157382384980815
@@ -64,7 +63,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.645, y: 0.94, z: 0.59}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.02, y: 0.94, z: 0.15}
   m_TimeToStationary: 0.5
@@ -87,8 +86,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.29, y: 1.88, z: 1.18}
-  m_Center: {x: 0.03, y: 0.94, z: 0.15}
+  m_Size: {x: 1.29, y: 1.8054318, z: 1.18}
+  m_Center: {x: 0.029999971, y: 0.9772841, z: 0.15000004}
 --- !u!54 &3681638505986134066
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -111,10 +110,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!1001 &4327199068485556993
 PrefabInstance:

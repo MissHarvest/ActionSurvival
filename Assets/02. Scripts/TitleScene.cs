@@ -27,7 +27,7 @@ public class TitleScene : MonoBehaviour
                 titleScene.ActivateButtons();
 
                 Managers.Sound.Init();
-                Managers.Sound.PlayBGM("TitleBGM");
+                Managers.Sound.PlayBGM("Title");
             }
         });
     }

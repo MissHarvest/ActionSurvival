@@ -10,6 +10,7 @@ public class BuildableObject : MonoBehaviour
     [SerializeField] private Renderer _renderer;
     private NavMeshObstacle _navMeshObstacle;
     private Collider _collider;
+    private Rigidbody _rigidbody;
     private Material _originMat;
     public Material redMat;
     public Material blueMat;
@@ -25,11 +26,13 @@ public class BuildableObject : MonoBehaviour
         _originMat = new Material(_renderer.material);
         _collider = GetComponent<Collider>();
         _navMeshObstacle = GetComponent<NavMeshObstacle>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     public void Create()
     {
         SetMaterial(blueMat);
+        _rigidbody.useGravity = false;
         _collider.isTrigger = true;
         StartCoroutine(StartBuild());
     }
@@ -47,6 +50,7 @@ public class BuildableObject : MonoBehaviour
     public void Build()
     {
         _collider.isTrigger = false;
+        _rigidbody.useGravity = true;
         StopCoroutine(StartBuild());
         SetMaterial(_originMat);
         _navMeshObstacle.enabled = true;
@@ -63,7 +67,7 @@ public class BuildableObject : MonoBehaviour
         {
             Managers.Game.Architecture.Add(this);
         }
-        
+        OnRenamed?.Invoke();
     }
 
     public void DestroyObject()

@@ -16,9 +16,9 @@ public class GameManager
     public World World { get; private set; }
     private ResourceObjectSpawner _resourceObjectSpawner = new();
 
-    public Island IceIsland = new Island(new IslandProperty(new Vector3(-317, 0, 0), nameof(IceIsland)));
+    public Island IceIsland = new Island(new IslandProperty(new Vector3(317, 0, 0), nameof(IceIsland)));
     public Island CenterIsland = new Island(new IslandProperty(Vector3.zero, nameof(CenterIsland)));
-    public Island FireIsland = new Island(new IslandProperty(new Vector3(317, 0, 0), nameof(FireIsland)));
+    public Island FireIsland = new Island(new IslandProperty(new Vector3(-317, 0, 0), nameof(FireIsland)));
 
     public MonsterWave MonsterWave { get; private set; }
 
@@ -30,7 +30,7 @@ public class GameManager
 
         DayCycle.Init();
         DayCycle.OnEveningCame += SpawnMonster;
-        //DayCycle.OnNightCame += StartMonsterWave;
+        DayCycle.OnNightCame += StartMonsterWave;
         
         Architecture.Init();
         
@@ -41,6 +41,8 @@ public class GameManager
         _resourceObjectSpawner.Initialize();
         
         InitIslands();
+        Managers.Sound.PlayIslandBGM();
+
         IsRunning = true;
     }
 

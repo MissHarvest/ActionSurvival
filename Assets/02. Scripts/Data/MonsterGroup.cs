@@ -17,7 +17,6 @@ public class MonsterGroup
         {
             _monsterType.Add(Managers.Resource.GetCache<GameObject>($"{monsterNames[i]}.prefab"));
         }
-        Debug.Log($"Monster Type : [{_monsterType.Count}]");
     }
 
     public void SetLength(int length)
@@ -33,8 +32,6 @@ public class MonsterGroup
         {
             _stack.Push(n);
         }
-
-        Debug.Log($"Stack [{_stack.Count}");
     }
 
     public GameObject Get()

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 0
-  _respawnTime: 10
+  _respawnTime: 1500
 --- !u!1 &1969607750617084652
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +311,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 1
-  _lootingItem: {fileID: 11400000, guid: 68a9bba7c97dc024f84ab4c246757bad, type: 2}
   _itemTable:
     _lootings:
     - _item: {fileID: 11400000, guid: 68a9bba7c97dc024f84ab4c246757bad, type: 2}

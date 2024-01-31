@@ -15,7 +15,6 @@ public class MonsterPatrolState : MonsterBaseState
 
     public override void Enter()
     {
-        Debug.Log($"{_stateMachine.Monster.name} State Changed to [ Patrol ]");
         _stateMachine.MovementSpeedModifier = _stateMachine.Monster.Data.MovementData.WalkSpeedModifier;
         _stateMachine.DetectionDistModifier = _stateMachine.Monster.Data.AttackData.DefaultDetectionDistModifier;
 

@@ -7,14 +7,14 @@ public class MonsterWave
 {
     public Stack<GameObject> waveMonsters = new Stack<GameObject>();
     public Stack<GameObject> overflowMonsters = new Stack<GameObject>();
-    private int _minDistance = 50;
-    private int _maxDistance = 60;
+    private int _minDistance = 30;
+    private int _maxDistance = 37;
     public Stack<Vector3> wavePoints = new Stack<Vector3>();
     private MonsterGroup _defaultMonsters = new MonsterGroup(); // GameManager 가 가지고 있는 일반섬 목록.
     
     public MonsterWave()
     {
-        _defaultMonsters.AddMonsterType(new string[] { "FireSkeleton", "Bat" });
+        _defaultMonsters.AddMonsterType(new string[] { "Skeleton", "Bat" });
     }
 
     public void AddOverFlowedMonster(GameObject monster)
@@ -26,7 +26,7 @@ public class MonsterWave
     {
         var maxCount = CalculateMonsterCountForWave();
         Debug.Log($"[ Monster Wave ] {maxCount}");
-
+        
         var number = CalculateNumberOfOverFlowMonsterToUse();
         
         for(int i = 0; i < number; ++i)
@@ -39,16 +39,16 @@ public class MonsterWave
                 --maxCount;
             }
         }
-
+        
         for(int i = 0; i < maxCount; ++i)
         {
             var monster = Object.Instantiate(_defaultMonsters.GetRandomMonster());
             monster.name += "[Wave]";
             waveMonsters.Push(monster);
         }
-
+        
         CalcalateWavePoint(waveMonsters.Count);
-
+        
         while(waveMonsters.Count != 0)
         {
             var point = wavePoints.Pop();
@@ -81,7 +81,7 @@ public class MonsterWave
             direction.y = 50;
             var playerPos = Managers.Game.Player.transform.position;
             RaycastHit hit;
-            if (Physics.BoxCast(playerPos + direction, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, 70.0f, 1))
+            if (Physics.BoxCast(playerPos + direction, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, 70.0f, 1 << 12))
             {
                 wavePoints.Push(hit.point);
             }

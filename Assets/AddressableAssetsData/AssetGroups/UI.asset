@@ -148,14 +148,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 77296a94caf39104db33927b53b28070
-    m_Address: UIQuest.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 47f80885d6d5c034da8222d0d110fc8d
-    m_Address: UITutorial.prefab
+  - m_GUID: 76f17f2d3e5e438488c86b07bd68deaf
+    m_Address: UIPopUp_UIDeath.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
