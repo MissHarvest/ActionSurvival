@@ -14,8 +14,8 @@ public class World : MonoBehaviour
     private Dictionary<ChunkCoord, Chunk> _chunkMap = new(comparer: new ChunkCoord());
     private Dictionary<Vector3Int, WorldMapData> _voxelMap = new(comparer: new Vector3IntEqualityComparer());
 
-    private List<Chunk> _currentActiveChunks = new();
-    private List<Chunk> _prevActiveChunks = new();
+    private HashSet<Chunk> _currentActiveChunks = new();
+    private HashSet<Chunk> _prevActiveChunks = new();
 
     private ChunkCoord _currentPlayerCoord;
     private ChunkCoord _prevPlayerCoord;
@@ -25,7 +25,7 @@ public class World : MonoBehaviour
 
     public Dictionary<Vector3Int, WorldMapData> VoxelMap => _voxelMap;
     public WorldNavMeshBuilder NavMeshBuilder => _navMeshBuilder;
-    public List<Chunk> CurrentActiveChunks => _currentActiveChunks;
+    public HashSet<Chunk> CurrentActiveChunks => _currentActiveChunks;
     public Dictionary<ChunkCoord, Chunk> ChunkMap => _chunkMap;
     public event Action OnWorldUpdated;
 
@@ -74,11 +74,11 @@ public class World : MonoBehaviour
                 {
                     _currentActiveChunks.Add(currentChunk);
                     currentChunk.SetActive(true);
-                    _prevActiveChunks.Remove(currentChunk);
                 }
             }
         }
 
+        _prevActiveChunks.ExceptWith(_currentActiveChunks);
         foreach (var chunk in _prevActiveChunks)
             chunk.IsActive = false;
 
