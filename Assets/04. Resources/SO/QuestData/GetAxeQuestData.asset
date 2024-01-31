@@ -13,12 +13,11 @@ MonoBehaviour:
   m_Name: GetAxeQuestData
   m_EditorClassIdentifier: 
   questName: GetAxe
-  questInfo: "\uB3C4\uB07C \uD558\uB098\uB97C \uC81C\uC791\uD558\uC138\uC694. \uD78C\uD2B8
-    : \uACE1\uAD2D\uC774\uB85C \uCE94 \uB3CC\uC744 \uC774\uC6A9\uD574 \uBCF4\uC138\uC694."
-  isCompleted: 1
+  questUIName: "\uACE1\uAD2D\uC774\uB85C \uB3CC\uC744 \uCE90\uC11C \uB3C4\uB07C \uD558\uB098\uB97C
+    \uC81C\uC791\uD558\uC138\uC694."
+  questID: 2
+  isCompleted: 0
   preQuests:
   - {fileID: 11400000, guid: d88b7317b33daa34293d07e9280acd25, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 9c85809597f1da54fbc98bcc3023a6b5, type: 2}
-    quantity: 1
-    currentQuantity: 1

@@ -5,13 +5,31 @@ using UnityEngine;
 // 2024. 01. 29 Byun Jeongmin
 public class Tutorial : MonoBehaviour
 {
-    [SerializeField] private List<QuestSO> _quests; // 모든 퀘스트 리스트
-    [SerializeField] private List<QuestSO> _activeQuests = new List<QuestSO>(); // 현재 활성화된 퀘스트 리스트
+    private List<QuestSO> _quests; // 모든 퀘스트 리스트
+    private List<QuestSO> _activeQuests = new List<QuestSO>(); // 현재 활성화된 퀘스트 리스트
     [SerializeField] private List<string> _questCompletionStatus = new List<string>(); //완료한 퀘스트 리스트
-    private UITutorial _tutorialUI; //childUI
+
+    public event Action OnActiveQuestsUpdated;
+
+    public List<QuestSO> Quests
+    {
+        get { return _quests; }
+        private set { _quests = value; }
+    }
+
+    public List<QuestSO> ActiveQuests
+    {
+        get { return _activeQuests; }
+        private set { _activeQuests = value; }
+    }
 
 
-    public void Initialize() //튜토리얼 저장 관련해서 초기화 부분은 바뀔수도??
+    private void Awake()
+    {
+        Initialize();
+    }
+
+    private void Initialize() //튜토리얼 저장 관련해서 초기화 부분은 바뀔수도??
     {
         // QuestSO 초기화
         _quests = new List<QuestSO>(Managers.Resource.GetCacheGroup<QuestSO>("QuestData"));
@@ -36,13 +54,6 @@ public class Tutorial : MonoBehaviour
     private void OnDisable()
     {
         CancelBindInventoryEvents();
-    }
-
-    private void SetQuestsToUI()
-    {
-        //_mainSceneUI = Managers.UI.ShowSceneUI<UIMainScene>(); // UIMainScene 내에서 UITutorial로 처리
-        //Managers.UI.TryGetSceneUI(out mainSceneUI);
-        //_mainSceneUI.SetQuests(_activeQuests); // UITutoriral에서 Manager.game.player.tutorial로 접근(이벤트)
     }
 
     // preQuests(선행퀘)가 비어 있거나, 모든 preQuests가 클리어된 경우에만 true
@@ -102,6 +113,7 @@ public class Tutorial : MonoBehaviour
                 _activeQuests.Add(quest);
             }
         }
+        OnActiveQuestsUpdated?.Invoke();
     }
 
     private bool IsEnoughRequirements(QuestSO quest, ItemSlot itemSlot)
@@ -110,13 +122,8 @@ public class Tutorial : MonoBehaviour
         {
             if (itemSlot.itemData != null && itemSlot.itemData.name == requiredItem.item.name)
             {
-                requiredItem.OnItemAcquired();
-                //Debug.Log($"{requiredItem.item.displayName} 1개 획득");
-
-                if (requiredItem.currentQuantity >= requiredItem.quantity)
-                {
-                    return true;
-                }
+                Debug.Log($"{requiredItem.item.displayName} 획득");
+                return true;
             }
         }
         return false;
@@ -126,11 +133,6 @@ public class Tutorial : MonoBehaviour
     {
         _questCompletionStatus.Add(quest.questName);
         quest.CompleteQuest();
-        QuestCompleted(quest.questName);
-    }
-
-    private void QuestCompleted(string questName)
-    {
-        //Debug.Log($"{questName} 퀘스트 클리어!!!!!!!!!!!!");
+        //Debug.Log($"{quest.questName} 퀘스트 클리어!!!!!!!!!!!!");
     }
 }

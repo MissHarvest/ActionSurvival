@@ -1,8 +1,5 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 public class UIItemUsageHelper : UIItemHelper
 {
@@ -11,10 +8,11 @@ public class UIItemUsageHelper : UIItemHelper
         Regist,
         UnRegist,
         Use,
+        Build,
         Destroy
     }
 
-    private string[] _functions = new string[] { "등록하기", "해제하기", "사용하기", "버리기" };
+    private string[] _functions = new string[] { "등록하기", "해제하기", "사용하기", "건축하기", "버리기" };
     
     public override void Initialize()
     {
@@ -26,6 +24,7 @@ public class UIItemUsageHelper : UIItemHelper
         CreateButtonByEnum(Functions.Regist);
         CreateButtonByEnum(Functions.UnRegist);
         CreateButtonByEnum(Functions.Use);
+        CreateButtonByEnum(Functions.Build);
         CreateButtonByEnum(Functions.Destroy);
     }
 
@@ -39,8 +38,13 @@ public class UIItemUsageHelper : UIItemHelper
 
         switch (selectedSlot.itemData)
         {
-            case ToolItemData _:
+            case ToolItemData toolItem when !toolItem.isArchitecture:
                 ShowRegistButton(selectedSlot.registed);
+                break;
+
+            case ToolItemData toolItem when toolItem.isArchitecture: // ToolItemData이면서 건축 아이템인 경우
+                ShowRegistButton(selectedSlot.registed);
+                ShowButtonByEnum(Functions.Build);
                 break;
 
             case ConsumeItemData _:

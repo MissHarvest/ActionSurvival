@@ -62,8 +62,6 @@ public abstract class UICraftBase : UIPopup
 
                     // 선택한 레시피의 재료를 가져와서 Confirm에 전달
                     confirmPopup.SetIngredients(dataList[recipeSlot.Index].requiredItems, recipeSlot.Index);
-
-                    gameObject.SetActive(false);
                 }
             });
 

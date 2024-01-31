@@ -11,7 +11,7 @@ public class UIQuest : UIBase
         QuestName,
     }
 
-    private TextMeshProUGUI QuestUIName => Get<TextMeshProUGUI>((int)Texts.QuestName);
+    private List<QuestSO> _quests;
 
     public override void Initialize()
     {
@@ -23,8 +23,13 @@ public class UIQuest : UIBase
         Initialize();
     }
 
-    //public virtual void Set(Quest quest)
-    //{
-    //    Get<TextMeshProUGUI>((int)Texts.QuestName).text = quest.questUIName.ToString();
-    //}
+    private void OnEnable()
+    {
+        _quests = Managers.Game.Player.Tutorial.Quests;
+    }
+
+    public void SetText(int index)
+    {
+        Get<TextMeshProUGUI>((int)Texts.QuestName).text = _quests[index].questUIName;
+    }
 }
