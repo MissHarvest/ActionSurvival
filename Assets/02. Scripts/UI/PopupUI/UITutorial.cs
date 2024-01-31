@@ -10,20 +10,19 @@ public class UITutorial : UIPopup
         Character,
         Contents,
         Content,
-        Exit,
     }
 
     private Transform _character;
     private Transform _contents;
     private Transform _content;
-    private List<UIQuest> _uiQuestList = new List<UIQuest>();
-    //private List<Quest> _quests = new List<Quest>();
+    private List<QuestSO> _activeQuests;
+    private List<QuestSO> _quests;
+    private List<UIQuest> _uiQuestPool = new List<UIQuest>();
 
     public override void Initialize()
     {
         base.Initialize();
         Bind<GameObject>(typeof(GameObjects));
-        Get<GameObject>((int)GameObjects.Exit).BindEvent((x) => { Managers.UI.ClosePopupUI(this); });
     }
 
     private void Awake()
@@ -32,62 +31,75 @@ public class UITutorial : UIPopup
         _character = Get<GameObject>((int)GameObjects.Character).transform;
         _contents = Get<GameObject>((int)GameObjects.Contents).transform;
         _content = Get<GameObject>((int)GameObjects.Content).transform;
-
-        // 비활성화 상태에서 시작
-        gameObject.SetActive(false);
     }
-
-    //public void SetQuests(List<Quest> _quests)
-    //{
-    //    _quests = _quests;
-    //}
-
-    //public void AddQuest(Quest quest)
-    //{
-    //    _quests.Add(quest);
-    //}
 
     private void OnEnable()
     {
-        //ShowQuest(GetQuestList());
+        Managers.Game.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
+        _quests = Managers.Game.Player.Tutorial.Quests;
+        _activeQuests = Managers.Game.Player.Tutorial.ActiveQuests;
+        CreateQuestUIPool();
+        ShowQuest(); // 게임 시작 시 퀘스트 표시
+    }
+
+    private void OnDisable()
+    {
+        Managers.Game.Player.Tutorial.OnActiveQuestsUpdated -= HandleActiveQuestsUpdated;
+    }
+
+    private void HandleActiveQuestsUpdated()
+    {
         ShowQuest();
+    }
+
+    private void CreateQuestUIPool()
+    {
+        var questPrefab = Managers.Resource.GetCache<GameObject>("UIQuest.prefab");
+
+        // 풀에 퀘스트 UI 미리 생성
+        for (int i = 0; i < _quests.Count; i++)
+        {
+            var questGO = Instantiate(questPrefab, _content);
+            var quest = questGO.GetComponent<UIQuest>();
+            quest.SetText(i);
+            _uiQuestPool.Add(quest);
+            questGO.SetActive(false);
+        }
     }
 
     private void ShowQuest()
     {
-        ClearSlots();
-        //Debug.Log("퀘스트 개수 : " + _quests.Count);
+        ClearQuests();
 
-        //if (_quests == null)
-        //    return;
-        
-        // i < QuestList.Count
-        for (int i = 0; i < 9; i++)
+        // 활성화된 퀘스트 UI만 활성화
+        for (int i = 0; i < _activeQuests.Count; i++)
         {
-            var questPrefab = Managers.Resource.GetCache<GameObject>("UIQuest.prefab");
-            var questGO = Instantiate(questPrefab, _content); //instantiate 말고 오브젝트 풀링?비슷하게 쓰면 좋음
-            var questSlot = questGO.GetComponent<UIQuest>();
+            QuestSO activeQuest = _activeQuests[i];
 
-            // 퀘스트 클릭 시 판넬 띄우기?
-            questGO.BindEvent((x) =>
+            for (int j = 0; j < _uiQuestPool.Count; j++)
             {
-                if (questGO.activeSelf)
+                if (activeQuest.questID == j)
                 {
-                    
-                    gameObject.SetActive(false);
+                    UIQuest matchingUIQuest = _uiQuestPool[j];
+                    matchingUIQuest.gameObject.SetActive(true);
                 }
-            });
 
-            _uiQuestList.Add(questSlot);
+            }
+        }
+
+        // 모든 퀘스트 클리어 시 퀘스트 UI 닫음
+        if (_activeQuests.Count == 0)
+        {
+            gameObject.SetActive(false);
         }
     }
 
-    private void ClearSlots()
+    private void ClearQuests()
     {
-        foreach (var slot in _uiQuestList)
+        // 모든 퀘스트 UI를 비활성화
+        foreach (var quest in _uiQuestPool)
         {
-            Destroy(slot.gameObject);
+            quest.gameObject.SetActive(false);
         }
-        _uiQuestList.Clear();
     }
 }

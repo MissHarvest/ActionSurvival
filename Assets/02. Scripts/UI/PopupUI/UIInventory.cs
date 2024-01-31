@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
+using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 
 public class UIInventory : UIPopup
@@ -52,7 +49,8 @@ public class UIInventory : UIPopup
         helper.BindEventOfButton(UIItemUsageHelper.Functions.Regist, RegistItem);
         helper.BindEventOfButton(UIItemUsageHelper.Functions.UnRegist, UnregistItem);
         helper.BindEventOfButton(UIItemUsageHelper.Functions.Use, ConsumeItem);
-        helper.BindEventOfButton(UIItemUsageHelper.Functions.Destroy, DestryoItem);
+        helper.BindEventOfButton(UIItemUsageHelper.Functions.Build, BuildItem);
+        helper.BindEventOfButton(UIItemUsageHelper.Functions.Destroy, DestroyItem);
     }
 
     private void ActivateItemUsageHelper(UIItemSlot itemslotUI)
@@ -71,7 +69,7 @@ public class UIInventory : UIPopup
             ;
     }
 
-    private void DestryoItem()
+    private void DestroyItem()
     {
         Managers.Game.Player.Inventory.DestroyItemByIndex(SelectedSlot);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
@@ -81,6 +79,13 @@ public class UIInventory : UIPopup
     {
         Managers.Game.Player.Inventory.UseConsumeItemByIndex(SelectedSlot.targetIndex);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
+    }
+
+    private void BuildItem()
+    {
+        Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
+        Managers.UI.ClosePopupUI(this); //UIInventory 팝업 끄기
+        Managers.Game.Player.Building.CreateArchitectureByIndex(SelectedSlot.targetIndex);
     }
 
     private void RegistItem()

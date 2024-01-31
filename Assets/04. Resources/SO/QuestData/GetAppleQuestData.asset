@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: GetAppleQuestData
   m_EditorClassIdentifier: 
   questName: GetApple
-  questInfo: "\uC0AC\uACFC \uD558\uB098\uB97C \uD68D\uB4DD\uD558\uC138\uC694. \uD78C\uD2B8
-    : \uC0AC\uACFC\uB294 \uBD80\uC26C\uC5D0\uC11C \uCC44\uC9D1\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+  questUIName: "\uBD80\uC26C\uC5D0\uC11C \uC0AC\uACFC \uD558\uB098\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
+  questID: 0
   isCompleted: 0
+  preQuests: []
   requiredItems:
   - item: {fileID: 11400000, guid: 0e99452afc6013a46b0fcaa854d7a0e0, type: 2}
-    quantity: 1
-    currentQuantity: 0

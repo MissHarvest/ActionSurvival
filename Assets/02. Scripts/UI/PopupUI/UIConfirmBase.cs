@@ -81,8 +81,7 @@ public class UIConfirmBase : UIPopup
             }
         }
         ClearItems();
-
-        gameObject.SetActive(false);
+        Managers.UI.ClosePopupUI(this);
     }
 
     protected void OnCanceledBase()
@@ -90,7 +89,7 @@ public class UIConfirmBase : UIPopup
         Debug.Log("제작 취소");
 
         // 아니오 버튼을 눌렸을 때
-        gameObject.SetActive(false);
+        Managers.UI.ClosePopupUI(this);
     }
 
     public void SetIngredients(List<RecipeSO.Ingredient> items, int index)
