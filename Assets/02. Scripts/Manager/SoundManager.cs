@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -9,11 +10,18 @@ public class SoundManager
     private GameObject _root;
     private AudioMixer _audioMixer;
     private Stack<SFXSound> _inactivated = new Stack<SFXSound>();
+    private Dictionary <string, float> _bgmContanier = new Dictionary<string, float>();
 
     public void Init()
     {
         _root = new GameObject("@Sound");
         _audioMixer = Managers.Resource.GetCache<AudioMixer>("AudioMixer.mixer");
+        var bgms = Managers.Resource.GetCacheGroup<AudioClip>("BGM");        
+        _bgmContanier.TryAdd("CenterIslandBGM", 0.2f);
+        _bgmContanier.TryAdd("IceIslandBGM", 0.2f);
+        _bgmContanier.TryAdd("FireIslandBGM", 0.2f);
+
+
         CreateBgmPlayer();
         CreateSFXPlayers();
     }
@@ -26,7 +34,6 @@ public class SoundManager
         _bgmSource = bgmPlayer.AddComponent<AudioSource>();        
         _bgmSource.outputAudioMixerGroup = _audioMixer.FindMatchingGroups("BGM")[0];
         _bgmSource.loop = true;
-        _bgmSource.volume = 1.0f;
     }
 
     private void CreateSFXPlayers()
@@ -46,12 +53,33 @@ public class SoundManager
         }
     }
 
-    public void PlayBGM(string bgmName)
+    public void PlayBGM(string bgmName, float volume = 1.0f)
     {
-        var bgmClip = Managers.Resource.GetCache<AudioClip>($"{bgmName}.wav");
+        var bgmClip = Managers.Resource.GetCache<AudioClip>($"{bgmName}BGM.wav");
         _bgmSource.clip = bgmClip;
         _bgmSource.playOnAwake = true;
+        _bgmSource.volume = volume;
         _bgmSource.Play();
+    }
+
+    public void PlayIslandBGM()
+    {
+        if(PlayerPrefs.HasKey("IslandName") == false)
+        {
+            PlayerPrefs.SetString("IslandName", "CenterIsland");
+        }
+        
+        string island = PlayerPrefs.GetString("IslandName");
+
+        PlayBGM(island, 0.2f);
+    }
+
+    public void ChangeIslandBGM(string name)
+    {
+        if (name == PlayerPrefs.GetString("IslandName")) return;
+        _bgmSource.Stop();
+        PlayerPrefs.SetString("IslandName", name);
+        PlayIslandBGM();
     }
 
     public void PlayEffectSound(Vector3 position, string effectName, float volume = 0.3f)

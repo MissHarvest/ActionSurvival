@@ -127,7 +127,7 @@ public class PlayerBaseState : IState
     {
         PlayerInput input = _stateMachine.Player.Input;
         input.PlayerActions.Move.canceled -= OnMovementCanceled;
-
+        
         input.PlayerActions.Interact.started -= OnInteractStarted;
         input.PlayerActions.Interact.canceled -= OnInteractCanceled;
         input.PlayerActions.QuickSlot.started -= OnQuickUseStarted;

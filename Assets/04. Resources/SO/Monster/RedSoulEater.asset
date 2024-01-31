@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eff914c1ee2ad7e4fa53df44100a4b3e, type: 3}
   m_Name: RedSoulEater
   m_EditorClassIdentifier: 
-  <MaxHP>k__BackingField: 35
+  <MaxHP>k__BackingField: 90
   <MovementData>k__BackingField:
     <BaseSpeed>k__BackingField: 0.7
     <WalkSpeedModifier>k__BackingField: 1

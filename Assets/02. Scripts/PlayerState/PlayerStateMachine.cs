@@ -24,6 +24,8 @@ public class PlayerStateMachine : StateMachine
 
     public PlayerDestroyState DestroyState { get; }
 
+    public PlayerDieState DieState { get; }
+
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; private set; }
     public float RotationDamping { get; private set; }
@@ -54,6 +56,7 @@ public class PlayerStateMachine : StateMachine
         MakeState = new PlayerMakeState(this);
         ComboAttackState = new PlayerComboAttackState(this);
         DestroyState = new PlayerDestroyState(this);
+        DieState = new PlayerDieState(this);
 
         MainCameraTransform = Camera.main.transform;
 

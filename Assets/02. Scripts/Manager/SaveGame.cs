@@ -124,6 +124,7 @@ public class SaveGame
         {
             file.Delete();
         }
+        PlayerPrefs.DeleteKey("IslandName");
     }
     #endregion
 

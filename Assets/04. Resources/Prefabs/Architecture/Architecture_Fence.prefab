@@ -49,7 +49,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 3799373325706518410}
-  _originMat: {fileID: 0}
   redMat: {fileID: 2100000, guid: 4cea252e4cd4c1241bbe5bf6a09e2e64, type: 2}
   blueMat: {fileID: 2100000, guid: 3ccf5f2feeac4154b9a14ef7ae1f6693, type: 2}
 --- !u!208 &6972203120136134567
@@ -87,8 +86,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.02, y: 1.98, z: 0.3}
-  m_Center: {x: -0.03, y: 1, z: 0}
+  m_Size: {x: 3.253056, y: 1.9198565, z: 0.3}
+  m_Center: {x: -0.048794985, y: 1.0300717, z: 0}
 --- !u!54 &769388249864609961
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -111,10 +110,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!1001 &3799373325708793428
 PrefabInstance:

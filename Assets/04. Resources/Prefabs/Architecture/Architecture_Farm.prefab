@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8416202247689543442}
   - component: {fileID: 9081274169209773606}
   - component: {fileID: 6800514930206119362}
+  - component: {fileID: -7847251442116011344}
   m_Layer: 11
   m_Name: Architecture_Farm
   m_TagString: Gather
@@ -55,6 +56,7 @@ MonoBehaviour:
   - {fileID: 6196384685453986877}
   - {fileID: 1821364531271067379}
   - {fileID: 2475485483578305148}
+  <RemainingTime>k__BackingField: 0
   looting:
     _lootings:
     - _item: {fileID: 11400000, guid: 0e99452afc6013a46b0fcaa854d7a0e0, type: 2}
@@ -130,10 +132,37 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.425, y: 0.425, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.03, y: 0.48, z: 0}
   m_TimeToStationary: 0.5
+--- !u!54 &-7847251442116011344
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730356088987368948}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &1821364531271067379
 GameObject:
   m_ObjectHideFlags: 0

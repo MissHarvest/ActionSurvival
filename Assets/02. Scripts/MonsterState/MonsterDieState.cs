@@ -12,7 +12,6 @@ public class MonsterDieState : MonsterBaseState
 
     public override void Enter()
     {
-        Debug.Log("Monster State Changed to [ Die ]");
         _stateMachine.MovementSpeedModifier = 0.0f;
         base.Enter();
         _stateMachine.Monster.Animator.SetTrigger(_stateMachine.Monster.AnimationData.DieParameterHash);

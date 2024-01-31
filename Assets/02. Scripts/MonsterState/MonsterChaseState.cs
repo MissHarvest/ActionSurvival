@@ -15,9 +15,7 @@ public class MonsterChaseState : MonsterBaseState
     }
 
     public override void Enter()
-    {
-        Debug.Log($"{_stateMachine.Monster.name} State Changed to [ Chase ]");
-        
+    {   
         // Speed Up
         _stateMachine.MovementSpeedModifier = _stateMachine.Monster.Data.MovementData.ChaseSpeedModifier;
         

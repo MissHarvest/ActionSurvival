@@ -30,7 +30,7 @@ public class GameManager
 
         DayCycle.Init();
         DayCycle.OnEveningCame += SpawnMonster;
-        //DayCycle.OnNightCame += StartMonsterWave;
+        DayCycle.OnNightCame += StartMonsterWave;
         
         Architecture.Init();
         
@@ -41,6 +41,8 @@ public class GameManager
         _resourceObjectSpawner.Initialize();
         
         InitIslands();
+        Managers.Sound.PlayIslandBGM();
+
         IsRunning = true;
     }
 

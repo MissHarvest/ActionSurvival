@@ -31,6 +31,7 @@ public class UIClock : UIBase
     private void Awake()
     {
         Initialize();
+        Debug.Log($"UIClock Awake [{_bindObjects.Count}]");
     }
 
     private void Start()

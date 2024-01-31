@@ -40,6 +40,9 @@ public class DayCycle
 
     public void Init()
     {
+        OnDateUpdated = null;
+        OnTimeUpdated = null;
+
         CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
 
         var dayLight = Managers.Resource.GetCache<GameObject>("DayLight.prefab");
