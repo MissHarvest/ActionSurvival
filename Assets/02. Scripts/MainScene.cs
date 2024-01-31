@@ -53,7 +53,6 @@ public class MainScene : MonoBehaviour
                         Instantiate(mon);
                         UIInitialize();
                         Managers.Game.Init();
-                        UIInitialize();
                     });
                 });
             }
