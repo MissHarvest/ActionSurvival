@@ -8,6 +8,8 @@ public class PlayerStateMachine : StateMachine
     public PlayerIdleState IdleState { get; }
     public PlayerRunState RunState { get; }
 
+    public PlayerFallState FallState { get; }
+
     public PlayerTwoHandedToolIdleState TwoHandedToolIdleState { get; }
     
     public PlayerTwoHandedToolRunState TwoHandedToolRunState { get; }
@@ -44,6 +46,7 @@ public class PlayerStateMachine : StateMachine
 
         IdleState = new PlayerIdleState(this);
         RunState = new PlayerRunState(this);
+        FallState = new PlayerFallState(this);
 
         TwoHandedToolIdleState = new PlayerTwoHandedToolIdleState(this);  
         TwoHandedToolRunState = new PlayerTwoHandedToolRunState(this);
