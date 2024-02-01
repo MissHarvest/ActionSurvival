@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: GetWoodSwordQuestData
   m_EditorClassIdentifier: 
   questName: GetWoodSword
-  questUIName: "\uB3C4\uB07C\uB85C \uD1B5\uB098\uBB34\uB97C \uC5BB\uC5B4 \uBAA9\uAC80
-    \uD558\uB098\uB97C \uC81C\uC791\uD558\uC138\uC694."
+  questUIName: "\uBAA9\uAC80\uC744 \uC81C\uC791\uD558\uC138\uC694."
   questID: 6
   isCompleted: 1
   preQuests:

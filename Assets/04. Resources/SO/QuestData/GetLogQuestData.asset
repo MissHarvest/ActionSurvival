@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
-  m_Name: GetAxeQuestData
+  m_Name: GetLogQuestData
   m_EditorClassIdentifier: 
-  questName: GetAxe
-  questUIName: "\uB3C4\uB07C\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 2
+  questName: GetLog
+  questUIName: "\uD1B5\uB098\uBB34\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
+  questID: 9
   isCompleted: 1
   preQuests:
-  - {fileID: 11400000, guid: d88b7317b33daa34293d07e9280acd25, type: 2}
+  - {fileID: 11400000, guid: 81c9326ebffd4bc49b816e23a4699ba4, type: 2}
   requiredItems:
-  - item: {fileID: 11400000, guid: 9c85809597f1da54fbc98bcc3023a6b5, type: 2}
+  - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}

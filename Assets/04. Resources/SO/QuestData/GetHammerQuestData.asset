@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: GetHammerQuestData
   m_EditorClassIdentifier: 
   questName: GetHammer
-  questUIName: "\uBAAC\uC2A4\uD130\uB97C \uC7A1\uC544 \uD558\uAE09 \uB9C8\uC11D\uC744
-    \uC5BB\uACE0 \uB9DD\uCE58 \uD558\uB098\uB97C \uC81C\uC791\uD558\uC138\uC694."
+  questUIName: "\uB9DD\uCE58\uB97C \uC81C\uC791\uD558\uC138\uC694."
   questID: 8
   isCompleted: 1
   preQuests:

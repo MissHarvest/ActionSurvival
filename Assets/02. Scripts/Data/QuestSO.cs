@@ -15,14 +15,6 @@ public class QuestSO : ScriptableObject
 
     public List<RequiredItem> requiredItems = new List<RequiredItem>();
 
-    public void InitializeQuest()
-    {
-        foreach (var requiredItem in requiredItems)
-        {
-            isCompleted = false;
-        }
-    }
-
     [System.Serializable]
     public class RequiredItem
     {
