@@ -25,11 +25,29 @@ public class PlayerFallState : PlayerGroundedState
     public override void Update()
     {
         base.Update();
+        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+
+        _stateMachine.MovementSpeedModifier -= Time.deltaTime;
 
         if (_stateMachine.Player.Controller.isGrounded)
         {
-            _stateMachine.ChangeState(_stateMachine.IdleState);
+            if (toolItemDate.isTwoHandedTool == true)
+            {
+                _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
+            }
+            else if (toolItemDate.isTwinTool == true)
+            {
+                _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
+            }
+            else
+            {
+                _stateMachine.ChangeState(_stateMachine.IdleState);
+            }
             return;
         }
+    }
+    protected override void Rotate(Vector3 movementDirection)
+    {
+
     }
 }
