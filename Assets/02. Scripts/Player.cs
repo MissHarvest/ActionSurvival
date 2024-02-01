@@ -84,6 +84,7 @@ public class Player : MonoBehaviour, IHit
 
     public void Hit(IAttack attacker, float damage)
     {
+        Managers.Sound.PlayEffectSound(transform.position, "Hit");
         ConditionHandler.HP.Subtract(damage);
         Debug.Log($"[ Attacked by ] {attacker}");
     }

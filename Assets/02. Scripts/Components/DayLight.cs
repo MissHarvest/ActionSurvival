@@ -25,6 +25,7 @@ public class DayLight : MonoBehaviour
         
         Light = GetComponent<Light>();
         RenderSettings.skybox = skyMaterial;
+        RenderSettings.sun = Light;
     }
 
     // Start is called before the first frame update

@@ -25,6 +25,7 @@ public class UIWarning : UIPopup
 
     private void OnEnable()
     {
+        Managers.Sound.PlayEffectSound(transform.position, "Warning");
         StartCoroutine(HideAfterSec(1.0f));
     }
 

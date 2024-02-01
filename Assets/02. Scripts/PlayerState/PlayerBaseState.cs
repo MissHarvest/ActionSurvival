@@ -183,6 +183,7 @@ public class PlayerBaseState : IState
 
     private void OnBuildRequested(int index)
     {
+        Debug.Log("[Change State Build]");
         _stateMachine.ChangeState(_stateMachine.BuildState);
     }
 
