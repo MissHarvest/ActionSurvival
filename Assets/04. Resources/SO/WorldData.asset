@@ -46,10 +46,17 @@ MonoBehaviour:
     <BottomFaceTexture>k__BackingField: 44
     <LeftFaceTexture>k__BackingField: 84
     <RightFaceTexture>k__BackingField: 84
+  - <BlockName>k__BackingField: VolcanoStone
+    <IsSolid>k__BackingField: 1
+    <BackFaceTexture>k__BackingField: 44
+    <FrontFaceTexture>k__BackingField: 44
+    <TopFaceTexture>k__BackingField: 44
+    <BottomFaceTexture>k__BackingField: 44
+    <LeftFaceTexture>k__BackingField: 44
+    <RightFaceTexture>k__BackingField: 44
   <SlideBlockTypes>k__BackingField:
   - <BlockName>k__BackingField: Grass Slide
     <IsSolid>k__BackingField: 0
     <FrontMaterial>k__BackingField: {fileID: 2100000, guid: bf8a4f481bdc8d349b51f6065b2bf4f0, type: 2}
     <SideMaterial>k__BackingField: {fileID: 2100000, guid: aec2564424ff04f44824a1fa8eb160f2, type: 2}
-  <WorldSize>k__BackingField: 100
   <ViewChunkRange>k__BackingField: 3

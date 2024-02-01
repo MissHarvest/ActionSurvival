@@ -221,19 +221,34 @@ public class InventorySystem : MonoBehaviour
         Debug.Log($"아이템 ({itemData.name})이 인벤토리에 없어요.");
     }
 
-    public bool IsFull()
+    public bool IsFull(ItemData completedItem)
     {
         foreach (var slot in slots)
         {
-            // 슬롯이 비어있거나, 아이템이 이미 존재하면서 수량이 최대 스택 수에 도달하지 않은 경우
-            if (slot.itemData == null || (slot.itemData.stackable && slot.quantity < ItemData.maxStackCount))
+            if (!completedItem.stackable)
             {
-                return false;
+                if (slot.itemData == null)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                // 스택 가능한 아이템의 경우, 빈 슬롯 또는 같은 아이템이 있는 슬롯을 찾아 확인
+                if (slot.itemData == null)
+                {
+                    return false;
+                }
+                else if (slot.itemData == completedItem && slot.quantity < ItemData.maxStackCount)
+                {
+                    return false;
+                }
             }
         }
         return true;
     }
-    
+
+
     public void TransitionItem(InventorySystem targetInventory, int index)
     {
         if (slots[index].equipped || slots[index].registed)

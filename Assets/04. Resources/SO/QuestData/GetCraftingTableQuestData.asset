@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: GetCraftingTableQuestData
   m_EditorClassIdentifier: 
   questName: GetCraftingTable
-  questUIName: "\uB3C4\uB07C\uB85C \uD1B5\uB098\uBB34\uB97C \uC5BB\uC5B4 \uC81C\uC791\uB300
-    \uD558\uB098\uB97C \uC81C\uC791\uD558\uC138\uC694."
+  questUIName: "\uC81C\uC791\uB300\uB97C \uC81C\uC791\uD558\uC138\uC694."
   questID: 3
-  isCompleted: 0
+  isCompleted: 1
   preQuests:
   - {fileID: 11400000, guid: 81c9326ebffd4bc49b816e23a4699ba4, type: 2}
   requiredItems:

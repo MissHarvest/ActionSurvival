@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: GetBonFireQuestData
   m_EditorClassIdentifier: 
   questName: GetBonFire
-  questUIName: "\uC81C\uC791\uB300\uC5D0\uC11C \uBAA8\uB2E5\uBD88 \uD558\uB098\uB97C
-    \uC81C\uC791\uD558\uC138\uC694."
+  questUIName: "\uBAA8\uB2E5\uBD88\uC744 \uC81C\uC791\uD558\uC138\uC694."
   questID: 4
   isCompleted: 1
   preQuests:
