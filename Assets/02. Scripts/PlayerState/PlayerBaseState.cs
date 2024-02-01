@@ -7,6 +7,8 @@ public class PlayerBaseState : IState
     protected readonly PlayerGroundData _groundData;
 
     private BuildingSystem _buildingSystem;
+    private UICooking _cookingUI;
+    private UIRecipe _recipeUI;
 
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
@@ -14,12 +16,12 @@ public class PlayerBaseState : IState
         _groundData = _stateMachine.Player.Data.GroundedData;
 
         _buildingSystem = Managers.Game.Player.Building;
-        _buildingSystem.OnBuildRequested += OnBuildRequested;
     }
 
     public virtual void Enter()
     {
         AddInputActionsCallbacks();
+        _buildingSystem.OnBuildRequested += OnBuildRequested;
     }
 
     public virtual void Exit()
@@ -183,6 +185,7 @@ public class PlayerBaseState : IState
 
     private void OnBuildRequested(int index)
     {
+        Debug.Log("빌드 모드 진입: " + index);
         _stateMachine.ChangeState(_stateMachine.BuildState);
     }
 
@@ -193,6 +196,9 @@ public class PlayerBaseState : IState
 
     private void OnInventoryShowAndHide(InputAction.CallbackContext context)
     {
+        // UICooking 등의 팝업이 활성화된 경우 모든 팝업을 닫은 후 Inventory 팝업 열기
+        Managers.UI.CloseAllPopupUI();
+
         var ui = Managers.UI.GetPopupUI<UIInventory>();
         Debug.Log($"[Inventory UI] {ui == null}");
         if (ui.gameObject.activeSelf)
@@ -201,7 +207,7 @@ public class PlayerBaseState : IState
         }
         else
         {
-            Managers.UI.ShowPopupUI<UIInventory>();            
+            Managers.UI.ShowPopupUI<UIInventory>();
         }
     }
 

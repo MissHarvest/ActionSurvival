@@ -7,16 +7,16 @@ public class UITutorial : UIPopup
 {
     enum GameObjects
     {
-        Character,
+        Title,
         Contents,
         Content,
     }
 
-    private Transform _character;
+    private Transform _title;
     private Transform _contents;
     private Transform _content;
     private List<QuestSO> _activeQuests;
-    private List<QuestSO> _quests;
+    private QuestSO[] _quests;
     private List<UIQuest> _uiQuestPool = new List<UIQuest>();
 
     public override void Initialize()
@@ -28,15 +28,19 @@ public class UITutorial : UIPopup
     private void Awake()
     {
         Initialize();
-        _character = Get<GameObject>((int)GameObjects.Character).transform;
+        _title = Get<GameObject>((int)GameObjects.Title).transform;
         _contents = Get<GameObject>((int)GameObjects.Contents).transform;
         _content = Get<GameObject>((int)GameObjects.Content).transform;
+    }
+    private void Start()
+    {
+        Managers.Game.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
     }
 
     private void OnEnable()
     {
-        Managers.Game.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
-        _quests = Managers.Game.Player.Tutorial.Quests;
+
+        _quests = Managers.Game.Player.Tutorial.InvariantQuests;
         _activeQuests = Managers.Game.Player.Tutorial.ActiveQuests;
         CreateQuestUIPool();
         ShowQuest(); // 게임 시작 시 퀘스트 표시
@@ -60,7 +64,7 @@ public class UITutorial : UIPopup
         var questPrefab = Managers.Resource.GetCache<GameObject>("UIQuest.prefab");
 
         // 풀에 퀘스트 UI 미리 생성
-        for (int i = 0; i < _quests.Count; i++)
+        for (int i = 0; i < _quests.Length; i++)
         {
             var questGO = Instantiate(questPrefab, _content);
             var quest = questGO.GetComponent<UIQuest>();
