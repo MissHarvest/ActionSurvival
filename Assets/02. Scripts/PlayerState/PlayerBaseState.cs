@@ -5,11 +5,16 @@ public class PlayerBaseState : IState
 {
     protected PlayerStateMachine _stateMachine;
     protected readonly PlayerGroundData _groundData;
-    
+
+    private BuildingSystem _buildingSystem;
+
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
         _stateMachine  = playerStateMachine;
         _groundData = _stateMachine.Player.Data.GroundedData;
+
+        _buildingSystem = Managers.Game.Player.Building;
+        _buildingSystem.OnBuildRequested += OnBuildRequested;
     }
 
     public virtual void Enter()
@@ -20,6 +25,7 @@ public class PlayerBaseState : IState
     public virtual void Exit()
     {
         RemoveInputActionsCallbacks();
+        _buildingSystem.OnBuildRequested -= OnBuildRequested;
     }
 
     public virtual void Update()
@@ -173,6 +179,11 @@ public class PlayerBaseState : IState
     protected virtual void OnQuickUseStarted(InputAction.CallbackContext context)
     {
         _stateMachine.Player.QuickSlot.OnQuickUseInput((int)context.ReadValue<float>() - 1);
+    }
+
+    private void OnBuildRequested(int index)
+    {
+        _stateMachine.ChangeState(_stateMachine.BuildState);
     }
 
     protected void ForceMove()

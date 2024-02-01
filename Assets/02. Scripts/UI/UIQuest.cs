@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 // 2024. 01. 29 Byun Jeongmin
 public class UIQuest : UIBase
 {
+    enum Images
+    {
+        Icon,
+    }
+
     enum Texts
     {
         QuestName,
@@ -15,7 +21,11 @@ public class UIQuest : UIBase
 
     public override void Initialize()
     {
+        Bind<Image>(typeof(Images));
         Bind<TextMeshProUGUI>(typeof(Texts));
+
+        Get<Image>((int)Images.Icon).raycastTarget = false;
+        Get<TextMeshProUGUI>((int)Texts.QuestName).raycastTarget = false;
     }
 
     private void Awake()
@@ -28,8 +38,9 @@ public class UIQuest : UIBase
         _quests = Managers.Game.Player.Tutorial.Quests;
     }
 
-    public void SetText(int index)
+    public void Set(int index)
     {
+        Get<Image>((int)Images.Icon).sprite = _quests[index].requiredItems[0].item.iconSprite;
         Get<TextMeshProUGUI>((int)Texts.QuestName).text = _quests[index].questUIName;
     }
 }
