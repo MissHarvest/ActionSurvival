@@ -51,8 +51,8 @@ public class MainScene : MonoBehaviour
                         // 4. NavMesh 생성
                         var mon = Managers.Resource.GetCache<GameObject>("Slime.prefab");
                         Instantiate(mon);
-                        UIInitialize();
                         Managers.Game.Init();
+                        UIInitialize();
                     });
                 });
             }

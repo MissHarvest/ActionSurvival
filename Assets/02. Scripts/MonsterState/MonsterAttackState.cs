@@ -23,8 +23,7 @@ public class MonsterAttackState : MonsterBaseState
     }
 
     public override void Exit()
-    {
-        
+    {        
         base.Exit();
         StopAnimation(_stateMachine.Monster.AnimationData.AttackParameterHash);
     }
