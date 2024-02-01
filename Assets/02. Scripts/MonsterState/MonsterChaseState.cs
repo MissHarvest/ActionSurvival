@@ -8,6 +8,8 @@ using UnityEngine;
 public class MonsterChaseState : MonsterBaseState
 {
     private float _reach;
+    private float _remainDist;
+    private GameObject _target;
 
     public MonsterChaseState(MonsterStateMachine monsterStateMachine) : base(monsterStateMachine)
     {
@@ -24,7 +26,7 @@ public class MonsterChaseState : MonsterBaseState
             = _stateMachine.Monster.Berserk ? 300 : _stateMachine.Monster.Data.AttackData.ChaseDectionDistModifier;
         
         base.Enter();
-        
+        _target = Managers.Game.Player.gameObject;
         // Start Animation
         StartAnimation(_stateMachine.Monster.AnimationData.RunParameterHash);
     }
@@ -38,9 +40,7 @@ public class MonsterChaseState : MonsterBaseState
 
     public override void Update()
     {
-        // base.Update();
-
-        var sqrLength = GetDistanceBySqr(Managers.Game.Player.transform.position);
+        var sqrLength = GetDistanceBySqr(_target.transform.position);
         
         if(sqrLength < _reach * _reach)
         {
@@ -55,6 +55,18 @@ public class MonsterChaseState : MonsterBaseState
         else if (TryDetectPlayer())
         {
             _stateMachine.Monster.NavMeshAgent.SetDestination(Managers.Game.Player.transform.position);
+            
+            // [ Error ]
+            //var dist = _stateMachine.Monster.NavMeshAgent.remainingDistance;
+            //if(dist == _remainDist)
+            //{
+
+            //}
+            //else
+            //{
+            //    _remainDist = dist;
+
+            //}            
             return;
         }
         else
@@ -62,5 +74,12 @@ public class MonsterChaseState : MonsterBaseState
             _stateMachine.ChangeState(_stateMachine.PatrolState);
             return;
         }
+    }
+
+    private void Test()
+    {
+        // Player 대신 다른 타겟을 찾는다.
+
+        // 
     }
 }

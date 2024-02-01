@@ -52,9 +52,10 @@ public class MonsterWave
         while(waveMonsters.Count != 0)
         {
             var point = wavePoints.Pop();
-            var monster = waveMonsters.Pop();
-            monster.GetComponent<Monster>().NavMeshAgent.Warp(point);
-            monster.GetComponent<Monster>().SetBerserkMode();
+            var monster = waveMonsters.Pop().GetComponent<Monster>();
+            monster.NavMeshAgent.Warp(point);
+            monster.SetBerserkMode();
+            monster.SetIsland(null);
         }
     }
 

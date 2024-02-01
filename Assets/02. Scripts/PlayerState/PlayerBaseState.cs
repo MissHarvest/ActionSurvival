@@ -76,8 +76,7 @@ public class PlayerBaseState : IState
         RaycastHit hit;
         Physics.Raycast(_stateMachine.Player.transform.position, Vector3.down, out hit, 10.0f, 1 | 1 << 12);
 
-        movementDirection.Normalize();
-        movementDirection += new Vector3(0, Vector3.ProjectOnPlane(movementDirection, hit.normal).y, 0).normalized;
+        movementDirection = Vector3.ProjectOnPlane(movementDirection, hit.normal).normalized;
 
         Debug.DrawRay(_stateMachine.Player.transform.position, movementDirection, Color.red);
         Debug.DrawRay(hit.point, hit.normal, Color.black);
