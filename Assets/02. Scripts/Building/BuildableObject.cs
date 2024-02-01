@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 // 2024. 01. 24 Byun Jeongmin
-public class BuildableObject : MonoBehaviour
+public class BuildableObject : MonoBehaviour, IHit
 {
     [SerializeField] private Renderer _renderer;
     private NavMeshObstacle _navMeshObstacle;
@@ -19,6 +19,9 @@ public class BuildableObject : MonoBehaviour
     public bool isOverlap { get; private set; } = false;
 
     public event Action OnRenamed;
+    public event Action<float> OnHit;
+
+    [field:SerializeField] public Condition HP { get; private set; }
 
     private void Awake()
     {
@@ -27,6 +30,17 @@ public class BuildableObject : MonoBehaviour
         _collider = GetComponent<Collider>();
         _navMeshObstacle = GetComponent<NavMeshObstacle>();
         _rigidbody = GetComponent<Rigidbody>();
+
+        var architectureName = name.Replace("Architecture_", "");
+        architectureName = architectureName.Replace("(Clone)", "");
+
+        var data = Managers.Resource.GetCache<ItemData>($"{architectureName}ItemData.data");
+        if (data is ToolItemData tool)
+        {
+            HP = new Condition(tool.maxDurability);
+        }
+
+        HP.OnBelowedToZero += DestroyObject;
     }
 
     public void Create()
@@ -85,5 +99,11 @@ public class BuildableObject : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         isOverlap = true;
+    }
+
+    public void Hit(IAttack attacker, float damage)
+    {
+        HP.Subtract(damage);
+        OnHit?.Invoke(HP.GetPercentage());
     }
 }

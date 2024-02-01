@@ -32,15 +32,32 @@ public class UITitleScene : UIScene
             SceneManager.LoadScene("Main Scene");
         });
 
+        Get<Button>((int)Buttons.NewGameButton).gameObject.BindEvent((x) =>
+        {
+            Managers.Sound.PlayEffectSound(transform.position,"ButtonHover");
+        }, UIEvents.PointerEnter);
+
         Get<Button>((int)Buttons.ContinueButton).onClick.AddListener(() =>
         {
             SceneManager.LoadScene("Main Scene");
         });
 
+        Get<Button>((int)Buttons.ContinueButton).gameObject.BindEvent((x) =>
+        {
+            Managers.Sound.PlayEffectSound(transform.position, "ButtonHover");
+        }, UIEvents.PointerEnter);
+
+
         Get<Button>((int)Buttons.SettingButton).onClick.AddListener(() =>
         {
             Managers.UI.ShowPopupUI<UISoundSetting>();
         });
+
+        Get<Button>((int)Buttons.SettingButton).gameObject.BindEvent((x) =>
+        {
+            Managers.Sound.PlayEffectSound(transform.position, "ButtonHover");
+        }, UIEvents.PointerEnter);
+
 
         Get<GameObject>((int)GameObjects.ButtonGroup).SetActive(false);
     }

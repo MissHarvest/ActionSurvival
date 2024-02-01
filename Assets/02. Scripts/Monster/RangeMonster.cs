@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//2024. 01. --  Park Jun Uk
 public class RangeMonster : Monster
 {
-    public GameObject projectileWeapon;
+    private GameObject _projectileWeapon;
     public Transform fireTransform;
     public LayerMask targetLayers;
 
     protected override void Awake()
     {
         base.Awake();
-
+        var monsterName = name.Replace("(Clone)", "");
+        _projectileWeapon = Managers.Resource.GetCache<GameObject>($"{monsterName}Projectile.prefab");
     }
 
     public override void TryAttack()
@@ -21,7 +23,7 @@ public class RangeMonster : Monster
 
         if (targets.Length != 0)
         {
-            var go = Instantiate(projectileWeapon, fireTransform.position, Quaternion.identity);
+            var go = Instantiate(_projectileWeapon, fireTransform.position, Quaternion.identity);
 
             var monsterweapon = go.GetComponent<MonsterWeapon>();
             monsterweapon.ActivateWeapon();
