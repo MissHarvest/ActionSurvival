@@ -5,16 +5,17 @@ using UnityEngine;
 // 2024. 01. 29 Byun Jeongmin
 public class Tutorial : MonoBehaviour
 {
-    private List<QuestSO> _quests; // 모든 퀘스트 리스트
-    private List<QuestSO> _activeQuests = new List<QuestSO>(); // 현재 활성화된 퀘스트 리스트
+    [SerializeField] private QuestSO[] _invariantQuests; // 데이터가 변동되지 않는 모든 퀘스트 배열
+    [SerializeField] private List<QuestSO> _quests; // 아직 클리어하지 않은 퀘스트 리스트
+    [SerializeField] private List<QuestSO> _activeQuests = new List<QuestSO>(); // 현재 활성화된 퀘스트 리스트
     [SerializeField] private List<string> _questCompletionStatus = new List<string>(); //완료한 퀘스트 리스트
 
     public event Action OnActiveQuestsUpdated;
 
-    public List<QuestSO> Quests
+    public QuestSO[] InvariantQuests
     {
-        get { return _quests; }
-        private set { _quests = value; }
+        get { return _invariantQuests; }
+        private set { _invariantQuests = value; }
     }
 
     public List<QuestSO> ActiveQuests
@@ -27,18 +28,19 @@ public class Tutorial : MonoBehaviour
     private void Awake()
     {
         Initialize();
+        Load();
+
+        Managers.Game.OnSaveCallback += Save;
     }
 
-    private void Initialize() //튜토리얼 저장 관련해서 초기화 부분은 바뀔수도??
+    private void Initialize()
     {
         // QuestSO 초기화
-        _quests = new List<QuestSO>(Managers.Resource.GetCacheGroup<QuestSO>("QuestData"));
-        _activeQuests.Clear();
+        _invariantQuests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
+        _quests = new List<QuestSO>(_invariantQuests);
 
         foreach (var quest in _quests)
         {
-            quest.InitializeQuest();
-            _questCompletionStatus.Clear();
             if (IsPreQuestsCleared(quest))
             {
                 _activeQuests.Add(quest);
@@ -46,7 +48,7 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void Start()
     {
         BindInventoryEvents();
     }
@@ -80,7 +82,8 @@ public class Tutorial : MonoBehaviour
 
     private void CancelBindInventoryEvents()
     {
-        Managers.Game.Player.Inventory.OnUpdated -= OnInventoryUpdated;
+        if (Managers.Game.Player != null)
+            Managers.Game.Player.Inventory.OnUpdated -= OnInventoryUpdated;
     }
 
 
@@ -134,5 +137,16 @@ public class Tutorial : MonoBehaviour
         _questCompletionStatus.Add(quest.questName);
         quest.CompleteQuest();
         //Debug.Log($"{quest.questName} 퀘스트 클리어!!!!!!!!!!!!");
+    }
+
+    public virtual void Load()
+    {
+        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "Tutorial");
+    }
+
+    protected virtual void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile("Tutorial", json, SaveGame.SaveType.Runtime);
     }
 }

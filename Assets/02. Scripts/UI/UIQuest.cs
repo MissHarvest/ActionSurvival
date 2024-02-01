@@ -17,7 +17,7 @@ public class UIQuest : UIBase
         QuestName,
     }
 
-    private List<QuestSO> _quests;
+    [SerializeField] private QuestSO[] _quests;
 
     public override void Initialize()
     {
@@ -35,7 +35,7 @@ public class UIQuest : UIBase
 
     private void OnEnable()
     {
-        _quests = Managers.Game.Player.Tutorial.Quests;
+        _quests = Managers.Game.Player.Tutorial.InvariantQuests;
     }
 
     public void Set(int index)

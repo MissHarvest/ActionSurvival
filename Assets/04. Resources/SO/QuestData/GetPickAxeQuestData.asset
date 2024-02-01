@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: GetPickAxeQuestData
   m_EditorClassIdentifier: 
   questName: GetPickAxe
-  questUIName: "\uB3CC\uBA69\uC774\uC640 \uB098\uBB47\uAC00\uC9C0\uB85C \uACE1\uAD2D\uC774
-    \uD558\uB098\uB97C \uC81C\uC791\uD558\uC138\uC694."
+  questUIName: "\uACE1\uAD2D\uC774\uB97C \uC81C\uC791\uD558\uC138\uC694."
   questID: 1
-  isCompleted: 0
+  isCompleted: 1
   preQuests: []
   requiredItems:
   - item: {fileID: 11400000, guid: 169efef296147ff47aa012ef827c9305, type: 2}

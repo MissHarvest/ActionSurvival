@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
-  m_Name: GetStewedStingrayWingsQuestData
+  m_Name: GetCarrotQuestData
   m_EditorClassIdentifier: 
-  questName: GetStewedStingrayWings
-  questUIName: "\uAC00\uC624\uB9AC \uB0A0\uAC1C \uC870\uB9BC\uC744 \uC694\uB9AC\uD558\uC138\uC694."
-  questID: 7
+  questName: GetCarrot
+  questUIName: "\uB2F9\uADFC\uC744 \uD68D\uB4DD\uD558\uC138\uC694."
+  questID: 11
   isCompleted: 0
   preQuests:
-  - {fileID: 11400000, guid: 99849d697b366074da034d10737ec315, type: 2}
-  - {fileID: 11400000, guid: 951d99c74b199684799b643be943524a, type: 2}
+  - {fileID: 11400000, guid: efe56df77ff0ab34da0563bbf7ed4504, type: 2}
   requiredItems:
-  - item: {fileID: 11400000, guid: 0bd31217bba863f4bb9b5461c806472b, type: 2}
+  - item: {fileID: 11400000, guid: 5dd63cd46cf3a174da82b9136f74f149, type: 2}
