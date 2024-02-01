@@ -24,6 +24,7 @@ public class DayLight : MonoBehaviour
         RenderSettings.fogDensity = 0.02f;
         
         Light = GetComponent<Light>();
+        Light.shadowStrength = 0.8f;
         RenderSettings.skybox = skyMaterial;
         RenderSettings.sun = Light;
     }

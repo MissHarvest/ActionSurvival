@@ -26,8 +26,9 @@ public class MonsterChaseState : MonsterBaseState
             = _stateMachine.Monster.Berserk ? 300 : _stateMachine.Monster.Data.AttackData.ChaseDectionDistModifier;
         
         base.Enter();
-        _target = Managers.Game.Player.gameObject;
-        // Start Animation
+        _target = _target == null ? Managers.Game.Player.gameObject : _target;
+        _stateMachine.Monster.NavMeshAgent.stoppingDistance = _target == Managers.Game.Player ? 0 : _reach;
+        _stateMachine.Monster.NavMeshAgent.SetDestination(_target.transform.position);
         StartAnimation(_stateMachine.Monster.AnimationData.RunParameterHash);
     }
 
@@ -44,42 +45,44 @@ public class MonsterChaseState : MonsterBaseState
         
         if(sqrLength < _reach * _reach)
         {
-            if(_stateMachine.canAttack)
+            if (_stateMachine.canAttack)
             {
                 _stateMachine.ChangeState(_stateMachine.AttackState);
-                return;
             }
-            _stateMachine.ChangeState(_stateMachine.StayState);
+            else
+            {
+                _stateMachine.ChangeState(_stateMachine.StayState);
+            }
             return;
         }
-        else if (TryDetectPlayer())
-        {
-            _stateMachine.Monster.NavMeshAgent.SetDestination(Managers.Game.Player.transform.position);
-            
-            // [ Error ]
-            //var dist = _stateMachine.Monster.NavMeshAgent.remainingDistance;
-            //if(dist == _remainDist)
-            //{
-
-            //}
-            //else
-            //{
-            //    _remainDist = dist;
-
-            //}            
-            return;
-        }
-        else
+        
+        if (TryDetectPlayer() == false)
         {
             _stateMachine.ChangeState(_stateMachine.PatrolState);
             return;
         }
+
+        // Try Detecte Player == true, sqrLength > reach
+        if (_target == Managers.Game.Player) _stateMachine.Monster.NavMeshAgent.SetDestination(_target.transform.position);
+        
+        if(_stateMachine.Monster.NavMeshAgent.remainingDistance < _reach && _target == Managers.Game.Player.gameObject)
+        {
+            RetargetingToArchitecture();
+        }
     }
 
-    private void Test()
+    private void RetargetingToArchitecture()
     {
-        // Player 대신 다른 타겟을 찾는다.
+        Vector3 dir = Managers.Game.Player.transform.position - _stateMachine.Monster.transform.position;
+        dir.y = 0;
 
-        // 
+        RaycastHit hit;
+        if(Physics.Raycast(_stateMachine.Monster.transform.position + Vector3.up,
+            dir, out hit, dir.magnitude, 1 << 11))
+        {
+            _target = hit.collider.gameObject;
+            _stateMachine.Monster.NavMeshAgent.stoppingDistance = _reach;
+            _stateMachine.Monster.NavMeshAgent.SetDestination(_target.transform.position);
+        }
     }
 }
