@@ -32,4 +32,12 @@ public class ManagementedObject : MonoBehaviour
         foreach (var target in managedTargets)
             _manager.ManageObject(target, enabled);
     }
+
+    private void OnDestroy()
+    {
+        if (_world)
+        {
+            _world.OnWorldUpdated -= SwitchEnabled;
+        }
+    }
 }

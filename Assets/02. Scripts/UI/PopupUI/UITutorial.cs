@@ -44,7 +44,10 @@ public class UITutorial : UIPopup
 
     private void OnDisable()
     {
-        Managers.Game.Player.Tutorial.OnActiveQuestsUpdated -= HandleActiveQuestsUpdated;
+        if (Managers.Game.Player != null)
+        {
+            Managers.Game.Player.Tutorial.OnActiveQuestsUpdated -= HandleActiveQuestsUpdated;
+        }
     }
 
     private void HandleActiveQuestsUpdated()

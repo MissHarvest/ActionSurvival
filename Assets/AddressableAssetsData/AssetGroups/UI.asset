@@ -150,6 +150,10 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 76f17f2d3e5e438488c86b07bd68deaf
     m_Address: UIPopUp_UIDeath.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4f6c7eb9eae4ef345861a871f17cc6ce
     m_Address: UITutorial.prefab
     m_ReadOnly: 0

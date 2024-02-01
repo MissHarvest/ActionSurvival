@@ -42,6 +42,9 @@ public class DayCycle
     {
         OnDateUpdated = null;
         OnTimeUpdated = null;
+        OnMorningCame = null;
+        OnEveningCame = null;
+        OnNightCame = null;
 
         CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
 
@@ -102,7 +105,10 @@ public class DayCycle
 
     private void Load()
     {
-        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "WorldDate");
+        if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "WorldDate") == false)
+        {
+            Date = 1;
+        }
         OnDateUpdated?.Invoke(Date);
     }
 

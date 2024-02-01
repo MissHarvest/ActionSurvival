@@ -26,7 +26,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     [field: SerializeField] public Condition HP { get; private set; }
 
-    private Island _habitat;
+    public Island Habitat { get; private set; } = null;
 
     public event Action<IAttack> OnHit;
 
@@ -74,7 +74,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     public void SetIsland(Island island)
     {
-        _habitat = island;
+        Habitat = island;
     }
 
     public void Respawn()
@@ -96,7 +96,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         _stateMachine.ChangeState(_stateMachine.DieState);
         looting.AddInventory(Managers.Game.Player.Inventory);
 
-        _habitat?.DiedMonsters.Add(this.gameObject);
+        Habitat?.DiedMonsters.Add(this.gameObject);
     }
 
     public void Attack(IHit target)
