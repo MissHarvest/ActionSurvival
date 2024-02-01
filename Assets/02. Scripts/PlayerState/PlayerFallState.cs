@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerFallState : PlayerGroundedState
 {
+    private bool _alreadyAppliedForce;
     public PlayerFallState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -11,14 +12,16 @@ public class PlayerFallState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-
+        _stateMachine.IsFalling = true;
+        _stateMachine.MovementSpeedModifier = 0f;        
+        _alreadyAppliedForce = false;
         StartAnimation(_stateMachine.Player.AnimationData.fallParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-
+        _stateMachine.IsFalling = false;
         StopAnimation(_stateMachine.Player.AnimationData.fallParameterHash);
     }
 
@@ -27,7 +30,7 @@ public class PlayerFallState : PlayerGroundedState
         base.Update();
         ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
 
-        _stateMachine.MovementSpeedModifier -= Time.deltaTime;
+        TryApplyForce();
 
         if (_stateMachine.Player.Controller.isGrounded)
         {
@@ -46,8 +49,17 @@ public class PlayerFallState : PlayerGroundedState
             return;
         }
     }
+
     protected override void Rotate(Vector3 movementDirection)
     {
 
+    }
+
+    private void TryApplyForce()
+    {
+        if (_alreadyAppliedForce) return;
+        _alreadyAppliedForce = true;
+
+        _stateMachine.Player.ForceReceiver.AddForce(_stateMachine.Player.transform.forward * 0.2f);
     }
 }

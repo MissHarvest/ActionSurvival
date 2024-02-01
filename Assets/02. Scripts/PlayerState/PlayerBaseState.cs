@@ -148,6 +148,7 @@ public class PlayerBaseState : IState
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
         if (_stateMachine.Player.EquippedItem == null) return;
+        if (_stateMachine.IsFalling) return;
         Debug.Log("Player Interact");
 
         var tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
