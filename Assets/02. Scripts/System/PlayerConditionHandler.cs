@@ -16,33 +16,43 @@ public class PlayerConditionHandler : MonoBehaviour
         Player = GetComponent<Player>();
 
         HP = new Condition(200);
-        
+        HP.regenRate = 0.1f;
+        HP.OnBelowedToZero += Player.Die;
+
         Hunger = new Condition(100);
         Hunger.decayRate = 0.1f;
         Hunger.OnRecovered += OnHungerRecevered;
         Hunger.OnDecreased += OnHungerDecrease;
+        Hunger.OnBelowedToZero += OnHungerZero;
 
         Load();
 
         Managers.Game.OnSaveCallback += Save;
     }
 
-    public void OnHungerDecrease(float amount)
+    private void OnHungerDecrease(float amount)
     {
         if(Hunger.GetPercentage() < 0.7f && _isFull)
         {
             _isFull = false;
-            HP.regenRate -= 5;
+            HP.regenRate -= 0.1f;
         }
     }
 
-    public void OnHungerRecevered(float amout)
+    private void OnHungerRecevered(float amout)
     {
         if(Hunger.GetPercentage() > 0.7f &&!_isFull)
         {
             _isFull = true;
-            HP.regenRate += 5;
+            HP.regenRate += 0.1f;
         }
+
+        HP.decayRate = 0;
+    }
+
+    private void OnHungerZero()
+    {
+        //HP.decayRate = 
     }
 
     private void Update()

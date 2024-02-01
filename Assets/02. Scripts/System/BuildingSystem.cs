@@ -35,7 +35,7 @@ public class BuildingSystem : MonoBehaviour
         _rayPointer.SetActive(false);
     }
 
-    public void CreateArchitecture() // _buildableObject가 null이 아닌 경우 return하게 하면 return 이후는 실행 x
+    public void CreateArchitecture()
     {
         if (_buildableObject != null)
             return;
@@ -57,10 +57,10 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
-    public void CreateArchitectureByIndex(int index) //index값 멤버로 저장
+    public void CreateArchitectureByIndex(int index)
     {
-        _inventoryIndex = index;
         var handItemData = Managers.Game.Player.Inventory.slots[index].itemData as ToolItemData;
+        _inventoryIndex = index;
 
         _rayPointer.transform.position = transform.position + Vector3.up * 2;
         // "아이템명"+ItemData에서 "ItemData" 부분 제거
@@ -81,8 +81,7 @@ public class BuildingSystem : MonoBehaviour
         _buildableObject.Build();
         _rayPointer.SetActive(false);
         _buildableObject = null;
-        // 인벤토리에서 제거
-        //var useQuick = Owner.QuickSlot.slots[Owner.QuickSlot.IndexInUse];        
+        // 인벤토리에서 제거      
         Managers.Game.Player.Inventory.UseArchitectureItem(_inventoryIndex);
         return true;
     }

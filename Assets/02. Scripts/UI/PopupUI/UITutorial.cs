@@ -44,7 +44,10 @@ public class UITutorial : UIPopup
 
     private void OnDisable()
     {
-        Managers.Game.Player.Tutorial.OnActiveQuestsUpdated -= HandleActiveQuestsUpdated;
+        if (Managers.Game.Player != null)
+        {
+            Managers.Game.Player.Tutorial.OnActiveQuestsUpdated -= HandleActiveQuestsUpdated;
+        }
     }
 
     private void HandleActiveQuestsUpdated()
@@ -61,7 +64,7 @@ public class UITutorial : UIPopup
         {
             var questGO = Instantiate(questPrefab, _content);
             var quest = questGO.GetComponent<UIQuest>();
-            quest.SetText(i);
+            quest.Set(i);
             _uiQuestPool.Add(quest);
             questGO.SetActive(false);
         }

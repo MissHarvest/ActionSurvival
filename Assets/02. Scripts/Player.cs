@@ -59,7 +59,6 @@ public class Player : MonoBehaviour, IHit
 
         _stateMachine = new PlayerStateMachine(this);
 
-        // [ Save Test ] //
         Managers.Game.OnSaveCallback += Save;
         if(SaveGame.TryLoadJsonFile<Vector3>(SaveGame.SaveType.Runtime, "PlayerPosition", out Vector3 pos))
         {

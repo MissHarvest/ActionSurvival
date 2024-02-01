@@ -29,6 +29,10 @@ public class MonsterDieState : MonsterBaseState
         if (normalizedTime >= 1.0f)
         {
             _stateMachine.Monster.gameObject.SetActive(false);
+            if (_stateMachine.Monster.Habitat == null)
+            {
+                Object.Destroy(_stateMachine.Monster.gameObject);
+            }
         }
     }
 }
