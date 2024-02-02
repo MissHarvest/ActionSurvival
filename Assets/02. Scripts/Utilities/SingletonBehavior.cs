@@ -46,6 +46,7 @@ public class SingletonBehavior<T> : SingletonBase where T : MonoBehaviour
         return _instance;
     }
     #endregion
+
     #region Destroy Singleton
     protected void OnDestroy()
     {

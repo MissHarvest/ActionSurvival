@@ -137,6 +137,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArchitectureHP
       objectReference: {fileID: 0}
+    - target: {fileID: 7437886353793855669, guid: c18a6eef91ff5054f8573da86366edc3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7644457256920113912, guid: c18a6eef91ff5054f8573da86366edc3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

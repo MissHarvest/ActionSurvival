@@ -24,7 +24,6 @@ public class Tutorial : MonoBehaviour
         private set { _activeQuests = value; }
     }
 
-
     private void Awake()
     {
         Initialize();
@@ -53,11 +52,6 @@ public class Tutorial : MonoBehaviour
         BindInventoryEvents();
     }
 
-    private void OnDisable()
-    {
-        CancelBindInventoryEvents();
-    }
-
     // preQuests(선행퀘)가 비어 있거나, 모든 preQuests가 클리어된 경우에만 true
     private bool IsPreQuestsCleared(QuestSO quest)
     {
@@ -79,13 +73,6 @@ public class Tutorial : MonoBehaviour
     {
         Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
     }
-
-    private void CancelBindInventoryEvents()
-    {
-        if (Managers.Game.Player != null)
-            Managers.Game.Player.Inventory.OnUpdated -= OnInventoryUpdated;
-    }
-
 
     //인벤토리가 업데이트되면 클리어 조건 확인
     private void OnInventoryUpdated(int index, ItemSlot itemSlot)

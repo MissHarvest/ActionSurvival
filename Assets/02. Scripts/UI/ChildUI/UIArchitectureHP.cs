@@ -26,12 +26,12 @@ public class UIArchitectureHP : UIBase
         buildObject.OnHit += SetValue;
         SetValue(buildObject.HP.GetPercentage());
         
-        buildObject.OnRenamed += RotateToCamera;
         Get<Slider>((int)Sliders.Slider).gameObject.SetActive(false);
     }
 
     public void SetValue(float percentage)
     {
+        transform.rotation = Quaternion.identity;
         Get<Slider>((int)Sliders.Slider).gameObject.SetActive(true);
         Get<Slider>((int)Sliders.Slider).value = percentage;
         if(_coroutine != null) StopCoroutine(_coroutine);
@@ -42,12 +42,5 @@ public class UIArchitectureHP : UIBase
     {
         yield return new WaitForSeconds(2.0f);
         Get<Slider>((int)Sliders.Slider).gameObject.SetActive(false);
-    }
-
-    private void RotateToCamera()
-    {
-        //Vector3 dir = Camera.main.transform.position - transform.position;
-        //transform.rotation = Quaternion.LookRotation(dir);
-        transform.rotation = Quaternion.identity;
     }
 }

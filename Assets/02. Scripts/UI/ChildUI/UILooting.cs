@@ -75,7 +75,9 @@ public class UILooting : UIBase
 
     private void OnItemAdd(ItemSlot itemslot)
     {
-        _lootingItems.Enqueue(itemslot);
+        var itemData = new ItemSlot();
+        itemData.Set(itemslot);
+        _lootingItems.Enqueue(itemData);
     }
 
     IEnumerator DeleteSlot(UILootingItemSlot slot)

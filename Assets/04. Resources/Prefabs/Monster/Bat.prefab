@@ -219,11 +219,10 @@ MonoBehaviour:
     regenRate: 0
     decayRate: 0
   attackTime: 0.45
-  projectileWeapon: {fileID: 4634576362250552279, guid: 9fd43508d8ee6954d8da11ac10998922, type: 3}
   fireTransform: {fileID: 5008310187993229252}
   targetLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 2560
 --- !u!136 &3562854123597171965
 CapsuleCollider:
   m_ObjectHideFlags: 0

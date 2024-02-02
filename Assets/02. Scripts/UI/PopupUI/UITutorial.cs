@@ -12,8 +12,6 @@ public class UITutorial : UIPopup
         Content,
     }
 
-    private Transform _title;
-    private Transform _contents;
     private Transform _content;
     private List<QuestSO> _activeQuests;
     private QuestSO[] _quests;
@@ -28,8 +26,6 @@ public class UITutorial : UIPopup
     private void Awake()
     {
         Initialize();
-        _title = Get<GameObject>((int)GameObjects.Title).transform;
-        _contents = Get<GameObject>((int)GameObjects.Contents).transform;
         _content = Get<GameObject>((int)GameObjects.Content).transform;
     }
     private void Start()
@@ -44,14 +40,6 @@ public class UITutorial : UIPopup
         _activeQuests = Managers.Game.Player.Tutorial.ActiveQuests;
         CreateQuestUIPool();
         ShowQuest(); // 게임 시작 시 퀘스트 표시
-    }
-
-    private void OnDisable()
-    {
-        if (Managers.Game.Player != null)
-        {
-            Managers.Game.Player.Tutorial.OnActiveQuestsUpdated -= HandleActiveQuestsUpdated;
-        }
     }
 
     private void HandleActiveQuestsUpdated()

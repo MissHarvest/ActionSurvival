@@ -8,8 +8,6 @@ using UnityEngine;
 public class MonsterChaseState : MonsterBaseState
 {
     private float _reach;
-    private float _remainDist;
-    private GameObject _target;
 
     public MonsterChaseState(MonsterStateMachine monsterStateMachine) : base(monsterStateMachine)
     {
@@ -26,9 +24,13 @@ public class MonsterChaseState : MonsterBaseState
             = _stateMachine.Monster.Berserk ? 300 : _stateMachine.Monster.Data.AttackData.ChaseDectionDistModifier;
         
         base.Enter();
-        _target = _target == null ? Managers.Game.Player.gameObject : _target;
-        _stateMachine.Monster.NavMeshAgent.stoppingDistance = _target == Managers.Game.Player ? 0 : _reach;
-        _stateMachine.Monster.NavMeshAgent.SetDestination(_target.transform.position);
+        _stateMachine.Target = _stateMachine.Target == null ? Managers.Game.Player.gameObject : _stateMachine.Target;
+        _stateMachine.Monster.NavMeshAgent.SetDestination(_stateMachine.Target.transform.position);
+        if (_stateMachine.Monster.NavMeshAgent.remainingDistance == 0)
+        {
+            RetargetingToArchitecture();
+        }
+
         StartAnimation(_stateMachine.Monster.AnimationData.RunParameterHash);
     }
 
@@ -41,7 +43,9 @@ public class MonsterChaseState : MonsterBaseState
 
     public override void Update()
     {
-        var sqrLength = GetDistanceBySqr(_target.transform.position);
+        if (_stateMachine.Target == null) return;
+        Debug.Log($"[{_stateMachine.Monster.name}] target[{_stateMachine.Target.name}] [{_stateMachine.Monster.NavMeshAgent.remainingDistance}]");
+        var sqrLength = GetDistanceBySqr(_stateMachine.Target.transform.position);
         
         if(sqrLength < _reach * _reach)
         {
@@ -62,13 +66,8 @@ public class MonsterChaseState : MonsterBaseState
             return;
         }
 
-        // Try Detecte Player == true, sqrLength > reach
-        if (_target == Managers.Game.Player) _stateMachine.Monster.NavMeshAgent.SetDestination(_target.transform.position);
-        
-        if(_stateMachine.Monster.NavMeshAgent.remainingDistance < _reach && _target == Managers.Game.Player.gameObject)
-        {
-            RetargetingToArchitecture();
-        }
+        if(_stateMachine.Target == Managers.Game.Player.gameObject)
+            _stateMachine.Monster.NavMeshAgent.SetDestination(_stateMachine.Target.transform.position);
     }
 
     private void RetargetingToArchitecture()
@@ -80,9 +79,8 @@ public class MonsterChaseState : MonsterBaseState
         if(Physics.Raycast(_stateMachine.Monster.transform.position + Vector3.up,
             dir, out hit, dir.magnitude, 1 << 11))
         {
-            _target = hit.collider.gameObject;
-            _stateMachine.Monster.NavMeshAgent.stoppingDistance = _reach;
-            _stateMachine.Monster.NavMeshAgent.SetDestination(_target.transform.position);
+            _stateMachine.Target = hit.collider.gameObject;
+            _stateMachine.Monster.NavMeshAgent.SetDestination(_stateMachine.Target.transform.position);
         }
     }
 }

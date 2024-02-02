@@ -12,7 +12,7 @@ public class BuildingSystem : MonoBehaviour
 
     private float _raycastRange = 20.0f;
     private float gridSize = 1.0f;
-    [SerializeField] private int _rotationAngle = 45;
+    private int _rotationAngle = 45;
     private int _inventoryIndex;
 
     private BuildableObject _buildableObject;
@@ -97,7 +97,7 @@ public class BuildingSystem : MonoBehaviour
 
     public void CancelBuilding()
     {
-        if(_buildableObject != null) Destroy(_buildableObject.gameObject);
+        if (_buildableObject != null) _buildableObject.DestroyObject();
         _rayPointer.SetActive(false);
     }
 
@@ -119,9 +119,9 @@ public class BuildingSystem : MonoBehaviour
     {
         Vector3 _location = RaycastHit().point;
         _location.Set(
-            Mathf.Round(_location.x/gridSize) * gridSize,
+            Mathf.Floor(_location.x/gridSize) * gridSize,
             _buildableObject.gameObject.transform.position.y,
-            Mathf.Round(_location.z / gridSize) * gridSize
+            Mathf.Floor(_location.z / gridSize) * gridSize
             );
         CanBuild();
         _buildableObject.gameObject.transform.position = _location;
@@ -131,7 +131,7 @@ public class BuildingSystem : MonoBehaviour
     {
         if (_buildableObject == null) return;
         float movementSpeed = 2.0f;
-
+        
         // 울타리 이동 및 위치 조정
         _rayPointer.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
 
