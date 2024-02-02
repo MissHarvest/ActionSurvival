@@ -53,12 +53,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0d9b14ac7b5426845bb4d027d82c6f06
-    m_Address: Slide Block.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f635617bdb0357143a41a3976a6eee69
     m_Address: MapData.data
     m_ReadOnly: 0

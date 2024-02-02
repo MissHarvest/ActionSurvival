@@ -46,7 +46,7 @@ public class MainScene : MonoBehaviour
                     Managers.Data.InitializeRecipeData();
                     Managers.Sound.Init();
 
-                    Managers.Game.World.InitializeWorldNavMeshBuilder(callback: op => 
+                    Managers.Game.World.InitializeWorldNavMeshBuilder(callback: op =>
                     {
                         // 4. NavMesh 생성
                         var mon = Managers.Resource.GetCache<GameObject>("Slime.prefab");

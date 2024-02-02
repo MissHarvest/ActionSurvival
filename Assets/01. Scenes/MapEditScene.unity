@@ -4386,6 +4386,8 @@ MonoBehaviour:
   _cubePrefab: {fileID: 100806974952571434, guid: 7f35e8231ede562468825f265ff1abca, type: 3}
   _root: {fileID: 483186196}
   _showTestCube: 0
+  _worldData: {fileID: 11400000, guid: d0dba0a9670de084cb4c064344ac64ff, type: 2}
+  _voxelData: {fileID: 11400000, guid: 15a51d46266b53141b5f4f50693f151d, type: 2}
   _sizeX: 300
   _sizeZ: 300
   _position: {x: -317, y: -1, z: 0}
@@ -4454,6 +4456,10 @@ MonoBehaviour:
     type: 0
     typeIndex: 3
     forward: {x: 0, y: 0, z: 0}
+  _slideBlock:
+    type: 1
+    typeIndex: 2
+    forward: {x: 0, y: 0, z: 1}
 --- !u!4 &460849271
 Transform:
   m_ObjectHideFlags: 0
@@ -6200,6 +6206,8 @@ MonoBehaviour:
   _cubePrefab: {fileID: 100806974952571434, guid: 7f35e8231ede562468825f265ff1abca, type: 3}
   _root: {fileID: 1389502465}
   _showTestCube: 0
+  _worldData: {fileID: 11400000, guid: d0dba0a9670de084cb4c064344ac64ff, type: 2}
+  _voxelData: {fileID: 11400000, guid: 15a51d46266b53141b5f4f50693f151d, type: 2}
   _sizeX: 300
   _sizeZ: 300
   _position: {x: 317, y: -1, z: 0}
@@ -6216,73 +6224,55 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.2428981
+      time: 0.24289809
       value: 0.9917081
-      inSlope: -0.12420203
-      outSlope: -0.12420203
+      inSlope: -0.09955342
+      outSlope: -0.09955342
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.26704556
-      value: 0.8310685
-      inSlope: -0.43305618
-      outSlope: -0.43305618
+      time: 0.33316386
+      value: 0.6105027
+      inSlope: -1.1501714
+      outSlope: -1.1501714
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.57811016
+    - serializedVersion: 3
+      time: 0.40089554
+      value: 0.57658684
+      inSlope: -0.9798534
+      outSlope: -0.9798534
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.30301255
-      value: 0.8245603
-      inSlope: -0.47158337
-      outSlope: -0.47158337
+      time: 0.47161672
+      value: 0.2704242
+      inSlope: -0.814756
+      outSlope: -0.814756
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5449448
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.5334538
+      value: 0.25721556
+      inSlope: -0.36876482
+      outSlope: -0.36876482
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.3222488
-      value: 0.5503913
-      inSlope: -0.4057478
-      outSlope: -0.4057478
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.36588606
-      value: 0.5440136
-      inSlope: -0.44832855
-      outSlope: -0.44832855
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.37915078
-      value: 0.2621234
-      inSlope: -0.13913882
-      outSlope: -0.13913882
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.41156027
-      value: 0.26053464
-      inSlope: -0.08580669
-      outSlope: -0.08580669
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.45321316
-      value: 0.020341635
-      inSlope: -0.13827507
-      outSlope: -0.13827507
+      time: 0.614891
+      value: 0.018011928
+      inSlope: -0.15442783
+      outSlope: -0.15442783
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
@@ -6313,6 +6303,10 @@ MonoBehaviour:
     type: 0
     typeIndex: 2
     forward: {x: 0, y: 0, z: 0}
+  _slideBlock:
+    type: 1
+    typeIndex: 1
+    forward: {x: 0, y: 0, z: 1}
 --- !u!4 &553709510
 Transform:
   m_ObjectHideFlags: 0
@@ -9087,6 +9081,8 @@ MonoBehaviour:
   _cubePrefab: {fileID: 100806974952571434, guid: 7f35e8231ede562468825f265ff1abca, type: 3}
   _root: {fileID: 1929071440}
   _showTestCube: 0
+  _worldData: {fileID: 11400000, guid: d0dba0a9670de084cb4c064344ac64ff, type: 2}
+  _voxelData: {fileID: 11400000, guid: 15a51d46266b53141b5f4f50693f151d, type: 2}
   _sizeX: 300
   _sizeZ: 300
   _position: {x: 0, y: -1, z: 0}
@@ -9110,6 +9106,10 @@ MonoBehaviour:
     type: 0
     typeIndex: 0
     forward: {x: 0, y: 0, z: 0}
+  _slideBlock:
+    type: 1
+    typeIndex: 0
+    forward: {x: 0, y: 0, z: 1}
 --- !u!4 &825957229
 Transform:
   m_ObjectHideFlags: 0
@@ -19374,6 +19374,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mapData: {fileID: 4900000, guid: f635617bdb0357143a41a3976a6eee69, type: 3}
   _dataPath: Assets/04. Resources/MapData.json
+  _worldData: {fileID: 11400000, guid: d0dba0a9670de084cb4c064344ac64ff, type: 2}
+  _voxelData: {fileID: 11400000, guid: 15a51d46266b53141b5f4f50693f151d, type: 2}
   _islandGenerators:
   - {fileID: 553709509}
   - {fileID: 460849270}
