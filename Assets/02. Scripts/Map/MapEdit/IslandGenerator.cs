@@ -10,6 +10,10 @@ public class IslandGernerator : MonoBehaviour
     [SerializeField] private GameObject _root;
     [SerializeField] private bool _showTestCube;
 
+    [Header("Data Reference")]
+    [SerializeField] private WorldData _worldData;
+    [SerializeField] private VoxelData _voxelData;
+
     [Header("Island Info")]
     [SerializeField] private int _sizeX;
     [SerializeField] private int _sizeZ;
@@ -29,11 +33,12 @@ public class IslandGernerator : MonoBehaviour
     [Header("Block Settings")]
     [SerializeField] private MapData _defaultBlock;
     [SerializeField] private MapData _topBlock;
+    [SerializeField] private MapData _slideBlock;
 
     private float[,] _heightMap;
-    private List<(Vector3Int pos, MapData data)> _data = new();
+    private Dictionary<Vector3Int, MapData> _data = new();
 
-    public List<(Vector3Int pos, MapData data)> Data => _data;
+    public Dictionary<Vector3Int, MapData> Data => _data;
 
 
     private IEnumerator Start()
@@ -111,12 +116,106 @@ public class IslandGernerator : MonoBehaviour
                 for (int y = 0; y < _heightMap[x, z]; y++)
                 {
                     if (y == (int)_heightMap[x, z])
-                        _data.Add((new Vector3Int(x - _sizeX / 2, y, z - _sizeZ / 2) + Vector3Int.RoundToInt(_position), _topBlock));
+                        _data.Add(new Vector3Int(x - _sizeX / 2, y, z - _sizeZ / 2) + Vector3Int.RoundToInt(_position), _topBlock);
                     else 
-                        _data.Add((new Vector3Int(x - _sizeX / 2, y, z - _sizeZ / 2) + Vector3Int.RoundToInt(_position), _defaultBlock));
+                        _data.Add(new Vector3Int(x - _sizeX / 2, y, z - _sizeZ / 2) + Vector3Int.RoundToInt(_position), _defaultBlock);
                 }
             }
         }
+
+        yield return null;
+    }
+
+    // 임시... 쓸모없는 블럭들은 지우도록 했습니다.
+    private IEnumerator DataPostProcess()
+    {
+        Dictionary<Vector3Int, WorldMapData> worldMap = new();
+        foreach (var data in _data)
+        {
+            var worldMapData = new WorldMapData()
+            {
+                type = _worldData.GetType(data.Value.type)[data.Value.typeIndex],
+                position = data.Key,
+                forward = data.Value.forward,
+            };
+            worldMap.TryAdd(data.Key, worldMapData);
+        }
+
+        Vector3Int[] check = new Vector3Int[4]
+        {
+            Vector3Int.forward,
+            Vector3Int.back,
+            Vector3Int.left,
+            Vector3Int.right,
+        };
+
+        // TSET ==================
+        foreach (var block in worldMap.Values)
+        {
+            Vector3Int? pos = null;
+            Vector3Int? forward = null;
+            int openCount = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                Vector3Int checkPos = block.position + check[i];
+                // 바라보는 칸이 아예 비었음.
+                // 그 아래칸은 Solid임
+                // 그 아래칸의 바라보는 칸도 Solid임
+
+                if (worldMap.ContainsKey(checkPos) ||
+                    !worldMap.TryGetValue(checkPos + Vector3Int.down, out var checkBlock) ||
+                    !worldMap.TryGetValue(checkPos + Vector3Int.down + check[i], out var checkBlock2))
+                    continue;
+
+                if (checkBlock.type.IsSolid && checkBlock2.type.IsSolid)
+                {
+                    pos = checkPos;
+                    forward = -check[i];
+                    openCount++;
+                }
+            }
+
+            if (pos.HasValue && forward.HasValue && openCount == 1)
+            {
+                MapData newSlideBlcokData = new()
+                {
+                    forward = forward.Value,
+                    type = _slideBlock.type,
+                    typeIndex = _slideBlock.typeIndex,
+                };
+                _data.TryAdd(pos.Value, newSlideBlcokData);
+            }
+        }
+        //========================
+
+        HashSet<Vector3Int> deleteKey = new();
+        foreach (var data in worldMap.Values)
+        {
+            bool flag = true;
+            for (int i = 0; i < 6; i++)
+            {
+                Vector3Int pos = Vector3Int.FloorToInt(data.position + _voxelData.faceChecks[i]);
+
+                if (!worldMap.ContainsKey(pos))
+                {
+                    flag = false;
+                    break;
+                }
+                else if (!worldMap[pos].type.IsSolid)
+                {
+                    flag = false;
+                    break;
+                }
+            }
+
+            if (flag)
+                deleteKey.Add(data.position);
+        }
+
+        Debug.Log($"delete blocks : {deleteKey.Count}");
+
+        foreach (var key in deleteKey)
+            _data.Remove(key);
 
         yield return null;
     }
@@ -125,5 +224,6 @@ public class IslandGernerator : MonoBehaviour
     {
         yield return StartCoroutine(GenerateHeightMap());
         yield return StartCoroutine(GenerateData());
+        yield return StartCoroutine(DataPostProcess());
     }
 }

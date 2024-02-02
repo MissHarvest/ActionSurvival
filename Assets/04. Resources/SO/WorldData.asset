@@ -57,6 +57,11 @@ MonoBehaviour:
   <SlideBlockTypes>k__BackingField:
   - <BlockName>k__BackingField: Grass Slide
     <IsSolid>k__BackingField: 0
-    <FrontMaterial>k__BackingField: {fileID: 2100000, guid: bf8a4f481bdc8d349b51f6065b2bf4f0, type: 2}
-    <SideMaterial>k__BackingField: {fileID: 2100000, guid: aec2564424ff04f44824a1fa8eb160f2, type: 2}
+    <Prefab>k__BackingField: {fileID: 4339749345507632650, guid: 0d9b14ac7b5426845bb4d027d82c6f06, type: 3}
+  - <BlockName>k__BackingField: Snow Slide
+    <IsSolid>k__BackingField: 0
+    <Prefab>k__BackingField: {fileID: 4339749345507632650, guid: 95e9b4f571e50f34d81423773d064336, type: 3}
+  - <BlockName>k__BackingField: Volcano Slide
+    <IsSolid>k__BackingField: 0
+    <Prefab>k__BackingField: {fileID: 4339749345507632650, guid: 5fd44821c7ef88643801f73de80576e7, type: 3}
   <ViewChunkRange>k__BackingField: 3
