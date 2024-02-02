@@ -40,8 +40,9 @@ public class PlayerGroundedState : PlayerBaseState
     {
         base.PhysicsUpdate();
 
-        if(!_stateMachine.Player.Controller.isGrounded
-            && _stateMachine.Player.Controller.velocity.y < Physics.gravity.y * Time.fixedDeltaTime)
+        bool isHit = Physics.SphereCast(Managers.Game.Player.ViewPoint.transform.position, 0.5f, Vector3.down, out RaycastHit hit, 1f);
+
+        if (!isHit && _stateMachine.Player.Controller.velocity.y < Physics.gravity.y * Time.fixedDeltaTime)
         {
             _stateMachine.ChangeState(_stateMachine.FallState);
         }
