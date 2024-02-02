@@ -9,6 +9,6 @@ public class VoxelMapDataGeneratorEditor : Editor
         base.OnInspectorGUI();
 
         if (GUILayout.Button("Generate Map Data"))
-            (target as VoxelMapDataGenerator).Start();
+            (target as VoxelMapDataGenerator).StartCoroutine((target as VoxelMapDataGenerator).Start());
     }
 }

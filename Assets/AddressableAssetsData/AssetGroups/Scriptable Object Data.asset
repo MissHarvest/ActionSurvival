@@ -685,24 +685,32 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 11c3b7d1793a9a948a7291481d4514f6
     m_Address: BranchData.data
+  - m_GUID: d06fe6f6fa0e9aa4a8cd70df2b9855ca
+    m_Address: GetLogQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 68a9bba7c97dc024f84ab4c246757bad
     m_Address: AppleItemData.data
+  - m_GUID: e660b44ce1e314c409f1ffcee0305bf9
+    m_Address: GetLowStoneQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 610ffe6f092d13a409d45e00fe476749
     m_Address: LogRecipeData.data
+  - m_GUID: ce49dddcaa0d06640ac6ef2be935d069
+    m_Address: GetCarrotQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 50c0ca6f51721744aac5c4c5ef72393a
     m_Address: SeedData.data
+  - m_GUID: efe56df77ff0ab34da0563bbf7ed4504
+    m_Address: GetFarmQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

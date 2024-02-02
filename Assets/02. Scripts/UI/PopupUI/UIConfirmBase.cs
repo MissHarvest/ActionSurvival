@@ -57,17 +57,20 @@ public class UIConfirmBase : UIPopup
         if (_selectedIndex != -1)
         {
             List<RecipeSO.Ingredient> items = GetDataList()[_selectedIndex].requiredItems;
+            ItemData completedItemData = GetDataList()[_selectedIndex].completedItemData;
+
             // 플레이어 인벤토리에서 아이템 확인 및 소모
             if (CheckItems(items))
             {
-                if (Managers.Game.Player.Inventory.IsFull())
+                if (Managers.Game.Player.Inventory.IsFull(completedItemData))
                 {
+                    Managers.UI.ClosePopupUI(this);
                     var warning = Managers.UI.ShowPopupUI<UIWarning>();
                     warning.SetWarning("인벤토리가 가득 찼습니다.");
                 }
                 else
                 {
-                    ItemData completedItemData = GetDataList()[_selectedIndex].completedItemData;
+                    // 제작 성공 시 팝업이 뜨면 좋을 듯?
                     Managers.Game.Player.Inventory.AddItem(completedItemData, 1);
                     Debug.Log($"{completedItemData.displayName}을 제작했어요.");
 
@@ -76,6 +79,7 @@ public class UIConfirmBase : UIPopup
             }
             else
             {
+                Managers.UI.ClosePopupUI(this);
                 var warning = Managers.UI.ShowPopupUI<UIWarning>();
                 warning.SetWarning("재료가 부족합니다.");
             }

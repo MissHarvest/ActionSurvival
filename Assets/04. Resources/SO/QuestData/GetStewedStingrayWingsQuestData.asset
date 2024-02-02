@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: GetStewedStingrayWingsQuestData
   m_EditorClassIdentifier: 
   questName: GetStewedStingrayWings
-  questUIName: "\uBC2D\uC5D0\uC11C \uB2F9\uADFC\uC744 \uCE90\uACE0, \uC0AC\uB0E5\uC744
-    \uD1B5\uD574 \uAC00\uC624\uB9AC \uB0A0\uAC1C \uC870\uB9BC \uD558\uB098\uB97C
-    \uC694\uB9AC\uD558\uC138\uC694."
+  questUIName: "\uAC00\uC624\uB9AC \uB0A0\uAC1C \uC870\uB9BC\uC744 \uC694\uB9AC\uD558\uC138\uC694."
   questID: 7
-  isCompleted: 1
+  isCompleted: 0
   preQuests:
   - {fileID: 11400000, guid: 99849d697b366074da034d10737ec315, type: 2}
   - {fileID: 11400000, guid: 951d99c74b199684799b643be943524a, type: 2}
