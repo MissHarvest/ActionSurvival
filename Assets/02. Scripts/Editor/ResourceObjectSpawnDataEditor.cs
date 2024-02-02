@@ -57,7 +57,8 @@ public class ResourceObjectSpawnDataEditor : Editor
             obj.name = e.Prefab.name;
             obj.transform.parent = root;
         }
-        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        if (EditorSceneManager.IsPreviewScene(EditorSceneManager.GetActiveScene()))
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
     }
 
     private void ClearObjects()
@@ -65,7 +66,8 @@ public class ResourceObjectSpawnDataEditor : Editor
         foreach (var e in FindAllResourceObjects())
             DestroyImmediate(e.gameObject, false);
         DestroyImmediate(GetRoot().gameObject, false);
-        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        if (EditorSceneManager.IsPreviewScene(EditorSceneManager.GetActiveScene()))
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
     }
 
     private Transform GetRoot()

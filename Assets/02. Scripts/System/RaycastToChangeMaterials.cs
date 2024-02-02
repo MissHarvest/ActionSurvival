@@ -61,7 +61,7 @@ public class RaycastToChangeMaterials : MonoBehaviour
             _prevChangeMaterials.ExceptWith(_curruentChangeMaterials);
 
             foreach (var hit in _prevChangeMaterials)
-                hit.transform.gameObject.GetComponentInParent<ChangeMaterials>().ReturnMaterials();
+                hit.ReturnMaterials();
         }
     }
 }

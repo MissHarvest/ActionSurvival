@@ -121,7 +121,7 @@ public class World : MonoBehaviour
 
     public bool CheckVoxel(Vector3 pos)
     {
-        Vector3Int intPos = new(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
+        Vector3Int intPos = Vector3Int.FloorToInt(pos);
 
         if (!VoxelMap.ContainsKey(intPos))
             return false;

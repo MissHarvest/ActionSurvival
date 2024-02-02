@@ -80,19 +80,15 @@ public class NormalBlockType : BlockType
 [System.Serializable]
 public class SlideBlockType : BlockType
 {
-    [field: SerializeField] public Material FrontMaterial { get; protected set; }
-    [field: SerializeField] public Material SideMaterial { get; protected set; }
+    [field: SerializeField] public GameObject Prefab { get; protected set; }
 
     public override void AddVoxelDataToChunk(Chunk chunk, Vector3Int pos, Vector3 dir)
     {
-        var obj = Managers.Resource.GetCache<GameObject>("Slide Block.prefab");
-        obj = UnityEngine.Object.Instantiate(obj, pos, Quaternion.identity);
+        var obj = UnityEngine.Object.Instantiate(Prefab, pos, Quaternion.identity);
         var slide = obj.GetComponent<SlideBlock>();
         slide.Forward = dir;
-        slide.FrontMaterial = FrontMaterial;
-        slide.SideMaterial = SideMaterial;
         slide.transform.SetParent(chunk.InstanceBlocksParent);
-        slide.name = $"{obj.name} ({pos})";
+        slide.name = $"{BlockName} ({pos})";
         chunk.InstanceBlocks.Add(slide);
     }
 }

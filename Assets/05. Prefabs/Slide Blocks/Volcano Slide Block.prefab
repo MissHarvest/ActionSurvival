@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6700068118806920078}
   - component: {fileID: 8760514734939821910}
   m_Layer: 0
-  m_Name: Slide Block
+  m_Name: Volcano Slide Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,11 +148,11 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 75272b798ccb1a04eb08aaf9beec04ec, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: aec2564424ff04f44824a1fa8eb160f2, type: 2}
+      objectReference: {fileID: 2100000, guid: 69d27b85362c23e47b3366fc50b7ea55, type: 2}
     - target: {fileID: -7511558181221131132, guid: 75272b798ccb1a04eb08aaf9beec04ec, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: bf8a4f481bdc8d349b51f6065b2bf4f0, type: 2}
+      objectReference: {fileID: 2100000, guid: 4aaadf55774ab9d46ac0acac0920fd02, type: 2}
     - target: {fileID: 919132149155446097, guid: 75272b798ccb1a04eb08aaf9beec04ec, type: 3}
       propertyPath: m_Name
       value: Model
