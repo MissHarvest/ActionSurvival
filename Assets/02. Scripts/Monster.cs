@@ -33,6 +33,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     [Header("Attack")]
     public float attackTime;
 
+    public GameObject Target =>_stateMachine.Target;
+
     protected virtual void Awake()
     {
         gameObject.layer = 7;

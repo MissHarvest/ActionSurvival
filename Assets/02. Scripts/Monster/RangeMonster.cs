@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 //2024. 01. --  Park Jun Uk
@@ -18,19 +19,16 @@ public class RangeMonster : Monster
 
     public override void TryAttack()
     {
-        // 공격 사거리 탐지
-        var targets = Physics.OverlapSphere(transform.position, Data.AttackData.AttackalbeDistance * 2.0f, targetLayers);
+        if (Target == null) return;
 
-        if (targets.Length != 0)
-        {
-            var go = Instantiate(_projectileWeapon, fireTransform.position, Quaternion.identity);
+        var go = Instantiate(_projectileWeapon, fireTransform.position, Quaternion.identity);
 
-            var monsterweapon = go.GetComponent<MonsterWeapon>();
-            monsterweapon.ActivateWeapon();
-            monsterweapon.Owner = this;
+        var monsterweapon = go.GetComponent<MonsterWeapon>();
+        monsterweapon.ActivateWeapon();
+        monsterweapon.Owner = this;
 
-            var projectile = go.GetComponent<Projectile>();
-            projectile.Fire(targets[0].transform.position, Data.AttackData.AttackalbeDistance * 2.0f);
-        }
+        var projectile = go.GetComponent<Projectile>();
+
+        projectile.Fire(Target.transform.position, Data.AttackData.AttackalbeDistance * 2.0f);
     }
 }

@@ -21,7 +21,7 @@ public class MonsterStateMachine : StateMachine
     public MonsterAttackState AttackState { get; }
     public MonsterStayState StayState { get; }
     public MonsterDieState DieState { get; }
-
+    public GameObject Target { get; set; } = null;
     public MonsterStateMachine(Monster monster)
     {
         this.Monster = monster;
