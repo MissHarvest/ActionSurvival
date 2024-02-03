@@ -13,6 +13,7 @@ public class PlayerDieState : PlayerBaseState
     {
         _stateMachine.MovementSpeedModifier = 0.0f;
         _stateMachine.Player.Animator.SetTrigger("Die");
+        _stateMachine.Player.GetComponent<CharacterController>().enabled = false;
     }
 
     public override void Update()

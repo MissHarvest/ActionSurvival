@@ -111,17 +111,15 @@ public class BuildingSystem : MonoBehaviour
 
         Physics.BoxCast(_rayPointer.transform.position, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, _raycastRange);
 
-        //Physics.Raycast(ray, out hit, _raycastRange);
         return hit;
     }
 
     public void SetObjPosition()
     {
-        Vector3 _location = RaycastHit().point;
-        _location.Set(
-            Mathf.Floor(_location.x/gridSize) * gridSize,
+        Vector3 _location = new Vector3(
+            Mathf.Floor(_rayPointer.transform.position.x / gridSize) * gridSize,
             _buildableObject.gameObject.transform.position.y,
-            Mathf.Floor(_location.z / gridSize) * gridSize
+            Mathf.Floor(_rayPointer.transform.position.z / gridSize) * gridSize
             );
         CanBuild();
         _buildableObject.gameObject.transform.position = _location;
