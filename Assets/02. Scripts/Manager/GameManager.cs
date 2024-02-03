@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -69,6 +70,13 @@ public class GameManager
 
     private void StartMonsterWave()
     {
+        CoroutineManagement.Instance.StartCoroutine(MonsterWaveCoroutine());
+    }
+
+    private IEnumerator MonsterWaveCoroutine()
+    {
+        var delay = UnityEngine.Random.Range(0.0f, 60.0f);
+        yield return new WaitForSeconds(delay);
         MonsterWave.Start();
     }
 

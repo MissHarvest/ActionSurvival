@@ -95,7 +95,7 @@ public class DayCycle
     {
         ++_time;
         OnTimeUpdated?.Invoke();
-        Debug.Log($"TIME : {_time}");
+        //Debug.Log($"TIME : {_time}");
         if (_time == _eventCount[_currentTimeZone])
         {            
             _currentTimeZone = (_currentTimeZone + 1) % (int)TimeZone.Max;
