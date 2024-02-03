@@ -62,24 +62,9 @@ public class SoundManager
         _bgmSource.Play();
     }
 
-    public void PlayIslandBGM()
+    public void PlayIslandBGM(string bgmName)
     {
-        if(PlayerPrefs.HasKey("IslandName") == false)
-        {
-            PlayerPrefs.SetString("IslandName", "CenterIsland");
-        }
-        
-        string island = PlayerPrefs.GetString("IslandName");
-
-        PlayBGM(island, 0.2f);
-    }
-
-    public void ChangeIslandBGM(string name)
-    {
-        if (name == PlayerPrefs.GetString("IslandName")) return;
-        _bgmSource.Stop();
-        PlayerPrefs.SetString("IslandName", name);
-        PlayIslandBGM();
+        PlayBGM(bgmName, 0.2f);
     }
 
     public void PlayEffectSound(Vector3 position, string effectName, float volume = 0.3f)

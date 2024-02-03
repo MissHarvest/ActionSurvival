@@ -41,7 +41,7 @@ public class GameManager
         _resourceObjectSpawner.Initialize();
         
         InitIslands();
-        Managers.Sound.PlayIslandBGM();
+        Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
 
         IsRunning = true;
     }
