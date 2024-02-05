@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Duplicate Asset Isolation
+  m_EditorClassIdentifier: 
+  m_GroupName: Duplicate Asset Isolation
+  m_Data:
+    m_SerializedData: []
+  m_GUID: da51bc55615ac9143be8d648344135ba
+  m_SerializeEntries:
+  - m_GUID: af8454e09b3a41448a4140e792059446
+    m_Address: Assets/ImportAssets/07. SD Unity-Chan Haon Custom/Shader/Unity-chan
+      Toon Shader Ver 2.0.6/ToonColor_ShadingGradeMap.shader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca035891872022e4f80c952b3916e450
+    m_Address: Assets/ImportAssets/07. SD Unity-Chan Haon Custom/Shader/Unity-chan
+      Toon Shader Ver 2.0.6/Toon_ShadingGradeMap.shader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f036d4d857e4cf4abcc9c8414d61cdb
+    m_Address: Assets/ImportAssets/Monsters/Material/Mini Simple Characters_texture.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c2cbe9d9d9c18f4ca37c70960f410e9
+    m_Address: Assets/ImportAssets/Monsters/Material/Mini Simple Characters Demo
+      Mat primary.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 27f19f244afa43c43b7c5bff88b185bb
+    m_Address: Assets/ImportAssets/Monsters/Models/sword_wood.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb8566b6e75507e48bd8ec4fff8f4dd9
+    m_Address: Assets/ImportAssets/LowPolyEnviroPack_LITE_builtIn/BeachArea_Set1/Model/LowPoly_Env_Set1.FBX
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e7476007b3e902f4fbacf11098082904
+    m_Address: Assets/ImportAssets/LowPolyEnviroPack_LITE_builtIn/BeachArea_Set1/Materials/Atlas1_Material.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7bb70ee02a36474297977b19e7e6792
+    m_Address: Assets/ImportAssets/LowPolyEnviroPack_LITE_builtIn/BeachArea_Set1/Textures/LPEP_TextureAtlas_MetalSmooth.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0b983c1979396040a4f83aceb79038d
+    m_Address: Assets/ImportAssets/LowPolyEnviroPack_LITE_builtIn/BeachArea_Set1/Textures/LPEP_TextureAtlas_TestCutout.tga
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eab87f10d2afa594c92ed3d29451b618
+    m_Address: Assets/ImportAssets/01. 2D Mega Pack/Items & Icons/Pixel Art/Meat.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b8e0222a006d824e930445c7d435ac3
+    m_Address: Assets/ImportAssets/08. Cainos (Item Icon Pack)/Pixel Art Icon Pack
+      - RPG/Texture/Weapon & Tool/Hammer.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7d480a22b9c1f64bb6d748bf353e45b
+    m_Address: Assets/ImportAssets/resource_default/btn_b_grey.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 6877902772133eb41a42d0c5cf739924, type: 2}
+    - {fileID: 11400000, guid: 0fb5656daac5a004986bcb162105e6a9, type: 2}

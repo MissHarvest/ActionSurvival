@@ -30,14 +30,12 @@ public class InventorySystem : MonoBehaviour
 
     public void AddDefaultToolAsTest()
     {
-        var itemData = Managers.Resource.GetCache<ItemData>("PickAxeItemData.data");
-        AddItem(itemData, 1);
+        var itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
+        AddItem(itemData, 10);
 
-        itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
-        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("LogItemData.data");
+        AddItem(itemData, 10);
 
-        itemData = Managers.Resource.GetCache<ItemData>("EnchantedSwordItemData.data");
-        AddItem(itemData, 1);
 
         // 고급 레시피 테스트용 재료
         itemData = Managers.Resource.GetCache<ItemData>("LowStoneItemData.data");
@@ -61,34 +59,7 @@ public class InventorySystem : MonoBehaviour
         itemData = Managers.Resource.GetCache<ItemData>("HammerItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FarmItemData.data");
-        AddItem(itemData, 1);
-
-        // lgs
-        itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
-        AddItem(itemData, 99);
-        itemData = Managers.Resource.GetCache<ItemData>("LogItemData.data");
-        AddItem(itemData, 99);
-        itemData = Managers.Resource.GetCache<ItemData>("StickItemData.data");
-        AddItem(itemData, 99);
-        itemData = Managers.Resource.GetCache<ItemData>("MiddleStoneItemData.data");
-        AddItem(itemData, 99);
-
-        itemData = Managers.Resource.GetCache<ItemData>("RabbitMeatItemData.data");
-        AddItem(itemData, 99);
-        itemData = Managers.Resource.GetCache<ItemData>("BatMeatItemData.data");
-        AddItem(itemData, 99);
-        itemData = Managers.Resource.GetCache<ItemData>("InsectIntestinesItemData.data");
-        AddItem(itemData, 99);
-        itemData = Managers.Resource.GetCache<ItemData>("DriedStingrayWingsItemData.data");
-        AddItem(itemData, 99);
-        itemData = Managers.Resource.GetCache<ItemData>("DragonMeatItemData.data");
-        AddItem(itemData, 99);
-        itemData = Managers.Resource.GetCache<ItemData>("AppleItemData.data");
-        AddItem(itemData, 99);
-        itemData = Managers.Resource.GetCache<ItemData>("CarrotItemData.data");
-        AddItem(itemData, 99);
-        itemData = Managers.Resource.GetCache<ItemData>("CornerItemData.data");
-        AddItem(itemData, 99);
+        AddItem(itemData, 1);  
     }
 
     public void SetCapacity(int capacity)
