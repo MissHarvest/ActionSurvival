@@ -7,7 +7,7 @@ public class InventorySystem : MonoBehaviour
     [field: SerializeField] public int maxCapacity { get; private set; } = 30;
 
     [field: SerializeField] public ItemSlot[] slots { get; private set; }
-    
+
     public Player Owner { get; private set; }
 
     public event Action<int, ItemSlot> OnUpdated;
@@ -18,7 +18,7 @@ public class InventorySystem : MonoBehaviour
         Debug.Log($"Inventory Awake [{gameObject.name}] [{this.name}]");
         slots = new ItemSlot[maxCapacity];
 
-        for(int i = 0; i < slots.Length; ++i)
+        for (int i = 0; i < slots.Length; ++i)
         {
             slots[i] = new ItemSlot(this);
         }
@@ -39,23 +39,31 @@ public class InventorySystem : MonoBehaviour
 
         // 고급 레시피 테스트용 재료
         itemData = Managers.Resource.GetCache<ItemData>("LowStoneItemData.data");
-        AddItem(itemData, 99);
+        AddItem(itemData, 20);
         itemData = Managers.Resource.GetCache<ItemData>("ChestItemData.data");
-        AddItem(itemData, 99);
+        AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("RabbitMeatItemData.data");
-        AddItem(itemData, 1);
+        AddItem(itemData, 20);
         itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
-        AddItem(itemData, 4);
+        AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
-        AddItem(itemData, 4);
+        AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
-        AddItem(itemData, 4);
+        AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
-        AddItem(itemData, 4);
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("HammerItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FarmItemData.data");
@@ -105,10 +113,10 @@ public class InventorySystem : MonoBehaviour
     public void AddItem(ItemData itemData, int quantity)
     {
         int targetindex = 0;
-        
-        if(itemData.stackable == false)
+
+        if (itemData.stackable == false)
         {
-            if(FindEmptyIndex(out targetindex))
+            if (FindEmptyIndex(out targetindex))
             {
                 slots[targetindex].Set(itemData);
                 OnItemAdd?.Invoke(new ItemSlot(itemData, quantity));
@@ -118,7 +126,7 @@ public class InventorySystem : MonoBehaviour
         }
 
         var itemSlot = FindItem(itemData, out targetindex);
-        if(itemSlot != null)
+        if (itemSlot != null)
         {
             itemSlot.AddQuantity(quantity);
             OnItemAdd?.Invoke(new ItemSlot(itemData, quantity));
@@ -126,7 +134,7 @@ public class InventorySystem : MonoBehaviour
             return;
         }
 
-        if(FindEmptyIndex(out targetindex))
+        if (FindEmptyIndex(out targetindex))
         {
             slots[targetindex].Set(itemData, quantity);
             OnItemAdd?.Invoke(new ItemSlot(itemData, quantity));
@@ -137,7 +145,7 @@ public class InventorySystem : MonoBehaviour
     private bool FindEmptyIndex(out int index)
     {
         // FindItem 사용해서 구현할 수 있을지도
-        for(int i = 0; i < slots.Length; ++i)
+        for (int i = 0; i < slots.Length; ++i)
         {
             if (slots[i].itemData == null)
             {
@@ -151,13 +159,13 @@ public class InventorySystem : MonoBehaviour
 
     public ItemSlot FindItem(ItemData itemData, out int index)
     {
-        for(int i = 0; i < slots.Length; ++i)
+        for (int i = 0; i < slots.Length; ++i)
         {
             if (slots[i].itemData == itemData && slots[i].IsFull == false)
             {
                 index = i;
                 return slots[i];
-            }    
+            }
         }
         index = -1;
         return null;
@@ -216,6 +224,7 @@ public class InventorySystem : MonoBehaviour
                 }
             }
         }
+        Debug.Log("아이템이 들어갈 자리가 없어요");
         return true;
     }
 

@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
-  m_Name: GetPickAxeQuestData
+  m_Name: GetBranchQuestData
   m_EditorClassIdentifier: 
-  questUIName: "\uACE1\uAD2D\uC774\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 1
-  preQuests:
-  - {fileID: 11400000, guid: 1dbfa73b255a57548bbace7686d65218, type: 2}
+  questUIName: "\uB098\uBB47\uAC00\uC9C0\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
+  questID: 13
+  preQuests: []
   requiredItems:
-  - item: {fileID: 11400000, guid: 169efef296147ff47aa012ef827c9305, type: 2}
+  - item: {fileID: 11400000, guid: 11c3b7d1793a9a948a7291481d4514f6, type: 2}

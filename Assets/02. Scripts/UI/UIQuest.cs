@@ -35,7 +35,7 @@ public class UIQuest : UIBase
 
     private void OnEnable()
     {
-        _quests = Managers.Game.Player.Tutorial.InvariantQuests;
+        _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
     }
 
     public void Set(int index)
