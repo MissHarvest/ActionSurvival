@@ -177,13 +177,13 @@ public class IslandGernerator : MonoBehaviour
 
             if (pos.HasValue && forward.HasValue && openCount == 1)
             {
-                MapData newSlideBlcokData = new()
+                MapData newSlideBlockkData = new()
                 {
                     forward = forward.Value,
                     type = _slideBlock.type,
                     typeIndex = _slideBlock.typeIndex,
                 };
-                _data.TryAdd(pos.Value, newSlideBlcokData);
+                _data.TryAdd(pos.Value, newSlideBlockkData);
             }
         }
         //========================
