@@ -13,7 +13,18 @@ public class BuildingSystem : MonoBehaviour
     private float _raycastRange = 20.0f;
     private float gridSize = 1.0f;
     private int _rotationAngle = 45;
+
+    [SerializeField] private float _maxBuildDistanceFront = 4.0f; // 플레이어 앞쪽 최대 건축 가능 거리
+    //[SerializeField] private float _maxBuildDistanceBack = 3.0f;
+    [SerializeField] private float _maxBuildDistanceSideways = 5.0f;
+
+    private float leftEdgeHitY;  // 좌측 끝에서의 레이캐스트 충돌 지점 y값
+    private float rightEdgeHitY;  // 우측 끝에서의 레이캐스트 충돌 지점 y값
+
     private int _inventoryIndex;
+
+    private Vector3 lastValidHitPoint; // 마지막으로 유효한 충돌 지점을 저장할 변수
+    private Vector3 lastValidPosition;
 
     private BuildableObject _buildableObject;
 
@@ -89,11 +100,34 @@ public class BuildingSystem : MonoBehaviour
 
     private bool CanBuild()
     {
-        _buildableObject.canBuild = 
-            ( _buildableLayer == (_buildableLayer | 1 << RaycastHit().collider.gameObject.layer) )
-            && _buildableObject.isOverlap;
+        Collider buildableObjectCollider = _buildableObject.GetComponent<Collider>();
+
+        RaycastHit hit = RaycastHit();
+        if (hit.collider == null)
+            return false;
+
+        bool isOnBuildableLayer = (hit.collider != null) && (_buildableLayer == (_buildableLayer | 1 << hit.collider.gameObject.layer));
+
+        bool isCloseToGround = Mathf.Abs(hit.point.y - transform.position.y) < 0.1f;
+
+        bool isLeftEdgeOnGround = Physics.Raycast(buildableObjectCollider.bounds.min, Vector3.down, out RaycastHit leftHit, Mathf.Infinity, _buildableLayer);
+        bool isRightEdgeOnGround = Physics.Raycast(buildableObjectCollider.bounds.max, Vector3.down, out RaycastHit rightHit, Mathf.Infinity, _buildableLayer);
+
+        // 좌우 양 끝에서의 충돌 지점의 y 값이 서로 다르면 건축 불가능
+        if (isLeftEdgeOnGround && isRightEdgeOnGround && leftEdgeHitY != rightEdgeHitY)
+        {
+            _buildableObject.canBuild = false;
+            return false;
+        }
+
+        //bool isFullyOnGround = isLeftEdgeOnGround && isRightEdgeOnGround;
+
+        _buildableObject.canBuild = isOnBuildableLayer && _buildableObject.isOverlap && isCloseToGround && IsWithinBuildZone(hit.point) /*&& isFullyOnGround*/;
+
         return _buildableObject.canBuild;
     }
+
+
 
     public void CancelBuilding()
     {
@@ -101,17 +135,20 @@ public class BuildingSystem : MonoBehaviour
         _rayPointer.SetActive(false);
     }
 
-    private RaycastHit RaycastHit() // 매개변수를 transform.positon으로 받아서 플레이어/울타리 위치 나누기
+    private RaycastHit RaycastHit()
     {
         RaycastHit hit;
 
         Vector3 playerPosition = _rayPointer.transform.position;
 
-        Ray ray = new Ray(playerPosition, Vector3.down);
+        // _buildableObject의 박스 콜라이더 크기만큼 BoxCast 크기 설정
+        Collider buildableObjectCollider = _buildableObject.GetComponent<Collider>();
 
-        Physics.BoxCast(_rayPointer.transform.position, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, _raycastRange);
+        if (Physics.BoxCast(_rayPointer.transform.position, buildableObjectCollider.bounds.size / 2.0f, Vector3.down, out hit, Quaternion.identity, _raycastRange))
+        {
+            lastValidHitPoint = hit.point; // 유효한 충돌이 있을 때만 기억
+        }
 
-        //Physics.Raycast(ray, out hit, _raycastRange);
         return hit;
     }
 
@@ -119,30 +156,59 @@ public class BuildingSystem : MonoBehaviour
     {
         Vector3 _location = RaycastHit().point;
         _location.Set(
-            Mathf.Floor(_location.x/gridSize) * gridSize,
-            _buildableObject.gameObject.transform.position.y,
-            Mathf.Floor(_location.z / gridSize) * gridSize
+            Mathf.Floor(_rayPointer.transform.position.x / gridSize) * gridSize,
+            transform.position.y,
+            Mathf.Floor(_rayPointer.transform.position.z / gridSize) * gridSize
             );
         CanBuild();
         _buildableObject.gameObject.transform.position = _location;
     }
 
-    public void SetObjPositionWithJoystick(Vector2 joystickInput) //조이스틱인풋을 raycast할 지점 바꾸기
+    public void SetObjPositionWithJoystick(Vector2 joystickInput)
     {
         if (_buildableObject == null) return;
         float movementSpeed = 2.0f;
-        
-        // 울타리 이동 및 위치 조정
+
+        // 현재 위치 저장
+        Vector3 currentPosition = _rayPointer.transform.position;
+
         _rayPointer.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
 
         SetObjPosition();
+
+        // 이동 후 위치
+        Vector3 newPosition = _rayPointer.transform.position;
+
+        // 건축 가능 직사각형 영역을 넘어가면 마지막으로 영역 안에 있던 위치로 도르마무
+        if (!IsWithinBuildZone(newPosition))
+        {
+            _rayPointer.transform.position = lastValidPosition;
+            SetObjPosition();
+        }
+        else
+        {
+            // 유효한 위치 갱신
+            lastValidPosition = newPosition;
+        }
     }
+
+    //청사진 위치를 기준으로 직사각형 영역 내에 있는지 확인
+    private bool IsWithinBuildZone(Vector3 position)
+    {
+        float xDistance = Mathf.Abs(position.x - transform.position.x);
+        float zDistance = Mathf.Abs(position.z - transform.position.z);
+
+        
+        return xDistance < _maxBuildDistanceSideways &&
+               zDistance < _maxBuildDistanceFront;
+    }
+
 
     #region Player Input Action Handle
 
     public void HandleRotateArchitectureLeft()
     {
-        if(_buildableObject == null) return;
+        if (_buildableObject == null) return;
         _buildableObject.gameObject.transform.Rotate(Vector3.up, -_rotationAngle);
 
     }
@@ -153,4 +219,55 @@ public class BuildingSystem : MonoBehaviour
         _buildableObject.gameObject.transform.Rotate(Vector3.up, _rotationAngle);
     }
     #endregion
+
+
+    private void OnDrawGizmos()
+    {
+        if (_buildableObject == null)
+            return;
+        Collider buildableObjectCollider = _buildableObject.GetComponent<Collider>();
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(_rayPointer.transform.position, buildableObjectCollider.bounds.size);
+
+        DrawRaycastGizmo(buildableObjectCollider.bounds.min, ref leftEdgeHitY);
+        DrawRaycastGizmo(buildableObjectCollider.bounds.max, ref rightEdgeHitY);
+    }
+
+    private void DrawRaycastGizmo(Vector3 origin, ref float hitY)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(origin, Vector3.down, out hit, Mathf.Infinity, _buildableLayer))
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(hit.point, 0.1f);
+            Gizmos.DrawLine(origin, hit.point);
+
+            hitY = hit.point.y;  // 충돌 지점의 y값을 기억
+        }
+        else
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(origin, Vector3.down * 10f);
+        }
+    }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.green;
+
+    //    Vector3 center = transform.position;
+    //    float halfSideways = _maxBuildDistanceSideways / 2.0f;
+    //    float halfFront = _maxBuildDistanceFront / 2.0f;
+
+    //    Vector3 frontLeft = center + new Vector3(-halfSideways, 0, halfFront);
+    //    Vector3 frontRight = center + new Vector3(halfSideways, 0, halfFront);
+    //    Vector3 backLeft = center + new Vector3(-halfSideways, 0, -halfFront);
+    //    Vector3 backRight = center + new Vector3(halfSideways, 0, -halfFront);
+
+    //    Gizmos.DrawLine(frontLeft, frontRight);
+    //    Gizmos.DrawLine(frontRight, backRight);
+    //    Gizmos.DrawLine(backRight, backLeft);
+    //    Gizmos.DrawLine(backLeft, frontLeft);
+    //}
 }

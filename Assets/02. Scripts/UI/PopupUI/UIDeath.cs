@@ -26,8 +26,8 @@ public class UIDeath : UIPopup
 
     private void LoadTitleScene()
     {
-        SceneManager.LoadScene("TitleScene");
         Managers.UI.ClosePopupUI(this);
+        SceneManager.LoadScene("TitleScene");
         CoroutineManagement.Instance.StopAllCoroutines();
     }
 }
