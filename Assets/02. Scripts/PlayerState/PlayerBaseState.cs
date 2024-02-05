@@ -51,7 +51,6 @@ public class PlayerBaseState : IState
     private void Move()
     {
         Vector3 movementDirection = GetMovementDirection();
-        Debug.Log($"[Move Direction] {movementDirection}"); // 0
         Rotate(movementDirection);
 
         Move(movementDirection);

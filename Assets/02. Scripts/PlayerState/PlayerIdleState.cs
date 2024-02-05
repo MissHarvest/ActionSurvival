@@ -11,7 +11,6 @@ public class PlayerIdleState : PlayerGroundedState
 
     public override void Enter()
     {
-        Debug.Log("Player Enter State [ IDLE ]");
         _stateMachine.MovementSpeedModifier = 0f;
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.IdleParameterHash);
