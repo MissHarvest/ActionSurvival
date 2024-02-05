@@ -70,9 +70,11 @@ public class UIConfirmBase : UIPopup
                 }
                 else
                 {
-                    // 제작 성공 시 팝업이 뜨면 좋을 듯?
+                    Managers.UI.ClosePopupUI(this);
+                    var confirm = Managers.UI.ShowPopupUI<UICraftConfirm>();
+                    confirm.SetCraft($"{completedItemData.displayName} 제작 완료!");
                     Managers.Game.Player.Inventory.AddItem(completedItemData, 1);
-                    Debug.Log($"{completedItemData.displayName}을 제작했어요.");
+                    //Debug.Log($"{completedItemData.displayName}을 제작했어요.");
 
                     ConsumeItems(items);
                 }
@@ -85,7 +87,6 @@ public class UIConfirmBase : UIPopup
             }
         }
         ClearItems();
-        Managers.UI.ClosePopupUI(this);
     }
 
     protected void OnCanceledBase()

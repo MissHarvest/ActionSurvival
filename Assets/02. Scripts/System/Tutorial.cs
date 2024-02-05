@@ -1,24 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 // 2024. 01. 29 Byun Jeongmin
 public class Tutorial : MonoBehaviour
 {
-    [SerializeField] private QuestSO[] _invariantQuests; // 데이터가 변동되지 않는 모든 퀘스트 배열
-    [SerializeField] private List<QuestSO> _quests; // 아직 클리어하지 않은 퀘스트 리스트
-    [SerializeField] private List<QuestSO> _activeQuests = new List<QuestSO>(); // 현재 활성화된 퀘스트 리스트
-    [SerializeField] private List<string> _questCompletionStatus = new List<string>(); //완료한 퀘스트 리스트
+    [SerializeField] private List<Quest> _quests; // 아직 클리어하지 않은 퀘스트 리스트
+    [SerializeField] private List<Quest> _activeQuests = new List<Quest>(); // 현재 활성화된 퀘스트 리스트
 
     public event Action OnActiveQuestsUpdated;
 
-    public QuestSO[] InvariantQuests
-    {
-        get { return _invariantQuests; }
-        private set { _invariantQuests = value; }
-    }
-
-    public List<QuestSO> ActiveQuests
+    public List<Quest> ActiveQuests
     {
         get { return _activeQuests; }
         private set { _activeQuests = value; }
@@ -34,12 +27,12 @@ public class Tutorial : MonoBehaviour
 
     private void Initialize()
     {
-        // QuestSO 초기화
-        _invariantQuests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
-        _quests = new List<QuestSO>(_invariantQuests);
+        List<QuestSO> questSOs = new List<QuestSO>(Managers.Resource.GetCacheGroup<QuestSO>("QuestData"));
 
-        foreach (var quest in _quests)
+        foreach (var questSO in questSOs)
         {
+            Quest quest = new Quest(questSO);
+
             if (IsPreQuestsCleared(quest))
             {
                 _activeQuests.Add(quest);
@@ -53,21 +46,23 @@ public class Tutorial : MonoBehaviour
     }
 
     // preQuests(선행퀘)가 비어 있거나, 모든 preQuests가 클리어된 경우에만 true
-    private bool IsPreQuestsCleared(QuestSO quest)
+    private bool IsPreQuestsCleared(Quest quest)
     {
-        if (quest.preQuests == null || quest.preQuests.Count == 0)
+        if (quest.questSO.preQuests == null || quest.questSO.preQuests.Count == 0)
         {
             return true;
         }
-        foreach (var preQuest in quest.preQuests)
+        foreach (var preQuest in quest.questSO.preQuests)
         {
-            if (!_questCompletionStatus.Contains(preQuest.questName))
+            Quest prequest = new Quest(preQuest);
+            if (_quests.Contains(prequest))
             {
                 return false;
             }
         }
         return true;
     }
+
 
     private void BindInventoryEvents()
     {
@@ -77,7 +72,7 @@ public class Tutorial : MonoBehaviour
     //인벤토리가 업데이트되면 클리어 조건 확인
     private void OnInventoryUpdated(int index, ItemSlot itemSlot)
     {
-        List<QuestSO> questsToRemove = new List<QuestSO>();
+        List<Quest> questsToRemove = new List<Quest>();
 
         foreach (var activeQuest in _activeQuests)
         {
@@ -106,9 +101,9 @@ public class Tutorial : MonoBehaviour
         OnActiveQuestsUpdated?.Invoke();
     }
 
-    private bool IsEnoughRequirements(QuestSO quest, ItemSlot itemSlot)
+    private bool IsEnoughRequirements(Quest quest, ItemSlot itemSlot)
     {
-        foreach (var requiredItem in quest.requiredItems)
+        foreach (var requiredItem in quest.questSO.requiredItems)
         {
             if (itemSlot.itemData != null && itemSlot.itemData.name == requiredItem.item.name)
             {
@@ -119,11 +114,10 @@ public class Tutorial : MonoBehaviour
         return false;
     }
 
-    private void ConfirmQuestCompletion(QuestSO quest)
+    private void ConfirmQuestCompletion(Quest quest)
     {
-        _questCompletionStatus.Add(quest.questName);
         quest.CompleteQuest();
-        //Debug.Log($"{quest.questName} 퀘스트 클리어!!!!!!!!!!!!");
+        // Debug.Log($"{quest.QuestSO.questName} 퀘스트 클리어!!!!!!!!!!!!");
     }
 
     public virtual void Load()
