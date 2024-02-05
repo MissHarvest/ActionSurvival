@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -26,6 +27,8 @@ public class GameManager
 
     public void Init()
     {
+        //FireIsland.BossName = "TerrorBringer";
+
         MonsterWave = new MonsterWave();
 
         DayCycle.Init();
@@ -41,7 +44,7 @@ public class GameManager
         _resourceObjectSpawner.Initialize();
         
         InitIslands();
-        Managers.Sound.PlayIslandBGM();
+        Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
 
         IsRunning = true;
     }
@@ -69,6 +72,13 @@ public class GameManager
 
     private void StartMonsterWave()
     {
+        CoroutineManagement.Instance.StartCoroutine(MonsterWaveCoroutine());
+    }
+
+    private IEnumerator MonsterWaveCoroutine()
+    {
+        var delay = UnityEngine.Random.Range(0.0f, 60.0f);
+        yield return new WaitForSeconds(delay);
         MonsterWave.Start();
     }
 

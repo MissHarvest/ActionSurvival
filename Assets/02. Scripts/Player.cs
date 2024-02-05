@@ -31,7 +31,7 @@ public class Player : MonoBehaviour, IHit
 
     private PlayerStateMachine _stateMachine;
 
-    [field : SerializeField] public string island { get; private set; } = "열대섬";
+    [field: SerializeField] public string StandingIslandName { get; set; } = "CenterIsland";
 
     private void Awake()
     {
@@ -63,6 +63,11 @@ public class Player : MonoBehaviour, IHit
         if(SaveGame.TryLoadJsonFile<Vector3>(SaveGame.SaveType.Runtime, "PlayerPosition", out Vector3 pos))
         {
             transform.position = pos;
+        }
+
+        if(PlayerPrefs.HasKey("IslandName"))
+        {
+            StandingIslandName = PlayerPrefs.GetString("IslandName");
         }
     }
 
@@ -100,5 +105,6 @@ public class Player : MonoBehaviour, IHit
     {
         var json = JsonUtility.ToJson(transform.position);
         SaveGame.CreateJsonFile("PlayerPosition", json, SaveGame.SaveType.Runtime);
+        PlayerPrefs.SetString("IslandName", StandingIslandName);
     }
 }

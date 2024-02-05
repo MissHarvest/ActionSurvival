@@ -26,6 +26,9 @@ public class SpawnPoint
 
 public class Island
 {
+    public string BossName = string.Empty;
+    private GameObject _boss;
+
     private string name;
     // 각 등급 별 몬스터 위치
     public int cellCount = 61;
@@ -139,11 +142,17 @@ public class Island
 
                 var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();
                 var go = Object.Instantiate(mon, pos, Quaternion.identity);
-                //go.transform.SetParent(hit.transform);    // [WJY] 청크 비활성화 로직이 바뀌어서 청크의 자식으로 넣을 필요가 없어졌습니다.
-                go.transform.SetParent(SpawnMonsterRoot);   // [WJY] 섬 마다 스폰된 몬스터들을 하이어라키에서 정렬해두변 보기 편할 것 같아서 추가했습니다.
+                go.transform.SetParent(SpawnMonsterRoot);   
                 go.GetComponent<Monster>().SetIsland(this);
                 go.name = $"{mon.name}[{_spawnablePoints[i].level}]";
             }
+        }
+
+        if(BossName != string.Empty)
+        {
+            var prefab = Managers.Resource.GetCache<GameObject>($"{BossName}.prefab");
+            _boss = Object.Instantiate(prefab);
+            _boss.transform.position = new Vector3(_property.center.x, _boss.transform.position.y, _property.center.z);
         }
     }
 

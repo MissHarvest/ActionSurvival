@@ -47,6 +47,7 @@ public class BuildableObject : MonoBehaviour, IHit
     {
         SetMaterial(blueMat);
         _rigidbody.useGravity = false;
+        _navMeshObstacle.enabled = false;
         _collider.isTrigger = true;
         StartCoroutine(StartBuild());
     }

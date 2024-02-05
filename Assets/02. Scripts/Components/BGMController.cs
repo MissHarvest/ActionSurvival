@@ -8,6 +8,10 @@ public class BGMController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Managers.Sound.ChangeIslandBGM(targetBGM);        
+        if (other.CompareTag("Player"))
+        {
+            other.GetComponent<Player>().StandingIslandName = targetBGM;
+            Managers.Sound.PlayIslandBGM(targetBGM);
+        }        
     }
 }

@@ -44,7 +44,7 @@ public class MonsterChaseState : MonsterBaseState
     public override void Update()
     {
         if (_stateMachine.Target == null) return;
-        Debug.Log($"[{_stateMachine.Monster.name}] target[{_stateMachine.Target.name}] [{_stateMachine.Monster.NavMeshAgent.remainingDistance}]");
+        //Debug.Log($"[{_stateMachine.Monster.name}] target[{_stateMachine.Target.name}] [{_stateMachine.Monster.NavMeshAgent.remainingDistance}]");
         var sqrLength = GetDistanceBySqr(_stateMachine.Target.transform.position);
         
         if(sqrLength < _reach * _reach)

@@ -154,8 +154,7 @@ public class BuildingSystem : MonoBehaviour
 
     public void SetObjPosition()
     {
-        Vector3 _location = RaycastHit().point;
-        _location.Set(
+        Vector3 _location = new Vector3(
             Mathf.Floor(_rayPointer.transform.position.x / gridSize) * gridSize,
             transform.position.y,
             Mathf.Floor(_rayPointer.transform.position.z / gridSize) * gridSize

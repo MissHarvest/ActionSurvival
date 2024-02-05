@@ -26,10 +26,6 @@ public class UITutorial : UIPopup
         Initialize();
         _content = Get<GameObject>((int)GameObjects.Content).transform;
     }
-    private void Start()
-    {
-        Managers.Game.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
-    }
 
     private void OnEnable()
     {

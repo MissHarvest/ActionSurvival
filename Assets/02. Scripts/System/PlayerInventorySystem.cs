@@ -109,6 +109,8 @@ public class PlayerInventorySystem : InventorySystem
         if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "PlayerInventory") == false)
         {
             AddDefaultToolAsTest();
+            //var itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
+            //AddItem(itemData, 20);
         }
     }
 
