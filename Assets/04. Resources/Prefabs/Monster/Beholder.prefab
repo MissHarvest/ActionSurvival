@@ -53,7 +53,7 @@ NavMeshAgent:
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
-  m_AutoRepath: 1
+  m_AutoRepath: 0
   m_Height: 2
   m_BaseOffset: -0.08
   m_WalkableMask: 4294967295
@@ -120,7 +120,6 @@ MonoBehaviour:
     regenRate: 0
     decayRate: 0
   attackTime: 0.63
-  projectileWeapon: {fileID: 4634576362250552279, guid: 9fd43508d8ee6954d8da11ac10998922, type: 3}
   fireTransform: {fileID: 8860188177866889318}
   targetLayers:
     serializedVersion: 2

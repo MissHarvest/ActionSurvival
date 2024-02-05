@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-//using UnityEditorInternal; lgs 24.01.29
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,7 +28,13 @@ public class PlayerGroundedState : PlayerBaseState
     {
         base.Update();
 
-        if(_stateMachine.IsAttacking)
+        if (_stateMachine.MovementInput == Vector2.zero)
+        {
+            ChangeIdleState();
+            return;
+        }
+
+        if (_stateMachine.IsAttacking)
         {
             OnAttack();
             return;
@@ -86,24 +91,23 @@ public class PlayerGroundedState : PlayerBaseState
     }
 
     protected virtual void OnEquipTypeOfTool(QuickSlot quickSlot)
+    {        
+        ChangeIdleState();
+    }
+
+    protected void ChangeIdleState()
     {
-        // QuickSlot에 저장된 ItemData 값을 매개 변수로 받아서 TwoHandedTool에 저장
-        ItemData equippedItemData = quickSlot.itemSlot.itemData;
+        ItemData equippedItemData = _stateMachine.Player.EquippedItem.itemData;
 
-        // ItemData에 종속된 class ToolItemData에 bool isTwoHandedTool 변수를 참조하기 위하여 형변환
         ToolItemData equippedToolItemDate = (ToolItemData)equippedItemData;
-
-        // ToolSystem의 event OnEquip에 구독하여 아래의 조건문을 이용하여 애니메이션을 켜고 끈다.
 
         if (equippedToolItemDate.isWeapon == true && equippedToolItemDate.isTwoHandedTool == true)
         {
             _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
-            Debug.Log("두 손  도구애니메이션 시작");
         }
         else if (equippedToolItemDate.isWeapon == true && equippedToolItemDate.isTwinTool == true)
         {
             _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
-            Debug.Log("한 쌍 도구 애니메이션 시작");
         }
         else
         {

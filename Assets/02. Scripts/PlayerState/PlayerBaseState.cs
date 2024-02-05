@@ -53,7 +53,7 @@ public class PlayerBaseState : IState
     private void Move()
     {
         Vector3 movementDirection = GetMovementDirection();
-
+        Debug.Log($"[Move Direction] {movementDirection}"); // 0
         Rotate(movementDirection);
 
         Move(movementDirection);
@@ -201,7 +201,7 @@ public class PlayerBaseState : IState
         Managers.UI.CloseAllPopupUI();
 
         var ui = Managers.UI.GetPopupUI<UIInventory>();
-        Debug.Log($"[Inventory UI] {ui == null}");
+        
         if (ui.gameObject.activeSelf)
         {
             Managers.UI.ClosePopupUI(ui);
