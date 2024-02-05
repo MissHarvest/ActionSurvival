@@ -7,13 +7,11 @@ public class UITutorial : UIPopup
 {
     enum GameObjects
     {
-        Title,
-        Contents,
         Content,
     }
 
     private Transform _content;
-    private List<QuestSO> _activeQuests;
+    private List<Quest> _activeQuests;
     private QuestSO[] _quests;
     private List<UIQuest> _uiQuestPool = new List<UIQuest>();
 
@@ -31,15 +29,11 @@ public class UITutorial : UIPopup
 
     private void OnEnable()
     {
-        _quests = Managers.Game.Player.Tutorial.InvariantQuests;
+
+        _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
         _activeQuests = Managers.Game.Player.Tutorial.ActiveQuests;
         CreateQuestUIPool();
         ShowQuest(); // 게임 시작 시 퀘스트 표시
-    }
-
-    private void Start()
-    {
-        Managers.Game.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
     }
 
     private void HandleActiveQuestsUpdated()
@@ -47,7 +41,7 @@ public class UITutorial : UIPopup
         ShowQuest();
     }
 
-    private void CreateQuestUIPool()
+    private void CreateQuestUIPool() //생성 시 순서가 questID랑 같아야 할듯?
     {
         var questPrefab = Managers.Resource.GetCache<GameObject>("UIQuest.prefab");
 
@@ -69,11 +63,11 @@ public class UITutorial : UIPopup
         // 활성화된 퀘스트 UI만 활성화
         for (int i = 0; i < _activeQuests.Count; i++)
         {
-            QuestSO activeQuest = _activeQuests[i];
+            Quest activeQuest = _activeQuests[i];
 
             for (int j = 0; j < _uiQuestPool.Count; j++)
             {
-                if (activeQuest.questID == j)
+                if (activeQuest.questSO.questID == j)
                 {
                     UIQuest matchingUIQuest = _uiQuestPool[j];
                     matchingUIQuest.gameObject.SetActive(true);

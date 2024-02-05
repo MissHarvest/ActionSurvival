@@ -3313,6 +3313,9 @@ MonoBehaviour:
   _buildableLayer:
     serializedVersion: 2
     m_Bits: 6145
+  _maxBuildDistanceFront: 4
+  _maxBuildDistanceBack: 3
+  _maxBuildDistanceSideways: 5
 --- !u!114 &7771247640107373999
 MonoBehaviour:
   m_ObjectHideFlags: 0

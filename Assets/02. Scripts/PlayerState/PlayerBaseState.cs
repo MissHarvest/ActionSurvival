@@ -7,12 +7,10 @@ public class PlayerBaseState : IState
     protected readonly PlayerGroundData _groundData;
 
     private BuildingSystem _buildingSystem;
-    private UICooking _cookingUI;
-    private UIRecipe _recipeUI;
 
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
-        _stateMachine  = playerStateMachine;
+        _stateMachine = playerStateMachine;
         _groundData = _stateMachine.Player.Data.GroundedData;
 
         _buildingSystem = Managers.Game.Player.Building;
@@ -35,7 +33,7 @@ public class PlayerBaseState : IState
         Move();
     }
 
-    public virtual void HandleInput() 
+    public virtual void HandleInput()
     {
         ReadMovementInput();
     }
@@ -90,10 +88,10 @@ public class PlayerBaseState : IState
             * Time.deltaTime
             );
     }
-    
+
     protected virtual void Rotate(Vector3 movementDirection)
     {
-        if(movementDirection != Vector3.zero)
+        if (movementDirection != Vector3.zero)
         {
             Transform playerTransform = _stateMachine.Player.transform;
             Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
@@ -121,7 +119,7 @@ public class PlayerBaseState : IState
     {
         PlayerInput input = _stateMachine.Player.Input;
         input.PlayerActions.Move.canceled += OnMovementCanceled;
-        
+
         input.PlayerActions.Interact.started += OnInteractStarted;
         input.PlayerActions.Interact.canceled += OnInteractCanceled;
         input.PlayerActions.QuickSlot.started += OnQuickUseStarted;
@@ -134,7 +132,7 @@ public class PlayerBaseState : IState
     {
         PlayerInput input = _stateMachine.Player.Input;
         input.PlayerActions.Move.canceled -= OnMovementCanceled;
-        
+
         input.PlayerActions.Interact.started -= OnInteractStarted;
         input.PlayerActions.Interact.canceled -= OnInteractCanceled;
         input.PlayerActions.QuickSlot.started -= OnQuickUseStarted;
@@ -144,7 +142,7 @@ public class PlayerBaseState : IState
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
     {
-        
+
     }
 
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
@@ -154,8 +152,8 @@ public class PlayerBaseState : IState
         Debug.Log("Player Interact");
 
         var tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
-        
-        if(tool.isArchitecture)
+
+        if (tool.isArchitecture)
         {
             _stateMachine.ChangeState(_stateMachine.BuildState);
         }
@@ -171,7 +169,7 @@ public class PlayerBaseState : IState
         else
         {
             _stateMachine.ChangeState(_stateMachine.InteractState);
-        }                
+        }
     }
 
     protected virtual void OnInteractCanceled(InputAction.CallbackContext context)
@@ -186,7 +184,7 @@ public class PlayerBaseState : IState
 
     private void OnBuildRequested(int index)
     {
-        Debug.Log("빌드 모드 진입: " + index);
+        //Debug.Log("빌드 모드 진입: " + index);
         _stateMachine.ChangeState(_stateMachine.BuildState);
     }
 
@@ -222,11 +220,11 @@ public class PlayerBaseState : IState
         AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
         AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(0);
 
-        if(animator.IsInTransition(0) && nextInfo.IsTag(tag))
+        if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
         {
             return nextInfo.normalizedTime;
         }
-        else if(!animator.IsInTransition(0) && currentInfo.IsTag(tag))
+        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
         {
             return currentInfo.normalizedTime;
         }
