@@ -27,6 +27,8 @@ public class GameManager
 
     public void Init()
     {
+        //FireIsland.BossName = "TerrorBringer";
+
         MonsterWave = new MonsterWave();
 
         DayCycle.Init();

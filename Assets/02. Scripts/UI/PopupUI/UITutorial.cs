@@ -28,18 +28,18 @@ public class UITutorial : UIPopup
         Initialize();
         _content = Get<GameObject>((int)GameObjects.Content).transform;
     }
-    private void Start()
-    {
-        Managers.Game.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
-    }
 
     private void OnEnable()
     {
-
         _quests = Managers.Game.Player.Tutorial.InvariantQuests;
         _activeQuests = Managers.Game.Player.Tutorial.ActiveQuests;
         CreateQuestUIPool();
         ShowQuest(); // 게임 시작 시 퀘스트 표시
+    }
+
+    private void Start()
+    {
+        Managers.Game.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
     }
 
     private void HandleActiveQuestsUpdated()
