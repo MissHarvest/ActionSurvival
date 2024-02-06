@@ -160,13 +160,10 @@ public class Island
     {
         bool[,] points = new bool[cellCount, cellCount];
         var field = cellCount * cellCount;
-
         LockUnusablePoint(points, ref field);
-
         LockBoundaryPoint(points, ref field);
-
+        LockOtherObjectPoint(points, ref field);
         LockCenterArea(points, ref field);
-
         LoopCreateMonsterSpawnPoint(points, field);
     }
 
@@ -184,7 +181,20 @@ public class Island
                     points[x, z] = true;
                     --field;
                 }
-                else
+            }
+        }
+    }
+
+    private void LockOtherObjectPoint(bool[,] points, ref int field)
+    {
+        float maxDistance = 100;
+        for (int x = 0; x < cellCount; ++x)
+        {
+            for (int z = 0; z < cellCount; ++z)
+            {
+                RaycastHit hit;
+                var start = new Vector3(x * _interval, 10, z * _interval) - _offset;
+                if (Physics.BoxCast(start, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, maxDistance))
                 {
                     if (_unspawnableLayers == (_unspawnableLayers | 1 << hit.collider.gameObject.layer))
                     {
@@ -211,8 +221,13 @@ public class Island
             bool stop = false;
             int forward = 0;
 
+            int count = 0;
+
             while (!stop)
             {
+                if (count == 10) break;
+                ++count;
+
                 points[(int)current.x, (int)current.y] = true;
                 --field;
 
@@ -291,10 +306,14 @@ public class Island
     private void LoopCreateMonsterSpawnPoint(bool[,] points, int field)
     {
         bool finished = false;
+        int count = 0;
+
         while (!finished)
         {
             _spawnablePoints.Clear();
             finished = CreateMonsterSpawnPoint(points, field);
+            ++count;
+            if (count == 10) break;
         }
     }
 

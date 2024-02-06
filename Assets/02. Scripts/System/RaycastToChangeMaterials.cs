@@ -46,7 +46,7 @@ public class RaycastToChangeMaterials : MonoBehaviour
         _curruentChangeMaterials = new();
 
         int hits = Physics.RaycastNonAlloc(_camera.transform.position, (_player.transform.position - _camera.transform.position).normalized, _hits,
-            Vector3.Distance(_camera.transform.position, _player.transform.position), _layerMask);
+            Vector3.Distance(_camera.transform.position, _player.transform.position), _layerMask, QueryTriggerInteraction.Collide);
         if (hits >= 0)
         {
             // hashset

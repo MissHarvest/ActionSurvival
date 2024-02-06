@@ -77,23 +77,28 @@ public class IslandObjectGenerator : MonoBehaviour
 
     private IEnumerator InstantiateObject()
     {
+        int cnt = 0;
+
         for (int x = 1; x < _sizeX - 1; x++)
         {
             for (int z = 1; z < _sizeZ - 1; z++)
             {
                 if (_noiseMap[x, z] >= _threshold)
                 {
-                    Vector3 pos = new Vector3(x, 50f, z) + _position;
+                    Vector3 pos = new Vector3(x + 0.5f, 50f, z + 0.5f) + _position;
                     if (Physics.Raycast(pos, Vector3.down, out var hit, 100f))
                     {
                         if (hit.collider.gameObject.layer == 0)
                             continue;
 
                         Instantiate(_prefab, hit.point, Quaternion.identity);
+                        cnt++;
                     }
                 }
             }
         }
+
+        Debug.Log($"[Generator] {_prefab.name}: {cnt}");
 
         yield return null;
     }

@@ -14,8 +14,8 @@ public class Farm : MonoBehaviour ,IInteractable
     private FarmStateMachine _stateMachine;
     public GameObject[] stateObject;
 
-    public float MaxTime { get; } = 1000.0f;
-    [field : SerializeField] public float RemainingTime { get; set; } = 0.0f;
+    public int MaxTime { get; } = 100;
+    [field: SerializeField] public int RemainingTime { get; set; } = 0;
     [SerializeField] public int State { get; set; } = 0;
 
     public ItemDropTable looting;
@@ -35,7 +35,7 @@ public class Farm : MonoBehaviour ,IInteractable
         _stateMachine.Update();
     }
 
-    public void SetInfo(int state, float time)
+    public void SetInfo(int state, int time)
     {
         State = state;
         RemainingTime = time;

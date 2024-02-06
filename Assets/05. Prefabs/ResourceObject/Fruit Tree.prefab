@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 0
-  _respawnTime: 1500
+  _respawnTime: 150
 --- !u!1 &1969607750617084652
 GameObject:
   m_ObjectHideFlags: 0

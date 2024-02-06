@@ -250,8 +250,8 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{dedicated}: Key/user.keystore'
-  AndroidKeyaliasName: debug
+  AndroidKeystoreName: '{dedicated}: Downloads/user.keystore'
+  AndroidKeyaliasName: wjytest
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidBuildApkPerCpuArchitecture: 1
   AndroidTVCompatibility: 0
