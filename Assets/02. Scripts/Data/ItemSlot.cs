@@ -35,7 +35,7 @@ public class ItemSlot
     {
         this.itemData = itemData;
         this.quantity = quantity;
-        this.currentDurability = (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f;
+        this.currentDurability = (itemData is EquipItemData toolItem) ? toolItem.maxDurability : 0f;
     }
 
     public bool IsFull => this.quantity == ItemData.maxStackCount;
@@ -66,7 +66,7 @@ public class ItemSlot
         // [ Check ] // 내구도 부분이랑 병합 시 
         this.itemData = item;
         this.quantity = quantity;
-        this.currentDurability = (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f;
+        this.currentDurability = (itemData is EquipItemData toolItem) ? toolItem.maxDurability : 0f; //lgs 24.02.06
     }
 
     public void Set(ItemSlot itemSlot)
@@ -108,7 +108,7 @@ public class ItemSlot
 
     public void SetDurability(float value)
     {
-        this.currentDurability = Mathf.Clamp(value, 0f, (itemData is ToolItemData toolItem) ? toolItem.maxDurability : 0f);
+        this.currentDurability = Mathf.Clamp(value, 0f, (itemData is EquipItemData toolItem) ? toolItem.maxDurability : 0f);
         if (currentDurability <= 0)
             Clear();
     }
