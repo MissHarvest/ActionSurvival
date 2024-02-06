@@ -9,21 +9,9 @@ public class ObjectManager
 
     public ObjectManager()
     {
-        _process.Add(typeof(Renderer[]), (x, enabled) =>
-        {
-            foreach (var e in x as Renderer[]) 
-                e.enabled = enabled; 
-        });
-
         _process.Add(typeof(Renderer), (x, enabled) => 
         {
             (x as Renderer).enabled = enabled;
-        });
-
-        _process.Add(typeof(GameObject[]), (x, enabled) =>
-        {
-            foreach (var e in x as GameObject[])
-                e.SetActive(enabled);
         });
 
         _process.Add(typeof(GameObject), (x, enabled) =>
@@ -31,21 +19,9 @@ public class ObjectManager
             (x as GameObject).SetActive(enabled); 
         });
 
-        _process.Add(typeof(Behaviour[]), (x, enabled) => 
-        {
-            foreach (var e in x as Behaviour[]) 
-                e.enabled = enabled; 
-        });
-
         _process.Add(typeof(Behaviour), (x, enabled) => 
         {
             (x as Behaviour).enabled = enabled; 
-        });
-
-        _process.Add(typeof(Collider[]), (x, enabled) =>
-        {
-            foreach (var e in x as Collider[])
-                e.enabled = enabled;
         });
 
         _process.Add(typeof(Collider), (x, enabled) =>
@@ -60,14 +36,26 @@ public class ObjectManager
     }
 }
 
-public class ObjectManagementProtocol
+public class ObjectManagementProtocol : IEqualityComparer<ObjectManagementProtocol>
 {
     public object target;
     public Type key;
+
+    public ObjectManagementProtocol() { }
 
     public ObjectManagementProtocol(object target, Type key)
     {
         this.target = target;
         this.key = key;
+    }
+
+    public bool Equals(ObjectManagementProtocol x, ObjectManagementProtocol y)
+    {
+        return x.target == y.target;
+    }
+
+    public int GetHashCode(ObjectManagementProtocol obj)
+    {
+        return obj.target.GetHashCode();
     }
 }
