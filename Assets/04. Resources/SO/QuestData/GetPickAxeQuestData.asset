@@ -16,5 +16,6 @@ MonoBehaviour:
   questID: 1
   preQuests:
   - {fileID: 11400000, guid: 1dbfa73b255a57548bbace7686d65218, type: 2}
+  - {fileID: 11400000, guid: 0911ef08713634645868f786f27ebf95, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 169efef296147ff47aa012ef827c9305, type: 2}
