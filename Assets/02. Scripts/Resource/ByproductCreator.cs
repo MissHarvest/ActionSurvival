@@ -19,6 +19,7 @@ public class ByproductCreator : MonoBehaviour
 
         _currentCreateCount = 0;
         _manager.OnTimeUpdated += TryCreate;
+        TryCreate();
     }
 
     private void OnDisable()
