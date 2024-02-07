@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 // 2024-02-06 WJY
@@ -12,7 +13,7 @@ public class IslandObjectGenerator : MonoBehaviour
     [SerializeField] private int _sizeZ;
     [SerializeField] private Vector3 _position;
 
-    [Header("Weight Settings")]
+    [Header("Threshold Settings")]
     [Range(0f, 1f)][SerializeField] private float _threshold;
 
     [Header("Noise Settings")]

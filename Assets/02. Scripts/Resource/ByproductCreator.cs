@@ -55,7 +55,7 @@ public class ByproductCreator : MonoBehaviour
         spawnPosition.Set(spawnPosition.x, 0, spawnPosition.y);
         spawnPosition += transform.position;
 
-        Instantiate(_prefab, spawnPosition, Quaternion.identity);
+        Managers.Game.ResourceObjectSpawner.SpawnObject(_prefab, spawnPosition);
         _currentCreateCount++;
     }
 }
