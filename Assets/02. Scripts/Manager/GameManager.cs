@@ -27,7 +27,7 @@ public class GameManager
 
     public void Init()
     {
-        //FireIsland.BossName = "TerrorBringer";
+        FireIsland.BossName = "TerrorBringer";
 
         MonsterWave = new MonsterWave();
 

@@ -13,7 +13,7 @@ public class BossBaseState : IState
 
     public virtual void Enter()
     {
-        
+        _stateMachine.Boss.NavMeshAgent.speed = _stateMachine.MovementSpeed * _stateMachine.MovementSpeedModifier;
     }
 
     public virtual void Exit()
@@ -44,6 +44,28 @@ public class BossBaseState : IState
     protected void StopAnimation(int animationHash)
     {
         _stateMachine.Boss.Animator.SetBool(animationHash, false);
+    }
+
+    protected bool Rotate(Vector3 look)
+    {
+        if (look != Vector3.zero)
+        {
+            Transform transform = _stateMachine.Boss.transform;
+            Quaternion targetRotation = Quaternion.LookRotation(look);
+            int angle = Vector3.Cross(_stateMachine.Boss.transform.forward, look).y > 0 ? 1 : -1;
+            transform.Rotate(new Vector3(0, Time.deltaTime * 90 * angle, 0));
+            var rot = Quaternion.Angle(transform.rotation, targetRotation);
+            
+            return rot < 5.0f;
+        }
+        return false;
+    }
+
+    protected float GetDistToTarget()
+    {
+        var distance = _stateMachine.Target.transform.position - _stateMachine.Boss.transform.position;
+        distance.y = 0;
+        return distance.sqrMagnitude;
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)
