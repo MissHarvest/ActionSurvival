@@ -71,6 +71,12 @@ public class InventorySystem : MonoBehaviour
 
         itemData = Managers.Resource.GetCache<ItemData>("WoodArmorItemData.data");
         AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("WoodHelmetItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("EnchantedArmorItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("EnchantedHelmetItemData.data");
+        AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("WoodSwordItemData.data");
         AddItem(itemData, 1);
     }

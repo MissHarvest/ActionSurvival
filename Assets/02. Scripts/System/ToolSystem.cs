@@ -121,7 +121,7 @@ public class ToolSystem : MonoBehaviour
         {
             _tools["Handable_Base"].SetActive(false);
         }
-        else if (part == (int)ItemParts.Body)
+        else if (part == (int)ItemParts.Body || part == (int)ItemParts.Head)
         {
 
         }

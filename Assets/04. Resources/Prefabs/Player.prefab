@@ -592,6 +592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d852ce5160cb14c9ef96c27a8c203d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerDefense: 0
   <StandingIslandName>k__BackingField: CenterIsland
 --- !u!114 &787385280888539790
 MonoBehaviour:
@@ -3142,6 +3143,7 @@ GameObject:
   - component: {fileID: 4649982659158114381}
   - component: {fileID: 4543093439048481785}
   - component: {fileID: 7771247640107373999}
+  - component: {fileID: 4257597779344770059}
   m_Layer: 9
   m_Name: System
   m_TagString: Untagged
@@ -3314,7 +3316,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 6145
   _maxBuildDistanceFront: 4
-  _maxBuildDistanceBack: 3
   _maxBuildDistanceSideways: 5
 --- !u!114 &7771247640107373999
 MonoBehaviour:
@@ -3328,10 +3329,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28d6ec6858f03774db81b2dac3c304fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _invariantQuests: []
   _quests: []
   _activeQuests: []
-  _questCompletionStatus: []
+--- !u!114 &4257597779344770059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7330765973162392891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ec18bd4b45d44479e113868831db2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defense: 0
 --- !u!1 &7392496694934527924
 GameObject:
   m_ObjectHideFlags: 0
