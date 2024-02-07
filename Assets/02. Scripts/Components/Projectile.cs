@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
 
     public void Fire(Vector3 destination, float maxDistance)
     {
-        _direction = destination - transform.position + Vector3.up * 0.5f;
+        _direction = destination - transform.position;
         _direction.Normalize();
         _maxDistance = maxDistance;
 

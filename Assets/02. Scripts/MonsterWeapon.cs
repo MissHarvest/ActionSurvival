@@ -5,7 +5,7 @@ using UnityEngine;
 public class MonsterWeapon : MonoBehaviour
 {
     public Collider Collider { get; private set; }
-    public Monster Owner { get; set; }
+    public IAttack Owner { get; set; }
 
     private Projectile _projectile;
 
