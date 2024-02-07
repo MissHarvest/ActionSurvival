@@ -16,10 +16,4 @@ public class QuestSO : ScriptableObject
     {
         public ItemData item;
     }
-
-
-    //public void Initialize()
-    //{
-    //    quest = new Quest(this.name);
-    //}
 }

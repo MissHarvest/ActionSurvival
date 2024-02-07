@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ToolSystem : MonoBehaviour
 {
-    [field : SerializeField] public ItemSlot ItemInUse { get; private set; }
+    [field: SerializeField] public ItemSlot ItemInUse { get; private set; }
     public Transform handPosition;
     public Transform leftHandPosition;
 
@@ -68,7 +68,7 @@ public class ToolSystem : MonoBehaviour
 
         Equipments[part].Set(slot.targetIndex, slot.itemSlot);
         Equipments[part].itemSlot.SetEquip(true);
-        
+
         if (part == (int)ItemParts.Hand)
         {
             Debug.Log($"[Equip]{slot.itemSlot.itemData.displayName}");
@@ -100,7 +100,7 @@ public class ToolSystem : MonoBehaviour
 
         if (ItemInUse.itemData.name.Contains("Twin")) // TwinTool의 왼 손 도구를 활성화한다.
         {
-            var twinToolName = GetTwinToolLeftHandName(ItemInUse); 
+            var twinToolName = GetTwinToolLeftHandName(ItemInUse);
             if (twinToolName.Contains("Handable_L_") == true)
             {
                 _twinTools[twinToolName].SetActive(true);
@@ -121,6 +121,10 @@ public class ToolSystem : MonoBehaviour
         {
             _tools["Handable_Base"].SetActive(false);
         }
+        else if (part == (int)ItemParts.Body)
+        {
+
+        }
         else
         {
             _tools[toolName].SetActive(false);
@@ -128,12 +132,12 @@ public class ToolSystem : MonoBehaviour
 
         if (Equipments[part].itemSlot.itemData.name.Contains("Twin"))
         {
-            var twinToolName = GetTwinToolLeftHandName(Equipments[part].itemSlot); 
+            var twinToolName = GetTwinToolLeftHandName(Equipments[part].itemSlot);
             if (twinToolName.Contains("Handable_L_") == true)
             {
                 _twinTools[twinToolName].SetActive(false);
             }
-        }            
+        }
 
         if (-1 != Equipments[part].targetIndex)
         {

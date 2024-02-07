@@ -102,6 +102,20 @@ public class BuildableObject : MonoBehaviour, IHit
         isOverlap = true;
     }
 
+    public bool CanBuild(LayerMask buildableLayer)
+    {
+        bool isLeftEdgeOnGround = Physics.Raycast(_collider.bounds.min, Vector3.down, out RaycastHit leftHit, Mathf.Infinity, buildableLayer);
+        bool isRightEdgeOnGround = Physics.Raycast(_collider.bounds.max, Vector3.down, out RaycastHit rightHit, Mathf.Infinity, buildableLayer);
+
+        // 좌우 양 끝에서의 충돌 지점의 y 값이 서로 다르면 건축 불가능
+        if (isLeftEdgeOnGround && isRightEdgeOnGround && Managers.Game.Player.Building.LeftEdgeHitY != Managers.Game.Player.Building.RightEdgeHitY)
+        {
+            canBuild = false;
+            return false;
+        }
+        return true;
+    }
+
     public void Hit(IAttack attacker, float damage)
     {
         HP.Subtract(damage);
