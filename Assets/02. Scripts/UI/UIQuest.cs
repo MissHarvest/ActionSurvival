@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,14 +31,14 @@ public class UIQuest : UIBase
         Initialize();
     }
 
-    private void OnEnable()
-    {
-        _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
-    }
+    //private void OnEnable()
+    //{
+    //    _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
+    //}
 
-    public void Set(int index)
+    public void Set(Quest activeQuest)
     {
-        Get<Image>((int)Images.Icon).sprite = _quests[index].requiredItems[0].item.iconSprite;
-        Get<TextMeshProUGUI>((int)Texts.QuestName).text = _quests[index].questUIName;
+        Get<Image>((int)Images.Icon).sprite = activeQuest.questSO.requiredItems[0].item.iconSprite;
+        Get<TextMeshProUGUI>((int)Texts.QuestName).text = activeQuest.questSO.questUIName;
     }
 }

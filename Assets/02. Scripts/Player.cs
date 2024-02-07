@@ -87,6 +87,7 @@ public class Player : MonoBehaviour, IHit
         _stateMachine.PhysicsUpdate();
     }
 
+    // 방어구 SO의 _defense 값을 여기서 더해주는 방향은? 굳이 플레이어가 _defense 값을 가지고 있어야 할까나
     public void Hit(IAttack attacker, float damage)
     {
         Managers.Sound.PlayEffectSound(transform.position, "Hit");
