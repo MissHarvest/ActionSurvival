@@ -743,7 +743,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0911ef08713634645868f786f27ebf95
+  - m_GUID: b5c5d1a588de9154cb18e742d8f6a720
     m_Address: GetStoneQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:

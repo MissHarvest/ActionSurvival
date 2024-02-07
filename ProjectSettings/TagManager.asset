@@ -27,9 +27,9 @@ TagManager:
   - Tool
   - MonsterHit
   - Bridge
-  - 
-  - 
-  - 
+  - MainCamera
+  - MinimapCamera
+  - ShadowLayer
   - 
   - 
   - 
