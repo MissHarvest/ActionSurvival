@@ -31,8 +31,8 @@ public class Weapon : MonoBehaviour, IAttack
     public void DamageOfTheEquippedWeapon(QuickSlot quickSlot)
     {
         ItemData weapon = quickSlot.itemSlot.itemData;
-        ToolItemData toolItemDate = (ToolItemData)weapon;
-
+        ToolItemData toolItemDate = weapon is ToolItemData ? (ToolItemData)weapon: null;
+        if (toolItemDate == null) return;
         _damage = toolItemDate.damage;
     }
 

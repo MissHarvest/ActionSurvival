@@ -51,6 +51,8 @@ public class UIInventory : UIPopup
         helper.BindEventOfButton(UIItemUsageHelper.Functions.Use, ConsumeItem);
         helper.BindEventOfButton(UIItemUsageHelper.Functions.Build, BuildItem);
         helper.BindEventOfButton(UIItemUsageHelper.Functions.Destroy, DestroyItem);
+        helper.BindEventOfButton(UIItemUsageHelper.Functions.Equip, Equip);
+        helper.BindEventOfButton(UIItemUsageHelper.Functions.UnEquip, UnEquip);
     }
 
     private void ActivateItemUsageHelper(UIItemSlot itemslotUI)
@@ -97,6 +99,19 @@ public class UIInventory : UIPopup
     private void UnregistItem()
     {
         Managers.Game.Player.QuickSlot.UnRegist(SelectedSlot);
+        Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
+    }
+
+    private void Equip() //lgs 24.02.06
+    {
+        // SelectedSlot를 이용하여 ToolSystem의 69번째 줄이랑 연결하는 방향으로 . . .
+        Managers.Game.Player.ToolSystem.Equip(SelectedSlot);
+        Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
+    }
+
+    private void UnEquip()
+    {
+        Managers.Game.Player.ToolSystem.UnEquip(SelectedSlot);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 }

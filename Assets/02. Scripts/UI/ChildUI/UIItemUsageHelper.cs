@@ -9,10 +9,12 @@ public class UIItemUsageHelper : UIItemHelper
         UnRegist,
         Use,
         Build,
+        Equip,
+        UnEquip,
         Destroy
     }
 
-    private string[] _functions = new string[] { "등록하기", "해제하기", "사용하기", "건축하기", "버리기" };
+    private string[] _functions = new string[] { "등록하기", "해제하기", "사용하기", "건축하기", "장착하기", "해제하기", "버리기" };
     
     public override void Initialize()
     {
@@ -25,6 +27,8 @@ public class UIItemUsageHelper : UIItemHelper
         CreateButtonByEnum(Functions.UnRegist);
         CreateButtonByEnum(Functions.Use);
         CreateButtonByEnum(Functions.Build);
+        CreateButtonByEnum(Functions.Equip); //lgs
+        CreateButtonByEnum(Functions.UnEquip);
         CreateButtonByEnum(Functions.Destroy);
     }
 
@@ -51,6 +55,10 @@ public class UIItemUsageHelper : UIItemHelper
                 ShowRegistButton(selectedSlot.registed);
                 ShowButtonByEnum(Functions.Use);
                 break;
+
+            case EquipItemData:
+                ShowEquipButton(selectedSlot.equipped);
+                break;
         }
         ShowButtonByEnum(Functions.Destroy);
 
@@ -59,6 +67,18 @@ public class UIItemUsageHelper : UIItemHelper
     }
 
     #region ShowButton
+
+    private void ShowEquipButton(bool equip) //lgs 24.02.06
+    {
+        if (equip)
+        {
+            ShowButtonByEnum(Functions.UnEquip);
+        }
+        else
+        {
+            ShowButtonByEnum(Functions.Equip);
+        }
+    }
 
     private void ShowRegistButton(bool regist)
     {

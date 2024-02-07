@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Armors
+  m_EditorClassIdentifier: 
+  m_GroupName: Armors
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 0833d3b6f26513e45a1d8f754725edca
+  m_SerializeEntries:
+  - m_GUID: 16376975c93c4e940b5df85bb43a219d
+    m_Address: WoodArmorItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 755468d1d4dde1042968f84a1927767b, type: 2}
+    - {fileID: 11400000, guid: 60217048b44e2bf44bf48e40e0c424b3, type: 2}
