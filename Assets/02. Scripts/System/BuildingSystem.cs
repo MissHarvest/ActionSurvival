@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 //using static UnityEditor.FilePathAttribute; 24.01.29 lgs
@@ -11,26 +12,38 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private LayerMask _buildableLayer;
 
     private float _raycastRange = 20.0f;
-    private float gridSize = 1.0f;
+    private float _gridSize = 1.0f;
     private int _rotationAngle = 45;
 
     [SerializeField] private float _maxBuildDistanceFront = 4.0f; // 플레이어 앞쪽 최대 건축 가능 거리
     //[SerializeField] private float _maxBuildDistanceBack = 3.0f;
     [SerializeField] private float _maxBuildDistanceSideways = 5.0f;
 
-    private float leftEdgeHitY;  // 좌측 끝에서의 레이캐스트 충돌 지점 y값
-    private float rightEdgeHitY;  // 우측 끝에서의 레이캐스트 충돌 지점 y값
+    private float _leftEdgeHitY;  // 좌측 끝에서의 레이캐스트 충돌 지점 y값
+    private float _rightEdgeHitY;  // 우측 끝에서의 레이캐스트 충돌 지점 y값
 
     private int _inventoryIndex;
 
-    private Vector3 lastValidHitPoint; // 마지막으로 유효한 충돌 지점을 저장할 변수
-    private Vector3 lastValidPosition;
+    private Vector3 _lastValidHitPoint; // 마지막으로 유효한 충돌 지점을 저장할 변수
+    private Vector3 _lastValidPosition;
 
     private BuildableObject _buildableObject;
 
     public event Action<int> OnBuildRequested;
 
     public Player Owner { get; private set; }
+
+    public float LeftEdgeHitY
+    {
+        get { return _leftEdgeHitY; }
+        private set { _leftEdgeHitY = value; }
+    }
+
+    public float RightEdgeHitY
+    {
+        get { return _rightEdgeHitY; }
+        private set { _rightEdgeHitY = value; }
+    }
 
     private void Awake()
     {
@@ -100,34 +113,17 @@ public class BuildingSystem : MonoBehaviour
 
     private bool CanBuild()
     {
-        Collider buildableObjectCollider = _buildableObject.GetComponent<Collider>();
-
         RaycastHit hit = RaycastHit();
         if (hit.collider == null)
             return false;
 
         bool isOnBuildableLayer = (hit.collider != null) && (_buildableLayer == (_buildableLayer | 1 << hit.collider.gameObject.layer));
-
         bool isCloseToGround = Mathf.Abs(hit.point.y - transform.position.y) < 0.1f;
 
-        bool isLeftEdgeOnGround = Physics.Raycast(buildableObjectCollider.bounds.min, Vector3.down, out RaycastHit leftHit, Mathf.Infinity, _buildableLayer);
-        bool isRightEdgeOnGround = Physics.Raycast(buildableObjectCollider.bounds.max, Vector3.down, out RaycastHit rightHit, Mathf.Infinity, _buildableLayer);
-
-        // 좌우 양 끝에서의 충돌 지점의 y 값이 서로 다르면 건축 불가능
-        if (isLeftEdgeOnGround && isRightEdgeOnGround && leftEdgeHitY != rightEdgeHitY)
-        {
-            _buildableObject.canBuild = false;
-            return false;
-        }
-
-        //bool isFullyOnGround = isLeftEdgeOnGround && isRightEdgeOnGround;
-
-        _buildableObject.canBuild = isOnBuildableLayer && _buildableObject.isOverlap && isCloseToGround && IsWithinBuildZone(hit.point) /*&& isFullyOnGround*/;
+        _buildableObject.canBuild = _buildableObject.CanBuild(_buildableLayer) && isOnBuildableLayer && _buildableObject.isOverlap && isCloseToGround && IsWithinBuildZone(hit.point);
 
         return _buildableObject.canBuild;
     }
-
-
 
     public void CancelBuilding()
     {
@@ -146,7 +142,7 @@ public class BuildingSystem : MonoBehaviour
 
         if (Physics.BoxCast(_rayPointer.transform.position, buildableObjectCollider.bounds.size / 2.0f, Vector3.down, out hit, Quaternion.identity, _raycastRange))
         {
-            lastValidHitPoint = hit.point; // 유효한 충돌이 있을 때만 기억
+            _lastValidHitPoint = hit.point; // 유효한 충돌이 있을 때만 기억
         }
 
         return hit;
@@ -155,9 +151,9 @@ public class BuildingSystem : MonoBehaviour
     public void SetObjPosition()
     {
         Vector3 _location = new Vector3(
-            Mathf.Floor(_rayPointer.transform.position.x / gridSize) * gridSize,
+            Mathf.Floor(_rayPointer.transform.position.x / _gridSize) * _gridSize,
             transform.position.y,
-            Mathf.Floor(_rayPointer.transform.position.z / gridSize) * gridSize
+            Mathf.Floor(_rayPointer.transform.position.z / _gridSize) * _gridSize
             );
         CanBuild();
         _buildableObject.gameObject.transform.position = _location;
@@ -181,13 +177,13 @@ public class BuildingSystem : MonoBehaviour
         // 건축 가능 직사각형 영역을 넘어가면 마지막으로 영역 안에 있던 위치로 도르마무
         if (!IsWithinBuildZone(newPosition))
         {
-            _rayPointer.transform.position = lastValidPosition;
+            _rayPointer.transform.position = _lastValidPosition;
             SetObjPosition();
         }
         else
         {
             // 유효한 위치 갱신
-            lastValidPosition = newPosition;
+            _lastValidPosition = newPosition;
         }
     }
 
@@ -229,8 +225,8 @@ public class BuildingSystem : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(_rayPointer.transform.position, buildableObjectCollider.bounds.size);
 
-        DrawRaycastGizmo(buildableObjectCollider.bounds.min, ref leftEdgeHitY);
-        DrawRaycastGizmo(buildableObjectCollider.bounds.max, ref rightEdgeHitY);
+        DrawRaycastGizmo(buildableObjectCollider.bounds.min, ref _leftEdgeHitY);
+        DrawRaycastGizmo(buildableObjectCollider.bounds.max, ref _rightEdgeHitY);
     }
 
     private void DrawRaycastGizmo(Vector3 origin, ref float hitY)
