@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7322910851493420959}
   - component: {fileID: 8514915229941023673}
   - component: {fileID: 6781940709236792047}
-  - component: {fileID: 4324052240420261533}
+  - component: {fileID: 8765774311319962816}
   m_Layer: 6
   m_Name: PT_Fruit_Tree_01_green_LOD0
   m_TagString: Untagged
@@ -85,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4324052240420261533
+--- !u!65 &8765774311319962816
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,12 +100,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.4, y: 4.32, z: 0.1}
-  m_Center: {x: -0.05, y: 4, z: 0.3}
+  m_Size: {x: 6, y: 10.049201, z: 0.25406647}
+  m_Center: {x: -0.05178237, y: 4.4019427, z: 2.335312}
 --- !u!1 &1228660060964930895
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 0
-  _respawnTime: 3300
+  _respawnTime: 330
 --- !u!114 &8045222565640756299
 MonoBehaviour:
   m_ObjectHideFlags: 0

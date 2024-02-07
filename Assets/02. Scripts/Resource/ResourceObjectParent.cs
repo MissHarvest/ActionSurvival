@@ -9,9 +9,10 @@ public class ResourceObjectParent : MonoBehaviour
     private Dictionary<int, ResourceObjectGathering> _gatherings = new();
     private Dictionary<int, ResourceObjectDebris> _debris = new();
     private Dictionary<int, GameObject> _objects = new();
+    private DayCycle _manager;
 
     public int CurrentState { get; private set; }
-    public float RemainingTime { get; private set; }
+    public int RemainingTime { get; private set; }
 
     private bool _isInitialized = false;
 
@@ -25,11 +26,17 @@ public class ResourceObjectParent : MonoBehaviour
         SetInfo(CurrentState, RemainingTime);
     }
 
-    public void Update()
+    private void OnDestroy()
+    {
+        if (_manager != null)
+            _manager.OnTimeUpdated -= TimeLapse;
+    }
+
+    private void TimeLapse()
     {
         if (_debris.TryGetValue(CurrentState, out var debris))
         {
-            RemainingTime -= Time.deltaTime;
+            RemainingTime--;
             if (RemainingTime <= 0)
                 debris.Respawn();
         }
@@ -39,6 +46,8 @@ public class ResourceObjectParent : MonoBehaviour
     {
         if (_isInitialized) return;
 
+        _manager = Managers.Game.DayCycle;
+        _manager.OnTimeUpdated += TimeLapse;
         for (int i = 0; i < transform.childCount; i++)
         {
             var child = transform.GetChild(i);
@@ -63,10 +72,10 @@ public class ResourceObjectParent : MonoBehaviour
     }
 
     public void SetManagementedObject()
-    {
-        var managedObject = gameObject.AddComponent<ManagementedObject>();
-        managedObject.managedTargets.Add(new(GetComponentsInChildren<Renderer>(true), typeof(Renderer[])));
-        managedObject.managedTargets.Add(new(GetComponentsInChildren<Collider>(true), typeof(Collider[])));
+    { 
+        var managedObject = Utility.GetOrAddComponent<ManagementedObject>(gameObject);
+        managedObject.AddRange(GetComponentsInChildren<Renderer>(true), typeof(Renderer));
+        managedObject.AddRange(GetComponentsInChildren<Collider>(true), typeof(Collider));
     }
 
     public void SwitchState(int stateID)
@@ -86,14 +95,14 @@ public class ResourceObjectParent : MonoBehaviour
         RemainingTime = GetCurrentDebrisRespawnTime();
     }
 
-    public float GetCurrentDebrisRespawnTime()
+    public int GetCurrentDebrisRespawnTime()
     {
         if (_debris.TryGetValue(CurrentState, out var debris))
             return debris.RespawnTime;
         else return 0;
     }
 
-    public void SetInfo(int stateID, float remainingTime)
+    public void SetInfo(int stateID, int remainingTime)
     {
         //Initialize();
         SwitchState(stateID);

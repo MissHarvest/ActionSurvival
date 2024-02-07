@@ -16,6 +16,7 @@ public class ChangeMaterials : MonoBehaviour
         _meshRenderer = GetComponentInChildren<MeshRenderer>();
         _materials = _meshRenderer.materials;
     }
+
     public void ChangeFadeMaterials()
     {
         for (int i = 0; i < _materials.Length; i++)

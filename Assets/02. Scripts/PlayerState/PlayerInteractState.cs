@@ -19,7 +19,7 @@ public class PlayerInteractState : PlayerBaseState
 
         ToolItemData tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
 
-        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers);
+        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers, QueryTriggerInteraction.Collide);
         if (targets.Length == 0)
         {
             _stateMachine.ChangeState(_stateMachine.MakeState);

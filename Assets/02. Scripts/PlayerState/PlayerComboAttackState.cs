@@ -160,7 +160,7 @@ public class PlayerComboAttackState : PlayerAttackState
 
     protected override void OnInteractStarted(InputAction.CallbackContext context)
     {
-        _stateMachine.ChangeState(_stateMachine.ComboAttackState);
+        _stateMachine.IsAttacking = true;
     }
 
     protected override void OnQuickUseStarted(InputAction.CallbackContext context)

@@ -14,7 +14,7 @@ public class IslandGernerator : MonoBehaviour
     [SerializeField] private WorldData _worldData;
     [SerializeField] private VoxelData _voxelData;
 
-    [Header("Island Info")]
+    [Header("Island Settings")]
     [SerializeField] private int _sizeX;
     [SerializeField] private int _sizeZ;
     [SerializeField] private Vector3 _position;
@@ -43,9 +43,11 @@ public class IslandGernerator : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return StartCoroutine(GenerateHeightMap());
         if (_showTestCube)
+        {
+            yield return StartCoroutine(GenerateHeightMap());
             yield return StartCoroutine(TestCubeCreate());
+        }
     }
 
     private IEnumerator GenerateHeightMap()
@@ -177,13 +179,13 @@ public class IslandGernerator : MonoBehaviour
 
             if (pos.HasValue && forward.HasValue && openCount == 1)
             {
-                MapData newSlideBlockkData = new()
+                MapData newSlideBlockData = new()
                 {
                     forward = forward.Value,
                     type = _slideBlock.type,
                     typeIndex = _slideBlock.typeIndex,
                 };
-                _data.TryAdd(pos.Value, newSlideBlockkData);
+                _data.TryAdd(pos.Value, newSlideBlockData);
             }
         }
         //========================

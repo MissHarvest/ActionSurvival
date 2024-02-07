@@ -160,15 +160,10 @@ public class Island
     {
         bool[,] points = new bool[cellCount, cellCount];
         var field = cellCount * cellCount;
-
         LockUnusablePoint(points, ref field);
-
         LockBoundaryPoint(points, ref field);
-
         LockOtherObjectPoint(points, ref field);
-
         LockCenterArea(points, ref field);
-
         LoopCreateMonsterSpawnPoint(points, field);
     }
 
@@ -189,7 +184,7 @@ public class Island
             }
         }
     }
-            
+
     private void LockOtherObjectPoint(bool[,] points, ref int field)
     {
         float maxDistance = 100;
@@ -226,8 +221,13 @@ public class Island
             bool stop = false;
             int forward = 0;
 
+            int count = 0;
+
             while (!stop)
             {
+                if (count == 10) break;
+                ++count;
+
                 points[(int)current.x, (int)current.y] = true;
                 --field;
 
@@ -307,6 +307,7 @@ public class Island
     {
         bool finished = false;
         int count = 0;
+
         while (!finished)
         {
             _spawnablePoints.Clear();

@@ -14,7 +14,7 @@ public struct ResourceObjectState
     }
 
     public int state;
-    public float remainingTime;
+    public int remainingTime;
 }
 
 [System.Serializable]

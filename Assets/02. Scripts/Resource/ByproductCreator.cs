@@ -21,6 +21,11 @@ public class ByproductCreator : MonoBehaviour
         _manager.OnTimeUpdated += TryCreate;
     }
 
+    private void Start()
+    {
+        TryCreate();
+    }
+
     private void OnDisable()
     {
         if (_manager != null)
@@ -46,7 +51,7 @@ public class ByproductCreator : MonoBehaviour
         if (_currentCreateCount >= _maxCreateCount)
             return;
 
-        Vector3 spawnPosition = Random.insideUnitCircle;
+        Vector3 spawnPosition = Random.insideUnitCircle * _range;
         spawnPosition.Set(spawnPosition.x, 0, spawnPosition.y);
         spawnPosition += transform.position;
 

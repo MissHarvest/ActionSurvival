@@ -21,6 +21,11 @@ public class FarmBaseState : IState
         
     }
 
+    public virtual void TimeLapse()
+    {
+
+    }
+
     public virtual void HandleInput()
     {
         
