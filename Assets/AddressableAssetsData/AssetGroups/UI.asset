@@ -71,12 +71,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0822b9175e47fac4ab1e88cd4574b36b
-    m_Address: UIPopUp_UIRecipeConfirm.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a63c73c67ba087445936aaa04c4643e9
     m_Address: UIRecipeSlot.prefab
     m_ReadOnly: 0
@@ -91,12 +85,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 16cb44d621c5b9943839c115dd2e834d
     m_Address: UIPopUp_UICooking.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8ba5486169438f847a63142d0981472c
-    m_Address: UIPopUp_UICookingConfirm.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -180,6 +168,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 19a59e38d3fd60d439004775d5d22593
     m_Address: UIPopUp_UICraftConfirm.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f3d58d11d2783641b4b41f4e385e3f5
+    m_Address: UICraftItemSlot.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

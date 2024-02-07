@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5267693403509639261}
   - component: {fileID: 8382604282764154008}
   m_Layer: 5
-  m_Name: QuestName
+  m_Name: ItemName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 29.3, y: 0}
-  m_SizeDelta: {x: 190, y: 60}
+  m_AnchoredPosition: {x: 39, y: 0}
+  m_SizeDelta: {x: 280, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5267693403509639261
 CanvasRenderer:
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD018\uC2A4\uD2B8\uBA85"
+  m_text: "\uC544\uC774\uD15C\uBA85"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aa0031c1503e9cc43ae97a26f5e29133, type: 2}
   m_sharedMaterial: {fileID: 6143970270096263553, guid: aa0031c1503e9cc43ae97a26f5e29133, type: 2}
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -170,8 +170,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 11, y: 0}
-  m_SizeDelta: {x: 50, y: 50}
+  m_AnchoredPosition: {x: 16, y: 0}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &1926530187926249659
 CanvasRenderer:
@@ -222,9 +222,10 @@ GameObject:
   - component: {fileID: 7939944862848944725}
   - component: {fileID: 7745255463480874235}
   - component: {fileID: 3964989525692418608}
-  - component: {fileID: 4658382007903785105}
+  - component: {fileID: 3772301914347017343}
+  - component: {fileID: 6415110906975241810}
   m_Layer: 5
-  m_Name: UIQuest
+  m_Name: UICraftItemSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -250,7 +251,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 270, y: 70}
+  m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7745255463480874235
 CanvasRenderer:
@@ -280,7 +281,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8e8051156b4decf4693f0648a48b3fc9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e0b63f1cfe110994ba2ad2de0e5292de, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -290,7 +291,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4658382007903785105
+--- !u!114 &3772301914347017343
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,7 +300,50 @@ MonoBehaviour:
   m_GameObject: {fileID: 6010572521953944545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48a88415ec664994ea5820b239a9e477, type: 3}
+  m_Script: {fileID: 11500000, guid: abecf588f53967b45ae739ae7e5ea97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _quests: []
+--- !u!114 &6415110906975241810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6010572521953944545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 4
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.627451, g: 1, b: 0.7741783, a: 1}
+    m_PressedColor: {r: 0.83137256, g: 1, b: 0.627451, a: 1}
+    m_SelectedColor: {r: 0.27055886, g: 0.9433962, b: 0.90304, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 3964989525692418608}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
