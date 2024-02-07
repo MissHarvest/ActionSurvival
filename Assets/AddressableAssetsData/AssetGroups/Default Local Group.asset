@@ -232,6 +232,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 268543f0fc4b8f64097c615d810d67b7
+    m_Address: TerrorBringer.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 568fb022d0895234ca6630495ed98bc8
+    m_Address: TerrorBringerProjectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
   m_SchemaSet:

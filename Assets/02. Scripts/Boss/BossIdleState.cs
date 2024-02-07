@@ -12,10 +12,22 @@ public class BossIdleState : BossBaseState
     public override void Enter()
     {
         // Set Speed zero
-        //_stateMachine.MovementSpeedModifier = 0.0f;
+        _stateMachine.MovementSpeedModifier = 0.0f;
         base.Enter();
-
         // Start Animation
         StartAnimation(_stateMachine.Boss.AnimationData.IdleParameterHash);
+        //ChangeTestState();        
     }
+
+    public override void Exit() 
+    {
+        base.Exit();
+        StopAnimation(_stateMachine.Boss.AnimationData.IdleParameterHash);
+    }
+
+    public override void Update()
+    {
+        
+    }
+
 }

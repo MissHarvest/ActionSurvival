@@ -59,7 +59,7 @@ public abstract class UIBase : MonoBehaviour
     {
         if (_bindObjects.TryGetValue(typeof(T), out var objects) == false)
             return null;
-
+        
         return objects[idx] as T;
     }
     
