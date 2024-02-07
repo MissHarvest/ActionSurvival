@@ -6,7 +6,7 @@ public class BossStabbingState : BossAttackState
 {
     public BossStabbingState(BossStateMachine stateMachine) : base(stateMachine)
     {
-        _reach = 3.5f;
+        _reach = 5.05f;
     }
 
     public override void Enter()

@@ -8,6 +8,7 @@ public class BossScreamState : BossAttackState
     public BossScreamState(BossStateMachine stateMachine) : base(stateMachine)
     {
         _reach = 100.0f;
+        cooltime = 60.0f;
     }
 
     public override void Enter()

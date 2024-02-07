@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BossMeteorState : BossAttackState
 {
@@ -10,12 +11,15 @@ public class BossMeteorState : BossAttackState
         Fly,
         Land,
     }
-
+    private GameObject _projectilePrefab;
+    private GameObject _indicatorPrefab;
     private State _currentState = State.TakeOff;
 
     public BossMeteorState(BossStateMachine stateMachine) : base(stateMachine)
     {
-        _reach = 100.0f;
+        _reach = 50.0f;
+        _projectilePrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");
+        _indicatorPrefab = Managers.Resource.GetCache<GameObject>("CircleAttackIndicator.prefab");
     }
 
     public override void Enter()
@@ -27,7 +31,7 @@ public class BossMeteorState : BossAttackState
 
     public override void Exit()
     {
-        base.Exit();        
+        //base.Exit();        
     }
 
     public override void Update()
@@ -84,7 +88,85 @@ public class BossMeteorState : BossAttackState
 
     IEnumerator FallMeteor()
     {
-        yield return new WaitForSeconds(10.0f);
+        int time = 0;
+        while (time != 100)
+        {
+            yield return new WaitForSeconds(0.1f);
+            ++time;
+
+            RandomMeteor();
+            //FireMeteorToTarget();
+        }
+        
         ChangeState(State.Land);
+    }
+
+    private void RandomMeteor()
+    {
+        List<Vector3> list = new List<Vector3>();
+
+        for(int i = 0; i < 20; ++i)
+        {
+            var position = new Vector3(
+                    _stateMachine.Boss.transform.position.x + Random.Range(-30.0f, 30.0f),
+                    _stateMachine.Boss.transform.position.y + Random.Range(2.0f, 5.0f),
+                    _stateMachine.Boss.transform.position.z + Random.Range(-30.0f, 30.0f));
+            list.Add(position);
+        }
+
+        var direction = new Vector3(-1, -2, 0);
+
+        for(int i = 0; i < list.Count; ++i)
+        {
+            if (Physics.Raycast(list[i], direction, out RaycastHit hit, 100, 1 << 12))
+            {
+                //hit.distance
+                var go = Object.Instantiate(_projectilePrefab,
+                list[i],
+                Quaternion.identity);
+                go.GetComponent<MonsterWeapon>().Owner = _stateMachine.Boss;
+                var projectile = go.GetComponent<Projectile>();
+
+                var indicatorGo = Object.Instantiate(_indicatorPrefab, hit.point + Vector3.up * 0.1f, _indicatorPrefab.transform.rotation);
+                var indicator = indicatorGo.GetComponent<AttackIndicatorCircle>();
+
+                if (projectile != null)
+                {
+                    var sphereCollider = projectile.GetComponent<SphereCollider>();
+                    projectile.Fire(hit.point, hit.distance);
+                    indicator.Set(hit.distance, projectile.Speed, sphereCollider.radius);
+                }
+            }
+        }
+    }
+
+    private void FireMeteorToTarget()
+    {
+        var position = _stateMachine.Target.transform.position + Vector3.up * 25.0f;
+
+        //var direction = _stateMachine.Target.transform.position - position + Vector3.up * 0.5f;
+        var direction = Vector3.down;
+
+        if (Physics.Raycast(position, direction, out RaycastHit hit, 100, 1 << 12))
+        {
+            var destination = hit.point + new Vector3(Random.Range(-5.0f, 5.0f), 0, Random.Range(-5.0f, 5.0f));
+            var dist = Vector3.Distance(position, destination);
+
+            var go = Object.Instantiate(_projectilePrefab,
+            position,
+            Quaternion.identity);
+            go.GetComponent<MonsterWeapon>().Owner = _stateMachine.Boss;
+            var projectile = go.GetComponent<Projectile>();
+
+            var indicatorGo = Object.Instantiate(_indicatorPrefab, destination + Vector3.up * 0.1f, _indicatorPrefab.transform.rotation);
+            var indicator = indicatorGo.GetComponent<AttackIndicatorCircle>();
+
+            if (projectile != null)
+            {
+                var sphereCollider = projectile.GetComponent<SphereCollider>();
+                projectile.Fire(destination, dist);
+                indicator.Set(dist, projectile.Speed, sphereCollider.radius);
+            }
+        }
     }
 }

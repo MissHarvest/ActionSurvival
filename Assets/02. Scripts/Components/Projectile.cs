@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
     private void Update()
     {
         if (_isFired == false) return;
-        transform.Translate(_direction * Time.deltaTime * Speed);
+        transform.Translate(Vector3.forward * Time.deltaTime * Speed);
         _moveDistance += Time.deltaTime * Speed;
 
         if (_maxDistance <= _moveDistance) Destroy(gameObject);
@@ -23,6 +23,7 @@ public class Projectile : MonoBehaviour
     public void Fire(Vector3 destination, float maxDistance)
     {
         _direction = destination - transform.position;
+        transform.rotation = Quaternion.LookRotation(_direction);
         _direction.Normalize();
         _maxDistance = maxDistance;
 

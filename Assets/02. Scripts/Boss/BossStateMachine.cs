@@ -22,6 +22,7 @@ public class BossStateMachine : StateMachine
     public float DetectionDist { get; private set; }
     public float DetectionDistModifier { get; set; } = 1.0f;
     public GameObject Target { get; set; } = null;
+    public Queue<BossAttackState> Skill { get; private set; } = new();
     public BossStateMachine(BossMonster boss)
     {
         this.Boss = boss;
@@ -37,5 +38,10 @@ public class BossStateMachine : StateMachine
         BiteState = new BossBiteState(this);
         StabState = new BossStabbingState(this);
         MeteorState = new BossMeteorState(this);
+
+        Skill.Enqueue(MeteorState);
+        Skill.Enqueue(BreathState);
+        Skill.Enqueue(RushSate);
+        //Skill.Enqueue(BiteState);
     }
 }
