@@ -27,18 +27,15 @@ public class Tutorial : MonoBehaviour
 
     private void Initialize()
     {
-        List<QuestSO> questSOs = new List<QuestSO>(Managers.Resource.GetCacheGroup<QuestSO>("QuestData"));
+        _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData")
+            .Select(questSO => new Quest(questSO))
+            .ToList();
 
-        foreach (var questSO in questSOs)
-        {
-            Quest quest = new Quest(questSO);
-
-            if (IsPreQuestsCleared(quest))
-            {
-                _activeQuests.Add(quest);
-            }
-        }
+        _activeQuests = _quests
+            .Where(quest => IsPreQuestsCleared(quest))
+            .ToList();
     }
+
 
     private void Start()
     {
@@ -52,17 +49,16 @@ public class Tutorial : MonoBehaviour
         {
             return true;
         }
+
         foreach (var preQuest in quest.questSO.preQuests)
         {
-            Quest prequest = new Quest(preQuest);
-            if (_quests.Contains(prequest))
+            if (_quests.Any(q => q.questSO == preQuest))
             {
                 return false;
             }
         }
         return true;
     }
-
 
     private void BindInventoryEvents()
     {
@@ -72,34 +68,23 @@ public class Tutorial : MonoBehaviour
     //인벤토리가 업데이트되면 클리어 조건 확인
     private void OnInventoryUpdated(int index, ItemSlot itemSlot)
     {
-        List<Quest> questsToRemove = new List<Quest>();
-
-        foreach (var activeQuest in _activeQuests)
-        {
-            if (IsEnoughRequirements(activeQuest, itemSlot))
-            {
+        _activeQuests
+            .Where(activeQuest => IsEnoughRequirements(activeQuest, itemSlot))
+            .ToList()
+            .ForEach(activeQuest => {
                 ConfirmQuestCompletion(activeQuest);
-                questsToRemove.Add(activeQuest);
-            }
-        }
+                _activeQuests.Remove(activeQuest);
+                _quests.Remove(activeQuest);
+            });
 
-        //클리어된 퀘스트는 activeQuests, quests에서 제외
-        foreach (var questToRemove in questsToRemove)
-        {
-            _activeQuests.Remove(questToRemove);
-            _quests.Remove(questToRemove);
-        }
+        _quests
+            .Where(quest => !_activeQuests.Contains(quest) && IsPreQuestsCleared(quest))
+            .ToList()
+            .ForEach(quest => _activeQuests.Add(quest));
 
-        // 선행 퀘가 모두 클리어된 경우 activeQuests에 추가
-        foreach (var quest in _quests)
-        {
-            if (!_activeQuests.Contains(quest) && IsPreQuestsCleared(quest))
-            {
-                _activeQuests.Add(quest);
-            }
-        }
         OnActiveQuestsUpdated?.Invoke();
     }
+
 
     private bool IsEnoughRequirements(Quest quest, ItemSlot itemSlot)
     {
