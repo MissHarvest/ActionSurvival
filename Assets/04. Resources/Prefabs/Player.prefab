@@ -576,7 +576,7 @@ CharacterController:
   m_Height: 1
   m_Radius: 0.2
   m_SlopeLimit: 50
-  m_StepOffset: 0
+  m_StepOffset: 0.2
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.5, z: 0}
@@ -3314,7 +3314,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 6145
   _maxBuildDistanceFront: 4
-  _maxBuildDistanceBack: 3
   _maxBuildDistanceSideways: 5
 --- !u!114 &7771247640107373999
 MonoBehaviour:
@@ -3328,10 +3327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28d6ec6858f03774db81b2dac3c304fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _invariantQuests: []
   _quests: []
   _activeQuests: []
-  _questCompletionStatus: []
 --- !u!1 &7392496694934527924
 GameObject:
   m_ObjectHideFlags: 0
