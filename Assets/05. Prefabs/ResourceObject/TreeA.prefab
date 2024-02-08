@@ -355,7 +355,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefab: {fileID: 6572011551440521037, guid: 92f64a14234031344b215e65fbb8d605, type: 3}
   _distribution: 0.3
-  _range: 2
+  _maxRange: 1
+  _minRange: 0
   _maxCreateCount: 3
 --- !u!1 &9210951989395445071
 GameObject:

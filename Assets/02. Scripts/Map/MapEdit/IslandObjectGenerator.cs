@@ -87,9 +87,9 @@ public class IslandObjectGenerator : MonoBehaviour
                 if (_noiseMap[x, z] >= _threshold)
                 {
                     Vector3 pos = new Vector3(x + 0.5f, 50f, z + 0.5f) + _position;
-                    if (Physics.Raycast(pos, Vector3.down, out var hit, 100f))
+                    if (Physics.Raycast(pos, Vector3.down, out var hit, 100f, int.MaxValue, QueryTriggerInteraction.Collide))
                     {
-                        if (hit.collider.gameObject.layer == 0)
+                        if (hit.collider.gameObject.layer != 12)
                             continue;
 
                         Instantiate(_prefab, hit.point, Quaternion.identity);

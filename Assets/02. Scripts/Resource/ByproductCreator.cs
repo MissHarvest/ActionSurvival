@@ -6,11 +6,20 @@ public class ByproductCreator : MonoBehaviour
     [Header("Data")]
     [SerializeField] private GameObject _prefab;
     [Range(0f, 1f)] [SerializeField] private float _distribution;
-    [SerializeField] private float _range;
+    [SerializeField] private float _maxRange;
+    [SerializeField] private float _minRange;
     [SerializeField] private int _maxCreateCount;
 
     private int _currentCreateCount;
     private DayCycle _manager;
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (_maxRange < _minRange)
+            (_maxRange, _minRange) = (_minRange, _maxRange);
+    }
+#endif
 
     private void OnEnable()
     {
@@ -21,41 +30,44 @@ public class ByproductCreator : MonoBehaviour
         _manager.OnTimeUpdated += TryCreate;
     }
 
-    private void Start()
-    {
-        TryCreate();
-    }
-
     private void OnDisable()
     {
         if (_manager != null)
             _manager.OnTimeUpdated -= TryCreate;
     }
 
-
     public void TryCreate()
     {
-        if (_distribution <= Random.value)
+        if (_distribution <= Random.value || _currentCreateCount >= _maxCreateCount)
             return;
 
-        Create();
-    }
-
-    // TODO: 생성 위치가 유효한지 확인해야함.
-    // 현재 문제점
-    // 1. 나무 속에 버섯이 생성될 가능성이 있음
-    // 2. 버섯 끼리 겹쳐서 생성될 가능성이 있음
-    // 3. 공중, 혹은 벽 속에 생성될 가능성이 있음
-    public void Create()
-    {
-        if (_currentCreateCount >= _maxCreateCount)
-            return;
-
-        Vector3 spawnPosition = Random.insideUnitCircle * _range;
-        spawnPosition.Set(spawnPosition.x, 0, spawnPosition.y);
+        Vector3 spawnPosition = Random.onUnitSphere;
+        spawnPosition.Set(spawnPosition.x, 0, spawnPosition.z);
+        spawnPosition.Normalize();
+        spawnPosition *= Random.Range(_minRange, _maxRange);
         spawnPosition += transform.position;
 
-        Managers.Game.ResourceObjectSpawner.SpawnObject(_prefab, spawnPosition);
-        _currentCreateCount++;
+        Create(spawnPosition);
+    }
+
+    public void Create(Vector3 spawnPosition)
+    {
+        if (IsValidPosition(ref spawnPosition))
+        {
+            Managers.Game.ResourceObjectSpawner.SpawnObject(_prefab, spawnPosition);
+            _currentCreateCount++;
+        }
+    }
+
+    public bool IsValidPosition(ref Vector3 pos)
+    {
+        pos += Vector3.up * 50f;
+        if (Physics.Raycast(pos, Vector3.down, out var hit, 100f, int.MaxValue, QueryTriggerInteraction.Collide))
+        {
+            pos = hit.point;
+            return hit.collider.gameObject.layer == 12;
+        }
+        else
+            return false;
     }
 }
