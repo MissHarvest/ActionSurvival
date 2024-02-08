@@ -38,6 +38,7 @@ public class GameManager
     public void Init()
     {
         FireIsland.BossName = "TerrorBringer";
+        Player.ConditionHandler.HP.OnBelowedToZero += (() => { IsRunning = false; });
 
         MonsterWave = new MonsterWave();
 
@@ -132,6 +133,7 @@ public class GameManager
 
     private void SaveCallback()
     {
+        if (!IsRunning) return;
         OnSaveCallback?.Invoke();
     }
 }

@@ -149,10 +149,13 @@ public class Island
         }
 
         if(BossName != string.Empty)
-        {
-            var prefab = Managers.Resource.GetCache<GameObject>($"{BossName}.prefab");
-            _boss = Object.Instantiate(prefab);
-            _boss.transform.position = new Vector3(_property.center.x, _boss.transform.position.y, _property.center.z);
+        {            
+            if(Physics.Raycast(_property.center + Vector3.up * 100, Vector3.down, out RaycastHit hit, 200, 1 << 12))
+            {
+                var prefab = Managers.Resource.GetCache<GameObject>($"{BossName}.prefab");
+                var pos = new Vector3(_property.center.x, prefab.transform.position.y + hit.point.y, _property.center.z);
+                _boss = Object.Instantiate(prefab, pos, prefab.transform.rotation);
+            }
         }
     }
 

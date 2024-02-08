@@ -15,15 +15,23 @@ public class TestScene : MonoBehaviour
         {
             if (count == total)
             {
-                //Managers.Game.Init();
-
                 var player = Managers.Resource.GetCache<GameObject>("Player.prefab");
                 player = Instantiate(player);
                 player.name = "Player";
                 virtualCamera.Follow = Managers.Game.Player.ViewPoint;
                 virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
 
+                Managers.Data.InitializeRecipeData();
+                Managers.Sound.Init();
+
+                UIInitialize();
             }
         });
+    }
+
+    private void UIInitialize()
+    {
+        Managers.UI.ShowSceneUI<UIMainScene>();
+        Managers.UI.LoadPopupUIs();
     }
 }

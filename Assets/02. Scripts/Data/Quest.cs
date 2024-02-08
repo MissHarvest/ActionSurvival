@@ -6,8 +6,8 @@ using UnityEngine;
 [Serializable]
 public class Quest
 {
-    [field: SerializeField] public QuestSO questSO { get; private set; } = null;
-    [field: SerializeField] public string questName { get; private set; } = "";
+    public QuestSO questSO { get; private set; } = null;
+    [field: SerializeField] public string questName { get; private set; } = string.Empty;
     [field: SerializeField] public bool isCompleted { get; private set; } = false;
 
     public Quest(QuestSO questSO)
@@ -20,5 +20,11 @@ public class Quest
     public void CompleteQuest()
     {
         isCompleted = true;
+    }
+
+    public void LoadData()
+    {
+        var path = $"{questName}.data";
+        questSO = Managers.Resource.GetCache<QuestSO>(path);
     }
 }

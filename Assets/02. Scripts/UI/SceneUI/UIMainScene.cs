@@ -9,9 +9,12 @@ public class UIMainScene : UIScene
     {
         QuickSlotController,
         PC,
+        HpSlider
     }
 
     #endregion
+
+    public GameObject UIBoss => Get<GameObject>((int)GameObjects.HpSlider);
 
     #region Initialize
 
