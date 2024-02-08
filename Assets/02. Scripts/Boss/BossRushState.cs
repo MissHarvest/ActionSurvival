@@ -8,14 +8,15 @@ public class BossRushState : BossAttackState
     public BossRushState(BossStateMachine stateMachine) : base(stateMachine)
     {
         _reach = 30.0f;
-        cooltime = 10.0f;
+        cooltime = 15.0f;
+        weight = 15.0f;
 
         var indicatorprefab = Managers.Resource.GetCache<GameObject>("RectAttackIndicator.prefab");
         indicator = Object.Instantiate(indicatorprefab, _stateMachine.Boss.transform.position, Quaternion.identity);
 
         var width = indicator.GetComponentInChildren<SpriteRenderer>().sprite.bounds.size.x;
         //Debug.Log($"[Widht] {width}");
-        indicator.transform.localScale = new Vector3(indicator.transform.localScale.x, indicator.transform.localScale.y, 40.0f / width);
+        indicator.transform.localScale = new Vector3(indicator.transform.localScale.x, indicator.transform.localScale.y, _reach / width);
 
         indicator.SetActive(false);
     }
@@ -29,7 +30,7 @@ public class BossRushState : BossAttackState
         var direction = _stateMachine.Target.transform.position - _stateMachine.Boss.transform.position;
         direction.y = 0;
         direction.Normalize();
-        var destination = _stateMachine.Boss.transform.position + direction * 40.0f;
+        var destination = _stateMachine.Boss.transform.position + direction * _reach;
         _stateMachine.Boss.NavMeshAgent.SetDestination(destination);
 
         indicator.transform.position = _stateMachine.Boss.transform.position;

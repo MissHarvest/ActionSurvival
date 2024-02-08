@@ -31,6 +31,7 @@ public class BossBattleState : BossBaseState
 
     public override void Update()
     {
+        base.Update();
         // Rotate
         if (Rotate(_stateMachine.Target.transform.position - _stateMachine.Boss.transform.position) == false) return;
 
@@ -55,6 +56,6 @@ public class BossBattleState : BossBaseState
             yield return null;
             loop = _stateMachine.Skill.Count <= 0;
         }
-        _nextAttackState = _stateMachine.Skill.Dequeue();
+        _nextAttackState = _stateMachine.GetUsableSkill();
     }
 }

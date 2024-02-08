@@ -22,7 +22,7 @@ public class AttackIndicatorCircle : MonoBehaviour
         _distance -= _velocity * Time.deltaTime;
         _size = (_maxDist - _distance) / _maxDist;
         growEffect.localScale = new Vector3(_size, _size, _size);
-
+        
         if(_size >= 1.0f)
         {
             Destroy(gameObject);

@@ -33,7 +33,19 @@ public class BossBaseState : IState
 
     public virtual void Update()
     {
-        
+        var v1 = _stateMachine.Boss.RespawnPoint - _stateMachine.Boss.transform.position;
+        v1.y = 0;
+        var distPointToBoss = v1.sqrMagnitude;
+        var detect = _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier;
+
+        var v2 = _stateMachine.Boss.RespawnPoint - _stateMachine.Target.transform.position;
+        v2.y = 0;
+        var distPointToPlayer = v2.sqrMagnitude;
+
+        if (distPointToBoss > detect * detect && distPointToPlayer > detect * detect)
+        {
+            _stateMachine.ChangeState(_stateMachine.InvincibilityState);
+        }
     }
 
     protected void StartAnimation(int animationHash)

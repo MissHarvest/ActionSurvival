@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GameManager
 {
-    public Player Player;
+    public Player Player;    
     public TemperatureManager Temperature { get; private set; } = new TemperatureManager();
     public ArchitectureManager Architecture { get; private set; } = new();
     public ObjectManager ObjectManager { get; private set; } = new();
@@ -28,6 +28,7 @@ public class GameManager
     public void Init()
     {
         FireIsland.BossName = "TerrorBringer";
+        Player.ConditionHandler.HP.OnBelowedToZero += (() => { IsRunning = false; });
 
         MonsterWave = new MonsterWave();
 
@@ -116,6 +117,7 @@ public class GameManager
 
     private void SaveCallback()
     {
+        if (!IsRunning) return;
         OnSaveCallback?.Invoke();
     }
 }

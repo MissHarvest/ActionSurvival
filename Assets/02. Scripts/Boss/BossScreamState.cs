@@ -9,6 +9,7 @@ public class BossScreamState : BossAttackState
     {
         _reach = 100.0f;
         cooltime = 60.0f;
+        weight = 1.0f;
     }
 
     public override void Enter()

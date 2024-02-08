@@ -14,12 +14,15 @@ public class BossMeteorState : BossAttackState
     private GameObject _projectilePrefab;
     private GameObject _indicatorPrefab;
     private State _currentState = State.TakeOff;
+    private List<Coroutine> _coroutines = new List<Coroutine>();
 
     public BossMeteorState(BossStateMachine stateMachine) : base(stateMachine)
     {
         _reach = 50.0f;
+        weight = 9999.0f;
         _projectilePrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");
         _indicatorPrefab = Managers.Resource.GetCache<GameObject>("CircleAttackIndicator.prefab");
+        _stateMachine.Boss.HP.OnBelowedToZero += StopMeteor;
     }
 
     public override void Enter()
@@ -74,8 +77,9 @@ public class BossMeteorState : BossAttackState
                 _stateMachine.Boss.NavMeshAgent.baseOffset = 2.0f;
 
                 // Meteor - Coroutine //
-                CoroutineManagement.Instance.StartCoroutine(FallMeteor());
-                //
+                var coroutine = CoroutineManagement.Instance.StartCoroutine(FallMeteor());
+                _coroutines.Add(coroutine);
+                CoroutineManagement.Instance.StartCoroutine(FireToPlayer());
                 Debug.Log("Fly");
                 
                 break;
@@ -88,16 +92,24 @@ public class BossMeteorState : BossAttackState
 
     IEnumerator FallMeteor()
     {
-        int time = 0;
-        while (time != 100)
+        while (true)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1.0f);
+            RandomMeteor();
+        }
+    }
+
+    IEnumerator FireToPlayer()
+    {
+        int time = 0;
+        while (time != 40)
+        {
+            yield return new WaitForSeconds(0.25f);
             ++time;
 
-            RandomMeteor();
-            //FireMeteorToTarget();
+            FireMeteorToTarget();            
         }
-        
+
         ChangeState(State.Land);
     }
 
@@ -105,11 +117,11 @@ public class BossMeteorState : BossAttackState
     {
         List<Vector3> list = new List<Vector3>();
 
-        for(int i = 0; i < 20; ++i)
+        for(int i = 0; i < 5; ++i)
         {
             var position = new Vector3(
                     _stateMachine.Boss.transform.position.x + Random.Range(-30.0f, 30.0f),
-                    _stateMachine.Boss.transform.position.y + Random.Range(2.0f, 5.0f),
+                    _stateMachine.Boss.transform.position.y + Random.Range(5.0f, 15.0f),
                     _stateMachine.Boss.transform.position.z + Random.Range(-30.0f, 30.0f));
             list.Add(position);
         }
@@ -143,6 +155,7 @@ public class BossMeteorState : BossAttackState
     private void FireMeteorToTarget()
     {
         var position = _stateMachine.Target.transform.position + Vector3.up * 25.0f;
+        //var position = _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Head).transform.position;
 
         //var direction = _stateMachine.Target.transform.position - position + Vector3.up * 0.5f;
         var direction = Vector3.down;
@@ -168,5 +181,14 @@ public class BossMeteorState : BossAttackState
                 indicator.Set(dist, projectile.Speed, sphereCollider.radius);
             }
         }
+    }
+
+    private void StopMeteor()
+    {
+        for (int i = 0; i < _coroutines.Count; ++i)
+        {
+            CoroutineManagement.Instance.StopCoroutine(_coroutines[i]);
+        }
+        _coroutines.Clear();
     }
 }

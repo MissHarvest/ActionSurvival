@@ -14,6 +14,9 @@ public class BossBreathState : BossAttackState
     public BossBreathState(BossStateMachine stateMachine) : base(stateMachine)
     {
         _reach = 50.0f;
+        cooltime = 60.0f;
+        weight = 20.0f;
+
         _projectilePrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerProjectile.prefab");
         _indicatorPrefab = Managers.Resource.GetCache<GameObject>("RectAttackIndicator.prefab");
         var width = _indicatorPrefab.GetComponentInChildren<SpriteRenderer>().sprite.bounds.size.x;

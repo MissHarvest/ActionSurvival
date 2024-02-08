@@ -38,6 +38,8 @@ public class Condition
         OnDecreased?.Invoke(GetPercentage());
         if (currentValue == 0)
         {
+            regenRate = 0.0f;
+            decayRate = 0.0f;
             OnBelowedToZero?.Invoke();
         }
     }
