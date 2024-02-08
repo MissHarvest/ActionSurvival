@@ -1,45 +1,45 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class KnockbackSystem : MonoBehaviour
 {
     //lgs 24.01.26
-    private Rigidbody _rigidbody;
-    private float _knockbackTime = 0f;
+    [SerializeField] private float _knockbackRatio = 1f;
     private Monster _monster;
+    private Coroutine _coroutine;
+    private WaitForFixedUpdate _wait;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
         _monster = GetComponent<Monster>();
         _monster.OnHit += OnHit;
-    }
-
-    private void Start()
-    {
-        _rigidbody.isKinematic = true;
-    }
-
-    private void FixedUpdate()
-    {
-        _knockbackTime -= Time.deltaTime;
-        if (_knockbackTime <= 0f)
-        {
-            _rigidbody.isKinematic = true;
-        }
+        _wait = new WaitForFixedUpdate();
     }
 
     private void OnHit(IAttack attacker)
     {
-        _rigidbody.isKinematic = false;
         var other = attacker as MonoBehaviour;
-        var dir = (transform.position - other.transform.position);
+        var dir = transform.position - other.transform.position;
         dir.y = 0;
         dir.Normalize();
-        _rigidbody.AddForce(dir * 2f, ForceMode.Impulse);
-        _knockbackTime = 0.5f;
+        Knockback(dir);
         Debug.Log("충돌");
+    }
+
+    public void Knockback(Vector3 force)
+    {
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+        _coroutine = StartCoroutine(CoKnockback(force));
+    }
+
+    private IEnumerator CoKnockback(Vector3 force)
+    {
+        for (float t = 0; t < 0.5f; t += Time.fixedDeltaTime)
+        {
+            Vector3 velocity = Vector3.Lerp(force, Vector3.zero, t / 0.5f);
+            transform.position += _knockbackRatio * Time.fixedDeltaTime * velocity;
+            yield return _wait;
+        }
     }
 }

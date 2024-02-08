@@ -143,6 +143,9 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     private void OnDrawGizmos()
     {
+        if (RespawnPosition == null || Data == null || _stateMachine == null)
+            return;
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(RespawnPosition, Data.MovementData.PatrolRadius);
 
