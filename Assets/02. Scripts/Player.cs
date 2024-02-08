@@ -29,7 +29,7 @@ public class Player : MonoBehaviour, IHit
 
     [field: Header("References")]
     public PlayerSO Data { get; private set; }
-    public event Action onHit;
+    public event Action OnHit;
 
     public int playerDefense = 0;
 
@@ -93,7 +93,7 @@ public class Player : MonoBehaviour, IHit
 
     public void Hit(IAttack attacker, float damage) // 인벤토리의 방어구 idx를 찾아서 UseToolItemByIndex()를 Hit가 실행될 때마다 호출
     {
-        onHit.Invoke();
+        OnHit.Invoke();
         float blockedDamage = damage - playerDefense;
         if(blockedDamage > 0)
         {

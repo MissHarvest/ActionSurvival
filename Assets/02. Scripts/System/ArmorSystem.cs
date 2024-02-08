@@ -6,16 +6,20 @@ using UnityEngine;
 
 public class ArmorSystem : MonoBehaviour
 {
+    //이게 아니고 ArmorSlot를 관리하는 ArmorSystem이 있고 거기서 장착 해제시 Inventory의 ItemSlot.ItemData의 데이터를 참조해서 ArmorSlot에 전달한다.
+    //그래야 Inventory의 ItemSlot.ItemData == null 체크가 가능할 듯 하다.
+    //
     private int _defense;
-    private float _maxDurability;
-    [SerializeField] private List<QuickSlot> _linkedSlots = new List<QuickSlot>();
-    public Condition HP { get; private set; }
+
+    public QuickSlot[] _linkedSlots;
 
     private void Awake()
     {
+        _linkedSlots = new QuickSlot[2];
+
         Managers.Game.Player.ToolSystem.OnEquip += DefenseOfTheEquippedArmor;
         Managers.Game.Player.ToolSystem.OnUnEquip += DefenseOfTheUnEquippedArmor;
-        Managers.Game.Player.onHit += Duration;        
+        Managers.Game.Player.OnHit += Duration;
     }
 
     public void DefenseOfTheEquippedArmor(QuickSlot quickSlot)
@@ -25,7 +29,10 @@ public class ArmorSystem : MonoBehaviour
         _defense += toolItemDate.defense;
         Managers.Game.Player.playerDefense = _defense;
 
-        _linkedSlots.Add(quickSlot);
+        if ((int)toolItemDate.part == 0 || (int)toolItemDate.part == 1)
+        {
+            _linkedSlots[(int)toolItemDate.part] = quickSlot;
+        }
     }
 
     public void DefenseOfTheUnEquippedArmor(QuickSlot quickSlot)
@@ -35,14 +42,20 @@ public class ArmorSystem : MonoBehaviour
         _defense -= toolItemDate.defense;
         Managers.Game.Player.playerDefense = _defense;
 
-        _linkedSlots.Remove(quickSlot);
+        if ((int)toolItemDate.part == 0 || (int)toolItemDate.part == 1)
+        {
+            _linkedSlots[(int)toolItemDate.part] = null;
+        }
     }
 
     public void Duration() // Player Hit에서 호출
     {
         foreach (var items in _linkedSlots)
         {
-            Managers.Game.Player.Inventory.UseToolItemByIndex(items.targetIndex, 10);
+            if (items != null)
+            {
+                Managers.Game.Player.Inventory.UseToolItemByIndex(items.targetIndex, 15);
+            }
         }
     }
 }

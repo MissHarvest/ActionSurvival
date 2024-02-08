@@ -64,7 +64,7 @@ public class PlayerInteractState : PlayerBaseState
                 {
                     int curIndex = Managers.Game.Player.QuickSlot.IndexInUse;
                     int inventoryIndex = Managers.Game.Player.QuickSlot.slots[curIndex].targetIndex;
-                    Managers.Game.Player.Inventory.UseToolItemByIndex(inventoryIndex, 1f);
+                    Managers.Game.Player.Inventory.UseToolItemByIndex(inventoryIndex, 5f);
                 }                
             }
             _stateMachine.ChangeState(_stateMachine.IdleState);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,6 +10,13 @@ using static BossMonster;
 public class UIArmorSlot : UIItemSlot
 {
     //여기선 UI적인 처리만 하기, 데이터 처리는 다른 클래스에서 . . .
+    //UIArmorSlot을 관리하는 객체가 이벤트 구독
+    //ItemData == null 이면 null인 상태의 아이콘을 그려볼까나
+    //UIInventory가 UIItemSlotContainer를 쓰는 것 처럼?
+    //UIInventorySlot
+
+    public event Action<QuickSlot> OnUnEquipped;
+
     enum Images
     {
         Icon,
@@ -28,7 +36,6 @@ public class UIArmorSlot : UIItemSlot
         Initialize();
         Managers.Game.Player.ToolSystem.OnEquip += EquipArmor;
         Managers.Game.Player.ToolSystem.OnUnEquip += UnEquipArmor;
-        //Managers.Game.Player.Inventory.OnUpdated += UpdateArmorSlots;
     }
 
     public void EquipArmor(QuickSlot quickSlot)
@@ -77,36 +84,7 @@ public class UIArmorSlot : UIItemSlot
                     break;
             }
         }
-    }
-
-    //public void UpdateArmorSlots(int index, ItemSlot itemSlot)
-    //{
-    //    var itemData = itemSlot.itemData as EquipItemData;
-
-    //    int parts = (int)itemData.part;
-
-    //    //itemSlot = Managers.Game.Player.Inventory.slots[index];
-
-
-    //    if (parts == 0)
-    //    {
-    //        switch (part)
-    //        {
-    //            case ItemParts.Head:
-    //                Clear();
-    //                break;
-    //        }
-    //    }
-    //    else if (parts == 1)
-    //    {
-    //        switch (part)
-    //        {
-    //            case ItemParts.Body:
-    //                Clear();
-    //                break;
-    //        }
-    //    }
-    //}
+    }    
 
     public override void Set(ItemSlot itemSlot)
     {
