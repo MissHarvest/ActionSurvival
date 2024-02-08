@@ -34,7 +34,7 @@ public class QuickSlotSystem : MonoBehaviour
 
     public void Regist(int index, QuickSlot slot)
     {
-        UnRegist(slots[index], true);
+        UnRegist(slots[index], true);        
 
         slot.itemSlot.SetRegist(true);
         slots[index].Set(slot.targetIndex, slot.itemSlot);
@@ -115,7 +115,7 @@ public class QuickSlotSystem : MonoBehaviour
         OnUpdated?.Invoke(IndexInUse, slots[IndexInUse].itemSlot);
     }
 
-    public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)
+    public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)//lgs
     {
         for (int i = 0; i < capacity; ++i)
         {

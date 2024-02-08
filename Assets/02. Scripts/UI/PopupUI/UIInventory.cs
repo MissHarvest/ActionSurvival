@@ -103,9 +103,8 @@ public class UIInventory : UIPopup
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
-    private void Equip() //lgs 24.02.06
+    private void Equip()
     {
-        // SelectedSlot를 이용하여 ToolSystem의 69번째 줄이랑 연결하는 방향으로 . . .
         Managers.Game.Player.ToolSystem.Equip(SelectedSlot);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }

@@ -56,7 +56,7 @@ public class ToolSystem : MonoBehaviour
 
     private void Start()
     {
-        Managers.Game.Player.QuickSlot.OnUnRegisted += OnItemUnregisted;
+        Managers.Game.Player.QuickSlot.OnUnRegisted += OnItemUnregisted; //lgs 얘를 ArmorSlot에도 구독을
     }
 
     public void Equip(QuickSlot slot)
@@ -121,7 +121,7 @@ public class ToolSystem : MonoBehaviour
         {
             _tools["Handable_Base"].SetActive(false);
         }
-        else if (part == (int)ItemParts.Body)
+        else if (part == (int)ItemParts.Body || part == (int)ItemParts.Head)
         {
 
         }

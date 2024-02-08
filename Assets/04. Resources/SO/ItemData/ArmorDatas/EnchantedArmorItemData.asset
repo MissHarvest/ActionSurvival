@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d49c9c70e7e63f8418e8aef1328e78ee, type: 3}
-  m_Name: WoodArmorItemData
+  m_Name: EnchantedArmorItemData
   m_EditorClassIdentifier: 
-  displayName: "\uB098\uBB34 \uAC11\uC637"
-  description: "\uB098\uBB34\uB85C \uB9CC\uB4E0 \uAC11\uC637\uC774\uB2E4."
-  iconSprite: {fileID: 21300000, guid: 541ae020fad5efc48a89a38c6218a601, type: 3}
+  displayName: "\uAC15\uD654\uB41C \uAC11\uC637"
+  description: "\uAC15\uD654\uB41C \uAC11\uC637\uC774\uB2E4."
+  iconSprite: {fileID: 21300000, guid: 567fdd2e557fefc478f8aaa7ae56fb11, type: 3}
   part: 1
   maxDurability: 30
-  defense: 2
+  defense: 4

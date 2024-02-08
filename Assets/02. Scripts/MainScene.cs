@@ -53,6 +53,8 @@ public class MainScene : MonoBehaviour
                         Instantiate(mon);
                         Managers.Game.Init();
                         UIInitialize();
+                        var camera = Managers.Resource.GetCache<GameObject>("MinimapCamera.prefab");
+                        Instantiate(camera);
                     });
                 });
             }

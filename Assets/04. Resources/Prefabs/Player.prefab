@@ -593,6 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d852ce5160cb14c9ef96c27a8c203d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerDefense: 0
   <StandingIslandName>k__BackingField: CenterIsland
 --- !u!114 &787385280888539790
 MonoBehaviour:
@@ -3227,6 +3228,7 @@ GameObject:
   - component: {fileID: 4649982659158114381}
   - component: {fileID: 4543093439048481785}
   - component: {fileID: 7771247640107373999}
+  - component: {fileID: 4257597779344770059}
   m_Layer: 9
   m_Name: System
   m_TagString: Untagged

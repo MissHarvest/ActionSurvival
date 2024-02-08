@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +29,9 @@ public class Player : MonoBehaviour, IHit
 
     [field: Header("References")]
     public PlayerSO Data { get; private set; }
+    public event Action OnHit;
+
+    public int playerDefense = 0;
 
     private PlayerStateMachine _stateMachine;
 
@@ -87,12 +91,17 @@ public class Player : MonoBehaviour, IHit
         _stateMachine.PhysicsUpdate();
     }
 
-    // 방어구 SO의 _defense 값을 여기서 더해주는 방향은? 굳이 플레이어가 _defense 값을 가지고 있어야 할까나
-    public void Hit(IAttack attacker, float damage)
+    public void Hit(IAttack attacker, float damage) // 인벤토리의 방어구 idx를 찾아서 UseToolItemByIndex()를 Hit가 실행될 때마다 호출
     {
-        Managers.Sound.PlayEffectSound(transform.position, "Hit");
-        ConditionHandler.HP.Subtract(damage);
-        Debug.Log($"[ Attacked by ] {attacker}");
+        //OnHit.Invoke();
+        //float blockedDamage = damage - playerDefense;
+        float blockedDamage = damage;
+        if (blockedDamage > 0)
+        {
+            Managers.Sound.PlayEffectSound(transform.position, "Hit");
+            ConditionHandler.HP.Subtract(blockedDamage);
+            Debug.Log($"[ Attacked by ] {attacker}");
+        }     
     }
 
     public void Die()
