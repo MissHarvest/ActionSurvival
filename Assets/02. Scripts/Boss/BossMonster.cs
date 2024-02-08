@@ -30,6 +30,8 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
 
     [SerializeField] private MonsterWeapon[] _weapons;
 
+    public Vector3 RespawnPoint { get; private set; }
+
     private void Awake()
     {
         gameObject.layer = 7;
@@ -38,8 +40,10 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
         NavMeshAgent = Utility.GetOrAddComponent<NavMeshAgent>(gameObject);
         BodyCollider = GetComponent<Collider>();
         HP = new Condition(Data.MaxHP);
-        HP.OnUpdated += OnHpUpdated;
+        
         HP.OnBelowedToZero += Die;
+
+        RespawnPoint = transform.position;
 
         _weapons = GetComponentsInChildren<MonsterWeapon>();
         foreach(var weapon in _weapons)
@@ -52,24 +56,27 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
 
     private void Start()
     {
-        //RespawnPosition = transform.position;
         _stateMachine.ChangeState(_stateMachine.SleepState);
-        //SetManagementedObject();
+        SetManagementedObject();
     }
 
     private void Update()
     {
-        _stateMachine.Update();        
+        _stateMachine.Update();
+        HP.Update();
     }
 
-    private void OnHpUpdated(float percent)
+    public void SetManagementedObject()
     {
-
+        var managedObject = Utility.GetOrAddComponent<ManagementedObject>(gameObject);
+        managedObject.Add(this, typeof(Behaviour));
+        managedObject.AddRange(GetComponentsInChildren<Renderer>(true), typeof(Renderer));
+        managedObject.AddRange(GetComponentsInChildren<Collider>(true), typeof(Collider));
     }
 
-    private void Die()
+    public void Die()
     {
-
+        _stateMachine.ChangeState(_stateMachine.DieState);
     }
 
     public void Attack(IHit target)
@@ -79,7 +86,7 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
 
     public void Hit(IAttack attacker, float damage)
     {
-        
+        HP.Subtract(damage);
     }
 
     public MonsterWeapon GetMonsterWeapon(Parts part)
@@ -88,8 +95,8 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
     }
 
     private void OnDrawGizmos()
-    {
+    { 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier);
+        Gizmos.DrawWireSphere(RespawnPoint, _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier);
     }
 }

@@ -10,5 +10,6 @@ public class UIPlayerHP : UIPlayerCondition
         var hp = GameObject.Find("Player").GetComponent<PlayerConditionHandler>().HP;
         _maxConditionValue = hp.maxValue;
         hp.OnUpdated += OnConditionUpdated;
+        OnConditionUpdated(hp.GetPercentage());
     }
 }

@@ -37,9 +37,6 @@ public abstract class UICraftBase : UIPopup
 
     protected List<UICraftItemSlot> _uiCraftSlots = new List<UICraftItemSlot>();
 
-    //protected abstract UIConfirmBase GetConfirmPopup();
-    //protected abstract List<RecipeSO> GetDataList();
-
     public override void Initialize()
     {
         base.Initialize();
@@ -96,10 +93,9 @@ public abstract class UICraftBase : UIPopup
             {
                 if (craftSlotGO.activeSelf)
                 {
-                    //var confirmPopup = GetConfirmPopup();
                     _confirm.gameObject.SetActive(true);
                     var craftItemName = dataList[craftSlot.Index].completedItemData.displayName;
-                    Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를) 제작하시겠습니까?";
+                    Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를)\n 제작하시겠습니까?";
 
                     // 선택한 레시피의 재료를 가져와서 Confirm에 전달
                     SetIngredients(dataList[craftSlot.Index].requiredItems, craftSlot.Index);
@@ -122,14 +118,12 @@ public abstract class UICraftBase : UIPopup
             {
                 if (Managers.Game.Player.Inventory.IsFull(completedItemData))
                 {
-                    //Managers.UI.ClosePopupUI(this);
                     _confirm.gameObject.SetActive(false);
                     var warning = Managers.UI.ShowPopupUI<UIWarning>();
                     warning.SetWarning("인벤토리가 가득 찼습니다.");
                 }
                 else
                 {
-                    //Managers.UI.ClosePopupUI(this);
                     _confirm.gameObject.SetActive(false);
                     var confirm = Managers.UI.ShowPopupUI<UICraftConfirm>();
                     confirm.SetCraft($"{completedItemData.displayName} 제작 완료!");
@@ -141,7 +135,6 @@ public abstract class UICraftBase : UIPopup
             }
             else
             {
-                //Managers.UI.ClosePopupUI(this);
                 _confirm.gameObject.SetActive(false);
                 var warning = Managers.UI.ShowPopupUI<UIWarning>();
                 warning.SetWarning("재료가 부족합니다.");

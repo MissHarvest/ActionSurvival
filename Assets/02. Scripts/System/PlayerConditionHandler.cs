@@ -20,7 +20,7 @@ public class PlayerConditionHandler : MonoBehaviour
         HP.OnBelowedToZero += Player.Die;
 
         Hunger = new Condition(100);
-        Hunger.decayRate = 0.3f;
+        Hunger.decayRate = 0.2f;
         Hunger.OnRecovered += OnHungerRecevered;
         Hunger.OnDecreased += OnHungerDecrease;
         Hunger.OnBelowedToZero += OnHungerZero;
