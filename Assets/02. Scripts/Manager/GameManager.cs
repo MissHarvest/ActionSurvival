@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager
 {
+    private WorldNavMeshBuilder _worldNavmeshBuilder;
     public Player Player;
     public TemperatureManager Temperature { get; private set; } = new TemperatureManager();
     public ArchitectureManager Architecture { get; private set; } = new();
@@ -15,7 +16,16 @@ public class GameManager
     public event Action OnSaveCallback;
 
     public World World { get; private set; }
-    private ResourceObjectSpawner _resourceObjectSpawner = new();
+    public WorldNavMeshBuilder WorldNavMeshBuilder
+    {
+        get
+        {
+            if (_worldNavmeshBuilder == null)
+                _worldNavmeshBuilder = new GameObject(nameof(WorldNavMeshBuilder)).AddComponent<WorldNavMeshBuilder>();
+            return _worldNavmeshBuilder;
+        }
+    }
+    public ResourceObjectSpawner ResourceObjectSpawner { get; private set; } = new();
 
     public Island IceIsland = new Island(new IslandProperty(new Vector3(317, 0, 0), nameof(IceIsland)));
     public Island CenterIsland = new Island(new IslandProperty(Vector3.zero, nameof(CenterIsland)));
@@ -28,6 +38,7 @@ public class GameManager
     public void Init()
     {
         FireIsland.BossName = "TerrorBringer";
+        Player.ConditionHandler.HP.OnBelowedToZero += (() => { IsRunning = false; });
 
         MonsterWave = new MonsterWave();
 
@@ -41,7 +52,7 @@ public class GameManager
 
         Temperature.Init(this);
 
-        _resourceObjectSpawner.Initialize();
+        ResourceObjectSpawner.Initialize();
         
         InitIslands();
         Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
@@ -88,6 +99,12 @@ public class GameManager
         World.GenerateWorldAsync(progressCallback, completedCallback);
     }
 
+    public void GenerateNavMeshAsync(bool autoUpdate = false, Action<AsyncOperation> callback = null)
+    {
+        WorldNavMeshBuilder.AutoUpdate = autoUpdate; // 주기적으로 업데이트 X. 게임 초기화 시 한 번만 생성합니다.
+        WorldNavMeshBuilder.GenerateNavMeshAsync(callback);
+    }
+
     public void InitIslands()
     {
         // MonsterGroup 을 만들어서 넘기는거..?
@@ -116,6 +133,7 @@ public class GameManager
 
     private void SaveCallback()
     {
+        if (!IsRunning) return;
         OnSaveCallback?.Invoke();
     }
 }

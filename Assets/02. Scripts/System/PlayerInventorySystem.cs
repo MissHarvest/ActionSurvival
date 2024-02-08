@@ -7,6 +7,7 @@ public class PlayerInventorySystem : InventorySystem
     protected override void Awake()
     {
         base.Awake();
+        Debug.Log($"PlayerInventory Awake [{gameObject.name}] [{this.name}]");
         Load();
     }
     private void Start()
@@ -108,9 +109,17 @@ public class PlayerInventorySystem : InventorySystem
     {
         if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "PlayerInventory") == false)
         {
+#if UNITY_EDITOR
             AddDefaultToolAsTest();
-            //var itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
-            //AddItem(itemData, 20);
+#endif
+        }
+        else
+        {
+            foreach (var item in slots)
+            {
+                if(item.itemName != string.Empty)
+                    item.LoadData();
+            }
         }
     }
 

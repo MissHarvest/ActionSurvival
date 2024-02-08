@@ -1,12 +1,15 @@
 using System;
+using System.IO;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Progress;
 
 [Serializable]
 public class ItemSlot
 {
-    [field: SerializeField] public ItemData itemData { get; private set; } = null;
+    public ItemData itemData { get; private set; } = null;
+    [field: SerializeField] public string itemName { get; private set; } = string.Empty;
     [field: SerializeField] public int quantity { get; private set; }
     // 내구도 
     [field: SerializeField] public float currentDurability { get; private set; }
@@ -19,6 +22,7 @@ public class ItemSlot
     public ItemSlot()
     {
         this.itemData = null;
+        this.itemName = string.Empty;
         this.quantity = 0;
         this.currentDurability = 0.0f;
     }
@@ -26,6 +30,7 @@ public class ItemSlot
     public ItemSlot(InventorySystem inventory)
     {
         this.inventory = inventory;
+        this.itemName = string.Empty;
         this.itemData = null;
         this.quantity = 0;
         this.currentDurability = 0.0f;
@@ -34,6 +39,7 @@ public class ItemSlot
     public ItemSlot(ItemData itemData, int quantity = 1)
     {
         this.itemData = itemData;
+        this.itemName = itemData.name;
         this.quantity = quantity;
         this.currentDurability = (itemData is EquipItemData toolItem) ? toolItem.maxDurability : 0f;
     }
@@ -61,10 +67,18 @@ public class ItemSlot
         // To Do ) 소모해야하는 양 보다 가지고 있는게 적으면 실패하는 로직
     }
 
+    public void LoadData()
+    {
+        var path = $"{itemName}.data";
+        Debug.Log($"[{path}] Finding");
+        itemData = Managers.Resource.GetCache<ItemData>(path);
+    }
+
     public void Set(ItemData item, int quantity = 1)
     {
         // [ Check ] // 내구도 부분이랑 병합 시 
         this.itemData = item;
+        this.itemName = item.name;
         this.quantity = quantity;
         this.currentDurability = (itemData is EquipItemData toolItem) ? toolItem.maxDurability : 0f; //lgs 24.02.06
     }
@@ -90,6 +104,7 @@ public class ItemSlot
     public void Clear()
     {
         itemData = null;
+        itemName = string.Empty;
         quantity = 0;
         registed = false;
         equipped = false;

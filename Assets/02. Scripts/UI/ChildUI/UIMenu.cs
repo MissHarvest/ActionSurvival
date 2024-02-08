@@ -36,13 +36,13 @@ public class UIMenu : UIBase
 
     private void ShowMenu()
     {
-        transform.position += new Vector3(-240, 0, 0);
+        transform.position += new Vector3(-340, 0, 0);
         _isHidden = false;
     }
 
     private void HideMenu()
     {
-        transform.position += new Vector3(240, 0, 0);
+        transform.position += new Vector3(340, 0, 0);
         _isHidden = true;
     }
 }

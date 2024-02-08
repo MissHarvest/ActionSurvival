@@ -107,7 +107,7 @@ public class Player : MonoBehaviour, IHit
     {
         _stateMachine.ChangeState(_stateMachine.DieState);
         SaveGame.DeleteAllFiles();
-        Managers.UI.ShowPopupUI<UIDeath>();
+        Managers.UI.ShowPopupUI<UIDeath>();        
     }
        
     public void Save()

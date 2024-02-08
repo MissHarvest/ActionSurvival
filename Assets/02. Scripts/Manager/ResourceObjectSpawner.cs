@@ -17,12 +17,12 @@ public class ResourceObjectSpawner
         _resourceObjectRoot = new GameObject("ResourceObjectRoot").transform;
 
         _world = Managers.Game.World;
-        SpawnObject();
+        SpawnObjects();
 
         Managers.Game.OnSaveCallback += Save;
     }
 
-    private void SpawnObject()
+    private void SpawnObjects()
     {
         //Load//
         SaveGame.TryLoadJsonFile<ResourceObjectSaveData>(SaveGame.SaveType.Runtime, "ResourceObjectsState", out ResourceObjectSaveData json);
@@ -41,6 +41,13 @@ public class ResourceObjectSpawner
             }
             _resourceObjects.Add(resourceObjectParent);
         }
+    }
+
+    public GameObject SpawnObject(GameObject prefab, Vector3 pos)
+    {
+        var go = UnityEngine.Object.Instantiate(prefab, pos, Quaternion.identity);
+        go.transform.parent = _resourceObjectRoot;
+        return go;
     }
 
     private void Save()

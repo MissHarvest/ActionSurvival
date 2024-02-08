@@ -29,11 +29,6 @@ public class UIRecipe : UICraftBase
         }
     }
 
-    //protected override UIConfirmBase GetConfirmPopup()
-    //{
-    //    return Managers.UI.ShowPopupUI<UIRecipeConfirm>();
-    //}
-
     protected override List<RecipeSO.Ingredient> GetRequiredDataList()
     {
         return (Managers.Data.recipeDataList.SelectMany(recipe => recipe.requiredItems).ToList());

@@ -6,7 +6,9 @@ public class BossStabbingState : BossAttackState
 {
     public BossStabbingState(BossStateMachine stateMachine) : base(stateMachine)
     {
-        _reach = 3.5f;
+        _reach = 5.00f;
+        cooltime = 10.0f;
+        weight = 5.0f;
     }
 
     public override void Enter()
