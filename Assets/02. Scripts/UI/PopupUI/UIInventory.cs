@@ -31,6 +31,7 @@ public class UIInventory : UIPopup
 
     private void Awake()
     {
+        Debug.Log($"UI Inventory Awake [{gameObject.name}] [{this.name}]");
         Initialize();
         var inventory = Managers.Game.Player.Inventory;
         var prefab = Managers.Resource.GetCache<GameObject>("UIInventorySlot.prefab");

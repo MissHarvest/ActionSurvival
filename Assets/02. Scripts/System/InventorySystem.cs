@@ -255,6 +255,11 @@ public class InventorySystem : MonoBehaviour
     public virtual void Load()
     {
         SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"{gameObject.name}Inventory");
+        foreach(var item in slots)
+        {
+            if (item.itemName != string.Empty)
+                item.LoadData();
+        }
     }
 
     protected virtual void Save()

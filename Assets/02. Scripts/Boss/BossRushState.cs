@@ -50,7 +50,7 @@ public class BossRushState : BossAttackState
 
     public override void Update()
     {
-        if(_stateMachine.Boss.NavMeshAgent.remainingDistance < 0.1f)
+        if(_stateMachine.Boss.NavMeshAgent.remainingDistance < 1.0f)
         {
             _stateMachine.ChangeState(_stateMachine.BattleState);
         }

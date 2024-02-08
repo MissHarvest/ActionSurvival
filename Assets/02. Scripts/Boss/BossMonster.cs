@@ -57,12 +57,21 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
     private void Start()
     {
         _stateMachine.ChangeState(_stateMachine.SleepState);
+        SetManagementedObject();
     }
 
     private void Update()
     {
         _stateMachine.Update();
         HP.Update();
+    }
+
+    public void SetManagementedObject()
+    {
+        var managedObject = Utility.GetOrAddComponent<ManagementedObject>(gameObject);
+        managedObject.Add(this, typeof(Behaviour));
+        managedObject.AddRange(GetComponentsInChildren<Renderer>(true), typeof(Renderer));
+        managedObject.AddRange(GetComponentsInChildren<Collider>(true), typeof(Collider));
     }
 
     public void Die()

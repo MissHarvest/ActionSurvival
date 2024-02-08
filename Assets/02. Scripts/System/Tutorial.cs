@@ -107,7 +107,20 @@ public class Tutorial : MonoBehaviour
 
     public virtual void Load()
     {
-        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "Tutorial");
+        if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "Tutorial"))
+        {
+            foreach(var quest in _quests)
+            {
+                if(quest.questName != string.Empty)
+                    quest.LoadData();
+            }
+
+            foreach(var quest in _activeQuests)
+            {
+                if (quest.questName != string.Empty)
+                    quest.LoadData();
+            }
+        }
     }
 
     protected virtual void Save()
