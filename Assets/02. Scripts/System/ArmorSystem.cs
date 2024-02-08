@@ -54,7 +54,7 @@ public class ArmorSystem : MonoBehaviour
         {
             if (items != null)
             {
-                Managers.Game.Player.Inventory.UseToolItemByIndex(items.targetIndex, 15);
+                Managers.Game.Player.Inventory.UseToolItemByIndex(items.targetIndex, 1);
             }
         }
     }
