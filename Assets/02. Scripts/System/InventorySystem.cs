@@ -30,7 +30,55 @@ public class InventorySystem : MonoBehaviour
 
     public void AddDefaultToolAsTest()
     {
+        var itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
+        AddItem(itemData, 10);
 
+        itemData = Managers.Resource.GetCache<ItemData>("LogItemData.data");
+        AddItem(itemData, 10);
+
+
+        // 고급 레시피 테스트용 재료
+        itemData = Managers.Resource.GetCache<ItemData>("LowStoneItemData.data");
+        AddItem(itemData, 20);
+        itemData = Managers.Resource.GetCache<ItemData>("ChestItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("RabbitMeatItemData.data");
+        AddItem(itemData, 20);
+        itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("HammerItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FarmItemData.data");
+        AddItem(itemData, 1);
+
+        itemData = Managers.Resource.GetCache<ItemData>("WoodArmorItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("WoodHelmetItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("EnchantedArmorItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("EnchantedHelmetItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("WoodSwordItemData.data");
+        AddItem(itemData, 1);
     }
 
     public void SetCapacity(int capacity)
