@@ -18,7 +18,7 @@ public struct ColorsArray
     public Color[] Colorarray;
 }
 
-public class CameraShadow : MonoBehaviour
+public class MapIlluminator : MonoBehaviour
 {
     private GameObject _shadowPlanePrefab;
 
