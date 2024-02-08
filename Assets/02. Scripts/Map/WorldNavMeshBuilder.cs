@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System;
 using System.Linq;
+using Unity.VisualScripting;
 
 // 2024-01-16 WJY
 public class WorldNavMeshBuilder : MonoBehaviour
@@ -15,15 +16,14 @@ public class WorldNavMeshBuilder : MonoBehaviour
     private World _world;
     private bool _isInitialized = false;
 
-    public bool IsActive { get; set; }
+    public bool AutoUpdate { get; set; }
     public NavMeshDataInstance NavMeshDataInstance => _instance;
 
     private IEnumerator Start()
     {
-        Initialize();
-
-        while (IsActive)
+        while (AutoUpdate)
         {
+            Initialize();
             yield return UpdateNavMesh();
         }
     }
@@ -38,6 +38,11 @@ public class WorldNavMeshBuilder : MonoBehaviour
         _instance = NavMesh.AddNavMeshData(_data);
 
         _isInitialized = true;
+    }
+
+    public void AddSources(NavMeshBuildSource source)
+    {
+        _sources.Add(source);
     }
 
     public void AddChunkSources(Chunk chunk)

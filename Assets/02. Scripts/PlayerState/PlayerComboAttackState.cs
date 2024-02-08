@@ -22,6 +22,7 @@ public class PlayerComboAttackState : PlayerAttackState
     {
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
+        _weapon = Managers.Game.Player.GetComponentInChildren<Weapon>();
 
         _alreadyAppliedForce = false;
         _alreadyApplyCombo = false;
@@ -35,7 +36,6 @@ public class PlayerComboAttackState : PlayerAttackState
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }
-
 
         var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range * 1.5f, tool.targetLayers);
         if (targets.Length == 0)
@@ -55,6 +55,8 @@ public class PlayerComboAttackState : PlayerAttackState
     public override void Exit()
     {
         base.Exit();
+        _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
+        _weapon = null;
         target = null;
         StopAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
 
@@ -112,20 +114,18 @@ public class PlayerComboAttackState : PlayerAttackState
 
         ForceMove();
 
+
         float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Attack");
         if (normalizedTime < 1f)
         {
             if (normalizedTime >= _attackInfoData.ForceTransitionTime)
-            {
                 TryApplyForce();
-            }
+
+            if (_attackInfoData.ForceTransitionTime < normalizedTime && normalizedTime <= _attackInfoData.ComboTransitionTime)
+                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;//
 
             if (normalizedTime >= _attackInfoData.ComboTransitionTime)
-            {
-                _weapon = Managers.Game.Player.GetComponentInChildren<Weapon>();
-                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;//
                 TryComboAttack();
-            }
         }
         else
         {
