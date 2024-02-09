@@ -39,7 +39,7 @@ public class UIItemUsageHelper : UIItemHelper
         SetItemName(selectedSlot.itemData.displayName);
 
         Container.transform.position = position;
-
+        
         switch (selectedSlot.itemData)
         {
             case ToolItemData toolItem when !toolItem.isArchitecture:

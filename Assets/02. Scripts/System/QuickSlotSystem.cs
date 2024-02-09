@@ -142,6 +142,11 @@ public class QuickSlotSystem : MonoBehaviour
     {
         if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "PlayerQuickSlot"))
         {
+            for(int i = 0; i < slots.Length; ++i)
+            {
+                slots[i].itemSlot.LoadData();
+            }
+
             if (IndexInUse != -1 && slots[IndexInUse].itemSlot.itemData is ToolItemData)
             {
                 QuickUse();

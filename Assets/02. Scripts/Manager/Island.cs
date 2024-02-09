@@ -127,7 +127,7 @@ public class Island
 
         SetSpawnPointRank();
 
-        Save();
+        //Save();
 
         // SpawnMonster
         for (int i = 0; i < _spawnablePoints.Count; ++i)

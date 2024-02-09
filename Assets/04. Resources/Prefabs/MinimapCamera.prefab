@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3215671793421710086}
   - component: {fileID: 5333171256435845298}
   - component: {fileID: 1814941724132252415}
+  - component: {fileID: -5446041863507839860}
   m_Layer: 0
   m_Name: MinimapCamera
   m_TagString: Untagged
@@ -43,7 +44,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -100,3 +101,20 @@ MonoBehaviour:
   _positionY: 0
   _positionZ: 1
   _target: {fileID: 0}
+--- !u!114 &-5446041863507839860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2720385004395255831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc0729834ce4714db1d2b7ef3e5ccba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shadowLayer:
+    serializedVersion: 2
+    m_Bits: 262144
+  _verticesArray: []
+  _colorsArray: []

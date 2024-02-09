@@ -503,12 +503,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0e99452afc6013a46b0fcaa854d7a0e0
-    m_Address: AppleItemData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: eaac63f19a4e191489080679244faec7
     m_Address: CornerItemData.data
     m_ReadOnly: 0
