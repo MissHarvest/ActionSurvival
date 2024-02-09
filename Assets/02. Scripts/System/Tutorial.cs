@@ -92,7 +92,6 @@ public class Tutorial : MonoBehaviour
         {
             if (itemSlot.itemData != null && itemSlot.itemData.name == requiredItem.item.name)
             {
-                //Debug.Log($"{requiredItem.item.displayName} 획득");
                 return true;
             }
         }
