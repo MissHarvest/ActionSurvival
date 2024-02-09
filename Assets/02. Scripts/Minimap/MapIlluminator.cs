@@ -38,6 +38,12 @@ public class MapIlluminator : MonoBehaviour
 
     private float _radiusCircle { get { return _shadowRadius; } }
 
+
+    private void Awake()
+    {
+        Initialize();
+    }
+
     private void Initialize()
     {
         _shadowPlanePrefab = Managers.Resource.GetCache<GameObject>("ShadowPlane.prefab");
@@ -64,15 +70,14 @@ public class MapIlluminator : MonoBehaviour
                 }
             }
         }
-        UpdateColors();
     }
 
     private void Start()
     {
-        StartCoroutine(WaitForPlayer());
-        Initialize();
-        Load();
+        _player = Managers.Game.Player.transform;
 
+        Load();
+        StartCoroutine(UpdateColor());
         Managers.Game.OnSaveCallback += Save;
     }
 

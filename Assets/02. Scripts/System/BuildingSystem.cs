@@ -55,10 +55,12 @@ public class BuildingSystem : MonoBehaviour
     public void CreateArchitectureByIndex(int index)
     {
         _rayPointer.transform.position = transform.position + Vector3.up * 2;
+        var handItemData = Managers.Game.Player.Inventory.slots[index].itemData as ToolItemData;
+        if (!handItemData.isArchitecture) return;
 
         if (Physics.Raycast(_rayPointer.transform.position, Vector3.down, out RaycastHit hit, 100, _buildableLayer))
         {
-            var handItemData = Managers.Game.Player.Inventory.slots[index].itemData as ToolItemData;
+            
             _inventoryIndex = index;
 
             string itemNameWithoutItemData = handItemData.name.Replace("ItemData", "");

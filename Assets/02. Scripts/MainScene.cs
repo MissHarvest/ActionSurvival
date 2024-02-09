@@ -2,7 +2,6 @@ using Cinemachine;
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainScene : MonoBehaviour
 {
@@ -52,7 +51,9 @@ public class MainScene : MonoBehaviour
                         var mon = Managers.Resource.GetCache<GameObject>("Slime.prefab");
                         Instantiate(mon);
                         Managers.Game.Init();
+                        
                         UIInitialize();
+
                         var camera = Managers.Resource.GetCache<GameObject>("MinimapCamera.prefab");
                         Instantiate(camera);
                     });
