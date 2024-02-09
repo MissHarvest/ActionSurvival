@@ -46,6 +46,8 @@ public class MapIlluminator : MonoBehaviour
         _verticesArray = new VerticesArray[_shadowPlanes.Length];
         _colorsArray = new ColorsArray[_shadowPlanes.Length];
 
+        GameObject shadowPlanesParent = new GameObject("ShadowPlanes");
+
         // 프리팹을 이용하여 ShadowPlane 생성
         for (int i = 0; i < _numPlanesX; i++)
         {
@@ -54,6 +56,8 @@ public class MapIlluminator : MonoBehaviour
                 Vector3 spawnPosition = new Vector3(i * 100 - 500, 40, j * -100 + 100);
 
                 _shadowPlanes[i * _numPlanesZ + j] = Instantiate(_shadowPlanePrefab, spawnPosition, Quaternion.Euler(90, 0, 0));
+                _shadowPlanes[i * _numPlanesZ + j].transform.parent = shadowPlanesParent.transform;
+
                 _meshes[i * _numPlanesZ + j] = _shadowPlanes[i * _numPlanesZ + j].GetComponent<MeshFilter>().mesh;
                 _verticesArray[i * _numPlanesZ + j] = new VerticesArray { Verticearray = _meshes[i * _numPlanesZ + j].vertices };
                 _colorsArray[i * _numPlanesZ + j] = new ColorsArray { Colorarray = new Color[_verticesArray[i * _numPlanesZ + j].Verticearray.Length] };
@@ -66,6 +70,7 @@ public class MapIlluminator : MonoBehaviour
         }
         UpdateColors();
     }
+
 
     private void Start()
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,12 +14,15 @@ public abstract class UICraftBase : UIPopup
         Confirm,
         Contents,
         YesButton,
+        MinusButton,
+        PlusButton,
         Exit,
     }
 
     enum Texts
     {
         AskingText,
+        QuantityText,
     }
 
     protected GameObject _itemPrefab;
@@ -29,8 +33,12 @@ public abstract class UICraftBase : UIPopup
     protected Transform _contents;
 
     protected GameObject _yesButton;
+    protected GameObject _minusButton;
+    protected GameObject _plusButton;
 
     protected List<GameObject> _itemUIList = new List<GameObject>();
+
+    protected int _craftQuantity = 1;
 
     protected virtual List<RecipeSO.Ingredient> GetRequiredDataList() => null;
     protected virtual List<RecipeSO> GetDataList() => null;
@@ -49,10 +57,14 @@ public abstract class UICraftBase : UIPopup
         });
 
         Get<TextMeshProUGUI>((int)Texts.AskingText).raycastTarget = false;
+        Get<TextMeshProUGUI>((int)Texts.QuantityText).raycastTarget = false;
 
         _yesButton = Get<GameObject>((int)Gameobjects.YesButton);
-
+        _minusButton = Get<GameObject>((int)Gameobjects.MinusButton);
+        _plusButton = Get<GameObject>((int)Gameobjects.PlusButton);
         _yesButton.BindEvent((x) => { OnConfirmedBase(); });
+        _minusButton.BindEvent((x) => { OnMinusQuantity(); });
+        _plusButton.BindEvent((x) => { OnPlusQuantity(); });
     }
 
     public virtual void Awake()
@@ -69,6 +81,7 @@ public abstract class UICraftBase : UIPopup
 
     public virtual void OnEnable()
     {
+        _craftQuantity = 1;
         ShowData(GetDataList());
         var dataList = GetRequiredDataList();
     }
@@ -85,8 +98,9 @@ public abstract class UICraftBase : UIPopup
             var craftSlot = craftSlotGO.GetComponent<UICraftItemSlot>();
             craftSlot?.Set(new ItemSlot(dataList[i].completedItemData));
 
-            // UIRecipeItemSlot에 인덱스를 설정
+            // UIRecipeItemSlot에 인덱스 및 수량 설정
             craftSlot.SetIndex(i);
+            craftSlot.SetQuantity(_craftQuantity);
 
             // 아이템 클릭 시 Confirm 판넬 띄우기
             craftSlotGO.BindEvent((x) =>
@@ -95,16 +109,23 @@ public abstract class UICraftBase : UIPopup
                 {
                     _confirm.gameObject.SetActive(true);
                     var craftItemName = dataList[craftSlot.Index].completedItemData.displayName;
-                    Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를)\n 제작하시겠습니까?";
+                    Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를) {craftSlot.Quantity}개\n제작하시겠습니까?";
 
                     // 선택한 레시피의 재료를 가져와서 Confirm에 전달
                     SetIngredients(dataList[craftSlot.Index].requiredItems, craftSlot.Index);
+
+                    _craftQuantity = craftSlot.Quantity;
+                    UpdateCraftUI();
                 }
             });
 
             _uiCraftSlots.Add(craftSlot);
         }
+
+        // 초기 수량 설정
+        //UpdateCraftUI();
     }
+
 
     protected void OnConfirmedBase()
     {
@@ -116,7 +137,7 @@ public abstract class UICraftBase : UIPopup
             // 플레이어 인벤토리에서 아이템 확인 및 소모
             if (CheckItems(items))
             {
-                if (Managers.Game.Player.Inventory.IsFull(completedItemData))
+                if (Managers.Game.Player.Inventory.IsFull(completedItemData, _craftQuantity))
                 {
                     _confirm.gameObject.SetActive(false);
                     var warning = Managers.UI.ShowPopupUI<UIWarning>();
@@ -127,7 +148,7 @@ public abstract class UICraftBase : UIPopup
                     _confirm.gameObject.SetActive(false);
                     var confirm = Managers.UI.ShowPopupUI<UICraftConfirm>();
                     confirm.SetCraft($"{completedItemData.displayName} 제작 완료!");
-                    Managers.Game.Player.Inventory.AddItem(completedItemData, 1);
+                    Managers.Game.Player.Inventory.AddItem(completedItemData, _craftQuantity);
                     //Debug.Log($"{completedItemData.displayName}을 제작했어요.");
 
                     ConsumeItems(items);
@@ -143,8 +164,37 @@ public abstract class UICraftBase : UIPopup
         ClearItems();
     }
 
+    protected void OnMinusQuantity()
+    {
+        if (_craftQuantity > 1)
+        {
+            _craftQuantity--;
+            UpdateCraftUI();
+        }
+    }
 
-    public void SetIngredients(List<RecipeSO.Ingredient> items, int index)
+    protected void OnPlusQuantity()
+    {
+        // 한 번에 20개까지만 제작 가능
+        if (_craftQuantity < 20)
+        {
+            _craftQuantity++;
+            UpdateCraftUI();
+        }
+    }
+
+    private void UpdateCraftUI()
+    {
+        SetIngredients(GetDataList()[_selectedIndex].requiredItems, _selectedIndex);
+        string craftItemName = GetDataList()[_selectedIndex].completedItemData.displayName;
+
+        // UI에 수량 업데이트
+        Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를) {_craftQuantity}개\n제작하시겠습니까?";
+        Get<TextMeshProUGUI>((int)Texts.QuantityText).text = _craftQuantity.ToString();
+    }
+
+
+    protected void SetIngredients(List<RecipeSO.Ingredient> items, int index)
     {
         // 기존 아이템 UI 초기화
         ClearItems();
@@ -162,11 +212,12 @@ public abstract class UICraftBase : UIPopup
             itemIcon.sprite = item.item.iconSprite;
 
             // 필요 수량 설정
-            int requiredQuantity = item.quantity;
-            itemQuantity.text = requiredQuantity.ToString();
+            int requiredQuantity = item.quantity * _craftQuantity;
 
             // 플레이어 인벤토리에서 해당 아이템의 수량 확인
             int availableQuantity = Managers.Game.Player.Inventory.GetItemCount(item.item);
+
+            itemQuantity.text = (availableQuantity + "/" + requiredQuantity).ToString();
 
             // 수량에 따라 텍스트 색상 변경(초록/빨강)
             if (availableQuantity >= requiredQuantity)
@@ -186,7 +237,7 @@ public abstract class UICraftBase : UIPopup
     {
         foreach (var item in items)
         {
-            int requiredQuantity = item.quantity;
+            int requiredQuantity = item.quantity * _craftQuantity;
             int availableQuantity = Managers.Game.Player.Inventory.GetItemCount(item.item);
 
             // 아이템이 부족하면 false 반환
@@ -203,7 +254,7 @@ public abstract class UICraftBase : UIPopup
         foreach (var item in items)
         {
             ItemData requiredItemData = item.item;
-            int requiredCount = item.quantity;
+            int requiredCount = item.quantity * _craftQuantity;
 
             Managers.Game.Player.Inventory.RemoveItem(requiredItemData, requiredCount);
         }
