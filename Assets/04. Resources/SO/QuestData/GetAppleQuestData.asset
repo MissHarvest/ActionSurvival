@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
   m_Name: GetAppleQuestData
   m_EditorClassIdentifier: 
-  questName: GetApple
   questUIName: "\uC0AC\uACFC\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
   questID: 0
-  isCompleted: 1
   preQuests: []
   requiredItems:
-  - item: {fileID: 11400000, guid: 0e99452afc6013a46b0fcaa854d7a0e0, type: 2}
+  - item: {fileID: 11400000, guid: 68a9bba7c97dc024f84ab4c246757bad, type: 2}
