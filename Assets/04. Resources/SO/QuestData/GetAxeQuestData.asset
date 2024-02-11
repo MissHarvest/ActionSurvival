@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: GetAxeQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uB3C4\uB07C\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 2
+  questID: 4
   preQuests:
   - {fileID: 11400000, guid: 1dbfa73b255a57548bbace7686d65218, type: 2}
-  - {fileID: 11400000, guid: 0911ef08713634645868f786f27ebf95, type: 2}
+  - {fileID: 11400000, guid: b5c5d1a588de9154cb18e742d8f6a720, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 9c85809597f1da54fbc98bcc3023a6b5, type: 2}
+    quantity: 1

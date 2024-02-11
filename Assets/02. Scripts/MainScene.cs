@@ -20,8 +20,7 @@ public class MainScene : MonoBehaviour
         var waitWhile = new WaitWhile(() => loadingUI == null);
         yield return waitWhile;
 
-        var minimapCamera = Managers.Resource.GetCache<GameObject>("MinimapCamera.prefab");
-        Instantiate(minimapCamera);
+
 
         // 1. 리소스 로드
         ResourceLoad((key, count, total) =>
@@ -56,6 +55,9 @@ public class MainScene : MonoBehaviour
                         Instantiate(mon);
                         Managers.Game.Init();
                         UIInitialize();
+
+                        var minimapCamera = Managers.Resource.GetCache<GameObject>("MinimapCamera.prefab");
+                        Instantiate(minimapCamera);
                     });
                 });
             }

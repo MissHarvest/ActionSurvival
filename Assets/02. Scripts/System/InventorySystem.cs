@@ -24,14 +24,13 @@ public class InventorySystem : MonoBehaviour
         }
 
         Owner = Managers.Game.Player;
-        AddDefaultToolAsTest();
+
         Managers.Game.OnSaveCallback += Save;
     }
 
     public void AddDefaultToolAsTest()
     {
-        var itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
-        AddItem(itemData, 20);
+
     }
 
     public void SetCapacity(int capacity)
@@ -223,7 +222,7 @@ public class InventorySystem : MonoBehaviour
     public virtual void Load()
     {
         SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"{gameObject.name}Inventory");
-        foreach(var item in slots)
+        foreach (var item in slots)
         {
             if (item.itemName != string.Empty)
                 item.LoadData();

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: GetStoneQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uB3CC\uBA69\uC774\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
-  questID: 14
+  questID: 1
   preQuests: []
   requiredItems:
   - item: {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}
+    quantity: 1

@@ -23,7 +23,7 @@ public class UICraftItemSlot : UIBase
         private set { _index = value; }
     }
 
-    public int Quantity
+    public int Quantity // 완성 아이템 제작 수량
     {
         get { return _quantity; }
         private set { _quantity = value; }

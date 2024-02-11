@@ -29,12 +29,14 @@ public class Tutorial : MonoBehaviour
     {
         _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData")
             .Select(questSO => new Quest(questSO))
+            .OrderBy(quest => quest.questSO.questID) // questID를 기준으로 오름차순 정렬
             .ToList();
 
         _activeQuests = _quests
             .Where(quest => IsPreQuestsCleared(quest))
             .ToList();
     }
+
 
 
     private void Start()
@@ -49,7 +51,7 @@ public class Tutorial : MonoBehaviour
         {
             return true;
         }
-
+        
         foreach (var preQuest in quest.questSO.preQuests)
         {
             if (_quests.Any(q => q.questSO == preQuest))
