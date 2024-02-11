@@ -164,7 +164,7 @@ public class PlayerBaseState : IState
         {
             _stateMachine.ChangeState(_stateMachine.DestroyState);
         }
-        else
+        else //씨앗심기
         {
             _stateMachine.ChangeState(_stateMachine.InteractState);
         }
