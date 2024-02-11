@@ -16,6 +16,7 @@ public class BossAnimationData
     [SerializeField] private string stabParameterName = "Stab";
     [SerializeField] private string flyParameterName = "Fly";
     [SerializeField] private string dieParamterName = "Die";
+    [SerializeField] private string delayParamterName = "Delay";
 
     public int IdleParameterHash { get; private set; }
     public int SleepParameterHash { get; private set; }
@@ -29,6 +30,8 @@ public class BossAnimationData
     public int DieParameterHash { get; private set; }
     public int FlyParameterHash { get; private set; }
 
+    public int DelayParameterHash { get; private set; }
+
     public void Initialize()
     {
         IdleParameterHash = Animator.StringToHash(idleParameterName);
@@ -41,5 +44,6 @@ public class BossAnimationData
         StabParameterHash = Animator.StringToHash(stabParameterName);
         FlyParameterHash = Animator.StringToHash(flyParameterName);
         DieParameterHash = Animator.StringToHash(dieParamterName);
+        DelayParameterHash = Animator.StringToHash(delayParamterName);
     }
 }

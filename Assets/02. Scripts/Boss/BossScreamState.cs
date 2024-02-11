@@ -6,6 +6,7 @@ using UnityEngine;
 public class BossScreamState : BossAttackState
 {
     private bool _canScream = true;
+    private float _sfxVolume = 0.7f;
 
     public BossScreamState(BossStateMachine stateMachine) : base(stateMachine)
     {
@@ -46,7 +47,7 @@ public class BossScreamState : BossAttackState
         else if(normalizedTime > 0.2f && _canScream)
         {
             _canScream = false;
-            Managers.Sound.PlayEffectSound(_stateMachine.Boss.transform.position, "Scream", 0.7f);
+            Managers.Sound.PlayEffectSound(_stateMachine.Boss.transform.position, "Scream", _sfxVolume);
         }       
     }
 }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BossRushState : BossAttackState
 {
-    private GameObject indicator;
+    private RectAttackIndicator _indicator;
+
     public BossRushState(BossStateMachine stateMachine) : base(stateMachine)
     {
         _reach = 30.0f;
@@ -12,31 +13,40 @@ public class BossRushState : BossAttackState
         weight = 15.0f;
 
         var indicatorprefab = Managers.Resource.GetCache<GameObject>("RectAttackIndicator.prefab");
-        indicator = Object.Instantiate(indicatorprefab, _stateMachine.Boss.transform.position, Quaternion.identity);
+        var go = Object.Instantiate(indicatorprefab, _stateMachine.Boss.transform.position, Quaternion.identity);
 
-        var width = indicator.GetComponentInChildren<SpriteRenderer>().sprite.bounds.size.x;
-        //Debug.Log($"[Widht] {width}");
-        indicator.transform.localScale = new Vector3(indicator.transform.localScale.x, indicator.transform.localScale.y, _reach / width);
-
-        indicator.SetActive(false);
+        _indicator = go.GetComponentInChildren<RectAttackIndicator>();
+        _indicator.gameObject.SetActive(false);
     }
 
     public override void Enter()
     {
-        _stateMachine.MovementSpeedModifier = 3.0f;
-        _stateMachine.Boss.BodyCollider.isTrigger = true;
-        _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Body).ActivateWeapon();
-        base.Enter();
+        _stateMachine.Boss.NavMeshAgent.isStopped = true;
+        StartAnimation(_stateMachine.Boss.AnimationData.DelayParameterHash);
+
         var direction = _stateMachine.Target.transform.position - _stateMachine.Boss.transform.position;
         direction.y = 0;
         direction.Normalize();
-        var destination = _stateMachine.Boss.transform.position + direction * _reach;
-        _stateMachine.Boss.NavMeshAgent.SetDestination(destination);
 
-        indicator.transform.position = _stateMachine.Boss.transform.position;
-        indicator.transform.rotation = Quaternion.LookRotation(direction);
-        indicator.SetActive(true);
-        StartAnimation(_stateMachine.Boss.AnimationData.RushParameterHash);
+        _indicator.Activate(_stateMachine.Boss.transform.position, direction, _reach, 1.0f);
+
+        // 1.0 초 대기 후  && 대기 하면서 indicator 확장
+        CoroutineManagement.Instance.StartCoroutine(Stay(1.0f,
+            ()=> 
+            {
+                StopAnimation(_stateMachine.Boss.AnimationData.DelayParameterHash);
+                _stateMachine.Boss.NavMeshAgent.isStopped = false;
+                _stateMachine.MovementSpeedModifier = 3.0f;
+                _stateMachine.Boss.BodyCollider.isTrigger = true;
+                _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Body).ActivateWeapon();
+                
+                base.Enter();
+                
+                var destination = _stateMachine.Boss.transform.position + direction * _reach;
+                _stateMachine.Boss.NavMeshAgent.SetDestination(destination);
+                
+                StartAnimation(_stateMachine.Boss.AnimationData.RushParameterHash);
+            }));
     }
 
     public override void Exit()
@@ -44,7 +54,9 @@ public class BossRushState : BossAttackState
         base.Exit();
         _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Body).InactivateWeapon();
         _stateMachine.Boss.BodyCollider.isTrigger = false;
-        indicator.SetActive(false);
+
+        _stateMachine.Boss.NavMeshAgent.velocity = Vector3.zero;
+
         StopAnimation(_stateMachine.Boss.AnimationData.RushParameterHash);
     }
 

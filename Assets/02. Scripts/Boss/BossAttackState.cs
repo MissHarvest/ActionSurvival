@@ -14,10 +14,17 @@ public class BossAttackState : BossBaseState
 
     }
 
+    public override void Enter()
+    {
+        _stateMachine.NextAttackState = null;
+        base.Enter();
+    }
+
     public override void Exit()
     {
         base.Exit();        
         CoroutineManagement.Instance.StartCoroutine(CoolTime());
+        StopAnimation(_stateMachine.Boss.AnimationData.BattleParamterHash);
     }
 
     IEnumerator CoolTime()

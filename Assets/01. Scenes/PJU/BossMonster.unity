@@ -5011,6 +5011,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4486020795638185849, guid: 268543f0fc4b8f64097c615d810d67b7, type: 3}
+      propertyPath: <AnimationData>k__BackingField.delayParamterName
+      value: Delay
+      objectReference: {fileID: 0}
     - target: {fileID: 6925677554680438743, guid: 268543f0fc4b8f64097c615d810d67b7, type: 3}
       propertyPath: m_Name
       value: TerrorBringer
