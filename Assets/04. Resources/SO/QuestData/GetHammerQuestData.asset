@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
   m_Name: GetHammerQuestData
   m_EditorClassIdentifier: 
-  questName: GetHammer
   questUIName: "\uB9DD\uCE58\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 8
-  isCompleted: 1
+  questID: 13
   preQuests:
   - {fileID: 11400000, guid: 969d6bb569150a54bb82e791f6c013c4, type: 2}
   - {fileID: 11400000, guid: 99849d697b366074da034d10737ec315, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 9298f9989d0cf5f4ca96ac5ffde6eec0, type: 2}
+    quantity: 1

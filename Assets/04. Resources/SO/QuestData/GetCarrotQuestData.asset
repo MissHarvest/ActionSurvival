@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
   m_Name: GetCarrotQuestData
   m_EditorClassIdentifier: 
-  questName: GetCarrot
   questUIName: "\uB2F9\uADFC\uC744 \uD68D\uB4DD\uD558\uC138\uC694."
-  questID: 11
-  isCompleted: 0
+  questID: 12
   preQuests:
   - {fileID: 11400000, guid: efe56df77ff0ab34da0563bbf7ed4504, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 5dd63cd46cf3a174da82b9136f74f149, type: 2}
+    quantity: 1

@@ -5,11 +5,8 @@ public class UIMinimap : UIPopup
 {
     enum GameObjects
     {
-        Map,
         Exit,
     }
-
-    private Transform _map;
 
     public override void Initialize()
     {
@@ -21,7 +18,6 @@ public class UIMinimap : UIPopup
     private void Awake()
     {
         Initialize();
-        _map = Get<GameObject>((int)GameObjects.Map).transform;
         gameObject.SetActive(false);
     }
 }

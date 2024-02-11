@@ -36,7 +36,7 @@ public class UIQuest : UIBase
         Get<TextMeshProUGUI>((int)Texts.QuestName).text = activeQuest.questSO.questUIName;
 
         var handler = gameObject.GetOrAddComponent<UIEventHandler>();
-        handler.OnClickEvent = null; // Set 이 두번되서
+        handler.OnClickEvent = null; // Set �� �ι��Ǽ�
 
         gameObject.BindEvent((x) =>
         {
@@ -59,7 +59,7 @@ public class UIQuest : UIBase
                 break;
 
             case QuestSO.QuestType.Using:
-                Debug.Log("Call using tutorial");// 여기에 추가적으로 콜백 넣어서, 퀘스트 클리어도..
+                Debug.Log("Call using tutorial");// ���⿡ �߰������� �ݹ� �־, ����Ʈ Ŭ���..
                 tutorial.StartInvnetoryGuide(activeQuest.questSO.requiredItems[0].item);
                 break;
         }

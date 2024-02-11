@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: GetPickAxeQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uACE1\uAD2D\uC774\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 1
+  questID: 3
   preQuests:
   - {fileID: 11400000, guid: 1dbfa73b255a57548bbace7686d65218, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 169efef296147ff47aa012ef827c9305, type: 2}
+    quantity: 1
   targetLayer:
     serializedVersion: 2
     m_Bits: 0

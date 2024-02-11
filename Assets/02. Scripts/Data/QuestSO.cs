@@ -22,6 +22,7 @@ public class QuestSO : ScriptableObject
     public class RequiredItem
     {
         public ItemData item;
+        public int quantity;
     }
 
     [Header("Tutorial")]

@@ -163,13 +163,15 @@ public class InventorySystem : MonoBehaviour
         Debug.Log($"아이템 ({itemData.name})이 인벤토리에 없어요.");
     }
 
-    public bool IsFull(ItemData completedItem)
+    public bool IsFull(ItemData completedItem, int quantity)
     {
-        foreach (var slot in slots)
+        int totalQuantity = 0;
+
+        for (int i = 0; i < slots.Length; ++i)
         {
             if (!completedItem.stackable)
             {
-                if (slot.itemData == null)
+                if (slots[i].itemData == null)
                 {
                     return false;
                 }
@@ -177,16 +179,23 @@ public class InventorySystem : MonoBehaviour
             else
             {
                 // 스택 가능한 아이템의 경우, 빈 슬롯 또는 같은 아이템이 있는 슬롯을 찾아 확인
-                if (slot.itemData == null)
+                if (slots[i].itemData == null)
                 {
                     return false;
                 }
-                else if (slot.itemData == completedItem && slot.quantity < ItemData.maxStackCount)
+                else if (slots[i].itemData == completedItem && slots[i].quantity < ItemData.maxStackCount)
                 {
-                    return false;
+                    totalQuantity += slots[i].quantity;
                 }
             }
         }
+
+        // 아이템이 들어갈 자리가 있는지와 수량을 함께 확인
+        if (totalQuantity + quantity <= ItemData.maxStackCount)
+        {
+            return false;
+        }
+
         Debug.Log("아이템이 들어갈 자리가 없어요");
         return true;
     }
@@ -213,7 +222,7 @@ public class InventorySystem : MonoBehaviour
     public virtual void Load()
     {
         SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"{gameObject.name}Inventory");
-        foreach(var item in slots)
+        foreach (var item in slots)
         {
             if (item.itemName != string.Empty)
                 item.LoadData();
