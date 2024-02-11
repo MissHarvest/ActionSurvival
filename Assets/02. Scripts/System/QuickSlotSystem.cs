@@ -115,7 +115,7 @@ public class QuickSlotSystem : MonoBehaviour
         OnUpdated?.Invoke(IndexInUse, slots[IndexInUse].itemSlot);
     }
 
-    public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)//lgs
+    public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)
     {
         for (int i = 0; i < capacity; ++i)
         {

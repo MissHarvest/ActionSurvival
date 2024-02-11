@@ -2,60 +2,92 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.Port;
 // Lee gyuseong 24.02.07
 
 public class ArmorSystem : MonoBehaviour
 {
-    ////이게 아니고 ArmorSlot를 관리하는 ArmorSystem이 있고 거기서 장착 해제시 Inventory의 ItemSlot.ItemData의 데이터를 참조해서 ArmorSlot에 전달한다.
-    ////그래야 Inventory의 ItemSlot.ItemData == null 체크가 가능할 듯 하다.
-    ////
-    //private int _defense;
+    public int _defense;
 
-    //public QuickSlot[] _linkedSlots;
+    public QuickSlot[] _linkedSlots;
 
-    //private void Awake()
-    //{
-    //    _linkedSlots = new QuickSlot[2];
+    public event Action<QuickSlot> UnEquipArmor;
 
-    //    Managers.Game.Player.ToolSystem.OnEquip += DefenseOfTheEquippedArmor;
-    //    Managers.Game.Player.ToolSystem.OnUnEquip += DefenseOfTheUnEquippedArmor;
-    //    Managers.Game.Player.OnHit += Duration;
-    //}
+    private void Awake()
+    {
+        _linkedSlots = new QuickSlot[2];
 
-    //public void DefenseOfTheEquippedArmor(QuickSlot quickSlot)
-    //{
-    //    ItemData armor = quickSlot.itemSlot.itemData;
-    //    EquipItemData toolItemDate = (EquipItemData)armor;
-    //    _defense += toolItemDate.defense;
-    //    Managers.Game.Player.playerDefense = _defense;
+        Managers.Game.Player.ToolSystem.OnEquip += DefenseOfTheEquippedArmor;
+        Managers.Game.Player.ToolSystem.OnUnEquip += DefenseOfTheUnEquippedArmor;
+        Managers.Game.Player.OnHit += Duration;
+    }
+    private void Start()
+    {
+        Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
+    }
 
-    //    if ((int)toolItemDate.part == 0 || (int)toolItemDate.part == 1)
-    //    {
-    //        _linkedSlots[(int)toolItemDate.part] = quickSlot;
-    //    }
-    //}
+    public void DefenseOfTheEquippedArmor(QuickSlot quickSlot)
+    {
+        EquipItemData toolItemData = ArmorDefense(quickSlot);
+        _defense += toolItemData.defense;
+        Managers.Game.Player.playerDefense = _defense;
 
-    //public void DefenseOfTheUnEquippedArmor(QuickSlot quickSlot)
-    //{
-    //    ItemData armor = quickSlot.itemSlot.itemData;
-    //    EquipItemData toolItemDate = (EquipItemData)armor;
-    //    _defense -= toolItemDate.defense;
-    //    Managers.Game.Player.playerDefense = _defense;
+        if ((int)toolItemData.part == 0 || (int)toolItemData.part == 1)
+        {
+            _linkedSlots[(int)toolItemData.part] = quickSlot;
+        }
+    }
 
-    //    if ((int)toolItemDate.part == 0 || (int)toolItemDate.part == 1)
-    //    {
-    //        _linkedSlots[(int)toolItemDate.part] = null;
-    //    }
-    //}
+    public void DefenseOfTheUnEquippedArmor(QuickSlot quickSlot)
+    {
+        EquipItemData toolItemData = ArmorDefense(quickSlot);
+        _defense -= toolItemData.defense;
+        Managers.Game.Player.playerDefense = _defense;
 
-    //public void Duration() // Player Hit에서 호출
-    //{
-    //    foreach (var items in _linkedSlots)
-    //    {
-    //        if (items != null)
-    //        {
-    //            Managers.Game.Player.Inventory.UseToolItemByIndex(items.targetIndex, 1);
-    //        }
-    //    }
-    //}
+        if ((int)toolItemData.part == 0 || (int)toolItemData.part == 1)
+        {
+            _linkedSlots[(int)toolItemData.part] = null;
+        }
+    }
+
+    public void Duration() // Player Hit에서 호출
+    {
+        for (int i = 0; i < _linkedSlots.Length; i++)
+        {
+            if (_linkedSlots[i] != null && _linkedSlots[i].targetIndex != -1) // null로 한 번 걸렀는데 targetIndex를 또 걸러줘야 동작한다. 대체 왜??
+            {
+                Managers.Game.Player.Inventory.UseToolItemByIndex(_linkedSlots[i].targetIndex, 1);
+            }
+        }
+    }
+
+    public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            if (_linkedSlots[i] != null)
+            {
+                if (_linkedSlots[i].targetIndex == inventoryIndex)
+                {
+                    if (itemSlot.itemData == null)
+                    {
+                        EquipItemData toolItemData = ArmorDefense(_linkedSlots[i]);
+                        _defense -= toolItemData.defense;
+                        Managers.Game.Player.playerDefense = _defense;
+
+                        UnEquipArmor?.Invoke(_linkedSlots[i]);
+                        _linkedSlots[i].Clear();
+                        Managers.Game.Player.ToolSystem.UnEquipArmor(_linkedSlots[i]);
+                    }
+                }
+            }            
+        }
+    }
+
+    private EquipItemData ArmorDefense(QuickSlot quickSlot)
+    {
+        ItemData armor = quickSlot.itemSlot.itemData;
+        EquipItemData toolItemDate = (EquipItemData)armor;
+        return toolItemDate;
+    }
 }
