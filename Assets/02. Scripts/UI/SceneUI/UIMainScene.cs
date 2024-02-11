@@ -9,12 +9,14 @@ public class UIMainScene : UIScene
     {
         QuickSlotController,
         PC,
-        HpSlider
+        HpSlider,
+        Menu,
     }
 
     #endregion
 
     public GameObject UIBoss => Get<GameObject>((int)GameObjects.HpSlider);
+    public GameObject UIMenu => Get<GameObject>((int)GameObjects.Menu);
 
     #region Initialize
 
@@ -37,6 +39,5 @@ public class UIMainScene : UIScene
             Get<GameObject>((int)GameObjects.PC).SetActive(false);
         });
     }
-
-#endregion
+    #endregion
 }

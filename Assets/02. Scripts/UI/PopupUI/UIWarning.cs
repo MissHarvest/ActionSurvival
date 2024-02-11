@@ -43,7 +43,7 @@ public class UIWarning : UIPopup
 
     private void OnEnable()
     {
-        Get<Button>((int)Buttons.YesButton).onClick = null;
+        Get<Button>((int)Buttons.YesButton).onClick.RemoveAllListeners();
         Managers.Sound.PlayEffectSound(transform.position, "Warning");
     }
 

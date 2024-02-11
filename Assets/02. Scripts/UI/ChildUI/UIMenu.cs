@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,9 +15,11 @@ public class UIMenu : UIBase
     enum GameObjects
     {
         Container,
+        InventoryButton,
+        CraftButton,
     }
 
-    private bool _isHidden = false;
+    public bool Hide { get; private set; } = false;
     private float _offset = 0.0f;
     private RectTransform _rectTransform;
 
@@ -36,7 +40,7 @@ public class UIMenu : UIBase
 
     private void ToggleMenu()
     {
-        if (_isHidden)
+        if (Hide)
         {
             ShowMenu();
         }
@@ -46,15 +50,49 @@ public class UIMenu : UIBase
         }        
     }
 
-    private void ShowMenu()
+    public void HighLightCraftButton()
     {
-        _rectTransform.anchoredPosition += new Vector2(-_offset, 0);
-        _isHidden = false;
+        ShowMenu();
+        HighLight(Get<GameObject>((int)GameObjects.CraftButton));
     }
 
-    private void HideMenu()
+    public void HighLightInventoryButton()
     {
-        _rectTransform.anchoredPosition += new Vector2(_offset, 0);
-        _isHidden = true;
+        ShowMenu();
+        HighLight(Get<GameObject>((int)GameObjects.InventoryButton));
+    }
+
+    private void HighLight(GameObject go)
+    {
+        var rect = go.GetComponent<RectTransform>();
+
+        var arrowUI = Managers.UI.ShowPopupUI<UITutorialArrow>();
+        arrowUI.ActivateArrow(go.transform.position, new Vector2(0, rect.sizeDelta.y));
+        go.BindEvent((x) =>
+        {
+            // arrow UI 가 닫히는 것과 CraftButton 으로 UI 가 열리는 것의 순서가 어떻게 정해질까
+            Managers.UI.ClosePopupUI(arrowUI);
+
+            var evtHandler = Utility.GetOrAddComponent<UIEventHandler>(go);
+            evtHandler.OnPointerDownEvent = null;
+        }, UIEvents.PointerDown);
+    }
+
+    public void ShowMenu()
+    {
+        if(Hide)
+        {
+            _rectTransform.anchoredPosition += new Vector2(-_offset, 0);
+            Hide = false;
+        }
+    }
+
+    public void HideMenu()
+    {
+        if(!Hide)
+        {
+            _rectTransform.anchoredPosition += new Vector2(_offset, 0);
+            Hide = true;
+        }
     }
 }

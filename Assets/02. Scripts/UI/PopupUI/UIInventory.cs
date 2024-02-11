@@ -1,5 +1,7 @@
 //using UnityEditor.Build.Pipeline.Utilities;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIInventory : UIPopup
 {
@@ -120,5 +122,15 @@ public class UIInventory : UIPopup
     {
         Managers.Game.Player.ToolSystem.UnEquip(SelectedSlot);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
+    }
+
+    public void HighLightItemSlot(int index)
+    {
+        Get<UIItemSlotContainer>((int)Container.Contents).HighLight(index);        
+    }
+
+    public void HighLightHelper(UIItemUsageHelper.Functions function)
+    {
+        Get<UIItemUsageHelper>((int)Helper.UsageHelper).HighLight(function);
     }
 }
