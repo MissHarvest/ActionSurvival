@@ -38,6 +38,11 @@ public class MapIlluminator : MonoBehaviour
 
     private float _radiusCircle { get { return _shadowRadius; } }
 
+    private void Awake()
+    {
+        Initialize();
+    }
+
     private void Initialize()
     {
         _shadowPlanePrefab = Managers.Resource.GetCache<GameObject>("ShadowPlane.prefab");
@@ -45,6 +50,8 @@ public class MapIlluminator : MonoBehaviour
         _meshes = new Mesh[_shadowPlanes.Length];
         _verticesArray = new VerticesArray[_shadowPlanes.Length];
         _colorsArray = new ColorsArray[_shadowPlanes.Length];
+
+        GameObject shadowPlanesParent = new GameObject("ShadowPlanes");
 
         // 프리팹을 이용하여 ShadowPlane 생성
         for (int i = 0; i < _numPlanesX; i++)
@@ -54,6 +61,8 @@ public class MapIlluminator : MonoBehaviour
                 Vector3 spawnPosition = new Vector3(i * 100 - 500, 40, j * -100 + 100);
 
                 _shadowPlanes[i * _numPlanesZ + j] = Instantiate(_shadowPlanePrefab, spawnPosition, Quaternion.Euler(90, 0, 0));
+                _shadowPlanes[i * _numPlanesZ + j].transform.parent = shadowPlanesParent.transform;
+
                 _meshes[i * _numPlanesZ + j] = _shadowPlanes[i * _numPlanesZ + j].GetComponent<MeshFilter>().mesh;
                 _verticesArray[i * _numPlanesZ + j] = new VerticesArray { Verticearray = _meshes[i * _numPlanesZ + j].vertices };
                 _colorsArray[i * _numPlanesZ + j] = new ColorsArray { Colorarray = new Color[_verticesArray[i * _numPlanesZ + j].Verticearray.Length] };
@@ -64,58 +73,42 @@ public class MapIlluminator : MonoBehaviour
                 }
             }
         }
-        UpdateColors();
     }
+
 
     private void Start()
     {
-        StartCoroutine(WaitForPlayer());
-        Initialize();
         Load();
-
+        _player = Managers.Game.Player.transform;
         Managers.Game.OnSaveCallback += Save;
     }
 
-    private IEnumerator WaitForPlayer()
+    private void Update()
     {
-        while (Managers.Game.Player == null)
+        // 각 ShadowPlane에 레이캐스트
+        for (int i = 0; i < _shadowPlanes.Length; i++)
         {
-            yield return null;
-        }
-        _player = Managers.Game.Player.transform;
-        StartCoroutine(UpdateColor());
-    }
+            Ray ray = new Ray(_player.position, Vector3.up);
+            RaycastHit hit;
 
-    private IEnumerator UpdateColor()
-    {
-        while (true)
-        {
-            // 각 ShadowPlane에 레이캐스트
-            for (int i = 0; i < _shadowPlanes.Length; i++)
+            if (Physics.Raycast(ray, out hit, 1000, _shadowLayer, QueryTriggerInteraction.Collide))
             {
-                Ray ray = new Ray(_player.position, Vector3.up);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit, 1000, _shadowLayer, QueryTriggerInteraction.Collide))
+                for (int j = 0; j < _verticesArray[i].Verticearray.Length; j++)
                 {
-                    for (int j = 0; j < _verticesArray[i].Verticearray.Length; j++)
+                    Vector3 vector3 = _shadowPlanes[i].transform.TransformPoint(_verticesArray[i].Verticearray[j]);
+                    var temp = vector3 - hit.point;
+                    temp.y = 0;
+                    float distance = Vector3.SqrMagnitude(temp);
+
+                    if (distance < _radiusCircle * _radiusCircle)
                     {
-                        Vector3 vector3 = _shadowPlanes[i].transform.TransformPoint(_verticesArray[i].Verticearray[j]);
-                        var temp = vector3 - hit.point;
-                        temp.y = 0;
-                        float distance = Vector3.SqrMagnitude(temp);
-
-                        if (distance < _radiusCircle * _radiusCircle)
-                        {
-                            float alpha = Mathf.Min(_colorsArray[i].Colorarray[j].a, distance / _radiusCircle);
-                            _colorsArray[i].Colorarray[j].a = alpha;
-                        }
+                        float alpha = Mathf.Min(_colorsArray[i].Colorarray[j].a, distance / _radiusCircle);
+                        _colorsArray[i].Colorarray[j].a = alpha;
                     }
-
-                    UpdateColors(i);
                 }
+
+                UpdateColors(i);
             }
-            yield return null;
         }
     }
 
@@ -145,6 +138,7 @@ public class MapIlluminator : MonoBehaviour
         {
             SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "Minimap" + i.ToString());
         }
+        UpdateColors();
     }
 
     protected virtual void Save()

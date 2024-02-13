@@ -10,15 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: feededd13c148ab41a55e68ae3f83574, type: 3}
-  m_Name: FurnaceRecipeData
+  m_Name: Stick2RecipeData
   m_EditorClassIdentifier: 
-  itemName: Furnace
-  recipeID: 19
-  completedItemData: {fileID: 11400000, guid: 3af86f924f19ee348aa2053f634168d8, type: 2}
-  IsAdvancedRecipe: 1
-  Quantity: 1
+  itemName: Stick
+  recipeID: 7
+  completedItemData: {fileID: 11400000, guid: 9515422e7b608cd4ea5174facd473388, type: 2}
+  IsAdvancedRecipe: 0
+  Quantity: 3
   requiredItems:
-  - item: {fileID: 11400000, guid: 29b6186d9f3a8dd4fa1f7a8ce21ca246, type: 2}
-    quantity: 1
-  - item: {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}
-    quantity: 8
+  - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
+    quantity: 2

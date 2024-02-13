@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: ChestRecipeData
   m_EditorClassIdentifier: 
   itemName: Chest
+  recipeID: 8
   completedItemData: {fileID: 11400000, guid: 54004a6d893b1d049b6845b6d9ff9c08, type: 2}
   IsAdvancedRecipe: 1
+  Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
     quantity: 6

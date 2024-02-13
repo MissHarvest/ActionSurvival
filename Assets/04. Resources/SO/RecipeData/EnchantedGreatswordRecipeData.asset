@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: EnchantedGreatswordRecipeData
   m_EditorClassIdentifier: 
   itemName: EnchantedGreatsword
+  recipeID: 23
   completedItemData: {fileID: 11400000, guid: 5cf354e2e1b3e984fb07c3e15a0f06f6, type: 2}
   IsAdvancedRecipe: 1
+  Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 279ff602e17ed1846a01bab9d008f59a, type: 2}
     quantity: 1

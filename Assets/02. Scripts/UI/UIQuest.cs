@@ -15,8 +15,6 @@ public class UIQuest : UIBase
         QuestName,
     }
 
-    [SerializeField] private QuestSO[] _quests;
-
     public override void Initialize()
     {
         Bind<Image>(typeof(Images));
@@ -30,11 +28,6 @@ public class UIQuest : UIBase
     {
         Initialize();
     }
-
-    //private void OnEnable()
-    //{
-    //    _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
-    //}
 
     public void Set(Quest activeQuest)
     {

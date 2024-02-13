@@ -15,11 +15,18 @@ public class UICraftItemSlot : UIBase
 
 
     private int _index;
+    private int _quantity;
 
     public int Index
     {
         get { return _index; }
         private set { _index = value; }
+    }
+
+    public int Quantity // 완성 아이템 제작 수량
+    {
+        get { return _quantity; }
+        private set { _quantity = value; }
     }
 
     protected Image Icon => Get<Image>((int)Images.Icon);
@@ -41,6 +48,11 @@ public class UICraftItemSlot : UIBase
     public void SetIndex(int index)
     {
         _index = index;
+    }
+
+    public void SetQuantity(int quantity)
+    {
+        _quantity = quantity;
     }
 
     public virtual void Set(ItemSlot itemSlot)

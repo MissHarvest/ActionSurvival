@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: RopeRecipeData
   m_EditorClassIdentifier: 
   itemName: Rope
+  recipeID: 12
   completedItemData: {fileID: 11400000, guid: 6da7e8dc2cbba744da724536ad72f584, type: 2}
   IsAdvancedRecipe: 1
+  Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 13dbad5903b2f1845ba772ebf1829c78, type: 2}
     quantity: 20

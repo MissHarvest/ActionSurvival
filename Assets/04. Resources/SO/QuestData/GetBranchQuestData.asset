@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: GetBranchQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uB098\uBB47\uAC00\uC9C0\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
-  questID: 13
+  questID: 0
   preQuests: []
   requiredItems:
   - item: {fileID: 11400000, guid: 11c3b7d1793a9a948a7291481d4514f6, type: 2}
+    quantity: 1

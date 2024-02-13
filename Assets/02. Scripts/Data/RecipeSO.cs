@@ -7,9 +7,11 @@ using UnityEngine;
 public class RecipeSO : ScriptableObject
 {
     public string itemName;
+    public int recipeID;
     public ItemData completedItemData;
-
     public bool IsAdvancedRecipe; // 고급 레시피 여부를 나타냄
+
+    public int Quantity = 1; // 제작 시 얻을 수 있는 완성템 개수, 기본값=1
 
     //완성 제작템 SO 추가
     public List<Ingredient> requiredItems = new List<Ingredient>();

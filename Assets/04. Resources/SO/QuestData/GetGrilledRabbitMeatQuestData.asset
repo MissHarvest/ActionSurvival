@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
   m_Name: GetGrilledRabbitMeatQuestData
   m_EditorClassIdentifier: 
-  questName: GetGrilledRabbitMeat
   questUIName: "\uAD6C\uC6B4 \uD1A0\uB07C \uACE0\uAE30\uB97C \uC694\uB9AC\uD558\uC138\uC694."
-  questID: 5
-  isCompleted: 1
+  questID: 10
   preQuests:
   - {fileID: 11400000, guid: 951d99c74b199684799b643be943524a, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 734f198f0f1019b43ad400a2ab3ece89, type: 2}
+    quantity: 1

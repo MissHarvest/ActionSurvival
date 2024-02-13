@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,7 @@ public class UITutorial : UIPopup
     {
         Managers.Game.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
         _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
+        Array.Sort(_quests, (x, y) => x.questID.CompareTo(y.questID));
         _activeQuests = Managers.Game.Player.Tutorial.ActiveQuests;
         CreateQuestUIPool();
         ShowQuest(); // 게임 시작 시 퀘스트 표시
