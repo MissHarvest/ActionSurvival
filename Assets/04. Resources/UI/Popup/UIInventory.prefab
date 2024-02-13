@@ -1712,14 +1712,13 @@ GameObject:
   - component: {fileID: 8095376847575403631}
   - component: {fileID: 4636295531144274885}
   - component: {fileID: 1984823219219030297}
-  - component: {fileID: 2511990626483177087}
   m_Layer: 5
   m_Name: ArmorSlots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8095376847575403631
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1780,15 +1779,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2511990626483177087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8716235057107259487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5598c7248e16d004485fe33afc2a1874, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

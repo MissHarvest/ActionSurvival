@@ -24,6 +24,7 @@ public class Player : MonoBehaviour, IHit
     public Cooking Cooking { get; private set; }
     public BuildingSystem Building { get; private set; }
     public Tutorial Tutorial { get; private set; }
+    public ArmorSystem ArmorSystem { get; private set; }
     public ItemSlot EquippedItem => ToolSystem.ItemInUse;
     public PlayerConditionHandler ConditionHandler { get; private set; }
 
@@ -56,6 +57,7 @@ public class Player : MonoBehaviour, IHit
         Cooking = GetComponentInChildren<Cooking>();
         Building = GetComponentInChildren<BuildingSystem>();
         Tutorial = GetComponentInChildren<Tutorial>();
+        ArmorSystem = GetComponentInChildren<ArmorSystem>();
 
         Data = Managers.Resource.GetCache<PlayerSO>("PlayerSO.data");
 
@@ -93,9 +95,9 @@ public class Player : MonoBehaviour, IHit
 
     public void Hit(IAttack attacker, float damage) // 인벤토리의 방어구 idx를 찾아서 UseToolItemByIndex()를 Hit가 실행될 때마다 호출
     {
-        //OnHit.Invoke();
-        //float blockedDamage = damage - playerDefense;
-        float blockedDamage = damage;
+        OnHit.Invoke();
+        float blockedDamage = damage - playerDefense;
+
         if (blockedDamage > 0)
         {
             Managers.Sound.PlayEffectSound(transform.position, "Hit");
