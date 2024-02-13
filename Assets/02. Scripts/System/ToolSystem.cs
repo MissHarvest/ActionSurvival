@@ -141,6 +141,7 @@ public class ToolSystem : MonoBehaviour
 
         if (-1 != Equipments[part].targetIndex)
         {
+            Debug.Log("Asda");
             OnUnEquip?.Invoke(Equipments[part]);
         }
         Equipments[part].Clear();
@@ -183,5 +184,10 @@ public class ToolSystem : MonoBehaviour
     {
         UnEquip(slot);
         ClearHand();
+    }
+
+    public void UnEquipArmor(QuickSlot slot)
+    {
+        UnEquip(slot);
     }
 }
