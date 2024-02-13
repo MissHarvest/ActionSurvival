@@ -593,7 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d852ce5160cb14c9ef96c27a8c203d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerDefense: 0
+  playerDefense: 0
   <StandingIslandName>k__BackingField: CenterIsland
 --- !u!114 &787385280888539790
 MonoBehaviour:
@@ -3228,7 +3228,7 @@ GameObject:
   - component: {fileID: 4649982659158114381}
   - component: {fileID: 4543093439048481785}
   - component: {fileID: 7771247640107373999}
-  - component: {fileID: 4257597779344770059}
+  - component: {fileID: 4882961704473241515}
   m_Layer: 9
   m_Name: System
   m_TagString: Untagged
@@ -3290,7 +3290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ItemInUse>k__BackingField:
-    <itemData>k__BackingField: {fileID: 0}
+    <itemName>k__BackingField: 
     <quantity>k__BackingField: 0
     <currentDurability>k__BackingField: 0
     <equipped>k__BackingField: 0
@@ -3299,21 +3299,21 @@ MonoBehaviour:
   leftHandPosition: {fileID: 4378630651380572091}
   Equipments:
   - itemSlot:
-      <itemData>k__BackingField: {fileID: 0}
+      <itemName>k__BackingField: 
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
       <equipped>k__BackingField: 0
       <registed>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
-      <itemData>k__BackingField: {fileID: 0}
+      <itemName>k__BackingField: 
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
       <equipped>k__BackingField: 0
       <registed>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
-      <itemData>k__BackingField: {fileID: 0}
+      <itemName>k__BackingField: 
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
       <equipped>k__BackingField: 0
@@ -3333,28 +3333,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slots:
   - itemSlot:
-      <itemData>k__BackingField: {fileID: 0}
+      <itemName>k__BackingField: 
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
       <equipped>k__BackingField: 0
       <registed>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
-      <itemData>k__BackingField: {fileID: 0}
+      <itemName>k__BackingField: 
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
       <equipped>k__BackingField: 0
       <registed>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
-      <itemData>k__BackingField: {fileID: 0}
+      <itemName>k__BackingField: 
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
       <equipped>k__BackingField: 0
       <registed>k__BackingField: 0
     targetIndex: -1
   - itemSlot:
-      <itemData>k__BackingField: {fileID: 0}
+      <itemName>k__BackingField: 
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
       <equipped>k__BackingField: 0
@@ -3416,6 +3416,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _quests: []
   _activeQuests: []
+--- !u!114 &4882961704473241515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7330765973162392891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ec18bd4b45d44479e113868831db2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _linkedSlots: []
 --- !u!1 &7392496694934527924
 GameObject:
   m_ObjectHideFlags: 0
