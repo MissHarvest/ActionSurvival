@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static BossMonster;
-// Lee gyuseong 24.02.06
+// Lee gyuseong 24.02.06 save 기능 추가 필요
 
 public class UIArmorSlot : UIItemSlot
 {

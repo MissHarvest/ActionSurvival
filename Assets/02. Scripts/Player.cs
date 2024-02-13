@@ -22,6 +22,7 @@ public class Player : MonoBehaviour, IHit
     public QuickSlotSystem QuickSlot { get; private set; }
     public Recipe Recipe { get; private set; }
     public Cooking Cooking { get; private set; }
+    public MakeFire MakeFire { get; private set; }
     public BuildingSystem Building { get; private set; }
     public Tutorial Tutorial { get; private set; }
     public ArmorSystem ArmorSystem { get; private set; }
@@ -55,6 +56,7 @@ public class Player : MonoBehaviour, IHit
         QuickSlot = GetComponentInChildren<QuickSlotSystem>();
         Recipe = GetComponentInChildren<Recipe>();
         Cooking = GetComponentInChildren<Cooking>();
+        MakeFire = GetComponentInChildren<MakeFire>();
         Building = GetComponentInChildren<BuildingSystem>();
         Tutorial = GetComponentInChildren<Tutorial>();
         ArmorSystem = GetComponentInChildren<ArmorSystem>();
@@ -103,7 +105,13 @@ public class Player : MonoBehaviour, IHit
             Managers.Sound.PlayEffectSound(transform.position, "Hit");
             ConditionHandler.HP.Subtract(blockedDamage);
             Debug.Log($"[ Attacked by ] {attacker}");
-        }     
+        }
+        else
+        {
+            Managers.Sound.PlayEffectSound(transform.position, "Hit");
+            ConditionHandler.HP.Subtract(1f);
+            Debug.Log($"[ Attacked by ] {attacker}");
+        }
     }
 
     public void Die()

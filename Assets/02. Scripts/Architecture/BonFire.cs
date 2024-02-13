@@ -16,6 +16,7 @@ public class BonFire : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        Managers.Game.Player.Cooking.OnCookingShowAndHide();
+        //Managers.Game.Player.Cooking.OnCookingShowAndHide(); lgs 24.02.13
+        Managers.Game.Player.MakeFire.OnMakeFireShowAndHide();
     }
 }
