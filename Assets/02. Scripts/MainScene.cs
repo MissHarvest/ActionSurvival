@@ -1,8 +1,8 @@
 using Cinemachine;
 using System;
 using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainScene : MonoBehaviour
 {
@@ -20,12 +20,16 @@ public class MainScene : MonoBehaviour
         var waitWhile = new WaitWhile(() => loadingUI == null);
         yield return waitWhile;
 
+
+
         // 1. 리소스 로드
         ResourceLoad((key, count, total) =>
         {
             loadingUI.ReceiveCallbacks($"Resource Loading ... ({count} / {total})");
             if (count == total)
             {
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
                 // 2. 맵 생성
                 Managers.Game.GenerateWorldAsync((progress, argument) =>
                 {
@@ -52,9 +56,15 @@ public class MainScene : MonoBehaviour
                         var mon = Managers.Resource.GetCache<GameObject>("Slime.prefab");
                         Instantiate(mon);
                         Managers.Game.Init();
+                        
                         UIInitialize();
+
                         var camera = Managers.Resource.GetCache<GameObject>("MinimapCamera.prefab");
                         Instantiate(camera);
+
+
+                        watch.Stop();
+                        UnityEngine.Debug.Log($"Game Generated {watch.ElapsedMilliseconds} ms");
                     });
                 });
             }

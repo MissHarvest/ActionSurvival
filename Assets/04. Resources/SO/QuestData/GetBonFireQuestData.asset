@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
   m_Name: GetBonFireQuestData
   m_EditorClassIdentifier: 
-  questName: GetBonFire
   questUIName: "\uBAA8\uB2E5\uBD88\uC744 \uC81C\uC791\uD558\uC138\uC694."
-  questID: 4
-  isCompleted: 1
+  questID: 8
   preQuests:
   - {fileID: 11400000, guid: 969d6bb569150a54bb82e791f6c013c4, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 29b6186d9f3a8dd4fa1f7a8ce21ca246, type: 2}
+    quantity: 1

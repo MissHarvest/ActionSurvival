@@ -31,6 +31,9 @@ public class BossStateMachine : StateMachine
     public WeightedRandomPicker<BossAttackState> Skill = new();
 
     private int _phase = 1;
+
+    public BossAttackState NextAttackState { get; set; } = null;
+
     public BossStateMachine(BossMonster boss)
     {
         this.Boss = boss;
@@ -54,6 +57,8 @@ public class BossStateMachine : StateMachine
 
         Skill.AddItem(RushSate, RushSate.weight);
         Skill.AddItem(BiteState, BiteState.weight);
+
+        CoroutineManagement.Instance.StartCoroutine(GetNextSkill());
     }
 
     private void AddMeteorPattern(float hpPercent)
@@ -83,5 +88,21 @@ public class BossStateMachine : StateMachine
         }, 30);
 
         return skill;
+    }
+
+    IEnumerator GetNextSkill()
+    {
+        while (true)
+        {
+            yield return null;
+
+            if (Target == null) continue;
+
+            if (NextAttackState != null) continue;
+
+            if (Skill.Count <= 0) continue;
+
+            NextAttackState = GetUsableSkill();
+        }
     }
 }

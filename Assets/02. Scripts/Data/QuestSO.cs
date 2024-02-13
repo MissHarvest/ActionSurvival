@@ -5,6 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewQuest", menuName = "Quest/New Quest")]
 public class QuestSO : ScriptableObject
 {
+    public enum QuestType
+    {
+        Finding,
+        Crafting,
+        Using,
+    }
+
     public string questUIName;
     public int questID; //UI 띄울 때 사용하고, 0부터 시작하는 고유한 숫자여야 함
 
@@ -15,5 +22,11 @@ public class QuestSO : ScriptableObject
     public class RequiredItem
     {
         public ItemData item;
+        public int quantity;
     }
+
+    [Header("Tutorial")]
+    public LayerMask targetLayer;
+    public string targetName;
+    public QuestType type;
 }

@@ -11,6 +11,7 @@ public class UILootingItemSlot : UIItemSlot
     enum Texts
     {
         Name,
+        Quantity,
     }
 
     public override void Initialize()
@@ -29,5 +30,6 @@ public class UILootingItemSlot : UIItemSlot
     {
         base.Set(itemSlot);
         Get<TextMeshProUGUI>((int)Texts.Name).text = itemSlot.itemData.displayName;
+        Get<TextMeshProUGUI>((int)Texts.Quantity).text = itemSlot.quantity.ToString();
     }
 }

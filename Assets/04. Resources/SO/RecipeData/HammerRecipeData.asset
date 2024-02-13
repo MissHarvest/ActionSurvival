@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: HammerRecipeData
   m_EditorClassIdentifier: 
   itemName: Hammer
+  recipeID: 11
   completedItemData: {fileID: 11400000, guid: 9298f9989d0cf5f4ca96ac5ffde6eec0, type: 2}
   IsAdvancedRecipe: 1
+  Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
     quantity: 3

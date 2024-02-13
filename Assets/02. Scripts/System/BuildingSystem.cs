@@ -16,11 +16,7 @@ public class BuildingSystem : MonoBehaviour
     private int _rotationAngle = 45;
 
     [SerializeField] private float _maxBuildDistanceFront = 4.0f; // 플레이어 앞쪽 최대 건축 가능 거리
-    //[SerializeField] private float _maxBuildDistanceBack = 3.0f;
     [SerializeField] private float _maxBuildDistanceSideways = 5.0f;
-
-    private float _leftEdgeHitY;  // 좌측 끝에서의 레이캐스트 충돌 지점 y값
-    private float _rightEdgeHitY;  // 우측 끝에서의 레이캐스트 충돌 지점 y값
 
     private int _inventoryIndex;
 
@@ -33,17 +29,6 @@ public class BuildingSystem : MonoBehaviour
 
     public Player Owner { get; private set; }
 
-    public float LeftEdgeHitY
-    {
-        get { return _leftEdgeHitY; }
-        private set { _leftEdgeHitY = value; }
-    }
-
-    public float RightEdgeHitY
-    {
-        get { return _rightEdgeHitY; }
-        private set { _rightEdgeHitY = value; }
-    }
 
     private void Awake()
     {
@@ -61,68 +46,43 @@ public class BuildingSystem : MonoBehaviour
 
     public void CreateArchitecture()
     {
-        if (_buildableObject != null)
-            return;
-
         var indexInUse = Managers.Game.Player.QuickSlot.IndexInUse;
-        var handItemData = Managers.Game.Player.QuickSlot.slots[indexInUse].itemSlot.itemData as ToolItemData;
-        _inventoryIndex = Managers.Game.Player.QuickSlot.slots[indexInUse].targetIndex;
+        var index = _inventoryIndex = Managers.Game.Player.QuickSlot.slots[indexInUse].targetIndex;
 
-        if (handItemData.isArchitecture)
-        {
-            _rayPointer.transform.position = transform.position + Vector3.up * 2;
-            // "아이템명"+ItemData에서 "ItemData" 부분 제거
-            string itemNameWithoutItemData = handItemData.name.Replace("ItemData", "");
-
-            string prefabName = "Architecture_" + itemNameWithoutItemData + ".prefab";
-            var prefab = Managers.Resource.GetCache<GameObject>(prefabName);
-            _buildableObject = Instantiate(prefab).GetComponent<BuildableObject>();
-            _buildableObject.Create();
-        }
+        CreateArchitectureByIndex(index);
     }
 
     public void CreateArchitectureByIndex(int index)
     {
-        var handItemData = Managers.Game.Player.Inventory.slots[index].itemData as ToolItemData;
-        _inventoryIndex = index;
-
         _rayPointer.transform.position = transform.position + Vector3.up * 2;
-        // "아이템명"+ItemData에서 "ItemData" 부분 제거
-        string itemNameWithoutItemData = handItemData.name.Replace("ItemData", "");
+        var handItemData = Managers.Game.Player.Inventory.slots[index].itemData as ToolItemData;
+        if (!handItemData.isArchitecture) return;
 
-        string prefabName = "Architecture_" + itemNameWithoutItemData + ".prefab";
-        var prefab = Managers.Resource.GetCache<GameObject>(prefabName);
-        _buildableObject = Instantiate(prefab).GetComponent<BuildableObject>();
-        _buildableObject.Create();
-        OnBuildRequested?.Invoke(index);
+        if (Physics.Raycast(_rayPointer.transform.position, Vector3.down, out RaycastHit hit, 100, _buildableLayer))
+        {            
+            _inventoryIndex = index;
+
+            string itemNameWithoutItemData = handItemData.name.Replace("ItemData", "");
+
+            string prefabName = "Architecture_" + itemNameWithoutItemData + ".prefab";
+            var prefab = Managers.Resource.GetCache<GameObject>(prefabName);
+            _buildableObject = Instantiate(prefab, hit.point, Quaternion.identity).GetComponent<BuildableObject>();
+            _buildableObject.Create(_buildableLayer);
+            OnBuildRequested?.Invoke(index);
+        }
     }
 
     public bool BuildArchitecture()
     {
         if (_buildableObject.canBuild == false) return false;
-        if (CanBuild() == false) return false;
 
         _buildableObject.Build();
         _rayPointer.SetActive(false);
         _buildableObject = null;
-        // 인벤토리에서 제거      
+        
+        // 인벤토리에서 제거
         Managers.Game.Player.Inventory.UseArchitectureItem(_inventoryIndex);
         return true;
-    }
-
-
-    private bool CanBuild()
-    {
-        RaycastHit hit = RaycastHit();
-        if (hit.collider == null)
-            return false;
-
-        bool isOnBuildableLayer = (hit.collider != null) && (_buildableLayer == (_buildableLayer | 1 << hit.collider.gameObject.layer));
-        bool isCloseToGround = Mathf.Abs(hit.point.y - transform.position.y) < 0.1f;
-
-        _buildableObject.canBuild = _buildableObject.CanBuild(_buildableLayer) && isOnBuildableLayer && _buildableObject.isOverlap && isCloseToGround && IsWithinBuildZone(hit.point);
-
-        return _buildableObject.canBuild;
     }
 
     public void CancelBuilding()
@@ -131,60 +91,32 @@ public class BuildingSystem : MonoBehaviour
         _rayPointer.SetActive(false);
     }
 
-    private RaycastHit RaycastHit()
-    {
-        RaycastHit hit;
-
-        Vector3 playerPosition = _rayPointer.transform.position;
-
-        // _buildableObject의 박스 콜라이더 크기만큼 BoxCast 크기 설정
-        Collider buildableObjectCollider = _buildableObject.GetComponent<Collider>();
-
-        if (Physics.BoxCast(_rayPointer.transform.position, buildableObjectCollider.bounds.size / 2.0f, Vector3.down, out hit, Quaternion.identity, _raycastRange))
-        {
-            _lastValidHitPoint = hit.point; // 유효한 충돌이 있을 때만 기억
-        }
-
-        return hit;
-    }
-
     public void SetObjPosition()
     {
         Vector3 _location = new Vector3(
-            Mathf.Floor(_rayPointer.transform.position.x / _gridSize) * _gridSize,
-            transform.position.y,
-            Mathf.Floor(_rayPointer.transform.position.z / _gridSize) * _gridSize
+            Mathf.Round(_rayPointer.transform.position.x / _gridSize) * _gridSize,
+            _buildableObject.gameObject.transform.position.y,
+            Mathf.Round(_rayPointer.transform.position.z / _gridSize) * _gridSize
             );
-        CanBuild();
+
         _buildableObject.gameObject.transform.position = _location;
     }
 
-    public void SetObjPositionWithJoystick(Vector2 joystickInput)
+    public void MoveRayPointer(Vector2 joystickInput)
     {
         if (_buildableObject == null) return;
         float movementSpeed = 2.0f;
 
         // 현재 위치 저장
         Vector3 currentPosition = _rayPointer.transform.position;
+        var nextPosition = currentPosition + new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
 
-        _rayPointer.transform.position += new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
+        if(IsWithinBuildZone(nextPosition))
+        {
+            _rayPointer.transform.position = nextPosition;
+        }
 
         SetObjPosition();
-
-        // 이동 후 위치
-        Vector3 newPosition = _rayPointer.transform.position;
-
-        // 건축 가능 직사각형 영역을 넘어가면 마지막으로 영역 안에 있던 위치로 도르마무
-        if (!IsWithinBuildZone(newPosition))
-        {
-            _rayPointer.transform.position = _lastValidPosition;
-            SetObjPosition();
-        }
-        else
-        {
-            // 유효한 위치 갱신
-            _lastValidPosition = newPosition;
-        }
     }
 
     //청사진 위치를 기준으로 직사각형 영역 내에 있는지 확인
@@ -225,8 +157,8 @@ public class BuildingSystem : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(_rayPointer.transform.position, buildableObjectCollider.bounds.size);
 
-        DrawRaycastGizmo(buildableObjectCollider.bounds.min, ref _leftEdgeHitY);
-        DrawRaycastGizmo(buildableObjectCollider.bounds.max, ref _rightEdgeHitY);
+        //DrawRaycastGizmo(buildableObjectCollider.bounds.min, ref _leftEdgeHitY);
+        //DrawRaycastGizmo(buildableObjectCollider.bounds.max, ref _rightEdgeHitY);
     }
 
     private void DrawRaycastGizmo(Vector3 origin, ref float hitY)
@@ -246,23 +178,4 @@ public class BuildingSystem : MonoBehaviour
             Gizmos.DrawRay(origin, Vector3.down * 10f);
         }
     }
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.green;
-
-    //    Vector3 center = transform.position;
-    //    float halfSideways = _maxBuildDistanceSideways / 2.0f;
-    //    float halfFront = _maxBuildDistanceFront / 2.0f;
-
-    //    Vector3 frontLeft = center + new Vector3(-halfSideways, 0, halfFront);
-    //    Vector3 frontRight = center + new Vector3(halfSideways, 0, halfFront);
-    //    Vector3 backLeft = center + new Vector3(-halfSideways, 0, -halfFront);
-    //    Vector3 backRight = center + new Vector3(halfSideways, 0, -halfFront);
-
-    //    Gizmos.DrawLine(frontLeft, frontRight);
-    //    Gizmos.DrawLine(frontRight, backRight);
-    //    Gizmos.DrawLine(backRight, backLeft);
-    //    Gizmos.DrawLine(backLeft, frontLeft);
-    //}
 }

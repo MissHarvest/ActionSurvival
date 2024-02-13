@@ -25,6 +25,7 @@ public class UICooking : UICraftBase
 
     protected override List<RecipeSO> GetDataList()
     {
-        return Managers.Data.cookingDataList;
+        var sortedCookingList = Managers.Data.cookingDataList.OrderBy(recipe => recipe.recipeID).ToList();
+        return sortedCookingList;
     }
 }

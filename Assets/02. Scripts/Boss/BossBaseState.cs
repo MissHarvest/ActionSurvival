@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class BossBaseState : IState
@@ -33,6 +35,7 @@ public class BossBaseState : IState
 
     public virtual void Update()
     {
+        // 범위 밖으로 나가면 원위치 //
         var v1 = _stateMachine.Boss.RespawnPoint - _stateMachine.Boss.transform.position;
         v1.y = 0;
         var distPointToBoss = v1.sqrMagnitude;
@@ -58,19 +61,22 @@ public class BossBaseState : IState
         _stateMachine.Boss.Animator.SetBool(animationHash, false);
     }
 
-    protected bool Rotate(Vector3 look)
+    protected void RotateToTarget()
     {
-        if (look != Vector3.zero)
+        if (CheckTargetInViewArea()) return;
+
+        Transform transform = _stateMachine.Boss.transform;
+        var look = _stateMachine.Target.transform.position - transform.position;
+        look.y = 0;
+
+        Quaternion targetRotation = Quaternion.LookRotation(look);
+        int dir = Vector3.Cross(_stateMachine.Boss.transform.forward, look).y > 0 ? 1 : -1;
+
+        transform.Rotate(new Vector3(0, Time.deltaTime * 90 * dir, 0));
+        if (CheckTargetInViewArea())
         {
-            Transform transform = _stateMachine.Boss.transform;
-            Quaternion targetRotation = Quaternion.LookRotation(look);
-            int angle = Vector3.Cross(_stateMachine.Boss.transform.forward, look).y > 0 ? 1 : -1;
-            transform.Rotate(new Vector3(0, Time.deltaTime * 90 * angle, 0));
-            var rot = Quaternion.Angle(transform.rotation, targetRotation);
-            
-            return rot < 5.0f;
+            transform.rotation = targetRotation;
         }
-        return false;
     }
 
     protected float GetDistToTarget()
@@ -78,6 +84,20 @@ public class BossBaseState : IState
         var distance = _stateMachine.Target.transform.position - _stateMachine.Boss.transform.position;
         distance.y = 0;
         return distance.sqrMagnitude;
+    }
+
+    protected float GetAngleWithTarget()
+    {
+        var dir = _stateMachine.Target.transform.position - _stateMachine.Boss.transform.position;
+        dir.y = 0;
+        var targetRotation = Quaternion.LookRotation(dir);
+        return Mathf.Abs(Quaternion.Angle(_stateMachine.Boss.transform.rotation, targetRotation));
+    }
+
+    protected bool CheckTargetInViewArea()
+    {
+        Debug.Log("SSS" + GetAngleWithTarget());
+        return GetAngleWithTarget() < 5.0f;
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)
@@ -97,5 +117,11 @@ public class BossBaseState : IState
         {
             return 0f;
         }
+    }
+
+    protected IEnumerator Stay(float time, Action action)
+    {
+        yield return new WaitForSeconds(time);
+        action.Invoke();
     }
 }

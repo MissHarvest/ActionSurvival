@@ -2,20 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 //using static UnityEditor.Experimental.GraphView.Port; lgs 24.01.29
 
 public class UIItemSlotContainer : UIBase
 {
     private List<UIItemSlot> _uiItemSlots = new List<UIItemSlot>();
-
+    private GridLayoutGroup _group;
     public override void Initialize()
     {
         
     }
 
-    private void Start()
+    private void Awake()
     {
-        
+        _group = GetComponent<GridLayoutGroup>();
     }
 
     public virtual void CreateItemSlots<T>(GameObject slotPrefab, int count) where T : UIItemSlot
@@ -45,5 +46,37 @@ public class UIItemSlotContainer : UIBase
     public void OnItemSlotUpdated(int index, ItemSlot itemSlot)
     {
         _uiItemSlots[index].Set(itemSlot);
+    }
+
+    public void HighLight(int index)
+    {
+        var go = _uiItemSlots[index].gameObject;
+
+        int xOffset = 40;
+        int yOffset = 30;
+
+        var row = 4 - index / 6;
+        var col = index % 6;
+
+        var xSpace = _group.spacing.x;
+        var ySpace = _group.spacing.y;
+
+        var xWidth = _group.cellSize.x;
+        var yHeight = _group.cellSize.y;
+
+        var xPosition = xOffset + xWidth * 0.5f + (xSpace + xWidth) * col;
+        var yPosition = yOffset + (row + 1) * (yHeight + ySpace);
+
+        var arrowUI = Managers.UI.ShowPopupUI<UITutorialArrow>();
+        var pos = go.transform.position;
+
+        arrowUI.ActivateArrow(pos, new Vector2(xPosition, yPosition));
+        go.BindEvent((x) =>
+        {
+            Managers.UI.ClosePopupUI(arrowUI);
+
+            var evtHandler = Utility.GetOrAddComponent<UIEventHandler>(go);
+            evtHandler.OnPointerDownEvent = null;
+        }, UIEvents.PointerDown);
     }
 }

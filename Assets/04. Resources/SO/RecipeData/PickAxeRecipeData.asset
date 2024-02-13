@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: PickAxeRecipeData
   m_EditorClassIdentifier: 
   itemName: PickAxe
+  recipeID: 1
   completedItemData: {fileID: 11400000, guid: 169efef296147ff47aa012ef827c9305, type: 2}
+  IsAdvancedRecipe: 0
+  Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
     quantity: 1

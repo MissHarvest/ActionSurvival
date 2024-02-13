@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: FurnaceRecipeData
   m_EditorClassIdentifier: 
   itemName: Furnace
+  recipeID: 19
   completedItemData: {fileID: 11400000, guid: 3af86f924f19ee348aa2053f634168d8, type: 2}
   IsAdvancedRecipe: 1
+  Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 29b6186d9f3a8dd4fa1f7a8ce21ca246, type: 2}
     quantity: 1
