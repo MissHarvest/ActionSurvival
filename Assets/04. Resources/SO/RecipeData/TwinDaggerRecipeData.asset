@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: TwinDaggerRecipeData
   m_EditorClassIdentifier: 
   itemName: TwinDaggerRecipeData
+  recipeID: 17
   completedItemData: {fileID: 11400000, guid: b328e8f130ceabf47b71258505fa55d0, type: 2}
   IsAdvancedRecipe: 1
+  Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: c48d0f569a835d44fa7bd6c45421d9ff, type: 2}
     quantity: 1

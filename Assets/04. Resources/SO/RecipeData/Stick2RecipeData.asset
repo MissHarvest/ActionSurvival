@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Stick2RecipeData
   m_EditorClassIdentifier: 
   itemName: Stick
+  recipeID: 7
   completedItemData: {fileID: 11400000, guid: 9515422e7b608cd4ea5174facd473388, type: 2}
   IsAdvancedRecipe: 0
   Quantity: 3

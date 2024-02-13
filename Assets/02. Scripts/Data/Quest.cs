@@ -17,6 +17,19 @@ public class Quest
         this.isCompleted = false;
     }
 
+    public bool IsEnoughRequirements(ItemSlot itemSlot)
+    {
+        foreach (var requiredItem in questSO.requiredItems)
+        {
+            if (itemSlot.itemData != null && itemSlot.itemData.name == requiredItem.item.name)
+            {
+                //Debug.Log($"{requiredItem.item.displayName} 획득");
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void CompleteQuest()
     {
         isCompleted = true;

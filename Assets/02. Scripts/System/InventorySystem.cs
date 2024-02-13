@@ -24,13 +24,18 @@ public class InventorySystem : MonoBehaviour
         }
 
         Owner = Managers.Game.Player;
-
+        AddDefaultToolAsTest();
         Managers.Game.OnSaveCallback += Save;
     }
 
     public void AddDefaultToolAsTest()
     {
-
+        var itemData = Managers.Resource.GetCache<ItemData>("LogItemData.data");
+        AddItem(itemData, 20);
+        itemData = Managers.Resource.GetCache<ItemData>("CraftingTableItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
+        AddItem(itemData, 1);
     }
 
     public void SetCapacity(int capacity)
