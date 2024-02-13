@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: LuxuriousSetCookingData
   m_EditorClassIdentifier: 
   itemName: LuxuriousSet
+  recipeID: 24
   completedItemData: {fileID: 11400000, guid: e24cec6279a69f94093c8834f2550ff0, type: 2}
   IsAdvancedRecipe: 0
+  Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 9910fbaa1ab0a0745900d8c7fc6f25f0, type: 2}
     quantity: 2

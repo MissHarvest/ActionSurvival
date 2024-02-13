@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: EnchantedAxeRecipeData
   m_EditorClassIdentifier: 
   itemName: EnchantedAxe
+  recipeID: 14
   completedItemData: {fileID: 11400000, guid: 9efb30a1af99d4648918261bb2556429, type: 2}
   IsAdvancedRecipe: 1
+  Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 9c85809597f1da54fbc98bcc3023a6b5, type: 2}
     quantity: 1

@@ -7,6 +7,7 @@ using UnityEngine;
 public class RecipeSO : ScriptableObject
 {
     public string itemName;
+    public int recipeID;
     public ItemData completedItemData;
     public bool IsAdvancedRecipe; // 고급 레시피 여부를 나타냄
 

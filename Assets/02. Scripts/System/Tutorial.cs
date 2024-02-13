@@ -46,8 +46,6 @@ public class Tutorial : MonoBehaviour
             .ToList();
     }
 
-
-
     private void Start()
     {
         BindInventoryEvents();
@@ -81,7 +79,7 @@ public class Tutorial : MonoBehaviour
     private void OnInventoryUpdated(int index, ItemSlot itemSlot)
     {
         _activeQuests
-            .Where(activeQuest => IsEnoughRequirements(activeQuest, itemSlot))
+            .Where(activeQuest => activeQuest.IsEnoughRequirements(itemSlot))
             .ToList()
             .ForEach(activeQuest => {
                 ConfirmQuestCompletion(activeQuest);
@@ -97,18 +95,6 @@ public class Tutorial : MonoBehaviour
         OnActiveQuestsUpdated?.Invoke();
     }
 
-
-    private bool IsEnoughRequirements(Quest quest, ItemSlot itemSlot)
-    {
-        foreach (var requiredItem in quest.questSO.requiredItems)
-        {
-            if (itemSlot.itemData != null && itemSlot.itemData.name == requiredItem.item.name)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private void ConfirmQuestCompletion(Quest quest)
     {

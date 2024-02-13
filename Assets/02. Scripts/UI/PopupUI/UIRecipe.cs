@@ -24,7 +24,7 @@ public class UIRecipe : UICraftBase
     {
         foreach (var slot in _uiCraftSlots)
         {
-            bool isAdvancedRecipe = Managers.Data.recipeDataList[slot.Index].IsAdvancedRecipe;
+            bool isAdvancedRecipe = GetDataList()[slot.Index].IsAdvancedRecipe;
             slot.gameObject.SetActive(active || (!isAdvancedRecipe && !active));
         }
     }
@@ -36,6 +36,8 @@ public class UIRecipe : UICraftBase
 
     protected override List<RecipeSO> GetDataList()
     {
-        return Managers.Data.recipeDataList;
+        // recipeID로 오름차순 정렬
+        var sortedRecipeList = Managers.Data.recipeDataList.OrderBy(recipe => recipe.recipeID).ToList();
+        return sortedRecipeList;
     }
 }

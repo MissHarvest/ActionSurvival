@@ -28,7 +28,7 @@ public class UIItemUsageHelper : UIItemHelper
         CreateButtonByEnum(Functions.UnRegist);
         CreateButtonByEnum(Functions.Use);
         CreateButtonByEnum(Functions.Build);
-        CreateButtonByEnum(Functions.Equip); //lgs
+        CreateButtonByEnum(Functions.Equip);
         CreateButtonByEnum(Functions.UnEquip);
         CreateButtonByEnum(Functions.Destroy);
     }
@@ -87,7 +87,7 @@ public class UIItemUsageHelper : UIItemHelper
 
     #region ShowButton
 
-    private void ShowEquipButton(bool equip) //lgs 24.02.06
+    private void ShowEquipButton(bool equip)
     {
         if (equip)
         {
