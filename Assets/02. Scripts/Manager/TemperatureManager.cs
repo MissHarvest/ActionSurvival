@@ -1,23 +1,48 @@
-// ÀÛ¼º ³¯Â¥ : 2024. 01. 10
-// ÀÛ¼ºÀÚ : Park Jun Uk
+// ì‘ì„± ë‚ ì§œ : 2024. 01. 10
+// ì‘ì„±ì : Park Jun Uk
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TemperatureManager
 {
-    // ÇöÀç ¿Âµµ { get; set; }
-    public float Temperature { get; private set; } = 8.0f;
+    private float _fireIslandTemperature;
+    private float _iceIslandTemperature;
+    private float _environmentTemperature;
+
+    private Island _iceIsland;
+    private Island _fireIsland;
+    private float _islandDistance;
 
     public event Action<float> OnChanged;
 
     public void Init(GameManager gameManager)
     {
-        // ½Ã°£´ë Äİ¹é
+        _iceIsland = gameManager.IceIsland;
+        _fireIsland = gameManager.FireIsland;
+        _islandDistance = Vector3.Distance(_iceIsland.Position, _fireIsland.Position);
 
-        // ¸ó½ºÅÍ ºñÀ² Äİ¹é
+        // TEST
+        _fireIslandTemperature = 40f;
+        _iceIslandTemperature = -35f;
+
+        // ì‹œê°„ëŒ€ ì½œë°±
+        gameManager.DayCycle.OnMorningCame += OnMorningCame;
+        gameManager.DayCycle.OnEveningCame += OnEveningCame;
+        gameManager.DayCycle.OnNightCame += OnNightCame;
+
+        gameManager.World.OnWorldUpdated += () => GetTemporature(gameManager.Player.transform.position);
+
+        // ëª¬ìŠ¤í„° ë¹„ìœ¨ ì½œë°±
+    }
+
+    public float GetTemporature(Vector3 position)
+    {
+        float t = Vector3.Distance(_fireIsland.Position, position);
+        t = Mathf.InverseLerp(0, _islandDistance, t);
+        t = Mathf.Clamp01(t);
+        Debug.Log(Mathf.Lerp(_fireIslandTemperature, _iceIslandTemperature, t) + _environmentTemperature);
+        return Mathf.Lerp(_fireIslandTemperature, _iceIslandTemperature, t) + _environmentTemperature;
     }
 
     private void OnMonsterSpawned(float ratio)
@@ -27,16 +52,16 @@ public class TemperatureManager
 
     private void OnMorningCame()
     {
-        // 2ºĞ?
+        _environmentTemperature = 12f;
     }
 
     private void OnEveningCame()
     {
-        // 
+        _environmentTemperature = 20f;
     }
 
     private void OnNightCame()
     {
-        // 
+        _environmentTemperature = 8f;
     }
 }

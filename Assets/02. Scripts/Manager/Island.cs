@@ -60,6 +60,11 @@ public class Island
         }
     }
 
+    public Vector3 Position
+    {
+        get => _property.center;
+    }
+
     public Transform SpawnMonsterRoot
     {
         get
