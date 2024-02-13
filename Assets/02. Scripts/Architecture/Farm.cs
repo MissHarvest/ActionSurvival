@@ -14,7 +14,7 @@ public class Farm : MonoBehaviour, IInteractable
     private FarmStateMachine _stateMachine;
     public GameObject[] stateObject;
 
-    public int MaxTime { get; } = 1;
+    public int MaxTime { get; } = 100; //lgs test
     [field: SerializeField] public int RemainingTime { get; set; } = 0;
     [SerializeField] public int State { get; set; } = 0;
 
@@ -54,8 +54,7 @@ public class Farm : MonoBehaviour, IInteractable
         else if (stateObject[2].activeSelf == true)
         {
             _stateMachine.Interact(player);
-        }
-        
+        }        
     }
 
     public void ChangeObject(int state)
@@ -66,7 +65,7 @@ public class Farm : MonoBehaviour, IInteractable
         }
     }
 
-    private bool SeedsInInventory()
+    private bool SeedsInInventory() // 인벤토리 find 함수 있음
     {
         for (int i = 0; i < Managers.Game.Player.Inventory.slots.Length; i++)
         {

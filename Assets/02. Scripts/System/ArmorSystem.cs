@@ -54,7 +54,7 @@ public class ArmorSystem : MonoBehaviour
     {
         for (int i = 0; i < _linkedSlots.Length; i++)
         {
-            if (_linkedSlots[i] != null && _linkedSlots[i].targetIndex != -1) // null로 한 번 걸렀는데 targetIndex를 또 걸러줘야 동작한다. 대체 왜??
+            if (_linkedSlots[i] != null && _linkedSlots[i].targetIndex != -1)
             {
                 Managers.Game.Player.Inventory.UseToolItemByIndex(_linkedSlots[i].targetIndex, 1);
             }
