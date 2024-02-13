@@ -126,6 +126,13 @@ public class SaveGame
         }
         PlayerPrefs.DeleteKey("IslandName");
     }
+
+    public static bool ExistFiles()
+    {
+        var path = $"{Application.persistentDataPath}";
+        DirectoryInfo di = new DirectoryInfo(path);
+        return di.GetFiles("*.json").Length > 0;
+    }
     #endregion
 
     #region PlayerPrefs

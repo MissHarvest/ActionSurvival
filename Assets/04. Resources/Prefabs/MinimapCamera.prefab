@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3215671793421710086}
   - component: {fileID: 5333171256435845298}
   - component: {fileID: 1814941724132252415}
-  - component: {fileID: 2974272867832581179}
+  - component: {fileID: -5446041863507839860}
   m_Layer: 0
   m_Name: MinimapCamera
   m_TagString: Untagged
@@ -101,7 +101,7 @@ MonoBehaviour:
   _positionY: 0
   _positionZ: 1
   _target: {fileID: 0}
---- !u!114 &2974272867832581179
+--- !u!114 &-5446041863507839860
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 public class UIItemUsageHelper : UIItemHelper
 {
@@ -39,7 +40,7 @@ public class UIItemUsageHelper : UIItemHelper
         SetItemName(selectedSlot.itemData.displayName);
 
         Container.transform.position = position;
-
+        
         switch (selectedSlot.itemData)
         {
             case ToolItemData toolItem when !toolItem.isArchitecture:
@@ -63,7 +64,25 @@ public class UIItemUsageHelper : UIItemHelper
         ShowButtonByEnum(Functions.Destroy);
 
         // Set My Size
+    }
 
+    public void HighLight(Functions function)
+    {
+        var go = _buttons[function.ToString()].gameObject;
+        var rect = go.GetComponent<RectTransform>();
+        var xOffset = rect.sizeDelta.x * 0.5f;
+
+        var arrowUI = Managers.UI.ShowPopupUI<UITutorialArrow>();
+        var pos = go.transform.position;
+
+        arrowUI.ActivateArrow(pos, new Vector2(xOffset, 0));
+        go.BindEvent((x) =>
+        {
+            Managers.UI.ClosePopupUI(arrowUI);
+
+            var evtHandler = Utility.GetOrAddComponent<UIEventHandler>(go);
+            evtHandler.OnPointerDownEvent = null;
+        }, UIEvents.PointerDown);
     }
 
     #region ShowButton

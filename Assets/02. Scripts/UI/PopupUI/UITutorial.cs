@@ -14,8 +14,8 @@ public class UITutorial : UIPopup
     private Transform _content;
     private List<Quest> _activeQuests;
     private QuestSO[] _quests;
-    private List<UIQuest> _uiQuestPool = new List<UIQuest>();
-
+    private List<UIQuest> _uiQuests = new List<UIQuest>();
+    
     public override void Initialize()
     {
         base.Initialize();
@@ -28,14 +28,14 @@ public class UITutorial : UIPopup
         _content = Get<GameObject>((int)GameObjects.Content).transform;
     }
 
-    private void OnEnable()
+    private void Start()
     {
         Managers.Game.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
         _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
         Array.Sort(_quests, (x, y) => x.questID.CompareTo(y.questID));
         _activeQuests = Managers.Game.Player.Tutorial.ActiveQuests;
-        CreateQuestUIPool();
-        ShowQuest(); // 게임 시작 시 퀘스트 표시
+        CreateQuestUI();
+        ShowQuest(); 
     }
 
     private void HandleActiveQuestsUpdated()
@@ -43,7 +43,7 @@ public class UITutorial : UIPopup
         ShowQuest();
     }
 
-    private void CreateQuestUIPool()
+    private void CreateQuestUI()
     {
         var questPrefab = Managers.Resource.GetCache<GameObject>("UIQuest.prefab");
 
@@ -52,7 +52,7 @@ public class UITutorial : UIPopup
         {
             var questGO = Instantiate(questPrefab, _content);
             var quest = questGO.GetComponent<UIQuest>();
-            _uiQuestPool.Add(quest);
+            _uiQuests.Add(quest);
             questGO.SetActive(false);
         }
     }
@@ -62,16 +62,10 @@ public class UITutorial : UIPopup
         ClearQuests();
 
         // 활성화된 퀘스트 UI만 활성화
-        foreach (var activeQuest in _activeQuests)
+        for(int i = 0; i < _activeQuests.Count; ++i)
         {
-            int questID = activeQuest.questSO.questID;
-
-            if (questID >= 0 && questID < _uiQuestPool.Count)
-            {
-                UIQuest matchingUIQuest = _uiQuestPool[questID];
-                matchingUIQuest.gameObject.SetActive(true);
-                matchingUIQuest.Set(activeQuest);
-            }
+            _uiQuests[i].Set(_activeQuests[i], Managers.Game.Player.Tutorial);
+            _uiQuests[i].gameObject.SetActive(true);
         }
 
         // 모든 퀘스트 클리어 시 퀘스트 UI 닫음
@@ -84,7 +78,7 @@ public class UITutorial : UIPopup
     private void ClearQuests()
     {
         // 모든 퀘스트 UI를 비활성화
-        foreach (var quest in _uiQuestPool)
+        foreach (var quest in _uiQuests)
         {
             quest.gameObject.SetActive(false);
         }

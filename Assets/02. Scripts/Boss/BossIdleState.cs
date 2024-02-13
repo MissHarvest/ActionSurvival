@@ -16,7 +16,6 @@ public class BossIdleState : BossBaseState
         base.Enter();
         // Start Animation
         StartAnimation(_stateMachine.Boss.AnimationData.IdleParameterHash);
-        //ChangeTestState();        
     }
 
     public override void Exit() 
@@ -27,7 +26,10 @@ public class BossIdleState : BossBaseState
 
     public override void Update()
     {
-        
+        if(_stateMachine.NextAttackState != null)
+        {
+            _stateMachine.ChangeState(_stateMachine.BattleState);
+            return;
+        }
     }
-
 }

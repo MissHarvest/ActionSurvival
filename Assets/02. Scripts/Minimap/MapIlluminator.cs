@@ -38,6 +38,7 @@ public class MapIlluminator : MonoBehaviour
 
     private float _radiusCircle { get { return _shadowRadius; } }
 
+
     private void Awake()
     {
         Initialize();
@@ -78,8 +79,10 @@ public class MapIlluminator : MonoBehaviour
 
     private void Start()
     {
-        Load();
         _player = Managers.Game.Player.transform;
+
+        Load();
+
         Managers.Game.OnSaveCallback += Save;
     }
 

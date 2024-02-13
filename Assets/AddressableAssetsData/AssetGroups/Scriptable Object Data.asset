@@ -503,12 +503,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0e99452afc6013a46b0fcaa854d7a0e0
-    m_Address: AppleItemData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: eaac63f19a4e191489080679244faec7
     m_Address: CornerItemData.data
     m_ReadOnly: 0
@@ -745,6 +739,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b5c5d1a588de9154cb18e742d8f6a720
     m_Address: GetStoneQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b70139d5f6d96a94bad599d9c8fee871
+    m_Address: SkeletonBoneItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

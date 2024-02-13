@@ -14,6 +14,8 @@ public class BuildableObject : MonoBehaviour, IHit
     private Material _originMat;
     public Material redMat;
     public Material blueMat;
+    private LayerMask _buildableLayer;
+    public Collider otherCollider;
 
     public bool canBuild { get; set; } = true;
     public bool isOverlap { get; private set; } = false;
@@ -43,8 +45,9 @@ public class BuildableObject : MonoBehaviour, IHit
         HP.OnBelowedToZero += DestroyObject;
     }
 
-    public void Create()
+    public void Create(LayerMask layermask)
     {
+        _buildableLayer = layermask;
         SetMaterial(blueMat);
         _rigidbody.useGravity = false;
         _navMeshObstacle.enabled = false;
@@ -57,7 +60,7 @@ public class BuildableObject : MonoBehaviour, IHit
         while(true)
         {
             yield return null;
-            var mat = canBuild ? blueMat : redMat;
+            var mat = CanBuild() ? blueMat : redMat;
             if(_collider.isTrigger) SetMaterial(mat);
         }
     }
@@ -94,26 +97,33 @@ public class BuildableObject : MonoBehaviour, IHit
 
     private void OnTriggerStay(Collider other)
     {
-        isOverlap = false;
+        otherCollider = other;
+        isOverlap = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        isOverlap = true;
+        isOverlap = false;
+        otherCollider = null;
     }
 
-    public bool CanBuild(LayerMask buildableLayer)
+    public bool CanBuild()
     {
-        bool isLeftEdgeOnGround = Physics.Raycast(_collider.bounds.min, Vector3.down, out RaycastHit leftHit, Mathf.Infinity, buildableLayer);
-        bool isRightEdgeOnGround = Physics.Raycast(_collider.bounds.max, Vector3.down, out RaycastHit rightHit, Mathf.Infinity, buildableLayer);
+        if (isOverlap) return false;
 
+        bool isLeftEdgeOnGround = Physics.Raycast(_collider.bounds.min, Vector3.down, out RaycastHit leftHit, Mathf.Infinity, _buildableLayer);
+        bool isCenterOnGround = Physics.Raycast(_collider.bounds.center, Vector3.down, out RaycastHit centerHit, Mathf.Infinity, _buildableLayer);
+        bool isRightEdgeOnGround = Physics.Raycast(_collider.bounds.max, Vector3.down, out RaycastHit rightHit, Mathf.Infinity, _buildableLayer);
+        
+        // 한 부분이라도 충돌이 안되면,,
+        if (!isLeftEdgeOnGround || !isCenterOnGround || !isRightEdgeOnGround) return false;
+
+        // 바닥과의 거리가 멀 때 ,,
+        if (Mathf.Abs(_collider.bounds.center.y - transform.position.y - centerHit.distance) > 0.01f) return false;
+        
         // 좌우 양 끝에서의 충돌 지점의 y 값이 서로 다르면 건축 불가능
-        if (isLeftEdgeOnGround && isRightEdgeOnGround && Managers.Game.Player.Building.LeftEdgeHitY != Managers.Game.Player.Building.RightEdgeHitY)
-        {
-            canBuild = false;
-            return false;
-        }
-        return true;
+        // >> 완전히 같냐고 물어도 되나?
+        return (leftHit.point.y == centerHit.point.y) && (centerHit.point.y == rightHit.point.y);
     }
 
     public void Hit(IAttack attacker, float damage)

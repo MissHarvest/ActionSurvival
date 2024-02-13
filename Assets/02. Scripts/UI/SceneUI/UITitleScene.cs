@@ -28,8 +28,15 @@ public class UITitleScene : UIScene
 
         Get<Button>((int)Buttons.NewGameButton).onClick.AddListener(() =>
         {
-            SaveGame.DeleteAllFiles();
-            SceneManager.LoadScene("Main Scene");
+            if(SaveGame.ExistFiles())
+            {
+                var ui = Managers.UI.ShowPopupUI<UIWarning>();
+                ui.SetWarning("세이브 파일이 있습니다.\n 정말 새로 시작하나요?", StartNewGame);
+            }
+            else
+            {
+                StartNewGame();
+            }
         });
 
         Get<Button>((int)Buttons.NewGameButton).gameObject.BindEvent((x) =>
@@ -69,5 +76,11 @@ public class UITitleScene : UIScene
     public void ActivateButtons()
     {
         Get<GameObject>((int)GameObjects.ButtonGroup).SetActive(true);
+    }
+
+    private void StartNewGame()
+    {
+        SaveGame.DeleteAllFiles();
+        SceneManager.LoadScene("Main Scene");
     }
 }

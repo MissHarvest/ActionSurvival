@@ -5,6 +5,7 @@ public class PlayerInteractState : PlayerBaseState
 {
     protected GameObject target;
     protected string targetTag;
+    protected int _repeatCount;
 
     public PlayerInteractState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
@@ -28,9 +29,10 @@ public class PlayerInteractState : PlayerBaseState
 
         if (targets[0].CompareTag(tool.targetTagName) || targets[0].CompareTag("Gather"))
         {
-            target = targets[0].gameObject;
+            target = targets[0].gameObject;            
             targetTag = target.tag;
-            Debug.Log($"target Name : {targetTag}");
+            _repeatCount = targetTag == "Gather" ? 1 : 3;
+            
             RotateOfTarget();
             _stateMachine.Player.Animator.SetBool(targetTag, true);
             return;
@@ -55,7 +57,7 @@ public class PlayerInteractState : PlayerBaseState
         // exit 조건 설정
         float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
 
-        if (normalizedTime >= 3f)
+        if (normalizedTime >= 1.0f *_repeatCount)
         {
             if (target != null)
             {

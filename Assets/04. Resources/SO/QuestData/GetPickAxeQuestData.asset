@@ -16,7 +16,11 @@ MonoBehaviour:
   questID: 3
   preQuests:
   - {fileID: 11400000, guid: 1dbfa73b255a57548bbace7686d65218, type: 2}
-  - {fileID: 11400000, guid: b5c5d1a588de9154cb18e742d8f6a720, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 169efef296147ff47aa012ef827c9305, type: 2}
     quantity: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  targetName: 
+  type: 2

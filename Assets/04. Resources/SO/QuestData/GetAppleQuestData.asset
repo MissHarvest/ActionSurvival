@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: GetAppleQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uC0AC\uACFC\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
-  questID: 2
+  questID: 0
   preQuests: []
   requiredItems:
-  - item: {fileID: 11400000, guid: 0e99452afc6013a46b0fcaa854d7a0e0, type: 2}
+  - item: {fileID: 11400000, guid: 68a9bba7c97dc024f84ab4c246757bad, type: 2}
     quantity: 1
+  - item: {fileID: 11400000, guid: 68a9bba7c97dc024f84ab4c246757bad, type: 2}
+    quantity: 0
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  targetName: Fruit
+  type: 0

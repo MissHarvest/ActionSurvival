@@ -69,6 +69,7 @@ public class ItemSlot
 
     public void LoadData()
     {
+        if (itemName == string.Empty) return;
         var path = $"{itemName}.data";
         Debug.Log($"[{path}] Finding");
         itemData = Managers.Resource.GetCache<ItemData>(path);

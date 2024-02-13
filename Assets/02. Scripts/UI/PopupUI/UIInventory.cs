@@ -1,5 +1,7 @@
 //using UnityEditor.Build.Pipeline.Utilities;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIInventory : UIPopup
 {
@@ -19,6 +21,7 @@ public class UIInventory : UIPopup
     }
 
     public QuickSlot SelectedSlot { get; private set; } = new QuickSlot();
+    private Canvas _canvas;
 
     public override void Initialize()
     {
@@ -38,6 +41,8 @@ public class UIInventory : UIPopup
         var container = Get<UIItemSlotContainer>((int)Container.Contents);
         container.CreateItemSlots<UIInventorySlot>(prefab, inventory.maxCapacity);
         container.Init<UIInventorySlot>(inventory, ActivateItemUsageHelper);
+
+        _canvas = GetComponent<Canvas>();
 
         inventory.OnUpdated += container.OnItemSlotUpdated;
 
@@ -60,9 +65,13 @@ public class UIInventory : UIPopup
     {   
         var inventoryslotui = itemslotUI as UIInventorySlot;
         SelectedSlot.Set(inventoryslotui.Index, Managers.Game.Player.Inventory.slots[inventoryslotui.Index]);
+
+        var offset = inventoryslotui.RectTransform.sizeDelta.x;
+        offset = offset / 1920 * _canvas.renderingDisplaySize.x;
+
         var pos = new Vector3
             (
-            inventoryslotui.transform.position.x + inventoryslotui.RectTransform.sizeDelta.x,
+            inventoryslotui.transform.position.x + offset,
             inventoryslotui.transform.position.y
             );
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).ShowOption
@@ -113,5 +122,15 @@ public class UIInventory : UIPopup
     {
         Managers.Game.Player.ToolSystem.UnEquip(SelectedSlot);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
+    }
+
+    public void HighLightItemSlot(int index)
+    {
+        Get<UIItemSlotContainer>((int)Container.Contents).HighLight(index);        
+    }
+
+    public void HighLightHelper(UIItemUsageHelper.Functions function)
+    {
+        Get<UIItemUsageHelper>((int)Helper.UsageHelper).HighLight(function);
     }
 }
