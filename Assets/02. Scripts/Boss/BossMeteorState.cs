@@ -27,6 +27,8 @@ public class BossMeteorState : BossAttackState
 
     public override void Enter()
     {
+        _stateMachine.MovementSpeedModifier = 0.0f;
+        _stateMachine.Skills.Remove(this);
         base.Enter();
         _currentState = State.TakeOff;
         StartAnimation(_stateMachine.Boss.AnimationData.FlyParameterHash);
@@ -79,9 +81,7 @@ public class BossMeteorState : BossAttackState
                 // Meteor - Coroutine //
                 var coroutine = CoroutineManagement.Instance.StartCoroutine(FallMeteor());
                 _coroutines.Add(coroutine);
-                CoroutineManagement.Instance.StartCoroutine(FireToPlayer());
-                Debug.Log("Fly");
-                
+                CoroutineManagement.Instance.StartCoroutine(FireToPlayer());                
                 break;
 
             case State.Land:
@@ -183,7 +183,7 @@ public class BossMeteorState : BossAttackState
         }
     }
 
-    private void StopMeteor()
+    public void StopMeteor()
     {
         for (int i = 0; i < _coroutines.Count; ++i)
         {

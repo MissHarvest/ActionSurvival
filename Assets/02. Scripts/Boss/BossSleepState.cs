@@ -28,6 +28,7 @@ public class BossSleepState : BossBaseState
         _stateMachine.Boss.gameObject.layer = 7;
         _stateMachine.DetectionDistModifier = _stateMachine.Boss.Data.AttackData.ChaseDectionDistModifier;
         _stateMachine.Boss.HP.regenRate = 0.0f;
+        _stateMachine.InitPattern();
         Managers.UI.TryGetSceneUI<UIMainScene>(out UIMainScene scene);
         _bossUI = scene.UIBoss.GetComponent<UIBossHP>();
         _bossUI.SetBoss(_stateMachine.Boss);

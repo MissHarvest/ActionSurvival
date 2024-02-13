@@ -8,6 +8,7 @@ public class BossAttackState : BossBaseState
     // 데미지
     public float cooltime;
     public float weight;
+    public bool usable = true;
 
     public BossAttackState(BossStateMachine stateMachine) : base(stateMachine)
     {
@@ -18,6 +19,7 @@ public class BossAttackState : BossBaseState
     {
         _stateMachine.NextAttackState = null;
         base.Enter();
+        usable = false;
     }
 
     public override void Exit()
@@ -30,6 +32,6 @@ public class BossAttackState : BossBaseState
     IEnumerator CoolTime()
     {
         yield return new WaitForSeconds(cooltime);
-        _stateMachine.Skill.AddItem(this, weight);
+        usable = true;
     }
 }
