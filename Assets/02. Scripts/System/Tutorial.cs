@@ -31,6 +31,11 @@ public class Tutorial : MonoBehaviour
         _pathFinder = go.GetComponent<PathFinder>();
         _pathFinder.gameObject.SetActive(false);
 
+        foreach (var quest in _quests)
+        {
+            quest.SetQuestCompletedCallback(HandleQuestCompleted);
+        }
+
         Managers.Game.OnSaveCallback += Save;
     }
 
@@ -82,7 +87,8 @@ public class Tutorial : MonoBehaviour
             .Where(activeQuest => activeQuest.IsEnoughRequirements(itemSlot))
             .ToList()
             .ForEach(activeQuest => {
-                ConfirmQuestCompletion(activeQuest);
+
+                activeQuest.CompleteQuest();
                 _activeQuests.Remove(activeQuest);
                 _quests.Remove(activeQuest);
             });
@@ -96,9 +102,10 @@ public class Tutorial : MonoBehaviour
     }
 
 
-    private void ConfirmQuestCompletion(Quest quest)
+    private void HandleQuestCompleted()
     {
-        quest.CompleteQuest();
+        //퀘스트 클리어 현황, 퀘스트 리스트 업데이트
+        Debug.Log("퀘스트 완료!");
     }
     #endregion
 
@@ -106,7 +113,10 @@ public class Tutorial : MonoBehaviour
     public void PathFinding(LayerMask targetLayer, string targetName)
     {
         var targets = Physics.SphereCastAll(transform.position, 50.0f, Vector3.up, 0, targetLayer);
-        targets = targets.Where(x => x.transform.parent.name.Contains(targetName)).ToArray();
+        if (targetLayer == LayerMask.GetMask("Architecture"))
+            targets = targets.Where(x => x.transform.name.Contains(targetName)).ToArray();
+        else
+            targets = targets.Where(x => x.transform.parent.name.Contains(targetName)).ToArray();
         
         if (targets.Length > 0)
         {

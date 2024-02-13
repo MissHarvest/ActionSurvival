@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
-  m_Name: GetCraftingTableQuestData
+  m_Name: GetRopeQuestData
   m_EditorClassIdentifier: 
-  questUIName: "\uC81C\uC791\uB300\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 7
+  questUIName: "\uBC27\uC904\uC744 \uC81C\uC791\uD558\uC138\uC694."
+  questID: 16
   preQuests:
-  - {fileID: 11400000, guid: d06fe6f6fa0e9aa4a8cd70df2b9855ca, type: 2}
+  - {fileID: 11400000, guid: 1dbfa73b255a57548bbace7686d65218, type: 2}
   requiredItems:
-  - item: {fileID: 11400000, guid: 5fdc6d52b339f9a4a8daf6af2d4277f1, type: 2}
+  - item: {fileID: 11400000, guid: 6da7e8dc2cbba744da724536ad72f584, type: 2}
     quantity: 1
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  targetName: 
-  type: 1
+    m_Bits: 2048
+  targetName: Crafting
+  type: 0

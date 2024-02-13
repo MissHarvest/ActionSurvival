@@ -10,6 +10,8 @@ public class Quest
     [field: SerializeField] public string questName { get; private set; } = string.Empty;
     [field: SerializeField] public bool isCompleted { get; private set; } = false;
 
+    private Action onQuestCompletedCallback;
+
     public Quest(QuestSO questSO)
     {
         this.questSO = questSO;
@@ -17,8 +19,11 @@ public class Quest
         this.isCompleted = false;
     }
 
-    public bool IsEnoughRequirements(ItemSlot itemSlot)
+    public bool IsEnoughRequirements(ItemSlot itemSlot) // quest Type이 using일 경우 바로 return false, requireItem 0개
     {
+        if (questSO.type == QuestSO.QuestType.Using)
+            return false;
+
         foreach (var requiredItem in questSO.requiredItems)
         {
             if (itemSlot.itemData != null && itemSlot.itemData.name == requiredItem.item.name)
@@ -30,9 +35,16 @@ public class Quest
         return false;
     }
 
+    public void SetQuestCompletedCallback(Action callback)
+    {
+        onQuestCompletedCallback = callback;
+    }
+
     public void CompleteQuest()
     {
         isCompleted = true;
+
+        onQuestCompletedCallback?.Invoke();
     }
 
     public void LoadData()

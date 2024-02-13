@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: GetCarrotQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uB2F9\uADFC\uC744 \uD68D\uB4DD\uD558\uC138\uC694."
-  questID: 12
+  questID: 24
   preQuests:
-  - {fileID: 11400000, guid: efe56df77ff0ab34da0563bbf7ed4504, type: 2}
+  - {fileID: 11400000, guid: 46d85273e74a00c48b1f33e3a0eaa1f5, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 5dd63cd46cf3a174da82b9136f74f149, type: 2}
     quantity: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  targetName: Farm
+  type: 0
