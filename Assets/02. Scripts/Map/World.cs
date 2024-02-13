@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 // 2024-01-12 WJY
@@ -134,6 +137,28 @@ public class World : MonoBehaviour
         var originData = json.text.DictionaryFromJson<Vector3Int, MapData>();
         _voxelMap = new(originData.Count, new Vector3IntEqualityComparer());
 
+        NativeArray<Vector3Int> coords = new NativeArray<Vector3Int>(originData.Count, Allocator.TempJob);
+        NativeArray<ChunkCoord> chunks = new NativeArray<ChunkCoord>(originData.Count, Allocator.TempJob);
+
+        var df = originData.Keys.ToArray();
+        for (int i = 0; i < coords.Length; ++i)
+        {
+            coords[i] = df[i];
+        }
+
+        MyParrelJob job = new MyParrelJob();
+        job.a = coords;
+        job.result = chunks;
+        job.voxelSizeX = VoxelData.ChunkSizeX;
+        job.voxelSizeZ = VoxelData.ChunkSizeZ;
+
+        var handle = job.Schedule(coords.Length, 10);
+
+        while (!handle.IsCompleted)
+            yield return null;
+
+        handle.Complete();
+
         foreach (var data in originData)
         {
             // originData를 World Map Data로 변경
@@ -146,20 +171,30 @@ public class World : MonoBehaviour
             _voxelMap.TryAdd(data.Key, worldMapData);
 
             // 현재 블럭이 속한 청크 좌표에 청크 생성
-            // 생성한 청크에 블럭 정보 추가
-            var coord = ConvertChunkCoord(data.Key);
-            InitializeChunk(coord, worldMapData);
+            // 생성한 청크에 블럭 정보 추가 << 
 
-            currentCount++;
+            //var coord = ConvertChunkCoord(data.Key);
 
-            // 일정 시간마다 UI 업데이트
-            if (Time.realtimeSinceStartup - t > uiUpdateInterval)
-            {
-                t = Time.realtimeSinceStartup;
-                progressCallback?.Invoke((float)currentCount / originData.Count, "Read MapData ...");
-                yield return null;
-            }
+            //InitializeChunk(coord, worldMapData);
+
+            //currentCount++;
+
+            //// 일정 시간마다 UI 업데이트
+            //if (Time.realtimeSinceStartup - t > uiUpdateInterval)
+            //{
+            //    t = Time.realtimeSinceStartup;
+            //    progressCallback?.Invoke((float)currentCount / originData.Count, "Read MapData ...");
+            //    yield return null;
+            //}
         }
+
+        for (int i = 0; i < chunks.Length; ++i)
+        {
+            InitializeChunk(chunks[i], _voxelMap[coords[i]]);
+        }
+        coords.Dispose();
+        chunks.Dispose();
+
         yield return null;
     }
 
