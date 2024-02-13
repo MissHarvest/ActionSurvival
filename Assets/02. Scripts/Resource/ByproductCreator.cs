@@ -36,6 +36,12 @@ public class ByproductCreator : MonoBehaviour
             _manager.OnTimeUpdated -= TryCreate;
     }
 
+    private void Start()
+    {
+        var managed = gameObject.GetOrAddComponent<ManagementedObject>();
+        managed.Add(this, typeof(Behaviour));
+    }
+
     public void TryCreate()
     {
         if (_distribution <= Random.value || _currentCreateCount >= _maxCreateCount)
