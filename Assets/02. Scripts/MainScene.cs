@@ -1,6 +1,7 @@
 using Cinemachine;
 using System;
 using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
 
 public class MainScene : MonoBehaviour
@@ -27,6 +28,8 @@ public class MainScene : MonoBehaviour
             loadingUI.ReceiveCallbacks($"Resource Loading ... ({count} / {total})");
             if (count == total)
             {
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
                 // 2. 맵 생성
                 Managers.Game.GenerateWorldAsync((progress, argument) =>
                 {
@@ -58,6 +61,10 @@ public class MainScene : MonoBehaviour
 
                         var camera = Managers.Resource.GetCache<GameObject>("MinimapCamera.prefab");
                         Instantiate(camera);
+
+
+                        watch.Stop();
+                        UnityEngine.Debug.Log($"Game Generated {watch.ElapsedMilliseconds} ms");
                     });
                 });
             }

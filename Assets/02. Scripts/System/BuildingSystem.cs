@@ -59,8 +59,7 @@ public class BuildingSystem : MonoBehaviour
         if (!handItemData.isArchitecture) return;
 
         if (Physics.Raycast(_rayPointer.transform.position, Vector3.down, out RaycastHit hit, 100, _buildableLayer))
-        {
-            
+        {            
             _inventoryIndex = index;
 
             string itemNameWithoutItemData = handItemData.name.Replace("ItemData", "");

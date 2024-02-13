@@ -30,6 +30,7 @@ public class RectAttackIndicator : MonoBehaviour
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, length / _width);
 
         StartCoroutine(Grow());
+        //Graphics.DrawMesh()
     }
 
     IEnumerator Grow()
