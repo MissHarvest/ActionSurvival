@@ -3,46 +3,61 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TemperatureManager
 {
-    private float _fireIslandTemperature;
-    private float _iceIslandTemperature;
     private float _environmentTemperature;
+    private AnimationCurve _influenceCurve;
 
     private Island _iceIsland;
     private Island _fireIsland;
-    private float _islandDistance;
 
-    public event Action<float> OnChanged;
+    public event Action OnChanged;
 
     public void Init(GameManager gameManager)
     {
+        OnMorningCame();
         _iceIsland = gameManager.IceIsland;
         _fireIsland = gameManager.FireIsland;
-        _islandDistance = Vector3.Distance(_iceIsland.Position, _fireIsland.Position);
 
-        // TEST
-        _fireIslandTemperature = 40f;
-        _iceIslandTemperature = -35f;
+        _influenceCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
 
         // 시간대 콜백
         gameManager.DayCycle.OnMorningCame += OnMorningCame;
         gameManager.DayCycle.OnEveningCame += OnEveningCame;
         gameManager.DayCycle.OnNightCame += OnNightCame;
 
-        gameManager.World.OnWorldUpdated += () => GetTemporature(gameManager.Player.transform.position);
+        gameManager.World.OnWorldUpdated += () => GetTemperature(gameManager.Player.transform.position);
+        OnChanged += () => GetTemperature(gameManager.Player.transform.position);
 
         // 몬스터 비율 콜백
     }
 
-    public float GetTemporature(Vector3 position)
+    public float GetTemperature(Vector3 position)
     {
-        float t = Vector3.Distance(_fireIsland.Position, position);
-        t = Mathf.InverseLerp(0, _islandDistance, t);
-        t = Mathf.Clamp01(t);
-        Debug.Log(Mathf.Lerp(_fireIslandTemperature, _iceIslandTemperature, t) + _environmentTemperature);
-        return Mathf.Lerp(_fireIslandTemperature, _iceIslandTemperature, t) + _environmentTemperature;
+        float iceTemperature = GetTemperature(position, _iceIsland.Property);
+        float fireTemperature = GetTemperature(position, _fireIsland.Property);
+        Debug.Log(new Vector3(iceTemperature, fireTemperature, _environmentTemperature) + " " + (iceTemperature + fireTemperature + _environmentTemperature));
+        return iceTemperature + fireTemperature + _environmentTemperature;
+    }
+
+    private float GetTemperature(Vector3 position, IslandProperty island)
+    {
+        float temperature = Vector3.Distance(position, island.center);
+        temperature = Mathf.InverseLerp(0f, GetInfluenceDistance(island), temperature);
+        temperature = _influenceCurve.Evaluate(temperature) * island.Temperature;
+        return temperature;
+    }
+
+    public float GetInfluenceDistance(IslandProperty island)
+    {
+        return island.diameter * island.Influence;
+    }
+
+    public void OnTemperatureChange()
+    {
+        OnChanged?.Invoke();
     }
 
     private void OnMonsterSpawned(float ratio)
@@ -52,16 +67,16 @@ public class TemperatureManager
 
     private void OnMorningCame()
     {
-        _environmentTemperature = 12f;
+        _environmentTemperature = 8f;
     }
 
     private void OnEveningCame()
     {
-        _environmentTemperature = 20f;
+        _environmentTemperature = 3f;
     }
 
     private void OnNightCame()
     {
-        _environmentTemperature = 8f;
+        _environmentTemperature = 0f;
     }
 }

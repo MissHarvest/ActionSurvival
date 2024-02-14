@@ -29,7 +29,7 @@ public class UIInventory : UIPopup
         Bind<GameObject>(typeof(Gameobjects));
         Bind<UIItemSlotContainer>(typeof(Container));
         Bind<UIItemUsageHelper>(typeof(Helper));
-        Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) => { Managers.UI.ClosePopupUI(this); });
+        Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) => { Managers.UI.CloseAllPopupUI(); });
     }
 
     private void Awake()

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // 2024-02-05 WJY
@@ -10,7 +11,7 @@ public class ByproductCreator : MonoBehaviour
     [SerializeField] private float _minRange;
     [SerializeField] private int _maxCreateCount;
 
-    private int _currentCreateCount;
+    private HashSet<Byproduct> _byproducts = new();
     private DayCycle _manager;
 
 #if UNITY_EDITOR
@@ -26,7 +27,6 @@ public class ByproductCreator : MonoBehaviour
         if (_manager == null)
             _manager = Managers.Game.DayCycle;
 
-        _currentCreateCount = 0;
         _manager.OnTimeUpdated += TryCreate;
     }
 
@@ -36,9 +36,15 @@ public class ByproductCreator : MonoBehaviour
             _manager.OnTimeUpdated -= TryCreate;
     }
 
+    private void Start()
+    {
+        var managed = gameObject.GetOrAddComponent<ManagementedObject>();
+        managed.Add(this, typeof(Behaviour));
+    }
+
     public void TryCreate()
     {
-        if (_distribution <= Random.value || _currentCreateCount >= _maxCreateCount)
+        if (_distribution <= Random.value || _byproducts.Count >= _maxCreateCount)
             return;
 
         Vector3 spawnPosition = Random.onUnitSphere;
@@ -54,9 +60,15 @@ public class ByproductCreator : MonoBehaviour
     {
         if (IsValidPosition(ref spawnPosition))
         {
-            Managers.Game.ResourceObjectSpawner.SpawnObject(_prefab, spawnPosition);
-            _currentCreateCount++;
+            var obj = Managers.Game.ResourceObjectSpawner.SpawnObject(_prefab, spawnPosition).GetOrAddComponent<Byproduct>();
+            obj.SetInfo(this);
+            _byproducts.Add(obj);
         }
+    }
+
+    public void Remove(Byproduct byproduct)
+    {
+        _byproducts.Remove(byproduct);
     }
 
     public bool IsValidPosition(ref Vector3 pos)

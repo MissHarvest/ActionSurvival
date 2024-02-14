@@ -55,7 +55,7 @@ public class RaycastToChangeMaterials : MonoBehaviour
                 ChangeMaterials changeMaterials = _hits[i].transform.gameObject.GetComponentInParent<ChangeMaterials>();
                 _curruentChangeMaterials.Add(changeMaterials);
 
-                changeMaterials.ChangeFadeMaterials();                
+                changeMaterials.ChangeFadeMaterials();
             }
 
             _prevChangeMaterials.ExceptWith(_curruentChangeMaterials);

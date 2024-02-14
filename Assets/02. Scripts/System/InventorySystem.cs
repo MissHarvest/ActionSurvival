@@ -48,6 +48,8 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 20);
         itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
         AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("PickAxeItemData.data");
+        AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
@@ -81,6 +83,8 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
         AddItem(itemData, 1);
+
+        
     }
 
     public void SetCapacity(int capacity)

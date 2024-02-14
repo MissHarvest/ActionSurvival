@@ -153,7 +153,12 @@ public class Tutorial : MonoBehaviour
     IEnumerator GuideInventroy(ItemData itemData)
     {
         Managers.Game.Player.Inventory.FindItem(itemData, out int index);
-        if (index == -1) yield break;
+        if (index == -1)
+        {
+            var warning =Managers.UI.ShowPopupUI<UIWarning>();
+            warning.SetWarning($"{itemData.displayName} 을(를) 먼저 제작하세요.");
+            yield break;
+        }
 
         Managers.UI.TryGetSceneUI<UIMainScene>(out UIMainScene sceneUI);
         if (sceneUI == null) yield break;
