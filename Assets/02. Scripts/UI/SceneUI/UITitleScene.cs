@@ -18,6 +18,7 @@ public class UITitleScene : UIScene
     enum GameObjects
     {
         ButtonGroup,
+        LoadingText,
     }
 
     public override void Initialize()
@@ -67,14 +68,21 @@ public class UITitleScene : UIScene
 
 
         Get<GameObject>((int)GameObjects.ButtonGroup).SetActive(false);
+        Get<GameObject>((int)GameObjects.LoadingText).SetActive(false);
     }
     private void Awake()
     {
         Initialize();        
     }
 
+    private void Start()
+    {
+        Get<GameObject>((int)GameObjects.LoadingText).SetActive(true);
+    }
+
     public void ActivateButtons()
     {
+        Get<GameObject>((int)GameObjects.LoadingText).SetActive(false);
         Get<GameObject>((int)GameObjects.ButtonGroup).SetActive(true);
     }
 

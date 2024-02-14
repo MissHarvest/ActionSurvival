@@ -80,11 +80,11 @@ public class BossStateMachine : StateMachine
     {
         Skills.Clear();
 
-        Skills.Add(BreathState);
-
-        //Skills.Add(RushSate);
-        //Skills.Add(BiteState);
         //Skills.Add(ScreamState);
+
+        Skills.Add(RushSate);
+        Skills.Add(BiteState);
+        Skills.Add(ScreamState);
         Phase = 1;
 
         MeteorState.StopMeteor();

@@ -95,7 +95,8 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
     }
 
     private void OnDrawGizmos()
-    { 
+    {
+        if (_stateMachine == null) return;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(RespawnPoint, _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier);
     }

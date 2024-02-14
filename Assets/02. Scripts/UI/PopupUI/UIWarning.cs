@@ -81,6 +81,17 @@ public class UIWarning : UIPopup
         });
     }
 
+    public void SetWarning(string warning, UnityAction yesAction, bool once)
+    {
+        if(once)
+        {
+            // Hash Set
+            // Dic
+            // TryAdd
+
+        }
+    }
+
     private void Close()
     {
         Managers.UI.ClosePopupUI(this);
