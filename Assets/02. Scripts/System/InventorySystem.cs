@@ -58,11 +58,11 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
         AddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        itemData = Managers.Resource.GetCache<ItemData>("MasterCraftingTableItemData.data");
         AddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        itemData = Managers.Resource.GetCache<ItemData>("HighCraftingTableItemData.data");
         AddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        itemData = Managers.Resource.GetCache<ItemData>("UsableCraftingTableItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("BranchItemData.data");
         AddItem(itemData, 20);
@@ -81,10 +81,20 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("WoodSwordItemData.data");
         AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("StoveItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FridgeItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FurnaceItemData.data");
+        AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
         AddItem(itemData, 1);
-
-        
+        itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
+        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
+        AddItem(itemData, 1);
     }
 
     public void SetCapacity(int capacity)

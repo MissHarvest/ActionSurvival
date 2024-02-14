@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GreatswordRecipeData
   m_EditorClassIdentifier: 
   itemName: Greatsword
-  recipeID: 21
+  recipeID: 23
   completedItemData: {fileID: 11400000, guid: 279ff602e17ed1846a01bab9d008f59a, type: 2}
-  IsAdvancedRecipe: 1
+  recipeLevel: 4
   Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}

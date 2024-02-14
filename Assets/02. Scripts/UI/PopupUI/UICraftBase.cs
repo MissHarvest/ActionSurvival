@@ -175,7 +175,6 @@ public abstract class UICraftBase : UIPopup
                 }
                 else
                 {
-                    
                     if (Managers.Game.Player.Inventory.IsFull(completedItemData, totalQuantity))
                     {
                         _confirm.gameObject.SetActive(false);
@@ -283,6 +282,16 @@ public abstract class UICraftBase : UIPopup
             }
 
             _itemUIList.Add(itemUI);
+        }
+    }
+
+    public virtual void SetAdvancedRecipeUIActive(int maxRecipeLevel)
+    {
+        foreach (var slot in _uiCraftSlots)
+        {
+            var recipe = GetDataList()[slot.Index];
+            bool isAdvancedRecipe = recipe.recipeLevel <= maxRecipeLevel + 1;
+            slot.gameObject.SetActive(isAdvancedRecipe);
         }
     }
 

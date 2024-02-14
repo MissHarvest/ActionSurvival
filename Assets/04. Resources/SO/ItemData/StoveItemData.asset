@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 576468ed397be524d8e47099d9aeafbb, type: 3}
+  m_Name: StoveItemData
+  m_EditorClassIdentifier: 
+  displayName: "\uC870\uB9AC\uB300"
+  description: "\uB2E4\uC591\uD55C \uC544\uC774\uD15C\uC744 \uC694\uB9AC\uD560 \uC218
+    \uC788\uB2E4."
+  iconSprite: {fileID: 21300000, guid: d0c05b9125ed56349a5385e1a77547b7, type: 3}
+  part: 2
+  maxDurability: 10
+  defense: 0
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  range: 1
+  attackPower: 0
+  damage: 0
+  targetTagName: Untagged
+  isWeapon: 0
+  isTwoHandedTool: 0
+  isTwinTool: 0
+  isArchitecture: 1

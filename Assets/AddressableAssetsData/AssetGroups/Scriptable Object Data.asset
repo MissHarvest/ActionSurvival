@@ -732,7 +732,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 05943e4e8e57a2a48ab78d5dc8e9ae7a
-    m_Address: Stick2RecipeData.data
+    m_Address: AdvancedStickRecipeData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -744,25 +744,25 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9564fc60f9d300540af76bcb83704fbf
-    m_Address: GetAxe2QuestData.data
+    m_Address: EquipAxeQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c637d65c393ef214481f25dbc6261620
-    m_Address: GetCraftingTable2QuestData.data
+    m_Address: BuildCraftingTableQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 558394e37be806943a6dba1552de5b2d
-    m_Address: GetStone2QuestData.data
+    m_Address: MineStoneQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf444c302e1270c47acc2c4cead346f9
-    m_Address: GetBonFire2QuestData.data
+    m_Address: BuildBonFireQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -792,7 +792,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8543ba92286b3344d9f3946e8e2aa30b
-    m_Address: GetFence2QuestData.data
+    m_Address: BuildFenceQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -804,7 +804,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d5c5531c0bec0ef4db3b5fc47e9acaa5
-    m_Address: GetChest2QuestData.data
+    m_Address: BuildChestQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -817,6 +817,126 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e1cdeb553f9568642920a378ac9dbfb8
     m_Address: GetCornerQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 25a85efd3c859d44289a420ea35edf4b
+    m_Address: UsableCraftingTableItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 179ea1dce58512841970cdb278d38465
+    m_Address: HighCraftingTableItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd2421e8236948444a1b477ce7fa1f3d
+    m_Address: MasterCraftingTableItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ca52aeae1f5cf84985e1d48b47dd7db
+    m_Address: UsableCraftingTableRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b663eea37764648429bbe3d275872bd5
+    m_Address: HighCraftingTableRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79ef556ce621e4c49a3eef15501df988
+    m_Address: MasterCraftingTableRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 51f63e549ba0e584196fa32d386342e9
+    m_Address: EggplantItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e52fd14ba5118174b89e456530a2ab8e
+    m_Address: TomatoItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60dd9118767b00249add97e13f638595
+    m_Address: GrilledMushroomItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccf5243545194f44dac8e103fecffa8d
+    m_Address: GrilledEggplantItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95082fe7f9c814f4c8a51856c88fd52a
+    m_Address: GrilledCornerItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dac2a473a2b54c04bbcd712605b31b41
+    m_Address: BarbecueItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 49bbd8bab0f2a5a4eb822f0b058398b7
+    m_Address: GrilledMushroomCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7cdae2d8a3c80404985ca8d4f7ecf47b
+    m_Address: GrilledEggplantCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ba8b97559a5c8604cb3333fe058955dc
+    m_Address: GrilledCornerCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef86015c99d8f134ca4a4be52100ef02
+    m_Address: BarbecueCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f8f8f287aae63d43b40c6cea380e396
+    m_Address: StoveItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 024eb3a3f959d594c8dc47ff0ef6289a
+    m_Address: FridgeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3298bc7744048e48b4bd47447e06b92
+    m_Address: StoveRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c10eec0bf365c043ad238785cd2eaef
+    m_Address: FridgeRecipeData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
