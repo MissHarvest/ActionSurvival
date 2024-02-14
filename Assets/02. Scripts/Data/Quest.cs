@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // 2024. 02. 05 Byun Jeongmin
@@ -17,14 +18,42 @@ public class Quest
         this.isCompleted = false;
     }
 
-    public bool IsEnoughRequirements(ItemSlot itemSlot)
+    public bool IsEnoughRequirements(int index, ItemSlot itemSlot)
     {
-        foreach (var requiredItem in questSO.requiredItems)
+        if (questSO.type == QuestSO.QuestType.Using) // 장착 퀘스트일 경우
         {
-            if (itemSlot.itemData != null && itemSlot.itemData.name == requiredItem.item.name)
+            if (Managers.Game.Player.Inventory.slots[index].itemData is ToolItemData toolItem && !toolItem.isArchitecture)
             {
-                //Debug.Log($"{requiredItem.item.displayName} 획득");
-                return true;
+                for (int i = 0; i < Managers.Game.Player.QuickSlot.slots.Length; i++)
+                {
+                    if (index == Managers.Game.Player.QuickSlot.slots[i].targetIndex)
+                        if (Managers.Game.Player.QuickSlot.slots[i].itemSlot.itemData.name == questSO.requiredItems[0].item.name)
+                            return true;
+                }
+            }
+        }
+        else // 제작 퀘스트일 경우
+        {
+            foreach (var requiredItem in questSO.requiredItems)
+            {
+                if (itemSlot.itemData != null && itemSlot.itemData.name == requiredItem.item.name)
+                {
+                    //Debug.Log($"{requiredItem.item.displayName} 획득");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public bool IsBuilt(int index) // 건축 퀘스트일 경우
+    {
+        if (questSO.type == QuestSO.QuestType.Using)
+        {
+            if (Managers.Game.Player.Inventory.slots[index].itemData is ToolItemData toolItem && toolItem.isArchitecture)
+            {
+                if (Managers.Game.Player.Inventory.slots[index].itemData.name == questSO.requiredItems[0].item.name)
+                    return true;
             }
         }
         return false;
@@ -33,6 +62,7 @@ public class Quest
     public void CompleteQuest()
     {
         isCompleted = true;
+        Debug.Log($"{questName}퀘스트 클리어");
     }
 
     public void LoadData()

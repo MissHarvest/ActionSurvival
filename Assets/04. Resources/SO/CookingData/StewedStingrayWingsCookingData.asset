@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: StewedStingrayWingsCookingData
   m_EditorClassIdentifier: 
   itemName: StewedStingrayWings
-  recipeID: 22
+  recipeID: 18
   completedItemData: {fileID: 11400000, guid: 0bd31217bba863f4bb9b5461c806472b, type: 2}
-  IsAdvancedRecipe: 0
+  recipeLevel: 2
   Quantity: 1
   requiredItems:
+  - item: {fileID: 11400000, guid: 4cd9d4b48a7918e40be7d99d3ef3e74d, type: 2}
+    quantity: 3
+  - item: {fileID: 11400000, guid: 51f63e549ba0e584196fa32d386342e9, type: 2}
+    quantity: 3
   - item: {fileID: 11400000, guid: 3721c8ba8e74a7442838a963bed67ed9, type: 2}
-    quantity: 2
-  - item: {fileID: 11400000, guid: 5dd63cd46cf3a174da82b9136f74f149, type: 2}
-    quantity: 2
+    quantity: 3

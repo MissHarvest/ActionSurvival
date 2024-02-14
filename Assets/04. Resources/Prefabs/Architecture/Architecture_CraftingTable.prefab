@@ -53,6 +53,7 @@ MonoBehaviour:
   _renderer: {fileID: 8254220318598180025}
   redMat: {fileID: 2100000, guid: 4cea252e4cd4c1241bbe5bf6a09e2e64, type: 2}
   blueMat: {fileID: 2100000, guid: 3ccf5f2feeac4154b9a14ef7ae1f6693, type: 2}
+  otherCollider: {fileID: 0}
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0
@@ -89,11 +90,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_Extents: {x: 0.3, y: 0.3, z: 0.3}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 0.32, z: 0}
   m_TimeToStationary: 0.5
 --- !u!114 &569279383058571674
 MonoBehaviour:
@@ -107,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db0fbc4503120824c9eb4c26ba683a8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _recipeLevel: 1
 --- !u!54 &-2671599412774020714
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -233,6 +235,10 @@ PrefabInstance:
     - target: {fileID: 7644457256920113912, guid: c18a6eef91ff5054f8573da86366edc3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7704041377582962035, guid: c18a6eef91ff5054f8573da86366edc3, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

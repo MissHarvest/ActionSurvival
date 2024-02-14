@@ -16,11 +16,12 @@ MonoBehaviour:
   recipeID: 13
   completedItemData: {fileID: 11400000, guid: 010f81f8f6dffcd4d9cd16d14af36a94, type: 2}
   IsAdvancedRecipe: 1
+  recipeLevel: 2
   Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
-    quantity: 2
-  - item: {fileID: 11400000, guid: 6da7e8dc2cbba744da724536ad72f584, type: 2}
-    quantity: 1
+    quantity: 10
   - item: {fileID: 11400000, guid: 9515422e7b608cd4ea5174facd473388, type: 2}
-    quantity: 4
+    quantity: 5
+  - item: {fileID: 11400000, guid: 6da7e8dc2cbba744da724536ad72f584, type: 2}
+    quantity: 2

@@ -73,16 +73,32 @@ public class Tutorial : MonoBehaviour
     private void BindInventoryEvents()
     {
         Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
+        Managers.Game.Player.Building.OnBuildCompleted += OnBuildUpdated;
     }
 
-    //인벤토리가 업데이트되면 클리어 조건 확인
     private void OnInventoryUpdated(int index, ItemSlot itemSlot)
     {
+        OnInventoryOrBuildUpdated(index, itemSlot, isBuildEvent: false);
+    }
+
+    private void OnBuildUpdated(int index)
+    {
+        OnInventoryOrBuildUpdated(index, itemSlot: null, isBuildEvent: true);
+    }
+
+    //인벤토리나 건축이 업데이트되면 클리어 조건 확인
+    private void OnInventoryOrBuildUpdated(int index, ItemSlot itemSlot, bool isBuildEvent)
+    {
+        Func<Quest, bool> isEnoughRequirementsFunc = isBuildEvent ?
+            (activeQuest => activeQuest.IsBuilt(index)) :
+            (activeQuest => activeQuest.IsEnoughRequirements(index, itemSlot));
+
         _activeQuests
-            .Where(activeQuest => activeQuest.IsEnoughRequirements(itemSlot))
+            .Where(isEnoughRequirementsFunc)
             .ToList()
-            .ForEach(activeQuest => {
-                ConfirmQuestCompletion(activeQuest);
+            .ForEach(activeQuest =>
+            {
+                activeQuest.CompleteQuest();
                 _activeQuests.Remove(activeQuest);
                 _quests.Remove(activeQuest);
             });
@@ -94,19 +110,16 @@ public class Tutorial : MonoBehaviour
 
         OnActiveQuestsUpdated?.Invoke();
     }
-
-
-    private void ConfirmQuestCompletion(Quest quest)
-    {
-        quest.CompleteQuest();
-    }
     #endregion
 
     #region Guide
     public void PathFinding(LayerMask targetLayer, string targetName)
     {
         var targets = Physics.SphereCastAll(transform.position, 50.0f, Vector3.up, 0, targetLayer);
-        targets = targets.Where(x => x.transform.parent.name.Contains(targetName)).ToArray();
+        if (targetLayer == LayerMask.GetMask("Architecture"))
+            targets = targets.Where(x => x.transform.name.Contains(targetName)).ToArray();
+        else
+            targets = targets.Where(x => x.transform.parent.name.Contains(targetName)).ToArray();
         
         if (targets.Length > 0)
         {

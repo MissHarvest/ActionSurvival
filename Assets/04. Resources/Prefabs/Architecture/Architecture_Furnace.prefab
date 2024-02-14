@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5116157382384980815}
   - component: {fileID: 6648864155571984680}
   - component: {fileID: 3681638505986134066}
+  - component: {fileID: 7222832045175803795}
   m_Layer: 11
   m_Name: Architecture_Furnace
   m_TagString: Make
@@ -51,6 +52,12 @@ MonoBehaviour:
   _renderer: {fileID: 4348350309070992265}
   redMat: {fileID: 2100000, guid: 4cea252e4cd4c1241bbe5bf6a09e2e64, type: 2}
   blueMat: {fileID: 2100000, guid: 3ccf5f2feeac4154b9a14ef7ae1f6693, type: 2}
+  otherCollider: {fileID: 0}
+  <HP>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
 --- !u!208 &5116157382384980815
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -115,6 +122,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &7222832045175803795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296749352419078671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 476096d54f245f04dba3dab8edf6ec4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cookingLevel: 1
 --- !u!1001 &4327199068485556993
 PrefabInstance:
   m_ObjectHideFlags: 0

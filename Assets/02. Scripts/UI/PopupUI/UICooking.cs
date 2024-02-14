@@ -16,6 +16,7 @@ public class UICooking : UICraftBase
     public override void OnEnable()
     {
         base.OnEnable();
+        SetAdvancedRecipeUIActive(0);
     }
 
     protected override List<RecipeSO.Ingredient> GetRequiredDataList()
