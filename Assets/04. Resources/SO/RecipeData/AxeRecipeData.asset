@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: AxeRecipeData
   m_EditorClassIdentifier: 
   itemName: Axe
+  recipeID: 0
   completedItemData: {fileID: 11400000, guid: 9c85809597f1da54fbc98bcc3023a6b5, type: 2}
+  IsAdvancedRecipe: 0
+  Quantity: 1
   requiredItems:
-  - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
-    quantity: 1
   - item: {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}
-    quantity: 5
+    quantity: 3
+  - item: {fileID: 11400000, guid: 9515422e7b608cd4ea5174facd473388, type: 2}
+    quantity: 1

@@ -77,15 +77,15 @@ public class BuildingSystem : MonoBehaviour
 
     public bool BuildArchitecture()
     {
-        if (_buildableObject.canBuild == false) return false;
+        if (_buildableObject.CanBuild() == false) return false;
 
         _buildableObject.Build();
+        OnBuildCompleted?.Invoke(_inventoryIndex);
         _rayPointer.SetActive(false);
         _buildableObject = null;
         
         // 인벤토리에서 제거
         Managers.Game.Player.Inventory.UseArchitectureItem(_inventoryIndex);
-        OnBuildCompleted?.Invoke(_inventoryIndex);
         return true;
     }
 

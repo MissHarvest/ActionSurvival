@@ -73,38 +73,31 @@ public class Tutorial : MonoBehaviour
     private void BindInventoryEvents()
     {
         Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
-       Managers.Game.Player.Building.OnBuildCompleted += OnBuildUpdated; //건설완료 이벤트 따로 만들기(OnBuildRequested는 건축시작)
+       Managers.Game.Player.Building.OnBuildCompleted += OnBuildUpdated;
     }
 
-    //인벤토리가 업데이트되면 클리어 조건 확인
     private void OnInventoryUpdated(int index, ItemSlot itemSlot)
     {
-        _activeQuests
-            .Where(activeQuest => activeQuest.IsEnoughRequirements(index, itemSlot))
-            .ToList()
-            .ForEach(activeQuest => {
-                
-                activeQuest.CompleteQuest();
-                _activeQuests.Remove(activeQuest);
-                _quests.Remove(activeQuest);
-            });
-
-        _quests
-            .Where(quest => !_activeQuests.Contains(quest) && IsPreQuestsCleared(quest))
-            .ToList()
-            .ForEach(quest => _activeQuests.Add(quest));
-
-        OnActiveQuestsUpdated?.Invoke();
+        OnInventoryOrBuildUpdated(index, itemSlot, isBuildEvent: false);
     }
 
     private void OnBuildUpdated(int index)
     {
+        OnInventoryOrBuildUpdated(index, itemSlot: null, isBuildEvent: true);
+    }
+
+    //인벤토리나 건축이 업데이트되면 클리어 조건 확인
+    private void OnInventoryOrBuildUpdated(int index, ItemSlot itemSlot, bool isBuildEvent)
+    {
+        Func<Quest, bool> isEnoughRequirementsFunc = isBuildEvent ?
+            (activeQuest => activeQuest.IsBuilt(index)) :
+            (activeQuest => activeQuest.IsEnoughRequirements(index, itemSlot));
+
         _activeQuests
-            .Where(activeQuest => activeQuest.IsBuilt(index))
+            .Where(isEnoughRequirementsFunc)
             .ToList()
             .ForEach(activeQuest =>
             {
-
                 activeQuest.CompleteQuest();
                 _activeQuests.Remove(activeQuest);
                 _quests.Remove(activeQuest);
@@ -117,8 +110,6 @@ public class Tutorial : MonoBehaviour
 
         OnActiveQuestsUpdated?.Invoke();
     }
-
-
     #endregion
 
     #region Guide

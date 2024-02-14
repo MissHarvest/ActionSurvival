@@ -18,7 +18,9 @@ MonoBehaviour:
   IsAdvancedRecipe: 1
   Quantity: 1
   requiredItems:
-  - item: {fileID: 11400000, guid: 169efef296147ff47aa012ef827c9305, type: 2}
-    quantity: 1
-  - item: {fileID: 11400000, guid: c48d0f569a835d44fa7bd6c45421d9ff, type: 2}
+  - item: {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}
     quantity: 10
+  - item: {fileID: 11400000, guid: 9515422e7b608cd4ea5174facd473388, type: 2}
+    quantity: 3
+  - item: {fileID: 11400000, guid: c48d0f569a835d44fa7bd6c45421d9ff, type: 2}
+    quantity: 3

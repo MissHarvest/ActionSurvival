@@ -19,4 +19,4 @@ MonoBehaviour:
   Quantity: 3
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
-    quantity: 2
+    quantity: 1

@@ -695,12 +695,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 610ffe6f092d13a409d45e00fe476749
-    m_Address: LogRecipeData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 50c0ca6f51721744aac5c4c5ef72393a
     m_Address: SeedItemData.data
     m_ReadOnly: 0

@@ -20,27 +20,19 @@ public class Quest
 
     public bool IsEnoughRequirements(int index, ItemSlot itemSlot)
     {
-        if (questSO.type == QuestSO.QuestType.Using)
+        if (questSO.type == QuestSO.QuestType.Using) // 장착 퀘스트일 경우
         {
-            switch (questSO.requiredItems[0].item is ToolItemData toolItem && toolItem.isArchitecture)
+            if (Managers.Game.Player.Inventory.slots[index].itemData is ToolItemData toolItem && !toolItem.isArchitecture)
             {
-                case true: // 건축(buildingsystem) 퀘스트일 경우, 퀵슬롯 등록해서 건축할 경우
-                    Debug.Log("등록하기 후 건축");
-                    if (Managers.Game.Player.Inventory.slots[index].itemData.name == null)
-                        return true;
-                    break;
-                case false: // 장착(toolsystem) 퀘스트일 경우
-                    Debug.Log("장착 퀘스트애오");
-                    for (int i = 0; i < Managers.Game.Player.QuickSlot.slots.Length; i++)
-                    {
-                        if (index == Managers.Game.Player.QuickSlot.slots[i].targetIndex)
-                            if (Managers.Game.Player.QuickSlot.slots[i].itemSlot.itemData.name == questSO.requiredItems[0].item.name)
-                                return true;
-                    }
-                    break;
+                for (int i = 0; i < Managers.Game.Player.QuickSlot.slots.Length; i++)
+                {
+                    if (index == Managers.Game.Player.QuickSlot.slots[i].targetIndex)
+                        if (Managers.Game.Player.QuickSlot.slots[i].itemSlot.itemData.name == questSO.requiredItems[0].item.name)
+                            return true;
+                }
             }
         }
-        else
+        else // 제작 퀘스트일 경우
         {
             foreach (var requiredItem in questSO.requiredItems)
             {
@@ -54,15 +46,16 @@ public class Quest
         return false;
     }
 
-    public bool IsBuilt(int index) // 해당 인덱스에 아이템이 없으면 건축하느라 아이템 소비된 것?
+    public bool IsBuilt(int index) // 건축 퀘스트일 경우
     {
-        if (questSO.type == QuestSO.QuestType.Using && questSO.requiredItems[0].item is ToolItemData toolItem && toolItem.isArchitecture)
+        if (questSO.type == QuestSO.QuestType.Using)
         {
-            Debug.Log("건축하기 눌러서 건축");
-            if (Managers.Game.Player.Inventory.slots[index].itemData == null)
-                return true;
+            if (Managers.Game.Player.Inventory.slots[index].itemData is ToolItemData toolItem && toolItem.isArchitecture)
+            {
+                if (Managers.Game.Player.Inventory.slots[index].itemData.name == questSO.requiredItems[0].item.name)
+                    return true;
+            }
         }
-
         return false;
     }
 
