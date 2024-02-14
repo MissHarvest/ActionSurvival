@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
   m_Name: GetLogQuestData
   m_EditorClassIdentifier: 
-  questUIName: "\uC7A5\uC791\uC744 \uC81C\uC791\uD558\uC138\uC694."
+  questUIName: "\uC7A5\uC791\uC744 \uD68D\uB4DD\uD558\uC138\uC694."
   questID: 5
   preQuests:
-  - {fileID: 11400000, guid: 1dbfa73b255a57548bbace7686d65218, type: 2}
+  - {fileID: 11400000, guid: 9564fc60f9d300540af76bcb83704fbf, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
     quantity: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  targetName: TreeA
+  type: 0

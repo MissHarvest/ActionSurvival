@@ -653,12 +653,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: eb97ffbb74655a74483939acf8a8e031
-    m_Address: GetGrilledRabbitMeatQuestData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 99849d697b366074da034d10737ec315
     m_Address: GetWoodSwordQuestData.data
     m_ReadOnly: 0
@@ -701,18 +695,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 610ffe6f092d13a409d45e00fe476749
-    m_Address: LogRecipeData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ce49dddcaa0d06640ac6ef2be935d069
-    m_Address: GetCarrotQuestData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 50c0ca6f51721744aac5c4c5ef72393a
     m_Address: SeedItemData.data
     m_ReadOnly: 0
@@ -751,6 +733,90 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 05943e4e8e57a2a48ab78d5dc8e9ae7a
     m_Address: Stick2RecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8cd4271e8ea88b248bf96282f32c44d1
+    m_Address: GetStickQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9564fc60f9d300540af76bcb83704fbf
+    m_Address: GetAxe2QuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c637d65c393ef214481f25dbc6261620
+    m_Address: GetCraftingTable2QuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 558394e37be806943a6dba1552de5b2d
+    m_Address: GetStone2QuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf444c302e1270c47acc2c4cead346f9
+    m_Address: GetBonFire2QuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da8a62d672b334745b80036b36d81c4d
+    m_Address: GetMushroomQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c85e57a057909654c851d5519053d1cc
+    m_Address: GetFoodQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55dd3e196a74d4743a4212ed871117e6
+    m_Address: GetRopeQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 67c2cbba05993a54abf591346b1665c5
+    m_Address: GetFenceQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8543ba92286b3344d9f3946e8e2aa30b
+    m_Address: GetFence2QuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec8fc7171890a0642bfbf81f5483b777
+    m_Address: GetChestQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5c5531c0bec0ef4db3b5fc47e9acaa5
+    m_Address: GetChest2QuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46d85273e74a00c48b1f33e3a0eaa1f5
+    m_Address: GetSeedQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1cdeb553f9568642920a378ac9dbfb8
+    m_Address: GetCornerQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

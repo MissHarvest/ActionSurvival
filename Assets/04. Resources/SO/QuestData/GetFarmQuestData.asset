@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: GetFarmQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uBC2D\uC744 \uC81C\uC791\uD558\uC138\uC694."
-  questID: 11
+  questID: 22
   preQuests:
-  - {fileID: 11400000, guid: 969d6bb569150a54bb82e791f6c013c4, type: 2}
+  - {fileID: 11400000, guid: e660b44ce1e314c409f1ffcee0305bf9, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: e9d0b5d90db9fee41831d73c1781f2b8, type: 2}
     quantity: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  targetName: Crafting
+  type: 0
