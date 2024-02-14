@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -27,9 +28,9 @@ public class GameManager
     }
     public ResourceObjectSpawner ResourceObjectSpawner { get; private set; } = new();
 
-    public Island IceIsland = new Island(new IslandProperty(new Vector3(317, 0, 0), nameof(IceIsland)));
-    public Island CenterIsland = new Island(new IslandProperty(Vector3.zero, nameof(CenterIsland)));
-    public Island FireIsland = new Island(new IslandProperty(new Vector3(-317, 0, 0), nameof(FireIsland)));
+    public Island IceIsland;
+    public Island CenterIsland;
+    public Island FireIsland;
 
     public MonsterWave MonsterWave { get; private set; }
 
@@ -37,7 +38,6 @@ public class GameManager
 
     public void Init()
     {
-        FireIsland.BossName = "TerrorBringer";
         Player.ConditionHandler.HP.OnBelowedToZero += (() => { IsRunning = false; });
 
         MonsterWave = new MonsterWave();
@@ -50,11 +50,10 @@ public class GameManager
         
         DayCycle.OnMorningCame += SaveCallback;
 
-        Temperature.Init(this);
-
         ResourceObjectSpawner.Initialize();
         
         InitIslands();
+        Temperature.Init(this);
         Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
 
         IsRunning = true;
@@ -107,6 +106,19 @@ public class GameManager
 
     public void InitIslands()
     {
+        if (SaveGame.TryLoadJsonFile(SaveGame.SaveType.Runtime, "IslandProperties", out IslandPropertySaveData saveData))
+        {
+            IceIsland = new(saveData.dataList[0]);
+            CenterIsland = new(saveData.dataList[1]);
+            FireIsland = new(saveData.dataList[2]);
+        }
+        else
+        {
+            IceIsland = new Island(new IslandProperty(new Vector3(317, 0, 0), nameof(IceIsland), -25f, 1f));
+            CenterIsland = new Island(new IslandProperty(Vector3.zero, nameof(CenterIsland), 0f, 0f));
+            FireIsland = new Island(new IslandProperty(new Vector3(-317, 0, 0), nameof(FireIsland), 30f, 1f));
+        }
+
         // MonsterGroup 을 만들어서 넘기는거..?
         IceIsland.AddMonsterType(new string[][]{
             new string[] { "IceSkeleton", "IceBat", "IceSwarm", "IceRabbitMon", "Beholder" },
@@ -126,9 +138,25 @@ public class GameManager
             new string[] { "RedSoulEater" },
             });
 
+        FireIsland.BossName = "TerrorBringer";
         IceIsland.CreateMonsters();
         CenterIsland.CreateMonsters();
         FireIsland.CreateMonsters();
+
+        OnSaveCallback += () => 
+        {
+            IslandPropertySaveData saveData = new()
+            {
+                dataList = new()
+                {
+                    IceIsland.Property,
+                    CenterIsland.Property,
+                    FireIsland.Property,
+                },
+            };
+            string json = JsonUtility.ToJson(saveData);
+            SaveGame.CreateJsonFile("IslandProperties", json, SaveGame.SaveType.Runtime);
+        };
     }
 
     private void SaveCallback()

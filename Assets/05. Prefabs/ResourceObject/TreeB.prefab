@@ -177,7 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1225445867994531853}
   - component: {fileID: 8516482597770141782}
-  m_Layer: 6
+  m_Layer: 16
   m_Name: CameraRaycaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
