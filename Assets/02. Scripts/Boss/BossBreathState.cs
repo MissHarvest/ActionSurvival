@@ -15,7 +15,7 @@ public class BossBreathState : BossAttackState
     public BossBreathState(BossStateMachine stateMachine) : base(stateMachine)
     {
         _reach = 50.0f;
-        cooltime = 30.0f;
+        cooltime = 10.0f;// 30.0f;
         weight = 20.0f;
 
         var projectilePrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerProjectile.prefab");
@@ -86,31 +86,5 @@ public class BossBreathState : BossAttackState
             var destination = headPosition + direction * _reach;
             _fireObjects[i].Fire(destination, _reach, false);
         }
-        //while(_normalizedTime < 0.75f)
-        //{
-        //    yield return new WaitForSeconds(0.15f);
-        //    var go = Object.Instantiate(_projectilePrefab,
-        //        _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Head).transform.position,
-        //        Quaternion.identity);
-        //    go.GetComponent<MonsterWeapon>().Owner = _stateMachine.Boss;
-        //    var projectile = go.GetComponent<Projectile>();
-
-        //    var pos = go.transform.position;
-        //    pos.y = _stateMachine.Boss.transform.position.y;
-
-        //    if(projectile != null)
-        //    {
-        //        var direction = _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Head).transform.position - _stateMachine.Boss.transform.position;
-        //        direction.y = 0;
-        //        direction.Normalize();
-
-        //        var indicator = Object.Instantiate(_indicatorPrefab, pos, Quaternion.LookRotation(direction));
-        //        _indicatores.Add(indicator);
-
-        //        var destination = _stateMachine.Boss.transform.position + direction * _reach;
-        //        destination.y = 0;
-        //        projectile.Fire(destination, _reach);
-        //    }
-        //}
     }
 }

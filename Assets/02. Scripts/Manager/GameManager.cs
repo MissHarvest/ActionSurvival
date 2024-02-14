@@ -57,6 +57,12 @@ public class GameManager
         Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
 
         IsRunning = true;
+
+        Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
+            "무엇을 해야할지 모르겠다면,\n퀘스트를 하나씩 해결해봅시다.\n좌측의 퀘스트를 클릭해보세요.",
+            UIWarning.Type.YesOnly,
+            () => { Managers.UI.ClosePopupUI(); },
+            true);
     }
 
     private void SpawnMonster()

@@ -15,6 +15,11 @@ public class MonsterWeapon : MonoBehaviour
         _projectile = GetComponent<Projectile>();
     }
 
+    private void OnEnable()
+    {
+        Collider.enabled = true;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

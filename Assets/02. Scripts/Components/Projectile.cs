@@ -23,7 +23,7 @@ public class Projectile : MonoBehaviour
 
     public void Fire(Vector3 destination, float maxDistance, bool destroy = true)
     {
-        Debug.Log("Fire");
+        //Debug.Log("Fire");
         gameObject.SetActive(true);
         _direction = destination - transform.position;
         transform.rotation = Quaternion.LookRotation(_direction);

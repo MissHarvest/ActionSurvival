@@ -11,7 +11,6 @@ public class BuildingSystem : MonoBehaviour
 
     [SerializeField] private LayerMask _buildableLayer;
 
-    private float _raycastRange = 20.0f;
     private float _gridSize = 1.0f;
     private int _rotationAngle = 45;
 
@@ -19,10 +18,6 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private float _maxBuildDistanceSideways = 5.0f;
 
     private int _inventoryIndex;
-
-    private Vector3 _lastValidHitPoint; // 마지막으로 유효한 충돌 지점을 저장할 변수
-    private Vector3 _lastValidPosition;
-
     private BuildableObject _buildableObject;
 
     public event Action<int> OnBuildRequested;
@@ -76,7 +71,7 @@ public class BuildingSystem : MonoBehaviour
 
     public bool BuildArchitecture()
     {
-        if (_buildableObject.canBuild == false) return false;
+        if (_buildableObject.CanBuild() == false) return false;
 
         _buildableObject.Build();
         _rayPointer.SetActive(false);

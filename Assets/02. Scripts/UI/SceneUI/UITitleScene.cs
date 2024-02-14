@@ -32,7 +32,9 @@ public class UITitleScene : UIScene
             if(SaveGame.ExistFiles())
             {
                 var ui = Managers.UI.ShowPopupUI<UIWarning>();
-                ui.SetWarning("세이브 파일이 있습니다.\n 정말 새로 시작하나요?", StartNewGame);
+                ui.SetWarning("세이브 파일이 있습니다.\n 정말 새로 시작하나요?",
+                    UIWarning.Type.YesNo,
+                    StartNewGame);
             }
             else
             {

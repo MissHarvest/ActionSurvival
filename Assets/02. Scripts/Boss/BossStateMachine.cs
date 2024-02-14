@@ -78,16 +78,17 @@ public class BossStateMachine : StateMachine
 
     public void InitPattern()
     {
+        for(int i = 0; i < Skills.Count; ++i)
+        {
+            Skills[i].Cancel();
+        }
         Skills.Clear();
 
+        //Skills.Add(RushSate);
+        //Skills.Add(BiteState);
         //Skills.Add(ScreamState);
-
-        Skills.Add(RushSate);
-        Skills.Add(BiteState);
-        Skills.Add(ScreamState);
+        Skills.Add(BreathState);
         Phase = 1;
-
-        MeteorState.StopMeteor();
     }
 
     public BossAttackState GetUsableSkill()

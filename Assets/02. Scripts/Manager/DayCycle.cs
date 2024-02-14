@@ -82,6 +82,11 @@ public class DayCycle
                 break;
 
             case TimeZone.Evening:
+                Managers.UI.ShowPopupUI<UIWarning>().
+                    SetWarning("밤이되면 몬스터 웨이브가 옵니다.\n 무기를 제작해서 전투를 준비하세요.",
+                    UIWarning.Type.YesOnly,
+                    () => { Managers.UI.ClosePopupUI(); },
+                    true);
                 OnEveningCame?.Invoke();
                 break;
 

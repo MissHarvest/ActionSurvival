@@ -22,7 +22,7 @@ public class BossMeteorState : BossAttackState
         weight = 9999.0f;
         _projectilePrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");
         _indicatorPrefab = Managers.Resource.GetCache<GameObject>("CircleAttackIndicator.prefab");
-        _stateMachine.Boss.HP.OnBelowedToZero += StopMeteor;
+        _stateMachine.Boss.HP.OnBelowedToZero += Cancel;
     }
 
     public override void Enter()
@@ -183,7 +183,7 @@ public class BossMeteorState : BossAttackState
         }
     }
 
-    public void StopMeteor()
+    public override void Cancel()
     {
         for (int i = 0; i < _coroutines.Count; ++i)
         {
