@@ -60,11 +60,6 @@ public class Island
         }
     }
 
-    public Vector3 Position
-    {
-        get => _property.center;
-    }
-
     public Transform SpawnMonsterRoot
     {
         get
@@ -72,6 +67,26 @@ public class Island
             if (_islandMonsterRoot == null)
                 _islandMonsterRoot = new GameObject(_property.name).transform;
             return _islandMonsterRoot;
+        }
+    }
+
+    public IslandProperty Property => _property;
+    public float Temperature
+    {
+        get => _property.Temperature; 
+        set 
+        {
+            _property.Temperature = value;
+            Managers.Game.Temperature.OnTemperatureChange(); 
+        }
+    }
+    public float Influence
+    {
+        get => _property.Influence;
+        set 
+        {
+            _property.Influence = value;
+            Managers.Game.Temperature.OnTemperatureChange();
         }
     }
 

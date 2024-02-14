@@ -38,19 +38,14 @@ public class UITutorialArrow : UIPopup
 
     private void OnEnable()
     {
-        Debug.Log("Arrow UI Activate");
+        Get<GameObject>((int)GameObjects.Arrow).transform.rotation = Quaternion.identity;
+        //Debug.Log("Arrow UI Activate");
     }
 
     private void Update()
     {
         if (!gameObject.activeSelf) return;
-        Get<GameObject>((int)GameObjects.Arrow).transform.Rotate(Vector3.up, 1.0f);
-    }
-
-    public void ActivateArrow(Vector3 pos)
-    {
-        var arrow = Get<GameObject>((int)GameObjects.Arrow);
-        arrow.transform.position = new Vector3(pos.x, pos.y, arrow.transform.position.z);
+        Get<GameObject>((int)GameObjects.Arrow).transform.Rotate(Vector3.up, 3.0f);
     }
 
     public void ActivateArrow(Vector3 pos, Vector2 offset)
@@ -58,6 +53,7 @@ public class UITutorialArrow : UIPopup
         var arrow = Get<GameObject>((int)GameObjects.Arrow);
         arrow.transform.position = pos;
         Debug.Log($"[Position] {pos} , [Offset] {offset}");
+        //arrow.GetComponent<RectTransform>().anchoredPosition += Vector2.zero;
         arrow.GetComponent<RectTransform>().anchoredPosition += offset;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -28,9 +29,10 @@ public class BossStateMachine : StateMachine
     public float DetectionDistModifier { get; set; } = 1.0f;
     public GameObject Target { get; set; } = null;
     
-    public WeightedRandomPicker<BossAttackState> Skill = new();
+    public WeightedRandomPicker<BossAttackState> SkillPicker = new();
+    public List<BossAttackState> Skills = new();
 
-    private int _phase = 1;
+    public int Phase { get; private set; } = 1;
 
     public BossAttackState NextAttackState { get; set; } = null;
 
@@ -55,39 +57,57 @@ public class BossStateMachine : StateMachine
         MeteorState = new BossMeteorState(this);
         DieState = new BossDieState(this);
 
-        Skill.AddItem(RushSate, RushSate.weight);
-        Skill.AddItem(BiteState, BiteState.weight);
-
         CoroutineManagement.Instance.StartCoroutine(GetNextSkill());
     }
 
     private void AddMeteorPattern(float hpPercent)
     {
-        if(hpPercent <= 0.7f && _phase == 1)
+        if(hpPercent <= 0.7f && Phase == 1)
         {
-            Skill.AddItem(MeteorState, MeteorState.weight);
-            Skill.AddItem(StabState, StabState.weight);
-            Skill.AddItem(BreathState, BreathState.weight);
-            ++_phase;
+            Skills.Add(MeteorState);
+            Skills.Add(StabState);
+            Skills.Add(BreathState);
+            ++Phase;
         }
-        else if(hpPercent <= 0.3f && _phase == 2)
+        else if(hpPercent <= 0.3f && Phase == 2)
         {
-            Skill.AddItem(MeteorState, MeteorState.weight);
-            ++_phase;
+            Skills.Add(MeteorState);
+            ++Phase;
         }
+    }
+
+    public void InitPattern()
+    {
+        Skills.Clear();
+
+        //Skills.Add(ScreamState);
+
+        Skills.Add(RushSate);
+        Skills.Add(BiteState);
+        Skills.Add(ScreamState);
+        Phase = 1;
+
+        MeteorState.StopMeteor();
     }
 
     public BossAttackState GetUsableSkill()
     {
         var v = Target.transform.position - Boss.transform.position;
         v.y = 0;
-        var sqrDist = v.sqrMagnitude;        
-        var skill = Skill.AddWeightAndPick((x) =>
-        {
-            return (x._reach * x._reach) > sqrDist;
-        }, 30);
+        var sqrDist = v.sqrMagnitude;
+        var list = Skills.Where(x => x.usable).ToList();
 
-        return skill;
+        foreach(var skill in list)
+        {
+            var add = (skill._reach * skill._reach) > sqrDist ? 30 : 0;
+            SkillPicker.AddItem(skill, skill.weight + add);
+        }
+
+        if (SkillPicker.Count <= 0) return null;
+
+        var selected = SkillPicker.Pick();
+        SkillPicker.Clear();
+        return selected;
     }
 
     IEnumerator GetNextSkill()
@@ -99,8 +119,6 @@ public class BossStateMachine : StateMachine
             if (Target == null) continue;
 
             if (NextAttackState != null) continue;
-
-            if (Skill.Count <= 0) continue;
 
             NextAttackState = GetUsableSkill();
         }

@@ -44,7 +44,7 @@ public class MonsterWeapon : MonoBehaviour
         
         if(_projectile)
         {
-            Destroy(gameObject);
+            _projectile.DestroySelf();
         }
     }
 }

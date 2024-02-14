@@ -1114,7 +1114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _layerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 65536
   _camera: {fileID: 541727437}
   _player: {fileID: 0}
 --- !u!1 &640520600

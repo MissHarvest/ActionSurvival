@@ -26,7 +26,10 @@ public class BossIdleState : BossBaseState
 
     public override void Update()
     {
-        if(_stateMachine.NextAttackState != null)
+        base.Update();
+        if (!_stateMachine.isBattaleState) return;
+
+        if (_stateMachine.NextAttackState != null)
         {
             _stateMachine.ChangeState(_stateMachine.BattleState);
             return;

@@ -24,6 +24,7 @@ public class BossBattleState : BossBaseState
     public override void Update()
     {
         base.Update();
+        if (!_stateMachine.isBattaleState) return;
 
         if (_stateMachine.NextAttackState == null)
         {

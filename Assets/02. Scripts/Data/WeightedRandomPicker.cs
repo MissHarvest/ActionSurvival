@@ -38,6 +38,12 @@ public class WeightedRandomPicker<TKey>
         }
     }
 
+    public void Clear()
+    {
+        _items.Clear();
+        _sumOfWeight = 0.0f;
+    }
+
     public void ModifyItem(TKey key, float value)
     {
         if(CheckExistedItem(key))
@@ -46,30 +52,6 @@ public class WeightedRandomPicker<TKey>
             _items[key] = value;
             _sumOfWeight += _items[key];
         }
-    }
-
-    public TKey AddWeightAndPick(Func<BossAttackState, bool> func, float weight)
-    {
-        Dictionary<TKey, float> temp = new(_items);
-        var tempWeight = _sumOfWeight;
-        for(int i = 0; i < _items.Count; ++i)
-        {
-            if (_items.Keys.ElementAt(i) is BossAttackState state)
-            {
-                if(func(state))
-                {
-                    ModifyItem(_items.Keys.ElementAt(i), _items[_items.Keys.ElementAt(i)] + weight);
-                }
-            }
-        }
-        Print();
-
-        var result = Pick();
-        _sumOfWeight = tempWeight;
-        _items = temp;
-        RemoveItem(result);
-
-        return result;
     }
 
     private bool CheckExistedItem(TKey key)
@@ -86,7 +68,7 @@ public class WeightedRandomPicker<TKey>
     {
         var chance = UnityEngine.Random.Range(0.0f, 1.0f);
         chance *= _sumOfWeight;
-
+        Print();
         var current = 0.0f;
         foreach(var pair in _items)
         {

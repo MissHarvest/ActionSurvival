@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PT_Water_mat
-  m_Shader: {fileID: 4800000, guid: 39cf68574afc7f248bd78a99c3800e00, type: 3}
+  m_Shader: {fileID: 4800000, guid: 515ce64356c6a1c40b47aab128f51713, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -48,11 +48,11 @@ Material:
     - _Float4: 10000
     - _FoamAmount: 10
     - _FoamNoiseScale: 1000
-    - _FoamPower: 1
+    - _FoamPower: 2.42
     - _FoamSpeed: 0.5
     - _GlossyReflections: 1
     - _Mettalic: 0
-    - _NormalMapWavesSpeed: 1
+    - _NormalMapWavesSpeed: 0.02
     - _NormalMapsWavesSize: 10
     - _SMOOTHNESS: 1
     - _SmallWavesSize: 1
@@ -76,9 +76,9 @@ Material:
     - _wavedirectionx: 0.23
     - _wavedirectiony: -0.8
     m_Colors:
-    - _DeepColor: {r: 0, g: 0, b: 1, a: 0}
-    - _FoamColor: {r: 0, g: 1, b: 1, a: 0}
-    - _ShallowColor: {r: 0, g: 0.66694784, b: 1, a: 0}
+    - _DeepColor: {r: 0, g: 0.020833015, b: 1, a: 0}
+    - _FoamColor: {r: 0, g: 0, b: 0, a: 0}
+    - _ShallowColor: {r: 0, g: 0.4263685, b: 0.7058824, a: 0}
     - _Shallowcolor: {r: 0.4890531, g: 0.6480994, b: 0.6603774, a: 0}
     - _deepcolor: {r: 0.3301887, g: 0.1712053, b: 0.07631721, a: 0}
     - _foamcolor: {r: 0.3066038, g: 1, b: 0.9145772, a: 0}

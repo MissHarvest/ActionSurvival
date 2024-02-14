@@ -7,9 +7,6 @@ using UnityEngine.UI;
 
 public class TitleScene : MonoBehaviour
 {
-    public Button LoadNewScene;
-    public Button NewStart;
-
     public IEnumerator Start()
     {
         UITitleScene titleScene = null;
