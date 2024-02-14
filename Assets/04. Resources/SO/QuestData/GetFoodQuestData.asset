@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
+  m_Name: GetFoodQuestData
+  m_EditorClassIdentifier: 
+  questUIName: "\uC74C\uC2DD\uC744 \uC81C\uC791\uD558\uC138\uC694."
+  questID: 14
+  preQuests:
+  - {fileID: 11400000, guid: bf444c302e1270c47acc2c4cead346f9, type: 2}
+  requiredItems:
+  - item: {fileID: 11400000, guid: 734f198f0f1019b43ad400a2ab3ece89, type: 2}
+    quantity: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  targetName: BonFire
+  type: 0

@@ -16,7 +16,8 @@ MonoBehaviour:
   description: "\uC880 \uB354 \uD2BC\uD2BC\uD574\uBCF4\uC774\uB294 \uACE1\uAD2D\uC774\uB2E4. "
   iconSprite: {fileID: 21300000, guid: d3d4719a49d3c7c4bad3188632708c02, type: 3}
   part: 2
-  maxDurability: 20
+  maxDurability: 40
+  defense: 0
   targetLayers:
     serializedVersion: 2
     m_Bits: 64
