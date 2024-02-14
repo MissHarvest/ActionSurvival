@@ -54,6 +54,7 @@ MonoBehaviour:
   _renderer: {fileID: 3407018793811939679}
   redMat: {fileID: 2100000, guid: 4cea252e4cd4c1241bbe5bf6a09e2e64, type: 2}
   blueMat: {fileID: 2100000, guid: 3ccf5f2feeac4154b9a14ef7ae1f6693, type: 2}
+  otherCollider: {fileID: 0}
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0

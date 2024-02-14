@@ -16,17 +16,7 @@ public class UIRecipe : UICraftBase
     public override void OnEnable()
     {
         base.OnEnable();
-        SetAdvancedRecipeUIActive(false);
-    }
-
-    // 고급 레시피 UI의 활성화 여부를 설정하는 메서드
-    public void SetAdvancedRecipeUIActive(bool active)
-    {
-        foreach (var slot in _uiCraftSlots)
-        {
-            bool isAdvancedRecipe = GetDataList()[slot.Index].IsAdvancedRecipe;
-            slot.gameObject.SetActive(active || (!isAdvancedRecipe && !active));
-        }
+        SetAdvancedRecipeUIActive(0);
     }
 
     protected override List<RecipeSO.Ingredient> GetRequiredDataList()

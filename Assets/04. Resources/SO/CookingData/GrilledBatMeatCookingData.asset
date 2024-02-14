@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GrilledBatMeatCookingData
   m_EditorClassIdentifier: 
   itemName: GrilledBatMeat
-  recipeID: 18
+  recipeID: 14
   completedItemData: {fileID: 11400000, guid: 15cd5a240bf6e9149bba27940cf9fa3e, type: 2}
-  IsAdvancedRecipe: 0
+  recipeLevel: 1
   Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: cbb888e46821d3d41b6bd05183bc5ccf, type: 2}

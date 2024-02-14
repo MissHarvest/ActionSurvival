@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: CornSaladCookingData
   m_EditorClassIdentifier: 
   itemName: CornSalad
-  recipeID: 20
+  recipeID: 16
   completedItemData: {fileID: 11400000, guid: 4cf10e7e87f888e428fc93bca9417d49, type: 2}
-  IsAdvancedRecipe: 0
+  recipeLevel: 2
   Quantity: 1
   requiredItems:
-  - item: {fileID: 11400000, guid: 0e99452afc6013a46b0fcaa854d7a0e0, type: 2}
-    quantity: 1
+  - item: {fileID: 11400000, guid: 68a9bba7c97dc024f84ab4c246757bad, type: 2}
+    quantity: 3
   - item: {fileID: 11400000, guid: eaac63f19a4e191489080679244faec7, type: 2}
-    quantity: 2
+    quantity: 3
+  - item: {fileID: 11400000, guid: e52fd14ba5118174b89e456530a2ab8e, type: 2}
+    quantity: 3
