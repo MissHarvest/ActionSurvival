@@ -743,12 +743,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9564fc60f9d300540af76bcb83704fbf
-    m_Address: GetAxe2QuestData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c637d65c393ef214481f25dbc6261620
     m_Address: GetCraftingTable2QuestData.data
     m_ReadOnly: 0
@@ -757,12 +751,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 558394e37be806943a6dba1552de5b2d
     m_Address: GetStone2QuestData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bf444c302e1270c47acc2c4cead346f9
-    m_Address: GetBonFire2QuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
