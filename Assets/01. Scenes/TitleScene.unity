@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.42158535, g: 0.6455763, b: 0.7898356, a: 1}
+  m_IndirectSpecularColor: {r: 0.42156693, g: 0.64556944, b: 0.7898304, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -327,8 +327,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b136e3c2f1ce2a34b842c931f4219391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadNewScene: {fileID: 0}
-  NewStart: {fileID: 0}
 --- !u!4 &960150369
 Transform:
   m_ObjectHideFlags: 0
@@ -735,10 +733,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4658884217865118495, guid: c0854f86fee712a4bb222dda7e632cb6, type: 3}
-      propertyPath: m_text
-      value: "\uC2DC\uC791\uD558\uAE30"
-      objectReference: {fileID: 0}
     - target: {fileID: 5386393353942342683, guid: c0854f86fee712a4bb222dda7e632cb6, type: 3}
       propertyPath: m_Name
       value: UITitleScene

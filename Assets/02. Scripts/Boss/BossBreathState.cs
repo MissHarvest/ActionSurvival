@@ -4,31 +4,46 @@ using UnityEngine;
 
 public class BossBreathState : BossAttackState
 {
-    private GameObject _projectilePrefab;
     private Coroutine _breathCoroutine;
     private float _normalizedTime;
     private bool _alreadyAttack;
-    private GameObject _indicatorPrefab;
-    private List<GameObject> _indicatores = new List<GameObject>();
+
+    private List<RectAttackIndicator> _indicatores = new();
+    private int _prefabCount = 7;
+    public List<Projectile> _fireObjects = new();
 
     public BossBreathState(BossStateMachine stateMachine) : base(stateMachine)
     {
         _reach = 50.0f;
-        cooltime = 60.0f;
+        cooltime = 30.0f;
         weight = 20.0f;
 
-        _projectilePrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerProjectile.prefab");
-        _indicatorPrefab = Managers.Resource.GetCache<GameObject>("RectAttackIndicator.prefab");
-        var width = _indicatorPrefab.GetComponentInChildren<SpriteRenderer>().sprite.bounds.size.x;
+        var projectilePrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerProjectile.prefab");
+        for(int i = 0; i < _prefabCount; ++i)
+        {
+            var projectile = Object.Instantiate(projectilePrefab, _stateMachine.Boss.transform).GetComponent<Projectile>();
+            projectile.GetComponent<MonsterWeapon>().Owner = _stateMachine.Boss;
+            projectile.gameObject.SetActive(false);
+            _fireObjects.Add(projectile);
+            
+        }
 
-        _indicatorPrefab.transform.localScale = new Vector3(0.6f, _indicatorPrefab.transform.localPosition.y, _reach/width);
+        var indicatorPrefab = Managers.Resource.GetCache<GameObject>("RectAttackIndicator.prefab");
+        var width = indicatorPrefab.GetComponentInChildren<SpriteRenderer>().sprite.bounds.size.x;
+        indicatorPrefab.transform.localScale = new Vector3(0.6f, indicatorPrefab.transform.localPosition.y, _reach/width);
+        for(int i = 0; i < _prefabCount; ++i)
+        {
+            var indicator = Object.Instantiate(indicatorPrefab, _stateMachine.Boss.transform).GetComponent<RectAttackIndicator>();
+            indicator.gameObject.SetActive(false);
+            _indicatores.Add(indicator);
+        }
     }
 
     public override void Enter()
     {
+        _stateMachine.MovementSpeedModifier = 0.0f;
         base.Enter();
-        StartAnimation(_stateMachine.Boss.AnimationData.BreathParamterHash);
-        
+        StartAnimation(_stateMachine.Boss.AnimationData.BreathParamterHash);        
     }
 
     public override void Exit()
@@ -37,10 +52,6 @@ public class BossBreathState : BossAttackState
         CoroutineManagement.Instance.StopCoroutine(_breathCoroutine);
         _normalizedTime = 0.0f;
         _alreadyAttack = false;
-        foreach(var indicator in _indicatores)
-        {
-            Object.Destroy(indicator);
-        }
         StopAnimation(_stateMachine.Boss.AnimationData.BreathParamterHash);
     }
 
@@ -60,31 +71,46 @@ public class BossBreathState : BossAttackState
 
     IEnumerator Breath()
     {
-        while(_normalizedTime < 0.75f)
+        for(int i = 0; i < _prefabCount; ++i)
         {
             yield return new WaitForSeconds(0.15f);
-            var go = Object.Instantiate(_projectilePrefab,
-                _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Head).transform.position,
-                Quaternion.identity);
-            go.GetComponent<MonsterWeapon>().Owner = _stateMachine.Boss;
-            var projectile = go.GetComponent<Projectile>();
+            var headPosition = _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Head).transform.position;
+            var direction = headPosition - _stateMachine.Boss.transform.position;
+            direction.y = 0;
+            direction.Normalize();
 
-            var pos = go.transform.position;
-            pos.y = 0;
+            var pos = new Vector3(headPosition.x, _stateMachine.Boss.transform.position.y, headPosition.z);
+            _indicatores[i].Activate(pos, direction, _reach, 0.2f);
 
-            if(projectile != null)
-            {
-                var direction = _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Head).transform.position - _stateMachine.Boss.transform.position;
-                direction.y = 0;
-                direction.Normalize();
-
-                var indicator = Object.Instantiate(_indicatorPrefab, pos, Quaternion.LookRotation(direction));
-                _indicatores.Add(indicator);
-
-                var destination = _stateMachine.Boss.transform.position + direction * _reach;
-                destination.y = 0;
-                projectile.Fire(destination, _reach);
-            }
+            _fireObjects[i].transform.position = headPosition;
+            var destination = headPosition + direction * _reach;
+            _fireObjects[i].Fire(destination, _reach, false);
         }
+        //while(_normalizedTime < 0.75f)
+        //{
+        //    yield return new WaitForSeconds(0.15f);
+        //    var go = Object.Instantiate(_projectilePrefab,
+        //        _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Head).transform.position,
+        //        Quaternion.identity);
+        //    go.GetComponent<MonsterWeapon>().Owner = _stateMachine.Boss;
+        //    var projectile = go.GetComponent<Projectile>();
+
+        //    var pos = go.transform.position;
+        //    pos.y = _stateMachine.Boss.transform.position.y;
+
+        //    if(projectile != null)
+        //    {
+        //        var direction = _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Head).transform.position - _stateMachine.Boss.transform.position;
+        //        direction.y = 0;
+        //        direction.Normalize();
+
+        //        var indicator = Object.Instantiate(_indicatorPrefab, pos, Quaternion.LookRotation(direction));
+        //        _indicatores.Add(indicator);
+
+        //        var destination = _stateMachine.Boss.transform.position + direction * _reach;
+        //        destination.y = 0;
+        //        projectile.Fire(destination, _reach);
+        //    }
+        //}
     }
 }

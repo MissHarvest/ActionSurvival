@@ -46,6 +46,8 @@ public class BuildingSystem : MonoBehaviour
 
     public void CreateArchitecture()
     {
+        if (_buildableObject != null) return;
+
         var indexInUse = Managers.Game.Player.QuickSlot.IndexInUse;
         var index = _inventoryIndex = Managers.Game.Player.QuickSlot.slots[indexInUse].targetIndex;
 

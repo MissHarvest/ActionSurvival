@@ -6,7 +6,7 @@ public class BossBiteState : BossAttackState
 {
     public BossBiteState(BossStateMachine stateMachine) : base(stateMachine)
     {
-        _reach = 5.0f;
+        _reach = 3.0f;
         cooltime = 3.0f;
         weight = 5.0f;
     }

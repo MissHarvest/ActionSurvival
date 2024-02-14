@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossBaseState : IState
@@ -15,6 +16,7 @@ public class BossBaseState : IState
 
     public virtual void Enter()
     {
+        //Debug.Log($"[Enter State] {GetType().ToString()}");
         _stateMachine.Boss.NavMeshAgent.speed = _stateMachine.MovementSpeed * _stateMachine.MovementSpeedModifier;
     }
 
@@ -48,6 +50,7 @@ public class BossBaseState : IState
         if (distPointToBoss > detect * detect && distPointToPlayer > detect * detect)
         {
             _stateMachine.ChangeState(_stateMachine.InvincibilityState);
+            return;
         }
     }
 
@@ -96,7 +99,6 @@ public class BossBaseState : IState
 
     protected bool CheckTargetInViewArea()
     {
-        Debug.Log("SSS" + GetAngleWithTarget());
         return GetAngleWithTarget() < 5.0f;
     }
 
