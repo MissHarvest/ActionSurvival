@@ -31,11 +31,6 @@ public class Tutorial : MonoBehaviour
         _pathFinder = go.GetComponent<PathFinder>();
         _pathFinder.gameObject.SetActive(false);
 
-        foreach (var quest in _quests)
-        {
-            quest.SetQuestCompletedCallback(HandleQuestCompleted);
-        }
-
         Managers.Game.OnSaveCallback += Save;
     }
 
@@ -78,15 +73,37 @@ public class Tutorial : MonoBehaviour
     private void BindInventoryEvents()
     {
         Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
+       Managers.Game.Player.Building.OnBuildCompleted += OnBuildUpdated; //건설완료 이벤트 따로 만들기(OnBuildRequested는 건축시작)
     }
 
     //인벤토리가 업데이트되면 클리어 조건 확인
     private void OnInventoryUpdated(int index, ItemSlot itemSlot)
     {
         _activeQuests
-            .Where(activeQuest => activeQuest.IsEnoughRequirements(itemSlot))
+            .Where(activeQuest => activeQuest.IsEnoughRequirements(index, itemSlot))
             .ToList()
             .ForEach(activeQuest => {
+                
+                activeQuest.CompleteQuest();
+                _activeQuests.Remove(activeQuest);
+                _quests.Remove(activeQuest);
+            });
+
+        _quests
+            .Where(quest => !_activeQuests.Contains(quest) && IsPreQuestsCleared(quest))
+            .ToList()
+            .ForEach(quest => _activeQuests.Add(quest));
+
+        OnActiveQuestsUpdated?.Invoke();
+    }
+
+    private void OnBuildUpdated(int index)
+    {
+        _activeQuests
+            .Where(activeQuest => activeQuest.IsBuilt(index))
+            .ToList()
+            .ForEach(activeQuest =>
+            {
 
                 activeQuest.CompleteQuest();
                 _activeQuests.Remove(activeQuest);
@@ -102,11 +119,6 @@ public class Tutorial : MonoBehaviour
     }
 
 
-    private void HandleQuestCompleted()
-    {
-        //퀘스트 클리어 현황, 퀘스트 리스트 업데이트
-        Debug.Log("퀘스트 완료!");
-    }
     #endregion
 
     #region Guide

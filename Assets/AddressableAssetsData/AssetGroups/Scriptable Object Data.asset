@@ -653,12 +653,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: eb97ffbb74655a74483939acf8a8e031
-    m_Address: GetGrilledRabbitMeatQuestData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 99849d697b366074da034d10737ec315
     m_Address: GetWoodSwordQuestData.data
     m_ReadOnly: 0
@@ -703,12 +697,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 610ffe6f092d13a409d45e00fe476749
     m_Address: LogRecipeData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ce49dddcaa0d06640ac6ef2be935d069
-    m_Address: GetCarrotQuestData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

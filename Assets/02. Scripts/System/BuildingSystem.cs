@@ -26,6 +26,7 @@ public class BuildingSystem : MonoBehaviour
     private BuildableObject _buildableObject;
 
     public event Action<int> OnBuildRequested;
+    public event Action<int> OnBuildCompleted;
 
     public Player Owner { get; private set; }
 
@@ -82,6 +83,7 @@ public class BuildingSystem : MonoBehaviour
         
         // 인벤토리에서 제거
         Managers.Game.Player.Inventory.UseArchitectureItem(_inventoryIndex);
+        OnBuildCompleted?.Invoke(_inventoryIndex);
         return true;
     }
 
