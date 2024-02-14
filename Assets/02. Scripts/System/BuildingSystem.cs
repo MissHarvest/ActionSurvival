@@ -76,7 +76,7 @@ public class BuildingSystem : MonoBehaviour
 
     public bool BuildArchitecture()
     {
-        if (_buildableObject.canBuild == false) return false;
+        if (_buildableObject.CanBuild() == false) return false;
 
         _buildableObject.Build();
         _rayPointer.SetActive(false);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,19 +14,29 @@ public class UIMakeFire : UIPopup
     {
         Exit,
         UIFunctionsUseFireSlot,
-        FirewoodItems
+        FirewoodItems,
+        UIFirewoodSlot
+    }
+
+    enum Helper
+    {
+        UIStoreFirewoodHelper
     }
 
     private GameObject _functionsUseFireSlotButton;
     private Transform _firewoodItems;
+    private UIStoreFirewoodHelper _firewoodHelper;
     [SerializeField] private GameObject _itemSlotPrefab;
-    [SerializeField] private ItemData[] _itemSlots = new ItemData[2];
+    public ItemSlot[] itemSlots = new ItemSlot[2];
+    private List<GameObject> _itemUIList = new List<GameObject>();
 
     public override void Initialize()
     {
         base.Initialize();
 
         Bind<GameObject>(typeof(GameObjects));
+        Bind<UIStoreFirewoodHelper>(typeof(Helper));
+
         Get<GameObject>((int)GameObjects.Exit).BindEvent((x) =>
         {
             Managers.UI.ClosePopupUI(this);
@@ -40,42 +51,61 @@ public class UIMakeFire : UIPopup
     {
         Initialize();
         GetFirewoodItems();
-
         _firewoodItems = Get<GameObject>((int)GameObjects.FirewoodItems).transform;
-
         gameObject.SetActive(false);
     }
 
     private void Start()
     {
         SetIngredients();
+        _firewoodHelper = Get<UIStoreFirewoodHelper>((int)Helper.UIStoreFirewoodHelper);
     }
 
-    private void SetIngredients()
+    public void SetIngredients()
     {
-        foreach (var item in _itemSlots)
+        ClearItems();
+
+        foreach (var item in itemSlots)
         {
             GameObject itemUI = Instantiate(_itemSlotPrefab, _firewoodItems);
             Image itemIcon = itemUI.transform.Find("Icon").GetComponent<Image>();
             TextMeshProUGUI itemQuantity = itemUI.GetComponentInChildren<TextMeshProUGUI>();
 
-            // 아이템 아이콘 설정
-            itemIcon.sprite = item.iconSprite;
+            itemIcon.sprite = item.itemData.iconSprite;
 
-            itemQuantity.text = 0.ToString();
+            itemQuantity.text = item.quantity.ToString();
+
+            itemUI.BindEvent((x) => { ShowStoreFirewoodPopupUI(item); });
+
+            _itemUIList.Add(itemUI);
         }
+    }
+
+    private void ShowStoreFirewoodPopupUI(ItemSlot itemSlot)
+    {
+        //여기서 Index를 넘겨주는 방법
+        var pos = new Vector3(_firewoodItems.position.x - 100, _firewoodItems.position.y, _firewoodItems.position.z);
+        _firewoodHelper.ShowOption(itemSlot, pos);
     }
 
     private void GetFirewoodItems()
     {
         var itemData = Managers.Resource.GetCache<ItemData>("BranchItemData.data");
-        _itemSlots[0] = itemData;
+        itemSlots[0].Set(itemData, 0);
         itemData = Managers.Resource.GetCache<ItemData>("LogItemData.data");
-        _itemSlots[1] = itemData;
+        itemSlots[1].Set(itemData, 0);
     }
 
     private void OnCookingUIPopup()
     {
         Managers.Game.Player.Cooking.OnCookingShowAndHide();
+    }
+
+    private void ClearItems()
+    {
+        foreach (GameObject itemUI in _itemUIList)
+        {
+            Destroy(itemUI);
+        }
     }
 }

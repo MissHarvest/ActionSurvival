@@ -81,7 +81,7 @@ public class ItemSlot
         this.itemData = item;
         this.itemName = item.name;
         this.quantity = quantity;
-        this.currentDurability = (itemData is EquipItemData toolItem) ? toolItem.maxDurability : 0f; //lgs 24.02.06
+        this.currentDurability = (itemData is EquipItemData toolItem) ? toolItem.maxDurability : 0f;
     }
 
     public void Set(ItemSlot itemSlot)

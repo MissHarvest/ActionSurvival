@@ -141,7 +141,6 @@ public class ToolSystem : MonoBehaviour
 
         if (-1 != Equipments[part].targetIndex)
         {
-            Debug.Log("Asda");
             OnUnEquip?.Invoke(Equipments[part]);
         }
         Equipments[part].Clear();
