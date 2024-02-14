@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,54 +9,103 @@ public class Disaster : IAttack
 {
     private GameObject _meteorPrefab;
     private GameObject _blizardPrefab;
+    private GameObject _indicatorPrefab;
+
     private Transform _target;
     private float _range = 10.0f;
-    private float _meteorTemp;
-    private float _blizardTemp;
+    private float _meteorTemp = 10.0f;
+    private float _blizardTemp = -10.0f;
     private float _damage = 10.0f;
-
-    // 일정 주기 마다?
-    // 넘겨줄 때 어떤 값을? 단순 (메테오 등의)갯수, or 각 섬에 있는 아티팩트의 비율? 온도비율?
-    //
+    private System.Action _fallDisaster;
+    private bool _active = false;
+    private Vector3[] _points;
 
     public void Init(Player player)
     {
         _target = player.transform;
-        _meteorPrefab = Managers.Resource.GetCache<GameObject>("Meteor.prefab");
-        _meteorPrefab.GetComponent<MonsterWeapon>().Owner = this;
+        _meteorPrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");
 
         _blizardPrefab = Managers.Resource.GetCache<GameObject>("Blizard.prefab");
+
+        _indicatorPrefab = Managers.Resource.GetCache<GameObject>("CircleAttackIndicator.prefab");
+        Managers.Game.DayCycle.OnTimeUpdated += Fall;
+
+        _points = new Vector3[10];
+        _active = true;
+        OnEnterSummer();
     }
 
-    public void StartFallDisaster(int count, int times)
+    private void Fall()
     {
-        var point = _target.transform.position + new Vector3(
-            Random.Range(-_range, _range), Random.Range(-_range, _range));
+        if (!_active) return;
+        _fallDisaster?.Invoke();
+    }
 
-        var temperature = Managers.Game.Temperature.GetTemperature(point);
+    private void OnEnterSummer()
+    {
+        _fallDisaster = FallMeteor;
+    }
 
-        var prefab = temperature >= _meteorTemp ? _meteorPrefab :
-            temperature <= _blizardTemp ? _blizardPrefab : null;
-        
-        if(prefab != null)
+    private void OnEnterWinter()
+    {
+        _fallDisaster = FallBlizard;
+    }
+
+    private void FallMeteor()
+    {
+        GetPoints();
+        var point = _points.Where(x => CheckMeteorPoint(x)).ToArray();
+
+        for (int i = 0; i < point.Length; ++i)
         {
-            var disaster = Object.Instantiate(prefab, point + Vector3.up * 25.0f, Quaternion.identity);
-            var projectile = disaster.GetComponent<Projectile>();
-            projectile.Fire(point, 30.0f);
+            if (_meteorPrefab != null)
+            {
+                var disaster = UnityEngine.Object.Instantiate(_meteorPrefab, point[i] + Vector3.up * 30.0f, Quaternion.identity);
+                disaster.GetComponent<MonsterWeapon>().Owner = this;
+                var projectile = disaster.GetComponent<Projectile>();
+
+                var indicatorGo = Object.Instantiate(_indicatorPrefab, point[i] + Vector3.up * 0.1f, _indicatorPrefab.transform.rotation);
+                var indicator = indicatorGo.GetComponent<AttackIndicatorCircle>();
+                var sphereCollider = projectile.GetComponent<SphereCollider>();
+
+                projectile.Fire(point[i], 60.0f);
+                indicator.Set(30.0f, projectile.Speed, sphereCollider.radius);
+            }
         }
     }
 
-    IEnumerator FallDisaster(int count, int times)
+    private void FallBlizard()
     {
-        for(int i = 0; i < times; ++i)
+        GetPoints();
+        var point = _points.Where(x => CheckMeteorPoint(x)).ToArray();
+
+        for (int i = 0; i < point.Length; ++i)
         {
-            yield return new WaitForSeconds(0.5f);
-            Vector3[] points = new Vector3[count];
-            for (int j = 0; j < count; ++j)
+            if (_blizardPrefab != null)
             {
-                points[j] = _target.transform.position + new Vector3(
-                Random.Range(-_range, _range), Random.Range(-_range, _range));
+                var disaster = UnityEngine.Object.Instantiate(_blizardPrefab, point[i] + Vector3.up * 50.0f, Quaternion.identity);
+                var projectile = disaster.GetComponent<Projectile>();
+                projectile.Fire(point[i], 60.0f);
             }
+        }
+    }
+
+    private bool CheckMeteorPoint(Vector3 x)
+    {
+        return Managers.Game.Temperature.GetTemperature(x) >= _meteorTemp;
+    }
+
+    private bool CheckBlizardPoint(Vector3 x)
+    {
+        return Managers.Game.Temperature.GetTemperature(x) <= _blizardTemp;
+    }
+
+    private void GetPoints()
+    {
+        for (int i = 0; i < _points.Length; ++i)
+        {
+            _points[i] = _target.transform.position + new Vector3(
+                Random.Range(-_range, _range), 0, Random.Range(-_range, _range));
         }
     }
 

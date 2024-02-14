@@ -298,6 +298,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 558d92990f0f3c549a3a5a4c23695707
+    m_Address: Blizard.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
   m_SchemaSet:

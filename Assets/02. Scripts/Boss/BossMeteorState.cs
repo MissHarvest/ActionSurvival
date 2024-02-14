@@ -20,7 +20,7 @@ public class BossMeteorState : BossAttackState
     {
         _reach = 50.0f;
         weight = 9999.0f;
-        _projectilePrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");
+        _projectilePrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");        
         _indicatorPrefab = Managers.Resource.GetCache<GameObject>("CircleAttackIndicator.prefab");
         _stateMachine.Boss.HP.OnBelowedToZero += Cancel;
     }

@@ -13,7 +13,7 @@ public class GameManager
     public ArchitectureManager Architecture { get; private set; } = new();
     public ObjectManager ObjectManager { get; private set; } = new();
     public DayCycle DayCycle { get; private set; } = new DayCycle();
-
+    public Disaster Disaster { get; private set; } = new();
     public event Action OnSaveCallback;
 
     public World World { get; private set; }
@@ -47,13 +47,15 @@ public class GameManager
         DayCycle.OnNightCame += StartMonsterWave;
         
         Architecture.Init();
-        
+
         DayCycle.OnMorningCame += SaveCallback;
 
         ResourceObjectSpawner.Initialize();
         
         InitIslands();
         Temperature.Init(this);
+        Disaster.Init(Player);
+
         Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
 
         IsRunning = true;
