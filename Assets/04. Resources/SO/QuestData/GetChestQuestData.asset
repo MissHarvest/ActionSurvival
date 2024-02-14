@@ -10,12 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
-  m_Name: GetCarrotQuestData
+  m_Name: GetChestQuestData
   m_EditorClassIdentifier: 
-  questUIName: "\uB2F9\uADFC\uC744 \uD68D\uB4DD\uD558\uC138\uC694."
-  questID: 12
+  questUIName: "\uBCF4\uAD00\uD568\uC744 \uC81C\uC791\uD558\uC138\uC694."
+  questID: 19
   preQuests:
-  - {fileID: 11400000, guid: efe56df77ff0ab34da0563bbf7ed4504, type: 2}
+  - {fileID: 11400000, guid: 8543ba92286b3344d9f3946e8e2aa30b, type: 2}
   requiredItems:
-  - item: {fileID: 11400000, guid: 5dd63cd46cf3a174da82b9136f74f149, type: 2}
+  - item: {fileID: 11400000, guid: 54004a6d893b1d049b6845b6d9ff9c08, type: 2}
     quantity: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  targetName: 
+  type: 1

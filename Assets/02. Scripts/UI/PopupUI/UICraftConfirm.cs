@@ -25,7 +25,7 @@ public class UICraftConfirm : UIPopup
     private void OnEnable()
     {
         //Managers.Sound.PlayEffectSound(transform.position, "Warning");
-        StartCoroutine(HideAfterSec(1.5f));
+        StartCoroutine(HideAfterSec(1f));
     }
 
     IEnumerator HideAfterSec(float sec)

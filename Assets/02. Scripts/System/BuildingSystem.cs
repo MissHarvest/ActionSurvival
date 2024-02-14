@@ -26,6 +26,7 @@ public class BuildingSystem : MonoBehaviour
     private BuildableObject _buildableObject;
 
     public event Action<int> OnBuildRequested;
+    public event Action<int> OnBuildCompleted;
 
     public Player Owner { get; private set; }
 
@@ -76,9 +77,10 @@ public class BuildingSystem : MonoBehaviour
 
     public bool BuildArchitecture()
     {
-        if (_buildableObject.canBuild == false) return false;
+        if (_buildableObject.CanBuild() == false) return false;
 
         _buildableObject.Build();
+        OnBuildCompleted?.Invoke(_inventoryIndex);
         _rayPointer.SetActive(false);
         _buildableObject = null;
         
