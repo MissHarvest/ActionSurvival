@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class BossBreathState : BossAttackState
 {
@@ -8,9 +9,13 @@ public class BossBreathState : BossAttackState
     private float _normalizedTime;
     private bool _alreadyAttack;
 
-    private List<RectAttackIndicator> _indicatores = new();
     private int _prefabCount = 7;
     public List<Projectile> _fireObjects = new();
+
+    private GameObject _meteorPrefab;
+    private GameObject _indicatorPrefab;
+    private IObjectPool<MeteorObject> _meteors;
+    private IObjectPool<RectAttackIndicator> _indicators;
 
     public BossBreathState(BossStateMachine stateMachine) : base(stateMachine)
     {
@@ -18,25 +23,11 @@ public class BossBreathState : BossAttackState
         cooltime = 10.0f;// 30.0f;
         weight = 20.0f;
 
-        var projectilePrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerProjectile.prefab");
-        for(int i = 0; i < _prefabCount; ++i)
-        {
-            var projectile = Object.Instantiate(projectilePrefab, _stateMachine.Boss.transform).GetComponent<Projectile>();
-            projectile.GetComponent<MonsterWeapon>().Owner = _stateMachine.Boss;
-            projectile.gameObject.SetActive(false);
-            _fireObjects.Add(projectile);
-            
-        }
+        _meteorPrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerProjectile.prefab");
+        _indicatorPrefab = Managers.Resource.GetCache<GameObject>("RectAttackIndicator.prefab");
 
-        var indicatorPrefab = Managers.Resource.GetCache<GameObject>("RectAttackIndicator.prefab");
-        var width = indicatorPrefab.GetComponentInChildren<SpriteRenderer>().sprite.bounds.size.x;
-        indicatorPrefab.transform.localScale = new Vector3(0.6f, indicatorPrefab.transform.localPosition.y, _reach/width);
-        for(int i = 0; i < _prefabCount; ++i)
-        {
-            var indicator = Object.Instantiate(indicatorPrefab, _stateMachine.Boss.transform).GetComponent<RectAttackIndicator>();
-            indicator.gameObject.SetActive(false);
-            _indicatores.Add(indicator);
-        }
+        _meteors = new ObjectPool<MeteorObject>(CreateMeteor, OnGetMeteor, OnReleaseMeteor, OnDestroyMeteor, maxSize: 10);
+        _indicators = new ObjectPool<RectAttackIndicator>(CreateIndicator, OnGetIndicator, OnReleaseIndicator, OnDestroyIndicator, maxSize: 10);
     }
 
     public override void Enter()
@@ -74,17 +65,67 @@ public class BossBreathState : BossAttackState
         for(int i = 0; i < _prefabCount; ++i)
         {
             yield return new WaitForSeconds(0.15f);
+
+            var meteor = _meteors.Get();
             var headPosition = _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Head).transform.position;
             var direction = headPosition - _stateMachine.Boss.transform.position;
             direction.y = 0;
             direction.Normalize();
 
-            var pos = new Vector3(headPosition.x, _stateMachine.Boss.transform.position.y, headPosition.z);
-            _indicatores[i].Activate(pos, direction, _reach, 0.2f);
+            Managers.Sound.PlayEffectSound(headPosition, "DragonBreath", 0.6f);
+            meteor.Fire(headPosition, direction, 25.0f, _reach);
 
-            _fireObjects[i].transform.position = headPosition;
-            var destination = headPosition + direction * _reach;
-            _fireObjects[i].Fire(destination, _reach, false);
+            var indicator = _indicators.Get();
+            var pos = new Vector3(headPosition.x, _stateMachine.Boss.transform.position.y, headPosition.z);
+            indicator.Activate(pos, direction, _reach, 0.2f);
         }
     }
+
+    #region Object Pooling
+    private MeteorObject CreateMeteor()
+    {
+        MeteorObject meteor = Object.Instantiate(_meteorPrefab, _stateMachine.ObjectPoolContainer).GetComponent<MeteorObject>();
+        meteor.SetManagedPool(_meteors);
+        meteor.Owner = _stateMachine.Boss;
+        return meteor;
+    }
+
+    private void OnGetMeteor(MeteorObject meteor)
+    {
+        meteor.gameObject.SetActive(true);
+    }
+
+    private void OnReleaseMeteor(MeteorObject meteor)
+    {
+        meteor.gameObject.SetActive(false);
+    }
+
+    private void OnDestroyMeteor(MeteorObject meteor)
+    {
+        Object.Destroy(meteor.gameObject);
+    }
+
+    private RectAttackIndicator CreateIndicator()
+    {
+        RectAttackIndicator indicator =
+            Object.Instantiate(_indicatorPrefab, _stateMachine.ObjectPoolContainer).GetComponent<RectAttackIndicator>();
+        indicator.SetManagedPool(_indicators);
+        return indicator;
+    }
+
+    private void OnGetIndicator(RectAttackIndicator indicator)
+    {
+        indicator.gameObject.SetActive(true);
+    }
+
+    private void OnReleaseIndicator(RectAttackIndicator indicator)
+    {
+        indicator.gameObject.SetActive(false);
+    }
+
+    private void OnDestroyIndicator(RectAttackIndicator indicator)
+    {
+        Object.Destroy(indicator.gameObject);
+    }
+    #endregion
 }

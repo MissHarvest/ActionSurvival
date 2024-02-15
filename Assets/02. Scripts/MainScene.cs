@@ -20,8 +20,6 @@ public class MainScene : MonoBehaviour
         var waitWhile = new WaitWhile(() => loadingUI == null);
         yield return waitWhile;
 
-
-
         // 1. 리소스 로드
         ResourceLoad((key, count, total) =>
         {

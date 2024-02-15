@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,9 @@ public class Projectile : MonoBehaviour
 {
     private bool _isFired;
     private Vector3 _direction;
-    private float _maxDistance;
     private float _moveDistance = 0.0f;
-    private bool _destroy = false;
-
+    public Action OnDestroy;
+    public float MaxDistance { get; private set; }
     [field: SerializeField] public float Speed { get; private set; } = 10.0f;
 
     private void Update()
@@ -18,31 +18,36 @@ public class Projectile : MonoBehaviour
         transform.Translate(Vector3.forward * Time.deltaTime * Speed);
         _moveDistance += Time.deltaTime * Speed;
 
-        if (_maxDistance <= _moveDistance) DestroySelf();
+        if (MaxDistance <= _moveDistance) Destroy();
     }
 
-    public void Fire(Vector3 destination, float maxDistance, bool destroy = true)
+    public void Fire(Vector3 direction, float speed, float maxDistance)
     {
-        //Debug.Log("Fire");
-        gameObject.SetActive(true);
-        _direction = destination - transform.position;
-        transform.rotation = Quaternion.LookRotation(_direction);
-        _direction.Normalize();
-        _maxDistance = maxDistance;
-        _destroy = destroy;
+        direction.Normalize();
+        transform.rotation = Quaternion.LookRotation(direction);
+        Speed = speed;
+        MaxDistance = maxDistance;
         _isFired = true;
     }
 
-    public void DestroySelf()
+    public void Fire(Vector3 start, Vector3 direction, float speed, float maxDistance)
     {
-        if(_destroy)
+        gameObject.transform.position = start;
+        Fire(direction, speed, maxDistance);
+    }
+
+    public void Destroy()
+    {
+        _isFired = false;
+        _moveDistance = 0.0f;
+
+        if (OnDestroy == null)
         {
             Destroy(gameObject);
         }
         else
         {
-            gameObject.SetActive(false);
-            _moveDistance = 0.0f;
+            OnDestroy.Invoke();
         }
     }
 }
