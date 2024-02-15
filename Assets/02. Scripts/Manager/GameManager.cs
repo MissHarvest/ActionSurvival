@@ -16,6 +16,7 @@ public class GameManager
     public Season Season { get; private set; } = new();
     public ArtifactCreator ArtifactCreator { get; private set; }
 
+    public Disaster Disaster { get; private set; } = new();
     public event Action OnSaveCallback;
 
     public World World { get; private set; }
@@ -58,9 +59,17 @@ public class GameManager
         InitIslands();
         ArtifactCreator = new(this);
         Temperature.Init(this);
+        Disaster.Init(Player);
+
         Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
 
         IsRunning = true;
+
+        Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
+            "무엇을 해야할지 모르겠다면,\n퀘스트를 하나씩 해결해봅시다.\n좌측의 퀘스트를 클릭해보세요.",
+            UIWarning.Type.YesOnly,
+            () => { Managers.UI.ClosePopupUI(); },
+            true);
     }
 
     private void SpawnMonster()

@@ -29,6 +29,11 @@ public class BossAttackState : BossBaseState
         StopAnimation(_stateMachine.Boss.AnimationData.BattleParamterHash);
     }
 
+    public virtual void Cancel()
+    {
+
+    }
+
     IEnumerator CoolTime()
     {
         yield return new WaitForSeconds(cooltime);

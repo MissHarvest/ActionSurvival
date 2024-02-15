@@ -11,8 +11,8 @@ public class UIWarning : UIPopup
 {
     public enum Type
     {
-        Disappear,
-        Confirm,
+        YesOnly,
+        YesNo,
     }
 
     enum Texts
@@ -26,6 +26,9 @@ public class UIWarning : UIPopup
         NoButton,
     }
 
+    private HashSet<string> _onceWarnings = new();
+    [SerializeField] private List<string> _save = new();
+
     public override void Initialize()
     {
         base.Initialize();
@@ -37,14 +40,13 @@ public class UIWarning : UIPopup
     private void Awake()
     {
         Initialize();
+        Load();
         gameObject.SetActive(false);
-        SetButtonsActive(false);
     }
 
     private void OnEnable()
     {
-        Get<Button>((int)Buttons.YesButton).onClick.RemoveAllListeners();
-        Managers.Sound.PlayEffectSound(transform.position, "Warning");
+        Get<Button>((int)Buttons.YesButton).onClick.RemoveAllListeners();        
     }
 
     IEnumerator HideAfterSec(float sec)
@@ -56,44 +58,92 @@ public class UIWarning : UIPopup
     private void PrintWarning(string warning)
     {
         Get<TextMeshProUGUI>((int)Texts.WarningText).text = warning;
+        Managers.Sound.PlayEffectSound(transform.position, "Warning");
     }
 
-    private void SetButtonsActive(bool active)
+    private void SetButtonsActive(Type type)
     {
-        Get<Button>((int)Buttons.YesButton).gameObject.SetActive(active);
-        Get<Button>((int)Buttons.NoButton).gameObject.SetActive(active);
+        Get<Button>((int)Buttons.YesButton).gameObject.SetActive(true);
+        Get<Button>((int)Buttons.NoButton).gameObject.SetActive(type == Type.YesNo);
     }
 
-    public void SetWarning(string warning, float time = 1.0f)
+    public void SetWarning(string warning)
     {
         PrintWarning(warning);
-        StartCoroutine(HideAfterSec(time));
+        StartCoroutine(HideAfterSec(1.0f));
     }
 
     public void SetWarning(string warning, UnityAction yesAction)
     {
+        SetWarning(warning, Type.YesOnly, yesAction);
+    }
+
+    public void SetWarning(string warning, Type type, UnityAction yesAction)
+    {
         PrintWarning(warning);
-        SetButtonsActive(true);
+        SetButtonsActive(type);
         Get<Button>((int)Buttons.YesButton).onClick.AddListener(() =>
         {
             Close();
             yesAction.Invoke();
         });
+        Time.timeScale = 0.0f;
     }
 
-    public void SetWarning(string warning, UnityAction yesAction, bool once)
+    public void SetWarning(string warning, Type type, UnityAction yesAction, bool once)
     {
         if(once)
         {
-            // Hash Set
-            // Dic
-            // TryAdd
-
+            if(!_onceWarnings.Contains(warning))
+            {
+                AddWarning(warning);
+                SetWarning(warning, type, yesAction);
+                StartCoroutine(Save());
+            }
+            else
+            {
+                Close();
+            }
         }
+        else
+        {
+            SetWarning(warning, yesAction);
+        }
+    }
+
+    private void AddWarning(string warning)
+    {
+        _onceWarnings.Add(warning);
+        _save.Add(warning);
+    }
+
+    private void OnDisable()
+    {
+        Get<Button>((int)Buttons.YesButton).gameObject.SetActive(false);
+        Get<Button>((int)Buttons.NoButton).gameObject.SetActive(false);
     }
 
     private void Close()
     {
         Managers.UI.ClosePopupUI(this);
+        Time.timeScale = 1.0f;
+    }
+
+    IEnumerator Save()
+    {
+        yield return null;
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile("Guide", json, SaveGame.SaveType.Runtime);
+    }
+
+    private void Load()
+    {
+        if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "Guide"))
+        {
+            foreach(var warning in _save)
+            {
+                _onceWarnings.Add(warning);
+            }
+        }
     }
 }
