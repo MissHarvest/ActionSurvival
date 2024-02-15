@@ -137,8 +137,10 @@ public class MapIlluminator : MonoBehaviour
 
     public virtual void Load()
     {
-        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "Minimap");
-        UpdateColors();
+        if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "Minimap"))
+        {
+            UpdateColors();
+        }
     }
 
     protected virtual void Save()

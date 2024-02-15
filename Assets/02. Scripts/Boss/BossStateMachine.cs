@@ -35,10 +35,12 @@ public class BossStateMachine : StateMachine
     public int Phase { get; private set; } = 1;
 
     public BossAttackState NextAttackState { get; set; } = null;
-
+    public Transform ObjectPoolContainer { get; private set; }
     public BossStateMachine(BossMonster boss)
     {
         this.Boss = boss;
+
+        ObjectPoolContainer = new GameObject("@Pool Container").transform;
 
         boss.HP.OnDecreased += AddMeteorPattern;
 
@@ -78,16 +80,17 @@ public class BossStateMachine : StateMachine
 
     public void InitPattern()
     {
+        for(int i = 0; i < Skills.Count; ++i)
+        {
+            Skills[i].Cancel();
+        }
         Skills.Clear();
-
-        //Skills.Add(ScreamState);
 
         Skills.Add(RushSate);
         Skills.Add(BiteState);
         Skills.Add(ScreamState);
-        Phase = 1;
 
-        MeteorState.StopMeteor();
+        Phase = 1;
     }
 
     public BossAttackState GetUsableSkill()

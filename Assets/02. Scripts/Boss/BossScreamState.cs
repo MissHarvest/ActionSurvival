@@ -10,6 +10,7 @@ public class BossScreamState : BossAttackState
     private float _sfxVolume = 0.7f;
     private Dictionary<int, GameObject> _monsterPrefab = new();
     private Vector3[] _summonPositions;
+    private List<GameObject> _monsterList = new();
 
     public BossScreamState(BossStateMachine stateMachine) : base(stateMachine)
     {
@@ -18,7 +19,7 @@ public class BossScreamState : BossAttackState
         weight = 1.0f;
 
         _monsterPrefab.TryAdd(1, Managers.Resource.GetCache<GameObject>("FireSwarm.prefab"));
-        _monsterPrefab.TryAdd(2, Managers.Resource.GetCache<GameObject>("FireElemental.prefab"));
+        _monsterPrefab.TryAdd(2, Managers.Resource.GetCache<GameObject>("RedMetalon.prefab"));
         _monsterPrefab.TryAdd(3, Managers.Resource.GetCache<GameObject>("RedSoulEater.prefab"));
 
         // Set Position //
@@ -47,20 +48,7 @@ public class BossScreamState : BossAttackState
         _stateMachine.MovementSpeedModifier = 0.0f;
         base.Enter();        
         StartAnimation(_stateMachine.Boss.AnimationData.ScreamParamterHash);
-        if(_stateMachine.isBattaleState == false)
-        {
-            _stateMachine.isBattaleState = true;
-            return;
-        }
-
-        if (_monsterPrefab.TryGetValue(_stateMachine.Phase, out GameObject prefab))
-        {
-            for(int i = 0; i < _summonPositions.Length; ++i)
-            {
-                var monster = Object.Instantiate(prefab, _stateMachine.Boss.transform.position + _summonPositions[i], Quaternion.identity);
-                monster.GetComponent<Monster>().SetBerserkMode();
-            }            
-        }
+        
     }
 
     public override void Exit()
@@ -81,6 +69,38 @@ public class BossScreamState : BossAttackState
         {
             _canScream = false;
             Managers.Sound.PlayEffectSound(_stateMachine.Boss.transform.position, "Scream", _sfxVolume);
+            SummonMonster();
         }       
+    }
+
+    private void SummonMonster()
+    {
+        if (_stateMachine.isBattaleState == false)
+        {
+            _stateMachine.isBattaleState = true;
+            return;
+        }
+
+        if (_monsterPrefab.TryGetValue(_stateMachine.Phase, out GameObject prefab))
+        {
+            for (int i = 0; i < _summonPositions.Length; ++i)
+            {
+                var look = _stateMachine.Target.transform.position - _stateMachine.Boss.transform.position - _summonPositions[i];
+                var monster = Object.Instantiate(prefab,
+                    _stateMachine.Boss.transform.position + _summonPositions[i],
+                    Quaternion.LookRotation(look));
+                monster.GetComponent<Monster>().SetBerserkMode();
+                _monsterList.Add(monster);
+            }
+        }
+    }
+
+    public override void Cancel()
+    {
+        for(int i = 0; i < _monsterList.Count; ++i)
+        {
+            Object.Destroy(_monsterList[i]);
+        }
+        _monsterList.Clear();
     }
 }
