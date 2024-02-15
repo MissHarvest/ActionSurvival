@@ -8,6 +8,7 @@ public class Artifact : MonoBehaviour
     [SerializeField] private ItemDropTable _dropTable;
     [SerializeField] private ArtifactHitbox _hitbox;
     [SerializeField] private MeshFilter _model;
+    private Season _season;
     private float _influenceAmount;
     private Island _island;
     public string IslandName => _island.Property.name;
@@ -22,7 +23,8 @@ public class Artifact : MonoBehaviour
         transform.parent = root;
         _influenceAmount = data.InfluenceAmount;
         _hitbox.SetInfo(data.HPMax, data.HpRegen, currentHP);
-        Managers.Game.Season.OnSeasonChanged += DestroyByNature;
+        _season = Managers.Game.Season;
+        _season.OnSeasonChanged += DestroyByNature;
         SetManagementedObject();
     }
 
@@ -73,6 +75,7 @@ public class Artifact : MonoBehaviour
 
     public void DestroyArtifact()
     {
+        _season.OnSeasonChanged -= DestroyByNature;
         OnDestroy?.Invoke(this);
         ReduceInfluence();
         Destroy(gameObject);
