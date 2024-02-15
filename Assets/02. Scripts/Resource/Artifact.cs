@@ -1,89 +1,80 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class Artifact : MonoBehaviour, IInteractable
+// 2024-02-14 WJY
+public class Artifact : MonoBehaviour
 {
+    [SerializeField] private ItemDropTable _dropTable;
+    [SerializeField] private ArtifactHitbox _hitbox;
+    [SerializeField] private MeshFilter _model;
+    private float _influenceAmount;
     private Island _island;
-    private Vector3 _originPos;
-    private Vector3 _activePos;
-    private Coroutine _animateCoroutine;
-    private bool _isActive;
-
-    public bool IsActive => _isActive;
     public string IslandName => _island.Property.name;
-    public Vector3 OriginPos => _originPos;
+    public float RemainingHP => _hitbox.HP.currentValue;
 
-    public void SetInfo(Island island, bool active, Vector3 pos, Transform root)
+    public event Action<Artifact> OnDestroy;
+
+    public void SetInfo(Island island, Vector3 pos, Transform root, ArtifactData data, float? currentHP = null)
     {
         _island = island;
-        gameObject.tag = "Gather";
         transform.position = pos;
-        _originPos = pos;
-        _activePos = _originPos + Vector3.up;
         transform.parent = root;
-        _isActive = active;
+        _influenceAmount = data.InfluenceAmount;
+        _hitbox.SetInfo(data.HPMax, data.HpRegen, currentHP);
+        Managers.Game.Season.OnSeasonChanged += DestroyByNature;
         SetManagementedObject();
     }
 
-    public void SetActive(bool active)
+    public void SetSharedMesh(Mesh mesh)
     {
-        if (_isActive == active)
-            return;
-
-        _isActive = active;
-
-        SetState();
-        SetInfluence();
-        SetLayer();
+        _model.sharedMesh = mesh;
     }
 
-    public void SetLayer()
+    public void SetDropTable(ItemDropTable table)
     {
-        if (_isActive)
-            gameObject.layer = LayerMask.NameToLayer("Resources");
-        else
-            gameObject.layer = LayerMask.NameToLayer("Default");
+        _dropTable = table;
     }
 
-    public void SetInfluence()
+    public void RaiseInfluence()
     {
-        if (_isActive)
-            _island.Influence += 0.1f;
-        else
-            _island.Influence -= 0.1f;
+        _island.Influence += _influenceAmount;
     }
 
-    public void SetState()
+    public void ReduceInfluence()
     {
-        if (_animateCoroutine != null)
-            StopCoroutine(_animateCoroutine);
-
-        if (_isActive)
-            _animateCoroutine = StartCoroutine(Animate(transform.position, _activePos));
-        else
-            _animateCoroutine = StartCoroutine(Animate(transform.position, _originPos));
+        _island.Influence -= _influenceAmount;
     }
 
     private void SetManagementedObject()
     {
         var manage = gameObject.GetOrAddComponent<ManagementedObject>();
-        manage.Add(GetComponent<Collider>(), typeof(Collider));
-        manage.Add(GetComponent<Renderer>(), typeof(Renderer));
+        manage.Add(_hitbox.GetComponent<Collider>(), typeof(Collider));
+        manage.Add(_model.GetComponent<Renderer>(), typeof(Renderer));
     }
 
-    public void Interact(Player player)
+    public void DestroyByAttack(IAttack attacker)
     {
-        SetActive(false);
-    }
-
-    private IEnumerator Animate(Vector3 fromPos, Vector3 toPos)
-    {
-        for (float t = 0f; t < 0.5f; t += Time.deltaTime)
+        if (attacker is Weapon weapon)
         {
-            transform.position = Vector3.Lerp(fromPos, toPos, t / 0.5f);
-            yield return null;
+            var player = weapon.GetComponentInParent<Player>();
+
+            if (player != null)
+                _dropTable.AddInventory(player.Inventory);
         }
-        transform.position = toPos;
-        _animateCoroutine = null;
+        DestroyArtifact();
+    }
+
+    public void DestroyByNature()
+    {
+        // TODO: Call MonsterWave
+        DestroyArtifact();
+    }
+
+    public void DestroyArtifact()
+    {
+        OnDestroy?.Invoke(this);
+        ReduceInfluence();
+        Destroy(gameObject);
     }
 }

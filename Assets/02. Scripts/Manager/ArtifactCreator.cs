@@ -2,27 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 2024-02-14 WJY
 public class ArtifactCreator
 {
-    [System.Serializable]
     public struct ArtifactSaveData
     {
-        public Vector3 pos;
-        public bool isActive;
-        public string islandName;
+        [System.Serializable]
+        public struct Data
+        {
+            public Vector3 pos;
+            public string islandName;
+            public float remainHP;
+        }
+
+        public List<Data> list;
     }
-    public struct ArtifactSaveDataList
-    {
-        public List<ArtifactSaveData> list;
-    }
-    public ArtifactSaveDataList saveData;
+    public ArtifactSaveData saveData;
 
     private Transform _root;
     private GameManager _manager;
+    private ArtifactData _data;
     public HashSet<Artifact> Artifacts { get; private set; }
 
     public ArtifactCreator(GameManager manager)
     {
+        _data = Managers.Resource.GetCache<ArtifactData>("ArtifactData.data");
         _root = new GameObject("Artifact Root").transform;
         _manager = manager;
         _manager.DayCycle.OnEveningCame += TryCreate;
@@ -34,9 +38,19 @@ public class ArtifactCreator
     public void TryCreate()
     {
         if (_manager.Season.IsIceIslandActive)
-            CoroutineManagement.Instance.StartCoroutine(TryCreate(_manager.IceIsland));
+        {
+            _data.Artifact.SetSharedMesh(_data.Model[1]);
+            _data.Artifact.SetDropTable(_data.LootingData[1]);
+            for (int i = 0; i < _data.CreateCount; i++)
+                CoroutineManagement.Instance.StartCoroutine(TryCreate(_manager.IceIsland));
+        }
         else if (_manager.Season.IsFireIslandActive)
-            CoroutineManagement.Instance.StartCoroutine(TryCreate(_manager.FireIsland));
+        {
+            _data.Artifact.SetSharedMesh(_data.Model[0]);
+            _data.Artifact.SetDropTable(_data.LootingData[0]);
+            for (int i = 0; i < _data.CreateCount; i++)
+                CoroutineManagement.Instance.StartCoroutine(TryCreate(_manager.FireIsland));
+        }
     }
 
     private IEnumerator TryCreate(Island island)
@@ -77,27 +91,35 @@ public class ArtifactCreator
 
     public void Create(Vector3 spawnPosition, Island island)
     {
-        var obj = GameObject.CreatePrimitive(PrimitiveType.Cube).AddComponent<Artifact>();
-        obj.SetInfo(island, false, spawnPosition, _root);
-        obj.SetActive(true);
+        var obj = UnityEngine.Object.Instantiate(_data.Prefab).GetComponent<Artifact>();
+        obj.SetInfo(island, spawnPosition, _root, _data);
+        obj.RaiseInfluence();
         Artifacts.Add(obj);
+        obj.OnDestroy += x => Artifacts.Remove(x);
     }
 
-    public void Create(ArtifactSaveData loadData)
+    public void Create(ArtifactSaveData.Data loadData)
     {
         Island island;
         if (loadData.islandName == "IceIsland")
+        {
+            _data.Artifact.SetSharedMesh(_data.Model[1]);
+            _data.Artifact.SetDropTable(_data.LootingData[1]);
             island = _manager.IceIsland;
+        }
         else if (loadData.islandName == "FireIsland")
+        {
+            _data.Artifact.SetSharedMesh(_data.Model[0]);
+            _data.Artifact.SetDropTable(_data.LootingData[0]);
             island = _manager.FireIsland;
+        }
         else
             return;
 
-        var obj = GameObject.CreatePrimitive(PrimitiveType.Cube).AddComponent<Artifact>();
-        obj.SetInfo(island, loadData.isActive, loadData.pos, _root);
-        obj.SetState();
-        obj.SetLayer();
+        var obj = UnityEngine.Object.Instantiate(_data.Prefab).GetComponent<Artifact>();
+        obj.SetInfo(island, loadData.pos, _root, _data, loadData.remainHP);
         Artifacts.Add(obj);
+        obj.OnDestroy += x => Artifacts.Remove(x);
     }
 
     public void Save()
@@ -105,11 +127,11 @@ public class ArtifactCreator
         saveData.list = new();
         foreach (var artifact in Artifacts)
         {
-            ArtifactSaveData data = new()
+            ArtifactSaveData.Data data = new()
             {
-                pos = artifact.OriginPos,
-                isActive = artifact.IsActive,
+                pos = artifact.transform.position,
                 islandName = artifact.IslandName,
+                remainHP = artifact.RemainingHP,
             };
             saveData.list.Add(data);
         }
@@ -121,8 +143,11 @@ public class ArtifactCreator
 
     public void Load()
     {
-        SaveGame.TryLoadJsonFile(SaveGame.SaveType.Runtime, "Artifacts", out saveData);
-        foreach (var data in saveData.list)
-            Create(data);
+        if (SaveGame.TryLoadJsonFile(SaveGame.SaveType.Runtime, "Artifacts", out saveData))
+        {
+            foreach (var data in saveData.list)
+                Create(data);
+            saveData.list = null;
+        }
     }
 }
