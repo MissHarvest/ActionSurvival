@@ -17,7 +17,6 @@ public class BonFire : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        //Managers.Game.Player.MakeFire.OnMakeFireShowAndHide();
         var ui = Managers.UI.ShowPopupUI<UICooking>();
         ui.SetAdvancedRecipeUIActive(_cookingLevel);
     }

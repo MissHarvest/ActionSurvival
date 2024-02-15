@@ -107,7 +107,7 @@ public class UIMakeFire : UIPopup
 
     private void OnCookingUIPopup()
     {
-        Managers.Game.Player.Cooking.OnCookingShowAndHide();
+        //Managers.Game.Player.Cooking.OnCookingShowAndHide();
     }
 
     private void ClearItems()
