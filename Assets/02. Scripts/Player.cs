@@ -95,6 +95,7 @@ public class Player : MonoBehaviour, IHit
 
     public void Hit(IAttack attacker, float damage) // 인벤토리의 방어구 idx를 찾아서 UseToolItemByIndex()를 Hit가 실행될 때마다 호출
     {
+        //코드 줄이기
         OnHit.Invoke();
         float blockedDamage = damage - playerDefense;
 
@@ -103,7 +104,13 @@ public class Player : MonoBehaviour, IHit
             Managers.Sound.PlayEffectSound(transform.position, "Hit");
             ConditionHandler.HP.Subtract(blockedDamage);
             Debug.Log($"[ Attacked by ] {attacker}");
-        }     
+        }
+        else
+        {
+            Managers.Sound.PlayEffectSound(transform.position, "Hit");
+            ConditionHandler.HP.Subtract(1f);
+            Debug.Log($"[ Attacked by ] {attacker}");
+        }
     }
 
     public void Die()

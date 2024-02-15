@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 using static BossMonster;
@@ -14,7 +16,7 @@ public class UIArmorSlot : UIItemSlot
         Icon,
     }
 
-    public ItemParts part;
+    public ItemParts part;    
 
     public override void Initialize()
     {
@@ -25,9 +27,9 @@ public class UIArmorSlot : UIItemSlot
 
     private void Awake()
     {
-        Initialize();
-        Managers.Game.Player.ToolSystem.OnEquip += EquipArmor;
-        Managers.Game.Player.ToolSystem.OnUnEquip += UnEquipArmor;
+        Initialize();        
+
+        Managers.Game.Player.ArmorSystem.EquipArmor += EquipArmor;
         Managers.Game.Player.ArmorSystem.UnEquipArmor += UnEquipArmor;
     }
 
@@ -35,23 +37,9 @@ public class UIArmorSlot : UIItemSlot
     {
         int parts = GetPart(quickSlot);
 
-        if (parts == 0)
+        if (part == (ItemParts)parts)
         {
-            switch (part)
-            {
-                case ItemParts.Head:
-                    Set(quickSlot.itemSlot);
-                    break;
-            }
-        }
-        else if (parts == 1)
-        {
-            switch (part)
-            {
-                case ItemParts.Body:
-                    Set(quickSlot.itemSlot);
-                    break;
-            }
+            Set(quickSlot.itemSlot);
         }
     }
 
@@ -59,23 +47,9 @@ public class UIArmorSlot : UIItemSlot
     {
         int parts = GetPart(quickSlot);
 
-        if (parts == 0)
+        if (part == (ItemParts)parts)
         {
-            switch (part)
-            {
-                case ItemParts.Head:
-                    Clear();
-                    break;
-            }
-        }
-        else if (parts == 1)
-        {
-            switch (part)
-            {
-                case ItemParts.Body:
-                    Clear();
-                    break;
-            }
+            Clear();
         }
     }
 

@@ -314,7 +314,7 @@ public abstract class UICraftBase : UIPopup
         return true;
     }
 
-    protected void ConsumeItems(List<RecipeSO.Ingredient> items)
+    protected void ConsumeItems(List<RecipeSO.Ingredient> items) //lgs
     {
         foreach (var item in items)
         {

@@ -3416,6 +3416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _quests: []
   _activeQuests: []
+  groups: []
 --- !u!114 &4882961704473241515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3428,6 +3429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8ec18bd4b45d44479e113868831db2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defense: 0
   _linkedSlots: []
 --- !u!1 &7392496694934527924
 GameObject:

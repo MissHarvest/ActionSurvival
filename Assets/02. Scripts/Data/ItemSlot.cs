@@ -67,6 +67,11 @@ public class ItemSlot
         // To Do ) 소모해야하는 양 보다 가지고 있는게 적으면 실패하는 로직
     }
 
+    public void FirewoodItemSubtractQuantity(int amount)
+    {
+        this.quantity = Math.Max(this.quantity - amount, 0);
+    }
+
     public void LoadData()
     {
         if (itemName == string.Empty) return;
@@ -81,7 +86,7 @@ public class ItemSlot
         this.itemData = item;
         this.itemName = item.name;
         this.quantity = quantity;
-        this.currentDurability = (itemData is EquipItemData toolItem) ? toolItem.maxDurability : 0f; //lgs 24.02.06
+        this.currentDurability = (itemData is EquipItemData toolItem) ? toolItem.maxDurability : 0f;
     }
 
     public void Set(ItemSlot itemSlot)

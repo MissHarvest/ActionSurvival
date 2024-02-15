@@ -38,7 +38,7 @@ public class UIInventorySlot : UIItemSlot
 
     public void UpdateDurabilityUI(ItemSlot itemSlot)
     {
-        if (itemSlot.itemData is EquipItemData toolItem) //lgs 24.02.06
+        if (itemSlot.itemData is EquipItemData toolItem)
         {
             if (itemSlot.itemData.displayName != "빈 손")
             {
