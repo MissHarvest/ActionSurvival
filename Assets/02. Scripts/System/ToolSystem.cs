@@ -52,11 +52,15 @@ public class ToolSystem : MonoBehaviour
 
 
         Equip(EmptyHand);
+
+        Load();
+
+        Managers.Game.OnSaveCallback += Save;
     }
 
     private void Start()
     {
-        Managers.Game.Player.QuickSlot.OnUnRegisted += OnItemUnregisted; //lgs 얘를 ArmorSlot에도 구독을
+        Managers.Game.Player.QuickSlot.OnUnRegisted += OnItemUnregisted;
     }
 
     public void Equip(QuickSlot slot)
@@ -188,5 +192,22 @@ public class ToolSystem : MonoBehaviour
     public void UnEquipArmor(QuickSlot slot)
     {
         UnEquip(slot);
+    }
+
+    private void Load()
+    {
+        if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "ToolSystem"))
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                Equipments[i].itemSlot.LoadData();
+            }
+        }
+    }
+
+    private void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile("ToolSystem", json, SaveGame.SaveType.Runtime);
     }
 }

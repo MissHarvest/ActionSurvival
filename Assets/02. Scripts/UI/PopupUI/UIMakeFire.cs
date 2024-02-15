@@ -72,7 +72,6 @@ public class UIMakeFire : UIPopup
             TextMeshProUGUI itemQuantity = itemUI.GetComponentInChildren<TextMeshProUGUI>();
 
             itemIcon.sprite = item.itemData.iconSprite;
-
             itemQuantity.text = item.quantity.ToString();
 
             itemUI.BindEvent((x) => { ShowStoreFirewoodPopupUI(item); });
@@ -83,9 +82,19 @@ public class UIMakeFire : UIPopup
 
     private void ShowStoreFirewoodPopupUI(ItemSlot itemSlot)
     {
+        int index = 0;
+
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i] == itemSlot)
+            {
+                index = i;
+            }
+        }
+
         //여기서 Index를 넘겨주는 방법
         var pos = new Vector3(_firewoodItems.position.x - 100, _firewoodItems.position.y, _firewoodItems.position.z);
-        _firewoodHelper.ShowOption(itemSlot, pos);
+        _firewoodHelper.ShowOption(itemSlot, pos, index);
     }
 
     private void GetFirewoodItems()

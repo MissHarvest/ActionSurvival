@@ -14,6 +14,7 @@ public class UIStoreFirewoodHelper : UIBase
         Container,
         MinusButton,
         PlusButton,
+        TakeoutButton,
         StoreButton
     }
 
@@ -31,6 +32,7 @@ public class UIStoreFirewoodHelper : UIBase
     private GameObject _container;
     private GameObject _minusButton;
     private GameObject _plusButton;
+    private GameObject _takeoutButton;
     private GameObject _storeButton;
 
     private TextMeshProUGUI _quantityText;
@@ -39,6 +41,7 @@ public class UIStoreFirewoodHelper : UIBase
     private Image _icon;
     private int _count = 0;
     private int _maxCount;
+    private int _index;
 
     private UIMakeFire _makeFireUI;
 
@@ -51,6 +54,7 @@ public class UIStoreFirewoodHelper : UIBase
         _container = Get<GameObject>((int)GameObjects.Container);
         _minusButton = Get<GameObject>((int)GameObjects.MinusButton);
         _plusButton = Get<GameObject>((int)GameObjects.PlusButton);
+        _takeoutButton = Get<GameObject>((int)GameObjects.TakeoutButton);
         _storeButton = Get<GameObject>((int)GameObjects.StoreButton);
 
         _quantityText = Get<TextMeshProUGUI>((int)Texts.QuantityText);
@@ -60,6 +64,7 @@ public class UIStoreFirewoodHelper : UIBase
 
         _minusButton.BindEvent((x) => { OnMinusQuantity(); });
         _plusButton.BindEvent((x) => { OnPlusQuantity(); });
+        _takeoutButton.BindEvent((x) => { OnTakeoutQuantity(); });
         _storeButton.BindEvent((x) => { OnStoreQuantity(); });
         gameObject.BindEvent((x) => { gameObject.SetActive(false); });
     }
@@ -71,7 +76,7 @@ public class UIStoreFirewoodHelper : UIBase
         _makeFireUI = GetComponentInParent<UIMakeFire>();
     }
 
-    public void ShowOption(ItemSlot selectedSlot, Vector3 position)
+    public void ShowOption(ItemSlot selectedSlot, Vector3 position, int index)
     {
         int FirewoodHaveInventory = Managers.Game.Player.Inventory.GetItemCount(selectedSlot.itemData);
         _maxCount = FirewoodHaveInventory;
@@ -87,23 +92,35 @@ public class UIStoreFirewoodHelper : UIBase
         _quantityHaveText.text = "보유:" + FirewoodHaveInventory.ToString();
 
         _container.transform.position = position;
+        _index = index;
+    }
+
+    private void OnTakeoutQuantity()
+    {
+        var itemSlots = _makeFireUI.itemSlots[_index];
+
+        if (itemSlots.quantity > 0)
+        {
+            Managers.Game.Player.Inventory.AddItem(itemSlots.itemData, itemSlots.quantity);
+            _makeFireUI.itemSlots[_index].FirewoodItemSubtractQuantity(itemSlots.quantity);
+
+            _makeFireUI.SetIngredients();
+
+            gameObject.SetActive(false);
+        }
     }
 
     private void OnStoreQuantity()
     {
-        //GetComponentParant로 UIMakeFire class를 받아와서 그 안의 _itemSlot의 데이터를 이용한다면
-        //_itemSlot의 quantity는 _count 만큼 증가, Inventory의 quantity는 감소
-        //빼기 버튼
-        //요리가 등록되면 장작을 소모하여 점화버튼을 누를 수 있게 된다.
-        //요리에 소요되는 시간이 추가된다.
-        //요리가 끝나면 이미 활성화된 화력게이지는 되돌릴 수 없고 점화가 끝나면 장작을 더 소모하지 않는다.
+        if (_count > 0)
+        {
+            _makeFireUI.itemSlots[_index].AddQuantity(_count);
+            Managers.Game.Player.Inventory.RemoveItem(_makeFireUI.itemSlots[_index].itemData, _count);
 
-        _makeFireUI.itemSlots[1].AddQuantity(_count);
-        Managers.Game.Player.Inventory.RemoveItem(_makeFireUI.itemSlots[1].itemData , _count);
+            _makeFireUI.SetIngredients();
 
-        _makeFireUI.SetIngredients();
-
-        gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }        
     }
 
     private void OnMinusQuantity()

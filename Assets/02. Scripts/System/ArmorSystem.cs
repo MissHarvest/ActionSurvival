@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.Port;
 // Lee gyuseong 24.02.07 save 기능 추가 필요
@@ -20,6 +21,10 @@ public class ArmorSystem : MonoBehaviour
         Managers.Game.Player.ToolSystem.OnEquip += DefenseOfTheEquippedArmor;
         Managers.Game.Player.ToolSystem.OnUnEquip += DefenseOfTheUnEquippedArmor;
         Managers.Game.Player.OnHit += Duration;
+
+        Load();
+
+        Managers.Game.OnSaveCallback += Save;
     }
     private void Start()
     {
@@ -89,5 +94,28 @@ public class ArmorSystem : MonoBehaviour
         ItemData armor = quickSlot.itemSlot.itemData;
         EquipItemData toolItemDate = (EquipItemData)armor;
         return toolItemDate;
+    }
+
+    private void UpdatePlayerDefense()
+    {
+        Managers.Game.Player.playerDefense = _defense;
+    }
+
+    private void Load()
+    {
+        if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "ArmorSystem"))
+        {
+            for (int i = 0; i < _linkedSlots.Length; ++i)
+            {
+                _linkedSlots[i].itemSlot.LoadData();
+            }
+            UpdatePlayerDefense();
+        }
+    }
+
+    private void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile("ArmorSystem", json, SaveGame.SaveType.Runtime);
     }
 }

@@ -67,6 +67,11 @@ public class ItemSlot
         // To Do ) 소모해야하는 양 보다 가지고 있는게 적으면 실패하는 로직
     }
 
+    public void FirewoodItemSubtractQuantity(int amount)
+    {
+        this.quantity = Math.Max(this.quantity - amount, 0);
+    }
+
     public void LoadData()
     {
         if (itemName == string.Empty) return;
