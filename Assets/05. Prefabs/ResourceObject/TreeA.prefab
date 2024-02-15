@@ -151,7 +151,6 @@ GameObject:
   - component: {fileID: 5345412286509698188}
   - component: {fileID: 6206163771409912744}
   - component: {fileID: 491641817130490846}
-  - component: {fileID: 4823318810602812722}
   m_Layer: 6
   m_Name: gathering
   m_TagString: Fell
@@ -305,22 +304,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6667244048229858184}
   m_Mesh: {fileID: 1424200115404124385, guid: f222748f1796b2e49a56a2fbf7563247, type: 3}
---- !u!208 &4823318810602812722
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6667244048229858184}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.35, y: 1.18, z: 0.35}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.88, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &8307394930990584907
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,7 +318,6 @@ GameObject:
   - component: {fileID: 3110910010833716636}
   - component: {fileID: 6326058740919090293}
   - component: {fileID: 8045222565640756299}
-  - component: {fileID: 7908536352122536291}
   m_Layer: 0
   m_Name: debris
   m_TagString: Untagged
@@ -460,22 +442,6 @@ MonoBehaviour:
   _maxRange: 1
   _minRange: 0
   _maxCreateCount: 3
---- !u!208 &7908536352122536291
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8307394930990584907}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.35, y: 0.35, z: 0.35}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.33, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &9210951989395445071
 GameObject:
   m_ObjectHideFlags: 0

@@ -67,7 +67,7 @@ public class GameManager
     {
         int cnt = 1;
 
-        if (Season.CurrentValue >= 1f)
+        if (Season.CurrentValue >= 0f)
         {
             for (int i = 0; i < cnt; ++i)
                 MonsterWave.AddOverFlowedMonster(FireIsland.Spawn());

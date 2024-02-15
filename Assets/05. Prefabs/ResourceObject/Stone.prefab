@@ -59,7 +59,6 @@ GameObject:
   - component: {fileID: 4561663786585028356}
   - component: {fileID: 7389667960140680280}
   - component: {fileID: 7947317314813096681}
-  - component: {fileID: 797942926496155597}
   m_Layer: 6
   m_Name: gathering
   m_TagString: Gather
@@ -193,22 +192,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.3
   m_Center: {x: -0.0055204257, y: 0.12129615, z: 0.002885133}
---- !u!208 &797942926496155597
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7933995243697119440}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 0
-  m_Extents: {x: 0.3, y: 0.15, z: 0.3}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: -0.006, y: 0.12100001, z: 0.003}
-  m_TimeToStationary: 0.5
 --- !u!1 &9187520403170027342
 GameObject:
   m_ObjectHideFlags: 0
