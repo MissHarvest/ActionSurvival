@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetCornerQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uC625\uC218\uC218\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
-  questID: 25
+  questID: 24
   preQuests:
   - {fileID: 11400000, guid: 46d85273e74a00c48b1f33e3a0eaa1f5, type: 2}
   requiredItems:
