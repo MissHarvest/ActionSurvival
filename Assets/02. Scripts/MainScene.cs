@@ -9,6 +9,8 @@ public class MainScene : MonoBehaviour
     public CinemachineVirtualCamera virtualCamera;
     private IEnumerator Start()
     {
+        Managers.Game.Clear();
+
         UILoadingScene loadingUI = null;
         // 0. 로딩씬 UI open
         Managers.Resource.LoadAsync<UnityEngine.Object>("UILoadingScene.prefab", (obj) =>
