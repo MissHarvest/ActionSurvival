@@ -45,7 +45,6 @@ public class MainScene : MonoBehaviour
                     // SaveData.CheckPlayerData
 
                     loadingUI.ReceiveCallbacks($"Game Initialize ...");
-                    SpawnPlayer();
 
                     Managers.Data.InitializeRecipeData();
                     Managers.Sound.Init();
@@ -53,15 +52,12 @@ public class MainScene : MonoBehaviour
                     Managers.Game.GenerateNavMeshAsync(callback: op =>
                     {
                         // 4. NavMesh 생성
-                        var mon = Managers.Resource.GetCache<GameObject>("Slime.prefab");
-                        Instantiate(mon);
-                        Managers.Game.Init();
-                        
+                        SpawnPlayer();
                         UIInitialize();
+                        Managers.Game.Init();
 
                         var camera = Managers.Resource.GetCache<GameObject>("MinimapCamera.prefab");
                         Instantiate(camera);
-
 
                         watch.Stop();
                         UnityEngine.Debug.Log($"Game Generated {watch.ElapsedMilliseconds} ms");

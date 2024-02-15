@@ -55,9 +55,9 @@ public class Artifact : MonoBehaviour
 
     public void DestroyByAttack(IAttack attacker)
     {
-        if (attacker is Weapon weapon)
+        if (attacker is Behaviour behaviour)
         {
-            var player = weapon.GetComponentInParent<Player>();
+            var player = behaviour.GetComponentInParent<Player>();
 
             if (player != null)
                 _dropTable.AddInventory(player.Inventory);
