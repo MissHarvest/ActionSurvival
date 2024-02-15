@@ -60,7 +60,7 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("MasterCraftingTableItemData.data");
         AddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("HighCraftingTableItemData.data");
+        itemData = Managers.Resource.GetCache<ItemData>("AdvancedCraftingTableItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("UsableCraftingTableItemData.data");
         AddItem(itemData, 1);
@@ -87,8 +87,8 @@ public class InventorySystem : MonoBehaviour
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("FurnaceItemData.data");
         AddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
-        AddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("StickItemData.data");
+        AddItem(itemData, 19);
         itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
         AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("AxeItemData.data");
@@ -229,41 +229,51 @@ public class InventorySystem : MonoBehaviour
 
     public bool IsFull(ItemData completedItem, int quantity)
     {
-        int totalQuantity = 0;
+        int totalCanStackQuantity = 0;
+        int emptySlots = 0;
 
         for (int i = 0; i < slots.Length; ++i)
         {
             if (!completedItem.stackable)
             {
-                if (slots[i].itemData == null)
+                // 스택 불가능한 아이템의 경우, quantity만큼 빈 슬롯이 있어야 함
+                if (slots[i].itemData == null && quantity > 0)
                 {
-                    return false;
+                    quantity--;
                 }
             }
             else
             {
+                int canStackQuantity = 0;
                 // 스택 가능한 아이템의 경우, 빈 슬롯 또는 같은 아이템이 있는 슬롯을 찾아 확인
                 if (slots[i].itemData == null)
                 {
-                    return false;
+                    emptySlots++;
                 }
-                else if (slots[i].itemData == completedItem && slots[i].quantity < ItemData.maxStackCount)
+                else if (slots[i].itemData == completedItem)
                 {
-                    totalQuantity += slots[i].quantity;
+                    canStackQuantity = ItemData.maxStackCount - slots[i].quantity;
+                    totalCanStackQuantity += canStackQuantity;
                 }
             }
         }
 
-        // 아이템이 들어갈 자리가 있는지와 수량을 함께 확인
-        if (totalQuantity + quantity <= ItemData.maxStackCount)
+        if (!completedItem.stackable && quantity > 0)
         {
-            return false;
+            Debug.Log($"아이템 ({completedItem.name})이 들어갈 자리가 없어요");
+            return true;
         }
 
-        Debug.Log("아이템이 들어갈 자리가 없어요");
-        return true;
+        if (completedItem.stackable)
+        {
+            if (emptySlots * ItemData.maxStackCount + totalCanStackQuantity < quantity)
+            {
+                Debug.Log($"아이템 ({completedItem.name})이 들어갈 자리가 없어요");
+                return true;
+            }
+        }
+        return false;
     }
-
 
     public void TransitionItem(InventorySystem targetInventory, int index)
     {

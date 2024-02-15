@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -164,7 +165,7 @@ public abstract class UICraftBase : UIPopup
                             var warning = Managers.UI.ShowPopupUI<UIWarning>();
                             warning.SetWarning("인벤토리가 가득 찼습니다.");
                             _count = 1;
-                            break;
+                            return;
                         }
                         else
                         {
@@ -181,6 +182,7 @@ public abstract class UICraftBase : UIPopup
                         var warning = Managers.UI.ShowPopupUI<UIWarning>();
                         warning.SetWarning("인벤토리가 가득 찼습니다.");
                         _count = 1;
+                        return;
                     }
                     else
                     {

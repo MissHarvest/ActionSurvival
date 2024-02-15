@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: "\uBC2D"
   description: "\uB2E4\uC591\uD55C \uC791\uBB3C\uC744 \uC7AC\uBC30\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
-  iconSprite: {fileID: 21300000, guid: 9b93b28672c3b5648a8e4701a14a1945, type: 3}
+  iconSprite: {fileID: 21300000, guid: 018d9206380983649ad87135c14d2326, type: 3}
   part: 2
   maxDurability: 10
+  defense: 0
   targetLayers:
     serializedVersion: 2
     m_Bits: 1
