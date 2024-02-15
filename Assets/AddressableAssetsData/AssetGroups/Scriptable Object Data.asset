@@ -828,7 +828,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 179ea1dce58512841970cdb278d38465
-    m_Address: HighCraftingTableItemData.data
+    m_Address: AdvancedCraftingTableItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -846,7 +846,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b663eea37764648429bbe3d275872bd5
-    m_Address: HighCraftingTableRecipeData.data
+    m_Address: AdvancedCraftingTableRecipeData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

@@ -60,7 +60,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 934ef6efdd875324fb1cdbdfa1b2f772
-    m_Address: Architecture_HighCraftingTable.prefab
+    m_Address: Architecture_UsableCraftingTable.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -72,7 +72,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 68afa36fc40b60a489db6a5b8792647c
-    m_Address: Architecture_UsableCraftingTable.prefab
+    m_Address: Architecture_AdvancedCraftingTable.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

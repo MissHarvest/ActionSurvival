@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetLowStoneQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uD558\uAE09 \uB9C8\uC11D\uC744 \uD68D\uB4DD\uD558\uC138\uC694."
-  questID: 21
+  questID: 22
   preQuests:
   - {fileID: 11400000, guid: d5c5531c0bec0ef4db3b5fc47e9acaa5, type: 2}
   requiredItems:
