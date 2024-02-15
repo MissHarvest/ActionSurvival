@@ -12,6 +12,7 @@ public class ArmorSystem : MonoBehaviour
 
     public QuickSlot[] _linkedSlots;
 
+    public event Action<QuickSlot> EquipArmor;
     public event Action<QuickSlot> UnEquipArmor;
 
     private void Awake()
@@ -26,6 +27,7 @@ public class ArmorSystem : MonoBehaviour
 
         Managers.Game.OnSaveCallback += Save;
     }
+
     private void Start()
     {
         Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
@@ -40,6 +42,7 @@ public class ArmorSystem : MonoBehaviour
         if ((int)toolItemData.part == 0 || (int)toolItemData.part == 1)
         {
             _linkedSlots[(int)toolItemData.part] = quickSlot;
+            EquipArmor?.Invoke(quickSlot);
         }
     }
 
@@ -52,6 +55,7 @@ public class ArmorSystem : MonoBehaviour
         if ((int)toolItemData.part == 0 || (int)toolItemData.part == 1)
         {
             _linkedSlots[(int)toolItemData.part] = null;
+            UnEquipArmor?.Invoke(quickSlot);
         }
     }
 

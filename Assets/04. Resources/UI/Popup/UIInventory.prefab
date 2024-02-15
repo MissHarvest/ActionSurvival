@@ -1206,7 +1206,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8716235057107259487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e407f25a4d90f64d958898a82d544c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 72d4066a17b07f94ba7440db179d11b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _armorSlotPrefab: {fileID: 5607250664966926976, guid: 702cd94173ec0ed4c9f1c1211fc093c5, type: 3}
