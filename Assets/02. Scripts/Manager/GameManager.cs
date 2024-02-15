@@ -13,6 +13,8 @@ public class GameManager
     public ArchitectureManager Architecture { get; private set; } = new();
     public ObjectManager ObjectManager { get; private set; } = new();
     public DayCycle DayCycle { get; private set; } = new DayCycle();
+    public Season Season { get; private set; } = new();
+    public ArtifactCreator ArtifactCreator { get; private set; }
 
     public event Action OnSaveCallback;
 
@@ -45,14 +47,16 @@ public class GameManager
         DayCycle.Init();
         DayCycle.OnEveningCame += SpawnMonster;
         DayCycle.OnNightCame += StartMonsterWave;
-        
+        DayCycle.OnMorningCame += SaveCallback;
+        DayCycle.OnDateUpdated += Season.Update;
+        Season.Initialize(DayCycle.Date);
+
         Architecture.Init();
         
-        DayCycle.OnMorningCame += SaveCallback;
-
         ResourceObjectSpawner.Initialize();
         
         InitIslands();
+        ArtifactCreator = new(this);
         Temperature.Init(this);
         Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
 
@@ -62,21 +66,16 @@ public class GameManager
     private void SpawnMonster()
     {
         int cnt = 1;
-        switch(DayCycle.Season)
-        {
-            case Season.Summer:
-                for(int i = 0; i < cnt; ++i)
-                {
-                    MonsterWave.AddOverFlowedMonster(FireIsland.Spawn());
-                }
-                break;
 
-            case Season.Winter:
-                for (int i = 0; i < cnt; ++i)
-                {
-                    MonsterWave.AddOverFlowedMonster(IceIsland.Spawn());
-                }
-                break;
+        if (Season.CurrentValue >= 1f)
+        {
+            for (int i = 0; i < cnt; ++i)
+                MonsterWave.AddOverFlowedMonster(FireIsland.Spawn());
+        }
+        else
+        {
+            for (int i = 0; i < cnt; ++i)
+                MonsterWave.AddOverFlowedMonster(IceIsland.Spawn());
         }
     }
 
