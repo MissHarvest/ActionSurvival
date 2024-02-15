@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Schema;
+using UnityEditor;
 using UnityEngine;
 using static UIBase;
 
@@ -119,11 +120,11 @@ public class Tutorial : MonoBehaviour
         var targetName = quest.questSO.targetName;
 
         var targets = Physics.SphereCastAll(transform.position, 50.0f, Vector3.up, 0, targetLayer);
-        if (targetLayer == LayerMask.GetMask("Architecture"))
-            targets = targets.Where(x => x.transform.name.Contains(targetName)).ToArray();
-        else
+        if (targetLayer == LayerMask.GetMask("Resources"))
             targets = targets.Where(x => x.transform.parent.name.Contains(targetName)).ToArray();
-        
+        else
+            targets = targets.Where(x => x.transform.name.Contains(targetName)).ToArray();
+
         if (targets.Length > 0)
         {
             targets = targets.OrderBy(x => (transform.position - x.collider.gameObject.transform.position).sqrMagnitude).ToArray();

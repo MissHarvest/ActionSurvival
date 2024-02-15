@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: "\uCD5C\uACE0\uAE09 \uC81C\uC791\uB300"
   description: "\uB808\uBCA8 1~5\uC758 \uC544\uC774\uD15C\uC744 \uC81C\uC791\uD560
     \uC218 \uC788\uC2B5\uB2C8\uB2E4."
-  iconSprite: {fileID: 21300000, guid: 6b22156af64babe4f9bff6441c5b942f, type: 3}
+  iconSprite: {fileID: 21300000, guid: 35f8ca198d47bea44bb16dff1e0ee0a7, type: 3}
   part: 2
   maxDurability: 10
   defense: 0
