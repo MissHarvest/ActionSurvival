@@ -7,7 +7,6 @@ using UnityEngine;
 [Serializable]
 public struct VerticesArray
 {
-    [SerializeField]
     public Vector3[] Verticearray;
 }
 
@@ -25,9 +24,9 @@ public class MapIlluminator : MonoBehaviour
     private GameObject[] _shadowPlanes;
     private Transform _player;
     private Mesh[] _meshes;
-    [SerializeField] private LayerMask _shadowLayer;
+    private LayerMask _shadowLayer;
 
-    [SerializeField] private VerticesArray[] _verticesArray;
+    private VerticesArray[] _verticesArray;
     [SerializeField] private ColorsArray[] _colorsArray;
 
     private float _shadowRadius = 250f;
@@ -49,6 +48,7 @@ public class MapIlluminator : MonoBehaviour
         _shadowPlanePrefab = Managers.Resource.GetCache<GameObject>("ShadowPlane.prefab");
         _shadowPlanes = new GameObject[_numPlanesX * _numPlanesZ];
         _meshes = new Mesh[_shadowPlanes.Length];
+        _shadowLayer = LayerMask.GetMask("ShadowLayer");
         _verticesArray = new VerticesArray[_shadowPlanes.Length];
         _colorsArray = new ColorsArray[_shadowPlanes.Length];
 
@@ -137,19 +137,13 @@ public class MapIlluminator : MonoBehaviour
 
     public virtual void Load()
     {
-        for (int i = 0; i < _shadowPlanes.Length; i++)
-        {
-            SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "Minimap" + i.ToString());
-        }
+        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "Minimap".ToString());
         UpdateColors();
     }
 
     protected virtual void Save()
     {
-        for (int i = 0; i < _shadowPlanes.Length; i++)
-        {
-            var json = JsonUtility.ToJson(this);
-            SaveGame.CreateJsonFile("Minimap" + i.ToString(), json, SaveGame.SaveType.Runtime);
-        }
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile("Minimap".ToString(), json, SaveGame.SaveType.Runtime);
     }
 }

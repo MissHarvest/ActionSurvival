@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6618646695676425515}
   - component: {fileID: 5251574431434481794}
   - component: {fileID: 1785269966408480581}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beholder
   m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}

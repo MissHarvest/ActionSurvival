@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetSeedQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uC528\uC557\uC744 \uC2EC\uC73C\uC138\uC694."
-  questID: 24
+  questID: 23
   preQuests:
   - {fileID: 11400000, guid: efe56df77ff0ab34da0563bbf7ed4504, type: 2}
   requiredItems:
@@ -21,6 +21,6 @@ MonoBehaviour:
     quantity: 1
   targetLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2048
   targetName: Farm
   type: 0
