@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.Port;
-// Lee gyuseong 24.02.07 save 기능 추가 필요
+// Lee gyuseong 24.02.07
 
 public class ArmorSystem : MonoBehaviour
 {

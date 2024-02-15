@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// Lee gyuseong 24.02.15
 
 public class ArmorSlot : MonoBehaviour
 {

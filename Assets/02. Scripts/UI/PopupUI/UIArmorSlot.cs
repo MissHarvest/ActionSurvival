@@ -7,7 +7,7 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 using static BossMonster;
-// Lee gyuseong 24.02.06 save 기능 추가 필요
+// Lee gyuseong 24.02.06
 
 public class UIArmorSlot : UIItemSlot
 {
