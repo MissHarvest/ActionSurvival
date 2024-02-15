@@ -15,7 +15,7 @@ MonoBehaviour:
   questUIName: "\uC74C\uC2DD\uC744 \uC81C\uC791\uD558\uC138\uC694."
   questID: 14
   preQuests:
-  - {fileID: 11400000, guid: bf444c302e1270c47acc2c4cead346f9, type: 2}
+  - {fileID: 11400000, guid: da8a62d672b334745b80036b36d81c4d, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 60dd9118767b00249add97e13f638595, type: 2}
     quantity: 1

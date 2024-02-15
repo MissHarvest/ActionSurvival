@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GetHammerQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uB9DD\uCE58\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 19
+  questID: 25
   preQuests:
-  - {fileID: 11400000, guid: 8543ba92286b3344d9f3946e8e2aa30b, type: 2}
+  - {fileID: 11400000, guid: e1cdeb553f9568642920a378ac9dbfb8, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 9298f9989d0cf5f4ca96ac5ffde6eec0, type: 2}
     quantity: 1

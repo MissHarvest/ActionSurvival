@@ -15,7 +15,7 @@ MonoBehaviour:
   <Model>k__BackingField:
   - {fileID: 4300062, guid: eb8566b6e75507e48bd8ec4fff8f4dd9, type: 3}
   - {fileID: 4300052, guid: eb8566b6e75507e48bd8ec4fff8f4dd9, type: 3}
-  <HPMax>k__BackingField: 10
+  <HPMax>k__BackingField: 1
   <HpRegen>k__BackingField: 0
   <InfluenceAmount>k__BackingField: 0.03
   <LootingData>k__BackingField:

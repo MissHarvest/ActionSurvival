@@ -29,7 +29,7 @@ public class World : MonoBehaviour
 
     private void Update()
     {
-        if (!_isDone) return;
+        if (!Managers.Game.IsRunning) return;
 
         if (!_player)
             _player = Managers.Game.Player.transform;

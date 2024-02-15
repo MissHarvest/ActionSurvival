@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BuildChestQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uBCF4\uAD00\uD568\uC744 \uC124\uCE58\uD558\uC138\uC694."
-  questID: 21
+  questID: 20
   preQuests:
   - {fileID: 11400000, guid: ec8fc7171890a0642bfbf81f5483b777, type: 2}
   requiredItems:
