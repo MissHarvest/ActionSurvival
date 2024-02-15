@@ -13,16 +13,18 @@ MonoBehaviour:
   m_Name: LuxuriousSetCookingData
   m_EditorClassIdentifier: 
   itemName: LuxuriousSet
-  recipeID: 24
+  recipeID: 20
   completedItemData: {fileID: 11400000, guid: e24cec6279a69f94093c8834f2550ff0, type: 2}
-  IsAdvancedRecipe: 0
+  recipeLevel: 3
   Quantity: 1
   requiredItems:
-  - item: {fileID: 11400000, guid: 9910fbaa1ab0a0745900d8c7fc6f25f0, type: 2}
-    quantity: 2
-  - item: {fileID: 11400000, guid: fdfb6677cc678244ea9dcb9d2292074c, type: 2}
-    quantity: 2
-  - item: {fileID: 11400000, guid: 3721c8ba8e74a7442838a963bed67ed9, type: 2}
-    quantity: 4
+  - item: {fileID: 11400000, guid: 68a9bba7c97dc024f84ab4c246757bad, type: 2}
+    quantity: 5
   - item: {fileID: 11400000, guid: 4cd9d4b48a7918e40be7d99d3ef3e74d, type: 2}
-    quantity: 2
+    quantity: 10
+  - item: {fileID: 11400000, guid: e52fd14ba5118174b89e456530a2ab8e, type: 2}
+    quantity: 5
+  - item: {fileID: 11400000, guid: fdfb6677cc678244ea9dcb9d2292074c, type: 2}
+    quantity: 5
+  - item: {fileID: 11400000, guid: 9910fbaa1ab0a0745900d8c7fc6f25f0, type: 2}
+    quantity: 1

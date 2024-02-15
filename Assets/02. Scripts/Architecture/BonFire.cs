@@ -3,6 +3,7 @@ using UnityEngine;
 // 2024. 01. 16 Byun Jeongmin
 public class BonFire : MonoBehaviour, IInteractable
 {
+    [SerializeField] private int _cookingLevel = 0;
     private AudioSource _audioSource;
 
     private void Awake()
@@ -16,7 +17,8 @@ public class BonFire : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        //Managers.Game.Player.Cooking.OnCookingShowAndHide(); lgs 24.02.13
-        Managers.Game.Player.MakeFire.OnMakeFireShowAndHide();
+        //Managers.Game.Player.MakeFire.OnMakeFireShowAndHide();
+        var ui = Managers.UI.ShowPopupUI<UICooking>();
+        ui.SetAdvancedRecipeUIActive(_cookingLevel);
     }
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: "\uD1A0\uB07C \uACE0\uAE30"
   description: 
-  iconSprite: {fileID: 21300000, guid: eab87f10d2afa594c92ed3d29451b618, type: 3}
+  iconSprite: {fileID: 21300000, guid: a7af9b5d6fe39c4499bf80d7b9b1de02, type: 3}
   conditionModifier:
   - Condition: 1
-    value: 2
+    value: 10
