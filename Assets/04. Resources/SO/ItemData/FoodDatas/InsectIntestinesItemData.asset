@@ -17,4 +17,4 @@ MonoBehaviour:
   iconSprite: {fileID: 21300000, guid: fa625e6d2e7a001439cfe28b81b5eb1a, type: 3}
   conditionModifier:
   - Condition: 1
-    value: 10
+    value: 20

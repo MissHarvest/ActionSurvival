@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -164,7 +165,7 @@ public abstract class UICraftBase : UIPopup
                             var warning = Managers.UI.ShowPopupUI<UIWarning>();
                             warning.SetWarning("인벤토리가 가득 찼습니다.");
                             _count = 1;
-                            break;
+                            return;
                         }
                         else
                         {
@@ -175,13 +176,13 @@ public abstract class UICraftBase : UIPopup
                 }
                 else
                 {
-                    
                     if (Managers.Game.Player.Inventory.IsFull(completedItemData, totalQuantity))
                     {
                         _confirm.gameObject.SetActive(false);
                         var warning = Managers.UI.ShowPopupUI<UIWarning>();
                         warning.SetWarning("인벤토리가 가득 찼습니다.");
                         _count = 1;
+                        return;
                     }
                     else
                     {
@@ -283,6 +284,16 @@ public abstract class UICraftBase : UIPopup
             }
 
             _itemUIList.Add(itemUI);
+        }
+    }
+
+    public virtual void SetAdvancedRecipeUIActive(int maxRecipeLevel)
+    {
+        foreach (var slot in _uiCraftSlots)
+        {
+            var recipe = GetDataList()[slot.Index];
+            bool isAdvancedRecipe = recipe.recipeLevel <= maxRecipeLevel + 1;
+            slot.gameObject.SetActive(isAdvancedRecipe);
         }
     }
 

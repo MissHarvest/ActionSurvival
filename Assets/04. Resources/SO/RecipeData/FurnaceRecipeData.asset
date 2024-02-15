@@ -16,6 +16,7 @@ MonoBehaviour:
   recipeID: 19
   completedItemData: {fileID: 11400000, guid: 3af86f924f19ee348aa2053f634168d8, type: 2}
   IsAdvancedRecipe: 1
+  recipeLevel: 3
   Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}

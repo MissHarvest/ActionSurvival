@@ -72,7 +72,7 @@ public class Tutorial : MonoBehaviour
     private void BindInventoryEvents()
     {
         Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
-       Managers.Game.Player.Building.OnBuildCompleted += OnBuildUpdated;
+        Managers.Game.Player.Building.OnBuildCompleted += OnBuildUpdated;
     }
 
     private void OnInventoryUpdated(int index, ItemSlot itemSlot)

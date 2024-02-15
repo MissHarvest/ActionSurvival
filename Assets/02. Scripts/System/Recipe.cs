@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 public class Recipe : CraftBase
 {
     public Player Owner { get; private set; }
-    private InventorySystem _inventory;
     private UIRecipe _recipeUI;
 
     public override void Awake()
@@ -18,7 +17,6 @@ public class Recipe : CraftBase
     public override void Start()
     {
         base.Start();
-        _inventory = Managers.Game.Player.Inventory;
     }
 
     private void OnRecipeShowAndHide(InputAction.CallbackContext context)

@@ -15,9 +15,10 @@ MonoBehaviour:
   displayName: "\uC6B8\uD0C0\uB9AC"
   description: "\uBAAC\uC2A4\uD130\uC758 \uCE68\uC785\uC73C\uB85C\uBD80\uD130 \uBCF4\uD638\uD574
     \uC90D\uB2C8\uB2E4."
-  iconSprite: {fileID: 21300000, guid: e01ef32d20d49a0478391011ff7ccc82, type: 3}
+  iconSprite: {fileID: 21300000, guid: 72833b866d2582546b34808ac264708e, type: 3}
   part: 2
   maxDurability: 10
+  defense: 0
   targetLayers:
     serializedVersion: 2
     m_Bits: 1

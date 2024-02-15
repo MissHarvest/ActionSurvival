@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: MushroomStewCookingData
   m_EditorClassIdentifier: 
   itemName: MushroomStew
-  recipeID: 19
+  recipeID: 15
   completedItemData: {fileID: 11400000, guid: a427d0dd2e1a7ae4384c7a781add4e62, type: 2}
-  IsAdvancedRecipe: 0
+  recipeLevel: 2
   Quantity: 1
   requiredItems:
-  - item: {fileID: 11400000, guid: bed610c1a20f3414fbd5391e41dfa0d9, type: 2}
-    quantity: 1
   - item: {fileID: 11400000, guid: 4cd9d4b48a7918e40be7d99d3ef3e74d, type: 2}
-    quantity: 1
+    quantity: 4
+  - item: {fileID: 11400000, guid: bed610c1a20f3414fbd5391e41dfa0d9, type: 2}
+    quantity: 4

@@ -30,8 +30,6 @@ public class TemperatureManager
 
         gameManager.World.OnWorldUpdated += () => GetTemperature(gameManager.Player.transform.position);
         OnChanged += () => GetTemperature(gameManager.Player.transform.position);
-
-        // 몬스터 비율 콜백
     }
 
     public float GetTemperature(Vector3 position)
@@ -58,11 +56,6 @@ public class TemperatureManager
     public void OnTemperatureChange()
     {
         OnChanged?.Invoke();
-    }
-
-    private void OnMonsterSpawned(float ratio)
-    {
-
     }
 
     private void OnMorningCame()
