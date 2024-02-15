@@ -39,6 +39,13 @@ public class GameManager
 
     public bool IsRunning { get; private set; } = false;
 
+    public void Clear()
+    {
+        IsRunning = false;
+        Player = null;
+        OnSaveCallback = null;
+    }
+
     public void Init()
     {
         Player.ConditionHandler.HP.OnBelowedToZero += (() => { IsRunning = false; });
