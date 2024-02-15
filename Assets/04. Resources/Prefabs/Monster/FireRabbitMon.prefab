@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: -8607249987316924813}
   - component: {fileID: -3821378620247891961}
   - component: {fileID: 1222744433778982063}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FireRabbitMon
   m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}

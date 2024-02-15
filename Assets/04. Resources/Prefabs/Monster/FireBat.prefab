@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 5139194411510589471}
   - component: {fileID: 7173185555151751540}
   - component: {fileID: 7994647981088800305}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FireBat
   m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}

@@ -21,6 +21,6 @@ MonoBehaviour:
     quantity: 1
   targetLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2048
   targetName: Farm
   type: 0

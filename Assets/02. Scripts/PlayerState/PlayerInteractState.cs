@@ -57,17 +57,16 @@ public class PlayerInteractState : PlayerBaseState
         // exit 조건 설정
         float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
 
-        if (normalizedTime >= 1.0f *_repeatCount)
+        if (normalizedTime >= 1.0f * _repeatCount)
         {
             if (target != null)
             {
                 target.GetComponent<IInteractable>()?.Interact(_stateMachine.Player);
-                if(target.CompareTag("Gather") ==  false )
+                if (!target.CompareTag("Gather"))
                 {
-                    int curIndex = Managers.Game.Player.QuickSlot.IndexInUse;
-                    int inventoryIndex = Managers.Game.Player.QuickSlot.slots[curIndex].targetIndex;
-                    Managers.Game.Player.Inventory.UseToolItemByIndex(inventoryIndex, 1f);
-                }                
+                    int curIndex = _stateMachine.Player.ToolSystem.Equipments[(int)ItemParts.Hand].targetIndex;
+                    _stateMachine.Player.Inventory.UseToolItemByIndex(curIndex, 1f);
+                }
             }
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }
