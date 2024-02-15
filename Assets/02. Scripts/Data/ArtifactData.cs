@@ -19,7 +19,6 @@ public class ArtifactData : ScriptableObject
         {
             if (_artifact == null)
                 _artifact = Prefab.GetComponent<Artifact>();
-            Debug.Log(_artifact == null);
             return _artifact;
         }
     }

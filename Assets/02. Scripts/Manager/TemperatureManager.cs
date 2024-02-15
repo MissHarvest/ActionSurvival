@@ -27,16 +27,12 @@ public class TemperatureManager
         gameManager.DayCycle.OnMorningCame += OnMorningCame;
         gameManager.DayCycle.OnEveningCame += OnEveningCame;
         gameManager.DayCycle.OnNightCame += OnNightCame;
-
-        gameManager.World.OnWorldUpdated += () => GetTemperature(gameManager.Player.transform.position);
-        OnChanged += () => GetTemperature(gameManager.Player.transform.position);
     }
 
     public float GetTemperature(Vector3 position)
     {
         float iceTemperature = GetTemperature(position, _iceIsland.Property);
         float fireTemperature = GetTemperature(position, _fireIsland.Property);
-        Debug.Log(new Vector3(iceTemperature, fireTemperature, _environmentTemperature) + " " + (iceTemperature + fireTemperature + _environmentTemperature));
         return iceTemperature + fireTemperature + _environmentTemperature;
     }
 
