@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5339052865068543313}
   - component: {fileID: 1310156259373178837}
   - component: {fileID: 6921399833233543914}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FireSwarm
   m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}

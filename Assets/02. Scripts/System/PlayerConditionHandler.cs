@@ -8,15 +8,17 @@ public class PlayerConditionHandler : MonoBehaviour
     public Player Player { get; private set; }
     [field: SerializeField] public Condition HP { get; private set; }
     [field: SerializeField] public Condition Hunger { get; private set; }
+    [field: SerializeField] public Condition Temperature { get; private set; }
 
-    private bool _isFull;
+    private float _full = 0.7f;
+    private float _hpRegenOfFullState = 0.2f;
 
     private void Awake()
     {
         Player = GetComponent<Player>();
 
         HP = new Condition(200);
-        HP.regenRate = 0.1f;
+        HP.regenRate = _hpRegenOfFullState;
         HP.OnBelowedToZero += Player.Die;
 
         Hunger = new Condition(100);
@@ -25,6 +27,8 @@ public class PlayerConditionHandler : MonoBehaviour
         Hunger.OnDecreased += OnHungerDecrease;
         Hunger.OnBelowedToZero += OnHungerZero;
 
+        Temperature = new(50);
+
         Load();
 
         Managers.Game.OnSaveCallback += Save;
@@ -32,7 +36,7 @@ public class PlayerConditionHandler : MonoBehaviour
 
     private void OnHungerDecrease(float amount)
     {
-        if(amount < 0.8f)
+        if(amount < _full)
         {
             HP.regenRate = 0.0f;
         }
@@ -40,9 +44,9 @@ public class PlayerConditionHandler : MonoBehaviour
 
     private void OnHungerRecevered(float amount)
     {
-        if(amount > 0.8f)
+        if(amount >= _full)
         {
-            HP.regenRate = 0.1f;
+            HP.regenRate = _hpRegenOfFullState;
         }
         HP.decayRate = 0;
     }
@@ -54,8 +58,23 @@ public class PlayerConditionHandler : MonoBehaviour
 
     private void Update()
     {
+        if (!Managers.Game.IsRunning) return;
+
         HP.Update();
         Hunger.Update();
+        UpdateTemperature();
+    }
+
+    public void SetTemperature(float temperature)
+    {
+        Temperature.currentValue = temperature;
+        Temperature.OnUpdated?.Invoke(Temperature.GetPercentage());
+    }
+
+    private void UpdateTemperature()
+    {
+        float temperature = Managers.Game.Temperature.GetTemperature(Player.transform.position);
+        SetTemperature(temperature);
     }
 
     private void Load()

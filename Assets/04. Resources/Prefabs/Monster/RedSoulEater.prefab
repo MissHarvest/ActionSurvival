@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: -3313673196324547483}
   - component: {fileID: 7285319032723581233}
   - component: {fileID: -6790643078946795203}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RedSoulEater
   m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}

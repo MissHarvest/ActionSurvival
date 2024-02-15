@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.UIElements;
 
 public class BossMeteorState : BossAttackState
@@ -11,8 +12,12 @@ public class BossMeteorState : BossAttackState
         Fly,
         Land,
     }
-    private GameObject _projectilePrefab;
+
+    private GameObject _meteorPrefab;
     private GameObject _indicatorPrefab;
+    private IObjectPool<MeteorObject> _meteores;
+    private IObjectPool<AttackIndicatorCircle> _indicatores;
+    
     private State _currentState = State.TakeOff;
     private List<Coroutine> _coroutines = new List<Coroutine>();
 
@@ -20,9 +25,14 @@ public class BossMeteorState : BossAttackState
     {
         _reach = 50.0f;
         weight = 9999.0f;
-        _projectilePrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");
+
+        _meteorPrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");
+        _meteores = new ObjectPool<MeteorObject>(CreateMeteor, OnGetMeteor, OnReleaseMeteor, OnDestroyMeteor, maxSize: 30);
+
         _indicatorPrefab = Managers.Resource.GetCache<GameObject>("CircleAttackIndicator.prefab");
-        _stateMachine.Boss.HP.OnBelowedToZero += StopMeteor;
+        _indicatores = new ObjectPool<AttackIndicatorCircle>(CreateIndicator, OnGetIndicator, OnReleaseIndicator, OnDestroyIndicator, maxSize: 30);
+
+        _stateMachine.Boss.HP.OnBelowedToZero += Cancel;
     }
 
     public override void Enter()
@@ -32,11 +42,6 @@ public class BossMeteorState : BossAttackState
         base.Enter();
         _currentState = State.TakeOff;
         StartAnimation(_stateMachine.Boss.AnimationData.FlyParameterHash);
-    }
-
-    public override void Exit()
-    {
-        //base.Exit();        
     }
 
     public override void Update()
@@ -92,9 +97,11 @@ public class BossMeteorState : BossAttackState
 
     IEnumerator FallMeteor()
     {
+        Managers.Sound.PlayEffectSound(_stateMachine.Target.transform.position, "Falling", 0.15f);
         while (true)
         {
-            yield return new WaitForSeconds(1.0f);
+            var sec = Random.Range(0.1f, 1.0f);
+            yield return new WaitForSeconds(sec);
             RandomMeteor();
         }
     }
@@ -117,7 +124,7 @@ public class BossMeteorState : BossAttackState
     {
         List<Vector3> list = new List<Vector3>();
 
-        for(int i = 0; i < 5; ++i)
+        for(int i = 0; i < 2; ++i)
         {
             var position = new Vector3(
                     _stateMachine.Boss.transform.position.x + Random.Range(-30.0f, 30.0f),
@@ -126,64 +133,38 @@ public class BossMeteorState : BossAttackState
             list.Add(position);
         }
 
-        var direction = new Vector3(-1, -2, 0);
-
         for(int i = 0; i < list.Count; ++i)
         {
-            if (Physics.Raycast(list[i], direction, out RaycastHit hit, 100, 1 << 12))
+            var meteor = _meteores.Get();
+            meteor.Fall(list[i], 10.0f);
+
+            var indicator = _indicatores.Get();
+            if (meteor.Collider is SphereCollider collider)
             {
-                //hit.distance
-                var go = Object.Instantiate(_projectilePrefab,
-                list[i],
-                Quaternion.identity);
-                go.GetComponent<MonsterWeapon>().Owner = _stateMachine.Boss;
-                var projectile = go.GetComponent<Projectile>();
-
-                var indicatorGo = Object.Instantiate(_indicatorPrefab, hit.point + Vector3.up * 0.1f, _indicatorPrefab.transform.rotation);
-                var indicator = indicatorGo.GetComponent<AttackIndicatorCircle>();
-
-                if (projectile != null)
-                {
-                    var sphereCollider = projectile.GetComponent<SphereCollider>();
-                    projectile.Fire(hit.point, hit.distance);
-                    indicator.Set(hit.distance, projectile.Speed, sphereCollider.radius);
-                }
+                indicator.Activate(meteor.Destination, meteor.Speed, meteor.MaxDistance, collider);
             }
         }
     }
 
     private void FireMeteorToTarget()
     {
-        var position = _stateMachine.Target.transform.position + Vector3.up * 25.0f;
-        //var position = _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Head).transform.position;
+        var meteor = _meteores.Get();
+        
+        // 타겟의 위치로 부터 랜덤한 자리의 상공
+        var position = _stateMachine.Target.transform.position
+            + new Vector3(Random.Range(-5.0f, 5.0f), 0, Random.Range(-5.0f, 5.0f))
+            + Vector3.up * 30.0f;
 
-        //var direction = _stateMachine.Target.transform.position - position + Vector3.up * 0.5f;
-        var direction = Vector3.down;
+        meteor.Fall(position , 10.0f);
 
-        if (Physics.Raycast(position, direction, out RaycastHit hit, 100, 1 << 12))
+        var indicator = _indicatores.Get();
+        if(meteor.Collider is SphereCollider collider)
         {
-            var destination = hit.point + new Vector3(Random.Range(-5.0f, 5.0f), 0, Random.Range(-5.0f, 5.0f));
-            var dist = Vector3.Distance(position, destination);
-
-            var go = Object.Instantiate(_projectilePrefab,
-            position,
-            Quaternion.identity);
-            go.GetComponent<MonsterWeapon>().Owner = _stateMachine.Boss;
-            var projectile = go.GetComponent<Projectile>();
-
-            var indicatorGo = Object.Instantiate(_indicatorPrefab, destination + Vector3.up * 0.1f, _indicatorPrefab.transform.rotation);
-            var indicator = indicatorGo.GetComponent<AttackIndicatorCircle>();
-
-            if (projectile != null)
-            {
-                var sphereCollider = projectile.GetComponent<SphereCollider>();
-                projectile.Fire(destination, dist);
-                indicator.Set(dist, projectile.Speed, sphereCollider.radius);
-            }
+            indicator.Activate(meteor.Destination, meteor.Speed, meteor.MaxDistance, collider);
         }
     }
 
-    public void StopMeteor()
+    public override void Cancel()
     {
         for (int i = 0; i < _coroutines.Count; ++i)
         {
@@ -191,4 +172,52 @@ public class BossMeteorState : BossAttackState
         }
         _coroutines.Clear();
     }
+
+    #region Object Pooling
+    private MeteorObject CreateMeteor()
+    {
+        MeteorObject meteor = Object.Instantiate(_meteorPrefab, _stateMachine.ObjectPoolContainer).GetComponent<MeteorObject>();
+        meteor.SetManagedPool(_meteores);
+        meteor.Owner = _stateMachine.Boss;
+        return meteor;
+    }
+
+    private void OnGetMeteor(MeteorObject meteor)
+    {
+        meteor.gameObject.SetActive(true);
+    }
+
+    private void OnReleaseMeteor(MeteorObject meteor)
+    {
+        meteor.gameObject.SetActive(false);
+    }
+
+    private void OnDestroyMeteor(MeteorObject meteor)
+    {
+        Object.Destroy(meteor.gameObject);
+    }
+
+    private AttackIndicatorCircle CreateIndicator()
+    {
+        AttackIndicatorCircle indicator =
+            Object.Instantiate(_indicatorPrefab, _stateMachine.ObjectPoolContainer).GetComponent<AttackIndicatorCircle>();
+        indicator.SetManagedPool(_indicatores);
+        return indicator;
+    }
+
+    private void OnGetIndicator(AttackIndicatorCircle indicator)
+    {
+        indicator.gameObject.SetActive(true);
+    }
+
+    private void OnReleaseIndicator(AttackIndicatorCircle indicator)
+    {
+        indicator.gameObject.SetActive(false);
+    }
+
+    private void OnDestroyIndicator(AttackIndicatorCircle indicator)
+    {
+        Object.Destroy(indicator.gameObject);
+    }
+    #endregion
 }

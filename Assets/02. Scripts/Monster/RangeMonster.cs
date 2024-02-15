@@ -21,14 +21,14 @@ public class RangeMonster : Monster
     {
         if (Target == null) return;
 
-        var go = Instantiate(_projectileWeapon, fireTransform.position, Quaternion.identity);
+        var go = Instantiate(_projectileWeapon);//, fireTransform.position, Quaternion.identity);
 
         var monsterweapon = go.GetComponent<MonsterWeapon>();
         monsterweapon.ActivateWeapon();
         monsterweapon.Owner = this;
 
         var projectile = go.GetComponent<Projectile>();
-
-        projectile.Fire(Target.transform.position, Data.AttackData.AttackalbeDistance * 2.0f);
+        var dir = Target.transform.position - fireTransform.position;
+        projectile.Fire(fireTransform.position, dir, 3.0f,Data.AttackData.AttackalbeDistance);
     }
 }

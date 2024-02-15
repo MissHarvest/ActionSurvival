@@ -24,14 +24,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 629039827185455485}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6326747753772982578}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!65 &8765774311319962816
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51,8 +51,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.5847483, y: 4.200328, z: 1.3395078}
-  m_Center: {x: -0.20196962, y: 4.007068, z: 0.62566626}
+  m_Size: {x: 5.3863716, y: 4.6225553, z: 0.2715778}
+  m_Center: {x: 0.19884217, y: 3.7959783, z: 0.46301883}
 --- !u!1 &1136732407553036353
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,8 +193,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7, y: 2.3581383, z: 0.7}
-  m_Center: {x: 0, y: 0.8840691, z: 0}
+  m_Size: {x: 0.7, y: 3.1948636, z: 0.7}
+  m_Center: {x: 0, y: 1.3024315, z: 0}
 --- !u!114 &5205752359748586872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,7 +438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 6572011551440521037, guid: 92f64a14234031344b215e65fbb8d605, type: 3}
-  _distribution: 0.3
+  _distribution: 0.02
   _maxRange: 1
   _minRange: 0
   _maxCreateCount: 3
@@ -452,6 +452,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9047156015576713747}
   - component: {fileID: -3957180596629071883}
+  - component: {fileID: 7589049367835988565}
   m_Layer: 0
   m_Name: TreeA
   m_TagString: Untagged
@@ -489,3 +490,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5f464e0652702748b86be7291843595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!208 &7589049367835988565
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210951989395445071}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.35, y: 0.35, z: 0.35}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.33, z: 0}
+  m_TimeToStationary: 0.5

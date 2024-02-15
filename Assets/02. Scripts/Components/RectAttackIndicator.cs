@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class RectAttackIndicator : MonoBehaviour
 {
     public Transform growEffect;
     private float _width;
     private float _speed;
+    private IObjectPool<RectAttackIndicator> _managedPool;
 
     private void Awake()
     {
         var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _width = spriteRenderer.sprite.bounds.size.x;
+    }
+
+    public void SetManagedPool(IObjectPool<RectAttackIndicator> managedPool)
+    {
+        _managedPool = managedPool;
     }
 
     public void Activate(Vector3 position, Vector3 direction, float length, float chargeTime)
@@ -30,7 +37,6 @@ public class RectAttackIndicator : MonoBehaviour
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, length / _width);
 
         StartCoroutine(Grow());
-        //Graphics.DrawMesh()
     }
 
     IEnumerator Grow()
@@ -43,10 +49,22 @@ public class RectAttackIndicator : MonoBehaviour
             if (growEffect.localScale.y >= 1.0f)
             {
                 yield return new WaitForSeconds(1.0f);
-                gameObject.SetActive(false);
+                Destory();
                 yield break;
             }
         }
     }
 
+
+    private void Destory()
+    {
+        if (_managedPool == null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _managedPool.Release(this);
+        }
+    }
 }

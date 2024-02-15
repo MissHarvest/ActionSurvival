@@ -1,40 +1,56 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 [ExecuteAlways]
 public class AttackIndicatorCircle : MonoBehaviour
 {
+    private IObjectPool<AttackIndicatorCircle> _managedPool;
     public Transform growEffect;
-    private float _maxDist;
-    private float _distance;
-    private float _velocity;
-    private float _size = 0;
     private bool bStart = false;
-    private void Start()
-    {
-        _size = 0;
-    }
+    private float _growSpeed;
 
     private void Update()
     {
         if (bStart == false) return;
-        _distance -= _velocity * Time.deltaTime;
-        _size = (_maxDist - _distance) / _maxDist;
-        growEffect.localScale = new Vector3(_size, _size, _size);
+        growEffect.localScale += Vector3.one * Time.deltaTime * _growSpeed;
         
-        if(_size >= 1.0f)
+        if(growEffect.localScale.x >= 1.0f)
         {
-            Destroy(gameObject);
+            Destroy();
         }
     }
 
-    public void Set(float dist, float velocity, float scale)// set scale?
+    public void SetManagedPool(IObjectPool<AttackIndicatorCircle> managedPool)
     {
-        transform.localScale = Vector3.one * scale * 5.0f;
-        _maxDist = dist;
-        _distance = dist;
-        _velocity = velocity;
+        _managedPool = managedPool;
+    }
+
+    public void Activate(Vector3 position, float targetSpeed, float remainDist, SphereCollider collider)
+    {
+        transform.position = position + Vector3.up * 0.1f;
+        transform.rotation = Quaternion.identity;
+        transform.localScale = collider.radius * Vector3.one * 5.0f;
+        growEffect.transform.localScale = Vector3.zero;
+        var t = remainDist / targetSpeed;
+        _growSpeed = 1.0f / t;
+        gameObject.SetActive(true);
         bStart = true;
+    }
+
+    private void Destroy()
+    {
+        bStart = false;
+
+        if (_managedPool == null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _managedPool.Release(this);
+        }
     }
 }

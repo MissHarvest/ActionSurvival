@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
+using System.Xml.Schema;
 using UnityEngine;
 using static UIBase;
 
@@ -113,8 +113,11 @@ public class Tutorial : MonoBehaviour
     #endregion
 
     #region Guide
-    public void PathFinding(LayerMask targetLayer, string targetName)
+    public void PathFinding(Quest quest)
     {
+        var targetLayer = quest.questSO.targetLayer;
+        var targetName = quest.questSO.targetName;
+
         var targets = Physics.SphereCastAll(transform.position, 50.0f, Vector3.up, 0, targetLayer);
         if (targetLayer == LayerMask.GetMask("Architecture"))
             targets = targets.Where(x => x.transform.name.Contains(targetName)).ToArray();
@@ -132,7 +135,8 @@ public class Tutorial : MonoBehaviour
         else
         {
             var ui = Managers.UI.ShowPopupUI<UIWarning>();
-            ui.SetWarning($"주변에 {targetName}가 존재하지 않습니다.");
+            var findObjectName = quest.questSO.requiredItems[0].item.displayName;
+            ui.SetWarning($"퀘스트 진행에 필요한 오브젝트가 주변에 존재하지 않습니다.");
         }
     }
 

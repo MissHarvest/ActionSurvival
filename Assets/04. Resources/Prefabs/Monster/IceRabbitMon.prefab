@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: -8071821998021960377}
   - component: {fileID: 3592003638818581685}
   - component: {fileID: 4348423998168703205}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: IceRabbitMon
   m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -309,6 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b420351d1a7e48845b9568ae9d799363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _knockbackRatio: 1
 --- !u!1 &5911647561363492581
 GameObject:
   m_ObjectHideFlags: 0

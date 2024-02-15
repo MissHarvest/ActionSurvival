@@ -20,8 +20,6 @@ public class MainScene : MonoBehaviour
         var waitWhile = new WaitWhile(() => loadingUI == null);
         yield return waitWhile;
 
-
-
         // 1. 리소스 로드
         ResourceLoad((key, count, total) =>
         {
@@ -45,7 +43,6 @@ public class MainScene : MonoBehaviour
                     // SaveData.CheckPlayerData
 
                     loadingUI.ReceiveCallbacks($"Game Initialize ...");
-                    SpawnPlayer();
 
                     Managers.Data.InitializeRecipeData();
                     Managers.Sound.Init();
@@ -53,15 +50,12 @@ public class MainScene : MonoBehaviour
                     Managers.Game.GenerateNavMeshAsync(callback: op =>
                     {
                         // 4. NavMesh 생성
-                        var mon = Managers.Resource.GetCache<GameObject>("Slime.prefab");
-                        Instantiate(mon);
-                        Managers.Game.Init();
-                        
+                        SpawnPlayer();
                         UIInitialize();
+                        Managers.Game.Init();
 
                         var camera = Managers.Resource.GetCache<GameObject>("MinimapCamera.prefab");
                         Instantiate(camera);
-
 
                         watch.Stop();
                         UnityEngine.Debug.Log($"Game Generated {watch.ElapsedMilliseconds} ms");
@@ -79,7 +73,7 @@ public class MainScene : MonoBehaviour
     private void SpawnPlayer()
     {
         var player = Managers.Resource.GetCache<GameObject>("Player.prefab");
-        player = Instantiate(player, Vector3.up, Quaternion.identity);
+        player = Instantiate(player, new Vector3(-40f, 1f, 22f), Quaternion.identity);
         player.name = "Player";
         virtualCamera.Follow = Managers.Game.Player.ViewPoint;
         virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
