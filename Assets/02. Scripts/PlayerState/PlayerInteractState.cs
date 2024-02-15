@@ -66,7 +66,7 @@ public class PlayerInteractState : PlayerBaseState
                 {
                     int curIndex = _stateMachine.Player.ToolSystem.Equipments[(int)ItemParts.Hand].targetIndex;
                     _stateMachine.Player.Inventory.UseToolItemByIndex(curIndex, 1f);
-                }
+                }                
             }
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }

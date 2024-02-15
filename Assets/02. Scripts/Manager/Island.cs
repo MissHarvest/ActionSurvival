@@ -77,7 +77,7 @@ public class Island
         set 
         {
             _property.Temperature = value;
-            Managers.Game.Temperature.OnTemperatureChange(); 
+            Managers.Game.Temperature.OnTemperatureChange();
         }
     }
     public float Influence

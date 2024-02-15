@@ -88,10 +88,11 @@ public class ResourceObjectParent : MonoBehaviour
         }
 
         foreach (var obj in _objects.Values)
-            obj.SetActive(false);
+            obj?.SetActive(false);
 
         CurrentState = stateID;
-        _objects[CurrentState].SetActive(true);
+        if (_objects.TryGetValue(CurrentState, out var nextObj))
+            nextObj.SetActive(true);
         RemainingTime = GetCurrentDebrisRespawnTime();
     }
 
