@@ -6503,12 +6503,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6327592822723353062, guid: 4f6c7eb9eae4ef345861a871f17cc6ce, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 220
+      objectReference: {fileID: 0}
+    - target: {fileID: 6327592822723353062, guid: 4f6c7eb9eae4ef345861a871f17cc6ce, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6327592822723353062, guid: 4f6c7eb9eae4ef345861a871f17cc6ce, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172872598276147824, guid: 4f6c7eb9eae4ef345861a871f17cc6ce, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 220
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172872598276147824, guid: 4f6c7eb9eae4ef345861a871f17cc6ce, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213628597606426685, guid: 4f6c7eb9eae4ef345861a871f17cc6ce, type: 3}
+      propertyPath: m_Spacing
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213628597606426685, guid: 4f6c7eb9eae4ef345861a871f17cc6ce, type: 3}
+      propertyPath: m_Padding.m_Top
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213628597606426685, guid: 4f6c7eb9eae4ef345861a871f17cc6ce, type: 3}
+      propertyPath: m_Padding.m_Bottom
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6019951884117057090}
   - component: {fileID: 9143458661442102846}
   - component: {fileID: 8468459895175872285}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: IceSwarm
   m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -275,6 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b420351d1a7e48845b9568ae9d799363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _knockbackRatio: 1
 --- !u!1 &8447965889983111912
 GameObject:
   m_ObjectHideFlags: 0

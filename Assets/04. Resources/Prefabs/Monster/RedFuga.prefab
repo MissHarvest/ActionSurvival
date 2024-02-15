@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3838537283660270642}
   - component: {fileID: -2081310594346727523}
   - component: {fileID: 848155269965521361}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RedFuga
   m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}

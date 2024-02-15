@@ -7,7 +7,6 @@ using UnityEngine;
 [Serializable]
 public struct VerticesArray
 {
-    [SerializeField]
     public Vector3[] Verticearray;
 }
 
@@ -25,7 +24,7 @@ public class MapIlluminator : MonoBehaviour
     private GameObject[] _shadowPlanes;
     private Transform _player;
     private Mesh[] _meshes;
-    [SerializeField] private LayerMask _shadowLayer;
+    private LayerMask _shadowLayer;
 
     private VerticesArray[] _verticesArray;
     [SerializeField] private ColorsArray[] _colorsArray;
@@ -49,6 +48,7 @@ public class MapIlluminator : MonoBehaviour
         _shadowPlanePrefab = Managers.Resource.GetCache<GameObject>("ShadowPlane.prefab");
         _shadowPlanes = new GameObject[_numPlanesX * _numPlanesZ];
         _meshes = new Mesh[_shadowPlanes.Length];
+        _shadowLayer = LayerMask.GetMask("ShadowLayer");
         _verticesArray = new VerticesArray[_shadowPlanes.Length];
         _colorsArray = new ColorsArray[_shadowPlanes.Length];
 
