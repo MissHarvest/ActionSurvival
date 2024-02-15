@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 2373988109448413200}
   - component: {fileID: 4562919734890784589}
   - component: {fileID: 6309182454745367112}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: IceElemental
   m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}

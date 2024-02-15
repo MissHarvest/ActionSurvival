@@ -404,7 +404,7 @@ MonoBehaviour:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: 2
           inSlope: 0
           outSlope: 0
           tangentMode: 136
@@ -436,9 +436,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 423278244797550588, guid: aab8bae050afe1142bd35c0489849e52, type: 3}
-  _distribution: 1
-  _maxRange: 2
-  _minRange: 1
+  _distribution: 0.4
+  _maxRange: 1
+  _minRange: 0.6
   _maxCreateCount: 1
 --- !u!1 &6127417039663159890
 GameObject:

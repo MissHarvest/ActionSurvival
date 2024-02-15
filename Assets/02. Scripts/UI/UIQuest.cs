@@ -50,7 +50,7 @@ public class UIQuest : UIBase
         {
             case QuestSO.QuestType.Finding:
                 if (activeQuest.questSO.targetName == string.Empty) return;
-                tutorial.PathFinding(activeQuest.questSO.targetLayer, activeQuest.questSO.targetName);
+                tutorial.PathFinding(activeQuest);
                 break;
 
             case QuestSO.QuestType.Crafting:

@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 1410436969525244648}
   - component: {fileID: 8920282696189405673}
   - component: {fileID: 7641184038205987147}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fuga
   m_TagString: Monster
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
