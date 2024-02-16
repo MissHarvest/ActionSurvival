@@ -75,7 +75,7 @@ public class Artifact : MonoBehaviour
         Managers.Game.MonsterWave.AddOverFlowedMonster(_island.Spawn());
     }
 
-    public void DestroyByNature()
+    public void DestroyByNature(Season.State state)
     {
         //// TODO: Call MonsterWave
         // See Also: 파괴될 때 생성이 아니라 매일 밤마다 생성 ?

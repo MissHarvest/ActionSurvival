@@ -48,16 +48,17 @@ public class GameManager
 
     public void Init()
     {
+        Player.Load();
         Player.ConditionHandler.HP.OnBelowedToZero += (() => { IsRunning = false; });
 
         MonsterWave = new MonsterWave();
 
         DayCycle.Init();
-        Disaster.Init(Player);
         DayCycle.OnNightCame += () => { MonsterWave.Start(UnityEngine.Random.Range(0, 60f)); };
         DayCycle.OnMorningCame += SaveCallback;
         DayCycle.OnDateUpdated += Season.Update;
         Season.Initialize(DayCycle.Date);
+        Disaster.Init(Player);
 
         Architecture.Init();
         

@@ -152,8 +152,9 @@ public class MonsterWave
     private void Save()
     {
         MonsterContainer container = new();
+        monsters = monsters.Where(x => x != null).ToList();
 
-        for(int i = 0; i < monsters.Count; ++i)
+        for (int i = 0; i < monsters.Count; ++i)
         {
             var name = monsters[i].Data.name;
             var pos = monsters[i].transform.position;
