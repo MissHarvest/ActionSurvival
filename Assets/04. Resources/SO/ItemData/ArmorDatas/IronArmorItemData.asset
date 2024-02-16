@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d49c9c70e7e63f8418e8aef1328e78ee, type: 3}
-  m_Name: EnchantedHelmetItemData
+  m_Name: IronArmorItemData
   m_EditorClassIdentifier: 
-  displayName: "\uAC15\uD654 \uD22C\uAD6C"
-  description: "\uAC15\uD654\uB41C \uD22C\uAD6C\uB2E4."
-  iconSprite: {fileID: 21300000, guid: b227c6c1c35b36940b602110d9556b13, type: 3}
-  part: 0
+  displayName: "\uCCA0 \uAC11\uC637"
+  description: "\uCCA0\uB85C \uB41C \uAC11\uC637\uC774\uB2E4."
+  iconSprite: {fileID: 21300000, guid: 567fdd2e557fefc478f8aaa7ae56fb11, type: 3}
+  part: 1
   maxDurability: 30
-  defense: 2
+  defense: 4
