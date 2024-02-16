@@ -24,7 +24,6 @@ public class Disaster : IAttack
     private System.Action _fallDisaster;
     private bool _active = false;
     private Vector3[] _points;
-    private Season _season;
 
     public void Init(Player player)
     {

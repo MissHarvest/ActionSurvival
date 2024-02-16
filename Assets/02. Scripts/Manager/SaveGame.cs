@@ -30,6 +30,10 @@ public class SaveGame
 
             case SaveType.Other:
                 path = $"{Application.persistentDataPath}/Other/";
+                if(Directory.Exists(path) == false)
+                {
+                    Directory.CreateDirectory(path);
+                }
                 break;
         }
 
