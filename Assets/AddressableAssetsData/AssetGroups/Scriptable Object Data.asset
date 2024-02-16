@@ -937,6 +937,8 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1fa651444036bc143bff01e72b2634d0
     m_Address: WoodHelmetRecipeData.data
+  - m_GUID: c601c478c90291d49be434a5fa75759d
+    m_Address: GlacierStone.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -955,6 +957,8 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 556388729fa1ac145a60ba2c2c3c74f5
     m_Address: IronArmorRecipeData.data
+  - m_GUID: 63dea3e71c2076f4db8b39eb918c5d69
+    m_Address: LavaStone.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

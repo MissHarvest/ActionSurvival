@@ -53,6 +53,7 @@ public class GameManager
         MonsterWave = new MonsterWave();
 
         DayCycle.Init();
+        Disaster.Init(Player);
         DayCycle.OnEveningCame += SpawnMonster;
         DayCycle.OnNightCame += StartMonsterWave;
         DayCycle.OnMorningCame += SaveCallback;
@@ -66,17 +67,10 @@ public class GameManager
         InitIslands();
         ArtifactCreator = new(this);
         Temperature.Init(this);
-        Disaster.Init(Player);
 
         Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
 
         IsRunning = true;
-
-        Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
-            "무엇을 해야할지 모르겠다면,\n퀘스트를 하나씩 해결해봅시다.\n좌측의 퀘스트를 클릭해보세요.",
-            UIWarning.Type.YesOnly,
-            () => { Managers.UI.ClosePopupUI(); },
-            true);
     }
 
     private void SpawnMonster()

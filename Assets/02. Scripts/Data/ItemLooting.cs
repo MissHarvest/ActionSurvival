@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -17,7 +18,16 @@ public class ItemLooting
     {
         (var item, var quantity) = Looting(weight);
         if (item != null && quantity != 0)
-            inventory.AddItem(item, quantity);
+        {
+            if(!inventory.IsFull(item, quantity))
+            {
+                inventory.AddItem(item, quantity);
+            }
+            else
+            {
+                Managers.UI.ShowPopupUI<UIWarning>().SetWarning("인벤토리가 가득 찼습니다.");
+            }
+        }
     }
 }
 
@@ -29,6 +39,8 @@ public class ItemDropTable
     public void AddInventory(InventorySystem inventory, float weight = 0)
     {
         foreach (var loot in _lootings)
+        {
             loot.AddInventory(inventory, weight);
+        }
     }
 }
