@@ -17,7 +17,7 @@ MonoBehaviour:
   - {fileID: 4300052, guid: eb8566b6e75507e48bd8ec4fff8f4dd9, type: 3}
   <HPMax>k__BackingField: 1
   <HpRegen>k__BackingField: 0
-  <InfluenceAmount>k__BackingField: 0.03
+  <InfluenceAmount>k__BackingField: 0.05
   <LootingData>k__BackingField:
   - _lootings:
     - _item: {fileID: 11400000, guid: a1020833cf086984eaddf8c111fc9f94, type: 2}
@@ -122,4 +122,4 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 4
   <Prefab>k__BackingField: {fileID: 7020486201509739047, guid: a8b80a20e05d9af4b980a48173f38c07, type: 3}
-  <CreateCount>k__BackingField: 5
+  <CreateCount>k__BackingField: 2
