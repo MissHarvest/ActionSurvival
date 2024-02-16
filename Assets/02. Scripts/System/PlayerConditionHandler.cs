@@ -27,7 +27,7 @@ public class PlayerConditionHandler : MonoBehaviour
         Hunger.OnDecreased += OnHungerDecrease;
         Hunger.OnBelowedToZero += OnHungerZero;
 
-        Temperature = new(50);
+        Temperature = new(100);
 
         Load();
 

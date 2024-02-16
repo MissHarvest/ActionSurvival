@@ -42,6 +42,9 @@ public class SaveGame
 
     private static void CreateJsonFile(string path, string name, string json)
     {
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
+
         FileStream fs = new FileStream($"{path}/{name}.json", FileMode.Create);
         byte[] data = Encoding.UTF8.GetBytes(json);
         fs.Write(data, 0, data.Length);

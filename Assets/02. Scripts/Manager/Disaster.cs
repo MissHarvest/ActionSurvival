@@ -37,7 +37,9 @@ public class Disaster : IAttack
 
         _indicatorPrefab = Managers.Resource.GetCache<GameObject>("CircleAttackIndicator.prefab");
         _indicatores = new ObjectPool<AttackIndicatorCircle>(CreateIndicator, OnGetIndicator, OnReleaseIndicator, OnDestroyIndicator, maxSize: 30);
-        
+
+        Debug.Log("Disaster Init");
+
         Managers.Game.DayCycle.OnTimeUpdated += Fall;
         Managers.Game.Season.OnSeasonChanged += OnSeasonChanged;
 
@@ -46,6 +48,7 @@ public class Disaster : IAttack
 
     private void OnSeasonChanged(Season.State state)
     {
+        Debug.Log("Disaster OnSeasonChanged");
         switch(state)
         {
             case Season.State.Summer:
@@ -64,18 +67,22 @@ public class Disaster : IAttack
 
     private void Fall()
     {
+        Debug.Log("Disaster Fall");
+
         if (!_active) return;
         _fallDisaster?.Invoke();
     }
 
     private void OnEnterSummer()
     {
+        Debug.Log("Disaster OnEnterSummer");
         _active = true;
         _fallDisaster = FallMeteor;
     }
 
     private void OnEnterWinter()
     {
+        Debug.Log("Disaster OnEnterWinter");
         _active = true;
         _fallDisaster = FallBlizard;
     }

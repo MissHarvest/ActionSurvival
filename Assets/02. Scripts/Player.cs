@@ -66,12 +66,8 @@ public class Player : MonoBehaviour, IHit
         _stateMachine = new PlayerStateMachine(this);
 
         Managers.Game.OnSaveCallback += Save;
-        if(SaveGame.TryLoadJsonFile<Vector3>(SaveGame.SaveType.Runtime, "PlayerPosition", out Vector3 pos))
-        {
-            transform.position = pos;
-        }
 
-        if(PlayerPrefs.HasKey("IslandName"))
+        if (PlayerPrefs.HasKey("IslandName"))
         {
             StandingIslandName = PlayerPrefs.GetString("IslandName");
         }
@@ -125,5 +121,21 @@ public class Player : MonoBehaviour, IHit
         var json = JsonUtility.ToJson(transform.position);
         SaveGame.CreateJsonFile("PlayerPosition", json, SaveGame.SaveType.Runtime);
         PlayerPrefs.SetString("IslandName", StandingIslandName);
+    }
+
+    public void Load()
+    {
+        if (SaveGame.TryLoadJsonFile<Vector3>(SaveGame.SaveType.Runtime, "PlayerPosition", out Vector3 pos))
+        {
+            Controller.enabled = false;
+            transform.position = pos;
+            Controller.enabled = true;
+        }
+        else
+        {
+            Controller.enabled = false;
+            transform.position = new Vector3(-40f, 1f, 22f);
+            Controller.enabled = true;
+        }
     }
 }

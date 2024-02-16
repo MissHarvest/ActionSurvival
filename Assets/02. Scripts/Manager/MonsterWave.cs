@@ -80,11 +80,26 @@ public class MonsterWave
         {
             var point = wavePoints.Pop();
             var monster = waveMonsters.Pop().GetComponent<Monster>();
-            monster.NavMeshAgent.Warp(point);
+            if (!monster.GetCurrentChunkActive())
+            {
+                monster.NavMeshAgent.Warp(point);
+                monster.GetComponent<ManagementedObject>()?.SwitchEnabled();
+            }
             monster.SetBerserkMode();
             monster.SetIsland(null);
             monsters.Add(monster);
         }
+    }
+
+    public void Start(float delayTime)
+    {
+        CoroutineManagement.Instance.StartCoroutine(MonsterWaveCoroutine(delayTime));
+    }
+
+    private IEnumerator MonsterWaveCoroutine(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        Start();
     }
 
     private int CalculateMonsterCountForWave()
@@ -94,10 +109,11 @@ public class MonsterWave
 
     private int CalculateNumberOfOverFlowMonsterToUse()
     {
-        var date = Managers.Game.DayCycle.Date;
-        if (date % 8 == 7) return overflowMonsters.Count;
-        if (date % 8 % 3 == 0) return 1;
-        return 0;
+        return overflowMonsters.Count;
+        //var date = Managers.Game.DayCycle.Date;
+        //if (date % 8 == 7) return overflowMonsters.Count;
+        //if (date % 8 % 3 == 0) return 1;
+        //return 0;
     }
 
     private void CalcalateWavePoint(int count)
@@ -136,8 +152,9 @@ public class MonsterWave
     private void Save()
     {
         MonsterContainer container = new();
+        monsters = monsters.Where(x => x != null).ToList();
 
-        for(int i = 0; i < monsters.Count; ++i)
+        for (int i = 0; i < monsters.Count; ++i)
         {
             var name = monsters[i].Data.name;
             var pos = monsters[i].transform.position;

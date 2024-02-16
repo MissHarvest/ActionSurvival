@@ -75,7 +75,7 @@ public class MainScene : MonoBehaviour
     private void SpawnPlayer()
     {
         var player = Managers.Resource.GetCache<GameObject>("Player.prefab");
-        player = Instantiate(player, new Vector3(-40f, 1f, 22f), Quaternion.identity);
+        player = Instantiate(player);
         player.name = "Player";
         virtualCamera.Follow = Managers.Game.Player.ViewPoint;
         virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
