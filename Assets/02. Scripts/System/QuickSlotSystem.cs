@@ -90,9 +90,20 @@ public class QuickSlotSystem : MonoBehaviour
             return;
         }
 
-        switch (slots[IndexInUse].itemSlot.itemData)
+        var itemData = slots[IndexInUse].itemSlot.itemData;
+        switch (itemData)
         {
             case ToolItemData _:
+
+                if (((ToolItemData)itemData).isWeapon)
+                {
+                    Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
+                                "무기를 장착한 상태에서는 상호작용이 불가능합니다.",
+                                UIWarning.Type.YesOnly,
+                                () => { Managers.UI.ClosePopupUI(); },
+                                true);
+                }
+
                 Managers.Game.Player.ToolSystem.Equip(slots[IndexInUse]);
                 break;
 

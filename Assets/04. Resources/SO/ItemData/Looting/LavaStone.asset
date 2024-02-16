@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2439b46ca40d30d47a6ecb3d2cabd970, type: 3}
-  m_Name: StickItemData
+  m_Name: LavaStone
   m_EditorClassIdentifier: 
-  displayName: "\uB098\uBB34 \uB9C9\uB300\uAE30"
-  description: "\uD1B5\uB098\uBB34\uBCF4\uB2E4 \uD6E8\uC52C \uAC00\uB298\uB2E4."
-  iconSprite: {fileID: 21300000, guid: fa29f0ef44326644fbbdcb47d0fb66f3, type: 3}
+  displayName: "\uC6A9\uC554\uC11D"
+  description: "\uBD88\uC758 \uC12C \uC544\uD2F0\uD329\uD2B8 \uD30C\uAD34 \uC2DC
+    \uB4DC\uBB3C\uAC8C \uD68D\uB4DD\uD560 \uC218 \uC788\uB2E4."
+  iconSprite: {fileID: 21300000, guid: 67d92be28ed43314bbaf848a1d873f6c, type: 3}

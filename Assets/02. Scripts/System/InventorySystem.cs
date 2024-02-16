@@ -283,7 +283,8 @@ public class InventorySystem : MonoBehaviour
             ui.SetWarning("Unregist or UnEquip item");
             return;// 경고문
         }
-        targetInventory.AddItem(slots[index]);
+
+        targetInventory.AddItem(slots[index].itemData, slots[index].quantity);
         slots[index].Clear();
         OnUpdated?.Invoke(index, slots[index]);
     }

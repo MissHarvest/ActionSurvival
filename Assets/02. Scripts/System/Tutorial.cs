@@ -123,6 +123,8 @@ public class Tutorial : MonoBehaviour
         if (targetLayer == LayerMask.GetMask("Resources") || targetName == "Artifact")
             targets = targets.Where(x => x.transform.parent.name.Contains(targetName)).ToArray();
         else
+        var targets = Physics.SphereCastAll(transform.position, 50.0f, Vector3.up, 0, targetLayer, QueryTriggerInteraction.Collide);
+        if (targetLayer == LayerMask.GetMask("Architecture"))
             targets = targets.Where(x => x.transform.name.Contains(targetName)).ToArray();
 
         if (targets.Length > 0)
@@ -137,7 +139,7 @@ public class Tutorial : MonoBehaviour
         {
             var ui = Managers.UI.ShowPopupUI<UIWarning>();
             var findObjectName = quest.questSO.requiredItems[0].item.displayName;
-            ui.SetWarning($"퀘스트 진행에 필요한 오브젝트가 주변에 존재하지 않습니다.");
+            ui.SetWarning($"[{targetLayer.value}][{targetName}]퀘스트 진행에 필요한 오브젝트가 주변에 존재하지 않습니다.");
         }
     }
 

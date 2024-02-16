@@ -48,16 +48,17 @@ public class GameManager
 
     public void Init()
     {
+        Player.Load();
         Player.ConditionHandler.HP.OnBelowedToZero += (() => { IsRunning = false; });
 
         MonsterWave = new MonsterWave();
 
         DayCycle.Init();
-        DayCycle.OnEveningCame += SpawnMonster;
-        DayCycle.OnNightCame += StartMonsterWave;
+        DayCycle.OnNightCame += () => { MonsterWave.Start(UnityEngine.Random.Range(0, 60f)); };
         DayCycle.OnMorningCame += SaveCallback;
         DayCycle.OnDateUpdated += Season.Update;
         Season.Initialize(DayCycle.Date);
+        Disaster.Init(Player);
 
         Architecture.Init();
         
@@ -66,45 +67,10 @@ public class GameManager
         InitIslands();
         ArtifactCreator = new(this);
         Temperature.Init(this);
-        Disaster.Init(Player);
 
         Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
 
         IsRunning = true;
-
-        Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
-            "무엇을 해야할지 모르겠다면,\n퀘스트를 하나씩 해결해봅시다.\n좌측의 퀘스트를 클릭해보세요.",
-            UIWarning.Type.YesOnly,
-            () => { Managers.UI.ClosePopupUI(); },
-            true);
-    }
-
-    private void SpawnMonster()
-    {
-        int cnt = 1;
-
-        if (Season.CurrentValue >= 0f)
-        {
-            for (int i = 0; i < cnt; ++i)
-                MonsterWave.AddOverFlowedMonster(FireIsland.Spawn());
-        }
-        else
-        {
-            for (int i = 0; i < cnt; ++i)
-                MonsterWave.AddOverFlowedMonster(IceIsland.Spawn());
-        }
-    }
-
-    private void StartMonsterWave()
-    {
-        CoroutineManagement.Instance.StartCoroutine(MonsterWaveCoroutine());
-    }
-
-    private IEnumerator MonsterWaveCoroutine()
-    {
-        var delay = UnityEngine.Random.Range(0.0f, 60.0f);
-        yield return new WaitForSeconds(delay);
-        MonsterWave.Start();
     }
 
     public void GenerateWorldAsync(Action<float, string> progressCallback = null, Action completedCallback = null)

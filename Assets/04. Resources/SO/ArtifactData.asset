@@ -17,109 +17,77 @@ MonoBehaviour:
   - {fileID: 4300052, guid: eb8566b6e75507e48bd8ec4fff8f4dd9, type: 3}
   <HPMax>k__BackingField: 1
   <HpRegen>k__BackingField: 0
-  <InfluenceAmount>k__BackingField: 0.03
+  <InfluenceAmount>k__BackingField: 0.05
   <LootingData>k__BackingField:
   - _lootings:
-    - _item: {fileID: 11400000, guid: a1020833cf086984eaddf8c111fc9f94, type: 2}
+    - _item: {fileID: 11400000, guid: 63dea3e71c2076f4db8b39eb918c5d69, type: 2}
       _distribution:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 136
+          value: 0
+          inSlope: 0.07284518
+          outSlope: 0.07284518
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0.9443179
+        - serializedVersion: 3
+          time: 0.8
+          value: 1
+          inSlope: Infinity
+          outSlope: Infinity
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         - serializedVersion: 3
           time: 1
           value: 1
           inSlope: 0
           outSlope: 0
-          tangentMode: 136
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 4
-    - _item: {fileID: 11400000, guid: e52fd14ba5118174b89e456530a2ab8e, type: 2}
-      _distribution:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 136
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 136
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        m_PreInfinity: 0
-        m_PostInfinity: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
         m_RotationOrder: 4
   - _lootings:
-    - _item: {fileID: 11400000, guid: a1020833cf086984eaddf8c111fc9f94, type: 2}
+    - _item: {fileID: 11400000, guid: c601c478c90291d49be434a5fa75759d, type: 2}
       _distribution:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
-          tangentMode: 136
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.8
+          value: 0
+          inSlope: -Infinity
+          outSlope: -Infinity
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
+          outWeight: 0
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 136
+          inSlope: 5.0000005
+          outSlope: 5.0000005
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 4
-    - _item: {fileID: 11400000, guid: 5dd63cd46cf3a174da82b9136f74f149, type: 2}
-      _distribution:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 136
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 136
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        m_PreInfinity: 0
-        m_PostInfinity: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
         m_RotationOrder: 4
   <Prefab>k__BackingField: {fileID: 7020486201509739047, guid: a8b80a20e05d9af4b980a48173f38c07, type: 3}
-  <CreateCount>k__BackingField: 5
+  <CreateCount>k__BackingField: 2

@@ -1,6 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+
+[System.Serializable]
+public struct SaveMonster
+{
+    public SaveMonster(string name, Vector3 position)
+    {
+        this.name = name;
+        this.position = position;
+    }
+
+    public string name;
+    public Vector3 position;
+}
+
+[System.Serializable]
+public class MonsterContainer
+{
+    [SerializeField] public List<SaveMonster> monsters = new();
+}
 
 // 2024. 01. 20 Park Jun Uk
 public class MonsterWave
@@ -11,10 +32,14 @@ public class MonsterWave
     private int _maxDistance = 37;
     public Stack<Vector3> wavePoints = new Stack<Vector3>();
     private MonsterGroup _defaultMonsters = new MonsterGroup(); // GameManager 가 가지고 있는 일반섬 목록.
-    
+    public List<Monster> monsters = new();
+
     public MonsterWave()
     {
         _defaultMonsters.AddMonsterType(new string[] { "Skeleton", "Bat" });
+        Load();
+
+        Managers.Game.OnSaveCallback += Save;
     }
 
     public void AddOverFlowedMonster(GameObject monster)
@@ -24,6 +49,8 @@ public class MonsterWave
 
     public void Start()
     {
+        monsters = monsters.Where(x => x != null).ToList();
+
         var maxCount = CalculateMonsterCountForWave();
         Debug.Log($"[ Monster Wave ] {maxCount}");
         
@@ -53,10 +80,26 @@ public class MonsterWave
         {
             var point = wavePoints.Pop();
             var monster = waveMonsters.Pop().GetComponent<Monster>();
-            monster.NavMeshAgent.Warp(point);
+            if (!monster.GetCurrentChunkActive())
+            {
+                monster.NavMeshAgent.Warp(point);
+                monster.GetComponent<ManagementedObject>()?.SwitchEnabled();
+            }
             monster.SetBerserkMode();
             monster.SetIsland(null);
+            monsters.Add(monster);
         }
+    }
+
+    public void Start(float delayTime)
+    {
+        CoroutineManagement.Instance.StartCoroutine(MonsterWaveCoroutine(delayTime));
+    }
+
+    private IEnumerator MonsterWaveCoroutine(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        Start();
     }
 
     private int CalculateMonsterCountForWave()
@@ -66,10 +109,11 @@ public class MonsterWave
 
     private int CalculateNumberOfOverFlowMonsterToUse()
     {
-        var date = Managers.Game.DayCycle.Date;
-        if (date % 8 == 7) return overflowMonsters.Count;
-        if (date % 8 % 3 == 0) return 1;
-        return 0;
+        return overflowMonsters.Count;
+        //var date = Managers.Game.DayCycle.Date;
+        //if (date % 8 == 7) return overflowMonsters.Count;
+        //if (date % 8 % 3 == 0) return 1;
+        //return 0;
     }
 
     private void CalcalateWavePoint(int count)
@@ -87,5 +131,38 @@ public class MonsterWave
                 wavePoints.Push(hit.point);
             }
         }
+    }
+
+    private void Load()
+    {
+        MonsterContainer container = new();
+        if (SaveGame.TryLoadJsonToObject(container, SaveGame.SaveType.Runtime, "MonsterWave"))
+        {
+            for(int i = 0; i < container.monsters.Count; ++i)
+            {
+                var path = $"{container.monsters[i].name}.prefab";
+                var prefab = Managers.Resource.GetCache<GameObject>(path);
+                var monster = Object.Instantiate(prefab, container.monsters[i].position, Quaternion.identity).GetComponent<Monster>();
+                monster.SetBerserkMode();
+                monsters.Add(monster);
+            }
+        }
+    }
+
+    private void Save()
+    {
+        MonsterContainer container = new();
+        monsters = monsters.Where(x => x != null).ToList();
+
+        for (int i = 0; i < monsters.Count; ++i)
+        {
+            var name = monsters[i].Data.name;
+            var pos = monsters[i].transform.position;
+
+            container.monsters.Add(new SaveMonster(name, pos));
+        }
+
+        var json = JsonUtility.ToJson(container);
+        SaveGame.CreateJsonFile("MonsterWave", json, SaveGame.SaveType.Runtime);
     }
 }

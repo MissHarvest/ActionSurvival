@@ -20,4 +20,22 @@ public static class Extensions
         var serializableDict = JsonUtility.FromJson<SerializableDictionary<TKey, TValue>>(jsonStr);
         return serializableDict.ToDictionary();
     }
+
+    public static bool GetCurrentChunkActive(this Component obj)
+    {
+        if (!Managers.Game.IsRunning)
+            return false;
+        var cc = Managers.Game.World.ConvertChunkCoord(obj.transform.position);
+        Managers.Game.World.ChunkMap.TryGetValue(cc, out var chunk);
+        return chunk.IsActive;
+    }
+
+    public static bool GetCurrentChunkActive(this GameObject obj)
+    {
+        if (!Managers.Game.IsRunning)
+            return false;
+        var cc = Managers.Game.World.ConvertChunkCoord(obj.transform.position);
+        Managers.Game.World.ChunkMap.TryGetValue(cc, out var chunk);
+        return chunk.IsActive;
+    }
 }

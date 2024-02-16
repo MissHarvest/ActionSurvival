@@ -149,7 +149,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3140925047802273816}
-  m_Mesh: {fileID: 4300062, guid: eb8566b6e75507e48bd8ec4fff8f4dd9, type: 3}
+  m_Mesh: {fileID: 4300052, guid: eb8566b6e75507e48bd8ec4fff8f4dd9, type: 3}
 --- !u!1 &7020486201509739047
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +223,7 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 4
-    - _item: {fileID: 11400000, guid: e52fd14ba5118174b89e456530a2ab8e, type: 2}
+    - _item: {fileID: 11400000, guid: 5dd63cd46cf3a174da82b9136f74f149, type: 2}
       _distribution:
         serializedVersion: 2
         m_Curve:
