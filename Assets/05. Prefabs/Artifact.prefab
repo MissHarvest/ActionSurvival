@@ -197,6 +197,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dropTable:
-    _lootings: []
+    _lootings:
+    - _item: {fileID: 11400000, guid: 63dea3e71c2076f4db8b39eb918c5d69, type: 2}
+      _distribution:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0.07284518
+          outSlope: 0.07284518
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.9443179
+        - serializedVersion: 3
+          time: 0.8
+          value: 1
+          inSlope: Infinity
+          outSlope: Infinity
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
   _hitbox: {fileID: 1097152167430688426}
   _model: {fileID: 4347823920366786052}
