@@ -10,5 +10,6 @@ public class UIPlayerHunger : UIPlayerCondition
         var hunger = GameObject.Find("Player").GetComponent<PlayerConditionHandler>().Hunger;
         _maxConditionValue = hunger.maxValue;
         hunger.OnUpdated += OnConditionUpdated;
+        OnConditionUpdated(hunger.GetPercentage());
     }
 }

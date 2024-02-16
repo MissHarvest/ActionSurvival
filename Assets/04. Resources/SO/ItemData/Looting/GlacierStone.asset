@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2439b46ca40d30d47a6ecb3d2cabd970, type: 3}
-  m_Name: StoneItemData
+  m_Name: GlacierStone
   m_EditorClassIdentifier: 
-  displayName: "\uB3CC\uBA69\uC774"
-  description: "\uD754\uD55C \uB3CC\uBA69\uC774\uB2E4."
-  iconSprite: {fileID: 21300000, guid: 99bbc83bebbd36849b732a06e55ad60e, type: 3}
+  displayName: "\uBE59\uD558\uC11D"
+  description: "\uBE59\uD558\uC12C\uC758 \uC544\uD2F0\uD329\uD2B8\uC5D0\uC11C \uB4DC\uBB3C\uAC8C
+    \uD68D\uB4DD\uD560 \uC218 \uC788\uB2E4."
+  iconSprite: {fileID: 21300000, guid: 7c317a7b1aef9e64e9ca3d82d64f843c, type: 3}

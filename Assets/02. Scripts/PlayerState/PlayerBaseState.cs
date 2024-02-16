@@ -19,13 +19,11 @@ public class PlayerBaseState : IState
     public virtual void Enter()
     {
         AddInputActionsCallbacks();
-        _buildingSystem.OnBuildRequested += OnBuildRequested;
     }
 
     public virtual void Exit()
     {
         RemoveInputActionsCallbacks();
-        _buildingSystem.OnBuildRequested -= OnBuildRequested;
     }
 
     public virtual void Update()
@@ -124,6 +122,7 @@ public class PlayerBaseState : IState
         input.PlayerActions.Inventory.started += OnInventoryShowAndHide;
 
         input.PlayerActions.Esc.started += PauseGame;
+        _buildingSystem.OnBuildRequested += OnBuildRequested;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
@@ -136,6 +135,8 @@ public class PlayerBaseState : IState
         input.PlayerActions.QuickSlot.started -= OnQuickUseStarted;
         input.PlayerActions.Inventory.started -= OnInventoryShowAndHide;
         input.PlayerActions.Esc.started -= PauseGame;
+
+        _buildingSystem.OnBuildRequested -= OnBuildRequested;
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
@@ -210,7 +211,11 @@ public class PlayerBaseState : IState
 
     private void PauseGame(InputAction.CallbackContext context)
     {
-        Managers.UI.ShowPopupUI<UIPauseGame>();
+        var ui = Managers.UI.GetPopupUI<UIPauseGame>();
+        if (!ui.gameObject.activeSelf)
+        {
+            Managers.UI.ShowPopupUI<UIPauseGame>();
+        }      
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)

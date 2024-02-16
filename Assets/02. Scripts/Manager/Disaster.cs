@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using Unity.Jobs;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -21,13 +17,14 @@ public class Disaster : IAttack
 
     private Transform _target;
     private float _range = 10.0f;
-    private float _meteorTemp = 10.0f;
+    private float _meteorTemp = 20.0f;
     private float _blizardTemp = -10.0f;
     private float _damage = 10.0f;
 
     private System.Action _fallDisaster;
     private bool _active = false;
     private Vector3[] _points;
+    private Season _season;
 
     public void Init(Player player)
     {
@@ -43,10 +40,27 @@ public class Disaster : IAttack
         _indicatores = new ObjectPool<AttackIndicatorCircle>(CreateIndicator, OnGetIndicator, OnReleaseIndicator, OnDestroyIndicator, maxSize: 30);
         
         Managers.Game.DayCycle.OnTimeUpdated += Fall;
+        Managers.Game.Season.OnSeasonChanged += OnSeasonChanged;
 
         _points = new Vector3[10];
-        _active = true;
-        OnEnterWinter();
+    }
+
+    private void OnSeasonChanged(Season.State state)
+    {
+        switch(state)
+        {
+            case Season.State.Summer:
+                OnEnterSummer();
+                break;
+
+            case Season.State.Winter:
+                OnEnterWinter();
+                break;
+
+            default:
+                _active = false;
+                break;
+        }
     }
 
     private void Fall()
@@ -57,11 +71,13 @@ public class Disaster : IAttack
 
     private void OnEnterSummer()
     {
+        _active = true;
         _fallDisaster = FallMeteor;
     }
 
     private void OnEnterWinter()
     {
+        _active = true;
         _fallDisaster = FallBlizard;
     }
 

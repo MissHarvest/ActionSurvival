@@ -81,8 +81,6 @@ public class UIManager
 
     #endregion
 
-
-
     #region Popup UI
 
     public T ShowPopupUI<T>(string name = null) where T : UIPopup
