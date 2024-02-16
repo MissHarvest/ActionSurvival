@@ -49,7 +49,7 @@ public class Tutorial : MonoBehaviour
 
     private void Start()
     {
-        BindInventoryEvents();
+        BindEvents();
     }
 
     #region Quest Logic
@@ -71,7 +71,7 @@ public class Tutorial : MonoBehaviour
         return true;
     }
 
-    private void BindInventoryEvents()
+    private void BindEvents()
     {
         Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
         Managers.Game.Player.Building.OnBuildCompleted += OnBuildUpdated;
@@ -120,7 +120,7 @@ public class Tutorial : MonoBehaviour
         var targetName = quest.questSO.targetName;
 
         var targets = Physics.SphereCastAll(transform.position, 50.0f, Vector3.up, 0, targetLayer);
-        if (targetLayer == LayerMask.GetMask("Resources"))
+        if (targetLayer == LayerMask.GetMask("Resources") || targetName == "Artifact")
             targets = targets.Where(x => x.transform.parent.name.Contains(targetName)).ToArray();
         else
             targets = targets.Where(x => x.transform.name.Contains(targetName)).ToArray();
