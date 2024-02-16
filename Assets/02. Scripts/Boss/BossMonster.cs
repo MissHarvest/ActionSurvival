@@ -76,6 +76,7 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
 
     public void Die()
     {
+        looting.AddInventory(Managers.Game.Player.Inventory);
         _stateMachine.ChangeState(_stateMachine.DieState);
     }
 

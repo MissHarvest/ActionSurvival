@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 3220210344042879218}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!195 &8628763876675879636
 NavMeshAgent:
@@ -83,7 +83,32 @@ MonoBehaviour:
     delayParamterName: Delay
     invincibilityParamterName: Invincibility
   looting:
-    _lootings: []
+    _lootings:
+    - _item: {fileID: 11400000, guid: 2f68308d8544f4f458fcfef51bdea423, type: 2}
+      _distribution:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0
