@@ -19,7 +19,7 @@ public class DayLight : MonoBehaviour
     private void Awake()
     {       
         RenderSettings.ambientIntensity = 0.0f;
-        RenderSettings.reflectionIntensity = 0.0f;
+        RenderSettings.reflectionIntensity = 0.1f;
         RenderSettings.fog = true;
         RenderSettings.fogDensity = 0.02f;
         

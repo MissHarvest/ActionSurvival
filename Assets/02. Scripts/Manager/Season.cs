@@ -1,12 +1,21 @@
 using System;
+using System.Diagnostics;
+using static UnityEditorInternal.VersionControl.ListControl;
 
 // 2024-02-14 WJY
 public class Season
 {
-    private int _lastState;
+    public enum State
+    {
+        Spring,
+        Summer,
+        Winter,
+    }
+
+    private State _lastState = State.Spring;
     private float _value;
     public SeasonData Data { get; private set; }
-    public event Action OnSeasonChanged;
+    public event Action<State> OnSeasonChanged;
     public float CurrentValue => _value;
     public bool IsRestPeriod => !IsFireIslandActive && !IsIceIslandActive;
     public bool IsFireIslandActive => _value >= Data.FireIslandActivateThreshold;
@@ -14,6 +23,7 @@ public class Season
 
     public void Initialize(int date)
     {
+        OnSeasonChanged = null;
         Data = Managers.Resource.GetCache<SeasonData>("SeasonData.data");
         Update(date);
     }
@@ -22,23 +32,24 @@ public class Season
     {
         _value = SetValue(date);
 
-        int currentState = SetState();
+        State currentState = SetState();
+        
         if (_lastState != currentState)
         {
             _lastState = currentState;
-            OnSeasonChanged?.Invoke();
+            OnSeasonChanged?.Invoke(currentState);
         }
     }
 
-    private int SetState()
+    private State SetState()
     {
-        int state;
+        State state;
         if (IsFireIslandActive)
-            state = 1;
+            state = State.Summer;
         else if (IsIceIslandActive)
-            state = 2;
+            state = State.Winter;
         else
-            state = 0;
+            state = State.Spring;
         return state;
     }
 

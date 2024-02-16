@@ -42,7 +42,7 @@ public abstract class UIPlayerCondition : UIBase
 
     protected abstract void BindToPlayerCondition();
 
-    protected void OnConditionUpdated(float percentage)
+    protected virtual void OnConditionUpdated(float percentage)
     {
         Get<Slider>((int)Sliders.ConditionSlider).value = percentage;
         Get<TextMeshProUGUI>((int)Texts.ConditionText).text = $"{(int)Mathf.Round(_maxConditionValue * percentage)}";

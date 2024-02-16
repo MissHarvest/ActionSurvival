@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8900480423150592047}
   m_Layer: 7
   m_Name: TerrorBringer
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80,6 +80,8 @@ MonoBehaviour:
     stabParameterName: Stab
     flyParameterName: Fly
     dieParamterName: Die
+    delayParamterName: Delay
+    invincibilityParamterName: Invincibility
   looting:
     _lootings: []
   <HP>k__BackingField:

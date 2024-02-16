@@ -9,6 +9,7 @@ public class Artifact : MonoBehaviour
     [SerializeField] private ArtifactHitbox _hitbox;
     [SerializeField] private MeshFilter _model;
     private Season _season;
+    private DayCycle _dayCycle;
     private float _influenceAmount;
     private Island _island;
     public string IslandName => _island.Property.name;
@@ -25,6 +26,8 @@ public class Artifact : MonoBehaviour
         _hitbox.SetInfo(data.HPMax, data.HpRegen, currentHP);
         _season = Managers.Game.Season;
         _season.OnSeasonChanged += DestroyByNature;
+        _dayCycle = Managers.Game.DayCycle;
+        _dayCycle.OnEveningCame += SpawnOverflowedMonster;
         SetManagementedObject();
     }
 
@@ -67,15 +70,23 @@ public class Artifact : MonoBehaviour
         DestroyArtifact();
     }
 
-    public void DestroyByNature()
+    public void SpawnOverflowedMonster()
     {
-        // TODO: Call MonsterWave
+        Managers.Game.MonsterWave.AddOverFlowedMonster(_island.Spawn());
+    }
+
+    public void DestroyByNature(Season.State state)
+    {
+        //// TODO: Call MonsterWave
+        // See Also: 파괴될 때 생성이 아니라 매일 밤마다 생성 ?
+        //Managers.Game.MonsterWave.AddOverFlowedMonster(_island.Spawn());
         DestroyArtifact();
     }
 
     public void DestroyArtifact()
     {
         _season.OnSeasonChanged -= DestroyByNature;
+        _dayCycle.OnEveningCame -= SpawnOverflowedMonster;
         OnDestroy?.Invoke(this);
         ReduceInfluence();
         Destroy(gameObject);

@@ -24,9 +24,7 @@ public class UIMainScene : UIScene
     {
         Initialize();
 
-#if UNITY_ANDROID
-        Get<GameObject>((int)GameObjects.PC).SetActive(false);
-#endif
+        Get<GameObject>((int)GameObjects.PC).SetActive(true);
     }
 
     public override void Initialize()

@@ -28,6 +28,7 @@ public class UIWarning : UIPopup
 
     private HashSet<string> _onceWarnings = new();
     [SerializeField] private List<string> _save = new();
+    private bool _show = false;
 
     public override void Initialize()
     {
@@ -69,6 +70,8 @@ public class UIWarning : UIPopup
 
     public void SetWarning(string warning)
     {
+        if (_show) return;
+        _show = true;
         PrintWarning(warning);
         StartCoroutine(HideAfterSec(1.0f));
     }
@@ -125,6 +128,7 @@ public class UIWarning : UIPopup
 
     private void Close()
     {
+        _show = false;
         Managers.UI.ClosePopupUI(this);
         Time.timeScale = 1.0f;
     }
@@ -133,12 +137,12 @@ public class UIWarning : UIPopup
     {
         yield return null;
         var json = JsonUtility.ToJson(this);
-        SaveGame.CreateJsonFile("Guide", json, SaveGame.SaveType.Runtime);
+        SaveGame.CreateJsonFile("Guide", json, SaveGame.SaveType.Other);
     }
 
     private void Load()
     {
-        if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "Guide"))
+        if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Other, "Guide"))
         {
             foreach(var warning in _save)
             {

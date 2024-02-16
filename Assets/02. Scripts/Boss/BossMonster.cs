@@ -22,7 +22,7 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
     public ItemDropTable looting;
     public bool Dead { get; private set; }
 
-    public event System.Action<IAttack> OnHit;
+    //public event System.Action<IAttack> OnHit;
     [field: SerializeField] public Condition HP { get; private set; }
     [field: SerializeField] public MonsterSO Data { get; private set; }
 
@@ -81,7 +81,7 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
 
     public void Attack(IHit target)
     {
-        target.Hit(this, 10);
+        target.Hit(this, 35);
     }
 
     public void Hit(IAttack attacker, float damage)

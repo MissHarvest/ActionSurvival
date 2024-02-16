@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossRushState : BossAttackState
 {
-    private RectAttackIndicator _indicator;
+    private GameObject _indicatorPrefab;
 
     public BossRushState(BossStateMachine stateMachine) : base(stateMachine)
     {
@@ -12,11 +12,7 @@ public class BossRushState : BossAttackState
         cooltime = 15.0f;
         weight = 15.0f;
 
-        var indicatorprefab = Managers.Resource.GetCache<GameObject>("RectAttackIndicator.prefab");
-        var go = Object.Instantiate(indicatorprefab, _stateMachine.Boss.transform.position, Quaternion.identity);
-
-        _indicator = go.GetComponentInChildren<RectAttackIndicator>();
-        _indicator.gameObject.SetActive(false);
+        _indicatorPrefab = Managers.Resource.GetCache<GameObject>("RectAttackIndicator.prefab");
     }
 
     public override void Enter()
@@ -30,6 +26,7 @@ public class BossRushState : BossAttackState
 
         var dist = _reach;
         var destination = _stateMachine.Boss.transform.position + direction * _reach;
+        _stateMachine.Boss.NavMeshAgent.SetDestination(destination);
 
         if (Physics.Raycast(_stateMachine.Boss.transform.position + Vector3.up * 0.5f, direction, out RaycastHit hit, _reach, 1 << 12))
         {
@@ -41,7 +38,7 @@ public class BossRushState : BossAttackState
             }
         }
 
-        _indicator.Activate(_stateMachine.Boss.transform.position, direction, dist, 1.0f);
+        ShowIndicator(direction, dist, 1.0f);
 
         // 1.0 초 대기 후  && 대기 하면서 indicator 확장
         CoroutineManagement.Instance.StartCoroutine(Stay(1.0f,
@@ -54,7 +51,6 @@ public class BossRushState : BossAttackState
                 _stateMachine.Boss.GetMonsterWeapon(BossMonster.Parts.Body).ActivateWeapon();
                 
                 base.Enter();
-                _stateMachine.Boss.NavMeshAgent.SetDestination(destination);
                 
                 StartAnimation(_stateMachine.Boss.AnimationData.RushParameterHash);
             }));
@@ -77,5 +73,12 @@ public class BossRushState : BossAttackState
         {
             _stateMachine.ChangeState(_stateMachine.BattleState);
         }
+    }
+
+    private void ShowIndicator(Vector3 direction, float dist, float time)
+    {
+        var go = Object.Instantiate(_indicatorPrefab, _stateMachine.Boss.transform.position, Quaternion.identity);
+        var indicator = go.GetComponentInChildren<RectAttackIndicator>();
+        indicator.Activate(_stateMachine.Boss.transform.position, direction, dist, 1.0f);
     }
 }
