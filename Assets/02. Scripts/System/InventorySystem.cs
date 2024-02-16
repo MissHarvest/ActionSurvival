@@ -31,7 +31,7 @@ public class InventorySystem : MonoBehaviour
     public void AddDefaultToolAsTest()
     {
         var itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
-        AddItem(itemData, 20);
+        AddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
         AddItem(itemData, 10);
 
