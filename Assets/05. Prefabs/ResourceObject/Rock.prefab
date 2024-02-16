@@ -437,9 +437,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 423278244797550588, guid: aab8bae050afe1142bd35c0489849e52, type: 3}
-  _distribution: 0.2
-  _maxRange: 1
-  _minRange: 0.5
+  _distribution: 0.25
+  _maxRange: 1.5
+  _minRange: 1
   _maxCreateCount: 1
 --- !u!208 &5697029715808203273
 NavMeshObstacle:
