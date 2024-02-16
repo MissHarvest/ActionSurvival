@@ -110,7 +110,7 @@ public class PlayerInventorySystem : InventorySystem
         if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "PlayerInventory") == false)
         {
 #if UNITY_EDITOR
-            AddDefaultToolAsTest();
+            //AddDefaultToolAsTest();
 #endif
         }
         else
