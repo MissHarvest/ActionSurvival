@@ -67,7 +67,7 @@ public class Artifact : MonoBehaviour
         DestroyArtifact();
     }
 
-    public void DestroyByNature()
+    public void DestroyByNature(Season.State state)
     {
         // TODO: Call MonsterWave
         DestroyArtifact();

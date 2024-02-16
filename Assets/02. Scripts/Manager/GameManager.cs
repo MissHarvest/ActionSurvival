@@ -46,6 +46,7 @@ public class GameManager
         MonsterWave = new MonsterWave();
 
         DayCycle.Init();
+        Disaster.Init(Player);
         DayCycle.OnEveningCame += SpawnMonster;
         DayCycle.OnNightCame += StartMonsterWave;
         DayCycle.OnMorningCame += SaveCallback;
@@ -59,7 +60,6 @@ public class GameManager
         InitIslands();
         ArtifactCreator = new(this);
         Temperature.Init(this);
-        Disaster.Init(Player);
 
         Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
 
