@@ -47,6 +47,12 @@ public class PlayerConditionHandler : MonoBehaviour
         if(amount >= _full)
         {
             HP.regenRate = _hpRegenOfFullState;
+
+            Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
+            "포만감 상태일 때,\n체력이 점차 회복됩니다.",
+            UIWarning.Type.YesOnly,
+            () => { Managers.UI.ClosePopupUI(); },
+            true);
         }
         HP.decayRate = 0;
     }
@@ -54,6 +60,12 @@ public class PlayerConditionHandler : MonoBehaviour
     private void OnHungerZero()
     {
         HP.decayRate = 2.0f;
+
+        Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
+            "허기가 0 입니다!!\n서둘러 음식을 섭취하세요.\n체력이 감소합니다.",
+            UIWarning.Type.YesOnly,
+            () => { Managers.UI.ClosePopupUI(); },
+            true);
     }
 
     private void Update()

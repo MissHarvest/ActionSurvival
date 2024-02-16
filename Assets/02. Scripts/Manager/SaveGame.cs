@@ -11,6 +11,7 @@ public class SaveGame
     {
         Compile,
         Runtime,
+        Other
     }
 
     #region Json Data
@@ -25,6 +26,10 @@ public class SaveGame
 
             case SaveType.Runtime:
                 path = $"{Application.persistentDataPath}";                
+                break;
+
+            case SaveType.Other:
+                path = $"{Application.persistentDataPath}/Other/";
                 break;
         }
 
@@ -101,6 +106,10 @@ public class SaveGame
 
             case SaveType.Runtime:
                 path = $"{Application.persistentDataPath}/";
+                break;
+
+            case SaveType.Other:
+                path = $"{Application.persistentDataPath}/Other/";
                 break;
         }
         return path;

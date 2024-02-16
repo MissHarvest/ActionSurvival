@@ -81,7 +81,7 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
 
     public void Attack(IHit target)
     {
-        target.Hit(this, 10);
+        target.Hit(this, 35);
     }
 
     public void Hit(IAttack attacker, float damage)

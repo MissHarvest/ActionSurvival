@@ -2232,7 +2232,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 220.2}
-  m_SizeDelta: {x: 804.6, y: 289.6}
+  m_SizeDelta: {x: 1101.6, y: 289.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &18507708749262313
 CanvasRenderer:
@@ -2262,7 +2262,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "[ PC \uC6A9 \uC870\uC791\uBC95 ]\n\n\uD130\uCE58\uD558\uBA74 \uC0AC\uB77C\uC9D1\uB2C8\uB2E4."
+  m_text: "[ PC / BlueStacks \uC870\uC791\uBC95 ]\n\n\uD130\uCE58\uD558\uBA74 \uC0AC\uB77C\uC9D1\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aa0031c1503e9cc43ae97a26f5e29133, type: 2}
   m_sharedMaterial: {fileID: 6143970270096263553, guid: aa0031c1503e9cc43ae97a26f5e29133, type: 2}
@@ -3985,7 +3985,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -50, y: -50}
+  m_AnchoredPosition: {x: -30, y: -30}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &4773904229839210691
@@ -5052,7 +5052,7 @@ RectTransform:
   - {fileID: 8177933903528219120}
   - {fileID: 3391216392567631197}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6406,9 +6406,13 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3188628088586231971, guid: 4f6c7eb9eae4ef345861a871f17cc6ce, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000015258789
+      objectReference: {fileID: 0}
     - target: {fileID: 5211004080911213659, guid: 4f6c7eb9eae4ef345861a871f17cc6ce, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 6252918564451803967, guid: 4f6c7eb9eae4ef345861a871f17cc6ce, type: 3}
       propertyPath: m_Pivot.x
