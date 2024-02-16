@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questUIName: "\uB3CC\uBA69\uC774\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
   questID: 1
-  preQuests: []
+  preQuests:
+  - {fileID: 11400000, guid: 8cd4271e8ea88b248bf96282f32c44d1, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}
     quantity: 1
