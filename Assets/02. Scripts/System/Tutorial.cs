@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Schema;
+using UnityEditor;
 using UnityEngine;
 using static UIBase;
 
@@ -48,7 +49,7 @@ public class Tutorial : MonoBehaviour
 
     private void Start()
     {
-        BindInventoryEvents();
+        BindEvents();
     }
 
     #region Quest Logic
@@ -70,7 +71,7 @@ public class Tutorial : MonoBehaviour
         return true;
     }
 
-    private void BindInventoryEvents()
+    private void BindEvents()
     {
         Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
         Managers.Game.Player.Building.OnBuildCompleted += OnBuildUpdated;
@@ -118,19 +119,28 @@ public class Tutorial : MonoBehaviour
         var targetLayer = quest.questSO.targetLayer;
         var targetName = quest.questSO.targetName;
 
-        var targets = Physics.SphereCastAll(transform.position, 50.0f, Vector3.up, 0, targetLayer, QueryTriggerInteraction.Collide);
-        if (targetLayer == LayerMask.GetMask("Architecture"))
-            targets = targets.Where(x => x.transform.name.Contains(targetName)).ToArray();
-        else
-            targets = targets.Where(x => x.transform.parent.name.Contains(targetName)).ToArray();
-        
-        if (targets.Length > 0)
+        var allHits = Physics.SphereCastAll(transform.position, 50.0f, Vector3.up, 0, targetLayer);
+        var validHits = allHits.Where(hit =>
         {
-            targets = targets.OrderBy(x => (transform.position - x.collider.gameObject.transform.position).sqrMagnitude).ToArray();
-            groups = targets.Select(x => x.collider).ToArray();
+            if (targetLayer == LayerMask.GetMask("Resources") || targetName == "Artifact")
+            {
+                var targetTransform = hit.transform.parent;
+                if (targetTransform != null)
+                    return targetTransform.name.Contains(targetName);
+            }
+            else
+                return hit.transform.name.Contains(targetName);
+
+            return false;
+        }).ToArray();
+
+        if (validHits.Length > 0)
+        {
+            validHits = validHits.OrderBy(x => (transform.position - x.collider.gameObject.transform.position).sqrMagnitude).ToArray();
+            groups = validHits.Select(x => x.collider).ToArray();
 
             _pathFinder.gameObject.SetActive(true);
-            _pathFinder.SetDestination(targets[0].collider.gameObject.transform.position);
+            _pathFinder.SetDestination(validHits[0].collider.gameObject.transform.position);
         }
         else
         {

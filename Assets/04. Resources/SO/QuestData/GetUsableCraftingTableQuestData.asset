@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
-  m_Name: GetHammerQuestData
+  m_Name: GetUsableCraftingTableQuestData
   m_EditorClassIdentifier: 
-  questUIName: "\uB9DD\uCE58\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 29
+  questUIName: "\uC4F8\uB9CC\uD55C \uC81C\uC791\uB300\uB97C \uC81C\uC791\uD558\uC138\uC694."
+  questID: 24
   preQuests:
-  - {fileID: 11400000, guid: e1cdeb553f9568642920a378ac9dbfb8, type: 2}
+  - {fileID: 11400000, guid: 46d85273e74a00c48b1f33e3a0eaa1f5, type: 2}
   requiredItems:
-  - item: {fileID: 11400000, guid: 9298f9989d0cf5f4ca96ac5ffde6eec0, type: 2}
+  - item: {fileID: 11400000, guid: 25a85efd3c859d44289a420ea35edf4b, type: 2}
     quantity: 1
   targetLayer:
     serializedVersion: 2
