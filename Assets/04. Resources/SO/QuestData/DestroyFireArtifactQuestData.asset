@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
-  m_Name: GetHammerQuestData
+  m_Name: DestroyFireArtifactQuestData
   m_EditorClassIdentifier: 
-  questUIName: "\uB9DD\uCE58\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 29
+  questUIName: "\uD654\uC5FC\uC12C\uC758 \uC544\uD2F0\uD329\uD2B8\uB97C \uC81C\uAC70\uD558\uACE0
+    \uBCF4\uC0C1\uC744 \uC5BB\uC73C\uC138\uC694."
+  questID: 30
   preQuests:
-  - {fileID: 11400000, guid: e1cdeb553f9568642920a378ac9dbfb8, type: 2}
+  - {fileID: 11400000, guid: 8bf882ed8e3b98f439d58740bfb516fc, type: 2}
   requiredItems:
-  - item: {fileID: 11400000, guid: 9298f9989d0cf5f4ca96ac5ffde6eec0, type: 2}
+  - item: {fileID: 11400000, guid: 63dea3e71c2076f4db8b39eb918c5d69, type: 2}
     quantity: 1
   targetLayer:
     serializedVersion: 2
-    m_Bits: 2048
-  targetName: Crafting
+    m_Bits: 128
+  targetName: Artifact
   type: 0

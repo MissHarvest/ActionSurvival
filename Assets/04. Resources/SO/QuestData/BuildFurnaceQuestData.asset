@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
-  m_Name: GetHammerQuestData
+  m_Name: BuildFurnaceQuestData
   m_EditorClassIdentifier: 
-  questUIName: "\uB9DD\uCE58\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 29
+  questUIName: "\uD654\uB85C\uB97C \uC124\uCE58\uD558\uC138\uC694."
+  questID: 27
   preQuests:
-  - {fileID: 11400000, guid: e1cdeb553f9568642920a378ac9dbfb8, type: 2}
+  - {fileID: 11400000, guid: 3dce16dc5d9d24c4180e948a1d92bae1, type: 2}
   requiredItems:
-  - item: {fileID: 11400000, guid: 9298f9989d0cf5f4ca96ac5ffde6eec0, type: 2}
+  - item: {fileID: 11400000, guid: 3af86f924f19ee348aa2053f634168d8, type: 2}
     quantity: 1
   targetLayer:
     serializedVersion: 2
-    m_Bits: 2048
-  targetName: Crafting
-  type: 0
+    m_Bits: 0
+  targetName: 
+  type: 2
