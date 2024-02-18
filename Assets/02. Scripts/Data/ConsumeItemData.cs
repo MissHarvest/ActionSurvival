@@ -9,6 +9,7 @@ public class ConsumeItemData : ItemData
 
     public ConsumeItemData()
     {
+        _maxStackCount = 20;
         registable = true;
     }
 }

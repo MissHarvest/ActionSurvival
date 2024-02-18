@@ -7,11 +7,11 @@ public class EquipItemData : ItemData
 {
     [Header("Extra")]
     public ItemParts part;
-    public float maxDurability = 10f; //lgs
+    
     public int defense;
     public EquipItemData()
     {
-        stackable = false;
+        _maxStackCount = 1;
         registable = false;
     }
 }

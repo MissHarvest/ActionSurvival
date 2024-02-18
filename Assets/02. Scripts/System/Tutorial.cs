@@ -157,7 +157,7 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator GuideInventroy(ItemData itemData)
     {
-        Managers.Game.Player.Inventory.FindItem(itemData, out int index);
+        int index = Managers.Game.Player.Inventory.GetIndexOfItem(itemData);
         if (index == -1)
         {
             var warning =Managers.UI.ShowPopupUI<UIWarning>();

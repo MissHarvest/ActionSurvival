@@ -22,7 +22,7 @@ public class Quest
     {
         if (questSO.type == QuestSO.QuestType.Using) // 장착 퀘스트일 경우
         {
-            if (Managers.Game.Player.Inventory.slots[index].itemData is ToolItemData toolItem && !toolItem.isArchitecture)
+            if (Managers.Game.Player.Inventory.Get(index).itemData is ToolItemData toolItem && !toolItem.isArchitecture)
             {
                 for (int i = 0; i < Managers.Game.Player.QuickSlot.slots.Length; i++)
                 {
@@ -50,9 +50,9 @@ public class Quest
     {
         if (questSO.type == QuestSO.QuestType.Using)
         {
-            if (Managers.Game.Player.Inventory.slots[index].itemData is ToolItemData toolItem && toolItem.isArchitecture)
+            if (Managers.Game.Player.Inventory.Get(index).itemData is ToolItemData toolItem && toolItem.isArchitecture)
             {
-                if (Managers.Game.Player.Inventory.slots[index].itemData.name == questSO.requiredItems[0].item.name)
+                if (Managers.Game.Player.Inventory.Get(index).itemData.name == questSO.requiredItems[0].item.name)
                     return true;
             }
         }

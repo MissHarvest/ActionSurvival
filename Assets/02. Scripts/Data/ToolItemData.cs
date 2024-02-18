@@ -17,7 +17,7 @@ public class ToolItemData : EquipItemData
 
     public ToolItemData()
     {
-        //stackable = false;
+        _maxStackCount = 1;
         registable = true;
         part = ItemParts.Hand;
 

@@ -114,7 +114,7 @@ public class PlayerDestroyState : PlayerGroundedState
             //totalQuantityToObtain보다 maxQuantityToObtain가 큰 경우 방지
             int quantityToObtain = Mathf.Min(totalQuantityToObtain, maxQuantityToObtain);
 
-            Managers.Game.Player.Inventory.AddItem(selectedIngredients[i].item, quantityToObtain);
+            Managers.Game.Player.Inventory.AddItem_Before(selectedIngredients[i].item, quantityToObtain);
             Debug.Log($"재료 아이템명: {selectedIngredients[i].item.displayName}, 개수: {quantityToObtain}");
 
             totalQuantityToObtain -= quantityToObtain;

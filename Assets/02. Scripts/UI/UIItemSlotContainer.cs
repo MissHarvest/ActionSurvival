@@ -37,7 +37,7 @@ public class UIItemSlotContainer : UIBase
             if (slot != null)
             {
                 slot.BindGroup(this, i);
-                slot.Set(inventory.slots[i]);
+                slot.Set(inventory.Get(i));
                 slot.OnClicked(action);
             }
         }
