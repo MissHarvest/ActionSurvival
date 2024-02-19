@@ -21,7 +21,7 @@ public class UIQuickSlot : UIItemSlot
         durabilityCircle = Get<GameObject>((int)GameObjects.DurabilityCircle);
     }
 
-    public void Init(UIQuickSlotController quickSlotControllerUI, int index, ItemSlot_Class itemSlot)
+    public void Init(UIQuickSlotController quickSlotControllerUI, int index, ItemSlot itemSlot)
     {
         Initialize();
         UIQuickSlotController = quickSlotControllerUI;
@@ -29,7 +29,7 @@ public class UIQuickSlot : UIItemSlot
         Set(itemSlot);
     }
 
-    public override void Set(ItemSlot_Class itemSlot)
+    public override void Set(ItemSlot itemSlot)
     {
         if (itemSlot.itemData == null)
         {
@@ -44,7 +44,7 @@ public class UIQuickSlot : UIItemSlot
         UpdateDurabilityUI(itemSlot);
     }
 
-    private void UpdateDurabilityUI(ItemSlot_Class itemSlot)
+    private void UpdateDurabilityUI(ItemSlot itemSlot)
     {
         if (itemSlot.itemData is ToolItemData toolItem)
         {

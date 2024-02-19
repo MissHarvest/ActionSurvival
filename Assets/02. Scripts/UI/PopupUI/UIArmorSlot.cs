@@ -54,7 +54,7 @@ public class UIArmorSlot : UIItemSlot
         }
     }
 
-    public override void Set(ItemSlot_Class itemSlot)
+    public override void Set(ItemSlot itemSlot)
     {
         Get<Image>((int)Images.Icon).sprite = itemSlot.itemData.iconSprite;
         Get<Image>((int)Images.Icon).gameObject.SetActive(true);

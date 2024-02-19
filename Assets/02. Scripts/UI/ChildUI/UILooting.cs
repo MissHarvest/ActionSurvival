@@ -13,7 +13,7 @@ public class UILooting : UIBase
 
     private Stack<UILootingItemSlot> _usableSlots = new Stack<UILootingItemSlot>();
     private Stack<UILootingItemSlot> _usedSlots = new Stack<UILootingItemSlot>();
-    private Queue<ItemSlot_Class> _lootingItems = new Queue<ItemSlot_Class>();
+    private Queue<ItemSlot> _lootingItems = new Queue<ItemSlot>();
 
     public override void Initialize()
     {
@@ -76,7 +76,7 @@ public class UILooting : UIBase
     private void OnItemAdd(ItemData itemData, int quantity)
     {
         // itemSlot 이 필요한게 아니라 itemData, int 쌍이 필요한것이다
-        var itemSlot = new ItemSlot_Class();
+        var itemSlot = new ItemSlot();
         itemSlot.Set(itemData, quantity);
         _lootingItems.Enqueue(itemSlot);
     }

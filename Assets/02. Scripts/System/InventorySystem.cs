@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.CustomSpace;
-using ItemSlot = ItemSlot_Class;
+//using ItemSlot = ItemSlot_Class;
 
 public class InventorySystem : MonoBehaviour
 {

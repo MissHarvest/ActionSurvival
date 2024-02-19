@@ -18,14 +18,14 @@ public class UIToolRegistSlot : UIItemSlot
         });
     }
 
-    public void Init(UIToolRegister toolRegisterUI, int index, ItemSlot_Class itemSlot)
+    public void Init(UIToolRegister toolRegisterUI, int index, ItemSlot itemSlot)
     {
         UIToolRegister = toolRegisterUI;
         BindGroup(null, index);
         Set(itemSlot);
     }
 
-    public override void Set(ItemSlot_Class itemSlot)
+    public override void Set(ItemSlot itemSlot)
     {
         if(itemSlot == null)
         {

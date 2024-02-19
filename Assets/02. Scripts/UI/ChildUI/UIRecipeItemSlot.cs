@@ -35,7 +35,7 @@ public class UIRecipeItemSlot : UIBase
         _index = index;
     }
 
-    public virtual void Set(ItemSlot_Class itemSlot)
+    public virtual void Set(ItemSlot itemSlot)
     {
         if (itemSlot.itemData == null)
         {

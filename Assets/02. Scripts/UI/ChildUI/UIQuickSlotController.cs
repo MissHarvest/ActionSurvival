@@ -29,7 +29,7 @@ public class UIQuickSlotController : UIBase
         }
     }
 
-    private void OnQuickSlotUpdated(int index, ItemSlot_Class itemSlot)
+    private void OnQuickSlotUpdated(int index, ItemSlot itemSlot)
     {
         _slots[index].Set(itemSlot);
     }

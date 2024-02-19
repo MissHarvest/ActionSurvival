@@ -43,7 +43,7 @@ public class UIItemSlotContainer : UIBase
         }
     }
 
-    public void OnItemSlotUpdated(int index, ItemSlot_Class itemSlot)
+    public void OnItemSlotUpdated(int index, ItemSlot itemSlot)
     {
         _uiItemSlots[index].Set(itemSlot);
     }

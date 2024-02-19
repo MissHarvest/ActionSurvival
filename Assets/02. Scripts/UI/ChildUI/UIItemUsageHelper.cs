@@ -33,7 +33,7 @@ public class UIItemUsageHelper : UIItemHelper
         CreateButtonByEnum(Functions.Destroy);
     }
 
-    public override void ShowOption(ItemSlot_Class selectedSlot, Vector3 position)
+    public override void ShowOption(ItemSlot selectedSlot, Vector3 position)
     {
         Clear();
         gameObject.SetActive(true);
