@@ -26,7 +26,7 @@ public class UILootingItemSlot : UIItemSlot
         Get<TextMeshProUGUI>((int)Texts.Name).gameObject.SetActive(false);
     }
 
-    public override void Set(ItemSlot itemSlot)
+    public override void Set(ItemSlot_Class itemSlot)
     {
         base.Set(itemSlot);
         Get<TextMeshProUGUI>((int)Texts.Name).text = itemSlot.itemData.displayName;

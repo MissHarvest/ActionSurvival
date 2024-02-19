@@ -107,7 +107,7 @@ public abstract class UICraftBase : UIPopup
             var craftSlotPrefab = Managers.Resource.GetCache<GameObject>("UICraftItemSlot.prefab");
             var craftSlotGO = Instantiate(craftSlotPrefab, _content);
             var craftSlot = craftSlotGO.GetComponent<UICraftItemSlot>();
-            craftSlot?.Set(new ItemSlot(dataList[i].completedItemData), dataList[i]);
+            craftSlot?.Set(new ItemSlot_Class(dataList[i].completedItemData), dataList[i]);
 
             // UIRecipeItemSlot에 인덱스 및 수량 설정
             craftSlot.SetIndex(i);

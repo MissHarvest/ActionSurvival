@@ -59,7 +59,7 @@ public class UIToolRegister : UIPopup
         SelectedSlot = quickSlot;
     }
 
-    public void OnQuickSlotUpdate(int index, ItemSlot itemSlot)
+    public void OnQuickSlotUpdate(int index, ItemSlot_Class itemSlot)
     {
         _slots[index].Set(itemSlot);
     }

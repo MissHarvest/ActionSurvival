@@ -65,7 +65,7 @@ public class UIInventory : UIPopup
     private void ActivateItemUsageHelper(UIItemSlot itemslotUI)
     {   
         var inventoryslotui = itemslotUI as UIInventorySlot;
-        SelectedSlot.Set(inventoryslotui.Index, Managers.Game.Player.Inventory.Get(inventoryslotui.Index));
+        SelectedSlot.Set(inventoryslotui.Index, _playerInventory.Get(inventoryslotui.Index));
 
         var offset = inventoryslotui.RectTransform.sizeDelta.x;
         offset = offset / 1920 * _canvas.renderingDisplaySize.x;

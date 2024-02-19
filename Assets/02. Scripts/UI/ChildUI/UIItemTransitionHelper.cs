@@ -23,7 +23,7 @@ public class UIItemTransitionHelper : UIItemHelper
         }
     }
 
-    public override void ShowOption(ItemSlot selectedSlot, Vector3 position)
+    public override void ShowOption(ItemSlot_Class selectedSlot, Vector3 position)
     {
         Clear();
         gameObject.SetActive(true);

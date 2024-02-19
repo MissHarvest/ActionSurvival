@@ -6,7 +6,7 @@ using UnityEngine;
 
 // 2024. 01. 24 Byun Jeongmin
 public class BuildingSystem : MonoBehaviour
-{
+{    
     private GameObject _rayPointer;
 
     [SerializeField] private LayerMask _buildableLayer;

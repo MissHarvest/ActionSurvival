@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.CustomSpace;
+using ItemSlot = ItemSlot_Class;
 
 public class InventorySystem : MonoBehaviour
 {
@@ -121,10 +123,10 @@ public class InventorySystem : MonoBehaviour
     private bool CheckEnoughSlot(ItemData data, int quantity)
     {
         var remain = quantity;
-        
-        if(_itemDic.TryGetValue(data, out List<int> indexList))
+
+        if (_itemDic.TryGetValue(data, out List<int> indexList))
         {
-            for(int i = 0; i < indexList.Count;++i)
+            for (int i = 0; i < indexList.Count; ++i)
             {
                 var index = indexList[i];
                 if (_slots[index].IsFull) continue;
@@ -133,7 +135,7 @@ public class InventorySystem : MonoBehaviour
                 if (remain == 0) return true;
             }
         }
-                
+
         var fCount = (float)remain / data.MaxStackCount;
         int count = Mathf.CeilToInt(fCount);
         return GetEmptySlotCount() >= count;
@@ -142,7 +144,7 @@ public class InventorySystem : MonoBehaviour
     private int GetEmptySlotCount()
     {
         var count = 0;
-        for(int i = 0; i < _slots.Length; ++i)
+        for (int i = 0; i < _slots.Length; ++i)
         {
             if (_slots[i].itemData == null)
             {
@@ -168,7 +170,7 @@ public class InventorySystem : MonoBehaviour
 
     public int GetItemCount(int index)
     {
-        if(_slots[index].itemData != null)
+        if (_slots[index].itemData != null)
         {
             return _slots[index].quantity;
         }
@@ -210,7 +212,7 @@ public class InventorySystem : MonoBehaviour
     /// </summary>
     /// <param name="index"></param>
     /// <returns></returns>
-    public bool TryConsumeQuantity(int index, int quantity = 1) 
+    public bool TryConsumeQuantity(int index, int quantity = 1)
     {
         var able = GetItemCount(index) >= quantity;
         if (able)
@@ -231,7 +233,7 @@ public class InventorySystem : MonoBehaviour
 
     private void UpdateDic(ItemData itemData)
     {
-        if(_itemDic.TryGetValue(itemData, out List<int> indexList))
+        if (_itemDic.TryGetValue(itemData, out List<int> indexList))
         {
             _itemDic[itemData] = indexList.Where(x => _slots[x].itemData != null).ToList();
         }
@@ -316,7 +318,7 @@ public class InventorySystem : MonoBehaviour
         index = -1;
         return null;
     }
-        
+
     /// <summary>
     /// [사용하지 않는 함수]
     /// </summary>
@@ -403,7 +405,7 @@ public class InventorySystem : MonoBehaviour
 
     public void TransitionItem(InventorySystem targetInventory, int index, int quantity)
     {
-        if (GetItemCount(index) < quantity) return;        
+        if (GetItemCount(index) < quantity) return;
 
         if (targetInventory.TryAddItem(_slots[index]))
         {
@@ -419,7 +421,7 @@ public class InventorySystem : MonoBehaviour
 
     public virtual void Load()
     {
-        if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"{gameObject.name}Inventory"))
+        if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"{gameObject.name}Inventory"))
         {
             for (int i = 0; i < _slots.Length; ++i)
             {
@@ -474,7 +476,7 @@ public class InventorySystem : MonoBehaviour
 
     public void TestClearInventory()
     {
-        for(int i = 0; i < _slots.Length; ++i)
+        for (int i = 0; i < _slots.Length; ++i)
         {
             _slots[i].Clear();
             OnUpdated?.Invoke(i, _slots[i]);
@@ -487,3 +489,4 @@ public class InventorySystem : MonoBehaviour
     }
 #endif
 }
+
