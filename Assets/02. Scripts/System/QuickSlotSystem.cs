@@ -122,7 +122,7 @@ public class QuickSlotSystem : MonoBehaviour
     {
         IndexInUse = index;
         int inventoryIndex = slots[IndexInUse].targetIndex;
-        slots[IndexInUse].Set(inventoryIndex, Managers.Game.Player.Inventory.slots[inventoryIndex]);
+        slots[IndexInUse].Set(inventoryIndex, Managers.Game.Player.Inventory.Get(inventoryIndex));
         OnUpdated?.Invoke(IndexInUse, slots[IndexInUse].itemSlot);
     }
 

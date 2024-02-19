@@ -19,14 +19,7 @@ public class ItemLooting
         (var item, var quantity) = Looting(weight);
         if (item != null && quantity != 0)
         {
-            if(!inventory.IsFull(item, quantity))
-            {
-                inventory.AddItem(item, quantity);
-            }
-            else
-            {
-                Managers.UI.ShowPopupUI<UIWarning>().SetWarning("인벤토리가 가득 찼습니다.");
-            }
+            inventory.TryAddItem(item, quantity);
         }
     }
 }

@@ -28,7 +28,7 @@ public class BuildingSystem : MonoBehaviour
 
     private void Awake()
     {
-        Owner = Managers.Game.Player;
+        Owner = GetComponentInParent<Player>();
         CreateRayPointer();
     }
 
@@ -53,7 +53,7 @@ public class BuildingSystem : MonoBehaviour
     public void CreateArchitectureByIndex(int index)
     {
         _rayPointer.transform.position = transform.position + Vector3.up * 2;
-        var handItemData = Managers.Game.Player.Inventory.slots[index].itemData as ToolItemData;
+        var handItemData = Owner.Inventory.Get(index).itemData as ToolItemData;
         if (!handItemData.isArchitecture) return;
 
         if (Physics.Raycast(_rayPointer.transform.position, Vector3.down, out RaycastHit hit, 100, _buildableLayer))
@@ -80,7 +80,7 @@ public class BuildingSystem : MonoBehaviour
         _buildableObject = null;
         
         // 인벤토리에서 제거
-        Managers.Game.Player.Inventory.UseArchitectureItem(_inventoryIndex);
+        // Managers.Game.Player.Inventory.UseArchitectureItem(_inventoryIndex);
         return true;
     }
 

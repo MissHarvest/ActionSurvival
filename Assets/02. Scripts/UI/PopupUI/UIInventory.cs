@@ -22,6 +22,7 @@ public class UIInventory : UIPopup
 
     public QuickSlot SelectedSlot { get; private set; } = new QuickSlot();
     private Canvas _canvas;
+    private InventorySystem _playerInventory;
 
     public override void Initialize()
     {
@@ -36,15 +37,15 @@ public class UIInventory : UIPopup
     {
         Debug.Log($"UI Inventory Awake [{gameObject.name}] [{this.name}]");
         Initialize();
-        var inventory = Managers.Game.Player.Inventory;
+        _playerInventory = Managers.Game.Player.Inventory;
         var prefab = Managers.Resource.GetCache<GameObject>("UIInventorySlot.prefab");
         var container = Get<UIItemSlotContainer>((int)Container.Contents);
-        container.CreateItemSlots<UIInventorySlot>(prefab, inventory.maxCapacity);
-        container.Init<UIInventorySlot>(inventory, ActivateItemUsageHelper);
+        container.CreateItemSlots<UIInventorySlot>(prefab, _playerInventory.maxCapacity);
+        container.Init<UIInventorySlot>(_playerInventory, ActivateItemUsageHelper);
 
         _canvas = GetComponent<Canvas>();
 
-        inventory.OnUpdated += container.OnItemSlotUpdated;
+        _playerInventory.OnUpdated += container.OnItemSlotUpdated;
 
         gameObject.SetActive(false);
     }
@@ -64,7 +65,7 @@ public class UIInventory : UIPopup
     private void ActivateItemUsageHelper(UIItemSlot itemslotUI)
     {   
         var inventoryslotui = itemslotUI as UIInventorySlot;
-        SelectedSlot.Set(inventoryslotui.Index, Managers.Game.Player.Inventory.slots[inventoryslotui.Index]);
+        SelectedSlot.Set(inventoryslotui.Index, Managers.Game.Player.Inventory.Get(inventoryslotui.Index));
 
         var offset = inventoryslotui.RectTransform.sizeDelta.x;
         offset = offset / 1920 * _canvas.renderingDisplaySize.x;
@@ -89,6 +90,7 @@ public class UIInventory : UIPopup
 
     private void ConsumeItem()
     {
+        // Managers.Game.Player.ItemUseHelper.ConsumeItem(index);
         Managers.Game.Player.Inventory.UseConsumeItemByIndex(SelectedSlot.targetIndex);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }

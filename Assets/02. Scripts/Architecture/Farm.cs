@@ -19,10 +19,12 @@ public class Farm : MonoBehaviour, IInteractable
     [SerializeField] public int State { get; set; } = 0;
 
     public ItemDropTable looting;
+    private ItemData _needItemData;
 
     private void Awake()
     {
         _stateMachine = new FarmStateMachine(this);
+        _needItemData = Managers.Resource.GetCache<ItemData>("SeedItemData.data");
     }
 
     private void Start()
@@ -46,7 +48,7 @@ public class Farm : MonoBehaviour, IInteractable
     {
         if (stateObject[0].activeSelf == true)
         {
-            if (SeedsInInventory())
+            if (SeedsInInventory(player.Inventory))
             {
                 _stateMachine.Interact(player);
             }
@@ -65,16 +67,19 @@ public class Farm : MonoBehaviour, IInteractable
         }
     }
 
-    private bool SeedsInInventory() // 인벤토리 find 함수 있음
+    private bool SeedsInInventory(InventorySystem inventory) // 인벤토리 find 함수 있음
     {
-        for (int i = 0; i < Managers.Game.Player.Inventory.slots.Length; i++)
-        {
-            if (Managers.Game.Player.Inventory.slots[i].itemData != null && Managers.Game.Player.Inventory.slots[i].itemData.name == "SeedItemData")
-            {
-                Managers.Game.Player.Inventory.RemoveItem(Managers.Game.Player.Inventory.slots[i].itemData, 1);
-                return true;
-            }
-        }
-        return false;
+        if (_needItemData == null) return false;
+
+        return inventory.TryConsumeQuantity(_needItemData, 1);
+        //for (int i = 0; i < inventory.slots.Length; i++)
+        //{
+        //    if (Managers.Game.Player.Inventory._slots[i].itemData != null && Managers.Game.Player.Inventory._slots[i].itemData.name == "SeedItemData")
+        //    {
+        //        Managers.Game.Player.Inventory.RemoveItem(Managers.Game.Player.Inventory._slots[i].itemData, 1);
+        //        return true;
+        //    }
+        //}
+        //return false;
     }
 }
