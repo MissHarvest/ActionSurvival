@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class ArmorSystem : MonoBehaviour
 {
+    //ToolSystem에 있으면 불필요한 코드가 대다수다. 합치는 방향이 나을 듯 저장도 따로 안 해도 되고
     public int _defense;
 
     public QuickSlot[] _linkedSlots;

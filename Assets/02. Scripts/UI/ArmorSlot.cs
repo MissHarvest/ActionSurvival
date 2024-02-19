@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ArmorSlot : MonoBehaviour
 {
+    //GetComponent 중복으로 사용이 짜친다. 바인딩을 하자.
     [SerializeField] private GameObject _armorSlotPrefab;
     [SerializeField] private Transform _position;
 
