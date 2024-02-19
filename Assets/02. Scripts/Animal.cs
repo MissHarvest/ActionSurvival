@@ -60,7 +60,7 @@ public class Animal : MonoBehaviour, IHit
         // [ TEMP ] Get Looting //
         foreach (var loot in looting)
         {
-            Managers.Game.Player.Inventory.AddItem(loot, 1);
+            //Managers.Game.Player.Inventory.AddItem(loot, 1);
         }
     }
 

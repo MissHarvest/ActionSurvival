@@ -10,9 +10,12 @@ public class ItemData : ScriptableObject
     public string description;
     public Sprite iconSprite;
 
-    public static int maxStackCount = 20;
+    protected int _maxStackCount = 20;
+    public int MaxStackCount => _maxStackCount;
 
-    public bool stackable { get; protected set; } = true;
+    public float MaxDurability { get; private set; } = 0.0f;
+
+    public bool stackable => MaxStackCount != 1;
     public bool registable { get; protected set; } = false;
 
     public float lootingRatio { get; private set; } = 0.0f;

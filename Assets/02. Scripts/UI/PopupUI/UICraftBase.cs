@@ -153,7 +153,7 @@ public abstract class UICraftBase : UIPopup
                 // completedItemData가 스택 가능한 경우
                 if (completedItemData.stackable)
                 {
-                    int maxStackSize = ItemData.maxStackCount;
+                    int maxStackSize = completedItemData.MaxStackCount;
 
                     while (totalQuantity > 0)
                     {
@@ -169,7 +169,7 @@ public abstract class UICraftBase : UIPopup
                         }
                         else
                         {
-                            Managers.Game.Player.Inventory.AddItem(completedItemData, quantityToAdd);
+                            Managers.Game.Player.Inventory.AddItem_Before(completedItemData, quantityToAdd);
                             totalQuantity -= quantityToAdd;
                         }
                     }
@@ -189,7 +189,7 @@ public abstract class UICraftBase : UIPopup
                         // 스택 불가능한 경우
                         while (totalQuantity > 0)
                         {
-                            Managers.Game.Player.Inventory.AddItem(completedItemData, 1);
+                            Managers.Game.Player.Inventory.AddItem_Before(completedItemData, 1);
                             totalQuantity -= 1;
                         }
                     }

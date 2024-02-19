@@ -27,7 +27,7 @@ public class UILooting : UIBase
 
         // Create Slot
         var player = GameObject.Find("Player").GetComponent<Player>();
-        player.Inventory.OnItemAdd += OnItemAdd;
+        player.Inventory.OnItemAdded += OnItemAdd;
 
         CreateSlots();
         StartCoroutine(ShowLootingItem());
@@ -73,11 +73,12 @@ public class UILooting : UIBase
         return null;
     }
 
-    private void OnItemAdd(ItemSlot itemslot)
+    private void OnItemAdd(ItemData itemData, int quantity)
     {
-        var itemData = new ItemSlot();
-        itemData.Set(itemslot);
-        _lootingItems.Enqueue(itemData);
+        // itemSlot 이 필요한게 아니라 itemData, int 쌍이 필요한것이다
+        var itemSlot = new ItemSlot();
+        itemSlot.Set(itemData, quantity);
+        _lootingItems.Enqueue(itemSlot);
     }
 
     IEnumerator DeleteSlot(UILootingItemSlot slot)

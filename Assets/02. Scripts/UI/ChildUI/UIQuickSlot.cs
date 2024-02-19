@@ -52,7 +52,7 @@ public class UIQuickSlot : UIItemSlot
 
             Image _durabilityCircleImage = durabilityCircle.GetComponent<Image>();
 
-            float maxDurability = toolItem.maxDurability;
+            float maxDurability = toolItem.MaxDurability;
             float currentDurability = itemSlot.currentDurability;
 
             float durabilityPercentage = Mathf.Clamp01(currentDurability / maxDurability);

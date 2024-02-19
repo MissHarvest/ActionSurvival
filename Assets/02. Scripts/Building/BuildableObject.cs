@@ -39,7 +39,7 @@ public class BuildableObject : MonoBehaviour, IHit
         var data = Managers.Resource.GetCache<ItemData>($"{architectureName}ItemData.data");
         if (data is ToolItemData tool)
         {
-            HP = new Condition(tool.maxDurability);
+            HP = new Condition(tool.MaxDurability);
         }
 
         HP.OnBelowedToZero += DestroyObject;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -69,7 +70,7 @@ public class UIStorage : UIPopup
                 
         for (int i = 0; i < storage.InventorySystem.maxCapacity; ++i)
         {
-            container.OnItemSlotUpdated(i, storage.InventorySystem.slots[i]);
+            container.OnItemSlotUpdated(i, storage.InventorySystem.Get(i));
         }
     }
 
@@ -84,7 +85,7 @@ public class UIStorage : UIPopup
 
     private void ActivateTransitionHelperToInventory(UIItemSlot itemslotUI)
     {
-        SelectedSlot.Set(itemslotUI.Index, _targetStorage.InventorySystem.slots[itemslotUI.Index]);
+        SelectedSlot.Set(itemslotUI.Index, _targetStorage.InventorySystem.Get(itemslotUI.Index));
         var inventoryslotui = itemslotUI as UIInventorySlot;
         var pos = new Vector3(inventoryslotui.transform.position.x + inventoryslotui.RectTransform.sizeDelta.x,
             inventoryslotui.transform.position.y);
@@ -93,7 +94,7 @@ public class UIStorage : UIPopup
 
     private void ActivateTransitionHelperToStorage(UIItemSlot itemslotUI)
     {
-        SelectedSlot.Set(itemslotUI.Index, Managers.Game.Player.Inventory.slots[itemslotUI.Index]);
+        SelectedSlot.Set(itemslotUI.Index, Managers.Game.Player.Inventory.Get(itemslotUI.Index));
         var inventoryslotui = itemslotUI as UIInventorySlot;
         var pos = new Vector3(inventoryslotui.transform.position.x + inventoryslotui.RectTransform.sizeDelta.x,
             inventoryslotui.transform.position.y);
@@ -103,6 +104,13 @@ public class UIStorage : UIPopup
     private void StoreItem()
     {
         //SelectedSlot
+        if (SelectedSlot.itemSlot.equipped || SelectedSlot.itemSlot.registed)
+        {
+            Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
+                "장착 또는 등록된 아이템은 이동할 수 없습니다.");
+            return;
+        }
+
         Managers.Game.Player.Inventory.TransitionItem(_targetStorage.InventorySystem, SelectedSlot.targetIndex);
         Get<UIItemTransitionHelper>((int)Helper.TransitionHelper).gameObject.SetActive(false);
     }
