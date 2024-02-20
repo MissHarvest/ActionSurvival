@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 // 2024. 02. 20 Byun Jeongmin
 [Serializable]
 public struct WholeVerticesArray
 {
-    public Vector3[] Verticearray;
+    [SerializeField]
+    public Vector3[,] Verticearray;
 }
 
 [Serializable]
@@ -19,13 +21,15 @@ public struct WholeColorsArray
 public class WholeMapIlluminator : MonoBehaviour
 {
     private GameObject _wholeShadowPlanePrefab;
+    private GameObject _wholeShadowPlane;
     private Transform _player;
     private Mesh _wholeMesh;
     private LayerMask _shadowLayer;
-    private WholeVerticesArray _verticesArray;
+    [SerializeField] private WholeVerticesArray _verticesArray;
     [SerializeField] private WholeColorsArray _colorsArray;
 
-    private Vector3 _hitPoint;
+    private Queue<Vector3> _queue = new Queue<Vector3>();
+    private HashSet<Vector3> _visited = new HashSet<Vector3>();
 
     private float _shadowRadius = 350f;
 
@@ -39,17 +43,59 @@ public class WholeMapIlluminator : MonoBehaviour
     private void Initialize()
     {
         _wholeShadowPlanePrefab = Managers.Resource.GetCache<GameObject>("WholeShadowPlane.prefab");
-        GameObject wholeShadowPlane = Instantiate(_wholeShadowPlanePrefab, new Vector3(0, 40, 0), Quaternion.Euler(-90, 0, 0));
-        _wholeMesh = wholeShadowPlane.GetComponent<MeshFilter>().mesh;
+        _wholeShadowPlane = Instantiate(_wholeShadowPlanePrefab, new Vector3(0, 40, 0), Quaternion.Euler(90, 0, 0));
+        _wholeMesh = _wholeShadowPlane.GetComponent<MeshFilter>().mesh;
         _shadowLayer = LayerMask.GetMask("ShadowLayer");
 
-        _verticesArray = new WholeVerticesArray { Verticearray = _wholeMesh.vertices };
-        _colorsArray = new WholeColorsArray { Colorarray = new Color[_verticesArray.Verticearray.Length] };
+        SortVertices();
+        _verticesArray = new WholeVerticesArray { Verticearray = SortVertices() };
+        _colorsArray = new WholeColorsArray { Colorarray = new Color[_verticesArray.Verticearray.GetLength(0) * _verticesArray.Verticearray.GetLength(1)] };
 
         for (int k = 0; k < _colorsArray.Colorarray.Length; k++)
         {
             _colorsArray.Colorarray[k] = Color.black;
         }
+    }
+
+    private Vector3[,] SortVertices()
+    {
+        int rowCount = Mathf.CeilToInt(_wholeMesh.bounds.size.x); //22
+        int colCount = Mathf.CeilToInt(_wholeMesh.bounds.size.y); //6
+
+        Vector3[,] sortedVertices = new Vector3[rowCount, colCount];
+
+        // x축 기준 정렬
+        Vector3[] sortedX = _wholeMesh.vertices.OrderBy(v => v.x).ToArray();
+
+        for (int i = 0; i < rowCount; i++)
+        {
+            for (int j = 0; j < colCount; j++)
+            {
+                int index = i * colCount + j;
+                if (index < sortedX.Length)
+                {
+                    sortedVertices[i, j] = sortedX[index];
+                }
+            }
+        }
+
+        // z축 기준 정렬
+        for (int j = 0; j < colCount; j++)
+        {
+            List<Vector3> colVertices = new List<Vector3>();
+            for (int i = 0; i < rowCount; i++)
+            {
+                colVertices.Add(sortedVertices[i, j]);
+            }
+            colVertices = colVertices.OrderBy(v => v.z).ToList();
+
+            for (int i = 0; i < rowCount; i++)
+            {
+                sortedVertices[i, j] = colVertices[i];
+            }
+        }
+
+        return sortedVertices;
     }
 
     private void Start()
@@ -66,30 +112,107 @@ public class WholeMapIlluminator : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 1000, _shadowLayer, QueryTriggerInteraction.Collide))
         {
-            _hitPoint = hit.point;
-            Debug.Log(hit.point);
-            UpdateAlpha(hit.point);
+            BFS(hit.point);
         }
+    }
+
+    private void BFS(Vector3 startPoint)
+    {
+        int rowCount = _verticesArray.Verticearray.GetLength(0);
+        int colCount = _verticesArray.Verticearray.GetLength(1);
+
+        int startRow = Mathf.FloorToInt((startPoint.x / _wholeMesh.bounds.size.x) * rowCount);
+        int startCol = Mathf.FloorToInt((startPoint.z / _wholeMesh.bounds.size.y) * colCount);
+
+        _queue.Enqueue(_verticesArray.Verticearray[startRow, startCol]);
+        _visited.Add(_verticesArray.Verticearray[startRow, startCol]);
+
+        while (_queue.Count > 0)
+        {
+            Vector3 currentPoint = _queue.Dequeue();
+
+            UpdateAlpha(currentPoint);
+
+            // 인접 정점 큐에 추가
+            AddNeighborsToQueue(_queue, _visited, currentPoint, rowCount, colCount);
+        }
+
+        UpdateColors();
+    }
+
+    private void AddNeighborsToQueue(Queue<Vector3> queue, HashSet<Vector3> visited, Vector3 point, int rowCount, int colCount)
+    {
+        int row = -1;
+        int col = -1;
+
+        // 정렬된 정점배열에서 현재 포인트의 위치 찾기
+        for (int i = 0; i < rowCount; i++)
+        {
+            for (int j = 0; j < colCount; j++)
+            {
+                if (_verticesArray.Verticearray[i, j] == point)
+                {
+                    row = i;
+                    col = j;
+                    break;
+                }
+            }
+            if (row != -1) break;
+        }
+
+        // 인접 정점 큐에 추가
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                int newRow = row + i;
+                int newCol = col + j;
+
+                if (newRow >= 0 && newRow < rowCount && newCol >= 0 && newCol < colCount)
+                {
+                    Vector3 neighbor = _verticesArray.Verticearray[newRow, newCol];
+
+                    // 정점이 유효하고, hitPoint로부터의 거리가 radiusCircle보다 작으면 큐에 추가
+                    if (IsValidPoint(neighbor))
+                    {
+                        float distance = Vector3.Distance(neighbor, point);
+                        if (distance < _radiusCircle && !visited.Contains(neighbor))
+                        {
+                            queue.Enqueue(neighbor);
+                            visited.Add(neighbor);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private bool IsValidPoint(Vector3 point)
+    {
+        return point.x >= 0 && point.x < _wholeMesh.bounds.size.x &&
+               point.z >= 0 && point.z < _wholeMesh.bounds.size.y;
     }
 
     private void UpdateAlpha(Vector3 hitPoint)
     {
         // 알파값 업데이트하는 기존 코드
-        for (int j = 0; j < _verticesArray.Verticearray.Length; j++)
+        for (int i = 0; i < _verticesArray.Verticearray.GetLength(0); i++)
         {
-            Vector3 vector3 = transform.TransformPoint(_verticesArray.Verticearray[j]);
-            var temp = vector3 - hitPoint;
-            temp.y = 0;
-            float distance = Vector3.SqrMagnitude(temp);
-
-            if (distance < _radiusCircle * _radiusCircle)
+            for (int j = 0; j < _verticesArray.Verticearray.GetLength(1); j++)
             {
-                float alpha = Mathf.Min(_colorsArray.Colorarray[j].a, distance / _radiusCircle);
-                _colorsArray.Colorarray[j].a = alpha;
+                Vector3 vector3 = _wholeShadowPlane.transform.TransformPoint(_verticesArray.Verticearray[i, j]);
+                var temp = vector3 - hitPoint;
+                temp.y = 0;
+                float distance = Vector3.SqrMagnitude(temp);
+
+                if (distance < _radiusCircle * _radiusCircle)
+                {
+                    int index = i * _verticesArray.Verticearray.GetLength(1) + j;
+                    float alpha = Mathf.Min(_colorsArray.Colorarray[index].a, distance / _radiusCircle);
+                    _colorsArray.Colorarray[index].a = alpha;
+                }
             }
         }
-
-        UpdateColors();
     }
 
     private void UpdateColors()
@@ -114,11 +237,5 @@ public class WholeMapIlluminator : MonoBehaviour
     {
         var json = JsonUtility.ToJson(this);
         SaveGame.CreateJsonFile("Minimap", json, SaveGame.SaveType.Runtime);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawSphere(_hitPoint, 0.2f);
     }
 }

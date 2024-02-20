@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 6379749}
   - component: {fileID: 6379748}
   - component: {fileID: 6379747}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 414409404}
   - component: {fileID: 414409403}
   - component: {fileID: 414409402}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}

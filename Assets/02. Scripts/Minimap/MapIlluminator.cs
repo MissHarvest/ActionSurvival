@@ -202,31 +202,4 @@ public class MapIlluminator : MonoBehaviour
         var json = JsonUtility.ToJson(this);
         SaveGame.CreateJsonFile("Minimap", json, SaveGame.SaveType.Runtime);
     }
-
-    //private void OnDrawGizmos()
-    //{
-    //    if (_shadowPlanes != null && _shadowPlanes.Length > 0)
-    //    {
-    //        foreach (var plane in _shadowPlanes)
-    //        {
-    //            Gizmos.color = Color.blue;
-    //            Gizmos.DrawSphere(plane.transform.position, 0.1f);
-    //        }
-
-    //        if (_player != null)
-    //        {
-    //            Gizmos.color = Color.red;
-    //            Gizmos.DrawSphere(_player.position, 0.1f);
-
-    //            foreach (var plane in _shadowPlanes)
-    //            {
-    //                Gizmos.color = Color.magenta;
-    //                Gizmos.DrawLine(plane.transform.position, _player.position);
-    //            }
-
-    //            Gizmos.color = Color.red;
-    //            Gizmos.DrawWireSphere(_player.position, _radiusCircle / 5);
-    //        }
-    //    }
-    //}
 }
