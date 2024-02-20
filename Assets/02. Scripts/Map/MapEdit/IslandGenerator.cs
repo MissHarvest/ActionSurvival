@@ -60,7 +60,7 @@ public class IslandGernerator : MonoBehaviour
         float seedZ = pseudoRandom.Next(0, 99999);
 
         // Height Curve를 사용하기 위해 섬 길이 계산
-        Vector2 center = new(_sizeX/2, _sizeZ/2);
+        Vector2 center = new(_sizeX / 2, _sizeZ / 2);
         float radius = Mathf.Max(Vector2.Distance(center, new(_sizeX / 2, 0)), Vector2.Distance(center, new(0, _sizeZ / 2)));
 
         for (int x = 0; x < _sizeX; x++)

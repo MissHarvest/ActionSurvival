@@ -18,7 +18,6 @@ public class Chunk
     private List<int> _triangles = new();
     private List<Vector2> _uvs = new();
 
-    // TODO: 나중에 인스턴스 블럭의 리스트로 교체
     private List<InstanceBlock> _instanceBlocks = new();
 
     private World _world;
