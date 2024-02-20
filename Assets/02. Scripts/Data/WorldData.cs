@@ -118,4 +118,4 @@ public class SlideBlockType : BlockType
         slide.name = $"{BlockName} ({pos})";
         chunk.InstanceBlocks.Add(slide);
     }
-}
+}// 2024-02-

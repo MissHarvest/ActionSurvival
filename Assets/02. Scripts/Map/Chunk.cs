@@ -1,6 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 // 2024-01-12 WJY
 public class Chunk
@@ -68,14 +72,74 @@ public class Chunk
 
     public void GenerateChunk()
     {
-        CreateMeshData();
-        CreateMesh();
+        CoroutineManagement.Instance.StartCoroutine(CreateMeshData());
     }
 
-    private void CreateMeshData()
+    private IEnumerator CreateMeshData()
     {
-        foreach(var e in _localMap.Values)
-            e.type.AddVoxelDataToChunk(this, e.position, e.forward);
+        //foreach(var e in _localMap.Values)
+        //e.type.AddVoxelDataToChunk(this, e.position, e.forward);
+
+        List<bool> checks = new();
+        List<int> textures = new();
+        List<Vector3> positions = new();
+
+        foreach (var e in _localMap.Values)
+        {
+            if (e.type is NormalBlockType normal)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    checks.Add(World.CheckVoxel(e.position + _data.faceChecks[i]));
+                    textures.Add(normal.GetTextureID(i));
+                }
+                positions.Add(e.position);
+            }
+            else if (e.type is SlideBlockType slide)
+            {
+                slide.AddVoxelDataToChunk(this, e.position, e.forward);
+            }
+        }
+
+        var job = new ChunkJob()
+        {
+            checks = new(checks.ToArray(), Allocator.TempJob),
+            textures = new(textures.ToArray(), Allocator.TempJob),
+            positions = new(positions.ToArray(), Allocator.TempJob),
+            faceIdx = 0,
+            vertextIdx = 0,
+            textureAtlasWidth = _data.TextureAtlasWidth,
+            textureAtlasHeight = _data.TextureAtlasHeight,
+            normalizeTextureAtlasWidth = _data.NormalizeTextureAtlasWidth,
+            normalizeTextureAtlasHeight = _data.NormalizeTextureAtlasHeight,
+            uvXBeginOffset = _data.uvXBeginOffset,
+            uvXEndOffset = _data.uvXEndOffset,
+            uvYBeginOffset = _data.uvYBeginOffset,
+            uvYEndOffset = _data.uvYEndOffset,
+            vertices = new(0, Allocator.TempJob),
+            triangles = new(0, Allocator.TempJob),
+            uv = new(0, Allocator.TempJob),
+        };
+
+        var handle = job.Schedule();
+
+        if (!handle.IsCompleted)
+            yield return null;
+
+        handle.Complete();
+
+        var (vertices, triangles, uv) = job.GetResult();
+        _vertices = new(vertices.AsArray());
+        _triangles = new(triangles.AsArray());
+        _uvs = new(uv.AsArray());
+
+        vertices.Dispose();
+        triangles.Dispose();
+        uv.Dispose();
+
+        CreateMesh();
+
+        yield break;
     }
 
     private void CreateMesh()
