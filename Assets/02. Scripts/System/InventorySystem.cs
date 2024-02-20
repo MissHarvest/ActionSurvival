@@ -11,7 +11,7 @@ public class InventorySystem : MonoBehaviour
 
     protected Dictionary<ItemData, List<int>> _itemDic = new();
 
-    [field: SerializeField] protected ItemSlot[] _slots;
+    [field: SerializeField] private ItemSlot[] _slots;
 
     [HideInInspector][SerializeField] private int _emptySlotCount;
 
@@ -40,14 +40,12 @@ public class InventorySystem : MonoBehaviour
 
     public void AddDefaultToolAsTest()
     {
-        //var itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
-        //AddItem(itemData, 1);
-        //itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
-        //AddItem(itemData, 10);
-
-
-        //itemData = Managers.Resource.GetCache<ItemData>("LogItemData.data");
-        //AddItem(itemData, 10);
+        // var itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
+        // AddItem(itemData, 1);
+        // itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
+        // AddItem(itemData, 10);
+        // itemData = Managers.Resource.GetCache<ItemData>("LogItemData.data");
+        // AddItem(itemData, 10);
     }
 
     public void SetCapacity(int capacity)
@@ -85,6 +83,7 @@ public class InventorySystem : MonoBehaviour
 
     private void AddItem(ItemData data, int quantity, float durability)
     {
+        Debug.Log($"[ItemType]{data.GetType()}");
         OnItemAdded?.Invoke(data, quantity);
 
         if (_itemDic.TryGetValue(data, out List<int> indexList))
@@ -263,7 +262,7 @@ public class InventorySystem : MonoBehaviour
         }
 
         var itemSlot = FindItem(itemData, out targetindex);
-        if (itemSlot != null)
+        if (itemSlot.itemData != null)
         {
             itemSlot.AddQuantity(quantity);
             //OnItemAdded?.Invoke(new ItemSlot(itemData, quantity));
@@ -315,7 +314,7 @@ public class InventorySystem : MonoBehaviour
             }
         }
         index = -1;
-        return null;
+        return new ItemSlot();
     }
 
     /// <summary>
@@ -413,12 +412,14 @@ public class InventorySystem : MonoBehaviour
         OnUpdated?.Invoke(index, _slots[index]);
     }
 
-    protected void BroadCastUpdatedSlot(int index, ItemSlot itemslot)
+    protected void BroadCastUpdatedSlot(int index, ItemSlot itemSlot)
     {
-        OnUpdated?.Invoke(index, itemslot);
+        Debug.Log($"[Update] {_slots[index].equipped}/{itemSlot.equipped} || {_slots[index].registed}/{itemSlot.registed}");
+        _slots[index] = itemSlot;
+        OnUpdated?.Invoke(index, _slots[index]);
     }
 
-    public virtual void Load()
+    public void Load()
     {
         if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"{gameObject.name}Inventory"))
         {
@@ -441,7 +442,7 @@ public class InventorySystem : MonoBehaviour
     }
 
     // add parameter file name 
-    protected virtual void Save()
+    protected void Save()
     {
         var json = JsonUtility.ToJson(this);
         SaveGame.CreateJsonFile($"{gameObject.name}Inventory", json, SaveGame.SaveType.Runtime);

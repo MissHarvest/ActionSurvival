@@ -9,22 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 576468ed397be524d8e47099d9aeafbb, type: 3}
+  m_Script: {fileID: 11500000, guid: 0641bad250350514f99a81fa90d7c994, type: 3}
   m_Name: ChestItemData
   m_EditorClassIdentifier: 
-  displayName: "\uBCF4\uAD00\uD568"
-  description: "\uAC01\uC885 \uC544\uC774\uD15C\uC744 \uBCF4\uAD00\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
-  iconSprite: {fileID: 21300000, guid: c8303e833b0ef184e99c1bc8940fff84, type: 3}
-  part: 2
-  maxDurability: 10
-  targetLayers:
-    serializedVersion: 2
-    m_Bits: 1
-  range: 1
-  attackPower: 0
-  damage: 0
-  targetTagName: Untagged
-  isWeapon: 0
-  isTwoHandedTool: 0
-  isTwinTool: 0
-  isArchitecture: 1
+  displayName: "\uC131"
+  description: 
+  iconSprite: {fileID: 21300000, guid: 29a3d0bd681dee74485f9168cef7e5ec, type: 3}
+  maxStackCount: 2

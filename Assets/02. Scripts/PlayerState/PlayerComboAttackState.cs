@@ -31,8 +31,8 @@ public class PlayerComboAttackState : PlayerAttackState
         _attackInfoData = _stateMachine.Player.Data.AttackData.GetAttackInfo(comboIndex);
         _stateMachine.Player.Animator.SetInteger("Combo", comboIndex);
 
-        ToolItemData tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
-        if(tool.isWeapon == false)
+        ToolItemData tool = _stateMachine.Player.EquippedItem.itemSlot.itemData as ToolItemData;
+        if(tool is WeaponItemData == false)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }
@@ -103,8 +103,8 @@ public class PlayerComboAttackState : PlayerAttackState
 
     public override void Update()
     {
-        ToolItemData toolItemData = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
-        if(toolItemData.isWeapon == false)
+        WeaponItemData weaponItem = (WeaponItemData)Managers.Game.Player.ToolSystem.EquippedTool.itemSlot.itemData;
+        if(weaponItem == null)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
             return;
@@ -137,18 +137,18 @@ public class PlayerComboAttackState : PlayerAttackState
             else
             {
                 _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;//
-                ExitState(toolItemData);
+                ExitState(weaponItem);
             }
         }
     }
 
-    private void ExitState(ToolItemData toolItemData)
+    private void ExitState(WeaponItemData weaponItem)
     {
-        if (toolItemData.isTwoHandedTool == true)
+        if (weaponItem.isTwoHandedTool == true)
         {
             _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
         }
-        else if (toolItemData.isTwinTool == true)
+        else if (weaponItem.isTwinTool == true)
         {
             _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
         }

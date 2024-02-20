@@ -43,16 +43,16 @@ public class UIItemUsageHelper : UIItemHelper
         
         switch (selectedSlot.itemData)
         {
-            case ToolItemData toolItem when !toolItem.isArchitecture:
+            case ToolItemData _:
                 ShowRegistButton(selectedSlot.registed);
                 break;
 
-            case ToolItemData toolItem when toolItem.isArchitecture: // ToolItemData이면서 건축 아이템인 경우
+            case ArchitectureItemData _: // ToolItemData이면서 건축 아이템인 경우
                 ShowRegistButton(selectedSlot.registed);
                 ShowButtonByEnum(Functions.Build);
                 break;
 
-            case ConsumeItemData _:
+            case FoodItemData _:
                 ShowRegistButton(selectedSlot.registed);
                 ShowButtonByEnum(Functions.Use);
                 break;

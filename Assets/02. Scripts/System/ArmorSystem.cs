@@ -19,8 +19,9 @@ public class ArmorSystem : MonoBehaviour
     {
         _linkedSlots = new QuickSlot[2];
 
-        Managers.Game.Player.ToolSystem.OnEquip += DefenseOfTheEquippedArmor;
-        Managers.Game.Player.ToolSystem.OnUnEquip += DefenseOfTheUnEquippedArmor;
+        /* PJU : Armor System 이 독립적인게 더 좋을 듯 */
+        //Managers.Game.Player.ToolSystem.OnEquip += DefenseOfTheEquippedArmor;        
+        //Managers.Game.Player.ToolSystem.OnUnEquip += DefenseOfTheUnEquippedArmor;
         Managers.Game.Player.OnHit += Duration;
 
         Load();
@@ -54,7 +55,7 @@ public class ArmorSystem : MonoBehaviour
 
         if ((int)toolItemData.part == 0 || (int)toolItemData.part == 1)
         {
-            _linkedSlots[(int)toolItemData.part] = null;
+            //_linkedSlots[(int)toolItemData.part] = null;
             UnEquipArmor?.Invoke(quickSlot);
         }
     }
@@ -63,9 +64,9 @@ public class ArmorSystem : MonoBehaviour
     {
         for (int i = 0; i < _linkedSlots.Length; i++)
         {
-            if (_linkedSlots[i] != null && _linkedSlots[i].targetIndex != -1)
+            //if (_linkedSlots[i] != null && _linkedSlots[i].targetIndex != -1)
             {
-                Managers.Game.Player.Inventory.UseToolItemByIndex(_linkedSlots[i].targetIndex, 1);
+                Managers.Game.Player.Inventory.TrySubtractDurability(_linkedSlots[i].targetIndex, 1);
             }
         }
     }
@@ -74,7 +75,7 @@ public class ArmorSystem : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            if (_linkedSlots[i] != null)
+            if (_linkedSlots[i].itemSlot.itemData != null)
             {
                 if (_linkedSlots[i].targetIndex == inventoryIndex)
                 {
@@ -86,7 +87,7 @@ public class ArmorSystem : MonoBehaviour
 
                         UnEquipArmor?.Invoke(_linkedSlots[i]);
                         _linkedSlots[i].Clear();
-                        Managers.Game.Player.ToolSystem.UnEquipArmor(_linkedSlots[i]);
+                        //Managers.Game.Player.ToolSystem.UnEquipArmor(_linkedSlots[i]);
                     }
                 }
             }            

@@ -25,23 +25,24 @@ public class Weapon : MonoBehaviour, IAttack
     {
         if (target == null) return;
         target.Hit(this, _damage);
-        Managers.Game.Player.Inventory.UseToolItemByIndex(_linkedSlot.targetIndex, 1);
+        Managers.Game.Player.Inventory.TrySubtractDurability(_linkedSlot.targetIndex, 1);
     }
 
     public void DamageOfTheEquippedWeapon(QuickSlot quickSlot)
     {
-        ItemData weapon = quickSlot.itemSlot.itemData;
-        ToolItemData toolItemDate = weapon is ToolItemData ? (ToolItemData)weapon: null;
-        if (toolItemDate == null) return;
-        _damage = toolItemDate.damage;
+        ItemData itemData = quickSlot.itemSlot.itemData;
+        if(itemData is WeaponItemData weaponItem)
+        {
+            _damage = weaponItem.damage;
+        }
     }
 
     public void Link(QuickSlot slot)
     {
         _linkedSlot = slot;
-        if(_linkedSlot.itemSlot.itemData is ToolItemData tool)
+        if(_linkedSlot.itemSlot.itemData is WeaponItemData weaponItem)
         {
-            _damage = tool.damage;
+            _damage = weaponItem.damage;
         }
     }
 }

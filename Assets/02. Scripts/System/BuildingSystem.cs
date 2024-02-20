@@ -40,27 +40,19 @@ public class BuildingSystem : MonoBehaviour
         _rayPointer.SetActive(false);
     }
 
-    public void CreateArchitecture()
+    public void CreateArchitecture(int index, ItemSlot itemSlot)
     {
         if (_buildableObject != null) return;
 
-        var indexInUse = Managers.Game.Player.QuickSlot.IndexInUse;
-        var index = _inventoryIndex = Managers.Game.Player.QuickSlot.slots[indexInUse].targetIndex;
-
-        CreateArchitectureByIndex(index);
-    }
-
-    public void CreateArchitectureByIndex(int index)
-    {
         _rayPointer.transform.position = transform.position + Vector3.up * 2;
-        var handItemData = Owner.Inventory.Get(index).itemData as ToolItemData;
-        if (!handItemData.isArchitecture) return;
+        var architecture = itemSlot.itemData as ArchitectureItemData;
+        if (architecture == null) return;
 
         if (Physics.Raycast(_rayPointer.transform.position, Vector3.down, out RaycastHit hit, 100, _buildableLayer))
-        {            
+        {
             _inventoryIndex = index;
 
-            string itemNameWithoutItemData = handItemData.name.Replace("ItemData", "");
+            string itemNameWithoutItemData = architecture.name.Replace("ItemData", "");
 
             string prefabName = "Architecture_" + itemNameWithoutItemData + ".prefab";
             var prefab = Managers.Resource.GetCache<GameObject>(prefabName);

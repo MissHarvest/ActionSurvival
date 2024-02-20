@@ -28,17 +28,17 @@ public class PlayerFallState : PlayerGroundedState
     public override void Update()
     {
         base.Update();
-        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
+        WeaponItemData weaponItem = (WeaponItemData)_stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData;
 
         TryApplyForce();
 
         if (_stateMachine.Player.Controller.isGrounded)
         {
-            if (toolItemDate.isTwoHandedTool == true)
+            if (weaponItem.isTwoHandedTool == true)
             {
                 _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
             }
-            else if (toolItemDate.isTwinTool == true)
+            else if (weaponItem.isTwinTool == true)
             {
                 _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
             }

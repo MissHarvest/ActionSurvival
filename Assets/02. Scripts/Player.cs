@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, IHit
 {
+    #region Components
     [field: Header("Animations")]
     public PlayerAnimationData AnimationData { get; private set; } = new PlayerAnimationData();
     public Rigidbody Rigidbody { get; private set; }
@@ -25,8 +26,11 @@ public class Player : MonoBehaviour, IHit
     public BuildingSystem Building { get; private set; }
     public Tutorial Tutorial { get; private set; }
     public ArmorSystem ArmorSystem { get; private set; }
-    public ItemSlot EquippedItem => ToolSystem.ItemInUse;
+    public ItemUsageHelper ItemUsageHelper { get; private set; }
     public PlayerConditionHandler ConditionHandler { get; private set; }
+    #endregion
+
+    public QuickSlot EquippedItem => ToolSystem.EquippedTool;    
 
     [field: Header("References")]
     public PlayerSO Data { get; private set; }
@@ -44,6 +48,24 @@ public class Player : MonoBehaviour, IHit
 
         AnimationData.Initialize();
 
+        SetComponents();
+
+        Data = Managers.Resource.GetCache<PlayerSO>("PlayerSO.data");
+
+        ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
+
+        _stateMachine = new PlayerStateMachine(this);
+
+        Managers.Game.OnSaveCallback += Save;
+
+        if (PlayerPrefs.HasKey("IslandName"))
+        {
+            StandingIslandName = PlayerPrefs.GetString("IslandName");
+        }
+    }
+
+    private void SetComponents()
+    {
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponentInChildren<Animator>();
         Input = GetComponent<PlayerInput>();
@@ -58,19 +80,7 @@ public class Player : MonoBehaviour, IHit
         Building = GetComponentInChildren<BuildingSystem>();
         Tutorial = GetComponentInChildren<Tutorial>();
         ArmorSystem = GetComponentInChildren<ArmorSystem>();
-
-        Data = Managers.Resource.GetCache<PlayerSO>("PlayerSO.data");
-
-        ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
-
-        _stateMachine = new PlayerStateMachine(this);
-
-        Managers.Game.OnSaveCallback += Save;
-
-        if (PlayerPrefs.HasKey("IslandName"))
-        {
-            StandingIslandName = PlayerPrefs.GetString("IslandName");
-        }
+        ItemUsageHelper = GetComponentInChildren<ItemUsageHelper>();
     }
 
     private void Start()
