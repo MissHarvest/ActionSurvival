@@ -59,7 +59,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 279ff602e17ed1846a01bab9d008f59a
+  - m_GUID: e41ebaea4db39ab4bbb497ea8d7ca99d
     m_Address: GreatswordItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -113,7 +113,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b328e8f130ceabf47b71258505fa55d0
+  - m_GUID: 77362c327f216464fb463a8bdfa75f55
     m_Address: TwinDaggerItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -401,7 +401,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fe20ce3e87e1da74286c6c3103e192ff
+  - m_GUID: 75c1b6f713fbe7c4aabd9d51ea110906
     m_Address: EnchantedSwordItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -413,7 +413,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5cf354e2e1b3e984fb07c3e15a0f06f6
+  - m_GUID: 2f79c0e46221b88428cdd1de2c7d0258
     m_Address: EnchantedGreatswordItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -455,7 +455,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 09ec62d69570d664a952a5ac0fb9a2b5
+  - m_GUID: 65fdff280d7e09d469719278c6b0871d
     m_Address: EnchantedTwinDaggerItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
