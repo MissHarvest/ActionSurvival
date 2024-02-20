@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-//using UnityEditor.Build.Pipeline; lgs 24.01.29
 using UnityEngine;
 
 // 2024. 01. 24 Park jun Uk

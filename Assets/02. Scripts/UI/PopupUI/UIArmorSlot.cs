@@ -6,7 +6,6 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
-using static BossMonster;
 // Lee gyuseong 24.02.06
 
 public class UIArmorSlot : UIItemSlot
@@ -29,8 +28,8 @@ public class UIArmorSlot : UIItemSlot
     {
         Initialize();        
 
-        Managers.Game.Player.ArmorSystem.EquipArmor += EquipArmor;
-        Managers.Game.Player.ArmorSystem.UnEquipArmor += UnEquipArmor;
+        Managers.Game.Player.ArmorSystem.OnEquipArmor += EquipArmor;
+        Managers.Game.Player.ArmorSystem.OnUnEquipArmor += UnEquipArmor;
     }
 
     public void EquipArmor(QuickSlot quickSlot)

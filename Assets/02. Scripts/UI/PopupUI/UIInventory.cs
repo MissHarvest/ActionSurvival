@@ -1,4 +1,3 @@
-//using UnityEditor.Build.Pipeline.Utilities;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -116,13 +115,16 @@ public class UIInventory : UIPopup
 
     private void Equip()
     {
-        Managers.Game.Player.ToolSystem.Equip(SelectedSlot);
+        //ToolSystem -> ArmorSystem으로 옮겨가자구
+        //Managers.Game.Player.ToolSystem.Equip(SelectedSlot);
+        Managers.Game.Player.ArmorSystem.Equip(SelectedSlot);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
     private void UnEquip()
     {
-        Managers.Game.Player.ToolSystem.UnEquip(SelectedSlot);
+        //Managers.Game.Player.ToolSystem.UnEquip(SelectedSlot);
+        Managers.Game.Player.ArmorSystem.UnEquip(SelectedSlot);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 

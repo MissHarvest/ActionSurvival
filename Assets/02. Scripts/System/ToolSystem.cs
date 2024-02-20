@@ -80,10 +80,10 @@ public class ToolSystem : MonoBehaviour
             EquipTool(slot);
         }
 
-        if (slot.itemSlot != EmptyHand.itemSlot)
-        {
-            OnEquip?.Invoke(Equipments[part]);
-        }
+        //if (slot.itemSlot != EmptyHand.itemSlot) lgs
+        //{
+        //    OnEquip?.Invoke(Equipments[part]);
+        //}
     }
 
     private void EquipTool(QuickSlot slot)
@@ -125,7 +125,7 @@ public class ToolSystem : MonoBehaviour
         {
             _tools["Handable_Base"].SetActive(false);
         }
-        else if (part == (int)ItemParts.Body || part == (int)ItemParts.Head)
+        else if (part == (int)ItemParts.Body || part == (int)ItemParts.Head)//lgs
         {
 
         }
@@ -189,7 +189,7 @@ public class ToolSystem : MonoBehaviour
         ClearHand();
     }
 
-    public void UnEquipArmor(QuickSlot slot)
+    public void UnEquipArmor(QuickSlot slot)//lgs
     {
         UnEquip(slot);
     }

@@ -3,26 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-//using static UnityEditor.Experimental.GraphView.Port;
 // Lee gyuseong 24.02.07
 
 public class ArmorSystem : MonoBehaviour
 {
-    //ToolSystem에 있으면 불필요한 코드가 대다수다. 합치는 방향이 나을 듯 저장도 따로 안 해도 되고
+    //ToolSystem은 Handable 아이템만 관리 방어구는 여기서 다 관리
     public int _defense;
 
-    public QuickSlot[] _linkedSlots;
+    public QuickSlot[] _equippedArmor;
 
-    public event Action<QuickSlot> EquipArmor;
-    public event Action<QuickSlot> UnEquipArmor;
+    public event Action<QuickSlot> OnEquipArmor;
+    public event Action<QuickSlot> OnUnEquipArmor;
 
     private void Awake()
     {
-        _linkedSlots = new QuickSlot[2];
-
-        Managers.Game.Player.ToolSystem.OnEquip += DefenseOfTheEquippedArmor;
-        Managers.Game.Player.ToolSystem.OnUnEquip += DefenseOfTheUnEquippedArmor;
-        Managers.Game.Player.OnHit += Duration;
+        _equippedArmor = new QuickSlot[2];
+        for (int i = 0; i < _equippedArmor.Length; i++)
+        {
+            _equippedArmor[i] = new QuickSlot();
+        }
 
         Load();
 
@@ -34,67 +33,79 @@ public class ArmorSystem : MonoBehaviour
         Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
-    public void DefenseOfTheEquippedArmor(QuickSlot quickSlot)
+    public void Equip(QuickSlot quickSlot)
     {
-        EquipItemData toolItemData = ArmorDefense(quickSlot);
+        int part = GetPart(quickSlot);
+
+        AddDefenseOfArmor(quickSlot);
+
+        _equippedArmor[part].Set(quickSlot.targetIndex, quickSlot.itemSlot);
+        _equippedArmor[part].itemSlot.SetEquip(true);
+
+        OnEquipArmor?.Invoke(_equippedArmor[part]);
+    }
+
+    public void UnEquip(QuickSlot quickSlot)
+    {
+        int part = GetPart(quickSlot);
+
+        SubtractDefenseOfArmor(quickSlot);
+
+        _equippedArmor[part].itemSlot.SetEquip(false);
+        OnUnEquipArmor?.Invoke(_equippedArmor[part]);
+
+        _equippedArmor[part].Clear();
+    }
+
+    public void AddDefenseOfArmor(QuickSlot quickSlot)
+    {
+        EquipItemData toolItemData = GetDefenseOfArmorItem(quickSlot);
         _defense += toolItemData.defense;
         Managers.Game.Player.playerDefense = _defense;
-
-        if ((int)toolItemData.part == 0 || (int)toolItemData.part == 1)
-        {
-            _linkedSlots[(int)toolItemData.part] = quickSlot;
-            EquipArmor?.Invoke(quickSlot);
-        }
     }
 
-    public void DefenseOfTheUnEquippedArmor(QuickSlot quickSlot)
+    public void SubtractDefenseOfArmor(QuickSlot quickSlot)
     {
-        EquipItemData toolItemData = ArmorDefense(quickSlot);
+        EquipItemData toolItemData = GetDefenseOfArmorItem(quickSlot);
         _defense -= toolItemData.defense;
         Managers.Game.Player.playerDefense = _defense;
-
-        if ((int)toolItemData.part == 0 || (int)toolItemData.part == 1)
-        {
-            _linkedSlots[(int)toolItemData.part] = null;
-            UnEquipArmor?.Invoke(quickSlot);
-        }
     }
 
-    public void Duration() // Player Hit에서 호출
-    {
-        for (int i = 0; i < _linkedSlots.Length; i++)
-        {
-            if (_linkedSlots[i] != null && _linkedSlots[i].targetIndex != -1)
-            {
-                Managers.Game.Player.Inventory.UseToolItemByIndex(_linkedSlots[i].targetIndex, 1);
-            }
-        }
-    }
+    //public void OnUpdateDurabilityOfArmor() // Player Hit에서 호출
+    //{
+    //    for (int i = 0; i < _linkedSlots.Length; i++)
+    //    {
+    //        if (_linkedSlots[i] != null && _linkedSlots[i].targetIndex != -1)
+    //        {
+    //            Managers.Game.Player.Inventory.UseToolItemByIndex(_linkedSlots[i].targetIndex, 1);
+    //        }
+    //    }
+    //}
 
     public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)
     {
         for (int i = 0; i < 2; i++)
         {
-            if (_linkedSlots[i] != null)
+            if (_equippedArmor[i] != null)
             {
-                if (_linkedSlots[i].targetIndex == inventoryIndex)
+                if (_equippedArmor[i].targetIndex == inventoryIndex)
                 {
                     if (itemSlot.itemData == null)
                     {
-                        EquipItemData toolItemData = ArmorDefense(_linkedSlots[i]);
+                        EquipItemData toolItemData = GetDefenseOfArmorItem(_equippedArmor[i]);
                         _defense -= toolItemData.defense;
                         Managers.Game.Player.playerDefense = _defense;
 
-                        UnEquipArmor?.Invoke(_linkedSlots[i]);
-                        _linkedSlots[i].Clear();
-                        Managers.Game.Player.ToolSystem.UnEquipArmor(_linkedSlots[i]);
+                        OnUnEquipArmor?.Invoke(_equippedArmor[i]);
+                        _equippedArmor[i].Clear();
+                        Managers.Game.Player.ToolSystem.UnEquipArmor(_equippedArmor[i]);
                     }
                 }
-            }            
+            }
         }
     }
 
-    private EquipItemData ArmorDefense(QuickSlot quickSlot)
+    private EquipItemData GetDefenseOfArmorItem(QuickSlot quickSlot)
     {
         ItemData armor = quickSlot.itemSlot.itemData;
         EquipItemData toolItemDate = (EquipItemData)armor;
@@ -106,13 +117,20 @@ public class ArmorSystem : MonoBehaviour
         Managers.Game.Player.playerDefense = _defense;
     }
 
+    private int GetPart(QuickSlot slot)
+    {
+        var itemData = slot.itemSlot.itemData as EquipItemData;
+        if (itemData == null) return -1;
+        return (int)itemData.part;
+    }
+
     private void Load()
     {
         if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "ArmorSystem"))
         {
-            for (int i = 0; i < _linkedSlots.Length; ++i)
+            for (int i = 0; i < _equippedArmor.Length; ++i)
             {
-                _linkedSlots[i].itemSlot.LoadData();
+                _equippedArmor[i].itemSlot.LoadData();
             }
             UpdatePlayerDefense();
         }

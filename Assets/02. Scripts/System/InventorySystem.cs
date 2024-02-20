@@ -39,14 +39,12 @@ public class InventorySystem : MonoBehaviour
 
     public void AddDefaultToolAsTest()
     {
-        //var itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
-        //AddItem(itemData, 1);
-        //itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
-        //AddItem(itemData, 10);
-
-
-        //itemData = Managers.Resource.GetCache<ItemData>("LogItemData.data");
-        //AddItem(itemData, 10);
+        var itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
+        TryAddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("IronArmorItemData.data");
+        TryAddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("IronHelmetItemData.data");
+        TryAddItem(itemData, 1);
     }
 
     public void SetCapacity(int capacity)

@@ -1,12 +1,11 @@
-//using OpenCover.Framework.Model; lgs 24.01.29
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// lgs 24.01.19
 
 public class Weapon : MonoBehaviour, IAttack
 {
-    // lgs 24.01.19
     [SerializeField] private int _damage; // SO의 데미지를 받아오자
     private QuickSlot _linkedSlot;
 
@@ -31,7 +30,7 @@ public class Weapon : MonoBehaviour, IAttack
     public void DamageOfTheEquippedWeapon(QuickSlot quickSlot)
     {
         ItemData weapon = quickSlot.itemSlot.itemData;
-        ToolItemData toolItemDate = weapon is ToolItemData ? (ToolItemData)weapon: null;
+        ToolItemData toolItemDate = weapon is ToolItemData ? (ToolItemData)weapon : null;
         if (toolItemDate == null) return;
         _damage = toolItemDate.damage;
     }
@@ -39,7 +38,7 @@ public class Weapon : MonoBehaviour, IAttack
     public void Link(QuickSlot slot)
     {
         _linkedSlot = slot;
-        if(_linkedSlot.itemSlot.itemData is ToolItemData tool)
+        if (_linkedSlot.itemSlot.itemData is ToolItemData tool)
         {
             _damage = tool.damage;
         }

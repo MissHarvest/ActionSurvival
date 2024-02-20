@@ -22,6 +22,8 @@ public class PlayerInventorySystem : InventorySystem
         Owner.ToolSystem.OnEquip += OnItemEquipped;
         Owner.ToolSystem.OnUnEquip += OnItemUnEquipped;
         Owner.Building.OnBuildCompleted += UseArchitectureItem;
+        Owner.ArmorSystem.OnEquipArmor += OnItemEquipped;
+        Owner.ArmorSystem.OnUnEquipArmor += OnItemUnEquipped;
     }
 
     public int GetIndexOfItem(ItemData itemData)

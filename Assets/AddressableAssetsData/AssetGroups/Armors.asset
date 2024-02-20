@@ -30,13 +30,13 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9a6e870d09d371341b3b367d57eb991c
-    m_Address: EnchantedArmorItemData.data
+    m_Address: IronArmorItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 89dd4b287a0443d43aa32761613b94e0
-    m_Address: EnchantedHelmetItemData.data
+    m_Address: IronHelmetItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
