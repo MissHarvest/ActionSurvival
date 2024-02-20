@@ -17,7 +17,7 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: c6b7f313ef980d2439488ae56f9d73c4
   m_SerializeEntries:
-  - m_GUID: 7188b2dd9c10ceb41ab5e0579b842eb5
+  - m_GUID: 8e5dd47e13158c848a660129f3fdf4d7
     m_Address: WoodSwordItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -71,7 +71,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5fdc6d52b339f9a4a8daf6af2d4277f1
+  - m_GUID: 5716f82e7588c074690eb57a71cffcb0
     m_Address: CraftingTableItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -161,8 +161,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 29b6186d9f3a8dd4fa1f7a8ce21ca246
-    m_Address: BonFireItemData.data
+  - m_GUID: c49ca04a991b85646b2ccba8f7b75f1d
+    m_Address: Architecture/BonFireItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -341,7 +341,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 54004a6d893b1d049b6845b6d9ff9c08
+  - m_GUID: 2e4efea51c34bf849872835056fa0318
     m_Address: ChestItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -383,13 +383,13 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 010f81f8f6dffcd4d9cd16d14af36a94
+  - m_GUID: 9f0b539ecd5234f429756dae04402565
     m_Address: FenceItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 83958a2ae354d9d4fa362a73934e8fc9
+  - m_GUID: a27c36d4d0473d3439f8f530c0b3427a
     m_Address: SwordItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -425,7 +425,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3af86f924f19ee348aa2053f634168d8
+  - m_GUID: dddb934b7bfaa8f4cb8feaf3d050adfa
     m_Address: FurnaceItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -581,7 +581,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e9d0b5d90db9fee41831d73c1781f2b8
+  - m_GUID: 4ea0bcc177295b140b190876be587bfe
     m_Address: FarmItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -803,19 +803,19 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 25a85efd3c859d44289a420ea35edf4b
+  - m_GUID: 08bdf606eb7d88e4ab9a2890e0ab96b3
     m_Address: UsableCraftingTableItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 179ea1dce58512841970cdb278d38465
+  - m_GUID: 3fb66fc46b208e9439c06b1915a77671
     m_Address: AdvancedCraftingTableItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: dd2421e8236948444a1b477ce7fa1f3d
+  - m_GUID: 6a4a7cd2ad368464baf36138e6d6ffe7
     m_Address: MasterCraftingTableItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -899,13 +899,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4f8f8f287aae63d43b40c6cea380e396
-    m_Address: StoveItemData.data
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 024eb3a3f959d594c8dc47ff0ef6289a
+  - m_GUID: 95be4be90d6aced47a130c48de1ec3ab
     m_Address: FridgeItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -1021,6 +1015,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2f68308d8544f4f458fcfef51bdea423
     m_Address: BossRewardData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 412de64f4ac03bc4f905407632257b06
+    m_Address: StoveItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

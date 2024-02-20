@@ -57,19 +57,33 @@ public class QuickSlotSystem : MonoBehaviour
         }
     }
 
-    public void UnRegist(int index, bool indexInUseStay = false)
+    // index 가 targetIndex 인 경우
+    public void UnRegist(int index)
     {
-        for(int i = 0; i < _slots.Length; ++i)
+        for (int i = 0; i < _slots.Length; ++i)
         {
             if (_slots[i].itemSlot.itemData != null && _slots[i].targetIndex == index)
             {
-                _indexInuse = indexInUseStay ? _indexInuse : -1;
                 _slots[i].itemSlot.SetRegist(false);
                 OnUnRegisted?.Invoke(_slots[i]);
                 _slots[i].Clear();
                 OnUpdated?.Invoke(i, _slots[i].itemSlot);
                 return;
             }
+        }
+    }
+
+    // index 가 slot 의 index 인 경우
+    private void UnRegist(int index, bool indexInUseStay)
+    {
+        if (_slots[index].itemSlot.itemData == null) return;
+        _slots[index].itemSlot.SetRegist(false);
+        OnUnRegisted?.Invoke(_slots[index]);
+        _slots[index].Clear();
+        OnUpdated?.Invoke(index, _slots[index].itemSlot);
+        if (_indexInuse == index)
+        {
+            _indexInuse = indexInUseStay ? _indexInuse : -1;
         }
     }
 
@@ -111,31 +125,6 @@ public class QuickSlotSystem : MonoBehaviour
         {
             _player.ItemUsageHelper.Use(_slots[_indexInuse].targetIndex);
         }
-        
-        //switch (itemData)
-        //{
-        //    case ToolItemData _:
-
-        //        if (((ToolItemData)itemData).isWeapon)
-        //        {
-        //            Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
-        //                        "무기를 장착한 상태에서는 상호작용이 불가능합니다.",
-        //                        UIWarning.Type.YesOnly,
-        //                        () => { Managers.UI.ClosePopupUI(); },
-        //                        true);
-        //        }
-
-        //        Managers.Game.Player.ToolSystem.Equip(slots[IndexInUse]);
-        //        break;
-
-        //    case ConsumeItemData _:
-        //        Managers.Game.Player.Inventory.UseConsumeItemByIndex(slots[IndexInUse].targetIndex);
-        //        IndexInUse = -1;
-        //        break;
-
-        //    default:
-        //        break;
-        //}
     }
 
 

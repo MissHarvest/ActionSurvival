@@ -8,6 +8,7 @@ public class ToolSystem : MonoBehaviour
     public Transform leftHandPosition;
 
     public QuickSlot EquippedTool = new QuickSlot();
+    private ItemData _emptyhand;
 
     private Dictionary<string, GameObject> _tools = new Dictionary<string, GameObject>();
     private Dictionary<string, GameObject> _twinTools = new Dictionary<string, GameObject>();
@@ -22,6 +23,8 @@ public class ToolSystem : MonoBehaviour
             this.enabled = false;
             return;
         }
+
+        _emptyhand = Managers.Resource.GetCache<ItemData>("EmptyHandItemData.data");
 
         var tools = Managers.Resource.GetCacheGroup<GameObject>("Handable_");
         foreach (var tool in tools)
@@ -39,6 +42,8 @@ public class ToolSystem : MonoBehaviour
             _twinTools.TryAdd(tool.name, go);
         }
 
+        ClearHand();
+        EquippedTool.itemSlot.Set(_emptyhand);
         Load();
 
         Managers.Game.OnSaveCallback += Save;
@@ -48,6 +53,15 @@ public class ToolSystem : MonoBehaviour
     {
         Managers.Game.Player.QuickSlot.OnClickEmptySlot += OnItemUnregisted;
         Managers.Game.Player.QuickSlot.OnUnRegisted += QuickSlot_OnUnRegisted;
+        Managers.Game.Player.Inventory.OnUpdated += Inventory_OnUpdated;
+    }
+
+    private void Inventory_OnUpdated(int arg1, ItemSlot arg2)
+    {
+        if (arg2.itemData != null) return;
+        if (EquippedTool.targetIndex != arg1) return;
+
+        UnEquip();
     }
 
     private void QuickSlot_OnUnRegisted(QuickSlot obj)
@@ -69,15 +83,21 @@ public class ToolSystem : MonoBehaviour
         SetToolActivate(true);
     }
 
+    private void ClearHand()
+    {
+        EquippedTool.Clear();
+        EquippedTool.itemSlot.Set(_emptyhand);
+    }
+
     public void UnEquip()
     {
         if (EquippedTool.itemSlot.itemData == null) return;
-
-        EquippedTool.itemSlot.SetEquip(false);
-        //var slot = EquippedTool;
+        if (EquippedTool.itemSlot.itemData == _emptyhand) return;
+        
+        EquippedTool.itemSlot.SetEquip(false);        
         OnUnEquip?.Invoke(EquippedTool);
         SetToolActivate(false);
-        EquippedTool.Clear();
+        ClearHand();
     }
 
     private void SetToolActivate(bool value)
@@ -112,15 +132,6 @@ public class ToolSystem : MonoBehaviour
     public string GetTwinToolLeftHandName(ItemSlot itemSlot) //lgs 24.01.23 TwinTool의 왼 손 도구의 이름을 재정의한다.
     {
         return "Handable_L_" + itemSlot.itemData.name.Replace("ItemData", "");
-    }
-
-    private void OnInventoryUpdated(int index, ItemSlot itemSlot)
-    {
-        if(index == EquippedTool.targetIndex && itemSlot.itemData == EquippedTool.itemSlot.itemData)
-        {
-            if(itemSlot.equipped == false)
-                UnEquip();
-        }
     }
 
     private void OnItemUnregisted()

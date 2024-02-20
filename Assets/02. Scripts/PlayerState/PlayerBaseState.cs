@@ -146,17 +146,13 @@ public class PlayerBaseState : IState
 
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
-        if (_stateMachine.Player.EquippedItem.itemSlot.itemData == null) return;// 빈 손 삭제 후, 수정해야할 부분
         if (_stateMachine.IsFalling) return;
+        
         Debug.Log("Player Interact");
 
         var itemData = _stateMachine.Player.EquippedItem.itemSlot.itemData;// as ToolItemData;
 
-        if (itemData is ArchitectureItemData)
-        {
-            _stateMachine.ChangeState(_stateMachine.BuildState);
-        }
-        else if (itemData is WeaponItemData)
+        if (itemData is WeaponItemData)
         {
             _stateMachine.IsAttacking = true;
             _stateMachine.ChangeState(_stateMachine.ComboAttackState);

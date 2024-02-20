@@ -31,7 +31,7 @@ public class ArmorSystem : MonoBehaviour
 
     private void Start()
     {
-        Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
+        //Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
     public void DefenseOfTheEquippedArmor(QuickSlot quickSlot)

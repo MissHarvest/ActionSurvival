@@ -9,23 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 576468ed397be524d8e47099d9aeafbb, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b76cc2c8c022914d9d8cd98a9dacbad, type: 3}
   m_Name: SwordItemData
   m_EditorClassIdentifier: 
   displayName: "\uAC80"
-  description: "\uC870\uC7A1\uD558\uAC8C \uB9CC\uB4E4\uC5B4\uC9C4 \uAC80\uC774\uB2E4. "
+  description: 
   iconSprite: {fileID: 21300000, guid: 9ae06fab692af934e8989d06df512880, type: 3}
-  part: 2
-  maxDurability: 40
-  defense: 0
+  <MaxDurability>k__BackingField: 40
   targetLayers:
     serializedVersion: 2
-    m_Bits: 16512
+    m_Bits: 128
   range: 1
-  attackPower: 1
-  damage: 2
   targetTagName: Monster
-  isWeapon: 1
   isTwoHandedTool: 0
   isTwinTool: 0
-  isArchitecture: 0
+  attackPower: 1
+  damage: 1

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0641bad250350514f99a81fa90d7c994, type: 3}
-  m_Name: ChestItemData
+  m_Name: CraftingTableItemData
   m_EditorClassIdentifier: 
-  displayName: "\uC131"
+  displayName: "\uC81C\uC791\uB300"
   description: 
-  iconSprite: {fileID: 21300000, guid: 29a3d0bd681dee74485f9168cef7e5ec, type: 3}
-  maxStackCount: 2
+  iconSprite: {fileID: 21300000, guid: e4c227cd358d8a64188fafaffdca6c28, type: 3}
+  <MaxDurability>k__BackingField: 100

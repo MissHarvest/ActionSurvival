@@ -28,7 +28,7 @@ public class PlayerFallState : PlayerGroundedState
     public override void Update()
     {
         base.Update();
-        WeaponItemData weaponItem = (WeaponItemData)_stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData;
+        WeaponItemData weaponItem = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
 
         TryApplyForce();
 

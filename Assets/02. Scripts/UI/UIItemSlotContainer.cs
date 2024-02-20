@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using static UnityEditor.Experimental.GraphView.Port; lgs 24.01.29
 
 public class UIItemSlotContainer : UIBase
 {
     private List<UIItemSlot> _uiItemSlots = new List<UIItemSlot>();
     private GridLayoutGroup _group;
+
     public override void Initialize()
     {
         

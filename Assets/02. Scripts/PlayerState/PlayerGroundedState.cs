@@ -69,7 +69,7 @@ public class PlayerGroundedState : PlayerBaseState
 
     protected virtual void OnMove()
     {
-        WeaponItemData weaponItem = (WeaponItemData)_stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData;
+        WeaponItemData weaponItem = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
         
         if(weaponItem == null)
         {
@@ -101,7 +101,7 @@ public class PlayerGroundedState : PlayerBaseState
 
     protected void ChangeIdleState()
     {
-        WeaponItemData weaponItem = (WeaponItemData)_stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData;
+        WeaponItemData weaponItem = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
 
         if (weaponItem == null)
         {

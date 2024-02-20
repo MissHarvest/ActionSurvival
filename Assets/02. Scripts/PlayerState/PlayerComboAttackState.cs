@@ -103,7 +103,7 @@ public class PlayerComboAttackState : PlayerAttackState
 
     public override void Update()
     {
-        WeaponItemData weaponItem = (WeaponItemData)Managers.Game.Player.ToolSystem.EquippedTool.itemSlot.itemData;
+        WeaponItemData weaponItem = Managers.Game.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
         if(weaponItem == null)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);

@@ -229,7 +229,7 @@ public class InventorySystem : MonoBehaviour
         return _slots[index];
     }
 
-    private void UpdateDic(ItemData itemData)
+    protected void UpdateDic(ItemData itemData)
     {
         if (_itemDic.TryGetValue(itemData, out List<int> indexList))
         {
@@ -414,7 +414,6 @@ public class InventorySystem : MonoBehaviour
 
     protected void BroadCastUpdatedSlot(int index, ItemSlot itemSlot)
     {
-        Debug.Log($"[Update] {_slots[index].equipped}/{itemSlot.equipped} || {_slots[index].registed}/{itemSlot.registed}");
         _slots[index] = itemSlot;
         OnUpdated?.Invoke(index, _slots[index]);
     }

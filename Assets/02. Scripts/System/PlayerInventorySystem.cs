@@ -43,8 +43,11 @@ public class PlayerInventorySystem : InventorySystem
         var able = slot.itemData != null && slot.itemData.MaxDurability != 0.0f;
         if (able)
         {
+            var itemdata = slot.itemData;
             slot.SubtractDurability(amount);
             BroadCastUpdatedSlot(index, slot);
+            if(slot.quantity == 0)
+                UpdateDic(itemdata);
         }
         return able;
     }
@@ -73,6 +76,7 @@ public class PlayerInventorySystem : InventorySystem
     {
         int index = slot.targetIndex;
         var newSlot = Get(index);
+        if (newSlot.itemData == null) return;
         newSlot.SetEquip(slot.itemSlot.equipped);        
         BroadCastUpdatedSlot(index, newSlot);
     }
@@ -81,6 +85,7 @@ public class PlayerInventorySystem : InventorySystem
     {
         int index = slot.targetIndex;
         var newSlot = Get(index);
+        if (newSlot.itemData == null) return;
         newSlot.SetRegist(slot.itemSlot.registed);
         BroadCastUpdatedSlot(index, newSlot);
     }
