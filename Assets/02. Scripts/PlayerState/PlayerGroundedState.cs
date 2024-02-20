@@ -57,25 +57,29 @@ public class PlayerGroundedState : PlayerBaseState
     {
         base.AddInputActionsCallbacks();
         Managers.Game.Player.ToolSystem.OnEquip += OnEquipTypeOfTool;
-        Managers.Game.Player.ToolSystem.OnUnEquip += OnUnEquipTypeOfTool;
+        //Managers.Game.Player.ToolSystem.OnUnEquip += OnUnEquipTypeOfTool;
     }
 
     protected override void RemoveInputActionsCallbacks()
     {
         base.RemoveInputActionsCallbacks();
         Managers.Game.Player.ToolSystem.OnEquip -= OnEquipTypeOfTool;
-        Managers.Game.Player.ToolSystem.OnUnEquip -= OnUnEquipTypeOfTool;
+        //Managers.Game.Player.ToolSystem.OnUnEquip -= OnUnEquipTypeOfTool;
     }
 
     protected virtual void OnMove()
     {
-        ToolItemData toolItemDate = (ToolItemData)Managers.Game.Player.ToolSystem.ItemInUse.itemData;
-
-        if (toolItemDate.isTwoHandedTool == true)
+        WeaponItemData weaponItem = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
+        
+        if(weaponItem == null)
+        {
+            _stateMachine.ChangeState(_stateMachine.RunState);
+        }
+        else if (weaponItem.isTwoHandedTool == true)
         {
             _stateMachine.ChangeState(_stateMachine.TwoHandedToolRunState);
         }
-        else if (toolItemDate.isTwinTool == true)
+        else if (weaponItem.isTwinTool == true)
         {
             _stateMachine.ChangeState(_stateMachine.TwinToolRunState);
         }
@@ -97,21 +101,20 @@ public class PlayerGroundedState : PlayerBaseState
 
     protected void ChangeIdleState()
     {
-        ItemData equippedItemData = _stateMachine.Player.EquippedItem.itemData;
+        WeaponItemData weaponItem = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
 
-        ToolItemData equippedToolItemDate = (ToolItemData)equippedItemData;
-
-        if (equippedToolItemDate.isWeapon == true && equippedToolItemDate.isTwoHandedTool == true)
+        if (weaponItem == null)
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+            return;
+        }
+        else if (weaponItem.isTwoHandedTool == true)
         {
             _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
         }
-        else if (equippedToolItemDate.isWeapon == true && equippedToolItemDate.isTwinTool == true)
+        else if (weaponItem.isTwinTool == true)
         {
             _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
-        }
-        else
-        {
-            _stateMachine.ChangeState(_stateMachine.IdleState);
         }
     }
 

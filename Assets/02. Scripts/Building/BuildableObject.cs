@@ -37,7 +37,7 @@ public class BuildableObject : MonoBehaviour, IHit
         architectureName = architectureName.Replace("(Clone)", "");
 
         var data = Managers.Resource.GetCache<ItemData>($"{architectureName}ItemData.data");
-        if (data is ToolItemData tool)
+        if (data is ArchitectureItemData tool)
         {
             HP = new Condition(tool.MaxDurability);
         }

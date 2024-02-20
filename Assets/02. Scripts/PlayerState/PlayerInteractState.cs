@@ -6,6 +6,8 @@ public class PlayerInteractState : PlayerBaseState
     protected GameObject target;
     protected string targetTag;
     protected int _repeatCount;
+    private float _defaultRange = 0.5f;
+    private LayerMask _defaultLayer = 64;//2112;
 
     public PlayerInteractState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
@@ -18,7 +20,7 @@ public class PlayerInteractState : PlayerBaseState
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
 
-        ToolItemData tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
+        var tool = _stateMachine.Player.EquippedItem.itemSlot.itemData as ToolItemData;
 
         var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers, QueryTriggerInteraction.Collide);
         if (targets.Length == 0)
@@ -64,8 +66,8 @@ public class PlayerInteractState : PlayerBaseState
                 target.GetComponent<IInteractable>()?.Interact(_stateMachine.Player);
                 if (!target.CompareTag("Gather"))
                 {
-                    int curIndex = _stateMachine.Player.ToolSystem.Equipments[(int)ItemParts.Hand].targetIndex;
-                    _stateMachine.Player.Inventory.UseToolItemByIndex(curIndex, 1f);
+                    int curIndex = _stateMachine.Player.ToolSystem.EquippedTool.targetIndex;
+                    _stateMachine.Player.Inventory.TrySubtractDurability(curIndex, 1.0f);
                 }                
             }
             _stateMachine.ChangeState(_stateMachine.IdleState);

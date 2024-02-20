@@ -25,7 +25,7 @@ public class UIQuickSlotController : UIBase
 
         for (int i = 0; i < _slots.Count; ++i)
         {
-            _slots[i].Init(this, i, quickSlotSystem.slots[i].itemSlot);
+            _slots[i].Init(this, i, quickSlotSystem.Get(i).itemSlot);
         }
     }
 
