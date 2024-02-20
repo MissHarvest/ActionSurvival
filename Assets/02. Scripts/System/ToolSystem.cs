@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class ToolSystem : MonoBehaviour
 {
-    [field: SerializeField] public ItemSlot ItemInUse { get; private set; }
     public Transform handPosition;
     public Transform leftHandPosition;
 
-    public QuickSlot[] Equipments = new QuickSlot[(int)ItemParts.Max];
-    private QuickSlot EmptyHand = new QuickSlot();
+    public QuickSlot EquippedTool = new QuickSlot();
+    private ItemData _emptyhand;
 
     private Dictionary<string, GameObject> _tools = new Dictionary<string, GameObject>();
     private Dictionary<string, GameObject> _twinTools = new Dictionary<string, GameObject>();
@@ -25,14 +24,7 @@ public class ToolSystem : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < Equipments.Length; ++i)
-        {
-            Equipments[i] = new QuickSlot();
-        }
-
-        var emptyHandData = Managers.Resource.GetCache<ItemData>("EmptyHandItemData.data");
-        EmptyHand.Set(-1, new(emptyHandData));
-
+        _emptyhand = Managers.Resource.GetCache<ItemData>("EmptyHandItemData.data");
 
         var tools = Managers.Resource.GetCacheGroup<GameObject>("Handable_");
         foreach (var tool in tools)
@@ -50,91 +42,86 @@ public class ToolSystem : MonoBehaviour
             _twinTools.TryAdd(tool.name, go);
         }
 
+        ClearHand();
+        EquippedTool.itemSlot.Set(_emptyhand);
+        Load();
 
-        Equip(EmptyHand);
+        Managers.Game.OnSaveCallback += Save;
     }
 
     private void Start()
     {
-        Managers.Game.Player.QuickSlot.OnUnRegisted += OnItemUnregisted;
+        Managers.Game.Player.QuickSlot.OnClickEmptySlot += OnItemUnregisted;
+        Managers.Game.Player.QuickSlot.OnUnRegisted += QuickSlot_OnUnRegisted;
+        Managers.Game.Player.Inventory.OnUpdated += Inventory_OnUpdated;
     }
 
-    public void Equip(QuickSlot slot)
+    private void Inventory_OnUpdated(int arg1, ItemSlot arg2)
     {
-        int part = GetPart(slot);
-        if (part == -1) return;
+        if (arg2.itemData != null) return;
+        if (EquippedTool.targetIndex != arg1) return;
 
-        UnEquip(part);
+        UnEquip();
+    }
 
-        Equipments[part].Set(slot.targetIndex, slot.itemSlot);
-        Equipments[part].itemSlot.SetEquip(true);
-
-        if (part == (int)ItemParts.Hand)
+    private void QuickSlot_OnUnRegisted(QuickSlot obj)
+    {
+        if(obj.targetIndex == EquippedTool.targetIndex &&
+            obj.itemSlot.itemData == EquippedTool.itemSlot.itemData)
         {
-            Debug.Log($"[Equip]{slot.itemSlot.itemData.displayName}");
-            //EquipTool(Equipments[part].itemSlot);
-            EquipTool(slot);
+            UnEquip();
         }
     }
 
-    private void EquipTool(QuickSlot slot)
+    public void Equip(int index, ItemSlot itemSlot)
     {
-        ItemInUse.Set(slot.itemSlot);
+        UnEquip();
 
-        // ToolItemData의 isArchitecture가 true면 나뭇잎을 손에 들게
-        if (ItemInUse.itemData is ToolItemData toolItem && toolItem.isArchitecture)
+        itemSlot.SetEquip(true);
+        EquippedTool.Set(index, itemSlot);
+        OnEquip?.Invoke(EquippedTool);
+        SetToolActivate(true);
+    }
+
+    private void ClearHand()
+    {
+        EquippedTool.Clear();
+        EquippedTool.itemSlot.Set(_emptyhand);
+    }
+
+    public void UnEquip()
+    {
+        if (EquippedTool.itemSlot.itemData == null) return;
+        if (EquippedTool.itemSlot.itemData == _emptyhand) return;
+        
+        EquippedTool.itemSlot.SetEquip(false);        
+        OnUnEquip?.Invoke(EquippedTool);
+        SetToolActivate(false);
+        ClearHand();
+    }
+
+    private void SetToolActivate(bool value)
+    {
+        if (EquippedTool.itemSlot.itemData is ArchitectureItemData)
         {
-            _tools["Handable_Base"].SetActive(true);
+            _tools["Handable_Base"].SetActive(value);
         }
         else
         {
-            var toolName = GetToolName(ItemInUse);
-            _tools[toolName].SetActive(true);
-            _tools[toolName].GetComponent<Weapon>()?.Link(slot);
+            var toolName = GetToolName(EquippedTool.itemSlot);
+            _tools[toolName].SetActive(value);
+            _tools[toolName].GetComponent<Weapon>()?.Link(EquippedTool);//EquippedTool
         }
 
-        if (ItemInUse.itemData.name.Contains("Twin")) // TwinTool의 왼 손 도구를 활성화한다.
+        if (EquippedTool.itemSlot.itemData.name.Contains("Twin")) // TwinTool의 왼 손 도구를 활성화한다.
         {
-            var twinToolName = GetTwinToolLeftHandName(ItemInUse);
-            if (twinToolName.Contains("Handable_L_") == true)
+            var twinToolName = GetTwinToolLeftHandName(EquippedTool.itemSlot);
+            if (twinToolName.Contains("Handable_L_"))
             {
-                _twinTools[twinToolName].SetActive(true);
-                _twinTools[twinToolName].GetComponent<Weapon>()?.Link(slot);
+                _twinTools[twinToolName].SetActive(value);
+                _twinTools[twinToolName].GetComponent<Weapon>()?.Link(EquippedTool);
             }
         }
-    }
-
-    public void UnEquip(int part)
-    {
-        if (Equipments[part].itemSlot.itemData == null) return;
-
-        Equipments[part].itemSlot.SetEquip(false);
-
-        var toolName = GetToolName(Equipments[part].itemSlot);
-        Debug.Log($"[UnEquip ToolName] {toolName}");
-        if (ItemInUse.itemData is ToolItemData toolItem && toolItem.isArchitecture)
-        {
-            _tools["Handable_Base"].SetActive(false);
-        }
-        else
-        {
-            _tools[toolName].SetActive(false);
-        }
-
-        if (Equipments[part].itemSlot.itemData.name.Contains("Twin"))
-        {
-            var twinToolName = GetTwinToolLeftHandName(Equipments[part].itemSlot);
-            if (twinToolName.Contains("Handable_L_") == true)
-            {
-                _twinTools[twinToolName].SetActive(false);
-            }
-        }
-
-        if (-1 != Equipments[part].targetIndex)
-        {
-            OnUnEquip?.Invoke(Equipments[part]);
-        }
-        Equipments[part].Clear();
     }
 
     public string GetToolName(ItemSlot itemSlot)
@@ -147,32 +134,25 @@ public class ToolSystem : MonoBehaviour
         return "Handable_L_" + itemSlot.itemData.name.Replace("ItemData", "");
     }
 
-    public void UnEquip(QuickSlot slot)
+    private void OnItemUnregisted()
     {
-        int part = GetPart(slot);
-        if (part == -1) return;
+        UnEquip();
+    }
 
-        if (Equipments[part].itemSlot.itemData == slot.itemSlot.itemData)
+    private void Load()
+    {
+        if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "ToolSystem"))
         {
-            UnEquip(part);
+            for (int i = 0; i < 2; i++)
+            {
+                EquippedTool.itemSlot.LoadData();
+            }
         }
     }
 
-    private int GetPart(QuickSlot slot)
+    private void Save()
     {
-        var itemData = slot.itemSlot.itemData as EquipItemData;
-        if (itemData == null) return -1;
-        return (int)itemData.part;
-    }
-
-    public void ClearHand()
-    {
-        Equip(EmptyHand);
-    }
-
-    private void OnItemUnregisted(QuickSlot slot)
-    {
-        UnEquip(slot);
-        ClearHand();
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile("ToolSystem", json, SaveGame.SaveType.Runtime);
     }
 }

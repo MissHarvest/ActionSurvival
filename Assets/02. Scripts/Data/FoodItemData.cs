@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ItemData", menuName = "New Item/Consume", order = 1)]
-public class ConsumeItemData : ItemData
+[CreateAssetMenu(fileName = "ItemData", menuName = "New Item/Food", order = 1)]
+public class FoodItemData : ItemData
 {
     [field: SerializeField] public List<PlayerConditions> conditionModifier;
 
-    public ConsumeItemData()
+    public FoodItemData()
     {
         _maxStackCount = 20;
         registable = true;

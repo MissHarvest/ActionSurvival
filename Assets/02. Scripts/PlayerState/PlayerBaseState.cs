@@ -146,22 +146,18 @@ public class PlayerBaseState : IState
 
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
-        if (_stateMachine.Player.EquippedItem == null) return;
         if (_stateMachine.IsFalling) return;
+        
         Debug.Log("Player Interact");
 
-        var tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
+        var itemData = _stateMachine.Player.EquippedItem.itemSlot.itemData;// as ToolItemData;
 
-        if (tool.isArchitecture)
-        {
-            _stateMachine.ChangeState(_stateMachine.BuildState);
-        }
-        else if (tool.isWeapon)
+        if (itemData is WeaponItemData)
         {
             _stateMachine.IsAttacking = true;
             _stateMachine.ChangeState(_stateMachine.ComboAttackState);
         }
-        else if (tool.displayName == "망치")
+        else if (itemData is ToolItemData tool && tool.displayName == "망치")
         {
             _stateMachine.ChangeState(_stateMachine.DestroyState);
         }

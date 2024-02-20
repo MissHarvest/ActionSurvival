@@ -8,6 +8,7 @@ public class UIItemSlotContainer : UIBase
 {
     private List<UIItemSlot> _uiItemSlots = new List<UIItemSlot>();
     private GridLayoutGroup _group;
+
     public override void Initialize()
     {
         
