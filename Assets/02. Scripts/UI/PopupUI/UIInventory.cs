@@ -9,7 +9,7 @@ public class UIInventory : UIPopup
         Exit,
     }
 
-    enum Container
+    enum Container //UIArmorSlotContainer용 enum을 만들자. 이건 기능으로 엮는 것이 아니라 class 별로 구분하는 것
     {
         Contents,
         ArmorSlotContainer

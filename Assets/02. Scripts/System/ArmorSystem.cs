@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class ArmorSystem : MonoBehaviour
 {
+    //Player에 붙어 있으니 manager 사용 x
     [SerializeField] private int _defense;
 
     public QuickSlot[] equippedArmors;
@@ -80,7 +81,7 @@ public class ArmorSystem : MonoBehaviour
     private EquipItemData GetArmorItemData(QuickSlot quickSlot)
     {
         ItemData armor = quickSlot.itemSlot.itemData;
-        EquipItemData toolItemDate = (EquipItemData)armor;
+        EquipItemData toolItemDate = (EquipItemData)armor; //형변환 수정
         return toolItemDate;
     }
 

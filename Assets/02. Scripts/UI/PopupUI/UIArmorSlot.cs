@@ -28,6 +28,7 @@ public class UIArmorSlot : UIItemSlot
     {
         Initialize();
 
+        // Container로
         Managers.Game.Player.ArmorSystem.OnEquipArmor += EquipArmor;
         Managers.Game.Player.ArmorSystem.OnUnEquipArmor += UnEquipArmor;
     }
@@ -52,6 +53,7 @@ public class UIArmorSlot : UIItemSlot
             Clear();
         }
     }
+    // Container로
 
     public override void Set(ItemSlot itemSlot)
     {
