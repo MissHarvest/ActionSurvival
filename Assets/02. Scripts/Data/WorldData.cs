@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewWorld", menuName = "WorldData/World", order = 2)]
@@ -65,7 +66,7 @@ public class NormalBlockType : BlockType
             for (int j = 0; j < 4; j++)
                 chunk.Vertices.Add(pos + chunk.Data.voxelVerts[chunk.Data.voxelTris[i][j]]);
 
-            chunk.AddTextureUV(GetTextureID(i));
+            AddTextureUV(GetTextureID(i), chunk);
             chunk.Triangles.Add(chunk.VertexIdx);
             chunk.Triangles.Add(chunk.VertexIdx + 1);
             chunk.Triangles.Add(chunk.VertexIdx + 2);
@@ -74,6 +75,32 @@ public class NormalBlockType : BlockType
             chunk.Triangles.Add(chunk.VertexIdx + 3);
             chunk.VertexIdx += 4;
         }
+    }
+
+    public void AddTextureUV(int textureID, Chunk chunk)
+    {
+        (int w, int h) = (chunk.Data.TextureAtlasWidth, chunk.Data.TextureAtlasHeight);
+        int x = textureID % w;
+        int y = h - (textureID / w) - 1;
+
+        AddTextureUV(x, y, chunk);
+    }
+
+    private void AddTextureUV(int x, int y, Chunk chunk)
+    {
+        if (x < 0 || y < 0 || x >= chunk.Data.TextureAtlasWidth || y >= chunk.Data.TextureAtlasHeight)
+            Debug.LogError($"텍스쳐 아틀라스의 범위를 벗어났습니다 : [x = {x}, y = {y}]");
+
+        float nw = chunk.Data.NormalizeTextureAtlasWidth;
+        float nh = chunk.Data.NormalizeTextureAtlasHeight;
+
+        float uvX = x * nw;
+        float uvY = y * nh;
+
+        chunk.Uvs.Add(new Vector2(uvX + chunk.Data.uvXBeginOffset, uvY + chunk.Data.uvYBeginOffset));
+        chunk.Uvs.Add(new Vector2(uvX + chunk.Data.uvXBeginOffset, uvY + nh + chunk.Data.uvYEndOffset));
+        chunk.Uvs.Add(new Vector2(uvX + nw + chunk.Data.uvXEndOffset, uvY + chunk.Data.uvYBeginOffset));
+        chunk.Uvs.Add(new Vector2(uvX + nw + chunk.Data.uvXEndOffset, uvY + nh + chunk.Data.uvYEndOffset));
     }
 }
 
@@ -85,7 +112,7 @@ public class SlideBlockType : BlockType
     public override void AddVoxelDataToChunk(Chunk chunk, Vector3Int pos, Vector3 dir)
     {
         var obj = UnityEngine.Object.Instantiate(Prefab, pos, Quaternion.identity);
-        var slide = obj.GetComponent<SlideBlock>();
+        var slide = obj.GetComponent<InstanceBlock>();
         slide.Forward = dir;
         slide.transform.SetParent(chunk.InstanceBlocksParent);
         slide.name = $"{BlockName} ({pos})";

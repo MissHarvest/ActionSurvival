@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.AI;
 
 // 2024-01-12 WJY
 public class Chunk
@@ -12,7 +10,7 @@ public class Chunk
     private MeshRenderer _meshRenderer;
     private MeshFilter _meshFilter;
     private ChunkCoord _coord;
-    private List<WorldMapData> _localMap = new();
+    private Dictionary<Vector3Int, WorldMapData> _localMap = new();
     private bool _isActive;
 
     private int _vertexIdx = 0;
@@ -21,12 +19,13 @@ public class Chunk
     private List<Vector2> _uvs = new();
 
     // TODO: 나중에 인스턴스 블럭의 리스트로 교체
-    private List<SlideBlock> _instanceBlocks = new();
+    private List<InstanceBlock> _instanceBlocks = new();
 
     private World _world;
     private VoxelData _data;
 
     public ChunkCoord ChunkCoord => _coord;
+    public Dictionary<Vector3Int, WorldMapData> LocalMap => _localMap;
     public bool IsActive
     {
         get => _isActive;
@@ -44,7 +43,7 @@ public class Chunk
     public VoxelData Data => _data;
     public Transform InstanceBlocksParent => _instanceBlockParent;
 
-    public List<SlideBlock> InstanceBlocks => _instanceBlocks;
+    public List<InstanceBlock> InstanceBlocks => _instanceBlocks;
 
     public Chunk(ChunkCoord coord, World world)
     {
@@ -65,7 +64,7 @@ public class Chunk
 
     public void AddVoxel(WorldMapData data)
     {
-        _localMap.Add(data);
+        _localMap.Add(data.position, data);
     }
 
     public void GenerateChunk()
@@ -76,7 +75,7 @@ public class Chunk
 
     private void CreateMeshData()
     {
-        foreach(var e in _localMap)
+        foreach(var e in _localMap.Values)
             e.type.AddVoxelDataToChunk(this, e.position, e.forward);
     }
 
@@ -94,33 +93,6 @@ public class Chunk
         _chunkObject.AddComponent<MeshCollider>().sharedMesh = mesh;
     }
 
-    public void AddTextureUV(int textureID)
-    {
-        (int w, int h) = (_data.TextureAtlasWidth, _data.TextureAtlasHeight);
-
-        int x = textureID % w;
-        int y = h - (textureID / w) - 1;
-
-        AddTextureUV(x, y);
-    }
-
-    private void AddTextureUV(int x, int y)
-    {
-        if (x < 0 || y < 0 || x >= _data.TextureAtlasWidth || y >= _data.TextureAtlasHeight)
-            Debug.LogError($"텍스쳐 아틀라스의 범위를 벗어났습니다 : [x = {x}, y = {y}]");
-
-        float nw = _data.NormalizeTextureAtlasWidth;
-        float nh = _data.NormalizeTextureAtlasHeight;
-
-        float uvX = x * nw;
-        float uvY = y * nh;
-
-        _uvs.Add(new Vector2(uvX + _data.uvXBeginOffset, uvY + _data.uvYBeginOffset));
-        _uvs.Add(new Vector2(uvX + _data.uvXBeginOffset, uvY + nh + _data.uvYEndOffset));
-        _uvs.Add(new Vector2(uvX + nw + _data.uvXEndOffset, uvY + _data.uvYBeginOffset));
-        _uvs.Add(new Vector2(uvX + nw + _data.uvXEndOffset, uvY + nh + _data.uvYEndOffset));
-    }
-
     public void SetActive(bool active)
     {
         _isActive = active;
@@ -135,7 +107,7 @@ public class Chunk
         result[0] = (Mesh, TransformMatrix);
         for (int i = 1; i < result.Length; i++)
         {
-            var block = _instanceBlockParent.GetChild(i - 1).GetComponent<SlideBlock>();
+            var block = _instanceBlockParent.GetChild(i - 1).GetComponent<InstanceBlock>();
             result[i] = (block.Mesh, block.TransformMatrix);
         }
         return result;
