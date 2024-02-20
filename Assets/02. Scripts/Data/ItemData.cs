@@ -13,7 +13,7 @@ public class ItemData : ScriptableObject
     protected int _maxStackCount = 20;
     public int MaxStackCount => _maxStackCount;
 
-    public float MaxDurability { get; private set; } = 0.0f;
+    [field : SerializeField] public float MaxDurability { get; private set; } = 0.0f;
 
     public bool stackable => MaxStackCount != 1;
     public bool registable { get; protected set; } = false;

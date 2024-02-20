@@ -14,12 +14,11 @@ public class PlayerDestroyState : PlayerGroundedState
 
     public override void Enter()
     {
-        //Debug.Log("파괴 모드 on");
         _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
 
-        ToolItemData hammer = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
+        ToolItemData hammer = _stateMachine.Player.EquippedItem.itemSlot.itemData as ToolItemData;
 
         var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, hammer.range, hammer.targetLayers);
         if (targets.Length == 0)
@@ -30,8 +29,7 @@ public class PlayerDestroyState : PlayerGroundedState
 
         target = targets[0].gameObject;
         targetTag = target.tag;
-        //Debug.Log("target명 : " + target.name);
-        Debug.Log($"target Name : {targetTag}");
+        
         RotateOfTarget();
         _stateMachine.Player.Animator.SetBool(targetTag, true);
         return;

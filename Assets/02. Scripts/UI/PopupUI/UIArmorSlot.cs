@@ -35,7 +35,8 @@ public class UIArmorSlot : UIItemSlot
 
     public void EquipArmor(QuickSlot quickSlot)
     {
-        if (quickSlot == null) return;
+        return;//[pju]
+        if (quickSlot.itemSlot.itemData == null) return;
         int parts = GetPart(quickSlot);
 
         if (part == (ItemParts)parts)
