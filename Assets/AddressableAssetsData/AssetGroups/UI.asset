@@ -191,7 +191,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 702cd94173ec0ed4c9f1c1211fc093c5
-    m_Address: ArmorSlot.prefab
+    m_Address: UIArmorSlot.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

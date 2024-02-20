@@ -15,7 +15,7 @@ public class UIArmorSlot : UIItemSlot
         Icon,
     }
 
-    public ItemParts part;    
+    public ItemParts part;
 
     public override void Initialize()
     {
@@ -26,7 +26,7 @@ public class UIArmorSlot : UIItemSlot
 
     private void Awake()
     {
-        Initialize();        
+        Initialize();
 
         Managers.Game.Player.ArmorSystem.OnEquipArmor += EquipArmor;
         Managers.Game.Player.ArmorSystem.OnUnEquipArmor += UnEquipArmor;

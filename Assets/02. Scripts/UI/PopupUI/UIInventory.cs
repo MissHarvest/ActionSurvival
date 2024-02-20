@@ -12,6 +12,7 @@ public class UIInventory : UIPopup
     enum Container
     {
         Contents,
+        ArmorSlotContainer
     }
 
     enum Helper
@@ -22,12 +23,14 @@ public class UIInventory : UIPopup
     public QuickSlot SelectedSlot { get; private set; } = new QuickSlot();
     private Canvas _canvas;
     private InventorySystem _playerInventory;
+    private ArmorSystem _armorSystem;
 
     public override void Initialize()
     {
         base.Initialize();
         Bind<GameObject>(typeof(Gameobjects));
         Bind<UIItemSlotContainer>(typeof(Container));
+        Bind<UIArmorSlotContainer>(typeof(Container));
         Bind<UIItemUsageHelper>(typeof(Helper));
         Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) => { Managers.UI.CloseAllPopupUI(); });
     }
@@ -35,12 +38,21 @@ public class UIInventory : UIPopup
     private void Awake()
     {
         Debug.Log($"UI Inventory Awake [{gameObject.name}] [{this.name}]");
+
         Initialize();
+
         _playerInventory = Managers.Game.Player.Inventory;
+        _armorSystem = Managers.Game.Player.ArmorSystem;
+
         var prefab = Managers.Resource.GetCache<GameObject>("UIInventorySlot.prefab");
         var container = Get<UIItemSlotContainer>((int)Container.Contents);
         container.CreateItemSlots<UIInventorySlot>(prefab, _playerInventory.maxCapacity);
         container.Init<UIInventorySlot>(_playerInventory, ActivateItemUsageHelper);
+
+        var armorSlotPrefab = Managers.Resource.GetCache<GameObject>("UIArmorSlot.prefab");
+        var armorSlotContainer = Get<UIArmorSlotContainer>((int)Container.ArmorSlotContainer);
+        armorSlotContainer.CreatArmorSlots<UIArmorSlot>(armorSlotPrefab, 2);
+        armorSlotContainer.Init<UIArmorSlot>(_armorSystem.equippedArmors);
 
         _canvas = GetComponent<Canvas>();
 
@@ -115,15 +127,12 @@ public class UIInventory : UIPopup
 
     private void Equip()
     {
-        //ToolSystem -> ArmorSystem으로 옮겨가자구
-        //Managers.Game.Player.ToolSystem.Equip(SelectedSlot);
         Managers.Game.Player.ArmorSystem.Equip(SelectedSlot);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
     private void UnEquip()
     {
-        //Managers.Game.Player.ToolSystem.UnEquip(SelectedSlot);
         Managers.Game.Player.ArmorSystem.UnEquip(SelectedSlot);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }

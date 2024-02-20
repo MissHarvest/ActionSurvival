@@ -52,10 +52,6 @@ public class ToolSystem : MonoBehaviour
 
 
         Equip(EmptyHand);
-
-        Load();
-
-        Managers.Game.OnSaveCallback += Save;
     }
 
     private void Start()
@@ -79,11 +75,6 @@ public class ToolSystem : MonoBehaviour
             //EquipTool(Equipments[part].itemSlot);
             EquipTool(slot);
         }
-
-        //if (slot.itemSlot != EmptyHand.itemSlot) lgs
-        //{
-        //    OnEquip?.Invoke(Equipments[part]);
-        //}
     }
 
     private void EquipTool(QuickSlot slot)
@@ -124,10 +115,6 @@ public class ToolSystem : MonoBehaviour
         if (ItemInUse.itemData is ToolItemData toolItem && toolItem.isArchitecture)
         {
             _tools["Handable_Base"].SetActive(false);
-        }
-        else if (part == (int)ItemParts.Body || part == (int)ItemParts.Head)//lgs
-        {
-
         }
         else
         {
@@ -187,27 +174,5 @@ public class ToolSystem : MonoBehaviour
     {
         UnEquip(slot);
         ClearHand();
-    }
-
-    public void UnEquipArmor(QuickSlot slot)//lgs
-    {
-        UnEquip(slot);
-    }
-
-    private void Load()
-    {
-        if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "ToolSystem"))
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                Equipments[i].itemSlot.LoadData();
-            }
-        }
-    }
-
-    private void Save()
-    {
-        var json = JsonUtility.ToJson(this);
-        SaveGame.CreateJsonFile("ToolSystem", json, SaveGame.SaveType.Runtime);
     }
 }

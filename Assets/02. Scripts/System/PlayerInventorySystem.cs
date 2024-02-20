@@ -22,7 +22,7 @@ public class PlayerInventorySystem : InventorySystem
         Owner.ToolSystem.OnEquip += OnItemEquipped;
         Owner.ToolSystem.OnUnEquip += OnItemUnEquipped;
         Owner.Building.OnBuildCompleted += UseArchitectureItem;
-        Owner.ArmorSystem.OnEquipArmor += OnItemEquipped;
+        Owner.ArmorSystem.OnEquipArmor += OnItemEquipped;//lgs
         Owner.ArmorSystem.OnUnEquipArmor += OnItemUnEquipped;
     }
 
@@ -163,7 +163,7 @@ public class PlayerInventorySystem : InventorySystem
         else
         {
 #if UNITY_EDITOR
-            AddDefaultToolAsTest();
+            //AddDefaultToolAsTest();
 #endif
         }
     }
