@@ -1,36 +1,20 @@
 using System;
-using System.IO;
-using System.Reflection;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.Progress;
-//using static UnityEditor.Progress;
 
 [Serializable]
-public class ItemSlot
+public struct ItemSlot
 {
-    public ItemData itemData { get; private set; } = null;
-    [field: SerializeField] public string itemName { get; private set; } = string.Empty;
+    public ItemData itemData { get; private set; }
+    [field: SerializeField] public string itemName { get; private set; }
     [field: SerializeField] public int quantity { get; private set; }
     
     // 내구도 굳이 float 이어야하나?
     [field: SerializeField] public float currentDurability { get; private set; }
 
-    [field: SerializeField] public bool equipped { get; private set; } = false;
-    [field: SerializeField] public bool registed { get; private set; } = false;
+    [field: SerializeField] public bool equipped { get; private set; }
+    [field: SerializeField] public bool registed { get; private set; }
 
     public InventorySystem inventory { get; set; }
-
-    /// <summary>
-    /// [사용하지 않는 생성자]
-    /// </summary>
-    public ItemSlot()
-    {
-        this.itemData = null;
-        this.itemName = string.Empty;
-        this.quantity = 0;
-        this.currentDurability = 0.0f;
-    }
 
     public ItemSlot(InventorySystem inventory)
     {
@@ -39,14 +23,23 @@ public class ItemSlot
         this.itemData = null;
         this.quantity = 0;
         this.currentDurability = 0.0f;
+        this.equipped = false;
+        this.registed = false;
     }
 
-    public ItemSlot(ItemData itemData, int quantity = 1)
+    /// <summary>
+    /// [사용하지 않는 생성자]
+    /// </summary>
+    /// <param name="itemData"></param>
+    public ItemSlot(ItemData itemData)
     {
+        this.inventory = null;
         this.itemData = itemData;
-        this.itemName = itemData.name;
-        this.quantity = quantity;
-        this.currentDurability = (itemData is EquipItemData toolItem) ? toolItem.MaxDurability : 0f;
+        this.itemName = itemData != null? itemData.name : string.Empty;
+        this.quantity = 0;
+        this.currentDurability = 0.0f;
+        this.equipped = false;
+        this.registed = false;
     }
 
     public bool IsFull => this.quantity == itemData.MaxStackCount;
@@ -112,15 +105,6 @@ public class ItemSlot
         registed = itemSlot.registed;
         equipped = itemSlot.equipped;
         currentDurability = itemSlot.currentDurability;
-    }
-
-    public void Copy(ItemSlot itemslot)
-    {
-        Set(itemslot.itemData, itemslot.quantity);
-        registed = itemslot.registed;
-        equipped = itemslot.equipped;
-        currentDurability = itemslot.currentDurability;
-        inventory = itemslot.inventory;
     }
 
     public void Clear()

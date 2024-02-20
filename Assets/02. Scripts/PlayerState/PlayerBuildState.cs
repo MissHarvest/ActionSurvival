@@ -13,11 +13,10 @@ public class PlayerBuildState : PlayerBaseState
 
     public override void Enter()
     {
-        Debug.Log("[Player State Enter Building]");
         _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
-
-        _stateMachine.Player.Building.CreateArchitecture();
+        var tool = _stateMachine.Player.EquippedItem;
+        _stateMachine.Player.Building.CreateArchitecture(tool.targetIndex, tool.itemSlot);
         _buildingUI = Managers.UI.ShowPopupUI<UIBuilding>();
     }
 

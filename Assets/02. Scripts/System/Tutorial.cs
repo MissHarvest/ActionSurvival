@@ -84,7 +84,8 @@ public class Tutorial : MonoBehaviour
 
     private void OnBuildUpdated(int index)
     {
-        OnInventoryOrBuildUpdated(index, itemSlot: null, isBuildEvent: true);
+        // 수정 예정
+        OnInventoryOrBuildUpdated(index, itemSlot: new ItemSlot(itemData:null), isBuildEvent: true);
     }
 
     //인벤토리나 건축이 업데이트되면 클리어 조건 확인
@@ -186,8 +187,30 @@ public class Tutorial : MonoBehaviour
         if (itemData is ToolItemData == false) yield break;
         var toolData = (ToolItemData)itemData;
 
-        var type = toolData.isArchitecture ? UIItemUsageHelper.Functions.Build : UIItemUsageHelper.Functions.Regist;
-        invenUI.HighLightHelper(type);
+        UIItemUsageHelper.Functions type = UIItemUsageHelper.Functions.Destroy;
+        switch(itemData)
+        {
+            case ArchitectureItemData _:
+                type = UIItemUsageHelper.Functions.Build;
+                break;
+
+            case ToolItemData _:
+                type = UIItemUsageHelper.Functions.Regist;
+                break;
+
+            case EquipItemData _:
+                type = UIItemUsageHelper.Functions.Equip;
+                break;
+
+            case FoodItemData _:
+                type = UIItemUsageHelper.Functions.Use;
+                break;
+        }
+
+        if(!(type == UIItemUsageHelper.Functions.Destroy))
+        {
+            invenUI.HighLightHelper(type);
+        }
     }
 
     public void GuideCraft()

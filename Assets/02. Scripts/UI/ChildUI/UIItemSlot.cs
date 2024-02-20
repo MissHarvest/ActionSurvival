@@ -17,6 +17,7 @@ public class UIItemSlot : UIBase
 
     public int Index { get; private set; }
     public UIItemSlotContainer Container { get; private set; }
+    public RectTransform RectTransform { get; private set; }
     public Image Icon => Get<Image>((int)Images.Icon);
     protected TextMeshProUGUI Quantity => Get<TextMeshProUGUI>((int)Texts.Quantity);
 
@@ -27,6 +28,9 @@ public class UIItemSlot : UIBase
 
         Get<Image>((int)Images.Icon).raycastTarget = false;
         Get<TextMeshProUGUI>((int)Texts.Quantity).raycastTarget = false;
+
+
+        RectTransform = GetComponent<RectTransform>();
     }
 
     private void Awake()

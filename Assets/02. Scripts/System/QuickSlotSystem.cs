@@ -1,28 +1,31 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class QuickSlotSystem : MonoBehaviour
 {
     public static int capacity = 4;
-    public QuickSlot[] slots = new QuickSlot[capacity];
+    [SerializeField] private QuickSlot[] _slots = new QuickSlot[capacity];
+    private Player _player;
 
     public event Action<int, ItemSlot> OnUpdated;
     public event Action<QuickSlot> OnRegisted;
     public event Action<QuickSlot> OnUnRegisted;
+    public event Action OnClickEmptySlot;
 
-    [field: SerializeField] public int IndexInUse { get; private set; } = -1;
+    [HideInInspector][SerializeField] private int _indexInuse = -1;
 
     private void Awake()
     {
         Debug.Log("QuickSystem Awake");
         for (int i = 0; i < capacity; ++i)
         {
-            slots[i] = new QuickSlot();
+            _slots[i] = new QuickSlot();
         }
 
-        Load();        
-
+        Load();
+        _player = GetComponentInParent<Player>();
         Managers.Game.OnSaveCallback += Save;
     }
 
@@ -32,118 +35,116 @@ public class QuickSlotSystem : MonoBehaviour
         Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
-    public void Regist(int index, QuickSlot slot)
+    public QuickSlot Get(int index)
     {
-        UnRegist(slots[index], true);        
-
-        slot.itemSlot.SetRegist(true);
-        slots[index].Set(slot.targetIndex, slot.itemSlot);
-        OnUpdated?.Invoke(index, slot.itemSlot);
-        OnRegisted?.Invoke(slot);
-
-        if (index == IndexInUse)
-        {
-            QuickUse();
-        }
+        return _slots[index];
     }
 
-    private void UnRegist(QuickSlot slot, bool indexInUseStay)
+    public void Regist(int index, QuickSlot slot)
     {
         if (slot.itemSlot.itemData == null) return;
 
-        for (int i = 0; i < slots.Length; ++i)
+        UnRegist(index, true);        
+
+        slot.itemSlot.SetRegist(true);
+        _slots[index].Set(slot.targetIndex, slot.itemSlot);
+        OnUpdated?.Invoke(index, slot.itemSlot);
+        OnRegisted?.Invoke(slot);
+
+        if (index == _indexInuse)
         {
-            if (slot.targetIndex == slots[i].targetIndex)
+            QuickUse(_indexInuse);
+        }
+    }
+
+    // index 가 targetIndex 인 경우
+    public void UnRegist(int index)
+    {
+        for (int i = 0; i < _slots.Length; ++i)
+        {
+            if (_slots[i].itemSlot.itemData != null && _slots[i].targetIndex == index)
             {
-                IndexInUse = indexInUseStay ? IndexInUse : -1;
-                slot.itemSlot.SetRegist(false);
-                OnUnRegisted?.Invoke(slot);
-                slots[i].Clear();
-                OnUpdated?.Invoke(i, slots[i].itemSlot);
+                _slots[i].itemSlot.SetRegist(false);
+                OnUnRegisted?.Invoke(_slots[i]);
+                _slots[i].Clear();
+                OnUpdated?.Invoke(i, _slots[i].itemSlot);
                 return;
             }
         }
     }
 
-    public void UnRegist(QuickSlot slot)
+    // index 가 slot 의 index 인 경우
+    private void UnRegist(int index, bool indexInUseStay)
     {
-        UnRegist(slot, false);
+        if (_slots[index].itemSlot.itemData == null) return;
+        _slots[index].itemSlot.SetRegist(false);
+        OnUnRegisted?.Invoke(_slots[index]);
+        _slots[index].Clear();
+        OnUpdated?.Invoke(index, _slots[index].itemSlot);
+        if (_indexInuse == index)
+        {
+            _indexInuse = indexInUseStay ? _indexInuse : -1;
+        }
     }
 
     public void OnQuickUseInput(int index)
     {
-        if (index != IndexInUse)
+        QuickUse(index);
+    }
+
+    private void QuickUse(int index)
+    {
+        if (_slots[index].itemSlot.itemData == null)
         {
-            IndexInUse = index;
-            QuickUse();
+            _indexInuse = -1;
+            OnClickEmptySlot?.Invoke();
+            return;
         }
+
+        // 건설 및 음식이면 즉시 사용, index 변경 x
+        // 장비 아이템이면 index 변경
+        
+        _indexInuse = index;
+        _player.ItemUsageHelper.Use(_slots[index].targetIndex);
+        if (_slots[index].itemSlot.itemData is ToolItemData)
+        {
+            _indexInuse = index;
+        }        
     }
 
     private void QuickUse()
     {
-        if (IndexInUse == -1) return;
-        if (slots[IndexInUse].itemSlot.itemData == null)
+        if (_indexInuse == -1) return;
+        if (_slots[_indexInuse].itemSlot.itemData == null)
         {
-            Debug.Log($"Quick Use {IndexInUse}");
-            IndexInUse = -1;
-            Managers.Game.Player.ToolSystem.ClearHand();
+            _indexInuse = -1;
+            OnClickEmptySlot?.Invoke();
             return;
         }
-
-        var itemData = slots[IndexInUse].itemSlot.itemData;
-        switch (itemData)
+        if (_slots[_indexInuse].itemSlot.itemData is ToolItemData)
         {
-            case ToolItemData _:
-
-                if (((ToolItemData)itemData).isWeapon)
-                {
-                    Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
-                                "무기를 장착한 상태에서는 상호작용이 불가능합니다.",
-                                UIWarning.Type.YesOnly,
-                                () => { Managers.UI.ClosePopupUI(); },
-                                true);
-                }
-
-                Managers.Game.Player.ToolSystem.Equip(slots[IndexInUse]);
-                break;
-
-            case ConsumeItemData _:
-                Managers.Game.Player.Inventory.UseConsumeItemByIndex(slots[IndexInUse].targetIndex);
-                IndexInUse = -1;
-                break;
-
-            default:
-                break;
+            _player.ItemUsageHelper.Use(_slots[_indexInuse].targetIndex);
         }
     }
 
-    // 퀵슬롯 인덱스 번호로 업데이트
-    public void UpdateQuickSlot(int index)
-    {
-        IndexInUse = index;
-        int inventoryIndex = slots[IndexInUse].targetIndex;
-        slots[IndexInUse].Set(inventoryIndex, Managers.Game.Player.Inventory.Get(inventoryIndex));
-        OnUpdated?.Invoke(IndexInUse, slots[IndexInUse].itemSlot);
-    }
 
     public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)
     {
         for (int i = 0; i < capacity; ++i)
         {
-            if (slots[i].targetIndex == inventoryIndex)
+            if (_slots[i].targetIndex == inventoryIndex)
             {
                 if(itemSlot.itemData == null)
                 {
-                    slots[i].Clear();
-                    IndexInUse = -1;
-                    Managers.Game.Player.ToolSystem.ClearHand();
+                    _slots[i].Clear();
+                    if (i == _indexInuse) _indexInuse = -1;
                 }
                 else
                 {
-                    slots[i].Set(slots[i].targetIndex, itemSlot);
+                    _slots[i].Set(_slots[i].targetIndex, itemSlot);
                 }
                 
-                OnUpdated?.Invoke(i, slots[i].itemSlot);
+                OnUpdated?.Invoke(i, _slots[i].itemSlot);
                 return;
             }
         }
@@ -153,12 +154,12 @@ public class QuickSlotSystem : MonoBehaviour
     {
         if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "PlayerQuickSlot"))
         {
-            for(int i = 0; i < slots.Length; ++i)
+            for(int i = 0; i < _slots.Length; ++i)
             {
-                slots[i].itemSlot.LoadData();
+                _slots[i].itemSlot.LoadData();
             }
 
-            if (IndexInUse != -1 && slots[IndexInUse].itemSlot.itemData is ToolItemData)
+            if (_indexInuse != -1 && _slots[_indexInuse].itemSlot.itemData is ToolItemData)
             {
                 QuickUse();
             }

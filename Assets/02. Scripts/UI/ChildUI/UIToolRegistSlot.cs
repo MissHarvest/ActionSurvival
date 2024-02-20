@@ -27,7 +27,7 @@ public class UIToolRegistSlot : UIItemSlot
 
     public override void Set(ItemSlot itemSlot)
     {
-        if(itemSlot == null)
+        if(itemSlot.itemData == null)
         {
             Clear();
             return;

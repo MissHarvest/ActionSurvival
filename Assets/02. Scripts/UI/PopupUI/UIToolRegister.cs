@@ -44,7 +44,7 @@ public class UIToolRegister : UIPopup
             var slotUIPrefab = Managers.Resource.GetCache<GameObject>("UIToolRegistSlot.prefab");            
             var slotUI = Instantiate(slotUIPrefab, parent).GetOrAddComponent<UIToolRegistSlot>();
             slotUI.gameObject.transform.position = slots[i].transform.position;
-            slotUI.Init(this, i, quickSlotSystem.slots[i].itemSlot);
+            slotUI.Init(this, i, quickSlotSystem.Get(i).itemSlot);
             _slots.Add(slotUI);
         }
 
@@ -54,9 +54,9 @@ public class UIToolRegister : UIPopup
         }
     }
 
-    public void Set(QuickSlot quickSlot) // 일단 index 값이 필요함.
+    public void Set(int index, ItemSlot itemSlot) // 일단 index 값이 필요함.
     {
-        SelectedSlot = quickSlot;
+        SelectedSlot.Set(index, itemSlot);
     }
 
     public void OnQuickSlotUpdate(int index, ItemSlot itemSlot)

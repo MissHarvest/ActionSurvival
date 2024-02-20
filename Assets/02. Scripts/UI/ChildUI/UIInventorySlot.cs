@@ -9,7 +9,6 @@ public class UIInventorySlot : UIItemSlot
         Regist,
     }
         
-    public RectTransform RectTransform { get; private set; }    
 
     private Slider durabilitySlider;
 
@@ -18,7 +17,6 @@ public class UIInventorySlot : UIItemSlot
         Bind<GameObject>(typeof(GameObjects));
         base.Initialize();
 
-        RectTransform = GetComponent<RectTransform>();
         durabilitySlider = GetComponentInChildren<Slider>();
     }
 

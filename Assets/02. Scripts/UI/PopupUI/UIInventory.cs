@@ -20,9 +20,9 @@ public class UIInventory : UIPopup
         UsageHelper,
     }
 
-    public QuickSlot SelectedSlot { get; private set; } = new QuickSlot();
+    private int _selectedIndex;
     private Canvas _canvas;
-    private InventorySystem _playerInventory;
+    private PlayerInventorySystem _playerInventory;
 
     public override void Initialize()
     {
@@ -55,74 +55,72 @@ public class UIInventory : UIPopup
         var helper = Get<UIItemUsageHelper>((int)Helper.UsageHelper);
         helper.BindEventOfButton(UIItemUsageHelper.Functions.Regist, RegistItem);
         helper.BindEventOfButton(UIItemUsageHelper.Functions.UnRegist, UnregistItem);
-        helper.BindEventOfButton(UIItemUsageHelper.Functions.Use, ConsumeItem);
-        helper.BindEventOfButton(UIItemUsageHelper.Functions.Build, BuildItem);
+        helper.BindEventOfButton(UIItemUsageHelper.Functions.Use, EatFood);//
+        helper.BindEventOfButton(UIItemUsageHelper.Functions.Build, BuildItem);//
         helper.BindEventOfButton(UIItemUsageHelper.Functions.Destroy, DestroyItem);
-        helper.BindEventOfButton(UIItemUsageHelper.Functions.Equip, Equip);
-        helper.BindEventOfButton(UIItemUsageHelper.Functions.UnEquip, UnEquip);
+        helper.BindEventOfButton(UIItemUsageHelper.Functions.Equip, Equip);//
+        helper.BindEventOfButton(UIItemUsageHelper.Functions.UnEquip, UnEquip);//
     }
 
     private void ActivateItemUsageHelper(UIItemSlot itemslotUI)
-    {   
-        var inventoryslotui = itemslotUI as UIInventorySlot;
-        SelectedSlot.Set(inventoryslotui.Index, Managers.Game.Player.Inventory.Get(inventoryslotui.Index));
+    {
+        _selectedIndex = itemslotUI.Index;
 
-        var offset = inventoryslotui.RectTransform.sizeDelta.x;
+        var offset = itemslotUI.RectTransform.sizeDelta.x;
         offset = offset / 1920 * _canvas.renderingDisplaySize.x;
 
         var pos = new Vector3
             (
-            inventoryslotui.transform.position.x + offset,
-            inventoryslotui.transform.position.y
+            itemslotUI.transform.position.x + offset,
+            itemslotUI.transform.position.y
             );
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).ShowOption
             (
-            SelectedSlot.itemSlot,
+            _playerInventory.Get(_selectedIndex),
             pos)
             ;
     }
 
     private void DestroyItem()
     {
-        Managers.Game.Player.Inventory.DestroyItemByIndex(SelectedSlot);
+        _playerInventory.DestroyItem(_selectedIndex);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
-    private void ConsumeItem()
+    private void EatFood()
     {
-        // Managers.Game.Player.ItemUseHelper.ConsumeItem(index);
-        Managers.Game.Player.Inventory.UseConsumeItemByIndex(SelectedSlot.targetIndex);
+        _playerInventory.Owner.ItemUsageHelper.Use(_selectedIndex);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
     private void BuildItem()
     {
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
-        Managers.UI.ClosePopupUI(this); //UIInventory 팝업 끄기
-        Managers.Game.Player.Building.CreateArchitectureByIndex(SelectedSlot.targetIndex);
+        Managers.UI.ClosePopupUI(this);
+        _playerInventory.Owner.ItemUsageHelper.Use(_selectedIndex);
     }
 
     private void RegistItem()
     {
-        Managers.UI.ShowPopupUI<UIToolRegister>().Set(SelectedSlot);
+        Managers.UI.ShowPopupUI<UIToolRegister>().Set(_selectedIndex, _playerInventory.Get(_selectedIndex));
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
     private void UnregistItem()
     {
-        Managers.Game.Player.QuickSlot.UnRegist(SelectedSlot);
+        Managers.Game.Player.QuickSlot.UnRegist(_selectedIndex);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
     private void Equip()
     {
-        Managers.Game.Player.ToolSystem.Equip(SelectedSlot);
+        //Managers.Game.Player.ToolSystem.Equip(SelectedSlot);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
     private void UnEquip()
     {
-        Managers.Game.Player.ToolSystem.UnEquip(SelectedSlot);
+        //Managers.Game.Player.ToolSystem.UnEquip(SelectedSlot);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
