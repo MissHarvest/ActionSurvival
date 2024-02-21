@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 // 2024-01-12 WJY
@@ -122,11 +121,8 @@ public class World : MonoBehaviour
         {
             if (chunk.LocalMap.TryGetValue(pos, out var block))
                 return block;
-            else
-                return null;
         }
-        else
-            return null;
+        return null;
     }
 
     public bool CheckVoxel(Vector3 pos)
