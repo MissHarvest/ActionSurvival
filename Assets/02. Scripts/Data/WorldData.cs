@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewWorld", menuName = "WorldData/World", order = 2)]
@@ -59,21 +60,10 @@ public class NormalBlockType : BlockType
     {
         for (int i = 0; i < 6; i++)
         {
-            if (chunk.World.CheckVoxel(pos + chunk.Data.faceChecks[i]))
-                continue;
-
-            for (int j = 0; j < 4; j++)
-                chunk.Vertices.Add(pos + chunk.Data.voxelVerts[chunk.Data.voxelTris[i][j]]);
-
-            chunk.AddTextureUV(GetTextureID(i));
-            chunk.Triangles.Add(chunk.VertexIdx);
-            chunk.Triangles.Add(chunk.VertexIdx + 1);
-            chunk.Triangles.Add(chunk.VertexIdx + 2);
-            chunk.Triangles.Add(chunk.VertexIdx + 2);
-            chunk.Triangles.Add(chunk.VertexIdx + 1);
-            chunk.Triangles.Add(chunk.VertexIdx + 3);
-            chunk.VertexIdx += 4;
+            chunk.JobChecks.Add(chunk.World.CheckVoxel(pos + VoxelLookUpTable.faceChecks[i]));
+            chunk.JobTextures.Add(GetTextureID(i));
         }
+        chunk.JobPositions.Add(pos);
     }
 }
 
@@ -85,7 +75,7 @@ public class SlideBlockType : BlockType
     public override void AddVoxelDataToChunk(Chunk chunk, Vector3Int pos, Vector3 dir)
     {
         var obj = UnityEngine.Object.Instantiate(Prefab, pos, Quaternion.identity);
-        var slide = obj.GetComponent<SlideBlock>();
+        var slide = obj.GetComponent<InstanceBlock>();
         slide.Forward = dir;
         slide.transform.SetParent(chunk.InstanceBlocksParent);
         slide.name = $"{BlockName} ({pos})";
