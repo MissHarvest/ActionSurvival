@@ -196,7 +196,7 @@ public class IslandGernerator : MonoBehaviour
             bool flag = true;
             for (int i = 0; i < 6; i++)
             {
-                Vector3Int pos = Vector3Int.FloorToInt(data.position + _voxelData.faceChecks[i]);
+                Vector3Int pos = Vector3Int.FloorToInt(data.position + VoxelLookUpTable.faceChecks[i]);
 
                 if (!worldMap.ContainsKey(pos))
                 {

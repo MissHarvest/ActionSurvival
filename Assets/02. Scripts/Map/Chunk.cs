@@ -27,6 +27,10 @@ public class Chunk
     private World _world;
     private VoxelData _data;
 
+    private List<bool> _jobChecks = new();
+    private List<int> _jobTextures = new();
+    private List<Vector3> _jobPositions = new();
+
     public ChunkCoord ChunkCoord => _coord;
     public Dictionary<Vector3Int, WorldMapData> LocalMap => _localMap;
     public bool IsActive
@@ -34,10 +38,8 @@ public class Chunk
         get => _isActive;
         set => SetActive(value);
     }
-
     public Mesh Mesh => _meshFilter.sharedMesh;
     public Matrix4x4 TransformMatrix => _chunkObject.transform.localToWorldMatrix;
-
     public int VertexIdx { get => _vertexIdx; set => _vertexIdx = value; }
     public List<Vector3> Vertices => _vertices;
     public List<int> Triangles => _triangles;
@@ -45,8 +47,10 @@ public class Chunk
     public World World => _world;
     public VoxelData Data => _data;
     public Transform InstanceBlocksParent => _instanceBlockParent;
-
     public List<InstanceBlock> InstanceBlocks => _instanceBlocks;
+    public List<bool> JobChecks => _jobChecks;
+    public List<int> JobTextures => _jobTextures;
+    public List<Vector3> JobPositions => _jobPositions;
 
     public Chunk(ChunkCoord coord, World world)
     {
@@ -72,40 +76,19 @@ public class Chunk
 
     public void GenerateChunk()
     {
-        CoroutineManagement.Instance.StartCoroutine(CreateMeshData());
+        CoroutineManagement.Instance.StartCoroutine(GenerateChunkJobCoroutine());
     }
 
-    private IEnumerator CreateMeshData()
+    private IEnumerator GenerateChunkJobCoroutine()
     {
-        //foreach(var e in _localMap.Values)
-        //e.type.AddVoxelDataToChunk(this, e.position, e.forward);
-
-        List<bool> checks = new();
-        List<int> textures = new();
-        List<Vector3> positions = new();
-
-        foreach (var e in _localMap.Values)
-        {
-            if (e.type is NormalBlockType normal)
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    checks.Add(World.CheckVoxel(e.position + _data.faceChecks[i]));
-                    textures.Add(normal.GetTextureID(i));
-                }
-                positions.Add(e.position);
-            }
-            else if (e.type is SlideBlockType slide)
-            {
-                slide.AddVoxelDataToChunk(this, e.position, e.forward);
-            }
-        }
+        foreach (var block in _localMap.Values)
+            block.type.AddVoxelDataToChunk(this, block.position, block.forward);
 
         var job = new ChunkJob()
         {
-            checks = new(checks.ToArray(), Allocator.TempJob),
-            textures = new(textures.ToArray(), Allocator.TempJob),
-            positions = new(positions.ToArray(), Allocator.TempJob),
+            checks = new(_jobChecks.ToArray(), Allocator.TempJob),
+            textures = new(_jobTextures.ToArray(), Allocator.TempJob),
+            positions = new(_jobPositions.ToArray(), Allocator.TempJob),
             faceIdx = 0,
             vertextIdx = 0,
             textureAtlasWidth = _data.TextureAtlasWidth,
@@ -138,8 +121,6 @@ public class Chunk
         uv.Dispose();
 
         CreateMesh();
-
-        yield break;
     }
 
     private void CreateMesh()

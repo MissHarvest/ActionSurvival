@@ -8,26 +8,26 @@ using UnityEngine;
 public struct ChunkJob : IJob
 {
     // 입력
-    public NativeArray<bool> checks;
-    public NativeArray<int> textures;
-    public NativeArray<Vector3> positions;
+    [ReadOnly] public NativeArray<bool> checks;
+    [ReadOnly] public NativeArray<int> textures;
+    [ReadOnly] public NativeArray<Vector3> positions;
     public int faceIdx;
     public int vertextIdx;
 
     // 텍스처 정보
-    public int textureAtlasWidth;
-    public int textureAtlasHeight;
-    public float normalizeTextureAtlasWidth;
-    public float normalizeTextureAtlasHeight;
-    public float uvXBeginOffset;
-    public float uvXEndOffset;
-    public float uvYBeginOffset;
-    public float uvYEndOffset;
+    [ReadOnly] public int textureAtlasWidth;
+    [ReadOnly] public int textureAtlasHeight;
+    [ReadOnly] public float normalizeTextureAtlasWidth;
+    [ReadOnly] public float normalizeTextureAtlasHeight;
+    [ReadOnly] public float uvXBeginOffset;
+    [ReadOnly] public float uvXEndOffset;
+    [ReadOnly] public float uvYBeginOffset;
+    [ReadOnly] public float uvYEndOffset;
 
     // 출력
-    public NativeList<Vector3> vertices;
-    public NativeList<int> triangles;
-    public NativeList<Vector2> uv;
+    [WriteOnly] public NativeList<Vector3> vertices;
+    [WriteOnly] public NativeList<int> triangles;
+    [WriteOnly] public NativeList<Vector2> uv;
 
     public void Execute()
     {
@@ -43,17 +43,12 @@ public struct ChunkJob : IJob
 
                 int textureX = textures[faceIdx + i] % textureAtlasWidth;
                 int textureY = textureAtlasHeight - (textures[faceIdx + i] / textureAtlasWidth) - 1;
-
-                if (!(textureX < 0 || textureY < 0 || textureX >= textureAtlasWidth || textureY >= textureAtlasHeight))
-                {
-                    float uvX = textureX * normalizeTextureAtlasWidth;
-                    float uvY = textureY * normalizeTextureAtlasHeight;
-
-                    uv.Add(new Vector2(uvX + uvXBeginOffset, uvY + uvYBeginOffset));
-                    uv.Add(new Vector2(uvX + uvXBeginOffset, uvY + normalizeTextureAtlasHeight + uvYEndOffset));
-                    uv.Add(new Vector2(uvX + normalizeTextureAtlasWidth + uvXEndOffset, uvY + uvYBeginOffset));
-                    uv.Add(new Vector2(uvX + normalizeTextureAtlasWidth + uvXEndOffset, uvY + normalizeTextureAtlasHeight + uvYEndOffset));
-                }
+                float uvX = textureX * normalizeTextureAtlasWidth;
+                float uvY = textureY * normalizeTextureAtlasHeight;
+                uv.Add(new Vector2(uvX + uvXBeginOffset, uvY + uvYBeginOffset));
+                uv.Add(new Vector2(uvX + uvXBeginOffset, uvY + normalizeTextureAtlasHeight + uvYEndOffset));
+                uv.Add(new Vector2(uvX + normalizeTextureAtlasWidth + uvXEndOffset, uvY + uvYBeginOffset));
+                uv.Add(new Vector2(uvX + normalizeTextureAtlasWidth + uvXEndOffset, uvY + normalizeTextureAtlasHeight + uvYEndOffset));
 
                 triangles.Add(vertextIdx);
                 triangles.Add(vertextIdx + 1);

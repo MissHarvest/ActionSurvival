@@ -60,47 +60,10 @@ public class NormalBlockType : BlockType
     {
         for (int i = 0; i < 6; i++)
         {
-            if (chunk.World.CheckVoxel(pos + chunk.Data.faceChecks[i]))
-                continue;
-
-            for (int j = 0; j < 4; j++)
-                chunk.Vertices.Add(pos + chunk.Data.voxelVerts[chunk.Data.voxelTris[i][j]]);
-
-            AddTextureUV(GetTextureID(i), chunk);
-            chunk.Triangles.Add(chunk.VertexIdx);
-            chunk.Triangles.Add(chunk.VertexIdx + 1);
-            chunk.Triangles.Add(chunk.VertexIdx + 2);
-            chunk.Triangles.Add(chunk.VertexIdx + 2);
-            chunk.Triangles.Add(chunk.VertexIdx + 1);
-            chunk.Triangles.Add(chunk.VertexIdx + 3);
-            chunk.VertexIdx += 4;
+            chunk.JobChecks.Add(chunk.World.CheckVoxel(pos + VoxelLookUpTable.faceChecks[i]));
+            chunk.JobTextures.Add(GetTextureID(i));
         }
-    }
-
-    public void AddTextureUV(int textureID, Chunk chunk)
-    {
-        (int w, int h) = (chunk.Data.TextureAtlasWidth, chunk.Data.TextureAtlasHeight);
-        int x = textureID % w;
-        int y = h - (textureID / w) - 1;
-
-        AddTextureUV(x, y, chunk);
-    }
-
-    private void AddTextureUV(int x, int y, Chunk chunk)
-    {
-        if (x < 0 || y < 0 || x >= chunk.Data.TextureAtlasWidth || y >= chunk.Data.TextureAtlasHeight)
-            Debug.LogError($"텍스쳐 아틀라스의 범위를 벗어났습니다 : [x = {x}, y = {y}]");
-
-        float nw = chunk.Data.NormalizeTextureAtlasWidth;
-        float nh = chunk.Data.NormalizeTextureAtlasHeight;
-
-        float uvX = x * nw;
-        float uvY = y * nh;
-
-        chunk.Uvs.Add(new Vector2(uvX + chunk.Data.uvXBeginOffset, uvY + chunk.Data.uvYBeginOffset));
-        chunk.Uvs.Add(new Vector2(uvX + chunk.Data.uvXBeginOffset, uvY + nh + chunk.Data.uvYEndOffset));
-        chunk.Uvs.Add(new Vector2(uvX + nw + chunk.Data.uvXEndOffset, uvY + chunk.Data.uvYBeginOffset));
-        chunk.Uvs.Add(new Vector2(uvX + nw + chunk.Data.uvXEndOffset, uvY + nh + chunk.Data.uvYEndOffset));
+        chunk.JobPositions.Add(pos);
     }
 }
 
@@ -118,4 +81,4 @@ public class SlideBlockType : BlockType
         slide.name = $"{BlockName} ({pos})";
         chunk.InstanceBlocks.Add(slide);
     }
-}// 2024-02-
+}
