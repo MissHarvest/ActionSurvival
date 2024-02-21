@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SlideBlock : MonoBehaviour
+public class InstanceBlock : MonoBehaviour
 {
     private MeshRenderer _meshRenderer;
     private MeshFilter _meshFilter;

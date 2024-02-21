@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.AI.Navigation;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
-using UnityEngine.AI;
+using static UnityEditor.PlayerSettings;
 
 // 2024-01-12 WJY
 public class Chunk
@@ -12,7 +14,7 @@ public class Chunk
     private MeshRenderer _meshRenderer;
     private MeshFilter _meshFilter;
     private ChunkCoord _coord;
-    private List<WorldMapData> _localMap = new();
+    private Dictionary<Vector3Int, WorldMapData> _localMap = new();
     private bool _isActive;
 
     private int _vertexIdx = 0;
@@ -20,22 +22,24 @@ public class Chunk
     private List<int> _triangles = new();
     private List<Vector2> _uvs = new();
 
-    // TODO: 나중에 인스턴스 블럭의 리스트로 교체
-    private List<SlideBlock> _instanceBlocks = new();
+    private List<InstanceBlock> _instanceBlocks = new();
 
     private World _world;
     private VoxelData _data;
 
+    private List<bool> _jobChecks = new();
+    private List<int> _jobTextures = new();
+    private List<Vector3> _jobPositions = new();
+
     public ChunkCoord ChunkCoord => _coord;
+    public Dictionary<Vector3Int, WorldMapData> LocalMap => _localMap;
     public bool IsActive
     {
         get => _isActive;
         set => SetActive(value);
     }
-
     public Mesh Mesh => _meshFilter.sharedMesh;
     public Matrix4x4 TransformMatrix => _chunkObject.transform.localToWorldMatrix;
-
     public int VertexIdx { get => _vertexIdx; set => _vertexIdx = value; }
     public List<Vector3> Vertices => _vertices;
     public List<int> Triangles => _triangles;
@@ -43,8 +47,10 @@ public class Chunk
     public World World => _world;
     public VoxelData Data => _data;
     public Transform InstanceBlocksParent => _instanceBlockParent;
-
-    public List<SlideBlock> InstanceBlocks => _instanceBlocks;
+    public List<InstanceBlock> InstanceBlocks => _instanceBlocks;
+    public List<bool> JobChecks => _jobChecks;
+    public List<int> JobTextures => _jobTextures;
+    public List<Vector3> JobPositions => _jobPositions;
 
     public Chunk(ChunkCoord coord, World world)
     {
@@ -65,19 +71,56 @@ public class Chunk
 
     public void AddVoxel(WorldMapData data)
     {
-        _localMap.Add(data);
+        _localMap.Add(data.position, data);
     }
 
     public void GenerateChunk()
     {
-        CreateMeshData();
-        CreateMesh();
+        CoroutineManagement.Instance.StartCoroutine(GenerateChunkJobCoroutine());
     }
 
-    private void CreateMeshData()
+    private IEnumerator GenerateChunkJobCoroutine()
     {
-        foreach(var e in _localMap)
-            e.type.AddVoxelDataToChunk(this, e.position, e.forward);
+        foreach (var block in _localMap.Values)
+            block.type.AddVoxelDataToChunk(this, block.position, block.forward);
+
+        var job = new ChunkJob()
+        {
+            checks = new(_jobChecks.ToArray(), Allocator.TempJob),
+            textures = new(_jobTextures.ToArray(), Allocator.TempJob),
+            positions = new(_jobPositions.ToArray(), Allocator.TempJob),
+            faceIdx = 0,
+            vertextIdx = 0,
+            textureAtlasWidth = _data.TextureAtlasWidth,
+            textureAtlasHeight = _data.TextureAtlasHeight,
+            normalizeTextureAtlasWidth = _data.NormalizeTextureAtlasWidth,
+            normalizeTextureAtlasHeight = _data.NormalizeTextureAtlasHeight,
+            uvXBeginOffset = _data.uvXBeginOffset,
+            uvXEndOffset = _data.uvXEndOffset,
+            uvYBeginOffset = _data.uvYBeginOffset,
+            uvYEndOffset = _data.uvYEndOffset,
+            vertices = new(0, Allocator.TempJob),
+            triangles = new(0, Allocator.TempJob),
+            uv = new(0, Allocator.TempJob),
+        };
+
+        var handle = job.Schedule();
+
+        if (!handle.IsCompleted)
+            yield return null;
+
+        handle.Complete();
+
+        var (vertices, triangles, uv) = job.GetResult();
+        _vertices = new(vertices.AsArray());
+        _triangles = new(triangles.AsArray());
+        _uvs = new(uv.AsArray());
+
+        vertices.Dispose();
+        triangles.Dispose();
+        uv.Dispose();
+
+        CreateMesh();
     }
 
     private void CreateMesh()
@@ -94,33 +137,6 @@ public class Chunk
         _chunkObject.AddComponent<MeshCollider>().sharedMesh = mesh;
     }
 
-    public void AddTextureUV(int textureID)
-    {
-        (int w, int h) = (_data.TextureAtlasWidth, _data.TextureAtlasHeight);
-
-        int x = textureID % w;
-        int y = h - (textureID / w) - 1;
-
-        AddTextureUV(x, y);
-    }
-
-    private void AddTextureUV(int x, int y)
-    {
-        if (x < 0 || y < 0 || x >= _data.TextureAtlasWidth || y >= _data.TextureAtlasHeight)
-            Debug.LogError($"텍스쳐 아틀라스의 범위를 벗어났습니다 : [x = {x}, y = {y}]");
-
-        float nw = _data.NormalizeTextureAtlasWidth;
-        float nh = _data.NormalizeTextureAtlasHeight;
-
-        float uvX = x * nw;
-        float uvY = y * nh;
-
-        _uvs.Add(new Vector2(uvX + _data.uvXBeginOffset, uvY + _data.uvYBeginOffset));
-        _uvs.Add(new Vector2(uvX + _data.uvXBeginOffset, uvY + nh + _data.uvYEndOffset));
-        _uvs.Add(new Vector2(uvX + nw + _data.uvXEndOffset, uvY + _data.uvYBeginOffset));
-        _uvs.Add(new Vector2(uvX + nw + _data.uvXEndOffset, uvY + nh + _data.uvYEndOffset));
-    }
-
     public void SetActive(bool active)
     {
         _isActive = active;
@@ -135,7 +151,7 @@ public class Chunk
         result[0] = (Mesh, TransformMatrix);
         for (int i = 1; i < result.Length; i++)
         {
-            var block = _instanceBlockParent.GetChild(i - 1).GetComponent<SlideBlock>();
+            var block = _instanceBlockParent.GetChild(i - 1).GetComponent<InstanceBlock>();
             result[i] = (block.Mesh, block.TransformMatrix);
         }
         return result;
