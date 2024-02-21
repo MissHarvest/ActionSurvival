@@ -42,12 +42,6 @@ public class InventorySystem : MonoBehaviour
     {
         var itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
         TryAddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("IronArmorItemData.data");
-        TryAddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("IronHelmetItemData.data");
-        TryAddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("WoodSwordItemData.data");
-        TryAddItem(itemData, 1);
     }
 
     public void SetCapacity(int capacity)

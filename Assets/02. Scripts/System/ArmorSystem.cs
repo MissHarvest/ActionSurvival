@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 // Lee gyuseong 24.02.07
 
 public class ArmorSystem : MonoBehaviour
 {
-    //Player에 붙어 있으니 manager 사용 x
+    private Player _player;
     [SerializeField] private int _defense;
+    private int _indexInUse = -1;
 
     public QuickSlot[] equippedArmors;
 
@@ -17,84 +19,88 @@ public class ArmorSystem : MonoBehaviour
 
     private void Awake()
     {
+        _player = GetComponentInParent<Player>();
+
         equippedArmors = new QuickSlot[2];
         for (int i = 0; i < equippedArmors.Length; i++)
         {
             equippedArmors[i] = new QuickSlot();
         }
-        //Managers.Game.Player.OnHit += OnUpdateDurabilityOfArmor;
+        Managers.Game.Player.OnHit += OnUpdateDurabilityOfArmor;
 
         Load();
 
         Managers.Game.OnSaveCallback += Save;
     }
 
-    public void Equip(QuickSlot quickSlot)
+    public void Equip(int index, ItemSlot itemSlot)
     {
-        int part = GetPart(quickSlot);
+        int part = GetPart(itemSlot);
 
-        AddDefenseOfArmor(quickSlot);
+        itemSlot.SetEquip(true);
+        equippedArmors[part].Set(index, itemSlot);
 
-        equippedArmors[part].Set(quickSlot.targetIndex, quickSlot.itemSlot);
-        equippedArmors[part].itemSlot.SetEquip(true);
+        AddDefenseOfArmor(equippedArmors[part]);
 
         OnEquipArmor?.Invoke(equippedArmors[part]);
     }
 
-    public void UnEquip(QuickSlot quickSlot)
+    public void UnEquip(int index)
     {
-        int part = GetPart(quickSlot);
+        for (int i = 0; i < equippedArmors.Length; i++)
+        {
+            if (equippedArmors[i].itemSlot.itemData != null && equippedArmors[i].targetIndex == index)
+            {
+                SubtractDefenseOfArmor(equippedArmors[i]);
 
-        SubtractDefenseOfArmor(quickSlot);
+                equippedArmors[i].itemSlot.SetEquip(false);
+                OnUnEquipArmor?.Invoke(equippedArmors[i]);
 
-        equippedArmors[part].itemSlot.SetEquip(false);
-        OnUnEquipArmor?.Invoke(equippedArmors[part]);
-
-        equippedArmors[part].Clear();
+                equippedArmors[i].Clear();
+                return;
+            }
+        }
     }
 
     private void AddDefenseOfArmor(QuickSlot quickSlot)
     {
         EquipItemData toolItemData = GetArmorItemData(quickSlot);
         _defense += toolItemData.defense;
-        Managers.Game.Player.playerDefense = _defense;
     }
 
     private void SubtractDefenseOfArmor(QuickSlot quickSlot)
     {
         EquipItemData toolItemData = GetArmorItemData(quickSlot);
         _defense -= toolItemData.defense;
-        Managers.Game.Player.playerDefense = _defense;
     }
 
-    //public void OnUpdateDurabilityOfArmor() // Player Hit에서 호출
-    //{
-    //    for (int i = 0; i < _linkedSlots.Length; i++)
-    //    {
-    //        if (_linkedSlots[i] != null && _linkedSlots[i].targetIndex != -1)
-    //        {
-    //            Managers.Game.Player.Inventory.UseToolItemByIndex(_linkedSlots[i].targetIndex, 1);
-    //        }
-    //    }
-    //}
+    public void OnUpdateDurabilityOfArmor()
+    {
+        for (int i = 0; i < equippedArmors.Length; i++)
+        {
+            if (equippedArmors[i] != null && equippedArmors[i].targetIndex != -1)
+            {
+                _player.Inventory.TrySubtractDurability(equippedArmors[i].targetIndex, 1);
+            }
+        }
+    }
 
     private EquipItemData GetArmorItemData(QuickSlot quickSlot)
     {
-        ItemData armor = quickSlot.itemSlot.itemData;
-        EquipItemData toolItemDate = (EquipItemData)armor; //형변환 수정
+        EquipItemData toolItemDate = quickSlot.itemSlot.itemData as EquipItemData;
         return toolItemDate;
     }
 
-    private void UpdatePlayerDefense()
+    private int GetPart(ItemSlot slot)
     {
-        Managers.Game.Player.playerDefense = _defense;
-    }
-
-    private int GetPart(QuickSlot slot)
-    {
-        var itemData = slot.itemSlot.itemData as EquipItemData;
+        var itemData = slot.itemData as EquipItemData;
         if (itemData == null) return -1;
         return (int)itemData.part;
+    }
+
+    public int GetDefense() 
+    { 
+        return _defense;
     }
 
     private void Load()
@@ -105,7 +111,6 @@ public class ArmorSystem : MonoBehaviour
             {
                 equippedArmors[i].itemSlot.LoadData();
             }
-            UpdatePlayerDefense();
         }
     }
 

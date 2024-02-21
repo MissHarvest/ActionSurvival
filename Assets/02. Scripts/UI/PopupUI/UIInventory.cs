@@ -9,9 +9,13 @@ public class UIInventory : UIPopup
         Exit,
     }
 
-    enum Container //UIArmorSlotContainer용 enum을 만들자. 이건 기능으로 엮는 것이 아니라 class 별로 구분하는 것
+    enum Container
     {
-        Contents,
+        Contents
+    }
+
+    enum ArmorSlotContainer
+    {
         ArmorSlotContainer
     }
 
@@ -22,7 +26,6 @@ public class UIInventory : UIPopup
 
     private int _selectedIndex;
     private Canvas _canvas;
-    private InventorySystem _playerInventory;
     private ArmorSystem _armorSystem;
     private PlayerInventorySystem _playerInventory;
 
@@ -31,7 +34,7 @@ public class UIInventory : UIPopup
         base.Initialize();
         Bind<GameObject>(typeof(Gameobjects));
         Bind<UIItemSlotContainer>(typeof(Container));
-        Bind<UIArmorSlotContainer>(typeof(Container));
+        Bind<UIArmorSlotContainer>(typeof(ArmorSlotContainer));
         Bind<UIItemUsageHelper>(typeof(Helper));
         Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) => { Managers.UI.CloseAllPopupUI(); });
     }
@@ -51,7 +54,7 @@ public class UIInventory : UIPopup
         container.Init<UIInventorySlot>(_playerInventory, ActivateItemUsageHelper);
 
         var armorSlotPrefab = Managers.Resource.GetCache<GameObject>("UIArmorSlot.prefab");
-        var armorSlotContainer = Get<UIArmorSlotContainer>((int)Container.ArmorSlotContainer);
+        var armorSlotContainer = Get<UIArmorSlotContainer>((int)ArmorSlotContainer.ArmorSlotContainer);
         armorSlotContainer.CreatArmorSlots<UIArmorSlot>(armorSlotPrefab, 2);
         armorSlotContainer.Init<UIArmorSlot>(_armorSystem.equippedArmors);
 
@@ -126,19 +129,19 @@ public class UIInventory : UIPopup
 
     private void Equip()
     {
-        Managers.Game.Player.ArmorSystem.Equip(SelectedSlot);
+        _playerInventory.Owner.ItemUsageHelper.Use(_selectedIndex);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
     private void UnEquip()
     {
-        Managers.Game.Player.ArmorSystem.UnEquip(SelectedSlot);
+        Managers.Game.Player.ArmorSystem.UnEquip(_selectedIndex);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
     public void HighLightItemSlot(int index)
     {
-        Get<UIItemSlotContainer>((int)Container.Contents).HighLight(index);        
+        Get<UIItemSlotContainer>((int)Container.Contents).HighLight(index);
     }
 
     public void HighLightHelper(UIItemUsageHelper.Functions function)

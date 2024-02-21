@@ -14,7 +14,7 @@ public class QuickSlotSystem : MonoBehaviour
     public event Action<QuickSlot> OnUnRegisted;
     public event Action OnClickEmptySlot;
 
-    [HideInInspector][SerializeField] private int _indexInuse = -1;
+    [HideInInspector][SerializeField] private int _indexInUse = -1;
 
     private void Awake()
     {
@@ -51,9 +51,9 @@ public class QuickSlotSystem : MonoBehaviour
         OnUpdated?.Invoke(index, slot.itemSlot);
         OnRegisted?.Invoke(slot);
 
-        if (index == _indexInuse)
+        if (index == _indexInUse)
         {
-            QuickUse(_indexInuse);
+            QuickUse(_indexInUse);
         }
     }
 
@@ -81,9 +81,9 @@ public class QuickSlotSystem : MonoBehaviour
         OnUnRegisted?.Invoke(_slots[index]);
         _slots[index].Clear();
         OnUpdated?.Invoke(index, _slots[index].itemSlot);
-        if (_indexInuse == index)
+        if (_indexInUse == index)
         {
-            _indexInuse = indexInUseStay ? _indexInuse : -1;
+            _indexInUse = indexInUseStay ? _indexInUse : -1;
         }
     }
 
@@ -96,7 +96,7 @@ public class QuickSlotSystem : MonoBehaviour
     {
         if (_slots[index].itemSlot.itemData == null)
         {
-            _indexInuse = -1;
+            _indexInUse = -1;
             OnClickEmptySlot?.Invoke();
             return;
         }
@@ -104,26 +104,26 @@ public class QuickSlotSystem : MonoBehaviour
         // 건설 및 음식이면 즉시 사용, index 변경 x
         // 장비 아이템이면 index 변경
         
-        _indexInuse = index;
+        _indexInUse = index;
         _player.ItemUsageHelper.Use(_slots[index].targetIndex);
         if (_slots[index].itemSlot.itemData is ToolItemData)
         {
-            _indexInuse = index;
+            _indexInUse = index;
         }        
     }
 
     private void QuickUse()
     {
-        if (_indexInuse == -1) return;
-        if (_slots[_indexInuse].itemSlot.itemData == null)
+        if (_indexInUse == -1) return;
+        if (_slots[_indexInUse].itemSlot.itemData == null)
         {
-            _indexInuse = -1;
+            _indexInUse = -1;
             OnClickEmptySlot?.Invoke();
             return;
         }
-        if (_slots[_indexInuse].itemSlot.itemData is ToolItemData)
+        if (_slots[_indexInUse].itemSlot.itemData is ToolItemData)
         {
-            _player.ItemUsageHelper.Use(_slots[_indexInuse].targetIndex);
+            _player.ItemUsageHelper.Use(_slots[_indexInUse].targetIndex);
         }
     }
 
@@ -137,7 +137,7 @@ public class QuickSlotSystem : MonoBehaviour
                 if(itemSlot.itemData == null)
                 {
                     _slots[i].Clear();
-                    if (i == _indexInuse) _indexInuse = -1;
+                    if (i == _indexInUse) _indexInUse = -1;
                 }
                 else
                 {
@@ -159,7 +159,7 @@ public class QuickSlotSystem : MonoBehaviour
                 _slots[i].itemSlot.LoadData();
             }
 
-            if (_indexInuse != -1 && _slots[_indexInuse].itemSlot.itemData is ToolItemData)
+            if (_indexInUse != -1 && _slots[_indexInUse].itemSlot.itemData is ToolItemData)
             {
                 QuickUse();
             }

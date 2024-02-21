@@ -8,6 +8,12 @@ public class UIArmorSlotContainer : MonoBehaviour
 {
     private List<UIArmorSlot> _armorSlots = new List<UIArmorSlot>();
 
+    private void Awake()
+    {
+        Managers.Game.Player.ArmorSystem.OnEquipArmor += EquipArmor;
+        Managers.Game.Player.ArmorSystem.OnUnEquipArmor += UnEquipArmor;
+    }
+
     public void CreatArmorSlots<T>(GameObject slotPrefab, int count) where T : UIArmorSlot
     {
         for (int i = 0; i < count; i++)
@@ -23,15 +29,33 @@ public class UIArmorSlotContainer : MonoBehaviour
     {
         foreach (var armor in quickSlot)
         {
-            for (int i = 0; i < _armorSlots.Count; i++)
-            {
-                _armorSlots[i].EquipArmor(armor);
-            }
+            EquipArmor(armor);
         }
     }
 
     private void SetParts(UIArmorSlot armorSlotUI, int index)
     {
         armorSlotUI.part = (ItemParts)index;
+    }
+
+    public void EquipArmor(QuickSlot quickSlot)
+    {
+        if (quickSlot.itemSlot.itemData == null) return;
+
+        int parts = GetPart(quickSlot);
+        _armorSlots[parts].Set(quickSlot.itemSlot);
+    }
+
+    public void UnEquipArmor(QuickSlot quickSlot)
+    {
+        int parts = GetPart(quickSlot);
+        _armorSlots[parts].Clear();
+    }
+
+    private int GetPart(QuickSlot slot)
+    {
+        var itemData = slot.itemSlot.itemData as EquipItemData;
+        if (itemData == null) return -1;
+        return (int)itemData.part;
     }
 }

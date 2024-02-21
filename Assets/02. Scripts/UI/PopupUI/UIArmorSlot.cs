@@ -27,37 +27,11 @@ public class UIArmorSlot : UIItemSlot
     private void Awake()
     {
         Initialize();
-
-        // Container로
-        Managers.Game.Player.ArmorSystem.OnEquipArmor += EquipArmor;
-        Managers.Game.Player.ArmorSystem.OnUnEquipArmor += UnEquipArmor;
     }
-
-    public void EquipArmor(QuickSlot quickSlot)
-    {
-        return;//[pju]
-        if (quickSlot.itemSlot.itemData == null) return;
-        int parts = GetPart(quickSlot);
-
-        if (part == (ItemParts)parts)
-        {
-            Set(quickSlot.itemSlot);
-        }
-    }
-
-    public void UnEquipArmor(QuickSlot quickSlot)
-    {
-        int parts = GetPart(quickSlot);
-
-        if (part == (ItemParts)parts)
-        {
-            Clear();
-        }
-    }
-    // Container로
 
     public override void Set(ItemSlot itemSlot)
     {
+        if (itemSlot.itemData == null) return;
         Get<Image>((int)Images.Icon).sprite = itemSlot.itemData.iconSprite;
         Get<Image>((int)Images.Icon).gameObject.SetActive(true);
     }
@@ -65,12 +39,5 @@ public class UIArmorSlot : UIItemSlot
     public override void Clear()
     {
         Get<Image>((int)Images.Icon).gameObject.SetActive(false);
-    }
-
-    private int GetPart(QuickSlot slot)
-    {
-        var itemData = slot.itemSlot.itemData as EquipItemData;
-        if (itemData == null) return -1;
-        return (int)itemData.part;
     }
 }
