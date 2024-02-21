@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,21 +35,20 @@ public abstract class UICraftBase : UIPopup
     protected GameObject _minusButton;
     protected GameObject _plusButton;
 
+    private List<RecipeSO> _recipeOrCookingList;
     protected List<GameObject> _itemUIList = new List<GameObject>();
     protected List<UICraftItemSlot> _uiCraftSlots = new List<UICraftItemSlot>();
 
-    //protected int _craftQuantity = 1;
     protected int _count = 1;
 
-    protected virtual List<RecipeSO.Ingredient> GetRequiredDataList() => null;
-    protected virtual List<RecipeSO> GetDataList() => null;
+    protected abstract List<RecipeSO> GetDataList();
 
     protected RecipeSO SelectedRecipe
     {
         get
         {
-            if (_selectedIndex != -1 && _selectedIndex < GetDataList().Count)
-                return GetDataList()[_selectedIndex];
+            if (_selectedIndex != -1 && _selectedIndex < _recipeOrCookingList.Count)
+                return _recipeOrCookingList[_selectedIndex];
             else
                 return null;
         }
@@ -86,6 +83,8 @@ public abstract class UICraftBase : UIPopup
         _confirm = Get<GameObject>((int)Gameobjects.Confirm).transform;
         _contents = Get<GameObject>((int)Gameobjects.Contents).transform;
 
+        _recipeOrCookingList = GetDataList();
+
         // 비활성화 상태에서 시작
         _confirm.gameObject.SetActive(false);
         gameObject.SetActive(false);
@@ -93,50 +92,56 @@ public abstract class UICraftBase : UIPopup
 
     public virtual void OnEnable()
     {
-        ShowData(GetDataList());
-        var dataList = GetRequiredDataList();
+        ShowData(_recipeOrCookingList);
     }
 
     // 제작할 데이터를 표시하는 메서드
     protected virtual void ShowData(List<RecipeSO> dataList)
     {
-        ClearSlots();
-
-        for (int i = 0; i < dataList.Count; i++)
+        // 최초에 한 번만 Instantiate
+        if (_uiCraftSlots.Count == 0)
         {
-            var craftSlotPrefab = Managers.Resource.GetCache<GameObject>("UICraftItemSlot.prefab");
-            var craftSlotGO = Instantiate(craftSlotPrefab, _content);
-            var craftSlot = craftSlotGO.GetComponent<UICraftItemSlot>();
-            craftSlot?.Set(new ItemSlot(dataList[i].completedItemData), dataList[i]);
-
-            // UIRecipeItemSlot에 인덱스 및 수량 설정
-            craftSlot.SetIndex(i);
-
-            // 아이템의 Quantity가 1이 아닐 경우 고려
-            int initialQuantity = dataList[i].Quantity;
-            craftSlot.SetQuantity(initialQuantity);
-
-            // 아이템 클릭 시 Confirm 판넬 띄우기
-            craftSlotGO.BindEvent((x) =>
+            for (int i = 0; i < dataList.Count; i++)
             {
-                if (craftSlotGO.activeSelf)
+                var craftSlotPrefab = Managers.Resource.GetCache<GameObject>("UICraftItemSlot.prefab");
+                var craftSlotGO = Instantiate(craftSlotPrefab, _content);
+                var craftSlot = craftSlotGO.GetComponent<UICraftItemSlot>();
+
+                // UIRecipeItemSlot에 인덱스 및 수량 설정
+                craftSlot.SetIndex(i);
+                craftSlot?.Set(dataList[i].completedItemData, dataList[i]);
+
+                // 아이템 클릭 시 Confirm 판넬 띄우기
+                craftSlotGO.BindEvent((x) =>
                 {
-                    _confirm.gameObject.SetActive(true);
-                    _count = 1;
-                    var craftItemName = dataList[craftSlot.Index].completedItemData.displayName;
-                    Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를) {initialQuantity} X {_count}개\n제작하시겠습니까?";
+                    if (craftSlotGO.activeSelf)
+                    {
+                        _confirm.gameObject.SetActive(true);
+                        _count = 1;
+                        var craftItemName = dataList[craftSlot.Index].completedItemData.displayName;
+                        Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를) {dataList[craftSlot.Index].Quantity} X {_count}개\n제작하시겠습니까?";
 
-                    // 선택한 레시피의 재료를 가져와서 Confirm에 전달
-                    SetIngredients(dataList[craftSlot.Index].requiredItems, craftSlot.Index);
+                        // 선택한 레시피의 재료를 가져와서 Confirm에 전달
+                        SetIngredients(dataList[craftSlot.Index].requiredItems, craftSlot.Index);
 
-                    //_craftQuantity = craftSlot.Quantity;
-                    UpdateCraftUI();
-                }
-            });
+                        UpdateCraftUI();
+                    }
+                });
 
-            _uiCraftSlots.Add(craftSlot);
+                _uiCraftSlots.Add(craftSlot);
+            }
+        }
+        else
+        {
+            // 이미 생성된 경우에는 활성화
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                _uiCraftSlots[i].gameObject.SetActive(true);
+                _uiCraftSlots[i].Set(dataList[i].completedItemData, dataList[i]);
+            }
         }
     }
+
 
     protected void OnConfirmedBase()
     {
@@ -169,7 +174,7 @@ public abstract class UICraftBase : UIPopup
                         }
                         else
                         {
-                            Managers.Game.Player.Inventory.AddItem_Before(completedItemData, quantityToAdd);
+                            Managers.Game.Player.Inventory.TryAddItem(completedItemData, quantityToAdd);
                             totalQuantity -= quantityToAdd;
                         }
                     }
@@ -189,7 +194,7 @@ public abstract class UICraftBase : UIPopup
                         // 스택 불가능한 경우
                         while (totalQuantity > 0)
                         {
-                            Managers.Game.Player.Inventory.AddItem_Before(completedItemData, 1);
+                            Managers.Game.Player.Inventory.TryAddItem(completedItemData, 1);
                             totalQuantity -= 1;
                         }
                     }
@@ -291,7 +296,7 @@ public abstract class UICraftBase : UIPopup
     {
         foreach (var slot in _uiCraftSlots)
         {
-            var recipe = GetDataList()[slot.Index];
+            var recipe = _recipeOrCookingList[slot.Index];
             bool isAdvancedRecipe = recipe.recipeLevel <= maxRecipeLevel + 1;
             slot.gameObject.SetActive(isAdvancedRecipe);
         }
@@ -321,18 +326,18 @@ public abstract class UICraftBase : UIPopup
             ItemData requiredItemData = item.item;
             int requiredQuantity = item.quantity * _count;
 
-            Managers.Game.Player.Inventory.RemoveItem(requiredItemData, requiredQuantity);
+            Managers.Game.Player.Inventory.TryConsumeQuantity(requiredItemData, requiredQuantity);
         }
     }
 
-    private void ClearSlots()
-    {
-        foreach (var slot in _uiCraftSlots)
-        {
-            Destroy(slot.gameObject);
-        }
-        _uiCraftSlots.Clear();
-    }
+    //private void ClearSlots()
+    //{
+    //    foreach (var slot in _uiCraftSlots)
+    //    {
+    //        Destroy(slot.gameObject);
+    //    }
+    //    _uiCraftSlots.Clear();
+    //}
 
     private void ClearItems()
     {

@@ -19,15 +19,8 @@ public class UIRecipe : UICraftBase
         SetAdvancedRecipeUIActive(0);
     }
 
-    protected override List<RecipeSO.Ingredient> GetRequiredDataList()
-    {
-        return (Managers.Data.recipeDataList.SelectMany(recipe => recipe.requiredItems).ToList());
-    }
-
     protected override List<RecipeSO> GetDataList()
     {
-        // recipeID로 오름차순 정렬
-        var sortedRecipeList = Managers.Data.recipeDataList.OrderBy(recipe => recipe.recipeID).ToList();
-        return sortedRecipeList;
+        return Managers.Data.recipeDataList;
     }
 }

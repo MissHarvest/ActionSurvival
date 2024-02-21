@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: WoodSword
   recipeID: 2
-  completedItemData: {fileID: 11400000, guid: 7188b2dd9c10ceb41ab5e0579b842eb5, type: 2}
-  IsAdvancedRecipe: 0
+  completedItemData: {fileID: 11400000, guid: 8e5dd47e13158c848a660129f3fdf4d7, type: 2}
+  recipeLevel: 1
   Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}

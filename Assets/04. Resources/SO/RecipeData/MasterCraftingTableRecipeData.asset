@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: MasterCraftingTable
   recipeID: 21
-  completedItemData: {fileID: 11400000, guid: dd2421e8236948444a1b477ce7fa1f3d, type: 2}
+  completedItemData: {fileID: 11400000, guid: 6a4a7cd2ad368464baf36138e6d6ffe7, type: 2}
   recipeLevel: 4
   Quantity: 1
   requiredItems:

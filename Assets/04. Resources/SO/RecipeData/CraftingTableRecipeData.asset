@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: CraftingTable
   recipeID: 4
-  completedItemData: {fileID: 11400000, guid: 5fdc6d52b339f9a4a8daf6af2d4277f1, type: 2}
-  IsAdvancedRecipe: 0
+  completedItemData: {fileID: 11400000, guid: 5716f82e7588c074690eb57a71cffcb0, type: 2}
+  recipeLevel: 1
   Quantity: 1
   requiredItems:
   - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}

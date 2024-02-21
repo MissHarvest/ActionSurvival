@@ -50,28 +50,30 @@ public class UICraftItemSlot : UIBase
         _index = index;
     }
 
-    public void SetQuantity(int quantity)
-    {
-        _quantity = quantity;
-    }
+    //public void SetQuantity(int quantity)
+    //{
+    //    _quantity = quantity;
+    //}
 
-    public virtual void Set(ItemSlot itemSlot, RecipeSO recipeSO)
+    public virtual void Set(ItemData itemData, RecipeSO recipeSO)
     {
-        if (itemSlot.itemData == null)
+        if (itemData == null)
         {
             Clear();
             return;
         }
 
-        Get<Image>((int)Images.Icon).sprite = itemSlot.itemData.iconSprite;
+        Get<Image>((int)Images.Icon).sprite = itemData.iconSprite;
 
         if (recipeSO.Quantity > 1)
-            Get<TextMeshProUGUI>((int)Texts.ItemName).text = $"{itemSlot.itemData.displayName}({recipeSO.Quantity}개)";
+            Get<TextMeshProUGUI>((int)Texts.ItemName).text = $"{itemData.displayName}({recipeSO.Quantity}개)";
         else
-            Get<TextMeshProUGUI>((int)Texts.ItemName).text = itemSlot.itemData.displayName;
+            Get<TextMeshProUGUI>((int)Texts.ItemName).text = itemData.displayName;
 
         Get<Image>((int)Images.Icon).gameObject.SetActive(true);
         Get<TextMeshProUGUI>((int)Texts.ItemName).gameObject.SetActive(true);
+
+        _quantity = recipeSO.Quantity;
     }
 
     public virtual void Clear()

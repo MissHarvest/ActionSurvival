@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 // 2024. 01. 12 Byun Jeongmin
 public class DataManager
@@ -14,6 +16,9 @@ public class DataManager
     {
         recipeDataList.AddRange(Managers.Resource.GetCacheGroup<RecipeSO>("RecipeData.data"));
         cookingDataList.AddRange(Managers.Resource.GetCacheGroup<RecipeSO>("CookingData.data"));
+
+        recipeDataList = recipeDataList.OrderBy(recipe => recipe.recipeID).ToList();
+        cookingDataList = cookingDataList.OrderBy(recipe => recipe.recipeID).ToList();
     }
 
     public RecipeSO GetRecipeDataByItemName(string itemName)

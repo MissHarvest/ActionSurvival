@@ -17,7 +17,7 @@ MonoBehaviour:
   preQuests:
   - {fileID: 11400000, guid: 969d6bb569150a54bb82e791f6c013c4, type: 2}
   requiredItems:
-  - item: {fileID: 11400000, guid: 5fdc6d52b339f9a4a8daf6af2d4277f1, type: 2}
+  - item: {fileID: 11400000, guid: 5716f82e7588c074690eb57a71cffcb0, type: 2}
     quantity: 1
   targetLayer:
     serializedVersion: 2

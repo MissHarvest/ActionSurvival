@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Farm
   recipeID: 10
-  completedItemData: {fileID: 11400000, guid: e9d0b5d90db9fee41831d73c1781f2b8, type: 2}
-  IsAdvancedRecipe: 1
+  completedItemData: {fileID: 11400000, guid: 4ea0bcc177295b140b190876be587bfe, type: 2}
   recipeLevel: 2
   Quantity: 1
   requiredItems:
