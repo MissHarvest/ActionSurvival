@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: HighCraftingTable
   recipeID: 16
-  completedItemData: {fileID: 11400000, guid: 179ea1dce58512841970cdb278d38465, type: 2}
+  completedItemData: {fileID: 11400000, guid: 3fb66fc46b208e9439c06b1915a77671, type: 2}
   recipeLevel: 3
   Quantity: 1
   requiredItems:

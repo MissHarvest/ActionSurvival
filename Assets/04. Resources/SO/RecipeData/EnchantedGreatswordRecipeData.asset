@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: EnchantedGreatsword
   recipeID: 25
-  completedItemData: {fileID: 11400000, guid: 5cf354e2e1b3e984fb07c3e15a0f06f6, type: 2}
+  completedItemData: {fileID: 11400000, guid: 2f79c0e46221b88428cdd1de2c7d0258, type: 2}
   recipeLevel: 5
   Quantity: 1
   requiredItems:

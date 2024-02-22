@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Stove
   recipeID: 22
-  completedItemData: {fileID: 11400000, guid: 4f8f8f287aae63d43b40c6cea380e396, type: 2}
+  completedItemData: {fileID: 11400000, guid: 412de64f4ac03bc4f905407632257b06, type: 2}
   recipeLevel: 4
   Quantity: 1
   requiredItems:

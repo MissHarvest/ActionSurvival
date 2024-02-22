@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +13,7 @@ public class UITutorial : UIPopup
     private List<Quest> _activeQuests;
     private QuestSO[] _quests;
     private List<UIQuest> _uiQuests = new List<UIQuest>();
-    
+
     public override void Initialize()
     {
         base.Initialize();
@@ -32,37 +30,57 @@ public class UITutorial : UIPopup
     {
         GameManager.Instance.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
         _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
-        Array.Sort(_quests, (x, y) => x.questID.CompareTo(y.questID));
         _activeQuests = GameManager.Instance.Player.Tutorial.ActiveQuests;
-        CreateQuestUI();
-        ShowQuest(); 
+        CreateOrUpdateQuestUI();
+        ShowQuest();
     }
 
     private void HandleActiveQuestsUpdated()
     {
+        CreateOrUpdateQuestUI();
         ShowQuest();
     }
 
-    private void CreateQuestUI()
+    private void CreateOrUpdateQuestUI()
     {
-        var questPrefab = Managers.Resource.GetCache<GameObject>("UIQuest.prefab");
+        int requiredQuestCount = _activeQuests.Count;
 
-        // 풀에 퀘스트 UI 미리 생성
-        for (int i = 0; i < _quests.Length; i++)
+        // 현재 프리팹 개수와 필요한 프리팹 개수를 비교
+        if (_uiQuests.Count < requiredQuestCount)
         {
-            var questGO = Instantiate(questPrefab, _content);
-            var quest = questGO.GetComponent<UIQuest>();
-            _uiQuests.Add(quest);
-            questGO.SetActive(false);
+            // 부족하면 추가 생성
+            int questsToCreate = requiredQuestCount - _uiQuests.Count;
+
+            for (int i = 0; i < questsToCreate; i++)
+            {
+                var questPrefab = Managers.Resource.GetCache<GameObject>("UIQuest.prefab");
+                var questGO = Instantiate(questPrefab, _content);
+                var uiQuest = questGO.GetComponent<UIQuest>();
+                _uiQuests.Add(uiQuest);
+                questGO.SetActive(false);
+            }
+        }
+        else if (_uiQuests.Count > requiredQuestCount)
+        {
+            // 불필요한 프리팹은 비활성화
+            for (int i = requiredQuestCount; i < _uiQuests.Count; i++)
+            {
+                _uiQuests[i].gameObject.SetActive(false);
+            }
+        }
+
+        // 프리팹 개수만큼 Set
+        for (int i = 0; i < requiredQuestCount; i++)
+        {
+            _uiQuests[i].Set(_activeQuests[i], GameManager.Instance.Player.Tutorial);
+            _uiQuests[i].gameObject.SetActive(true);
         }
     }
 
     private void ShowQuest()
     {
-        ClearQuests();
-
         // 활성화된 퀘스트 UI만 활성화
-        for(int i = 0; i < _activeQuests.Count; ++i)
+        for (int i = 0; i < _activeQuests.Count; ++i)
         {
             _uiQuests[i].Set(_activeQuests[i], GameManager.Instance.Player.Tutorial);
             _uiQuests[i].gameObject.SetActive(true);
@@ -72,15 +90,6 @@ public class UITutorial : UIPopup
         if (_activeQuests.Count == 0)
         {
             gameObject.SetActive(false);
-        }
-    }
-
-    private void ClearQuests()
-    {
-        // 모든 퀘스트 UI를 비활성화
-        foreach (var quest in _uiQuests)
-        {
-            quest.gameObject.SetActive(false);
         }
     }
 }

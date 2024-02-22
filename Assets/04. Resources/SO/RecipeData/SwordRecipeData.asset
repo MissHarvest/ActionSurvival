@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Sword
   recipeID: 6
-  completedItemData: {fileID: 11400000, guid: 83958a2ae354d9d4fa362a73934e8fc9, type: 2}
-  IsAdvancedRecipe: 1
+  completedItemData: {fileID: 11400000, guid: a27c36d4d0473d3439f8f530c0b3427a, type: 2}
   recipeLevel: 2
   Quantity: 1
   requiredItems:

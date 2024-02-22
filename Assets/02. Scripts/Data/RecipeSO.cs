@@ -7,7 +7,6 @@ using UnityEngine;
 public class RecipeSO : ScriptableObject
 {
     public string itemName;
-    public int recipeID;
     public ItemData completedItemData;
 
     public int recipeLevel = 1;

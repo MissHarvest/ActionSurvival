@@ -37,10 +37,10 @@ public class Tutorial : MonoBehaviour
 
     private void Initialize()
     {
-        _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData")
+        _quests = new (Managers.Resource.GetCacheGroup<QuestSO>("QuestData")
             .Select(questSO => new Quest(questSO))
             .OrderBy(quest => quest.questSO.questID) // questID를 기준으로 오름차순 정렬
-            .ToList();
+            .ToList());
 
         _activeQuests = _quests
             .Where(quest => IsPreQuestsCleared(quest))

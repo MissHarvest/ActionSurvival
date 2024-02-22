@@ -18,7 +18,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 969d6bb569150a54bb82e791f6c013c4, type: 2}
   - {fileID: 11400000, guid: 558394e37be806943a6dba1552de5b2d, type: 2}
   requiredItems:
-  - item: {fileID: 11400000, guid: 29b6186d9f3a8dd4fa1f7a8ce21ca246, type: 2}
+  - item: {fileID: 11400000, guid: c49ca04a991b85646b2ccba8f7b75f1d, type: 2}
     quantity: 1
   targetLayer:
     serializedVersion: 2

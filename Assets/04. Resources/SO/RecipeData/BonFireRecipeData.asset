@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: BonFire
   recipeID: 9
-  completedItemData: {fileID: 11400000, guid: 29b6186d9f3a8dd4fa1f7a8ce21ca246, type: 2}
-  IsAdvancedRecipe: 1
+  completedItemData: {fileID: 11400000, guid: c49ca04a991b85646b2ccba8f7b75f1d, type: 2}
   recipeLevel: 2
   Quantity: 1
   requiredItems:

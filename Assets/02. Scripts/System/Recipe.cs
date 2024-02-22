@@ -1,17 +1,14 @@
-using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 // 2024. 01. 11 Byun Jeongmin
 public class Recipe : CraftBase
 {
     public Player Owner { get; private set; }
-    private UIRecipe _recipeUI;
 
     public override void Awake()
     {
         base.Awake();
-        Owner = GameManager.Instance.Player; /* To StateMachine */
-        var input = Owner.Input;
-        input.InputActions.Player.Recipe.started += OnRecipeShowAndHide;
+        Owner = GameManager.Instance.Player;
     }
 
     public override void Start()
@@ -19,21 +16,13 @@ public class Recipe : CraftBase
         base.Start();
     }
 
-    private void OnRecipeShowAndHide(InputAction.CallbackContext context)
+    public override bool CheckItems(List<RecipeSO.Ingredient> items)
     {
-        if (_recipeUI == null)
-        {
-            _recipeUI = Managers.UI.ShowPopupUI<UIRecipe>();
-            return;
-        }
+        return base.CheckItems(items);
+    }
 
-        if (_recipeUI.gameObject.activeSelf)
-        {
-            Managers.UI.ClosePopupUI(_recipeUI);
-        }
-        else
-        {
-            Managers.UI.ShowPopupUI<UIRecipe>();
-        }
+    public override void AddItems(List<RecipeSO.Ingredient> items)
+    {
+        base.AddItems(items);
     }
 }
