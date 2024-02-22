@@ -8,10 +8,8 @@ using UnityEngine;
 public class World : MonoBehaviour
 {
     private Transform _player;
-    private bool _isDone = false;
 
     private Dictionary<ChunkCoord, Chunk> _chunkMap = new(comparer: new ChunkCoord());
-    private Dictionary<Vector3Int, WorldMapData> _voxelMap = new(comparer: new Vector3IntEqualityComparer());
 
     private HashSet<Chunk> _currentActiveChunks = new();
     private HashSet<Chunk> _prevActiveChunks = new();
@@ -22,7 +20,6 @@ public class World : MonoBehaviour
     public WorldData WorldData { get; private set; }
     public VoxelData VoxelData { get; private set; }
 
-    public Dictionary<Vector3Int, WorldMapData> VoxelMap => _voxelMap;
     public HashSet<Chunk> CurrentActiveChunks => _currentActiveChunks;
     public Dictionary<ChunkCoord, Chunk> ChunkMap => _chunkMap;
     public event Action OnWorldUpdated;
@@ -117,14 +114,31 @@ public class World : MonoBehaviour
         yield return null;
     }
 
+    public WorldMapData GetBlock(Vector3Int pos)
+    {
+        ChunkCoord cc = ConvertChunkCoord(pos);
+
+        if (_chunkMap.TryGetValue(cc, out var chunk))
+        {
+            if (chunk.LocalMap.TryGetValue(pos, out var block))
+                return block;
+            else
+                return null;
+        }
+        else
+            return null;
+    }
+
     public bool CheckVoxel(Vector3 pos)
     {
         Vector3Int intPos = Vector3Int.FloorToInt(pos);
 
-        if (!VoxelMap.ContainsKey(intPos))
+        var block = GetBlock(intPos);
+
+        if (block == null)
             return false;
         else
-            return VoxelMap[intPos].type.IsSolid;
+            return block.type.IsSolid;
     }
 
     public IEnumerator ReadMapDataFile(TextAsset json, Action<float, string> progressCallback, float uiUpdateInterval)
@@ -132,7 +146,6 @@ public class World : MonoBehaviour
         float t = 0;
         int currentCount = 0;
         var originData = json.text.DictionaryFromJson<Vector3Int, MapData>();
-        _voxelMap = new(originData.Count, new Vector3IntEqualityComparer());
 
         foreach (var data in originData)
         {
@@ -143,7 +156,6 @@ public class World : MonoBehaviour
                 position = data.Key,
                 forward = data.Value.forward,
             };
-            _voxelMap.TryAdd(data.Key, worldMapData);
 
             // 현재 블럭이 속한 청크 좌표에 청크 생성
             // 생성한 청크에 블럭 정보 추가
@@ -181,7 +193,6 @@ public class World : MonoBehaviour
         yield return StartCoroutine(GenerateChunk(progressCallback, 0.035f));
         progressCallback?.Invoke(1f, "Complete");
         completedCallback?.Invoke();
-        _isDone = true;
     }
 }
 
