@@ -13,13 +13,13 @@ public class BaseScene : MonoBehaviour
         {
             if (count == total)
             {
-                Managers.Game.Init();
+                GameManager.Instance.Init();
 
                 var player = Managers.Resource.GetCache<GameObject>("Player.prefab");
                 player = Instantiate(player);
                 player.name = "Player";
-                virtualCamera.Follow = Managers.Game.Player.ViewPoint;
-                virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
+                virtualCamera.Follow = GameManager.Instance.Player.ViewPoint;
+                virtualCamera.LookAt = GameManager.Instance.Player.ViewPoint;
 
                 Managers.Sound.Init();
                 Managers.UI.ShowSceneUI<UIMainScene>();

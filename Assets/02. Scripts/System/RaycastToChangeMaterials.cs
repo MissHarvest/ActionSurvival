@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 // 24.01.30 Lee gyuseong
 public class RaycastToChangeMaterials : MonoBehaviour
 {
@@ -24,11 +25,11 @@ public class RaycastToChangeMaterials : MonoBehaviour
 
     private IEnumerator CheckPlayer()
     {
-        while (Managers.Game.Player == null)
+        while (GameManager.Instance.Player == null)
         {
             yield return null;
         }
-        _player = Managers.Game.Player.ViewPoint;
+        _player = GameManager.Instance.Player.ViewPoint;
     }
 
     private void FixedUpdate()

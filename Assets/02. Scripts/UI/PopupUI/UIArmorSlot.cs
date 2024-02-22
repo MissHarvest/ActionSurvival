@@ -29,8 +29,8 @@ public class UIArmorSlot : UIItemSlot
     {
         Initialize();        
 
-        Managers.Game.Player.ArmorSystem.EquipArmor += EquipArmor;
-        Managers.Game.Player.ArmorSystem.UnEquipArmor += UnEquipArmor;
+        //Managers.Game.Player.ArmorSystem.EquipArmor += EquipArmor;
+        //Managers.Game.Player.ArmorSystem.UnEquipArmor += UnEquipArmor;
     }
 
     public void EquipArmor(QuickSlot quickSlot)

@@ -79,11 +79,11 @@ public class MapIlluminator : MonoBehaviour
 
     private void Start()
     {
-        _player = Managers.Game.Player.transform;
+        _player = GameManager.Instance.Player.transform;
 
         Load();
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     private void Update()

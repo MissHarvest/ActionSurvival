@@ -23,19 +23,19 @@ public static class Extensions
 
     public static bool GetCurrentChunkActive(this Component obj)
     {
-        if (!Managers.Game.IsRunning)
+        if (!GameManager.Instance.IsRunning)
             return false;
-        var cc = Managers.Game.World.ConvertChunkCoord(obj.transform.position);
-        Managers.Game.World.ChunkMap.TryGetValue(cc, out var chunk);
+        var cc = GameManager.Instance.World.ConvertChunkCoord(obj.transform.position);
+        GameManager.Instance.World.ChunkMap.TryGetValue(cc, out var chunk);
         return chunk.IsActive;
     }
 
     public static bool GetCurrentChunkActive(this GameObject obj)
     {
-        if (!Managers.Game.IsRunning)
+        if (!GameManager.Instance.IsRunning)
             return false;
-        var cc = Managers.Game.World.ConvertChunkCoord(obj.transform.position);
-        Managers.Game.World.ChunkMap.TryGetValue(cc, out var chunk);
+        var cc = GameManager.Instance.World.ConvertChunkCoord(obj.transform.position);
+        GameManager.Instance.World.ChunkMap.TryGetValue(cc, out var chunk);
         return chunk.IsActive;
     }
 }

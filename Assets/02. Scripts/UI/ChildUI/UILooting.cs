@@ -46,7 +46,7 @@ public class UILooting : UIBase
                 slot.Set(itemdata);
                 slot.gameObject.transform.SetParent(Get<GameObject>((int)GameObjects.Contents).transform, true);
                 slot.gameObject.SetActive(true);
-                Managers.Sound.PlayEffectSound(Managers.Game.Player.transform.position, "Looting3");
+                Managers.Sound.PlayEffectSound(GameManager.Instance.Player.transform.position, "Looting3");
                 _usedSlots.Push(slot);
                 yield return new WaitForSeconds(0.1f);
             }

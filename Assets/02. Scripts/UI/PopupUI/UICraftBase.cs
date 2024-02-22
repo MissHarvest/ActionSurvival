@@ -159,7 +159,7 @@ public abstract class UICraftBase : UIPopup
                     {
                         int quantityToAdd = Mathf.Min(totalQuantity, maxStackSize);
 
-                        if (Managers.Game.Player.Inventory.IsFull(completedItemData, quantityToAdd))
+                        if (GameManager.Instance.Player.Inventory.IsFull(completedItemData, quantityToAdd))
                         {
                             _confirm.gameObject.SetActive(false);
                             var warning = Managers.UI.ShowPopupUI<UIWarning>();
@@ -169,14 +169,14 @@ public abstract class UICraftBase : UIPopup
                         }
                         else
                         {
-                            Managers.Game.Player.Inventory.AddItem_Before(completedItemData, quantityToAdd);
+                            GameManager.Instance.Player.Inventory.AddItem_Before(completedItemData, quantityToAdd);
                             totalQuantity -= quantityToAdd;
                         }
                     }
                 }
                 else
                 {
-                    if (Managers.Game.Player.Inventory.IsFull(completedItemData, totalQuantity))
+                    if (GameManager.Instance.Player.Inventory.IsFull(completedItemData, totalQuantity))
                     {
                         _confirm.gameObject.SetActive(false);
                         var warning = Managers.UI.ShowPopupUI<UIWarning>();
@@ -189,7 +189,7 @@ public abstract class UICraftBase : UIPopup
                         // 스택 불가능한 경우
                         while (totalQuantity > 0)
                         {
-                            Managers.Game.Player.Inventory.AddItem_Before(completedItemData, 1);
+                            GameManager.Instance.Player.Inventory.AddItem_Before(completedItemData, 1);
                             totalQuantity -= 1;
                         }
                     }
@@ -269,7 +269,7 @@ public abstract class UICraftBase : UIPopup
             int requiredQuantity = item.quantity * _count;
 
             // 플레이어 인벤토리에서 해당 아이템의 수량 확인
-            int availableQuantity = Managers.Game.Player.Inventory.GetItemCount(item.item);
+            int availableQuantity = GameManager.Instance.Player.Inventory.GetItemCount(item.item);
 
             itemQuantity.text = (availableQuantity + "/" + requiredQuantity).ToString();
 
@@ -303,7 +303,7 @@ public abstract class UICraftBase : UIPopup
         foreach (var item in items)
         {
             int requiredQuantity = item.quantity * _count;
-            int availableQuantity = Managers.Game.Player.Inventory.GetItemCount(item.item);
+            int availableQuantity = GameManager.Instance.Player.Inventory.GetItemCount(item.item);
 
             // 아이템이 부족하면 false 반환
             if (availableQuantity < requiredQuantity)
@@ -321,7 +321,7 @@ public abstract class UICraftBase : UIPopup
             ItemData requiredItemData = item.item;
             int requiredQuantity = item.quantity * _count;
 
-            Managers.Game.Player.Inventory.RemoveItem(requiredItemData, requiredQuantity);
+            GameManager.Instance.Player.Inventory.RemoveItem(requiredItemData, requiredQuantity);
         }
     }
 

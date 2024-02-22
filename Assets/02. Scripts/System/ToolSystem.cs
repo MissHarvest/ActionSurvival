@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class ToolSystem : MonoBehaviour
 {
     public Transform handPosition;
     public Transform leftHandPosition;
+    private Player _player;
 
     public QuickSlot EquippedTool = new QuickSlot();
     private ItemData _emptyhand;
@@ -23,7 +25,7 @@ public class ToolSystem : MonoBehaviour
             this.enabled = false;
             return;
         }
-
+        _player = GetComponentInParent<Player>();
         _emptyhand = Managers.Resource.GetCache<ItemData>("EmptyHandItemData.data");
 
         var tools = Managers.Resource.GetCacheGroup<GameObject>("Handable_");
@@ -46,14 +48,14 @@ public class ToolSystem : MonoBehaviour
         EquippedTool.itemSlot.Set(_emptyhand);
         Load();
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     private void Start()
     {
-        Managers.Game.Player.QuickSlot.OnClickEmptySlot += OnItemUnregisted;
-        Managers.Game.Player.QuickSlot.OnUnRegisted += QuickSlot_OnUnRegisted;
-        Managers.Game.Player.Inventory.OnUpdated += Inventory_OnUpdated;
+        _player.QuickSlot.OnClickEmptySlot += OnItemUnregisted;
+        _player.QuickSlot.OnUnRegisted += QuickSlot_OnUnRegisted;
+        _player.Inventory.OnUpdated += Inventory_OnUpdated;
     }
 
     private void Inventory_OnUpdated(int arg1, ItemSlot arg2)

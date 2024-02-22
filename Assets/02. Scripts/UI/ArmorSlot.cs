@@ -15,7 +15,7 @@ public class ArmorSlot : MonoBehaviour
     {
         CreatArmorSlot();
 
-        var armorItemSlots = Managers.Game.Player.ArmorSystem._linkedSlots;
+        var armorItemSlots = GameManager.Instance.Player.ArmorSystem._linkedSlots;
 
         foreach (var armor in armorItemSlots)
         {

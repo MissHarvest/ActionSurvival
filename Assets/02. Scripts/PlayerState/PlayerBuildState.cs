@@ -63,7 +63,7 @@ public class PlayerBuildState : PlayerBaseState
     // override 안하면 건축 시 조이스틱을 움직이면 플레이어 방향이 돌아간다
     public override void Update()
     {
-        Managers.Game.Player.Building.MoveRayPointer(_stateMachine.MovementInput);
+        _stateMachine.Player.Building.MoveRayPointer(_stateMachine.MovementInput);
     }
 
     public void OnRotateArchitectureLeftStarted(InputAction.CallbackContext context)

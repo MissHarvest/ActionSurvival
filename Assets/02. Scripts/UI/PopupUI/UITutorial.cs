@@ -30,10 +30,10 @@ public class UITutorial : UIPopup
 
     private void Start()
     {
-        Managers.Game.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
+        GameManager.Instance.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
         _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
         Array.Sort(_quests, (x, y) => x.questID.CompareTo(y.questID));
-        _activeQuests = Managers.Game.Player.Tutorial.ActiveQuests;
+        _activeQuests = GameManager.Instance.Player.Tutorial.ActiveQuests;
         CreateQuestUI();
         ShowQuest(); 
     }
@@ -64,7 +64,7 @@ public class UITutorial : UIPopup
         // 활성화된 퀘스트 UI만 활성화
         for(int i = 0; i < _activeQuests.Count; ++i)
         {
-            _uiQuests[i].Set(_activeQuests[i], Managers.Game.Player.Tutorial);
+            _uiQuests[i].Set(_activeQuests[i], GameManager.Instance.Player.Tutorial);
             _uiQuests[i].gameObject.SetActive(true);
         }
 
