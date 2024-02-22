@@ -135,7 +135,7 @@ public class UIInventory : UIPopup
 
     private void UnEquip()
     {
-        Managers.Game.Player.ArmorSystem.UnEquip(_selectedIndex);
+        Managers.Game.Player.ArmorSystem.UnEquip(_selectedIndex);//변수로 enum parts를 넘기면
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 

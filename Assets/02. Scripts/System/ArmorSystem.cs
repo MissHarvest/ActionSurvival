@@ -10,7 +10,6 @@ public class ArmorSystem : MonoBehaviour
 {
     private Player _player;
     [SerializeField] private int _defense;
-    private int _indexInUse = -1;
 
     public QuickSlot[] equippedArmors;
 
@@ -33,9 +32,16 @@ public class ArmorSystem : MonoBehaviour
         Managers.Game.OnSaveCallback += Save;
     }
 
+    private void Start()
+    {
+        Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
+    }
+
     public void Equip(int index, ItemSlot itemSlot)
     {
         int part = GetPart(itemSlot);
+
+        TakeOffEquippedArmor(part);
 
         itemSlot.SetEquip(true);
         equippedArmors[part].Set(index, itemSlot);
@@ -45,7 +51,7 @@ public class ArmorSystem : MonoBehaviour
         OnEquipArmor?.Invoke(equippedArmors[part]);
     }
 
-    public void UnEquip(int index)
+    public void UnEquip(int index)//enum parts를 변수로 받아서
     {
         for (int i = 0; i < equippedArmors.Length; i++)
         {
@@ -60,6 +66,18 @@ public class ArmorSystem : MonoBehaviour
                 return;
             }
         }
+    }
+
+    private void TakeOffEquippedArmor(int index)//enum
+    {
+        if (equippedArmors[index].itemSlot.itemData == null) return;
+
+        SubtractDefenseOfArmor(equippedArmors[index]);
+
+        equippedArmors[index].itemSlot.SetEquip(false);
+        OnUnEquipArmor?.Invoke(equippedArmors[index]);
+
+        equippedArmors[index].Clear();
     }
 
     private void AddDefenseOfArmor(QuickSlot quickSlot)
@@ -98,9 +116,30 @@ public class ArmorSystem : MonoBehaviour
         return (int)itemData.part;
     }
 
-    public int GetDefense() 
-    { 
+    public int GetDefense()
+    {
         return _defense;
+    }
+
+    public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)
+    {
+        for (int i = 0; i < equippedArmors.Length; i++)
+        {
+            if (equippedArmors[i] != null)
+            {
+                if (equippedArmors[i].targetIndex == inventoryIndex)
+                {
+                    if (itemSlot.itemData == null)
+                    {
+                        EquipItemData toolItemData = GetArmorItemData(equippedArmors[i]);
+                        _defense -= toolItemData.defense;
+
+                        OnUnEquipArmor?.Invoke(equippedArmors[i]);
+                        equippedArmors[i].Clear();
+                    }
+                }
+            }
+        }
     }
 
     private void Load()
