@@ -56,7 +56,7 @@ public class UIInventory : UIPopup
         var armorSlotPrefab = Managers.Resource.GetCache<GameObject>("UIArmorSlot.prefab");
         var armorSlotContainer = Get<UIArmorSlotContainer>((int)ArmorSlotContainer.ArmorSlotContainer);
         armorSlotContainer.CreatArmorSlots<UIArmorSlot>(armorSlotPrefab, 2);
-        armorSlotContainer.Init<UIArmorSlot>(_armorSystem.equippedArmors);
+        armorSlotContainer.Init<UIArmorSlot>(_armorSystem.GetEquippedArmorsArray());
 
         _canvas = GetComponent<Canvas>();
 
@@ -77,23 +77,23 @@ public class UIInventory : UIPopup
         helper.BindEventOfButton(UIItemUsageHelper.Functions.UnEquip, UnEquip);//
     }
 
-    private void ActivateItemUsageHelper(UIItemSlot itemslotUI)
+    private void ActivateItemUsageHelper(UIItemSlot itemSlotUI)
     {
-        _selectedIndex = itemslotUI.Index;
+        _selectedIndex = itemSlotUI.Index;
 
-        var offset = itemslotUI.RectTransform.sizeDelta.x;
+        var offset = itemSlotUI.RectTransform.sizeDelta.x;
         offset = offset / 1920 * _canvas.renderingDisplaySize.x;
 
         var pos = new Vector3
             (
-            itemslotUI.transform.position.x + offset,
-            itemslotUI.transform.position.y
+            itemSlotUI.transform.position.x + offset,
+            itemSlotUI.transform.position.y
             );
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).ShowOption
             (
             _playerInventory.Get(_selectedIndex),
             pos)
-            ;
+            ;        
     }
 
     private void DestroyItem()
@@ -135,7 +135,8 @@ public class UIInventory : UIPopup
 
     private void UnEquip()
     {
-        GameManager.Instance.Player.ArmorSystem.UnEquip(_selectedIndex);//변수로 enum parts를 넘기면
+        ItemParts part = _playerInventory.GetPart(_selectedIndex);
+        GameManager.Instance.Player.ArmorSystem.UnEquip(part);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 

@@ -225,6 +225,12 @@ public class InventorySystem : MonoBehaviour
         return _slots[index];
     }
 
+    public ItemParts GetPart(int index)
+    {
+        var equipItemData = _slots[index].itemData as EquipItemData;
+        return equipItemData.part;
+    }
+
     protected void UpdateDic(ItemData itemData)
     {
         if (_itemDic.TryGetValue(itemData, out List<int> indexList))
