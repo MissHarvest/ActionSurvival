@@ -82,4 +82,9 @@ public class Farm : MonoBehaviour, IInteractable
         //}
         //return false;
     }
+
+    public float GetInteractTime()
+    {
+        throw new System.NotImplementedException();
+    }
 }

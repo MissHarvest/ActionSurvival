@@ -20,4 +20,9 @@ public class BonFire : MonoBehaviour, IInteractable
         var ui = Managers.UI.ShowPopupUI<UICooking>();
         ui.SetAdvancedRecipeUIActive(_cookingLevel);
     }
+
+    public float GetInteractTime()
+    {
+        throw new System.NotImplementedException();
+    }
 }

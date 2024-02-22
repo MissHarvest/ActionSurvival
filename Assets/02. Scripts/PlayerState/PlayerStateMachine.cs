@@ -10,13 +10,13 @@ public class PlayerStateMachine : StateMachine
 
     public PlayerFallState FallState { get; }
 
-    public PlayerTwoHandedToolIdleState TwoHandedToolIdleState { get; }
+    //public PlayerTwoHandedToolIdleState TwoHandedToolIdleState { get; }
     
-    public PlayerTwoHandedToolRunState TwoHandedToolRunState { get; }
+    //public PlayerTwoHandedToolRunState TwoHandedToolRunState { get; }
 
-    public PlayerTwinToolIdleState TwinToolIdleState { get; }
+    //public PlayerTwinToolIdleState TwinToolIdleState { get; }
     
-    public PlayerTwinToolRunState TwinToolRunState { get; }
+    //public PlayerTwinToolRunState TwinToolRunState { get; }
 
     public PlayerInteractState InteractState { get; }
     public PlayerBuildState BuildState { get; }
@@ -49,11 +49,11 @@ public class PlayerStateMachine : StateMachine
         RunState = new PlayerRunState(this);
         FallState = new PlayerFallState(this);
 
-        TwoHandedToolIdleState = new PlayerTwoHandedToolIdleState(this);  
-        TwoHandedToolRunState = new PlayerTwoHandedToolRunState(this);
+        //TwoHandedToolIdleState = new PlayerTwoHandedToolIdleState(this);  
+        //TwoHandedToolRunState = new PlayerTwoHandedToolRunState(this);
 
-        TwinToolIdleState = new PlayerTwinToolIdleState(this);
-        TwinToolRunState = new PlayerTwinToolRunState(this);
+        //TwinToolIdleState = new PlayerTwinToolIdleState(this);
+        //TwinToolRunState = new PlayerTwinToolRunState(this);
 
         InteractState = new PlayerInteractState(this);
         BuildState = new PlayerBuildState(this);

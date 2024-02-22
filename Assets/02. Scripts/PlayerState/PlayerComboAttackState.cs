@@ -104,7 +104,7 @@ public class PlayerComboAttackState : PlayerAttackState
     public override void Update()
     {
         WeaponItemData weaponItem = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
-        if(weaponItem == null)
+        if (weaponItem == null)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
             return;
@@ -129,7 +129,7 @@ public class PlayerComboAttackState : PlayerAttackState
         }
         else
         {
-            if(_alreadyApplyCombo)
+            if (_alreadyApplyCombo)
             {
                 _stateMachine.ComboIndex = _attackInfoData.ComboStateIndex;
                 _stateMachine.ChangeState(_stateMachine.ComboAttackState);
@@ -137,24 +137,8 @@ public class PlayerComboAttackState : PlayerAttackState
             else
             {
                 _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;//
-                ExitState(weaponItem);
+                _stateMachine.ChangeState(_stateMachine.IdleState);
             }
-        }
-    }
-
-    private void ExitState(WeaponItemData weaponItem)
-    {
-        if (weaponItem.isTwoHandedTool == true)
-        {
-            _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
-        }
-        else if (weaponItem.isTwinTool == true)
-        {
-            _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
-        }
-        else
-        {
-            _stateMachine.ChangeState(_stateMachine.IdleState);
         }
     }
 

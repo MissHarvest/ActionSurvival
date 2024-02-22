@@ -69,24 +69,7 @@ public class PlayerGroundedState : PlayerBaseState
 
     protected virtual void OnMove()
     {
-        WeaponItemData weaponItem = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
-        
-        if(weaponItem == null)
-        {
-            _stateMachine.ChangeState(_stateMachine.RunState);
-        }
-        else if (weaponItem.isTwoHandedTool == true)
-        {
-            _stateMachine.ChangeState(_stateMachine.TwoHandedToolRunState);
-        }
-        else if (weaponItem.isTwinTool == true)
-        {
-            _stateMachine.ChangeState(_stateMachine.TwinToolRunState);
-        }
-        else
-        {
-            _stateMachine.ChangeState(_stateMachine.RunState);
-        }
+        _stateMachine.ChangeState(_stateMachine.RunState);
     }
 
     protected virtual void OnAttack()
@@ -101,21 +84,7 @@ public class PlayerGroundedState : PlayerBaseState
 
     protected void ChangeIdleState()
     {
-        WeaponItemData weaponItem = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
-
-        if (weaponItem == null)
-        {
-            _stateMachine.ChangeState(_stateMachine.IdleState);
-            return;
-        }
-        else if (weaponItem.isTwoHandedTool == true)
-        {
-            _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
-        }
-        else if (weaponItem.isTwinTool == true)
-        {
-            _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
-        }
+        _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 
     protected virtual void OnUnEquipTypeOfTool(QuickSlot quickSlot)

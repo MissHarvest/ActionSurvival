@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerRunState : PlayerGroundedState
 {
+    private int _targetParameterHash;
+
     public PlayerRunState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
 
@@ -14,13 +16,28 @@ public class PlayerRunState : PlayerGroundedState
     {
         _stateMachine.MovementSpeedModifier = _groundData.RunSpeedModifier;
         base.Enter();
-        StartAnimation(_stateMachine.Player.AnimationData.RunParameterHash);
+
+        WeaponItemData hand = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
+
+        if (hand != null)
+        {
+            if (hand.isTwoHandedTool)
+                _targetParameterHash = _stateMachine.Player.AnimationData.EquipTwoHandedToolRunParameterHash;
+            else if (hand.isTwinTool)
+                _targetParameterHash = _stateMachine.Player.AnimationData.EquipTwinToolRunParameterHash;
+            else
+                _targetParameterHash = _stateMachine.Player.AnimationData.RunParameterHash;
+        }
+        else
+            _targetParameterHash = _stateMachine.Player.AnimationData.RunParameterHash;
+
+        StartAnimation(_targetParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(_stateMachine.Player.AnimationData.RunParameterHash);
+        StopAnimation(_targetParameterHash);
     }
 
     protected override void OnMovementCanceled(InputAction.CallbackContext context)
