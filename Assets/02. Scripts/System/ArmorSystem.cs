@@ -9,7 +9,7 @@ using UnityEngine;
 public class ArmorSystem : MonoBehaviour
 {
     public int _defense;
-
+    private Player _player;
     public QuickSlot[] _linkedSlots;
 
     public event Action<QuickSlot> EquipArmor;
@@ -18,15 +18,15 @@ public class ArmorSystem : MonoBehaviour
     private void Awake()
     {
         _linkedSlots = new QuickSlot[2];
-
+        _player = GetComponentInParent<Player>();
         /* PJU : Armor System 이 독립적인게 더 좋을 듯 */
         //Managers.Game.Player.ToolSystem.OnEquip += DefenseOfTheEquippedArmor;        
         //Managers.Game.Player.ToolSystem.OnUnEquip += DefenseOfTheUnEquippedArmor;
-        Managers.Game.Player.OnHit += Duration;
+        _player.OnHit += Duration;
 
         Load();
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     private void Start()
@@ -38,7 +38,7 @@ public class ArmorSystem : MonoBehaviour
     {
         EquipItemData toolItemData = ArmorDefense(quickSlot);
         _defense += toolItemData.defense;
-        Managers.Game.Player.playerDefense = _defense;
+        GameManager.Instance.Player.playerDefense = _defense;
 
         if ((int)toolItemData.part == 0 || (int)toolItemData.part == 1)
         {
@@ -51,7 +51,7 @@ public class ArmorSystem : MonoBehaviour
     {
         EquipItemData toolItemData = ArmorDefense(quickSlot);
         _defense -= toolItemData.defense;
-        Managers.Game.Player.playerDefense = _defense;
+        _player.playerDefense = _defense;
 
         if ((int)toolItemData.part == 0 || (int)toolItemData.part == 1)
         {
@@ -66,7 +66,7 @@ public class ArmorSystem : MonoBehaviour
         {
             //if (_linkedSlots[i] != null && _linkedSlots[i].targetIndex != -1)
             {
-                Managers.Game.Player.Inventory.TrySubtractDurability(_linkedSlots[i].targetIndex, 1);
+                _player.Inventory.TrySubtractDurability(_linkedSlots[i].targetIndex, 1);
             }
         }
     }
@@ -83,7 +83,7 @@ public class ArmorSystem : MonoBehaviour
                     {
                         EquipItemData toolItemData = ArmorDefense(_linkedSlots[i]);
                         _defense -= toolItemData.defense;
-                        Managers.Game.Player.playerDefense = _defense;
+                        _player.playerDefense = _defense;
 
                         UnEquipArmor?.Invoke(_linkedSlots[i]);
                         _linkedSlots[i].Clear();
@@ -103,7 +103,7 @@ public class ArmorSystem : MonoBehaviour
 
     private void UpdatePlayerDefense()
     {
-        Managers.Game.Player.playerDefense = _defense;
+        _player.playerDefense = _defense;
     }
 
     private void Load()

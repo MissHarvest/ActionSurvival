@@ -83,14 +83,14 @@ public class BuildableObject : MonoBehaviour, IHit
     {
         if (gameObject.name.Contains("(Clone)"))
         {
-            Managers.Game.Architecture.Add(this);
+            GameManager.Architecture.Add(this);
         }
         OnRenamed?.Invoke();
     }
 
     public void DestroyObject()
     {
-        Managers.Game.Architecture.Remove(this);
+        GameManager.Architecture.Remove(this);
         StopCoroutine(StartBuild());
         Destroy(gameObject);
     }

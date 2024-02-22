@@ -41,7 +41,7 @@ public class UIStorage : UIPopup
         Initialize();
         var slotPrefab = Managers.Resource.GetCache<GameObject>("UIInventorySlot.prefab");
 
-        var inventory = Managers.Game.Player.Inventory;
+        var inventory = GameManager.Instance.Player.Inventory;
         var inventoryContainer = Get<UIItemSlotContainer>((int)Container.PlayerInventory);
         inventoryContainer.CreateItemSlots<UIInventorySlot>(slotPrefab, inventory.maxCapacity);
         inventoryContainer.Init<UIInventorySlot>(inventory, ActivateTransitionHelperToStorage);
@@ -94,7 +94,7 @@ public class UIStorage : UIPopup
 
     private void ActivateTransitionHelperToStorage(UIItemSlot itemslotUI)
     {
-        SelectedSlot.Set(itemslotUI.Index, Managers.Game.Player.Inventory.Get(itemslotUI.Index));
+        SelectedSlot.Set(itemslotUI.Index, GameManager.Instance.Player.Inventory.Get(itemslotUI.Index));
         var inventoryslotui = itemslotUI as UIInventorySlot;
         var pos = new Vector3(inventoryslotui.transform.position.x + inventoryslotui.RectTransform.sizeDelta.x,
             inventoryslotui.transform.position.y);
@@ -111,13 +111,13 @@ public class UIStorage : UIPopup
             return;
         }
 
-        Managers.Game.Player.Inventory.TransitionItem(_targetStorage.InventorySystem, SelectedSlot.targetIndex);
+        GameManager.Instance.Player.Inventory.TransitionItem(_targetStorage.InventorySystem, SelectedSlot.targetIndex);
         Get<UIItemTransitionHelper>((int)Helper.TransitionHelper).gameObject.SetActive(false);
     }
 
     private void TakeOutItem()
     {
-        _targetStorage.InventorySystem.TransitionItem(Managers.Game.Player.Inventory, SelectedSlot.targetIndex);
+        _targetStorage.InventorySystem.TransitionItem(GameManager.Instance.Player.Inventory, SelectedSlot.targetIndex);
         Get<UIItemTransitionHelper>((int)Helper.TransitionHelper).gameObject.SetActive(false);
     }
 }

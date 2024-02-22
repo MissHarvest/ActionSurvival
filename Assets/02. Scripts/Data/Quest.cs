@@ -51,9 +51,9 @@ public class Quest
     {
         if (questSO.type == QuestSO.QuestType.Using)
         {
-            if (Managers.Game.Player.Inventory.Get(index).itemData is ArchitectureItemData)
+            if (GameManager.Instance.Player.Inventory.Get(index).itemData is ArchitectureItemData)
             {
-                if (Managers.Game.Player.Inventory.Get(index).itemData.name == questSO.requiredItems[0].item.name)
+                if (GameManager.Instance.Player.Inventory.Get(index).itemData.name == questSO.requiredItems[0].item.name)
                     return true;
             }
         }

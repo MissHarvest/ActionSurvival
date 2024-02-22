@@ -24,9 +24,9 @@ public class Artifact : MonoBehaviour
         transform.parent = root;
         _influenceAmount = data.InfluenceAmount;
         _hitbox.SetInfo(data.HPMax, data.HpRegen, currentHP);
-        _season = Managers.Game.Season;
+        _season = GameManager.Season;
         _season.OnSeasonChanged += DestroyByNature;
-        _dayCycle = Managers.Game.DayCycle;
+        _dayCycle = GameManager.DayCycle;
         _dayCycle.OnEveningCame += SpawnOverflowedMonster;
         SetManagementedObject();
     }
@@ -72,7 +72,7 @@ public class Artifact : MonoBehaviour
 
     public void SpawnOverflowedMonster()
     {
-        Managers.Game.MonsterWave.AddOverFlowedMonster(_island.Spawn());
+        GameManager.Instance.MonsterWave.AddOverFlowedMonster(_island.Spawn());
     }
 
     public void DestroyByNature(Season.State state)

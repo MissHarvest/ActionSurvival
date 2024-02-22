@@ -47,7 +47,7 @@ public class ArchitectureManager
             }
         }
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     public void Add(BuildableObject architecture)

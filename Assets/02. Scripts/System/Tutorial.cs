@@ -16,6 +16,7 @@ public class Tutorial : MonoBehaviour
     public event Action OnActiveQuestsUpdated;
     private PathFinder _pathFinder;
     public Collider[] groups;
+    private Player _player;
 
     public List<Quest> ActiveQuests
     {
@@ -27,12 +28,12 @@ public class Tutorial : MonoBehaviour
     {
         Initialize();
         Load();
-
+        _player = GetComponentInParent<Player>();
         var go = Instantiate(Managers.Resource.GetCache<GameObject>("PathFinder.prefab"), transform);
         _pathFinder = go.GetComponent<PathFinder>();
         _pathFinder.gameObject.SetActive(false);
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     private void Initialize()
@@ -73,8 +74,8 @@ public class Tutorial : MonoBehaviour
 
     private void BindEvents()
     {
-        Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
-        Managers.Game.Player.Building.OnBuildCompleted += OnBuildUpdated;
+        _player.Inventory.OnUpdated += OnInventoryUpdated;
+        _player.Building.OnBuildCompleted += OnBuildUpdated;
     }
 
     private void OnInventoryUpdated(int index, ItemSlot itemSlot)
@@ -158,7 +159,7 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator GuideInventroy(ItemData itemData)
     {
-        int index = Managers.Game.Player.Inventory.GetIndexOfItem(itemData);
+        int index = _player.Inventory.GetIndexOfItem(itemData);
         if (index == -1)
         {
             var warning =Managers.UI.ShowPopupUI<UIWarning>();

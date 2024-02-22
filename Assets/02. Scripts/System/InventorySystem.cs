@@ -35,7 +35,7 @@ public class InventorySystem : MonoBehaviour
             _slots[i] = new ItemSlot(this);
         }
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     public void AddDefaultToolAsTest()

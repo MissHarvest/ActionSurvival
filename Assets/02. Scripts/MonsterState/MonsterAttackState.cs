@@ -58,7 +58,7 @@ public class MonsterAttackState : MonsterBaseState
 
     private void Rotate()
     {
-        var look = Managers.Game.Player.transform.position - _stateMachine.Monster.transform.position;
+        var look = _stateMachine.Target.transform.position - _stateMachine.Monster.transform.position;
         look.y = 0;
 
         var targetRotation = Quaternion.LookRotation(look);

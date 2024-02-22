@@ -46,7 +46,7 @@ public class NavMeshSourceObject : MonoBehaviour
             ConvertData();
 
         foreach (var source in _buildSources)
-            Managers.Game.WorldNavMeshBuilder.AddSources(source);
+            GameManager.Instance.WorldNavMeshBuilder.AddSources(source);
     }
 
     public NavMeshBuildSource[] GetSources()

@@ -44,7 +44,7 @@ public class Player : MonoBehaviour, IHit
 
     private void Awake()
     {
-        Managers.Game.Player = this;
+        GameManager.Instance.Player = this;
 
         AnimationData.Initialize();
 
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour, IHit
 
         _stateMachine = new PlayerStateMachine(this);
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
 
         if (PlayerPrefs.HasKey("IslandName"))
         {

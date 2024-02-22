@@ -9,7 +9,7 @@ public class Recipe : CraftBase
     public override void Awake()
     {
         base.Awake();
-        Owner = Managers.Game.Player;
+        Owner = GameManager.Instance.Player; /* To StateMachine */
         var input = Owner.Input;
         input.InputActions.Player.Recipe.started += OnRecipeShowAndHide;
     }

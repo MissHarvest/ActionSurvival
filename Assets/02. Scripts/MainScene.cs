@@ -9,8 +9,6 @@ public class MainScene : MonoBehaviour
     public CinemachineVirtualCamera virtualCamera;
     private IEnumerator Start()
     {
-        Managers.Game.Clear();
-
         UILoadingScene loadingUI = null;
         // 0. 로딩씬 UI open
         Managers.Resource.LoadAsync<UnityEngine.Object>("UILoadingScene.prefab", (obj) =>
@@ -31,7 +29,7 @@ public class MainScene : MonoBehaviour
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
                 // 2. 맵 생성
-                Managers.Game.GenerateWorldAsync((progress, argument) =>
+                GameManager.Instance.GenerateWorldAsync((progress, argument) =>
                 {
                     // 맵 생성 진행 중 콜백
                     loadingUI.ReceiveCallbacks($"{argument} ({progress * 100:00}%)");
@@ -43,18 +41,18 @@ public class MainScene : MonoBehaviour
 
                     // Player 정보 로드
                     // SaveData.CheckPlayerData
-
+                    UnityEngine.Debug.Log($"Game Init Start {watch.ElapsedMilliseconds} ms");
                     loadingUI.ReceiveCallbacks($"Game Initialize ...");
 
                     Managers.Data.InitializeRecipeData();
                     Managers.Sound.Init();
 
-                    Managers.Game.GenerateNavMeshAsync(callback: op =>
+                    GameManager.Instance.GenerateNavMeshAsync(callback: op =>
                     {
                         // 4. NavMesh 생성
                         SpawnPlayer();
                         UIInitialize();
-                        Managers.Game.Init();
+                        GameManager.Instance.Init();
 
                         var camera = Managers.Resource.GetCache<GameObject>("MinimapCamera.prefab");
                         Instantiate(camera);
@@ -77,8 +75,8 @@ public class MainScene : MonoBehaviour
         var player = Managers.Resource.GetCache<GameObject>("Player.prefab");
         player = Instantiate(player);
         player.name = "Player";
-        virtualCamera.Follow = Managers.Game.Player.ViewPoint;
-        virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
+        virtualCamera.Follow = GameManager.Instance.Player.ViewPoint;
+        virtualCamera.LookAt = GameManager.Instance.Player.ViewPoint;
     }
 
     private void UIInitialize()

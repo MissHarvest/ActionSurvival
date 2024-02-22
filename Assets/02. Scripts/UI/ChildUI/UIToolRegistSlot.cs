@@ -13,7 +13,7 @@ public class UIToolRegistSlot : UIItemSlot
 
         gameObject.BindEvent((x) =>
         {
-            Managers.Game.Player.QuickSlot.Regist(Index, UIToolRegister.SelectedSlot);
+            GameManager.Instance.Player.QuickSlot.Regist(Index, UIToolRegister.SelectedSlot);
             Managers.UI.ClosePopupUI(UIToolRegister);
         });
     }

@@ -33,7 +33,7 @@ public class UIItemTransitionHelper : UIItemHelper
 
         if (selectedSlot.inventory)
         {
-            if(selectedSlot.inventory == Managers.Game.Player.Inventory)
+            if(selectedSlot.inventory == GameManager.Instance.Player.Inventory)
             {
                 ShowButton(Functions.Store.ToString());
             }

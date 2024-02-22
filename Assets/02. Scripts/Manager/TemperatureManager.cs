@@ -24,9 +24,9 @@ public class TemperatureManager
         _influenceCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
 
         // 시간대 콜백
-        gameManager.DayCycle.OnMorningCame += OnMorningCame;
-        gameManager.DayCycle.OnEveningCame += OnEveningCame;
-        gameManager.DayCycle.OnNightCame += OnNightCame;
+        GameManager.DayCycle.OnMorningCame += OnMorningCame;
+        GameManager.DayCycle.OnEveningCame += OnEveningCame;
+        GameManager.DayCycle.OnNightCame += OnNightCame;
     }
 
     public float GetTemperature(Vector3 position)

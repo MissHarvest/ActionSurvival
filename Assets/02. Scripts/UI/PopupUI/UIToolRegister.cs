@@ -24,7 +24,7 @@ public class UIToolRegister : UIPopup
     private void Awake()
     {
         Initialize();
-        var quickslotSystem = Managers.Game.Player.QuickSlot;
+        var quickslotSystem = GameManager.Instance.Player.QuickSlot;
         quickslotSystem.OnUpdated += OnQuickSlotUpdate;
         CreateSlots(quickslotSystem);
     }

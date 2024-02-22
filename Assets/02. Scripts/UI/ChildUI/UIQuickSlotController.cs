@@ -14,7 +14,7 @@ public class UIQuickSlotController : UIBase
 
     private void Awake()
     {
-        var quickSlotSystem = Managers.Game.Player.QuickSlot;
+        var quickSlotSystem = GameManager.Instance.Player.QuickSlot;
         quickSlotSystem.OnUpdated += OnQuickSlotUpdated;
         CreateSlots(quickSlotSystem);
     }

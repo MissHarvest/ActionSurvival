@@ -26,13 +26,13 @@ public class QuickSlotSystem : MonoBehaviour
 
         Load();
         _player = GetComponentInParent<Player>();
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     private void Start()
     {
         Debug.Log("QuickSystem Start");
-        Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
+        _player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
     public QuickSlot Get(int index)
@@ -126,7 +126,6 @@ public class QuickSlotSystem : MonoBehaviour
             _player.ItemUsageHelper.Use(_slots[_indexInuse].targetIndex);
         }
     }
-
 
     public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)
     {
