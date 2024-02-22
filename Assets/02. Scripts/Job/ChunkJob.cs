@@ -64,10 +64,16 @@ public struct ChunkJob : IJob
 
     public (NativeList<Vector3> vertices, NativeList<int> triangles, NativeList<Vector2> uv) GetResult()
     {
+        return (vertices, triangles, uv);
+    }
+
+    public void Dispose()
+    {
         checks.Dispose();
         textures.Dispose();
         positions.Dispose();
-
-        return (vertices, triangles, uv);
+        vertices.Dispose();
+        triangles.Dispose();
+        uv.Dispose();
     }
 }

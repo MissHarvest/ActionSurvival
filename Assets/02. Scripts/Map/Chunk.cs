@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 // 2024-01-12 WJY
 public class Chunk
@@ -104,6 +103,10 @@ public class Chunk
             uv = new(0, Allocator.TempJob),
         };
 
+        _jobChecks = null;
+        _jobTextures = null;
+        _jobPositions = null;
+
         var handle = job.Schedule();
 
         if (!handle.IsCompleted)
@@ -115,10 +118,7 @@ public class Chunk
         _vertices = new(vertices.AsArray());
         _triangles = new(triangles.AsArray());
         _uvs = new(uv.AsArray());
-
-        vertices.Dispose();
-        triangles.Dispose();
-        uv.Dispose();
+        job.Dispose();
 
         CreateMesh();
     }

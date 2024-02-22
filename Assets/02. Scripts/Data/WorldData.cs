@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Jobs;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewWorld", menuName = "WorldData/World", order = 2)]
