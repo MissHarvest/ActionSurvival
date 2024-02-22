@@ -31,7 +31,7 @@ public class PlayerConditionHandler : MonoBehaviour
 
         Load();
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     private void OnHungerDecrease(float amount)
@@ -70,7 +70,7 @@ public class PlayerConditionHandler : MonoBehaviour
 
     private void Update()
     {
-        if (!Managers.Game.IsRunning) return;
+        if (!GameManager.Instance.IsRunning) return;
 
         HP.Update();
         Hunger.Update();
@@ -85,7 +85,7 @@ public class PlayerConditionHandler : MonoBehaviour
 
     private void UpdateTemperature()
     {
-        float temperature = Managers.Game.Temperature.GetTemperature(Player.transform.position);
+        float temperature = GameManager.Temperature.GetTemperature(Player.transform.position);
         SetTemperature(temperature);
     }
 

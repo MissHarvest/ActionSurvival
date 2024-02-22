@@ -14,8 +14,8 @@ public class ManagementedObject : MonoBehaviour
 
     private void Start()
     {
-        _world = Managers.Game.World;
-        _manager = Managers.Game.ObjectManager;
+        _world = GameManager.Instance.World;
+        _manager = GameManager.ObjectManager;
         _tranform = transform;
 
         _world.OnWorldUpdated += SwitchEnabled;

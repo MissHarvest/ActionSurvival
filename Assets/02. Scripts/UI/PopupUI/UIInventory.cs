@@ -123,7 +123,7 @@ public class UIInventory : UIPopup
 
     private void UnregistItem()
     {
-        Managers.Game.Player.QuickSlot.UnRegist(_selectedIndex);
+        _playerInventory.Owner.QuickSlot.UnRegist(_selectedIndex);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 

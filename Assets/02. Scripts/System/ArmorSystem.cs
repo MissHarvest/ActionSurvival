@@ -29,7 +29,7 @@ public class ArmorSystem : MonoBehaviour
 
         Load();
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     private void Start()

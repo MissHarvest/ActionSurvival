@@ -22,7 +22,7 @@ public class PlayerComboAttackState : PlayerAttackState
     {
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
-        _weapon = Managers.Game.Player.GetComponentInChildren<Weapon>();
+        _weapon = _stateMachine.Player.GetComponentInChildren<Weapon>();
 
         _alreadyAppliedForce = false;
         _alreadyApplyCombo = false;
@@ -103,7 +103,7 @@ public class PlayerComboAttackState : PlayerAttackState
 
     public override void Update()
     {
-        WeaponItemData weaponItem = Managers.Game.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
+        WeaponItemData weaponItem = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
         if(weaponItem == null)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);

@@ -8,30 +8,20 @@ public class ChangeMaterials : MonoBehaviour
 {
     public Material[] fadeMaterials = new Material[2];
     public Material[] originMaterials = new Material[2];
-    private Material[] _materials;
     private MeshRenderer _meshRenderer;
 
     private void Awake()
     {
         _meshRenderer = GetComponentInChildren<MeshRenderer>();
-        _materials = _meshRenderer.materials;
     }
 
     public void ChangeFadeMaterials()
     {
-        for (int i = 0; i < _materials.Length; i++)
-        {
-            _materials[i] = fadeMaterials[i];
-        }
-        _meshRenderer.materials = _materials;
+        _meshRenderer.sharedMaterials = fadeMaterials;
     }
 
     public void ReturnMaterials()
     {
-        for (int i = 0; i < _materials.Length; i++)
-        {
-            _materials[i] = originMaterials[i];
-        }
-        _meshRenderer.materials = _materials;
+        _meshRenderer.sharedMaterials = originMaterials;
     }
 }

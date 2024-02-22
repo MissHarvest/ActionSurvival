@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 // 2024-01-12 WJY
@@ -26,10 +25,10 @@ public class World : MonoBehaviour
 
     private void Update()
     {
-        if (!Managers.Game.IsRunning) return;
+        if (!GameManager.Instance.IsRunning) return;
 
         if (!_player)
-            _player = Managers.Game.Player.transform;
+            _player = GameManager.Instance.Player.transform;
 
         _currentPlayerCoord = ConvertChunkCoord(_player.position);
 
@@ -122,11 +121,8 @@ public class World : MonoBehaviour
         {
             if (chunk.LocalMap.TryGetValue(pos, out var block))
                 return block;
-            else
-                return null;
         }
-        else
-            return null;
+        return null;
     }
 
     public bool CheckVoxel(Vector3 pos)

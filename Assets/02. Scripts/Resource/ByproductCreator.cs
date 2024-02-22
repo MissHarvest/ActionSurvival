@@ -25,7 +25,7 @@ public class ByproductCreator : MonoBehaviour
     private void OnEnable()
     {
         if (_manager == null)
-            _manager = Managers.Game.DayCycle;
+            _manager = GameManager.DayCycle;
 
         _manager.OnTimeUpdated += TryCreate;
     }
@@ -60,7 +60,7 @@ public class ByproductCreator : MonoBehaviour
     {
         if (IsValidPosition(ref spawnPosition))
         {
-            var obj = Managers.Game.ResourceObjectSpawner.SpawnObject(_prefab, spawnPosition).GetOrAddComponent<Byproduct>();
+            var obj = GameManager.ResourceObjectSpawner.SpawnObject(_prefab, spawnPosition).GetOrAddComponent<Byproduct>();
             obj.SetInfo(this);
             _byproducts.Add(obj);
         }

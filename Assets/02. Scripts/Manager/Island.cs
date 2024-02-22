@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public enum MonsterLevel
     Upper,
 }
 
-public class SpawnPoint
+public class SpawnPoint//st
 {
     public Vector3 point;
     public MonsterLevel level;
@@ -26,25 +27,23 @@ public class SpawnPoint
 
 public class Island
 {
+    // Move //
     public string BossName = string.Empty;
-    private GameObject _boss;
-
-    private string name;
-    // 각 등급 별 몬스터 위치
     public int cellCount = 61;
-
-    // 스폰할 몬스터 종류
-
-    private Vector3 _offset;
     private readonly int _interval = 5;
+    private int _centerRadius = 10;
+    private GameObject _boss;
+    public int[] rankCount = new int[] { 30, 15, 5 };
     private LayerMask _unspawnableLayers = 64;
 
+    // Keep //
+    private Vector3 _offset;
+    private Transform _islandMonsterRoot;    
     private IslandProperty _property;
-    public int[] rankCount = new int[] { 30, 15, 5 };
-    private int _centerRadius = 10;
+    private string name;
+    
     private MonsterGroup[] _monsterGroups = new MonsterGroup[3];
-    private Transform _islandMonsterRoot;
-
+    
     [SerializeField] private List<SpawnPoint> _spawnablePoints = new List<SpawnPoint>();
 
     public List<GameObject> DiedMonsters = new List<GameObject>();
@@ -77,7 +76,7 @@ public class Island
         set 
         {
             _property.Temperature = value;
-            Managers.Game.Temperature.OnTemperatureChange();
+            GameManager.Temperature.OnTemperatureChange();
         }
     }
     public float Influence
@@ -86,7 +85,7 @@ public class Island
         set 
         {
             _property.Influence = value;
-            Managers.Game.Temperature.OnTemperatureChange();
+            GameManager.Temperature.OnTemperatureChange();
         }
     }
 
@@ -141,7 +140,7 @@ public class Island
     #region SpawnPoint
     public void CreateMonsters()
     {
-        Managers.Game.DayCycle.OnMorningCame += RespawnMonsters;
+        GameManager.DayCycle.OnMorningCame += RespawnMonsters;
 
         CreateSpawnPoint();
 
@@ -184,10 +183,12 @@ public class Island
         bool[,] points = new bool[cellCount, cellCount];
         var field = cellCount * cellCount;
         LockUnusablePoint(points, ref field);
-        LockBoundaryPoint(points, ref field);
+        //LockBoundaryPoint(points, ref field);
+        LockBoundaryPointJob(points, ref field);
         LockOtherObjectPoint(points, ref field);
-        LockCenterArea(points, ref field);
-        LoopCreateMonsterSpawnPoint(points, field);
+        //LockCenterArea(points, ref field);
+        //LoopCreateMonsterSpawnPoint(points, field);
+        LoopFixMonsterSpawnPoint(points, field);
     }
 
     private void LockUnusablePoint(bool[,] points, ref int field)
@@ -283,6 +284,24 @@ public class Island
         }
     }
 
+    private void LockBoundaryPointJob(bool[,] points, ref int field)
+    {
+        LockBoundaryJob job = new LockBoundaryJob(points, _property.boundary, field, _centerRadius);
+        var handle = job.Schedule();
+
+        handle.Complete();
+        var result = job.GetResult();
+        
+        for(int i = 0; i < points.GetLength(0); ++i)
+        {
+            for(int j = 0; j < points.GetLength(1); ++j)
+            {
+                points[i, j] = result.points[i, j];
+            }
+        }
+        field = result.field;
+    }
+
     private bool TryGetBoundaryStartPoint(bool[,] points, out Vector2 start)
     {
         for (int x = 0; x < points.GetLength(0); ++x)
@@ -337,6 +356,23 @@ public class Island
             finished = CreateMonsterSpawnPoint(points, field);
             ++count;
             if (count == 10) break;
+        }
+    }
+
+    private void LoopFixMonsterSpawnPoint(bool[,] points, int field)
+    {
+        FixMonsterSpawnPointJob job = new FixMonsterSpawnPointJob(
+            points, field, _property.monsterCount, _property.monsterInterval,
+            GetHashCode());
+
+        var handle = job.Schedule();
+        handle.Complete();
+
+        var result = job.GetResult();
+        for(int i = 0; i < result.Length; ++i)
+        {
+            var point = new Vector3(result[i].x * _interval, 10, result[i].y * _interval) - _offset;
+            _spawnablePoints.Add(new SpawnPoint(point));
         }
     }
 
@@ -424,7 +460,7 @@ public class Island
             {
                 cnt += rankCount[--adaptedLevel];
             }
-            _spawnablePoints[dist[i].Item1].level = (MonsterLevel)adaptedLevel;
+            _spawnablePoints[dist[i].Item1].level = ((MonsterLevel)adaptedLevel);
         }
     }
     #endregion

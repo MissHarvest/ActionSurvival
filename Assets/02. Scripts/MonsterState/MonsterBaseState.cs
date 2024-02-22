@@ -53,7 +53,7 @@ public class MonsterBaseState : IState
 
     protected bool TryDetectPlayer()
     {
-        var sqrLength = GetDistanceBySqr(Managers.Game.Player.transform.position);
+        var sqrLength = GetDistanceBySqr(GameManager.Instance.Player.transform.position);
         var dist = _stateMachine.DetectionDist * _stateMachine.DetectionDistModifier;
         return sqrLength < dist * dist;
     }

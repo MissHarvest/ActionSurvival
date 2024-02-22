@@ -38,8 +38,8 @@ public class Disaster : IAttack
         _indicatorPrefab = Managers.Resource.GetCache<GameObject>("CircleAttackIndicator.prefab");
         _indicatores = new ObjectPool<AttackIndicatorCircle>(CreateIndicator, OnGetIndicator, OnReleaseIndicator, OnDestroyIndicator, maxSize: 30);
 
-        Managers.Game.DayCycle.OnTimeUpdated += Fall;
-        Managers.Game.Season.OnSeasonChanged += OnSeasonChanged;
+        GameManager.DayCycle.OnTimeUpdated += Fall;
+        GameManager.Season.OnSeasonChanged += OnSeasonChanged;
 
         _points = new Vector3[10];
     }
@@ -122,12 +122,12 @@ public class Disaster : IAttack
 
     private bool CheckMeteorPoint(Vector3 x)
     {
-        return Managers.Game.Temperature.GetTemperature(x) >= _meteorTemp;
+        return GameManager.Temperature.GetTemperature(x) >= _meteorTemp;
     }
 
     private bool CheckBlizardPoint(Vector3 x)
     {
-        return Managers.Game.Temperature.GetTemperature(x) <= _blizardTemp;
+        return GameManager.Temperature.GetTemperature(x) <= _blizardTemp;
     }
 
     private void GetPoints()

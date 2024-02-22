@@ -38,9 +38,9 @@ public class DayLight : MonoBehaviour
             Destroy(go);
         }
 
-        Managers.Game.DayCycle.OnMorningCame += OnMorningCame;
-        Managers.Game.DayCycle.OnEveningCame += OnEveningCame;
-        Managers.Game.DayCycle.OnNightCame += OnNightCame;
+        GameManager.DayCycle.OnMorningCame += OnMorningCame;
+        GameManager.DayCycle.OnEveningCame += OnEveningCame;
+        GameManager.DayCycle.OnNightCame += OnNightCame;
 
         OnMorningCame();
     }

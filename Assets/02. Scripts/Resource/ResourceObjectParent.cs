@@ -46,7 +46,7 @@ public class ResourceObjectParent : MonoBehaviour
     {
         if (_isInitialized) return;
 
-        _manager = Managers.Game.DayCycle;
+        _manager = GameManager.DayCycle;
         _manager.OnTimeUpdated += TimeLapse;
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -116,7 +116,7 @@ public class ResourceObjectParent : MonoBehaviour
         if (!_isInitialized) return;
 
         if (_gatherings.TryGetValue(CurrentState, out var gathering))
-            gathering.Interact(Managers.Game.Player);
+            gathering.Interact(GameManager.Instance.Player);
     }
 
     public void TestRespawn()
