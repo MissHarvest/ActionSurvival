@@ -11,19 +11,23 @@ using UnityEngine;
 public struct FixMonsterSpawnPointJob : IJob
 {
     private NativeArray<bool> _points;
-    private NativeArray<Vector2> _result;
+    private NativeArray<Vector3> _result;
     private int _field;
     private int _monsterCount;
     private int _monsterInterval;
     private int _arraySize;
     private int _hash;
+    private int _interval;
+    private Vector3 _offset;
 
-    public FixMonsterSpawnPointJob(bool[,] points, int field, int monsterCount, int monsterinterval, int hash)
+    public FixMonsterSpawnPointJob(bool[,] points, int field, int monsterCount, int monsterinterval, int interval, Vector3 offset, int hash)
     {
         this._field = field;
         this._monsterCount = monsterCount;
         this._monsterInterval = monsterinterval;
         this._hash = hash;
+        this._interval = interval;
+        this._offset = offset;
 
         var row = points.GetLength(0);
         var col = points.GetLength(1);
@@ -38,7 +42,7 @@ public struct FixMonsterSpawnPointJob : IJob
             _points[i] = points[x, z];
         }
 
-        _result = new NativeArray<Vector2>(monsterCount, Allocator.TempJob);
+        _result = new NativeArray<Vector3>(monsterCount, Allocator.TempJob);
     }
 
     public void Execute()
@@ -67,7 +71,7 @@ public struct FixMonsterSpawnPointJob : IJob
     {
         for(int i= 0; i < list.Count; ++i)
         {
-            _result[i] = list[i];
+            _result[i] = new Vector3(list[i].x * _interval, 10, list[i].y * _interval) - _offset;
         }
     }
 
@@ -135,7 +139,7 @@ public struct FixMonsterSpawnPointJob : IJob
         }
     }
 
-    public Vector2[] GetResult()
+    public Vector3[] GetResult()
     {
         var result = _result.ToArray();
         _result.Dispose();

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class ToolSystem : MonoBehaviour
 {
@@ -54,11 +53,11 @@ public class ToolSystem : MonoBehaviour
     private void Start()
     {
         _player.QuickSlot.OnClickEmptySlot += OnItemUnregisted;
-        _player.QuickSlot.OnUnRegisted += QuickSlot_OnUnRegisted;
-        _player.Inventory.OnUpdated += Inventory_OnUpdated;
+        _player.QuickSlot.OnUnRegisted += OnQuickSlotUnRegisted;
+        _player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
-    private void Inventory_OnUpdated(int arg1, ItemSlot arg2)
+    private void OnInventoryUpdated(int arg1, ItemSlot arg2)
     {
         if (arg2.itemData != null) return;
         if (EquippedTool.targetIndex != arg1) return;
@@ -66,7 +65,7 @@ public class ToolSystem : MonoBehaviour
         UnEquip();
     }
 
-    private void QuickSlot_OnUnRegisted(QuickSlot obj)
+    private void OnQuickSlotUnRegisted(QuickSlot obj)
     {
         if(obj.targetIndex == EquippedTool.targetIndex &&
             obj.itemSlot.itemData == EquippedTool.itemSlot.itemData)

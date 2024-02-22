@@ -6,25 +6,22 @@ using UnityEngine;
 // 2024. 01. 18 Park Jun Uk
 public class MonsterGroup
 {
-    private List<GameObject> _monsterType = new List<GameObject>();
+    private GameObject[] _monsterType;
     private Stack<int> _stack = new Stack<int>();
     private List<int> _list = new List<int>();
 
-    public void AddMonsterType(string[] monsterNames)
+    public MonsterGroup(GameObject[] monsters, int length)
     {
-        // 그룹에 담을 몬스터 종류
-        for (int i = 0; i < monsterNames.Length; ++i)
-        {
-            _monsterType.Add(Managers.Resource.GetCache<GameObject>($"{monsterNames[i]}.prefab"));
-        }
+        _monsterType = monsters;
+        SetLength(length);
     }
 
-    public void SetLength(int length)
+    private void SetLength(int length)
     {        
         // 만들어야할 배열의 최대 길이
         for (int i = 0; i < length; ++i)
         {
-            _list.Add(i % _monsterType.Count);
+            _list.Add(i % _monsterType.Length);
         }
         _list = _list.OrderBy(x => Random.Range(0.0f, 1.0f)).ToList();
 
@@ -44,7 +41,7 @@ public class MonsterGroup
 
     public GameObject GetRandomMonster()
     {
-        var index = Random.Range(0, _monsterType.Count);
-        return index == _monsterType.Count ? null : _monsterType[index];
+        var index = Random.Range(0, _monsterType.Length);
+        return index == _monsterType.Length ? null : _monsterType[index];
     }
 }
