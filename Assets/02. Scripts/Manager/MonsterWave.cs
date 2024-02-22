@@ -31,12 +31,17 @@ public class MonsterWave
     private int _minDistance = 30;
     private int _maxDistance = 37;
     public Stack<Vector3> wavePoints = new Stack<Vector3>();
-    private MonsterGroup _defaultMonsters = new MonsterGroup(); // GameManager 가 가지고 있는 일반섬 목록.
+    private MonsterGroup _defaultMonsters;
     public List<Monster> monsters = new();
 
     public MonsterWave()
     {
-        _defaultMonsters.AddMonsterType(new string[] { "Skeleton", "Bat" });
+        _defaultMonsters = new MonsterGroup(
+            new GameObject[2]
+            {
+                Managers.Resource.GetCache<GameObject>("Skeleton.prefab"),
+                Managers.Resource.GetCache<GameObject>("Bat.prefab")
+            }, 2);
         Load();
 
         GameManager.Instance.OnSaveCallback += Save;

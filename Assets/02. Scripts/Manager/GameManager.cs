@@ -113,57 +113,14 @@ public class GameManager : MonoBehaviour
 
     public void InitIslands()
     {
-        if (SaveGame.TryLoadJsonFile(SaveGame.SaveType.Runtime, "IslandProperties", out IslandPropertySaveData saveData))
-        {
-            IceIsland = new(saveData.dataList[0]);
-            CenterIsland = new(saveData.dataList[1]);
-            FireIsland = new(saveData.dataList[2]);
-        }
-        else
-        {
-            IceIsland = new Island(new IslandProperty(new Vector3(317, 0, 0), nameof(IceIsland), -25f, 1f));
-            CenterIsland = new Island(new IslandProperty(Vector3.zero, nameof(CenterIsland), 0f, 0f));
-            FireIsland = new Island(new IslandProperty(new Vector3(-317, 0, 0), nameof(FireIsland), 30f, 1f));
-        }
+        IceIsland = new Island(Managers.Resource.GetCache<IslandSO>("GlacierIsland.data"));
+        IceIsland.Load();
 
-        // MonsterGroup 을 만들어서 넘기는거..?
-        IceIsland.AddMonsterType(new string[][]{
-            new string[] { "IceSkeleton", "IceBat", "IceSwarm", "IceRabbitMon", "Beholder" },
-            new string[] { "Fuga" , "BlueMetalon" , "IceElemental" },
-            new string[] { "BlueSoulEater" },
-            });
+        CenterIsland = new Island(Managers.Resource.GetCache<IslandSO>("CenterIsland.data"));
+        CenterIsland.Load();
 
-        CenterIsland.AddMonsterType(new string[][]{
-            new string[] { "Skeleton", "Bat" },
-            new string[] { "Skeleton", "Bat" },
-            new string[] { "Skeleton", "Bat" },
-            });
-
-        FireIsland.AddMonsterType(new string[][]{
-            new string[] { "FireSkeleton", "FireBat", "FireRabbitMon", "FireSwarm", "Slime" },
-            new string[] { "RedFuga" , "FireElemental" , "RedMetalon" },
-            new string[] { "RedSoulEater" },
-            });
-
-        FireIsland.BossName = "TerrorBringer";
-        IceIsland.CreateMonsters();
-        CenterIsland.CreateMonsters();
-        FireIsland.CreateMonsters();
-
-        OnSaveCallback += () => 
-        {
-            IslandPropertySaveData saveData = new()
-            {
-                dataList = new()
-                {
-                    IceIsland.Property,
-                    CenterIsland.Property,
-                    FireIsland.Property,
-                },
-            };
-            string json = JsonUtility.ToJson(saveData);
-            SaveGame.CreateJsonFile("IslandProperties", json, SaveGame.SaveType.Runtime);
-        };
+        FireIsland = new Island(Managers.Resource.GetCache<IslandSO>("LavaIsland.data"));
+        FireIsland.Load();
     }
 
     private void SaveCallback()
