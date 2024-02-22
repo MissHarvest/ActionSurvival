@@ -20,7 +20,7 @@ public class PlayerInventorySystem : InventorySystem
         Owner.ToolSystem.OnEquip += OnItemEquipped;
         Owner.ToolSystem.OnUnEquip += OnItemEquipped;
         Owner.Building.OnBuildCompleted += UseArchitectureItem;
-        Owner.ArmorSystem.OnEquipArmor += OnItemEquipped;//lgs
+        Owner.ArmorSystem.OnEquipArmor += OnItemEquipped;
         Owner.ArmorSystem.OnUnEquipArmor += OnItemEquipped;
     }
 
