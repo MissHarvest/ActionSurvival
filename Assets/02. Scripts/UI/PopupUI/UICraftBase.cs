@@ -24,7 +24,6 @@ public abstract class UICraftBase : UIPopup
         QuantityText,
     }
 
-    protected GameObject _itemPrefab;
     protected int _selectedIndex = -1;
 
     protected Transform _content;
@@ -35,13 +34,11 @@ public abstract class UICraftBase : UIPopup
     protected GameObject _minusButton;
     protected GameObject _plusButton;
 
-    private List<RecipeSO> _recipeOrCookingList;
+    protected List<RecipeSO> _recipeOrCookingList;
     protected List<GameObject> _itemUIList = new List<GameObject>();
     protected List<UICraftItemSlot> _uiCraftSlots = new List<UICraftItemSlot>();
 
-    protected int _count = 1;
-
-    protected abstract List<RecipeSO> GetDataList();
+    protected CraftBase _craftBase;
 
     protected RecipeSO SelectedRecipe
     {
@@ -72,8 +69,8 @@ public abstract class UICraftBase : UIPopup
         _minusButton = Get<GameObject>((int)Gameobjects.MinusButton);
         _plusButton = Get<GameObject>((int)Gameobjects.PlusButton);
         _yesButton.BindEvent((x) => { OnConfirmedBase(); });
-        _minusButton.BindEvent((x) => { OnMinusQuantity(); });
-        _plusButton.BindEvent((x) => { OnPlusQuantity(); });
+        _minusButton.BindEvent((x) => { _craftBase.OnMinusQuantity(); });
+        _plusButton.BindEvent((x) => { _craftBase.OnPlusQuantity(); });
     }
 
     public virtual void Awake()
@@ -83,7 +80,7 @@ public abstract class UICraftBase : UIPopup
         _confirm = Get<GameObject>((int)Gameobjects.Confirm).transform;
         _contents = Get<GameObject>((int)Gameobjects.Contents).transform;
 
-        _recipeOrCookingList = GetDataList();
+        GetData();
 
         // 비활성화 상태에서 시작
         _confirm.gameObject.SetActive(false);
@@ -95,10 +92,12 @@ public abstract class UICraftBase : UIPopup
         ShowData(_recipeOrCookingList);
     }
 
+    protected abstract void GetData();
+
     // 제작할 데이터를 표시하는 메서드
     protected virtual void ShowData(List<RecipeSO> dataList)
     {
-        // 최초에 한 번만 Instantiate
+        // 최초 한 번만 Instantiate
         if (_uiCraftSlots.Count == 0)
         {
             for (int i = 0; i < dataList.Count; i++)
@@ -111,15 +110,16 @@ public abstract class UICraftBase : UIPopup
                 craftSlot.SetIndex(i);
                 craftSlot?.Set(dataList[i].completedItemData, dataList[i]);
 
-                // 아이템 클릭 시 Confirm 판넬 띄우기
+                // 아이템 클릭 시 Confirm 띄우기
                 craftSlotGO.BindEvent((x) =>
                 {
                     if (craftSlotGO.activeSelf)
                     {
                         _confirm.gameObject.SetActive(true);
-                        _count = 1;
+                        _craftBase.InitializeCount();
                         var craftItemName = dataList[craftSlot.Index].completedItemData.displayName;
-                        Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를) {dataList[craftSlot.Index].Quantity} X {_count}개\n제작하시겠습니까?";
+                        var craftItemQuantity = dataList[craftSlot.Index].Quantity;
+                        Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를) {craftItemQuantity} X {_craftBase.Count}개\n제작하시겠습니까?";
 
                         // 선택한 레시피의 재료를 가져와서 Confirm에 전달
                         SetIngredients(dataList[craftSlot.Index].requiredItems, craftSlot.Index);
@@ -142,7 +142,6 @@ public abstract class UICraftBase : UIPopup
         }
     }
 
-
     protected void OnConfirmedBase()
     {
         if (SelectedRecipe != null)
@@ -151,94 +150,27 @@ public abstract class UICraftBase : UIPopup
             ItemData completedItemData = SelectedRecipe.completedItemData;
 
             // 플레이어 인벤토리에서 아이템 확인 및 소모
-            if (CheckItems(items))
+            if (_craftBase.CheckItems(items)) 
             {
-                int totalQuantity = _count * SelectedRecipe.Quantity;
-
-                // completedItemData가 스택 가능한 경우
-                if (completedItemData.stackable)
+                int totalQuantity = _craftBase.Count * SelectedRecipe.Quantity;
+                if (Managers.Game.Player.Inventory.TryAddItem(completedItemData, totalQuantity))
                 {
-                    int maxStackSize = completedItemData.MaxStackCount;
-
-                    while (totalQuantity > 0)
-                    {
-                        int quantityToAdd = Mathf.Min(totalQuantity, maxStackSize);
-
-                        if (Managers.Game.Player.Inventory.IsFull(completedItemData, quantityToAdd))
-                        {
-                            _confirm.gameObject.SetActive(false);
-                            var warning = Managers.UI.ShowPopupUI<UIWarning>();
-                            warning.SetWarning("인벤토리가 가득 찼습니다.");
-                            _count = 1;
-                            return;
-                        }
-                        else
-                        {
-                            Managers.Game.Player.Inventory.TryAddItem(completedItemData, quantityToAdd);
-                            totalQuantity -= quantityToAdd;
-                        }
-                    }
+                    var confirm = Managers.UI.ShowPopupUI<UICraftConfirm>();
+                    confirm.SetCraft($"{completedItemData.displayName} 제작 완료!");
                 }
-                else
+                else // 재료가 충분하고 소모도 했는데 아이템 들어갈 공간이 없을 경우 재료를 돌려줘야함
                 {
-                    if (Managers.Game.Player.Inventory.IsFull(completedItemData, totalQuantity))
-                    {
-                        _confirm.gameObject.SetActive(false);
-                        var warning = Managers.UI.ShowPopupUI<UIWarning>();
-                        warning.SetWarning("인벤토리가 가득 찼습니다.");
-                        _count = 1;
-                        return;
-                    }
-                    else
-                    {
-                        // 스택 불가능한 경우
-                        while (totalQuantity > 0)
-                        {
-                            Managers.Game.Player.Inventory.TryAddItem(completedItemData, 1);
-                            totalQuantity -= 1;
-                        }
-                    }
+                    _craftBase.AddItems(items);
                 }
-
-                _confirm.gameObject.SetActive(false);
-                var confirm = Managers.UI.ShowPopupUI<UICraftConfirm>();
-                confirm.SetCraft($"{completedItemData.displayName} 제작 완료!");
-
-                // 소모된 아이템 처리
-                ConsumeItems(items);
-                _count = 1;
             }
-            else
-            {
-                _confirm.gameObject.SetActive(false);
-                var warning = Managers.UI.ShowPopupUI<UIWarning>();
-                warning.SetWarning("재료가 부족합니다.");
-                _count = 1;
-            }
-        }
-        ClearItems();
-    }
 
-    protected void OnMinusQuantity()
-    {
-        if (_count > 1)
-        {
-            _count--;
-            UpdateCraftUI();
+            _confirm.gameObject.SetActive(false);
+            _craftBase.InitializeCount();
+            return;
         }
     }
 
-    protected void OnPlusQuantity()
-    {
-        // 한 번에 20개까지만 제작 가능
-        if (_count < 20)
-        {
-            _count++;
-            UpdateCraftUI();
-        }
-    }
-
-    private void UpdateCraftUI()
+    public void UpdateCraftUI()
     {
         if (SelectedRecipe != null)
         {
@@ -247,52 +179,63 @@ public abstract class UICraftBase : UIPopup
             var initialQuantity = SelectedRecipe.Quantity;
 
             // UI에 수량 업데이트
-            Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를) {initialQuantity} X {_count}개\n제작하시겠습니까?";
-            Get<TextMeshProUGUI>((int)Texts.QuantityText).text = _count.ToString();
+            Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를) {initialQuantity} X {_craftBase.Count}개\n제작하시겠습니까?";
+            Get<TextMeshProUGUI>((int)Texts.QuantityText).text = _craftBase.Count.ToString();
         }
     }
 
+    protected void SetIngredientUI(RecipeSO.Ingredient item, int quantity, int count, GameObject itemUI)
+    {
+        Image itemIcon = itemUI.transform.Find("Icon").GetComponent<Image>();
+        TextMeshProUGUI itemQuantity = itemUI.GetComponentInChildren<TextMeshProUGUI>();
+        itemIcon.sprite = item.item.iconSprite;
+
+        int requiredQuantity = quantity * count;
+        int availableQuantity = Managers.Game.Player.Inventory.GetItemCount(item.item);
+
+        itemQuantity.text = (availableQuantity + "/" + requiredQuantity).ToString();
+
+        // 수량에 따라 텍스트 색상 변경
+        if (availableQuantity >= requiredQuantity)
+            itemQuantity.color = new Color32(0, 200, 50, 255); // 초록색
+        else
+            itemQuantity.color = new Color32(222, 35, 0, 255); // 빨간색
+    }
 
     protected void SetIngredients(List<RecipeSO.Ingredient> items, int index)
     {
-        // 기존 아이템 UI 초기화
-        ClearItems();
-
         _selectedIndex = index;
 
-        // 필요한 아이템 목록을 순회하면서 UI에 추가
-        foreach (var item in items)
+        // 현재까지 생성된, 필요한 재료 UI의 개수
+        int createdItemUICount = _itemUIList.Count;
+
+        for (int i = 0; i < items.Count; i++)
         {
-            GameObject itemUI = Instantiate(_itemPrefab, _contents);
-            Image itemIcon = itemUI.transform.Find("Icon").GetComponent<Image>();
-            TextMeshProUGUI itemQuantity = itemUI.GetComponentInChildren<TextMeshProUGUI>();
+            GameObject itemUI;
 
-            // 아이템 아이콘 설정
-            itemIcon.sprite = item.item.iconSprite;
-
-            // RecipeSO의 Quantity가 1이 아닌 경우
-            int requiredQuantity = item.quantity * _count;
-
-            // 플레이어 인벤토리에서 해당 아이템의 수량 확인
-            int availableQuantity = Managers.Game.Player.Inventory.GetItemCount(item.item);
-
-            itemQuantity.text = (availableQuantity + "/" + requiredQuantity).ToString();
-
-            // 수량에 따라 텍스트 색상 변경(초록/빨강)
-            if (availableQuantity >= requiredQuantity)
+            if (i < createdItemUICount)
             {
-                itemQuantity.color = new Color32(0, 200, 50, 255); // 초록색
+                itemUI = _itemUIList[i];
             }
-            else
+            else // 기존에 생성된 UI가 부족하면 새로 생성
             {
-                itemQuantity.color = new Color32(222, 35, 0, 255); // 빨간색
+                var recipeSlotPrefab = Managers.Resource.GetCache<GameObject>("UIRecipeSlot.prefab");
+                itemUI = Instantiate(recipeSlotPrefab, _contents);
+                _itemUIList.Add(itemUI);
             }
 
-            _itemUIList.Add(itemUI);
+            SetIngredientUI(items[i], items[i].quantity, _craftBase.Count, itemUI);
+            itemUI.SetActive(true);
+        }
+
+        // 필요한 재료 종류보다 UI가 많으면 비활성화
+        for (int i = items.Count; i < createdItemUICount; i++)
+        {
+            _itemUIList[i].SetActive(false);
         }
     }
 
-    public virtual void SetAdvancedRecipeUIActive(int maxRecipeLevel)
+    public void SetAdvancedRecipeUIActive(int maxRecipeLevel)
     {
         foreach (var slot in _uiCraftSlots)
         {
@@ -300,51 +243,5 @@ public abstract class UICraftBase : UIPopup
             bool isAdvancedRecipe = recipe.recipeLevel <= maxRecipeLevel + 1;
             slot.gameObject.SetActive(isAdvancedRecipe);
         }
-    }
-
-
-    protected bool CheckItems(List<RecipeSO.Ingredient> items)
-    {
-        foreach (var item in items)
-        {
-            int requiredQuantity = item.quantity * _count;
-            int availableQuantity = Managers.Game.Player.Inventory.GetItemCount(item.item);
-
-            // 아이템이 부족하면 false 반환
-            if (availableQuantity < requiredQuantity)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    protected void ConsumeItems(List<RecipeSO.Ingredient> items) //lgs
-    {
-        foreach (var item in items)
-        {
-            ItemData requiredItemData = item.item;
-            int requiredQuantity = item.quantity * _count;
-
-            Managers.Game.Player.Inventory.TryConsumeQuantity(requiredItemData, requiredQuantity);
-        }
-    }
-
-    //private void ClearSlots()
-    //{
-    //    foreach (var slot in _uiCraftSlots)
-    //    {
-    //        Destroy(slot.gameObject);
-    //    }
-    //    _uiCraftSlots.Clear();
-    //}
-
-    private void ClearItems()
-    {
-        foreach (GameObject itemUI in _itemUIList)
-        {
-            Destroy(itemUI);
-        }
-        _itemUIList.Clear();
     }
 }

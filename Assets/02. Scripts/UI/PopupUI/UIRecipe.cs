@@ -1,16 +1,11 @@
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 // 2024. 01. 11 Byun Jeongmin
 public class UIRecipe : UICraftBase
 {
-    [SerializeField] private GameObject _materialPrefab;
-
     public override void Awake()
     {
         base.Awake();
-        _itemPrefab = _materialPrefab;
     }
 
     public override void OnEnable()
@@ -19,8 +14,9 @@ public class UIRecipe : UICraftBase
         SetAdvancedRecipeUIActive(0);
     }
 
-    protected override List<RecipeSO> GetDataList()
+    protected override void GetData()
     {
-        return Managers.Data.recipeDataList;
+        _recipeOrCookingList = Managers.Data.recipeDataList;
+        _craftBase = Managers.Game.Player.Recipe;
     }
 }
