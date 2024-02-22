@@ -179,7 +179,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b1bf6237a452cbc40824962320894648
-    m_Address: UIPopUp_UIMinimap.prefab
+    m_Address: efabpUp_UIMinimap.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -192,6 +192,18 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 702cd94173ec0ed4c9f1c1211fc093c5
     m_Address: UIArmorSlot.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15db016ee90cb9846970d69d9ad905d6
+    m_Address: UIPopUp_UIMakeFire.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3dcd604d528257046af7176fa8db10a5
+    m_Address: UIFirewoodSlot.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

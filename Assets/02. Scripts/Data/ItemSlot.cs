@@ -65,6 +65,11 @@ public struct ItemSlot
         return over;
     }
 
+    public void SubtractFirewoodItemQuantity(int amount)
+    {
+        this.quantity = Math.Max(this.quantity - amount, 0);
+    }
+
     public void LoadData()
     {
         if (itemName == string.Empty) return;
