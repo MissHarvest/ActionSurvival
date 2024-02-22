@@ -37,7 +37,7 @@ public class UIInventory : UIPopup
     {
         Debug.Log($"UI Inventory Awake [{gameObject.name}] [{this.name}]");
         Initialize();
-        _playerInventory = Managers.Game.Player.Inventory;
+        _playerInventory = GameManager.Instance.Player.Inventory;
         var prefab = Managers.Resource.GetCache<GameObject>("UIInventorySlot.prefab");
         var container = Get<UIItemSlotContainer>((int)Container.Contents);
         container.CreateItemSlots<UIInventorySlot>(prefab, _playerInventory.maxCapacity);
@@ -108,7 +108,7 @@ public class UIInventory : UIPopup
 
     private void UnregistItem()
     {
-        Managers.Game.Player.QuickSlot.UnRegist(_selectedIndex);
+        _playerInventory.Owner.QuickSlot.UnRegist(_selectedIndex);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 

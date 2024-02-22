@@ -7,12 +7,12 @@ public class AddressableTestScene : MonoBehaviour
     public CinemachineVirtualCamera virtualCamera;
     private void Awake()
     {
-        // 1. ¸®¼Ò½º ·Îµå
+        // 1. ë¦¬ì†ŒìŠ¤ ë¡œë“œ
         ResourceLoad((key, count, total) =>
         {
             if (count == total)
             {
-                // 2. °´Ã¼ »ı¼º, ÃÊ±âÈ­
+                // 2. ê°ì²´ ìƒì„±, ì´ˆê¸°í™”
                 SpawnPlayer();
                 UIInitialize();
                 GenerateMap();
@@ -30,8 +30,8 @@ public class AddressableTestScene : MonoBehaviour
         var player = Managers.Resource.GetCache<GameObject>("Player.prefab");
         player = Instantiate(player);
         player.name = "Player";
-        virtualCamera.Follow = Managers.Game.Player.ViewPoint;
-        virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
+        virtualCamera.Follow = GameManager.Instance.Player.ViewPoint;
+        virtualCamera.LookAt = GameManager.Instance.Player.ViewPoint;
     }
 
     private void UIInitialize()

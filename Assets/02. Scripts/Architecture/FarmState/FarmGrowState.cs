@@ -8,7 +8,7 @@ public class FarmGrowState : FarmBaseState
 
     public FarmGrowState(FarmStateMachine stateMachine) : base(stateMachine)
     {
-        _manager = Managers.Game.DayCycle;
+        _manager = GameManager.DayCycle;
     }
 
     public override void Enter()

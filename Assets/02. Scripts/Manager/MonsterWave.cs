@@ -39,7 +39,7 @@ public class MonsterWave
         _defaultMonsters.AddMonsterType(new string[] { "Skeleton", "Bat" });
         Load();
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     public void AddOverFlowedMonster(GameObject monster)
@@ -124,7 +124,7 @@ public class MonsterWave
             direction.Normalize();
             direction *= Random.Range(_minDistance, _maxDistance);            
             direction.y = 50;
-            var playerPos = Managers.Game.Player.transform.position;
+            var playerPos = GameManager.Instance.Player.transform.position;
             RaycastHit hit;
             if (Physics.BoxCast(playerPos + direction, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, 70.0f, 1 << 12))
             {

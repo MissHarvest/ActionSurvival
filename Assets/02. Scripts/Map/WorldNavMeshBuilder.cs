@@ -31,7 +31,7 @@ public class WorldNavMeshBuilder : MonoBehaviour
     {
         if (_isInitialized) return;
 
-        _world = Managers.Game.World;
+        _world = GameManager.Instance.World;
         _data = new NavMeshData();
         _instance = NavMesh.AddNavMeshData(_data);
 

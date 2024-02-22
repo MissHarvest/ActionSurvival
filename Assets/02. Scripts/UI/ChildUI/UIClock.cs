@@ -36,7 +36,7 @@ public class UIClock : UIBase
 
     private void Start()
     {
-        var dayCycle = Managers.Game.DayCycle;
+        var dayCycle = GameManager.DayCycle;
 
         dayCycle.OnDateUpdated += OnDateUpdated;
         OnDateUpdated(dayCycle.Date);

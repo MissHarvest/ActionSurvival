@@ -39,7 +39,7 @@ public class MonsterStayState : MonsterBaseState
             _stateMachine.ChangeState(_stateMachine.ChaseState);
         }
 
-        var sqrLength = GetDistanceBySqr(Managers.Game.Player.transform.position);
+        var sqrLength = GetDistanceBySqr(_stateMachine.Target.transform.position);
 
         if (sqrLength > _reach * _reach)
         {

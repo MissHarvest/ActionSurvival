@@ -9,7 +9,7 @@ public class UIMinimapButton : MonoBehaviour
 
     private void Awake()
     {
-        Owner = Managers.Game.Player;
+        Owner = GameManager.Instance.Player;
         var input = Owner.Input;
         input.InputActions.Player.Minimap.started += OnMinimapShowAndHide;
     }

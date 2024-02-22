@@ -10,7 +10,7 @@ public class PlayerInventorySystem : InventorySystem
     protected override void Awake()
     {
         base.Awake();
-        Owner = Managers.Game.Player;
+        Owner = GetComponentInParent<Player>();
         Load();
     }
     private void Start()

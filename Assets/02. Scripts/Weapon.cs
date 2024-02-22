@@ -13,7 +13,7 @@ public class Weapon : MonoBehaviour, IAttack
     private void Awake()
     {
         gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
-        Managers.Game.Player.ToolSystem.OnEquip += DamageOfTheEquippedWeapon;
+        GameManager.Instance.Player.ToolSystem.OnEquip += DamageOfTheEquippedWeapon;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -25,7 +25,7 @@ public class Weapon : MonoBehaviour, IAttack
     {
         if (target == null) return;
         target.Hit(this, _damage);
-        Managers.Game.Player.Inventory.TrySubtractDurability(_linkedSlot.targetIndex, 1);
+        GameManager.Instance.Player.Inventory.TrySubtractDurability(_linkedSlot.targetIndex, 1);
     }
 
     public void DamageOfTheEquippedWeapon(QuickSlot quickSlot)

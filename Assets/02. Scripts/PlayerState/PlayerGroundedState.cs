@@ -45,7 +45,7 @@ public class PlayerGroundedState : PlayerBaseState
     {
         base.PhysicsUpdate();
 
-        bool isHit = Physics.SphereCast(Managers.Game.Player.ViewPoint.transform.position, 0.5f, Vector3.down, out RaycastHit hit, 1f);
+        bool isHit = Physics.SphereCast(GameManager.Instance.Player.ViewPoint.transform.position, 0.5f, Vector3.down, out RaycastHit hit, 1f);
 
         if (!isHit && _stateMachine.Player.Controller.velocity.y < Physics.gravity.y * Time.fixedDeltaTime)
         {
@@ -56,14 +56,14 @@ public class PlayerGroundedState : PlayerBaseState
     protected override void AddInputActionsCallbacks()
     {
         base.AddInputActionsCallbacks();
-        Managers.Game.Player.ToolSystem.OnEquip += OnEquipTypeOfTool;
+        _stateMachine.Player.ToolSystem.OnEquip += OnEquipTypeOfTool;
         //Managers.Game.Player.ToolSystem.OnUnEquip += OnUnEquipTypeOfTool;
     }
 
     protected override void RemoveInputActionsCallbacks()
     {
         base.RemoveInputActionsCallbacks();
-        Managers.Game.Player.ToolSystem.OnEquip -= OnEquipTypeOfTool;
+        _stateMachine.Player.ToolSystem.OnEquip -= OnEquipTypeOfTool;
         //Managers.Game.Player.ToolSystem.OnUnEquip -= OnUnEquipTypeOfTool;
     }
 

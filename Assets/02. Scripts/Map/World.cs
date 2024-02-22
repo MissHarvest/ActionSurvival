@@ -25,10 +25,10 @@ public class World : MonoBehaviour
 
     private void Update()
     {
-        if (!Managers.Game.IsRunning) return;
+        if (!GameManager.Instance.IsRunning) return;
 
         if (!_player)
-            _player = Managers.Game.Player.transform;
+            _player = GameManager.Instance.Player.transform;
 
         _currentPlayerCoord = ConvertChunkCoord(_player.position);
 

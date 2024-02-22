@@ -16,31 +16,31 @@ public class ManagersEditor : Editor
 
         GUILayout.Label("DayCycle");
         if (GUILayout.Button("Skip 10sec")) 
-            Managers.Game.DayCycle.SkipTime();
+            GameManager.DayCycle.SkipTime();
         if (GUILayout.Button("Skip To front Morning."))
-            Managers.Game.DayCycle.PassToMorning();
+            GameManager.DayCycle.PassToMorning();
         if (GUILayout.Button("Skip To front Evening."))
-            Managers.Game.DayCycle.PassToEvening();
+            GameManager.DayCycle.PassToEvening();
         if (GUILayout.Button("Skip To front Night."))
-            Managers.Game.DayCycle.PassToNight();
+            GameManager.DayCycle.PassToNight();
 
         GUILayout.Label("");
         GUILayout.Label("Temperature Manager");
         if (GUILayout.Button("Fire Island Influence += 0.1f"))
-            Managers.Game.FireIsland.Influence += 0.1f;
+            GameManager.Instance.FireIsland.Influence += 0.1f;
         if (GUILayout.Button("Fire Island Influence -= 0.1f"))
-            Managers.Game.FireIsland.Influence -= 0.1f;
+            GameManager.Instance.FireIsland.Influence -= 0.1f;
         if (GUILayout.Button("Ice Island Influence += 0.1f"))
-            Managers.Game.IceIsland.Influence += 0.1f;
+            GameManager.Instance.IceIsland.Influence += 0.1f;
         if (GUILayout.Button("Ice Island Influence -= 0.1f"))
-            Managers.Game.IceIsland.Influence -= 0.1f;
+            GameManager.Instance.IceIsland.Influence -= 0.1f;
         if (GUILayout.Button("Fire Island Temperature += 0.1f"))
-            Managers.Game.FireIsland.Temperature += 0.1f;
+            GameManager.Instance.FireIsland.Temperature += 0.1f;
         if (GUILayout.Button("Fire Island Temperature -= 0.1f"))
-            Managers.Game.FireIsland.Temperature -= 0.1f;
+            GameManager.Instance.FireIsland.Temperature -= 0.1f;
         if (GUILayout.Button("Ice Island Temperature += 0.1f"))
-            Managers.Game.IceIsland.Temperature += 0.1f;
+            GameManager.Instance.IceIsland.Temperature += 0.1f;
         if (GUILayout.Button("Ice Island Temperature -= 0.1f"))
-            Managers.Game.IceIsland.Temperature -= 0.1f;
+            GameManager.Instance.IceIsland.Temperature -= 0.1f;
     }
 }
