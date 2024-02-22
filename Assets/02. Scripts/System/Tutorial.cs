@@ -5,7 +5,6 @@ using System.Linq;
 using System.Xml.Schema;
 using UnityEditor;
 using UnityEngine;
-using static UIBase;
 
 // 2024. 01. 29 Byun Jeongmin
 public class Tutorial : MonoBehaviour

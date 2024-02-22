@@ -35,7 +35,7 @@ public class ArmorSystem : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.Player.Inventory.OnUpdated += OnInventoryUpdated;
+        _player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
     public void Equip(int index, ItemSlot itemSlot)
