@@ -14,7 +14,7 @@ public struct LockBoundaryJob : IJob
     private int _arraySize;
     private int _centerRadius;
 
-    public LockBoundaryJob(bool[,] points, int boundary, int field, int centerRadius)
+    public LockBoundaryJob(bool[,] points, int field, int boundary, int centerRadius)
     {
         this._boundary = boundary;
         this._field = field;

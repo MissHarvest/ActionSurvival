@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0182e075ac57a4f42b80aaaf1a91c456, type: 3}
+  m_Name: LavaIsland
+  m_EditorClassIdentifier: 
+  <Property>k__BackingField:
+    <Center>k__BackingField: {x: -317, y: 0, z: 0}
+    name: LavaIsland
+    <Diameter>k__BackingField: 300
+    <Temperature>k__BackingField: 30
+    <Influence>k__BackingField: 1
+  <Monster>k__BackingField:
+    <SpawnData>k__BackingField:
+      <Boundry>k__BackingField: 3
+      <CenterRadius>k__BackingField: 10
+      <MonsterCount>k__BackingField: 50
+      <Monsterinterval>k__BackingField: 5
+      <Interval>k__BackingField: 5
+      <UnSpawnableLayer>k__BackingField:
+        serializedVersion: 2
+        m_Bits: 520183
+    <Distribution>k__BackingField:
+      _lowerMonsterRatio: 6
+      _middleMonsterRatio: 3
+      _upperMonsterRatio: 1
+      LowerMonsters:
+      - {fileID: 9181421994359456237, guid: b9afbadc8a9a7354db3acfa9970eda4a, type: 3}
+      - {fileID: 1170912532362324853, guid: 1298db046b896794d8c724590bf61a13, type: 3}
+      - {fileID: 3258334115992696807, guid: f9f849b96a2e5ee4cb0a89de30ba5ec3, type: 3}
+      - {fileID: 8997715668992621672, guid: bc732571b4b4d984585dc61a8b4fcb4d, type: 3}
+      - {fileID: 8539658517406632856, guid: a03a2949e06098f4db29f3e7c28414da, type: 3}
+      MiddleMonsters:
+      - {fileID: 50150865664755383, guid: ae435dc51fc3d9e4d8c16cc38dbc9813, type: 3}
+      - {fileID: 6490694777243785218, guid: 95800a0b4c7435346a91ea5ec3ffd8e8, type: 3}
+      - {fileID: 3403791137262366837, guid: a7a417631ddef394d8461ebd24820168, type: 3}
+      UpperMonsters:
+      - {fileID: 5045475273313045350, guid: dd030e30aa17ff84987abf058ead4dd5, type: 3}
+    <BossMonster>k__BackingField: {fileID: 6925677554680438743, guid: 268543f0fc4b8f64097c615d810d67b7, type: 3}

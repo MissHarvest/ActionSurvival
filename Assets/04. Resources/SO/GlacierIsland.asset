@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0182e075ac57a4f42b80aaaf1a91c456, type: 3}
+  m_Name: GlacierIsland
+  m_EditorClassIdentifier: 
+  <Property>k__BackingField:
+    <Center>k__BackingField: {x: 317, y: 0, z: 0}
+    name: GlacierIsland
+    <Diameter>k__BackingField: 300
+    <Temperature>k__BackingField: -25
+    <Influence>k__BackingField: 1
+  <Monster>k__BackingField:
+    <SpawnData>k__BackingField:
+      <Boundry>k__BackingField: 3
+      <CenterRadius>k__BackingField: 10
+      <MonsterCount>k__BackingField: 50
+      <Monsterinterval>k__BackingField: 5
+      <Interval>k__BackingField: 5
+      <UnSpawnableLayer>k__BackingField:
+        serializedVersion: 2
+        m_Bits: 520183
+    <Distribution>k__BackingField:
+      _lowerMonsterRatio: 6
+      _middleMonsterRatio: 3
+      _upperMonsterRatio: 1
+      LowerMonsters:
+      - {fileID: 781400766275878482, guid: 07c7cfeca40e7a24eacc7ff7a919fd84, type: 3}
+      - {fileID: 5343654021084068070, guid: 1798e5fdbd4e49b4cb0b27b6dab05fdb, type: 3}
+      - {fileID: 1414879185357440407, guid: 224d9237c2f723345a2cc41388b82d85, type: 3}
+      - {fileID: 985128056553851084, guid: 4995e95a03f916d448ffbe054bdb057d, type: 3}
+      - {fileID: 5315391604698028408, guid: 8eb9609af0d73384a82a40543d796fb4, type: 3}
+      MiddleMonsters:
+      - {fileID: 3934653263850996039, guid: e0bc533665347b241ad2e4113d293170, type: 3}
+      - {fileID: 6640049734764929922, guid: 5e4561012dc1ba34badee2a9b1fecf40, type: 3}
+      - {fileID: 5938174512050777246, guid: 2ff0051b795bad1488fe3a8e35ba25fe, type: 3}
+      UpperMonsters:
+      - {fileID: 7619597387248084094, guid: c20bed6951e25b6488817959d978dcbd, type: 3}
+    <BossMonster>k__BackingField: {fileID: 0}

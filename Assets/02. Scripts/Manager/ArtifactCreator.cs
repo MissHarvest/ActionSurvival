@@ -55,10 +55,10 @@ public class ArtifactCreator
     {
         Vector3 pos;
         var property = island.Property;
-        int minX = (int)property.center.x - property.diameter / 2;
-        int maxX = (int)property.center.x + property.diameter / 2;
-        int minZ = (int)property.center.z - property.diameter / 2;
-        int maxZ = (int)property.center.z + property.diameter / 2;
+        int minX = (int)property.Center.x - property.Diameter / 2;
+        int maxX = (int)property.Center.x + property.Diameter / 2;
+        int minZ = (int)property.Center.z - property.Diameter / 2;
+        int maxZ = (int)property.Center.z + property.Diameter / 2;
 
         while (true)
         {
