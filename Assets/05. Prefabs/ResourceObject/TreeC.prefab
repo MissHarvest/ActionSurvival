@@ -122,7 +122,7 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 4
-    - _item: {fileID: 11400000, guid: 9515422e7b608cd4ea5174facd473388, type: 2}
+    - _item: {fileID: 11400000, guid: 11c3b7d1793a9a948a7291481d4514f6, type: 2}
       _distribution:
         serializedVersion: 2
         m_Curve:
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 0
-  _respawnTime: 330
+  _respawnTime: 170
 --- !u!33 &626353364894050045
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -11,7 +11,6 @@ public class UITutorial : UIPopup
 
     private Transform _content;
     private List<Quest> _activeQuests;
-    private QuestSO[] _quests;
     private List<UIQuest> _uiQuests = new List<UIQuest>();
 
     public override void Initialize()
@@ -29,7 +28,6 @@ public class UITutorial : UIPopup
     private void Start()
     {
         GameManager.Instance.Player.Tutorial.OnActiveQuestsUpdated += HandleActiveQuestsUpdated;
-        _quests = Managers.Resource.GetCacheGroup<QuestSO>("QuestData");
         _activeQuests = GameManager.Instance.Player.Tutorial.ActiveQuests;
         CreateOrUpdateQuestUI();
         ShowQuest();

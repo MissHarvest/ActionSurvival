@@ -216,7 +216,7 @@ MonoBehaviour:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: 2
           inSlope: 0
           outSlope: 0
           tangentMode: 136
@@ -225,7 +225,7 @@ MonoBehaviour:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 2
+          value: 4
           inSlope: 0
           outSlope: 0
           tangentMode: 136
@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 0
-  _respawnTime: 330
+  _respawnTime: 170
 --- !u!114 &8045222565640756299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,7 +438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 6572011551440521037, guid: 92f64a14234031344b215e65fbb8d605, type: 3}
-  _distribution: 0.02
+  _distribution: 0.1
   _maxRange: 1
   _minRange: 0
   _maxCreateCount: 3

@@ -82,7 +82,7 @@ public abstract class UICraftBase : UIPopup
 
         GetData();
 
-        _craftBase.CountChanged += OnCraftBaseCountChanged;
+        _craftBase.OnCountChanged += OnCraftBaseCountChanged;
 
         // 비활성화 상태에서 시작
         _confirm.gameObject.SetActive(false);
@@ -159,6 +159,7 @@ public abstract class UICraftBase : UIPopup
             // 플레이어 인벤토리에서 아이템 확인 및 소모
             if (_craftBase.CheckItems(items)) 
             {
+                _craftBase.ConsumeItems(items);
                 int totalQuantity = _craftBase.Count * SelectedRecipe.Quantity;
                 if (GameManager.Instance.Player.Inventory.TryAddItem(completedItemData, totalQuantity))
                 {
@@ -170,6 +171,8 @@ public abstract class UICraftBase : UIPopup
                     _craftBase.AddItems(items);
                 }
             }
+            else
+                Managers.UI.ShowPopupUI<UIWarning>().SetWarning("아이템 수량이 부족합니다.");
 
             _confirm.gameObject.SetActive(false);
             _craftBase.InitializeCount();

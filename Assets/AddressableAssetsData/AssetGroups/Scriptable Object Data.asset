@@ -162,7 +162,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c49ca04a991b85646b2ccba8f7b75f1d
-    m_Address: Architecture/BonFireItemData.data
+    m_Address: BonFireItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

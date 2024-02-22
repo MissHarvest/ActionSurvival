@@ -147,9 +147,6 @@ public class BuildingSystem : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(_rayPointer.transform.position, buildableObjectCollider.bounds.size);
-
-        //DrawRaycastGizmo(buildableObjectCollider.bounds.min, ref _leftEdgeHitY);
-        //DrawRaycastGizmo(buildableObjectCollider.bounds.max, ref _rightEdgeHitY);
     }
 
     private void DrawRaycastGizmo(Vector3 origin, ref float hitY)

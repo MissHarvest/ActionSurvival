@@ -40,7 +40,7 @@ public class Tutorial : MonoBehaviour
     {
         _quests = new (Managers.Resource.GetCacheGroup<QuestSO>("QuestData")
             .Select(questSO => new Quest(questSO))
-            .OrderBy(quest => quest.questSO.questID) // questID를 기준으로 오름차순 정렬
+            //.OrderBy(quest => quest.questSO.questID) // questID를 기준으로 오름차순 정렬
             .ToList());
 
         _activeQuests = _quests
@@ -76,26 +76,24 @@ public class Tutorial : MonoBehaviour
     {
         _player.Inventory.OnUpdated += OnInventoryUpdated;
         _player.Building.OnBuildCompleted += OnBuildUpdated;
+        GameManager.Season.OnSeasonChanged += OnAddSeasonQuestUpdated;
     }
 
     private void OnInventoryUpdated(int index, ItemSlot itemSlot)
     {
-        OnInventoryOrBuildUpdated(index, itemSlot, isBuildEvent: false);
+        Func<Quest, bool> isEnoughRequirementsFunc = (activeQuest) => activeQuest.IsEnoughRequirements(index, itemSlot);
+        OnInventoryOrBuildUpdated(isEnoughRequirementsFunc);
     }
 
     private void OnBuildUpdated(int index)
     {
-        // 수정 예정
-        OnInventoryOrBuildUpdated(index, itemSlot: new ItemSlot(itemData:null), isBuildEvent: true);
+        Func<Quest, bool> isBuiltFunc = (activeQuest) => activeQuest.IsBuilt(index);
+        OnInventoryOrBuildUpdated(isEnoughRequirementsFunc: isBuiltFunc);
     }
 
     //인벤토리나 건축이 업데이트되면 클리어 조건 확인
-    private void OnInventoryOrBuildUpdated(int index, ItemSlot itemSlot, bool isBuildEvent)
+    private void OnInventoryOrBuildUpdated(Func<Quest, bool> isEnoughRequirementsFunc)
     {
-        Func<Quest, bool> isEnoughRequirementsFunc = isBuildEvent ?
-            (activeQuest => activeQuest.IsBuilt(index)) :
-            (activeQuest => activeQuest.IsEnoughRequirements(index, itemSlot));
-
         _activeQuests
             .Where(isEnoughRequirementsFunc)
             .ToList()
@@ -112,6 +110,33 @@ public class Tutorial : MonoBehaviour
             .ForEach(quest => _activeQuests.Add(quest));
 
         OnActiveQuestsUpdated?.Invoke();
+    }
+
+    private void OnAddSeasonQuestUpdated(Season.State state) // 지금은 매 여름, 겨울마다 퀘스트 추가
+    {
+        switch (state)
+        {
+            case Season.State.Summer:
+                AddSummerQuest();
+                break;
+            case Season.State.Winter:
+                AddWinterQuest();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AddSummerQuest()
+    {
+        //Quest summerQuest = new Quest(questSO); // DestroyFireArtifactQuestData.data
+        //_activeQuests.Add(summerQuest);
+        //OnActiveQuestsUpdated?.Invoke();
+    }
+
+    private void AddWinterQuest()
+    {
+
     }
     #endregion
 
