@@ -1,4 +1,3 @@
-//using UnityEditor.Build.Pipeline.Utilities;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +11,12 @@ public class UIInventory : UIPopup
 
     enum Container
     {
-        Contents,
+        Contents
+    }
+
+    enum ArmorSlotContainer
+    {
+        ArmorSlotContainer
     }
 
     enum Helper
@@ -22,6 +26,7 @@ public class UIInventory : UIPopup
 
     private int _selectedIndex;
     private Canvas _canvas;
+    private ArmorSystem _armorSystem;
     private PlayerInventorySystem _playerInventory;
 
     public override void Initialize()
@@ -29,6 +34,7 @@ public class UIInventory : UIPopup
         base.Initialize();
         Bind<GameObject>(typeof(Gameobjects));
         Bind<UIItemSlotContainer>(typeof(Container));
+        Bind<UIArmorSlotContainer>(typeof(ArmorSlotContainer));
         Bind<UIItemUsageHelper>(typeof(Helper));
         Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) => { Managers.UI.CloseAllPopupUI(); });
     }
@@ -36,12 +42,21 @@ public class UIInventory : UIPopup
     private void Awake()
     {
         Debug.Log($"UI Inventory Awake [{gameObject.name}] [{this.name}]");
+
         Initialize();
+
         _playerInventory = Managers.Game.Player.Inventory;
+        _armorSystem = Managers.Game.Player.ArmorSystem;
+
         var prefab = Managers.Resource.GetCache<GameObject>("UIInventorySlot.prefab");
         var container = Get<UIItemSlotContainer>((int)Container.Contents);
         container.CreateItemSlots<UIInventorySlot>(prefab, _playerInventory.maxCapacity);
         container.Init<UIInventorySlot>(_playerInventory, ActivateItemUsageHelper);
+
+        var armorSlotPrefab = Managers.Resource.GetCache<GameObject>("UIArmorSlot.prefab");
+        var armorSlotContainer = Get<UIArmorSlotContainer>((int)ArmorSlotContainer.ArmorSlotContainer);
+        armorSlotContainer.CreatArmorSlots<UIArmorSlot>(armorSlotPrefab, 2);
+        armorSlotContainer.Init<UIArmorSlot>(_armorSystem.equippedArmors);
 
         _canvas = GetComponent<Canvas>();
 
@@ -108,25 +123,25 @@ public class UIInventory : UIPopup
 
     private void UnregistItem()
     {
-        Managers.Game.Player.QuickSlot.UnRegist(_selectedIndex);
+        _playerInventory.Owner.QuickSlot.UnRegist(_selectedIndex);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
     private void Equip()
     {
-        //Managers.Game.Player.ToolSystem.Equip(SelectedSlot);
+        _playerInventory.Owner.ItemUsageHelper.Use(_selectedIndex);
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
     private void UnEquip()
     {
-        //Managers.Game.Player.ToolSystem.UnEquip(SelectedSlot);
+        Managers.Game.Player.ArmorSystem.UnEquip(_selectedIndex);//변수로 enum parts를 넘기면
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 
     public void HighLightItemSlot(int index)
     {
-        Get<UIItemSlotContainer>((int)Container.Contents).HighLight(index);        
+        Get<UIItemSlotContainer>((int)Container.Contents).HighLight(index);
     }
 
     public void HighLightHelper(UIItemUsageHelper.Functions function)

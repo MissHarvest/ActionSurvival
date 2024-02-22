@@ -23,7 +23,6 @@ public class Season
 
     public void Initialize(int date)
     {
-        OnSeasonChanged = null;
         Data = Managers.Resource.GetCache<SeasonData>("SeasonData.data");
         Update(date);
     }

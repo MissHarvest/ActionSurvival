@@ -24,7 +24,7 @@ public class MonsterChaseState : MonsterBaseState
             = _stateMachine.Monster.Berserk ? 300 : _stateMachine.Monster.Data.AttackData.ChaseDectionDistModifier;
         
         base.Enter();
-        _stateMachine.Target = _stateMachine.Target == null ? Managers.Game.Player.gameObject : _stateMachine.Target;
+        _stateMachine.Target = _stateMachine.Target == null ?GameManager.Instance.Player.gameObject : _stateMachine.Target;
         _stateMachine.Monster.NavMeshAgent.SetDestination(_stateMachine.Target.transform.position);
         if (_stateMachine.Monster.NavMeshAgent.remainingDistance == 0)
         {
@@ -66,13 +66,13 @@ public class MonsterChaseState : MonsterBaseState
             return;
         }
 
-        if(_stateMachine.Target == Managers.Game.Player.gameObject)
+        if(_stateMachine.Target == GameManager.Instance.Player.gameObject)
             _stateMachine.Monster.NavMeshAgent.SetDestination(_stateMachine.Target.transform.position);
     }
 
     private void RetargetingToArchitecture()
     {
-        Vector3 dir = Managers.Game.Player.transform.position - _stateMachine.Monster.transform.position;
+        Vector3 dir = GameManager.Instance.Player.transform.position - _stateMachine.Monster.transform.position;
         dir.y = 0;
 
         RaycastHit hit;

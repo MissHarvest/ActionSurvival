@@ -14,11 +14,11 @@ public class CopyPosition : MonoBehaviour
 
     private IEnumerator WaitForPlayer()
     {
-        while (Managers.Game.Player == null)
+        while (GameManager.Instance.Player == null)
         {
             yield return null;
         }
-        _target = Managers.Game.Player.transform;
+        _target = GameManager.Instance.Player.transform;
         StartCoroutine(UpdatePosition());
     }
 

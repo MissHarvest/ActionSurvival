@@ -16,10 +16,10 @@ public class ResourceObjectSpawner
         _spawnData = Managers.Resource.GetCache<ResourceObjectSpawnData>("ResourceObjectSpawnData.data");
         _resourceObjectRoot = new GameObject("ResourceObjectRoot").transform;
 
-        _world = Managers.Game.World;
+        _world = GameManager.Instance.World;
         SpawnObjects();
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     private void SpawnObjects()

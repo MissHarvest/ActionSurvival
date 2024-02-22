@@ -96,7 +96,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     {
         Dead = true;
         _stateMachine.ChangeState(_stateMachine.DieState);
-        looting.AddInventory(Managers.Game.Player.Inventory);
+        looting.AddInventory(GameManager.Instance.Player.Inventory);
 
         Habitat?.DiedMonsters.Add(this.gameObject);
     }

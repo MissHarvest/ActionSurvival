@@ -62,7 +62,7 @@ public class ItemUsageHelper : MonoBehaviour
 
     private void EquipArmor(int index, ItemSlot itemSlot)
     {
-        // _player.ArmorSystem.Equip
+        _player.ArmorSystem.Equip(index, itemSlot);
     }
 
     private void Build(int index, ItemSlot itemSlot)

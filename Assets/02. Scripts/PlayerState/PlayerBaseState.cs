@@ -13,7 +13,7 @@ public class PlayerBaseState : IState
         _stateMachine = playerStateMachine;
         _groundData = _stateMachine.Player.Data.GroundedData;
 
-        _buildingSystem = Managers.Game.Player.Building;
+        _buildingSystem = _stateMachine.Player.Building;
     }
 
     public virtual void Enter()

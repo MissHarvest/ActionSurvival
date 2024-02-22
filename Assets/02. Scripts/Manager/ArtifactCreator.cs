@@ -20,7 +20,6 @@ public class ArtifactCreator
     public ArtifactSaveData saveData;
 
     private Transform _root;
-    private GameManager _manager;
     private ArtifactData _data;
     public HashSet<Artifact> Artifacts { get; private set; }
 
@@ -28,8 +27,7 @@ public class ArtifactCreator
     {
         _data = Managers.Resource.GetCache<ArtifactData>("ArtifactData.data");
         _root = new GameObject("Artifact Root").transform;
-        _manager = manager;
-        _manager.DayCycle.OnEveningCame += TryCreate;
+        GameManager.DayCycle.OnEveningCame += TryCreate;
         Artifacts = new();
         manager.OnSaveCallback += Save;
         Load();
@@ -37,19 +35,19 @@ public class ArtifactCreator
 
     public void TryCreate()
     {
-        if (_manager.Season.IsIceIslandActive)
+        if (GameManager.Season.IsIceIslandActive)
         {
             _data.Artifact.SetSharedMesh(_data.Model[1]);
             _data.Artifact.SetDropTable(_data.LootingData[1]);
             for (int i = 0; i < _data.CreateCount; i++)
-                CoroutineManagement.Instance.StartCoroutine(TryCreate(_manager.IceIsland));
+                CoroutineManagement.Instance.StartCoroutine(TryCreate(GameManager.Instance.IceIsland));
         }
-        else if (_manager.Season.IsFireIslandActive)
+        else if (GameManager.Season.IsFireIslandActive)
         {
             _data.Artifact.SetSharedMesh(_data.Model[0]);
             _data.Artifact.SetDropTable(_data.LootingData[0]);
             for (int i = 0; i < _data.CreateCount; i++)
-                CoroutineManagement.Instance.StartCoroutine(TryCreate(_manager.FireIsland));
+                CoroutineManagement.Instance.StartCoroutine(TryCreate(GameManager.Instance.FireIsland));
         }
     }
 
@@ -105,13 +103,13 @@ public class ArtifactCreator
         {
             _data.Artifact.SetSharedMesh(_data.Model[1]);
             _data.Artifact.SetDropTable(_data.LootingData[1]);
-            island = _manager.IceIsland;
+            island = GameManager.Instance.IceIsland;
         }
         else if (loadData.islandName == "FireIsland")
         {
             _data.Artifact.SetSharedMesh(_data.Model[0]);
             _data.Artifact.SetDropTable(_data.LootingData[0]);
-            island = _manager.FireIsland;
+            island = GameManager.Instance.FireIsland;
         }
         else
             return;

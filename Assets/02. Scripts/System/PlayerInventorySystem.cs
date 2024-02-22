@@ -10,7 +10,7 @@ public class PlayerInventorySystem : InventorySystem
     protected override void Awake()
     {
         base.Awake();
-        Owner = Managers.Game.Player;
+        Owner = GetComponentInParent<Player>();
         Load();
     }
     private void Start()
@@ -20,6 +20,8 @@ public class PlayerInventorySystem : InventorySystem
         Owner.ToolSystem.OnEquip += OnItemEquipped;
         Owner.ToolSystem.OnUnEquip += OnItemEquipped;
         Owner.Building.OnBuildCompleted += UseArchitectureItem;
+        Owner.ArmorSystem.OnEquipArmor += OnItemEquipped;//lgs
+        Owner.ArmorSystem.OnUnEquipArmor += OnItemEquipped;
     }
 
     public int GetIndexOfItem(ItemData itemData)
@@ -77,7 +79,7 @@ public class PlayerInventorySystem : InventorySystem
         int index = slot.targetIndex;
         var newSlot = Get(index);
         if (newSlot.itemData == null) return;
-        newSlot.SetEquip(slot.itemSlot.equipped);        
+        newSlot.SetEquip(slot.itemSlot.equipped);
         BroadCastUpdatedSlot(index, newSlot);
     }
 

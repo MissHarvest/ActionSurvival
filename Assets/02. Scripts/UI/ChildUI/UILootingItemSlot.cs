@@ -11,7 +11,7 @@ public class UILootingItemSlot : UIItemSlot
     enum Texts
     {
         Name,
-        Quantity,
+        //Quantity,
     }
 
     public override void Initialize()
@@ -28,8 +28,15 @@ public class UILootingItemSlot : UIItemSlot
 
     public override void Set(ItemSlot itemSlot)
     {
-        base.Set(itemSlot);
-        Get<TextMeshProUGUI>((int)Texts.Name).text = itemSlot.itemData.displayName;
-        Get<TextMeshProUGUI>((int)Texts.Quantity).text = itemSlot.quantity.ToString();
+        //base.Set(itemSlot);
+        Debug.Log($"[{itemSlot.itemData.displayName}");
+        if (itemSlot.itemData == null)
+        {
+            Clear();
+            return;
+        }
+        Icon.sprite = itemSlot.itemData.iconSprite;
+        Quantity.text = itemSlot.quantity.ToString();
+        Get<TextMeshProUGUI>((int)Texts.Name).text = itemSlot.itemData.displayName;        
     }
 }

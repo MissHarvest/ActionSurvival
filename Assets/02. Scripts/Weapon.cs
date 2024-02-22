@@ -1,19 +1,18 @@
-//using OpenCover.Framework.Model; lgs 24.01.29
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// lgs 24.01.19
 
 public class Weapon : MonoBehaviour, IAttack
 {
-    // lgs 24.01.19
     [SerializeField] private int _damage; // SO의 데미지를 받아오자
     private QuickSlot _linkedSlot;
 
     private void Awake()
     {
         gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
-        Managers.Game.Player.ToolSystem.OnEquip += DamageOfTheEquippedWeapon;
+        GameManager.Instance.Player.ToolSystem.OnEquip += DamageOfTheEquippedWeapon;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -25,7 +24,7 @@ public class Weapon : MonoBehaviour, IAttack
     {
         if (target == null) return;
         target.Hit(this, _damage);
-        Managers.Game.Player.Inventory.TrySubtractDurability(_linkedSlot.targetIndex, 1);
+        GameManager.Instance.Player.Inventory.TrySubtractDurability(_linkedSlot.targetIndex, 1);
     }
 
     public void DamageOfTheEquippedWeapon(QuickSlot quickSlot)

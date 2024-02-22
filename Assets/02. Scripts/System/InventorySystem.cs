@@ -35,17 +35,13 @@ public class InventorySystem : MonoBehaviour
             _slots[i] = new ItemSlot(this);
         }
 
-        Managers.Game.OnSaveCallback += Save;
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     public void AddDefaultToolAsTest()
     {
-        //var itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
-        //TryAddItem(itemData, 1);
-        // itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
-        // AddItem(itemData, 10);
-        // itemData = Managers.Resource.GetCache<ItemData>("LogItemData.data");
-        // AddItem(itemData, 10);
+        var itemData = Managers.Resource.GetCache<ItemData>("StoneItemData.data");
+        TryAddItem(itemData, 1);
     }
 
     public void SetCapacity(int capacity)

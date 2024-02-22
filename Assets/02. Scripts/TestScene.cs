@@ -18,8 +18,8 @@ public class TestScene : MonoBehaviour
                 var player = Managers.Resource.GetCache<GameObject>("Player.prefab");
                 player = Instantiate(player);
                 player.name = "Player";
-                virtualCamera.Follow = Managers.Game.Player.ViewPoint;
-                virtualCamera.LookAt = Managers.Game.Player.ViewPoint;
+                virtualCamera.Follow = GameManager.Instance.Player.ViewPoint;
+                virtualCamera.LookAt = GameManager.Instance.Player.ViewPoint;
 
                 Managers.Data.InitializeRecipeData();
                 Managers.Sound.Init();
