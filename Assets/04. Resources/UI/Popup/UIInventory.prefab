@@ -1109,7 +1109,7 @@ GameObject:
   - component: {fileID: 3653598616142863677}
   - component: {fileID: 8280118770217655133}
   m_Layer: 5
-  m_Name: ArmorSlots
+  m_Name: ArmorSlotContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1191,7 +1191,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_StartCorner: 2
+  m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 100, y: 100}
   m_Spacing: {x: 0, y: 0}
@@ -1209,5 +1209,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72d4066a17b07f94ba7440db179d11b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _armorSlotPrefab: {fileID: 5607250664966926976, guid: 702cd94173ec0ed4c9f1c1211fc093c5, type: 3}
-  _position: {fileID: 8095376847575403631}

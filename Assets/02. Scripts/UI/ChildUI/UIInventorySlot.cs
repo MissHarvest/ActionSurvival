@@ -8,7 +8,7 @@ public class UIInventorySlot : UIItemSlot
         Equip,
         Regist,
     }
-        
+
 
     private Slider durabilitySlider;
 
@@ -36,31 +36,22 @@ public class UIInventorySlot : UIItemSlot
 
     public void UpdateDurabilityUI(ItemSlot itemSlot)
     {
-        if (itemSlot.itemData is EquipItemData toolItem)
+        if (itemSlot.itemData == null || itemSlot.itemData is ArchitectureItemData || itemSlot.itemData.MaxDurability == 0)
         {
-            if (itemSlot.itemData.displayName != "빈 손")
-            {
-                durabilitySlider.gameObject.SetActive(true);
-
-                float maxDurability = toolItem.MaxDurability;
-                float currentDurability = itemSlot.currentDurability;
-
-                float durabilityPercentage = Mathf.Clamp01(currentDurability / maxDurability);
-                Color durabilityColor = GetDurabilityColor(durabilityPercentage);
-
-                durabilitySlider.value = durabilityPercentage;
-                durabilitySlider.fillRect.GetComponent<Image>().color = durabilityColor;
-            }
-            else
-            {
-                durabilitySlider.gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            // 내구도가 없는 아이템은 내구도 바 비활성화
             durabilitySlider.gameObject.SetActive(false);
+            return;
         }
+
+        durabilitySlider.gameObject.SetActive(true);
+
+        float maxDurability = itemSlot.itemData.MaxDurability;
+        float currentDurability = itemSlot.currentDurability;
+
+        float durabilityPercentage = Mathf.Clamp01(currentDurability / maxDurability);
+        Color durabilityColor = GetDurabilityColor(durabilityPercentage);
+
+        durabilitySlider.value = durabilityPercentage;
+        durabilitySlider.fillRect.GetComponent<Image>().color = durabilityColor;
     }
 
     private Color GetDurabilityColor(float durabilityPercentage)

@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 5257908598629511703}
   - component: {fileID: 3268271503416112303}
   m_Layer: 5
-  m_Name: ArmorSlot
+  m_Name: UIArmorSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -30,13 +30,11 @@ public class Player : MonoBehaviour, IHit
     public PlayerConditionHandler ConditionHandler { get; private set; }
     #endregion
 
-    public QuickSlot EquippedItem => ToolSystem.EquippedTool;    
+    public QuickSlot EquippedItem => ToolSystem.EquippedTool;
 
     [field: Header("References")]
     public PlayerSO Data { get; private set; }
     public event Action OnHit;
-
-    public int playerDefense = 0;
 
     private PlayerStateMachine _stateMachine;
 
@@ -99,33 +97,33 @@ public class Player : MonoBehaviour, IHit
         _stateMachine.PhysicsUpdate();
     }
 
-    public void Hit(IAttack attacker, float damage) // 인벤토리의 방어구 idx를 찾아서 UseToolItemByIndex()를 Hit가 실행될 때마다 호출
+    public void Hit(IAttack attacker, float damage)
     {
-        //코드 줄이기
+        int armorDefense = ArmorSystem.GetDefense();
+
         OnHit.Invoke();
-        float blockedDamage = damage - playerDefense;
+        float blockedDamage = damage - armorDefense;
 
         if (blockedDamage > 0)
         {
-            Managers.Sound.PlayEffectSound(transform.position, "Hit");
             ConditionHandler.HP.Subtract(blockedDamage);
-            Debug.Log($"[ Attacked by ] {attacker}");
         }
         else
         {
-            Managers.Sound.PlayEffectSound(transform.position, "Hit");
             ConditionHandler.HP.Subtract(1f);
-            Debug.Log($"[ Attacked by ] {attacker}");
         }
+
+        Managers.Sound.PlayEffectSound(transform.position, "Hit");
+        Debug.Log($"[ Attacked by ] {attacker}");
     }
 
     public void Die()
     {
         _stateMachine.ChangeState(_stateMachine.DieState);
         SaveGame.DeleteAllFiles();
-        Managers.UI.ShowPopupUI<UIDeath>();        
+        Managers.UI.ShowPopupUI<UIDeath>();
     }
-       
+
     public void Save()
     {
         var json = JsonUtility.ToJson(transform.position);

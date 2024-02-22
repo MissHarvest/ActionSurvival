@@ -1,12 +1,11 @@
-//using OpenCover.Framework.Model; lgs 24.01.29
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// lgs 24.01.19
 
 public class Weapon : MonoBehaviour, IAttack
 {
-    // lgs 24.01.19
     [SerializeField] private int _damage; // SO의 데미지를 받아오자
     private QuickSlot _linkedSlot;
 
