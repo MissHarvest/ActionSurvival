@@ -11,7 +11,7 @@ public class ArmorSystem : MonoBehaviour
     private Player _player;
     [SerializeField] private int _defense;
 
-    public QuickSlot[] equippedArmors;
+    [SerializeField] private QuickSlot[] _equippedArmors;
 
     public event Action<QuickSlot> OnEquipArmor;
     public event Action<QuickSlot> OnUnEquipArmor;
@@ -20,12 +20,13 @@ public class ArmorSystem : MonoBehaviour
     {
         _player = GetComponentInParent<Player>();
 
-        equippedArmors = new QuickSlot[2];
-        for (int i = 0; i < equippedArmors.Length; i++)
+        _equippedArmors = new QuickSlot[2];
+        for (int i = 0; i < _equippedArmors.Length; i++)
         {
-            equippedArmors[i] = new QuickSlot();
+            _equippedArmors[i] = new QuickSlot();
         }
-        Managers.Game.Player.OnHit += OnUpdateDurabilityOfArmor;
+
+        GameManager.Instance.Player.OnHit += OnUpdateDurabilityOfArmor;
 
         Load();
 
@@ -34,50 +35,33 @@ public class ArmorSystem : MonoBehaviour
 
     private void Start()
     {
-        Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
+        GameManager.Instance.Player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
     public void Equip(int index, ItemSlot itemSlot)
     {
-        int part = GetPart(itemSlot);
+        var part = GetPart(itemSlot);
 
-        TakeOffEquippedArmor(part);
+        UnEquip(part);
 
         itemSlot.SetEquip(true);
-        equippedArmors[part].Set(index, itemSlot);
+        _equippedArmors[(int)part].Set(index, itemSlot);
 
-        AddDefenseOfArmor(equippedArmors[part]);
+        AddDefenseOfArmor(_equippedArmors[(int)part]);
 
-        OnEquipArmor?.Invoke(equippedArmors[part]);
+        OnEquipArmor?.Invoke(_equippedArmors[(int)part]);
     }
 
-    public void UnEquip(int index)//enum parts를 변수로 받아서
+    public void UnEquip(ItemParts part)
     {
-        for (int i = 0; i < equippedArmors.Length; i++)
-        {
-            if (equippedArmors[i].itemSlot.itemData != null && equippedArmors[i].targetIndex == index)
-            {
-                SubtractDefenseOfArmor(equippedArmors[i]);
+        if (_equippedArmors[(int)part].itemSlot.itemData == null) return;
 
-                equippedArmors[i].itemSlot.SetEquip(false);
-                OnUnEquipArmor?.Invoke(equippedArmors[i]);
+        SubtractDefenseOfArmor(_equippedArmors[(int)part]);
 
-                equippedArmors[i].Clear();
-                return;
-            }
-        }
-    }
+        _equippedArmors[(int)part].itemSlot.SetEquip(false);
+        OnUnEquipArmor?.Invoke(_equippedArmors[(int)part]);
 
-    private void TakeOffEquippedArmor(int index)//enum
-    {
-        if (equippedArmors[index].itemSlot.itemData == null) return;
-
-        SubtractDefenseOfArmor(equippedArmors[index]);
-
-        equippedArmors[index].itemSlot.SetEquip(false);
-        OnUnEquipArmor?.Invoke(equippedArmors[index]);
-
-        equippedArmors[index].Clear();
+        _equippedArmors[(int)part].Clear();
     }
 
     private void AddDefenseOfArmor(QuickSlot quickSlot)
@@ -94,11 +78,11 @@ public class ArmorSystem : MonoBehaviour
 
     public void OnUpdateDurabilityOfArmor()
     {
-        for (int i = 0; i < equippedArmors.Length; i++)
+        for (int i = 0; i < _equippedArmors.Length; i++)
         {
-            if (equippedArmors[i] != null && equippedArmors[i].targetIndex != -1)
+            if (_equippedArmors[i] != null && _equippedArmors[i].targetIndex != -1)
             {
-                _player.Inventory.TrySubtractDurability(equippedArmors[i].targetIndex, 1);
+                _player.Inventory.TrySubtractDurability(_equippedArmors[i].targetIndex, 1);
             }
         }
     }
@@ -109,11 +93,10 @@ public class ArmorSystem : MonoBehaviour
         return toolItemDate;
     }
 
-    private int GetPart(ItemSlot slot)
+    private ItemParts GetPart(ItemSlot slot)
     {
         var itemData = slot.itemData as EquipItemData;
-        if (itemData == null) return -1;
-        return (int)itemData.part;
+        return itemData.part;
     }
 
     public int GetDefense()
@@ -121,22 +104,23 @@ public class ArmorSystem : MonoBehaviour
         return _defense;
     }
 
+    public QuickSlot[] GetEquippedArmorsArray()
+    {
+        return _equippedArmors;
+    }
+
     public void OnInventoryUpdated(int inventoryIndex, ItemSlot itemSlot)
     {
-        for (int i = 0; i < equippedArmors.Length; i++)
+        if (itemSlot.itemData != null) return;
+        for (int i = 0; i < _equippedArmors.Length; i++)
         {
-            if (equippedArmors[i] != null)
+            if (_equippedArmors[i] != null)
             {
-                if (equippedArmors[i].targetIndex == inventoryIndex)
+                if (_equippedArmors[i].targetIndex == inventoryIndex && itemSlot.itemData == null)
                 {
-                    if (itemSlot.itemData == null)
-                    {
-                        EquipItemData toolItemData = GetArmorItemData(equippedArmors[i]);
-                        _defense -= toolItemData.defense;
-
-                        OnUnEquipArmor?.Invoke(equippedArmors[i]);
-                        equippedArmors[i].Clear();
-                    }
+                    SubtractDefenseOfArmor(_equippedArmors[i]);
+                    OnUnEquipArmor?.Invoke(_equippedArmors[i]);
+                    _equippedArmors[i].Clear();
                 }
             }
         }
@@ -146,9 +130,9 @@ public class ArmorSystem : MonoBehaviour
     {
         if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "ArmorSystem"))
         {
-            for (int i = 0; i < equippedArmors.Length; ++i)
+            for (int i = 0; i < _equippedArmors.Length; ++i)
             {
-                equippedArmors[i].itemSlot.LoadData();
+                _equippedArmors[i].itemSlot.LoadData();
             }
         }
     }

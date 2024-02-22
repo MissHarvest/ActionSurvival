@@ -10,8 +10,8 @@ public class UIArmorSlotContainer : MonoBehaviour
 
     private void Awake()
     {
-        Managers.Game.Player.ArmorSystem.OnEquipArmor += EquipArmor;
-        Managers.Game.Player.ArmorSystem.OnUnEquipArmor += UnEquipArmor;
+        GameManager.Instance.Player.ArmorSystem.OnEquipArmor += EquipArmor;
+        GameManager.Instance.Player.ArmorSystem.OnUnEquipArmor += UnEquipArmor;
     }
 
     public void CreatArmorSlots<T>(GameObject slotPrefab, int count) where T : UIArmorSlot
