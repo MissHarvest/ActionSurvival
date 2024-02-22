@@ -1,34 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+// 2024. 02. 22 Park Jun Uk
 [System.Serializable]
-public struct IslandProperty
+public class IslandProperty
 {
-    public Vector3 center;
-    public string name;
-    public int diameter;
-    public int boundary;
-    public int monsterCount;
-    public int monsterInterval;
-    [field: SerializeField] public float Temperature { get; set; }
-    [field: SerializeField] public float Influence { get; set; }
-
-    public IslandProperty(Vector3 center, string name, float temperature, float influence, int diameter = 300, int boundary = 3, int monsterCount = 50, int monsterInterval = 5)
-    {
-        this.center = center;
-        this.name = name;
-        this.diameter = diameter;            
-        this.boundary = boundary;
-        this.monsterCount = monsterCount;
-        this.monsterInterval = monsterInterval;
-        Temperature = temperature;
-        Influence = influence;
-    }
-}
-
-[System.Serializable]
-public struct IslandPropertySaveData
-{
-    public List<IslandProperty> dataList;
+    [field: SerializeField] public Vector3 Center { get; private set; }
+    [field: SerializeField] public string name;
+    [field: SerializeField] public int Diameter { get; private set; } = 300;
+    public Vector3 Offset => new Vector3(Diameter / 2, 0, Diameter / 2) - Center;
+    [field: SerializeField] public float Temperature { get; private set; }
+    [field: SerializeField] public float Influence { get; private set; } = 1.0f;
 }

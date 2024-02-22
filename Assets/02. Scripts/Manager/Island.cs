@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Jobs;
-using Unity.VisualScripting;
 using UnityEngine;
 
 // 2024. 01. 18 Park Jun Uk
@@ -13,7 +11,7 @@ public enum MonsterLevel
     Upper,
 }
 
-public class SpawnPoint//st
+public class SpawnPoint
 {
     public Vector3 point;
     public MonsterLevel level;
@@ -25,68 +23,68 @@ public class SpawnPoint//st
     }
 }
 
+[System.Serializable]
 public class Island
 {
-    // Move //
-    public string BossName = string.Empty;
-    public int cellCount = 61;
-    private readonly int _interval = 5;
-    private int _centerRadius = 10;
-    private GameObject _boss;
-    public int[] rankCount = new int[] { 30, 15, 5 };
-    private LayerMask _unspawnableLayers = 64;
-
-    // Keep //
-    private Vector3 _offset;
-    private Transform _islandMonsterRoot;    
-    private IslandProperty _property;
-    private string name;
+    private int _cellCount = 61;
+    private int[] _rankCount = new int[3];
+    private Transform _islandMonsterRoot;
+    private IslandSO _islandSO;
+    private GameObject _bossMonster;
+    private MonsterGroup[] _monsterGroups = new MonsterGroup[3];    
+    private List<SpawnPoint> _spawnablePoints = new List<SpawnPoint>();
+    public List<GameObject> DiedMonsters = new List<GameObject>(); // >> 오브젝 풀링
     
-    private MonsterGroup[] _monsterGroups = new MonsterGroup[3];
-    
-    [SerializeField] private List<SpawnPoint> _spawnablePoints = new List<SpawnPoint>();
-
-    public List<GameObject> DiedMonsters = new List<GameObject>();
-
-    public Island(IslandProperty property)
-    {
-        _property = property;
-        _offset = new Vector3(property.diameter / 2, 0, property.diameter / 2) - _property.center;
-
-        for (int i = 0; i < _monsterGroups.Length; ++i)
-        {
-            _monsterGroups[i] = new MonsterGroup();
-        }
-    }
+    [SerializeField] private float _temperature;
+    [SerializeField] private float _influence;
+    [SerializeField] private bool _bossMonsterDied;
 
     public Transform SpawnMonsterRoot
     {
         get
         {
             if (_islandMonsterRoot == null)
-                _islandMonsterRoot = new GameObject(_property.name).transform;
+                _islandMonsterRoot = new GameObject(_islandSO.Property.name).transform;
             return _islandMonsterRoot;
         }
     }
-
-    public IslandProperty Property => _property;
+    public IslandProperty Property => _islandSO.Property;
     public float Temperature
     {
-        get => _property.Temperature; 
-        set 
+        get => _temperature;
+        set
         {
-            _property.Temperature = value;
+            _temperature = value;
             GameManager.Temperature.OnTemperatureChange();
         }
     }
     public float Influence
     {
-        get => _property.Influence;
-        set 
+        get => _influence;
+        set
         {
-            _property.Influence = value;
+            _influence = value;
             GameManager.Temperature.OnTemperatureChange();
         }
+    }
+    public string Name => _islandSO.Property.name;
+    public Island(IslandSO islandSO)
+    {
+        this._islandSO = islandSO;
+        this._temperature = _islandSO.Property.Temperature;
+        this._influence = _islandSO.Property.Influence;
+
+        var totalCount = islandSO.Monster.SpawnData.MonsterCount;
+        _rankCount[0] = Mathf.RoundToInt(islandSO.Monster.Distribution.LowerMonsterRatio * totalCount);
+        _rankCount[1] = Mathf.RoundToInt(islandSO.Monster.Distribution.MiddleMonsterRatio * totalCount);
+        _rankCount[2] = Mathf.RoundToInt(islandSO.Monster.Distribution.UpperMonsterRatio * totalCount);
+        
+        _monsterGroups[0] = new MonsterGroup(islandSO.Monster.Distribution.LowerMonsters, _rankCount[0]);
+        _monsterGroups[1] = new MonsterGroup(islandSO.Monster.Distribution.MiddleMonsters, _rankCount[1]);
+        _monsterGroups[2] = new MonsterGroup(islandSO.Monster.Distribution.UpperMonsters, _rankCount[2]);
+
+        GameManager.Instance.OnSaveCallback += Save;
+        GameManager.DayCycle.OnMorningCame += RespawnMonsters;
     }
 
     public GameObject Spawn()
@@ -117,38 +115,15 @@ public class Island
         DiedMonsters.Clear();
     }
 
-    public void AddMonsterType(string[][] monsterNames)
-    {
-        for (int i = 0; i < monsterNames.Length; ++i)
-        {
-            _monsterGroups[i].AddMonsterType(monsterNames[i]);
-            _monsterGroups[i].SetLength(rankCount[i]);
-        }
-    }
-
-    private void Load()
-    {
-        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Compile, $"{name}Island");
-    }
-
-    private void Save()
-    {
-        var json = JsonUtility.ToJson(this);
-        SaveGame.CreateJsonFile($"{name}Island", json, SaveGame.SaveType.Runtime);
-    }
-
     #region SpawnPoint
-    public void CreateMonsters()
+    private void CheckSpawnablePoint()
     {
-        GameManager.DayCycle.OnMorningCame += RespawnMonsters;
-
         CreateSpawnPoint();
-
         SetSpawnPointRank();
+    }
 
-        //Save();
-
-        // SpawnMonster
+    private void CreateMonsters()
+    {
         for (int i = 0; i < _spawnablePoints.Count; ++i)
         {
             var pos = _spawnablePoints[i].point;
@@ -161,45 +136,49 @@ public class Island
 
                 var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();
                 var go = Object.Instantiate(mon, pos, Quaternion.identity);
-                go.transform.SetParent(SpawnMonsterRoot);   
+                go.transform.SetParent(SpawnMonsterRoot);
                 go.GetComponent<Monster>().SetIsland(this);
                 go.name = $"{mon.name}[{_spawnablePoints[i].level}]";
             }
         }
+    }
 
-        if(BossName != string.Empty)
-        {            
-            if(Physics.Raycast(_property.center + Vector3.up * 100, Vector3.down, out RaycastHit hit, 200, 1 << 12))
-            {
-                var prefab = Managers.Resource.GetCache<GameObject>($"{BossName}.prefab");
-                var pos = new Vector3(_property.center.x, prefab.transform.position.y + hit.point.y, _property.center.z);
-                _boss = Object.Instantiate(prefab, pos, prefab.transform.rotation);
-            }
+    private void CreateBossMonster()
+    {
+        if (_bossMonsterDied) return;
+        var bossPrefab = _islandSO.Monster.BossMonster;
+        if (bossPrefab == null) return;
+        var center = _islandSO.Property.Center;
+
+        if (Physics.Raycast(center + Vector3.up * 100, Vector3.down, out RaycastHit hit, 200, 1 << 12))
+        {
+            var pos = new Vector3(center.x, bossPrefab.transform.position.y + hit.point.y, center.z);
+            _bossMonster = Object.Instantiate(bossPrefab, pos, bossPrefab.transform.rotation);
+            _bossMonsterDied = false;
         }
     }
 
     private void CreateSpawnPoint()
     {
-        bool[,] points = new bool[cellCount, cellCount];
-        var field = cellCount * cellCount;
+        bool[,] points = new bool[_cellCount, _cellCount];
+        var field = _cellCount * _cellCount;
         LockUnusablePoint(points, ref field);
-        //LockBoundaryPoint(points, ref field);
         LockBoundaryPointJob(points, ref field);
         LockOtherObjectPoint(points, ref field);
-        //LockCenterArea(points, ref field);
-        //LoopCreateMonsterSpawnPoint(points, field);
         LoopFixMonsterSpawnPoint(points, field);
     }
 
     private void LockUnusablePoint(bool[,] points, ref int field)
     {
         float maxDistance = 100;
-        for (int x = 0; x < cellCount; ++x)
+        int interval = _islandSO.Monster.SpawnData.Interval;
+
+        for (int x = 0; x < _cellCount; ++x)
         {
-            for (int z = 0; z < cellCount; ++z)
+            for (int z = 0; z < _cellCount; ++z)
             {
                 RaycastHit hit;
-                var start = new Vector3(x * _interval, 10, z * _interval) - _offset;
+                var start = new Vector3(x * interval, 10, z * interval) - _islandSO.Property.Offset;
                 if (!Physics.BoxCast(start, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, maxDistance))
                 {
                     points[x, z] = true;
@@ -212,15 +191,17 @@ public class Island
     private void LockOtherObjectPoint(bool[,] points, ref int field)
     {
         float maxDistance = 100;
-        for (int x = 0; x < cellCount; ++x)
+        int interval = _islandSO.Monster.SpawnData.Interval;
+
+        for (int x = 0; x < _cellCount; ++x)
         {
-            for (int z = 0; z < cellCount; ++z)
+            for (int z = 0; z < _cellCount; ++z)
             {
                 RaycastHit hit;
-                var start = new Vector3(x * _interval, 10, z * _interval) - _offset;
+                var start = new Vector3(x * interval, 10, z * interval) - _islandSO.Property.Offset;
                 if (Physics.BoxCast(start, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, maxDistance))
                 {
-                    if (_unspawnableLayers == (_unspawnableLayers | 1 << hit.collider.gameObject.layer))
+                    if (_islandSO.Monster.SpawnData.UnSpawnableLayer == (_islandSO.Monster.SpawnData.UnSpawnableLayer | 1 << hit.collider.gameObject.layer))
                     {
                         points[x, z] = true;
                         --field;
@@ -230,63 +211,14 @@ public class Island
         }
     }
 
-    private void LockBoundaryPoint(bool[,] points, ref int field)
-    {
-        int boundary = _property.boundary;
-
-        Vector2[] directions = { new Vector2(-1, 0), new Vector2(0, 1), new Vector2(1, 0), new Vector2(0, -1) };
-        List<int> directionIndexs = new List<int>();
-
-        while (boundary != 0)
-        {
-            if (TryGetBoundaryStartPoint(points, out Vector2 start) == false) return;
-
-            var current = start;
-            bool stop = false;
-            int forward = 0;
-
-            int count = 0;
-
-            while (!stop)
-            {
-                if (count == 10) break;
-                ++count;
-
-                points[(int)current.x, (int)current.y] = true;
-                --field;
-
-                AddForwardSideIndex(directionIndexs, forward);
-
-                for (int i = 0; i < directionIndexs.Count; ++i)
-                {
-                    var next = current + directions[directionIndexs[i]];
-
-                    if (next.x < 0 || next.x >= cellCount || next.y < 0 || next.y >= cellCount) continue;
-
-                    if (points[(int)(next.x), (int)(next.y)] == false)
-                    {
-                        current = next;
-                        forward = directionIndexs[i];
-                        break;
-                    }
-                    else
-                    {
-                        if (start == current + directions[directionIndexs[i]])
-                        {
-                            stop = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            --boundary;
-        }
-    }
-
     private void LockBoundaryPointJob(bool[,] points, ref int field)
     {
-        LockBoundaryJob job = new LockBoundaryJob(points, _property.boundary, field, _centerRadius);
+        LockBoundaryJob job = new LockBoundaryJob(
+            points, 
+            field, 
+            _islandSO.Monster.SpawnData.Boundry,
+            _islandSO.Monster.SpawnData.CenterRadius);
+
         var handle = job.Schedule();
 
         handle.Complete();
@@ -302,67 +234,15 @@ public class Island
         field = result.field;
     }
 
-    private bool TryGetBoundaryStartPoint(bool[,] points, out Vector2 start)
-    {
-        for (int x = 0; x < points.GetLength(0); ++x)
-        {
-            for (int z = 0; z < points.GetLength(1); ++z)
-            {
-                if (points[x, z] == false)
-                {
-                    start = new Vector2(x, z);
-                    return true;
-                }
-            }
-        }
-        start = Vector2.zero;
-        return false;
-    }
-
-    private void AddForwardSideIndex(List<int> list, int forward)
-    {
-        list.Clear();
-        for (int i = 0; i < 3; ++i)
-        {
-            list.Add((forward + 3 + i) % 4);
-        }
-    }
-
-    private void LockCenterArea(bool[,] points, ref int field)
-    {
-        var d = cellCount / 2;
-
-        for (int x = d - _centerRadius; x <= d + _centerRadius; ++x)
-        {
-            for (int z = d - _centerRadius; z <= d + _centerRadius; ++z)
-            {
-                if (points[x, z] == false)
-                {
-                    points[x, z] = true;
-                    --field;
-                }
-            }
-        }
-    }
-
-    private void LoopCreateMonsterSpawnPoint(bool[,] points, int field)
-    {
-        bool finished = false;
-        int count = 0;
-
-        while (!finished)
-        {
-            _spawnablePoints.Clear();
-            finished = CreateMonsterSpawnPoint(points, field);
-            ++count;
-            if (count == 10) break;
-        }
-    }
-
     private void LoopFixMonsterSpawnPoint(bool[,] points, int field)
     {
         FixMonsterSpawnPointJob job = new FixMonsterSpawnPointJob(
-            points, field, _property.monsterCount, _property.monsterInterval,
+            points,
+            field,
+            _islandSO.Monster.SpawnData.MonsterCount,
+            _islandSO.Monster.SpawnData.Monsterinterval,
+            _islandSO.Monster.SpawnData.Interval,
+            _islandSO.Property.Offset,
             GetHashCode());
 
         var handle = job.Schedule();
@@ -371,69 +251,7 @@ public class Island
         var result = job.GetResult();
         for(int i = 0; i < result.Length; ++i)
         {
-            var point = new Vector3(result[i].x * _interval, 10, result[i].y * _interval) - _offset;
-            _spawnablePoints.Add(new SpawnPoint(point));
-        }
-    }
-
-    private bool CreateMonsterSpawnPoint(bool[,] points, int field)
-    {
-        int cnt = _property.monsterCount;
-        bool[,] copyPoint = (bool[,])points.Clone();
-
-        for (int x = 0; x < copyPoint.GetLength(0); ++x)
-        {
-            for (int z = 0; z < copyPoint.GetLength(1); ++z)
-            {
-                if (copyPoint[x, z]) continue;
-
-                if (CheckSpawnablePercentage(cnt, field))
-                {
-                    var point = new Vector3(x * _interval, 10, z * _interval) - _offset;
-                    SpawnPoint spawnPoint = new SpawnPoint(point);
-                    _spawnablePoints.Add(spawnPoint);
-                    --cnt;
-                    LockMonsterAroundPoint(copyPoint, x, z, ref field);
-                }
-                --field;
-                copyPoint[x, z] = true;
-            }
-        }
-
-        return cnt == 0;
-    }
-
-    private bool CheckSpawnablePercentage(int cnt, int field)
-    {
-        var percentage = (float)cnt / field;
-
-        for (int i = 0; i < 2; ++i)
-        {
-            var ran = UnityEngine.Random.Range(0.0f, 1.0f);
-            if (percentage >= ran) return true;
-        }
-        return false;
-    }
-
-    private void LockMonsterAroundPoint(bool[,] points, int x, int z, ref int field)
-    {
-        var monsterInterval = _property.monsterInterval;
-        var minX = System.Math.Max(0, x - monsterInterval);
-        var maxX = System.Math.Min(cellCount - 1, x + monsterInterval);
-        var minZ = System.Math.Max(0, z - monsterInterval);
-        var maxZ = System.Math.Min(cellCount - 1, z + monsterInterval);
-
-        for (int i = minX; i <= maxX; ++i)
-        {
-            for (int j = minZ; j <= maxZ; ++j)
-            {
-                var abs = Mathf.Abs(i - x) + Mathf.Abs(j - z);
-                if (monsterInterval >= abs)
-                {
-                    if (points[i, j] == false) --field;
-                    points[i, j] = true;
-                }
-            }
+            _spawnablePoints.Add(new SpawnPoint(result[i]));
         }
     }
 
@@ -443,7 +261,7 @@ public class Island
 
         for (int i = 0; i < _spawnablePoints.Count; ++i)
         {
-            var d = _spawnablePoints[i].point - _property.center;
+            var d = _spawnablePoints[i].point - _islandSO.Property.Center;
             d.y = 0;
             dist.Add((i, d.sqrMagnitude));
         }
@@ -453,15 +271,29 @@ public class Island
         dist = dist.OrderBy(x => x.Item2).ToList();
         
         int adaptedLevel = 2;
-        int cnt = rankCount[adaptedLevel];
+        int cnt = _rankCount[adaptedLevel];
         for(int i = 0; i < dist.Count; ++i)
         {
             if(i >= cnt)
             {
-                cnt += rankCount[--adaptedLevel];
+                cnt += _rankCount[--adaptedLevel];
             }
             _spawnablePoints[dist[i].Item1].level = ((MonsterLevel)adaptedLevel);
         }
     }
     #endregion
+
+    public void Load()
+    {
+        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, Name);
+        CheckSpawnablePoint();
+        CreateMonsters();
+        CreateBossMonster();
+    }
+
+    private void Save()
+    {
+        string json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile($"{Name}", json, SaveGame.SaveType.Runtime);
+    }
 }

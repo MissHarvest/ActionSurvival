@@ -38,7 +38,7 @@ public class TemperatureManager
 
     private float GetTemperature(Vector3 position, IslandProperty island)
     {
-        float temperature = Vector3.Distance(position, island.center);
+        float temperature = Vector3.Distance(position, island.Center);
         temperature = Mathf.InverseLerp(0f, GetInfluenceDistance(island), temperature);
         temperature = _influenceCurve.Evaluate(temperature) * island.Temperature;
         return temperature;
@@ -46,7 +46,7 @@ public class TemperatureManager
 
     public float GetInfluenceDistance(IslandProperty island)
     {
-        return island.diameter * island.Influence;
+        return island.Diameter * island.Influence;
     }
 
     public void OnTemperatureChange()
