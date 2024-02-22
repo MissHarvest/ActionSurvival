@@ -4,12 +4,11 @@ using System.Collections.Generic;
 public class Recipe : CraftBase
 {
     public Player Owner { get; private set; }
-    private UIRecipe _recipeUI;
 
     public override void Awake()
     {
         base.Awake();
-        Owner = Managers.Game.Player;
+        Owner = GameManager.Instance.Player;
     }
 
     public override void Start()

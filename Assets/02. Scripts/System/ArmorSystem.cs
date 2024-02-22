@@ -25,7 +25,7 @@ public class ArmorSystem : MonoBehaviour
         {
             equippedArmors[i] = new QuickSlot();
         }
-        Managers.Game.Player.OnHit += OnUpdateDurabilityOfArmor;
+        GameManager.Instance.Player.OnHit += OnUpdateDurabilityOfArmor;
 
         Load();
 
@@ -34,7 +34,7 @@ public class ArmorSystem : MonoBehaviour
 
     private void Start()
     {
-        Managers.Game.Player.Inventory.OnUpdated += OnInventoryUpdated;
+        GameManager.Instance.Player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
     public void Equip(int index, ItemSlot itemSlot)

@@ -82,6 +82,8 @@ public abstract class UICraftBase : UIPopup
 
         GetData();
 
+        _craftBase.CountChanged += OnCraftBaseCountChanged;
+
         // 비활성화 상태에서 시작
         _confirm.gameObject.SetActive(false);
         gameObject.SetActive(false);
@@ -93,6 +95,11 @@ public abstract class UICraftBase : UIPopup
     }
 
     protected abstract void GetData();
+
+    private void OnCraftBaseCountChanged(int count)
+    {
+        UpdateCraftUI();
+    }
 
     // 제작할 데이터를 표시하는 메서드
     protected virtual void ShowData(List<RecipeSO> dataList)
@@ -153,7 +160,7 @@ public abstract class UICraftBase : UIPopup
             if (_craftBase.CheckItems(items)) 
             {
                 int totalQuantity = _craftBase.Count * SelectedRecipe.Quantity;
-                if (Managers.Game.Player.Inventory.TryAddItem(completedItemData, totalQuantity))
+                if (GameManager.Instance.Player.Inventory.TryAddItem(completedItemData, totalQuantity))
                 {
                     var confirm = Managers.UI.ShowPopupUI<UICraftConfirm>();
                     confirm.SetCraft($"{completedItemData.displayName} 제작 완료!");
@@ -191,7 +198,7 @@ public abstract class UICraftBase : UIPopup
         itemIcon.sprite = item.item.iconSprite;
 
         int requiredQuantity = quantity * count;
-        int availableQuantity = Managers.Game.Player.Inventory.GetItemCount(item.item);
+        int availableQuantity = GameManager.Instance.Player.Inventory.GetItemCount(item.item);
 
         itemQuantity.text = (availableQuantity + "/" + requiredQuantity).ToString();
 

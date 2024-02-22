@@ -45,8 +45,8 @@ public class UIInventory : UIPopup
 
         Initialize();
 
-        _playerInventory = Managers.Game.Player.Inventory;
-        _armorSystem = Managers.Game.Player.ArmorSystem;
+        _playerInventory = GameManager.Instance.Player.Inventory;
+        _armorSystem = GameManager.Instance.Player.ArmorSystem;
 
         var prefab = Managers.Resource.GetCache<GameObject>("UIInventorySlot.prefab");
         var container = Get<UIItemSlotContainer>((int)Container.Contents);
@@ -135,7 +135,7 @@ public class UIInventory : UIPopup
 
     private void UnEquip()
     {
-        Managers.Game.Player.ArmorSystem.UnEquip(_selectedIndex);//변수로 enum parts를 넘기면
+        GameManager.Instance.Player.ArmorSystem.UnEquip(_selectedIndex);//변수로 enum parts를 넘기면
         Get<UIItemUsageHelper>((int)Helper.UsageHelper).gameObject.SetActive(false);
     }
 

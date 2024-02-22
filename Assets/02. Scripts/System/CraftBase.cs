@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,8 +6,9 @@ using UnityEngine;
 // 제작, 요리를 포함하는 기본 클래스
 public class CraftBase : MonoBehaviour
 {
-    protected UICraftBase _uiCraftBase;
     protected int _count = 1;
+
+    public event Action<int> CountChanged;
 
     public int Count
     {
@@ -28,6 +30,7 @@ public class CraftBase : MonoBehaviour
     public void InitializeCount()
     {
         _count = 1;
+        OnCountChanged();
     }
 
     public void OnMinusQuantity()
@@ -35,7 +38,7 @@ public class CraftBase : MonoBehaviour
         if (_count > 1)
         {
             _count--;
-            _uiCraftBase.UpdateCraftUI();
+            OnCountChanged();
         }
     }
 
@@ -45,8 +48,13 @@ public class CraftBase : MonoBehaviour
         if (_count < 20)
         {
             _count++;
-            _uiCraftBase.UpdateCraftUI();
+            OnCountChanged();
         }
+    }
+
+    private void OnCountChanged()
+    {
+        CountChanged?.Invoke(_count);
     }
 
     public virtual bool CheckItems(List<RecipeSO.Ingredient> items)
@@ -56,7 +64,7 @@ public class CraftBase : MonoBehaviour
             int requiredQuantity = item.quantity * _count;
 
             // 재료 아이템이 부족하면 false 반환
-            if (!Managers.Game.Player.Inventory.TryConsumeQuantity(item.item, requiredQuantity))
+            if (!GameManager.Instance.Player.Inventory.TryConsumeQuantity(item.item, requiredQuantity))
             {
                 // false 되기 전까지 소모한 재료들을 돌려줌
                 foreach (var consumedItem in items)
@@ -65,7 +73,7 @@ public class CraftBase : MonoBehaviour
                         break;
 
                     int consumedQuantity = consumedItem.quantity * _count;
-                    Managers.Game.Player.Inventory.TryAddItem(consumedItem.item, consumedQuantity);
+                    GameManager.Instance.Player.Inventory.TryAddItem(consumedItem.item, consumedQuantity);
                 }
                 return false;
             }
@@ -80,7 +88,7 @@ public class CraftBase : MonoBehaviour
             int requiredQuantity = item.quantity * _count;
 
             // 재료 아이템 돌려주기
-            Managers.Game.Player.Inventory.TryAddItem(item.item, requiredQuantity);
+            GameManager.Instance.Player.Inventory.TryAddItem(item.item, requiredQuantity);
         }
     }
 }

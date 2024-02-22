@@ -17,6 +17,6 @@ public class UIRecipe : UICraftBase
     protected override void GetData()
     {
         _recipeOrCookingList = Managers.Data.recipeDataList;
-        _craftBase = Managers.Game.Player.Recipe;
+        _craftBase = GameManager.Instance.Player.Recipe;
     }
 }
