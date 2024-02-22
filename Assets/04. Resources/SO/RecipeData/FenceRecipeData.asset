@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Fence
   recipeID: 13
-  completedItemData: {fileID: 11400000, guid: 010f81f8f6dffcd4d9cd16d14af36a94, type: 2}
-  IsAdvancedRecipe: 1
+  completedItemData: {fileID: 11400000, guid: 9f0b539ecd5234f429756dae04402565, type: 2}
   recipeLevel: 2
   Quantity: 1
   requiredItems:

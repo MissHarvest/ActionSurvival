@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Furnace
   recipeID: 19
-  completedItemData: {fileID: 11400000, guid: 3af86f924f19ee348aa2053f634168d8, type: 2}
+  completedItemData: {fileID: 11400000, guid: dddb934b7bfaa8f4cb8feaf3d050adfa, type: 2}
   recipeLevel: 3
   Quantity: 1
   requiredItems:

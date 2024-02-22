@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: EnchantedSword
   recipeID: 18
-  completedItemData: {fileID: 11400000, guid: fe20ce3e87e1da74286c6c3103e192ff, type: 2}
-  IsAdvancedRecipe: 1
+  completedItemData: {fileID: 11400000, guid: 75c1b6f713fbe7c4aabd9d51ea110906, type: 2}
   recipeLevel: 3
   Quantity: 1
   requiredItems:

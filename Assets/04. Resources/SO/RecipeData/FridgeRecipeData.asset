@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Fridge
   recipeID: 20
-  completedItemData: {fileID: 11400000, guid: 024eb3a3f959d594c8dc47ff0ef6289a, type: 2}
+  completedItemData: {fileID: 11400000, guid: 95be4be90d6aced47a130c48de1ec3ab, type: 2}
   recipeLevel: 3
   Quantity: 1
   requiredItems:

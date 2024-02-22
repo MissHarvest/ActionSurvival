@@ -120,6 +120,7 @@ public class PlayerBaseState : IState
         input.PlayerActions.Interact.canceled += OnInteractCanceled;
         input.PlayerActions.QuickSlot.started += OnQuickUseStarted;
         input.PlayerActions.Inventory.started += OnInventoryShowAndHide;
+        input.PlayerActions.Recipe.started += OnRecipeShowAndHide;
 
         input.PlayerActions.Esc.started += PauseGame;
         _buildingSystem.OnBuildRequested += OnBuildRequested;
@@ -134,8 +135,9 @@ public class PlayerBaseState : IState
         input.PlayerActions.Interact.canceled -= OnInteractCanceled;
         input.PlayerActions.QuickSlot.started -= OnQuickUseStarted;
         input.PlayerActions.Inventory.started -= OnInventoryShowAndHide;
-        input.PlayerActions.Esc.started -= PauseGame;
+        input.PlayerActions.Recipe.started -= OnRecipeShowAndHide;
 
+        input.PlayerActions.Esc.started -= PauseGame;
         _buildingSystem.OnBuildRequested -= OnBuildRequested;
     }
 
@@ -202,6 +204,20 @@ public class PlayerBaseState : IState
         else
         {
             Managers.UI.ShowPopupUI<UIInventory>();
+        }
+    }
+
+    private void OnRecipeShowAndHide(InputAction.CallbackContext context)
+    {
+        var ui = Managers.UI.GetPopupUI<UIRecipe>();
+
+        if (ui.gameObject.activeSelf)
+        {
+            Managers.UI.ClosePopupUI(ui);
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UIRecipe>();
         }
     }
 

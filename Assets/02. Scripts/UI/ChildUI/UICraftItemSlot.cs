@@ -23,12 +23,6 @@ public class UICraftItemSlot : UIBase
         private set { _index = value; }
     }
 
-    public int Quantity // 완성 아이템 제작 수량
-    {
-        get { return _quantity; }
-        private set { _quantity = value; }
-    }
-
     protected Image Icon => Get<Image>((int)Images.Icon);
 
     public override void Initialize()
@@ -50,25 +44,21 @@ public class UICraftItemSlot : UIBase
         _index = index;
     }
 
-    public void SetQuantity(int quantity)
+    public virtual void Set(ItemData itemData, RecipeSO recipeSO)
     {
-        _quantity = quantity;
-    }
-
-    public virtual void Set(ItemSlot itemSlot, RecipeSO recipeSO)
-    {
-        if (itemSlot.itemData == null)
+        if (itemData == null)
         {
             Clear();
             return;
         }
+        _quantity = recipeSO.Quantity;
 
-        Get<Image>((int)Images.Icon).sprite = itemSlot.itemData.iconSprite;
+        Get<Image>((int)Images.Icon).sprite = itemData.iconSprite;
 
         if (recipeSO.Quantity > 1)
-            Get<TextMeshProUGUI>((int)Texts.ItemName).text = $"{itemSlot.itemData.displayName}({recipeSO.Quantity}개)";
+            Get<TextMeshProUGUI>((int)Texts.ItemName).text = $"{itemData.displayName}({recipeSO.Quantity}개)";
         else
-            Get<TextMeshProUGUI>((int)Texts.ItemName).text = itemSlot.itemData.displayName;
+            Get<TextMeshProUGUI>((int)Texts.ItemName).text = itemData.displayName;
 
         Get<Image>((int)Images.Icon).gameObject.SetActive(true);
         Get<TextMeshProUGUI>((int)Texts.ItemName).gameObject.SetActive(true);
