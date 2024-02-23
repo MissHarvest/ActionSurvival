@@ -13,8 +13,7 @@ public class UIMakeFire : UIPopup
     {
         Exit,
         UIFunctionsUseFireSlot,
-        FirewoodItems,
-        UIFirewoodSlot
+        FirewoodItems
     }
 
     enum Helper
@@ -27,8 +26,9 @@ public class UIMakeFire : UIPopup
     private UIStoreFirewoodHelper _firewoodHelper;
     [SerializeField] private GameObject _itemSlotPrefab;
 
-    public ItemSlot[] itemSlots = new ItemSlot[2];
     private List<GameObject> _itemUIList = new List<GameObject>();
+
+    private MakeFire _makeFire;
 
     public override void Initialize()
     {
@@ -49,23 +49,27 @@ public class UIMakeFire : UIPopup
 
     private void Awake()
     {
+        _makeFire = GameManager.Instance.Player.MakeFire;
+
         Initialize();
-        GetFirewoodItems();
+
         _firewoodItems = Get<GameObject>((int)GameObjects.FirewoodItems).transform;
         gameObject.SetActive(false);
     }
 
     private void Start()
     {
-        SetIngredients();
+        _makeFire.OnUpdatedUI += OnSetIngredients;
+        
+        OnSetIngredients();
         _firewoodHelper = Get<UIStoreFirewoodHelper>((int)Helper.UIStoreFirewoodHelper);
     }
 
-    public void SetIngredients()
+    public void OnSetIngredients()
     {
         ClearItems();
 
-        foreach (var item in itemSlots)
+        foreach (var item in _makeFire.firewoodItemSlots)
         {
             GameObject itemUI = Instantiate(_itemSlotPrefab, _firewoodItems);
             Image itemIcon = itemUI.transform.Find("Icon").GetComponent<Image>();
@@ -84,9 +88,9 @@ public class UIMakeFire : UIPopup
     {
         int index = 0;
 
-        for (int i = 0; i < itemSlots.Length; i++)
+        for (int i = 0; i < _makeFire.firewoodItemSlots.Length; i++)
         {
-            if (itemSlots[i].itemData == itemSlot.itemData)
+            if (_makeFire.firewoodItemSlots[i].itemData == itemSlot.itemData)
             {
                 index = i;
             }
@@ -95,14 +99,6 @@ public class UIMakeFire : UIPopup
         //여기서 Index를 넘겨주는 방법
         var pos = new Vector3(_firewoodItems.position.x - 100, _firewoodItems.position.y, _firewoodItems.position.z);
         _firewoodHelper.ShowOption(itemSlot, pos, index);
-    }
-
-    private void GetFirewoodItems()
-    {
-        var itemData = Managers.Resource.GetCache<ItemData>("BranchItemData.data");
-        itemSlots[0].Set(itemData, 0);
-        itemData = Managers.Resource.GetCache<ItemData>("LogItemData.data");
-        itemSlots[1].Set(itemData, 0);
     }
 
     private void OnCookingUIPopup()
@@ -117,5 +113,5 @@ public class UIMakeFire : UIPopup
         {
             Destroy(itemUI);
         }
-    }
+    }    
 }

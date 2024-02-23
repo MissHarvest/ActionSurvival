@@ -37,11 +37,10 @@ public class UIStoreFirewoodHelper : UIBase
     private TextMeshProUGUI _quantityHaveText;
 
     private Image _icon;
-    private int _count = 0;
-    private int _maxCount;
-    private int _index;
+
 
     private UIMakeFire _makeFireUI;
+    private MakeFire _makeFire;
 
     public override void Initialize()
     {
@@ -60,88 +59,53 @@ public class UIStoreFirewoodHelper : UIBase
 
         _icon = Get<Image>((int)Images.Icon);
 
-        _minusButton.BindEvent((x) => { OnMinusQuantity(); });
-        _plusButton.BindEvent((x) => { OnPlusQuantity(); });
-        _takeoutButton.BindEvent((x) => { OnTakeoutQuantity(); });
-        _storeButton.BindEvent((x) => { OnStoreQuantity(); });
+        _minusButton.BindEvent((x) => { _makeFire.OnMinusQuantity(); });
+        _plusButton.BindEvent((x) => { _makeFire.OnPlusQuantity(); });
+        _takeoutButton.BindEvent((x) => { _makeFire.OnTakeoutQuantity(); });
+        _storeButton.BindEvent((x) => { _makeFire.OnStoreQuantity(); });
         gameObject.BindEvent((x) => { gameObject.SetActive(false); });
     }
 
     private void Awake()
     {
+        _makeFire = GameManager.Instance.Player.MakeFire;
         Initialize();
         gameObject.SetActive(false);
         _makeFireUI = GetComponentInParent<UIMakeFire>();
     }
 
+    private void Start()
+    {
+        _makeFire.OnUpdatedCount += UpdateCountUI;
+        _makeFire.OnUpdatedUI += OnTurnOffPopup;
+    }
+
     public void ShowOption(ItemSlot selectedSlot, Vector3 position, int index)
     {
         int FirewoodHaveInventory = GameManager.Instance.Player.Inventory.GetItemCount(selectedSlot.itemData);
-        _maxCount = FirewoodHaveInventory;
+        _makeFire._maxCount = FirewoodHaveInventory;
 
         gameObject.SetActive(true);
         if (gameObject.activeSelf)
         {
-            _count = 0;
-            UpdateCraftUI();
+            _makeFire._count = 0;
+            UpdateCountUI(_makeFire._count);
         }
 
         _icon.sprite = selectedSlot.itemData.iconSprite;
         _quantityHaveText.text = "보유:" + FirewoodHaveInventory.ToString();
 
         _container.transform.position = position;
-        _index = index;
-    }
+        _makeFire._index = index;
+    }    
 
-    private void OnTakeoutQuantity()
+    public void UpdateCountUI(int count)
     {
-        var itemSlots = _makeFireUI.itemSlots[_index];
-
-        if (itemSlots.quantity > 0)
-        {
-            GameManager.Instance.Player.Inventory.TryAddItem(itemSlots.itemData, itemSlots.quantity);
-            _makeFireUI.itemSlots[_index].SubtractFirewoodItemQuantity(itemSlots.quantity);
-
-            _makeFireUI.SetIngredients();
-
-            gameObject.SetActive(false);
-        }
+        _quantityText.text = count.ToString();
     }
 
-    private void OnStoreQuantity()
+    private void OnTurnOffPopup()
     {
-        if (_count > 0)
-        {
-            _makeFireUI.itemSlots[_index].AddQuantity(_count);
-            GameManager.Instance.Player.Inventory.TryConsumeQuantity(_makeFireUI.itemSlots[_index].itemData, _count);
-
-            _makeFireUI.SetIngredients();
-
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive(false);
     }
-
-    private void OnMinusQuantity()
-    {
-        if (_count > 0)
-        {
-            _count--;
-            UpdateCraftUI();
-        }
-    }
-
-    private void OnPlusQuantity()
-    {
-        if (_count < _maxCount)
-        {
-            _count++;
-            UpdateCraftUI();
-        }
-    }
-
-    private void UpdateCraftUI()
-    {
-        _quantityText.text = _count.ToString();
-    }
-
 }

@@ -179,7 +179,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b1bf6237a452cbc40824962320894648
-    m_Address: efabpUp_UIMinimap.prefab
+    m_Address: UIPopUp_UIMinimap.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
