@@ -36,10 +36,11 @@ public class PlayerStateMachine : StateMachine
     public bool IsFalling { get; set; }
     public int ComboIndex { get; set; }
 
-
     public float JumpForce { get; set; }
     
     public Transform MainCameraTransform { get; set; }
+
+    public InteractSystem InteractSystem { get; private set; }
 
     public PlayerStateMachine(Player player)
     {
@@ -66,5 +67,28 @@ public class PlayerStateMachine : StateMachine
 
         MovementSpeed = player.Data.GroundedData.BaseSpeed;
         RotationDamping = player.Data.GroundedData.BaseRotationDamping;
+
+        InteractSystem = new();
+        InteractSystem.OnWeaponInteract += TransitionComboAttack;
+        InteractSystem.OnToolInteract += TansitionInteract;
+        InteractSystem.OnToolDestruct += TansitionInteract;
+        InteractSystem.OnArchitectureInteract += TansitionInteract;
+    }
+
+    private void TransitionComboAttack(IHit target, Vector3 targetPos)
+    {
+        ChangeState(ComboAttackState);
+    }
+
+    private void TansitionInteract(IInteractable target, string targetTag, Vector3 targetPos)
+    {
+        InteractState.SetTarget(target, targetTag, targetPos);
+        ChangeState(InteractState);
+    }
+
+    private void TansitionInteract(IDestructible target, string targetTag, Vector3 targetPos)
+    {
+        InteractState.SetTarget(target, targetTag, targetPos);
+        ChangeState(InteractState);
     }
 }

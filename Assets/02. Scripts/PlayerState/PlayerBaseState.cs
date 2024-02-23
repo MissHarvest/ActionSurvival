@@ -152,54 +152,58 @@ public class PlayerBaseState : IState
         if (_stateMachine.IsFalling) return;
 
         // ================================= TEST =====================================
-        Collider[] targets;
-        var hand = _stateMachine.Player.EquippedItem.itemSlot.itemData;
+        _stateMachine.InteractSystem.TryInteractSequence();
 
-        if (hand is WeaponItemData)
-        {
-            _stateMachine.ChangeState(_stateMachine.ComboAttackState);
-            return;
-        }
-        if (hand is ToolItemData tool)
-        {
-            targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers, QueryTriggerInteraction.Collide);
-            foreach (var target in targets)
-            {
-                if (target.TryGetComponent<IDestructible>(out var destructible))
-                {
-                    _stateMachine.InteractState.SetTarget(destructible, tool.targetTagName, target.transform.position);
-                    _stateMachine.ChangeState(_stateMachine.InteractState);
-                    return;
-                }
-            }
-            foreach (var target in targets)
-            {
-                if (!target.CompareTag(tool.targetTagName))
-                    continue;
+        //Collider[] targets;
+        //var hand = _stateMachine.Player.EquippedItem.itemSlot.itemData;
 
-                if (target.TryGetComponent<IInteractable>(out var interactable))
-                {
-                    _stateMachine.InteractState.SetTarget(interactable, tool.targetTagName, target.transform.position);
-                    _stateMachine.ChangeState(_stateMachine.InteractState);
-                    return;
-                }
-            }
-        }
-        targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, _emptyHandData.range, LayerMask.GetMask("Architecture"), QueryTriggerInteraction.Collide);
-        foreach (var target in targets)
-        {
-            _stateMachine.InteractState.SetTarget(target.GetComponent<IInteractable>(), target.tag, target.transform.position);
-            _stateMachine.ChangeState(_stateMachine.InteractState);
-            return;
-        }
-        targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, _emptyHandData.range, _emptyHandData.targetLayers, QueryTriggerInteraction.Collide);
-        foreach (var target in targets)
-        if (target.CompareTag(_emptyHandData.targetTagName))
-        {
-            _stateMachine.InteractState.SetTarget(target.GetComponent<IInteractable>(), target.tag, target.transform.position);
-            _stateMachine.ChangeState(_stateMachine.InteractState);
-            return;
-        }
+        //if (hand is WeaponItemData)
+        //{
+        //    _stateMachine.ChangeState(_stateMachine.ComboAttackState);
+        //    return;
+        //}
+        //if (hand is ToolItemData tool)
+        //{
+        //    targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers, QueryTriggerInteraction.Collide);
+        //    foreach (var target in targets)
+        //    {
+        //        if (target.TryGetComponent<IDestructible>(out var destructible))
+        //        {
+        //            _stateMachine.InteractState.SetTarget(destructible, tool.targetTagName, target.transform.position);
+        //            _stateMachine.ChangeState(_stateMachine.InteractState);
+        //            return;
+        //        }
+        //    }
+        //    foreach (var target in targets)
+        //    {
+        //        if (!target.CompareTag(tool.targetTagName))
+        //            continue;
+
+        //        if (target.TryGetComponent<IInteractable>(out var interactable))
+        //        {
+        //            _stateMachine.InteractState.SetTarget(interactable, tool.targetTagName, target.transform.position);
+        //            _stateMachine.ChangeState(_stateMachine.InteractState);
+        //            return;
+        //        }
+        //    }
+        //}
+        //targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, _emptyHandData.range, LayerMask.GetMask("Architecture"), QueryTriggerInteraction.Collide);
+        //foreach (var target in targets)
+        //{
+        //    _stateMachine.InteractState.SetTarget(target.GetComponent<IInteractable>(), "", target.transform.position);
+        //    _stateMachine.ChangeState(_stateMachine.InteractState);
+        //    return;
+        //}
+        //targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, _emptyHandData.range, _emptyHandData.targetLayers, QueryTriggerInteraction.Collide);
+        //foreach (var target in targets)
+        //{
+        //    if (target.CompareTag(_emptyHandData.targetTagName))
+        //    {
+        //        _stateMachine.InteractState.SetTarget(target.GetComponent<IInteractable>(), target.tag, target.transform.position);
+        //        _stateMachine.ChangeState(_stateMachine.InteractState);
+        //        return;
+        //    }
+        //}
         // ============================================================================
 
 

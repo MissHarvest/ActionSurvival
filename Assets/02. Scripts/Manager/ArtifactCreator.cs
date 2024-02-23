@@ -65,7 +65,7 @@ public class ArtifactCreator
             int x = Random.Range(minX, maxX);
             int z = Random.Range(minZ, maxZ);
 
-            pos = new Vector3(x, z);
+            pos = new Vector3(x, 0, z);
             if (IsValidPosition(ref pos))
                 break;
 
