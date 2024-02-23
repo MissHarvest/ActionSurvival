@@ -20,11 +20,11 @@ public class PlayerStateMachine : StateMachine
 
     public PlayerInteractState InteractState { get; }
     public PlayerBuildState BuildState { get; }
-    public PlayerMakeState MakeState { get; }
+    //public PlayerMakeState MakeState { get; }
         
     public PlayerComboAttackState ComboAttackState { get; }
 
-    public PlayerDestroyState DestroyState { get; }
+    //public PlayerDestroyState DestroyState { get; }
 
     public PlayerDieState DieState { get; }
 
@@ -58,9 +58,9 @@ public class PlayerStateMachine : StateMachine
 
         InteractState = new PlayerInteractState(this);
         BuildState = new PlayerBuildState(this);
-        MakeState = new PlayerMakeState(this);
+        //MakeState = new PlayerMakeState(this);
         ComboAttackState = new PlayerComboAttackState(this);
-        DestroyState = new PlayerDestroyState(this);
+        //DestroyState = new PlayerDestroyState(this);
         DieState = new PlayerDieState(this);
 
         MainCameraTransform = Camera.main.transform;

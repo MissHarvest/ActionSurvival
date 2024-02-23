@@ -7,7 +7,7 @@ public class CraftingTable : MonoBehaviour, IInteractable
 
     public float GetInteractTime()
     {
-        throw new System.NotImplementedException();
+        return 0f;
     }
 
     // Level

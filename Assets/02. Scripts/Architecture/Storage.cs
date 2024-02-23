@@ -24,6 +24,6 @@ public class Storage : MonoBehaviour, IInteractable
 
     public float GetInteractTime()
     {
-        throw new System.NotImplementedException();
+        return 0f;
     }
 }

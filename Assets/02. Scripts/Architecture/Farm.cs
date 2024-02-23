@@ -14,9 +14,10 @@ public class Farm : MonoBehaviour, IInteractable
     private FarmStateMachine _stateMachine;
     public GameObject[] stateObject;
 
-    public int MaxTime { get; } = 100; //lgs test
+    [field: SerializeField] public float[] InteractTime;
+    [field: SerializeField] public int MaxTime { get; } = 100; //lgs test
     [field: SerializeField] public int RemainingTime { get; set; } = 0;
-    [SerializeField] public int State { get; set; } = 0;
+    [field: SerializeField] public int State { get; set; } = 0;
 
     public ItemDropTable looting;
     private ItemData _needItemData;
@@ -85,6 +86,6 @@ public class Farm : MonoBehaviour, IInteractable
 
     public float GetInteractTime()
     {
-        throw new System.NotImplementedException();
+        return InteractTime[State];
     }
 }

@@ -8,8 +8,8 @@ public class PlayerComboAttackState : PlayerAttackState
     private bool _alreadyAppliedForce;
     private bool _alreadyApplyCombo;
     private Weapon _weapon;
-    protected GameObject target;
-    protected string targetTag;
+    protected GameObject _target;
+    protected string _targetTag;
 
     private AttackInfoData _attackInfoData;
 
@@ -45,8 +45,8 @@ public class PlayerComboAttackState : PlayerAttackState
 
         if (targets[0].CompareTag(tool.targetTagName))
         {
-            target = targets[0].gameObject;
-            targetTag = target.tag;
+            _target = targets[0].gameObject;
+            _targetTag = _target.tag;
             RotateOfTarget();
             return;
         }
@@ -57,7 +57,7 @@ public class PlayerComboAttackState : PlayerAttackState
         base.Exit();
         _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
         _weapon = null;
-        target = null;
+        _target = null;
         StopAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
 
         if (!_alreadyApplyCombo)
@@ -92,7 +92,7 @@ public class PlayerComboAttackState : PlayerAttackState
 
     private void RotateOfTarget()
     {
-        var look = target.transform.position - _stateMachine.Player.transform.position;
+        var look = _target.transform.position - _stateMachine.Player.transform.position;
         look.y = 0;
 
         var targetRotation = Quaternion.LookRotation(look);

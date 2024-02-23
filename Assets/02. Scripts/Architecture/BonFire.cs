@@ -23,6 +23,6 @@ public class BonFire : MonoBehaviour, IInteractable
 
     public float GetInteractTime()
     {
-        throw new System.NotImplementedException();
+        return 0f;
     }
 }

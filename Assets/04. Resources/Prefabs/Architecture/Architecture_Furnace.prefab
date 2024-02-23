@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a48d4bae4140a408b3f184a106523c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _destructTime: 3
   _renderer: {fileID: 4348350309070992265}
   redMat: {fileID: 2100000, guid: 4cea252e4cd4c1241bbe5bf6a09e2e64, type: 2}
   blueMat: {fileID: 2100000, guid: 3ccf5f2feeac4154b9a14ef7ae1f6693, type: 2}

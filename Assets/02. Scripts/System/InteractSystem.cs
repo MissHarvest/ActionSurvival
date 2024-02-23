@@ -1,9 +1,8 @@
 using System;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.XR;
 
+// 2024-02-23 WJY
 public class InteractSystem
 {
     private ToolSystem _toolSystem;
@@ -35,41 +34,46 @@ public class InteractSystem
     {
         SearchAllObject(_transform.position);
 
-        if (TryWeaponInteract())
+        var tool = GetCurrentTool();
+        var isWeapon = tool is WeaponItemData;
+
+        // # 1. 타게팅 공격
+        if (isWeapon)
         {
-            return;
-        }
-        if (GetCurrentTool() != _emptyHand)
-        {
-            if (TryToolDestruct(GetCurrentTool()))
-            {
+            if (TryWeaponInteract(tool))
                 return;
-            }
-            if (TryToolInteract(GetCurrentTool()))
-            {
+        }
+
+        // # 2. 도구 상호작용
+        if (tool != _emptyHand)
+        {
+            // # 2-1. 파괴
+            if (TryToolDestruct(tool))
                 return;
-            }
+
+            // # 2-2. 벌목, 채광
+            if (TryToolInteract(tool))
+                return;
         }
-        if (TryArchitectureInteract())
-        {
+
+        // # 3. 구조물 상호작용
+        if (TryArchitectureInteract(_emptyHand))
             return;
-        }
-        if (TryToolInteract())
-        {
+
+        // # 4. 채집 상호작용
+        if (TryToolInteract(_emptyHand))
             return;
-        }
-        if (TryWeaponInteract(true))
+
+        // # 5. 허공에 공격
+        if (isWeapon)
         {
-            return;
+            if (TryWeaponInteract(tool, true))
+                return;
         }
     }
 
-    public bool TryWeaponInteract(bool force = false)
+    public bool TryWeaponInteract(ToolItemData tool, bool force = false)
     {
-        var hand = GetCurrentTool();
-        if (hand is not WeaponItemData)
-            return false;
-
         if (force)
         {
             OnWeaponInteract?.Invoke(null, _transform.forward);
@@ -78,10 +82,10 @@ public class InteractSystem
 
         foreach (var target in targets)
         {
-            if (!target.CompareTag("Monster") || (1 << target.gameObject.layer & hand.targetLayers) == 0)
+            if (!target.CompareTag("Monster") || (1 << target.gameObject.layer & tool.targetLayers) == 0)
                 continue;
 
-            if (Vector3.SqrMagnitude(target.transform.position - _transform.position) > hand.range * hand.range)
+            if (Vector3.SqrMagnitude(target.transform.position - _transform.position) > tool.range * tool.range)
                 break;
 
             if (target.TryGetComponent<IHit>(out var hit))
@@ -93,15 +97,10 @@ public class InteractSystem
         return false;
     }
 
-    public bool TryToolInteract() => TryToolInteract(_emptyHand);
-
     public bool TryToolInteract(ToolItemData tool)
     {
         foreach (var target in targets)
         {
-            Debug.Log(1 << target.gameObject.layer);
-            Debug.Log((int)tool.targetLayers);
-            Debug.Log((1 << target.gameObject.layer & tool.targetLayers) == 0);
             if (!target.CompareTag(tool.targetTagName) || (1 << target.gameObject.layer & tool.targetLayers) == 0)
                 continue;
 
@@ -136,17 +135,14 @@ public class InteractSystem
         return false;
     }
 
-    public bool TryArchitectureInteract()
+    public bool TryArchitectureInteract(ToolItemData tool)
     {
         foreach (var target in targets)
         {
-            Debug.Log(1 << target.gameObject.layer);
-            Debug.Log((int)_architectureLayerMask);
-            Debug.Log((1 << target.gameObject.layer & _architectureLayerMask) == 0);
             if ((1 << target.gameObject.layer & _architectureLayerMask) == 0)
                 continue;
 
-            if (Vector3.SqrMagnitude(target.transform.position - _transform.position) > _emptyHand.range * _emptyHand.range)
+            if (Vector3.SqrMagnitude(target.transform.position - _transform.position) > tool.range * tool.range)
                 break;
 
             if (target.TryGetComponent<IInteractable>(out var interactable))

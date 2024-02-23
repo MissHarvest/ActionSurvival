@@ -5,10 +5,11 @@ public class ResourceObjectGathering : ResourceObjectBase, IInteractable
 {
     [SerializeField] private ItemDropTable _itemTable;
     [SerializeField] private float _toolDurabilityReduceAmount;
+    [SerializeField] private float _interactTime = 0f;
 
     public float GetInteractTime()
     {
-        throw new System.NotImplementedException();
+        return _interactTime;
     }
 
     public void Interact(Player player)

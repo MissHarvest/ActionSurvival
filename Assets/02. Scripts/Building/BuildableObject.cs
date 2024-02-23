@@ -8,6 +8,9 @@ using UnityEngine.AI;
 // 2024. 01. 24 Byun Jeongmin
 public class BuildableObject : MonoBehaviour, IHit, IDestructible
 {
+    [Header("Settings")]
+    [SerializeField] private float _destructTime = 3f;
+    [Header("")]
     [SerializeField] private Renderer _renderer;
     private NavMeshObstacle _navMeshObstacle;
     private Collider _collider;
@@ -134,7 +137,7 @@ public class BuildableObject : MonoBehaviour, IHit, IDestructible
 
     public float GetDestructTime()
     {
-        throw new NotImplementedException();
+        return _destructTime;
     }
 
     public void Destruct(Player player)

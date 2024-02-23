@@ -13,12 +13,12 @@ public class FarmBaseState : IState
 
     public virtual void Enter()
     {
-        
+
     }
 
     public virtual void Exit()
     {
-        
+
     }
 
     public virtual void TimeLapse()
@@ -28,17 +28,17 @@ public class FarmBaseState : IState
 
     public virtual void HandleInput()
     {
-        
+
     }
 
     public virtual void PhysicsUpdate()
     {
-        
+
     }
 
     public virtual void Update()
     {
-        
+
     }
 
     public virtual void Interact(Player player)

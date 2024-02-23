@@ -9,9 +9,6 @@ public class PlayerInteractState : PlayerBaseState
     protected string _targetTag;
     protected Vector3 _targetPos;
 
-    // TEST
-    private float _lapseTime = 0f;
-
     public PlayerInteractState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
 
@@ -28,9 +25,11 @@ public class PlayerInteractState : PlayerBaseState
         _stateMachine.MovementSpeedModifier = 0;
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
-        _lapseTime = 0f;
 
         _stateMachine.Player.Animator.SetBool(_targetTag, true);
+        RotateOfTarget();
+
+        _progressTime = _interactable?.GetInteractTime() ?? _destructible?.GetDestructTime() ?? 0f;
 
         //var tool = _stateMachine.Player.EquippedItem.itemSlot.itemData as ToolItemData;
 
@@ -73,15 +72,12 @@ public class PlayerInteractState : PlayerBaseState
     {
         // exit 조건 설정
         float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
-        _lapseTime += Time.deltaTime;
 
-        // TODO: 시간받아와서
-        if (_lapseTime >= 1f)
+        if (normalizedTime >= _progressTime)
         {
             _interactable?.Interact(_stateMachine.Player);
             _destructible?.Destruct(_stateMachine.Player);
             _stateMachine.ChangeState(_stateMachine.IdleState);
-                // TODO: 내구도 소모하는 기능 ResourceObjectParent로 이관. 수치 설정 해야함
         }
     }
 
