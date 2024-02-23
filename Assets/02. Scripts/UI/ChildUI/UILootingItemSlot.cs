@@ -10,14 +10,14 @@ public class UILootingItemSlot : UIItemSlot
 {
     enum Texts
     {
+        Quantity,
         Name,
-        //Quantity,
     }
 
     public override void Initialize()
     {
-        Bind<TextMeshProUGUI>(typeof(Texts));
         base.Initialize();
+        Bind<TextMeshProUGUI>(typeof(Texts));        
     }
 
     public override void Clear()
@@ -28,15 +28,15 @@ public class UILootingItemSlot : UIItemSlot
 
     public override void Set(ItemSlot itemSlot)
     {
-        //base.Set(itemSlot);
-        Debug.Log($"[{itemSlot.itemData.displayName}");
+        base.Set(itemSlot);
         if (itemSlot.itemData == null)
         {
             Clear();
             return;
         }
-        Icon.sprite = itemSlot.itemData.iconSprite;
-        Quantity.text = itemSlot.quantity.ToString();
-        Get<TextMeshProUGUI>((int)Texts.Name).text = itemSlot.itemData.displayName;        
+
+        Get<TextMeshProUGUI>((int)Texts.Name).text = itemSlot.itemData.displayName;
+        Get<TextMeshProUGUI>((int)Texts.Quantity).text = itemSlot.quantity.ToString();
+        Get<TextMeshProUGUI>((int)Texts.Quantity).gameObject.SetActive(true);
     }
 }
