@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+//Lee gyuseong 24.02.22
 
 public class UIStoreFirewoodHelper : UIBase
 {
-    //UI를 그리는 기능만 남기고 MakeFire로 옮기기
     public enum GameObjects
     {
         Container,
@@ -38,9 +38,7 @@ public class UIStoreFirewoodHelper : UIBase
 
     private Image _icon;
 
-
-    private UIMakeFire _makeFireUI;
-    private MakeFire _makeFire;
+    private Ignition _ignition;
 
     public override void Initialize()
     {
@@ -59,44 +57,45 @@ public class UIStoreFirewoodHelper : UIBase
 
         _icon = Get<Image>((int)Images.Icon);
 
-        _minusButton.BindEvent((x) => { _makeFire.OnMinusQuantity(); });
-        _plusButton.BindEvent((x) => { _makeFire.OnPlusQuantity(); });
-        _takeoutButton.BindEvent((x) => { _makeFire.OnTakeoutQuantity(); });
-        _storeButton.BindEvent((x) => { _makeFire.OnStoreQuantity(); });
+        _minusButton.BindEvent((x) => { _ignition.OnMinusQuantity(); });
+        _plusButton.BindEvent((x) => { _ignition.OnPlusQuantity(); });
+        _takeoutButton.BindEvent((x) => { _ignition.OnTakeoutQuantity(); });
+        _storeButton.BindEvent((x) => { _ignition.OnStoreQuantity(); });
         gameObject.BindEvent((x) => { gameObject.SetActive(false); });
     }
 
-    private void Awake()
+    private void OnEnable()
     {
-        _makeFire = GameManager.Instance.Player.MakeFire;
+        _ignition = GameManager.Instance.Player.Ignition;
+
         Initialize();
-        gameObject.SetActive(false);
-        _makeFireUI = GetComponentInParent<UIMakeFire>();
+
+        _ignition.OnUpdatedCount += UpdateCountUI;
+        _ignition.OnUpdatedUI += OnTurnOffPopup;
     }
 
     private void Start()
     {
-        _makeFire.OnUpdatedCount += UpdateCountUI;
-        _makeFire.OnUpdatedUI += OnTurnOffPopup;
+        gameObject.SetActive(false);
     }
 
     public void ShowOption(ItemSlot selectedSlot, Vector3 position, int index)
     {
         int FirewoodHaveInventory = GameManager.Instance.Player.Inventory.GetItemCount(selectedSlot.itemData);
-        _makeFire._maxCount = FirewoodHaveInventory;
+        _ignition._maxCount = FirewoodHaveInventory;
 
         gameObject.SetActive(true);
         if (gameObject.activeSelf)
         {
-            _makeFire._count = 0;
-            UpdateCountUI(_makeFire._count);
+            _ignition._count = 0;
+            UpdateCountUI(_ignition._count);
         }
 
         _icon.sprite = selectedSlot.itemData.iconSprite;
         _quantityHaveText.text = "보유:" + FirewoodHaveInventory.ToString();
 
         _container.transform.position = position;
-        _makeFire._index = index;
+        _ignition._index = index;
     }    
 
     public void UpdateCountUI(int count)

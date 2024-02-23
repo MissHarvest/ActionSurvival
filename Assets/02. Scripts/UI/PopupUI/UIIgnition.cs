@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+//Lee gyuseong 24.02.22
 
-public class UIMakeFire : UIPopup
+public class UIIgnition : UIPopup
 {
-    //내부에 존재하는 각 버튼들을 알맞게 이벤트 바인딩을 해준다.
-    //Data 가지고 있지 않기
-
     private enum GameObjects
     {
         Exit,
@@ -24,11 +22,11 @@ public class UIMakeFire : UIPopup
     private GameObject _functionsUseFireSlotButton;
     private Transform _firewoodItems;
     private UIStoreFirewoodHelper _firewoodHelper;
-    [SerializeField] private GameObject _itemSlotPrefab;
+    private Slider _firePowerGaugeSlider;
+    private DayCycle _dayCycle;
+    private Ignition _ignition;
 
     private List<GameObject> _itemUIList = new List<GameObject>();
-
-    private MakeFire _makeFire;
 
     public override void Initialize()
     {
@@ -44,34 +42,45 @@ public class UIMakeFire : UIPopup
 
         _functionsUseFireSlotButton = Get<GameObject>((int)GameObjects.UIFunctionsUseFireSlot);
 
-        _functionsUseFireSlotButton.BindEvent((x) => { OnCookingUIPopup(); });
+        _functionsUseFireSlotButton.BindEvent((x) => { ShowCookingUIPopup(); });
+        _firePowerGaugeSlider = GetComponentInChildren<Slider>();
     }
 
-    private void Awake()
+    private void OnEnable()
     {
-        _makeFire = GameManager.Instance.Player.MakeFire;
+        _ignition = GameManager.Instance.Player.Ignition;
+        _dayCycle = GameManager.DayCycle;
 
         Initialize();
 
         _firewoodItems = Get<GameObject>((int)GameObjects.FirewoodItems).transform;
-        gameObject.SetActive(false);
+        _firewoodHelper = Get<UIStoreFirewoodHelper>((int)Helper.UIStoreFirewoodHelper);
+
+        _ignition.OnUpdatedUI += OnSetIngredients;
+        _ignition.OnUpdatedUI += OnUpdateFirePowerGaugeSlider;
+        _dayCycle.OnTimeUpdated += OnUpdateFirePowerGaugeSlider;
+
+        OnSetIngredients();
     }
 
     private void Start()
+    {        
+        gameObject.SetActive(false);
+    }
+
+    private void OnUpdateFirePowerGaugeSlider()
     {
-        _makeFire.OnUpdatedUI += OnSetIngredients;
-        
-        OnSetIngredients();
-        _firewoodHelper = Get<UIStoreFirewoodHelper>((int)Helper.UIStoreFirewoodHelper);
+        _firePowerGaugeSlider.value = _ignition._firePowerGauge;
     }
 
     public void OnSetIngredients()
     {
         ClearItems();
 
-        foreach (var item in _makeFire.firewoodItemSlots)
+        foreach (var item in _ignition.firewoodItemSlots)
         {
-            GameObject itemUI = Instantiate(_itemSlotPrefab, _firewoodItems);
+            var prefab = Managers.Resource.GetCache<GameObject>("UIFirewoodSlot.prefab");
+            GameObject itemUI = Instantiate(prefab, _firewoodItems);
             Image itemIcon = itemUI.transform.Find("Icon").GetComponent<Image>();
             TextMeshProUGUI itemQuantity = itemUI.GetComponentInChildren<TextMeshProUGUI>();
 
@@ -88,9 +97,9 @@ public class UIMakeFire : UIPopup
     {
         int index = 0;
 
-        for (int i = 0; i < _makeFire.firewoodItemSlots.Length; i++)
+        for (int i = 0; i < _ignition.firewoodItemSlots.Length; i++)
         {
-            if (_makeFire.firewoodItemSlots[i].itemData == itemSlot.itemData)
+            if (_ignition.firewoodItemSlots[i].itemData == itemSlot.itemData)
             {
                 index = i;
             }
@@ -101,7 +110,7 @@ public class UIMakeFire : UIPopup
         _firewoodHelper.ShowOption(itemSlot, pos, index);
     }
 
-    private void OnCookingUIPopup()
+    private void ShowCookingUIPopup()
     {
         var ui = Managers.UI.ShowPopupUI<UICooking>();
         //ui.SetAdvancedRecipeUIActive(_cookingLevel);

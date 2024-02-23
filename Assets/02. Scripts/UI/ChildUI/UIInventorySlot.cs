@@ -10,14 +10,14 @@ public class UIInventorySlot : UIItemSlot
     }
 
 
-    private Slider durabilitySlider;
+    private Slider _durabilitySlider;
 
     public override void Initialize()
     {
         Bind<GameObject>(typeof(GameObjects));
         base.Initialize();
 
-        durabilitySlider = GetComponentInChildren<Slider>();
+        _durabilitySlider = GetComponentInChildren<Slider>();
     }
 
     private void Awake()
@@ -38,11 +38,11 @@ public class UIInventorySlot : UIItemSlot
     {
         if (itemSlot.itemData == null || itemSlot.itemData is ArchitectureItemData || itemSlot.itemData.MaxDurability == 0)
         {
-            durabilitySlider.gameObject.SetActive(false);
+            _durabilitySlider.gameObject.SetActive(false);
             return;
         }
 
-        durabilitySlider.gameObject.SetActive(true);
+        _durabilitySlider.gameObject.SetActive(true);
 
         float maxDurability = itemSlot.itemData.MaxDurability;
         float currentDurability = itemSlot.currentDurability;
@@ -50,8 +50,8 @@ public class UIInventorySlot : UIItemSlot
         float durabilityPercentage = Mathf.Clamp01(currentDurability / maxDurability);
         Color durabilityColor = GetDurabilityColor(durabilityPercentage);
 
-        durabilitySlider.value = durabilityPercentage;
-        durabilitySlider.fillRect.GetComponent<Image>().color = durabilityColor;
+        _durabilitySlider.value = durabilityPercentage;
+        _durabilitySlider.fillRect.GetComponent<Image>().color = durabilityColor;
     }
 
     private Color GetDurabilityColor(float durabilityPercentage)

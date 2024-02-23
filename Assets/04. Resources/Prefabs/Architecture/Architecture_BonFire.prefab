@@ -24302,6 +24302,7 @@ GameObject:
   - component: {fileID: 7863263828564386572}
   - component: {fileID: 8069583450980956564}
   - component: {fileID: 7209299809543424252}
+  - component: {fileID: 8685884204301227580}
   m_Layer: 11
   m_Name: Architecture_BonFire
   m_TagString: Make
@@ -24342,6 +24343,7 @@ MonoBehaviour:
   _renderer: {fileID: 3362529784644542517}
   redMat: {fileID: 2100000, guid: 4cea252e4cd4c1241bbe5bf6a09e2e64, type: 2}
   blueMat: {fileID: 2100000, guid: 3ccf5f2feeac4154b9a14ef7ae1f6693, type: 2}
+  otherCollider: {fileID: 0}
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0
@@ -24380,6 +24382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 476096d54f245f04dba3dab8edf6ec4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cookingLevel: 0
 --- !u!82 &7863263828564386572
 AudioSource:
   m_ObjectHideFlags: 0
@@ -24546,6 +24549,33 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &8685884204301227580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5253596113887293695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b278108c4743f444b64e918eeda34c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firewoodItemSlots:
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  _count: 0
+  _maxCount: 0
+  _index: 0
+  _firePowerGauge: 0
 --- !u!1 &6059971187151584573
 GameObject:
   m_ObjectHideFlags: 0

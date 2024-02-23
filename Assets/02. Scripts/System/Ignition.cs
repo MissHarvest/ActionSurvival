@@ -2,15 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Lee gyuseong 24.02.22
 
-public class MakeFire : MonoBehaviour
+public class Ignition : MonoBehaviour
 {
-    //화로가 가지게
     public ItemSlot[] firewoodItemSlots = new ItemSlot[2];
 
     public int _count = 0;
     public int _maxCount;
     public int _index;
+    public int _firePowerGauge;
+
+    private bool _haveFirewood = false;
+    private bool _startCooking = false;
+
+    private DayCycle _dayCycle;
 
     public event Action<int> OnUpdatedCount;
     public event Action OnUpdatedUI;
@@ -18,6 +24,63 @@ public class MakeFire : MonoBehaviour
     private void Awake()
     {
         GetFirewoodItems();
+        _firePowerGauge = 0;
+    }
+
+    private void Start()
+    {
+        _dayCycle = GameManager.DayCycle;
+        _dayCycle.OnTimeUpdated += OnConsumeFirePowerGauge;
+    }
+
+    private void StartAFire()
+    {        
+        if (_startCooking)
+        {
+            for (int i = 0; i < firewoodItemSlots.Length; i++)
+            {
+                if (firewoodItemSlots[i].quantity > 0)
+                {
+                    firewoodItemSlots[i].SubtractFirewoodItemQuantity(1);
+                    _firePowerGauge = i == 0 ? 2 : 3;
+                    OnUpdatedUI?.Invoke();
+
+                    _haveFirewood = true;
+                    return;
+                }
+            }            
+        }       
+    }
+
+    public void OnConsumeFirePowerGauge()
+    {
+        //daycycle에서 이벤트 호출되면 일정 수치 만큼 깎는다.
+        if (_haveFirewood)
+        {
+            _firePowerGauge -= 1;
+        }
+
+        if (_firePowerGauge < 1)
+        {
+            StartAFire();
+        }       
+
+        if (_firePowerGauge == 0 && firewoodItemSlots[0].quantity == 0 && firewoodItemSlots[1].quantity == 0)
+        {
+            _startCooking = false;
+            _haveFirewood = false;
+        }
+    }
+
+    public void StartCookingButton()
+    {
+        _startCooking = true;
+        StartAFire();
+    }
+
+    public void StopCookingButton()
+    {
+        _startCooking = false;
     }
 
     private void GetFirewoodItems()

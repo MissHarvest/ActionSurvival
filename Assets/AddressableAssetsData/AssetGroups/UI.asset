@@ -197,7 +197,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 15db016ee90cb9846970d69d9ad905d6
-    m_Address: UIPopUp_UIMakeFire.prefab
+    m_Address: UIPopUp_UIIgnition.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
