@@ -78,7 +78,7 @@ public class PlayerHelper
 
     private void ShowHelper(int index)
     {
-        Managers.UI.ShowPopupUI<UITipInformation>().ShowInformation(index);
+        Managers.UI.ShowPopupUI<UITipInformation>(pause:true).ShowInformation(index);
     }
 
     private void Load()

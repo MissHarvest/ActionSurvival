@@ -223,11 +223,15 @@ public class PlayerBaseState : IState
 
     private void PauseGame(InputAction.CallbackContext context)
     {
-        var ui = Managers.UI.GetPopupUI<UIPauseGame>();
-        if (!ui.gameObject.activeSelf)
+        var count = Managers.UI.GetActivatedPopupCount();
+        if(count > 0)
         {
-            Managers.UI.ShowPopupUI<UIPauseGame>();
-        }      
+            Managers.UI.ClosePopupUI();
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UIPauseGame>(pause: true);
+        }
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)

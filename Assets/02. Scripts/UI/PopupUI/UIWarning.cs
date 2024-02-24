@@ -88,7 +88,6 @@ public class UIWarning : UIPopup
             Close();
             yesAction.Invoke();
         });
-        Time.timeScale = 0.0f;
     }
 
     public void SetWarning(string warning, Type type, UnityAction yesAction, bool once)
@@ -108,7 +107,7 @@ public class UIWarning : UIPopup
         }
         else
         {
-            SetWarning(warning, yesAction);
+            //SetWarning(warning, yesAction);
         }
     }
 
@@ -122,13 +121,5 @@ public class UIWarning : UIPopup
     {
         _show = false;
         Managers.UI.ClosePopupUI(this);
-        Time.timeScale = 1.0f;
-    }
-
-    IEnumerator Save()
-    {
-        yield return null;
-        var json = JsonUtility.ToJson(this);
-        SaveGame.CreateJsonFile("Guide", json, SaveGame.SaveType.Other);
     }
 }

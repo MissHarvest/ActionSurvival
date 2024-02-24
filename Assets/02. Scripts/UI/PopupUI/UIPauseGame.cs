@@ -35,16 +35,6 @@ public class UIPauseGame : UIPopup
         gameObject.SetActive(false);
     }
 
-    private void OnEnable()
-    {
-        Time.timeScale = 0.0f;
-    }
-
-    private void OnDisable()
-    {
-        Time.timeScale = 1.0f;
-    }
-
     private void BindEventOfButtons()
     {
         Get<Button>((int)Buttons.SoundButton).gameObject.BindEvent((x) =>
