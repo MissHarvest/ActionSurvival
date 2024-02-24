@@ -49,7 +49,7 @@ public class UITip : UIPopup
     private void PrintTip(string tip)
     {
         Get<TextMeshProUGUI>((int)Texts.TipText).text = tip;
-        Managers.Sound.PlayEffectSound(transform.position, "Tip");
+        Managers.Sound.PlayEffectSound("Tip");
     }
 
     private void Close()

@@ -65,7 +65,7 @@ public class MeteorObject : MonoBehaviour
 
     private void Destroy()
     {        
-        Managers.Sound.PlayEffectSound(transform.position, "Explosion", 0.12f);
+        Managers.Sound.PlayEffectSound(transform.position, "Explosion", 1.0f, false);
         Collider.enabled = false;
         _managedPool.Release(this);
     }

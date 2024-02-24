@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -54,12 +55,15 @@ public class UITipInformation : UIPopup
     {
         var prefab = Managers.Resource.GetCache<GameObject>("UITipSlot.prefab");
         _tips = Managers.Resource.GetCache<TipsSO>("Tips.data").tips;
+
         for(int i = 0; i < _tips.Count; ++i)
         {
             var go = Instantiate(prefab, Get<GameObject>((int)GameObjects.Content).transform);
             var tipSlotUI = go.GetComponent<UITipSlot>();
             tipSlotUI?.Set(_tips[i], ShowInformation);
         }
+
+        _tips = _tips.OrderBy(x => x.id).ToList();
     }
 
     public void ShowInformation(int index)

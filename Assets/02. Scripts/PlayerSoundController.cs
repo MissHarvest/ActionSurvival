@@ -7,11 +7,11 @@ public class PlayerSoundController : MonoBehaviour
 {
     public void PlayMineSFX()
     {
-        Managers.Sound.PlayEffectSound(transform.position, "Mine");
+        Managers.Sound.PlayEffectSound(transform.position, "Mine", 1.0f, false);
     }
 
     public void PlaySFX(string name)
     {
-        Managers.Sound.PlayEffectSound(transform.position, name);
+        Managers.Sound.PlayEffectSound(transform.position, name, 1.0f, false);
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -38,7 +39,9 @@ public class PlayerHelper
         _datePairKeyword.TryAdd((1, Evening), Tip.MonsterWave);
         _datePairKeyword.TryAdd((4, Morning), Tip.Summer);
         _datePairKeyword.TryAdd((4, Evening), Tip.LavaArtifact);
-
+        // 여름 끝나는 것
+        // 겨울 끝나는 것
+        // 겨울 시작하는 것
         GameManager.DayCycle.OnUpdated += OnTimeUpdated;
         GameManager.Instance.Player.ConditionHandler.Hunger.OnBelowedToZero += OnHungerZero;
         GameManager.Instance.Player.ConditionHandler.Hunger.OnRecovered += OnHungerRecovered;
@@ -62,7 +65,8 @@ public class PlayerHelper
 
     private void OnHungerRecovered(float percent)
     {
-        ShowTip(Tip.Fullness);
+        if(percent >= 0.7f)
+            ShowTip(Tip.Fullness);
     }
 
     private void ShowTip(Tip tip)
@@ -108,10 +112,14 @@ public class PlayerHelper
     private void Save()
     {
         SerializableList<bool> list = new();
-        foreach(var tip in _tipDic.Values)
+        List<(int, bool)> temp = new();
+
+        foreach(var tip in _tipDic)
         {
-            list.Add(tip.check);
+            temp.Add((tip.Key, tip.Value.check));
         }
+
+        list.Set(temp.OrderBy(x => x.Item1).Select(x => x.Item2).ToList());
 
         var json = JsonUtility.ToJson(list);
         SaveGame.CreateJsonFile(_savePath, json, SaveGame.SaveType.Runtime);

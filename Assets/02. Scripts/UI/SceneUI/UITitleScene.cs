@@ -44,7 +44,7 @@ public class UITitleScene : UIScene
 
         Get<Button>((int)Buttons.NewGameButton).gameObject.BindEvent((x) =>
         {
-            Managers.Sound.PlayEffectSound(transform.position,"ButtonHover");
+            Managers.Sound.PlayEffectSound("ButtonHover");
         }, UIEvents.PointerEnter);
 
         Get<Button>((int)Buttons.ContinueButton).onClick.AddListener(() =>
@@ -54,7 +54,7 @@ public class UITitleScene : UIScene
 
         Get<Button>((int)Buttons.ContinueButton).gameObject.BindEvent((x) =>
         {
-            Managers.Sound.PlayEffectSound(transform.position, "ButtonHover");
+            Managers.Sound.PlayEffectSound("ButtonHover");
         }, UIEvents.PointerEnter);
 
 
@@ -65,7 +65,7 @@ public class UITitleScene : UIScene
 
         Get<Button>((int)Buttons.SettingButton).gameObject.BindEvent((x) =>
         {
-            Managers.Sound.PlayEffectSound(transform.position, "ButtonHover");
+            Managers.Sound.PlayEffectSound("ButtonHover");
         }, UIEvents.PointerEnter);
 
 

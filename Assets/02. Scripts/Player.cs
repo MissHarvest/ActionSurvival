@@ -113,7 +113,7 @@ public class Player : MonoBehaviour, IHit
             ConditionHandler.HP.Subtract(1f);
         }
 
-        Managers.Sound.PlayEffectSound(transform.position, "Hit");
+        Managers.Sound.PlayEffectSound(transform.position, "Hit", 1.0f, false);
         Debug.Log($"[ Attacked by ] {attacker}");
     }
 

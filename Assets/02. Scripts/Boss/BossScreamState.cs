@@ -68,7 +68,7 @@ public class BossScreamState : BossAttackState
         else if(normalizedTime > 0.2f && _canScream)
         {
             _canScream = false;
-            Managers.Sound.PlayEffectSound(_stateMachine.Boss.transform.position, "Scream", _sfxVolume);
+            Managers.Sound.PlayEffectSound(_stateMachine.Boss.transform.position, "Scream", _sfxVolume, false);
             SummonMonster();
         }       
     }

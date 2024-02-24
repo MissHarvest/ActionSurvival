@@ -94,7 +94,7 @@ public class Disaster : IAttack
 
         if (point.Length <= 0) yield break;
 
-        Managers.Sound.PlayEffectSound(_target.transform.position, "Falling", 0.15f);
+        Managers.Sound.PlayEffectSound("Falling", 0.15f);
 
         for (int i = 0; i < point.Length; ++i)
         {

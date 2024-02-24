@@ -198,5 +198,10 @@ public class SerializableList<T>
         return _serialzedList[index];
     }
 
+    public void Set(List<T> list)
+    {
+        _serialzedList = list;
+    }
+
     public int Count => _serialzedList.Count;
 }

@@ -57,7 +57,7 @@ public class UIWarning : UIPopup
     private void PrintWarning(string warning)
     {
         Get<TextMeshProUGUI>((int)Texts.WarningText).text = warning;
-        Managers.Sound.PlayEffectSound(transform.position, "Warning");
+        Managers.Sound.PlayEffectSound("Warning");
     }
 
     private void SetButtonsActive(Type type)
