@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     public static ObjectManager ObjectManager => _instance._objectManager;
     public static DayCycle DayCycle => _instance._daycycle;
     public static Season Season => _instance._season;
+    public static ArtifactCreator ArtifactCreator => _instance._artifactCreator;
     public static ResourceObjectSpawner ResourceObjectSpawner => _instance._resourceObjectSpawner;
     public World World { get; private set; }
     public Player Player { get; set; }

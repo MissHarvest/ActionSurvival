@@ -100,9 +100,13 @@ public class BuildingSystem : MonoBehaviour
 
         // 현재 위치 저장
         Vector3 currentPosition = _rayPointer.transform.position;
-        var nextPosition = currentPosition + new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
 
-        if(IsWithinBuildZone(nextPosition))
+        // 카메라 방향 고려
+        Vector3 moveDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * new Vector3(joystickInput.x, 0, joystickInput.y);
+
+        var nextPosition = currentPosition + moveDirection * movementSpeed * Time.deltaTime;
+
+        if (IsWithinBuildZone(nextPosition))
         {
             _rayPointer.transform.position = nextPosition;
         }

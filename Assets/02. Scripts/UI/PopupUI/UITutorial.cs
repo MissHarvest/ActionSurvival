@@ -84,7 +84,7 @@ public class UITutorial : UIPopup
             _uiQuests[i].gameObject.SetActive(true);
         }
 
-        // 모든 퀘스트 클리어 시 퀘스트 UI 닫음
+        // 모든 퀘스트 클리어 시 퀘스트 UI 닫음 (얼음섬 아티팩트 퀘스트 시에는 true로 바꿀수있나?)
         if (_activeQuests.Count == 0)
         {
             gameObject.SetActive(false);

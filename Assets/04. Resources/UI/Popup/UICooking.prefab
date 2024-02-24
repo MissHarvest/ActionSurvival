@@ -1113,7 +1113,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC74C\uC2DD\uC744 \uC81C\uC791\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
+  m_text: "\uC74C\uC2DD\uC744 \uC694\uB9AC\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aa0031c1503e9cc43ae97a26f5e29133, type: 2}
   m_sharedMaterial: {fileID: 6143970270096263553, guid: aa0031c1503e9cc43ae97a26f5e29133, type: 2}
@@ -1299,7 +1299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c4d353cc263b604d939e2ff946ca646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ingredientPrefab: {fileID: 3252738167873772475, guid: a63c73c67ba087445936aaa04c4643e9, type: 3}
 --- !u!1 &5116495306849645042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1547,7 +1546,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC81C\uC791"
+  m_text: "\uC694\uB9AC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aa0031c1503e9cc43ae97a26f5e29133, type: 2}
   m_sharedMaterial: {fileID: 6143970270096263553, guid: aa0031c1503e9cc43ae97a26f5e29133, type: 2}
@@ -2381,7 +2380,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 50
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 722201124743433288}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 7949106172641736443}

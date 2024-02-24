@@ -13,7 +13,7 @@ public class QuestSO : ScriptableObject
     }
 
     public string questUIName;
-
+    public bool canBeAddedWithoutPreQuests;
     public List<QuestSO> preQuests; // 선행 퀘스트 리스트
     public List<RequiredItem> requiredItems = new List<RequiredItem>();
 
