@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
 
 // 2024. 01. 21 Park Jun Uk
 public class UILootingItemSlot : UIItemSlot

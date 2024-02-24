@@ -65,7 +65,7 @@ public class ArtifactCreator
             int x = Random.Range(minX, maxX);
             int z = Random.Range(minZ, maxZ);
 
-            pos = new Vector3(x, z);
+            pos = new Vector3(x, 0, z);
             if (IsValidPosition(ref pos))
                 break;
 
@@ -76,7 +76,7 @@ public class ArtifactCreator
     }
 
     public bool IsValidPosition(ref Vector3 pos)
-    {
+    {        
         pos += Vector3.up * 50f;
         if (Physics.Raycast(pos, Vector3.down, out var hit, 100f, int.MaxValue, QueryTriggerInteraction.Collide))
         {
