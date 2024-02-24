@@ -59,6 +59,7 @@ public class UIManager
             name = typeof(T).Name;
 
         _popups.Clear();
+        _activatedPopups.Clear();
 
         var gameObject = Managers.Resource.GetCache<GameObject>($"{name}.prefab");
         gameObject = Object.Instantiate(gameObject);
