@@ -101,6 +101,7 @@ public class UIStoreFirewoodHelper : UIBase
     public void UpdateCountUI(int count)
     {
         _quantityText.text = count.ToString();
+        Debug.Log(count);
     }
 
     private void OnTurnOffPopup()

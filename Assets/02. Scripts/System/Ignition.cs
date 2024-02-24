@@ -7,6 +7,7 @@ using UnityEngine;
 public class Ignition : MonoBehaviour
 {
     public ItemSlot[] firewoodItemSlots = new ItemSlot[2];
+    public ItemSlot[] recipeRequiredItemSlots = new ItemSlot[5];
 
     public int _count = 0;
     public int _maxCount;
@@ -25,6 +26,10 @@ public class Ignition : MonoBehaviour
     {
         GetFirewoodItems();
         _firePowerGauge = 0;
+        for (int i = 0; i < recipeRequiredItemSlots.Length; i++)
+        {
+            recipeRequiredItemSlots[i] = new ItemSlot();
+        }
     }
 
     private void Start()

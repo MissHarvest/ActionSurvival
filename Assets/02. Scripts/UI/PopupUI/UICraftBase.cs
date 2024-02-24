@@ -149,7 +149,7 @@ public abstract class UICraftBase : UIPopup
         }
     }
 
-    protected void OnConfirmedBase()
+    protected virtual void OnConfirmedBase()
     {
         if (SelectedRecipe != null)
         {

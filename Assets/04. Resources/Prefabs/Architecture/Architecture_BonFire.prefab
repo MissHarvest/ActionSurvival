@@ -24572,6 +24572,7 @@ MonoBehaviour:
     <currentDurability>k__BackingField: 0
     <equipped>k__BackingField: 0
     <registed>k__BackingField: 0
+  _recipeRequiredItem: []
   _count: 0
   _maxCount: 0
   _index: 0
