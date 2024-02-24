@@ -165,3 +165,38 @@ public class SaveGame
     }
     #endregion
 }
+
+
+[System.Serializable]
+public class SaveArray
+{
+    [SerializeField] public List<Vector3> _serailList = new();
+
+    public SaveArray(List<Vector3> input)
+    {
+        _serailList = input;
+    }
+}
+
+[System.Serializable]
+public class SaveArray2
+{
+    [SerializeField] public List<SaveArray> _serailList = new();
+}
+
+[System.Serializable]
+public class SerializableList<T>
+{
+    [SerializeField] private List<T> _serialzedList = new();
+    public void Add(T value)
+    {
+        _serialzedList.Add(value);
+    }
+
+    public T Get(int index)
+    {
+        return _serialzedList[index];
+    }
+
+    public int Count => _serialzedList.Count;
+}

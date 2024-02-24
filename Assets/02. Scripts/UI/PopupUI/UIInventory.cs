@@ -6,7 +6,7 @@ public class UIInventory : UIPopup
 {
     enum Gameobjects
     {
-        Exit,
+        Block,
     }
 
     enum Container
@@ -36,7 +36,7 @@ public class UIInventory : UIPopup
         Bind<UIItemSlotContainer>(typeof(Container));
         Bind<UIArmorSlotContainer>(typeof(ArmorSlotContainer));
         Bind<UIItemUsageHelper>(typeof(Helper));
-        Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) => { Managers.UI.CloseAllPopupUI(); });
+        Get<GameObject>((int)Gameobjects.Block).BindEvent((x) => { Managers.UI.CloseAllPopupUI(); });
     }
 
     private void Awake()

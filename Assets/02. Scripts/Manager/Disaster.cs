@@ -49,19 +49,9 @@ public class Disaster : IAttack
         switch (state)
         {
             case Season.State.Summer:
-                Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
-                    "여름이 시작되었습니다.\n용암섬에서 아티팩트를 제거해서 피해를 줄이세요.",
-                    UIWarning.Type.YesOnly,
-                    (() => { Managers.UI.ClosePopupUI(); }),
-                    true);
                 OnEnterSummer();
                 break;
             case Season.State.Winter:
-                Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
-                    "겨울이 시작되었습니다.\n빙하섬에서 아티팩트를 제거해서 피해를 줄이세요.",
-                    UIWarning.Type.YesOnly,
-                    (() => { Managers.UI.ClosePopupUI(); }),
-                    true);
                 OnEnterWinter();
                 break;
             default:

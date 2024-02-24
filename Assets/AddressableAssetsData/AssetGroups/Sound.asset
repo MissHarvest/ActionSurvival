@@ -36,7 +36,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ffb159a21c8a04135a5616979c828fab
-    m_Address: Looting1.wav
+    m_Address: Tip.wav
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
