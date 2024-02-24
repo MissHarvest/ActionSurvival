@@ -7,12 +7,10 @@ public class MonsterStayState : MonsterBaseState
 {
     private float _attackTimer = 0.0f;
     private float _reach;
-    private float _attackDelay = 0.0f;
 
     public MonsterStayState(MonsterStateMachine monsterStateMachine) : base(monsterStateMachine)
     {
         _reach = monsterStateMachine.Monster.Data.AttackData.AttackalbeDistance * 2.0f;
-        _attackDelay = monsterStateMachine.Monster.Data.AttackData.AttackDelay;
     }
 
     public override void Enter()
@@ -34,7 +32,7 @@ public class MonsterStayState : MonsterBaseState
     public override void Update()
     {
         _attackTimer += Time.deltaTime;
-        if (_attackTimer >= _attackDelay)//_stateMachine.Monster.Data.AttackData
+        if (_attackTimer >= _stateMachine.Monster.Data.AttackData.AttackInterval)
         {
             _stateMachine.ChangeState(_stateMachine.ChaseState);
         }

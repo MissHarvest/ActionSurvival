@@ -17,7 +17,7 @@ public class MeleeMonster : Monster
 
     public override void TryAttack()
     {
-        _monsterWeapon.ActivateWeapon();
+        _monsterWeapon.ActivateWeapon(Data.AttackData.TimeColliderInactivated);
     }
 
     public override void OffAttack()

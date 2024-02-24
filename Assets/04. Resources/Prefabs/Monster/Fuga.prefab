@@ -403,7 +403,7 @@ MonoBehaviour:
     maxValue: 0
     regenRate: 0
     decayRate: 0
-  attackTime: 0
+  attackTime: 1
   _monsterWeapon: {fileID: 7394809304215902068}
 --- !u!135 &7641184038205987147
 SphereCollider:

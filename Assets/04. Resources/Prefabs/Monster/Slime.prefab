@@ -322,7 +322,6 @@ MonoBehaviour:
     maxValue: 0
     regenRate: 0
     decayRate: 0
-  attackTime: 0.35
   _monsterWeapon: {fileID: 2974039238733788041}
 --- !u!114 &4795730543019967248
 MonoBehaviour:

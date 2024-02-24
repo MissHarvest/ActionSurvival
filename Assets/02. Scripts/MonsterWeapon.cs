@@ -33,21 +33,27 @@ public class MonsterWeapon : MonoBehaviour
         Collider.enabled = true;
     }
 
+    public void ActivateWeapon(float time)
+    {
+        Collider.enabled = true;
+        Invoke("InactivateWeapon", time);
+    }
+
     public void InactivateWeapon()
     {
         Collider.enabled = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         var hittable = other.GetComponent<IHit>();
         if (hittable != null)
         {
             Owner.Attack(hittable);
+            Collider.enabled = false;
         }
-        Collider.enabled = false;
-        
-        if(_projectile)
+
+        if (_projectile)
         {
             _projectile.Destroy();
         }

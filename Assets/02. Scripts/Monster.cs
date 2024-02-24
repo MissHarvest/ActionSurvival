@@ -29,10 +29,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     public Island Habitat { get; private set; } = null;
 
     public event Action<IAttack> OnHit;
-
-    [Header("Attack")]
-    public float attackTime;
-
+        
     public GameObject Target =>_stateMachine.Target;
 
     protected virtual void Awake()
