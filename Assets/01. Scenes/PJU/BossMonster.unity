@@ -977,7 +977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  monsterPrefab: {fileID: 0}
+  monsterPrefab: {fileID: 3934653263850996039, guid: e0bc533665347b241ad2e4113d293170, type: 3}
   monster: {fileID: 0}
 --- !u!23 &473930079
 MeshRenderer:
@@ -5544,7 +5544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88fcca721d2bd1c468c9e881f85ff513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _save: []
 --- !u!114 &5761126647564808015
 MonoBehaviour:
   m_ObjectHideFlags: 0

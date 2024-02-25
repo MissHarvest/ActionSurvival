@@ -97,6 +97,21 @@ public class Player : MonoBehaviour, IHit
         _stateMachine.PhysicsUpdate();
     }
 
+    public void Attack()
+    {
+        var hits = Physics.BoxCastAll(transform.position + transform.forward * 0.5f,
+            Vector3.one * 0.5f, 
+            Vector3.up,
+            transform.rotation,
+            0,
+            1 << 7);
+        Debug.Log($"[BoxCast] {hits.Length}");
+        for(int i = 0; i < hits.Length; ++i)
+        {
+            hits[i].collider.GetComponent<IHit>()?.Hit(null, 1);
+        }
+    }
+
     public void Hit(IAttack attacker, float damage)
     {
         int armorDefense = ArmorSystem.GetDefense();
@@ -145,5 +160,11 @@ public class Player : MonoBehaviour, IHit
             transform.position = new Vector3(-40f, 1f, 22f);
             Controller.enabled = true;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position + transform.forward * 0.5f, Vector3.one * 0.5f);
     }
 }

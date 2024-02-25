@@ -13,6 +13,8 @@ public class MonsterDieState : MonsterBaseState
     public override void Enter()
     {
         _stateMachine.MovementSpeedModifier = 0.0f;
+        Managers.Sound.PlayEffectSound(_stateMachine.Monster.transform.position,
+            _stateMachine.Monster.Sound.Die, 1.0f, false);
         base.Enter();
         _stateMachine.Monster.Animator.SetTrigger(_stateMachine.Monster.AnimationData.DieParameterHash);
     }

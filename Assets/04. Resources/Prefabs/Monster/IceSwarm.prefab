@@ -162,6 +162,11 @@ MonoBehaviour:
     runParameterName: Run
     attackParameterName: Attack
     dieParamterName: Die
+  <Sound>k__BackingField:
+    FindPlayer: InsectDetect
+    Attack: InsectAttack
+    Hit: SlashHit
+    Die: InsectDie
   <Data>k__BackingField: {fileID: 0}
   looting:
     _lootings:
@@ -238,7 +243,6 @@ MonoBehaviour:
     maxValue: 0
     regenRate: 0
     decayRate: 0
-  attackTime: 0.3
   _monsterWeapon: {fileID: 7052208092277103325}
 --- !u!136 &9143458661442102846
 CapsuleCollider:

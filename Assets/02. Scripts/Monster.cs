@@ -11,6 +11,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     [SerializeField] protected string _name = string.Empty;
     [field: SerializeField] public MonsterAnimationData AnimationData { get; private set; }
 
+    [field: SerializeField] public MonsterSound Sound {get; private set;}
+
     protected MonsterStateMachine _stateMachine;
     public Animator Animator { get; private set; }
     [field: SerializeField] public MonsterSO Data { get; private set; }
@@ -38,8 +40,9 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         AnimationData.Initialize();
         Animator = GetComponentInChildren<Animator>();
 
-        var name = _name == string.Empty ? this.GetType().Name : _name;
-        Data = Managers.Resource.GetCache<MonsterSO>($"{name}.data");
+        _name = gameObject.name.Split("(Clone)")[0];
+        //var name = _name == string.Empty ? this.GetType().Name : _name;
+        Data = Managers.Resource.GetCache<MonsterSO>($"{_name}.data");
         _stateMachine = new MonsterStateMachine(this);
 
         NavMeshAgent = Utility.GetOrAddComponent<NavMeshAgent>(gameObject);
@@ -108,6 +111,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         gameObject.layer = 14;
         HP.Subtract(damage);
         OnHit?.Invoke(attacker);
+        Managers.Sound.PlayEffectSound(transform.position, Sound.Hit, 1.0f, false);
         if(HP.currentValue > 0) StartCoroutine(Avoid());
     }
 

@@ -122,7 +122,11 @@ public class PlayerComboAttackState : PlayerAttackState
                 TryApplyForce();
 
             if (_attackInfoData.ForceTransitionTime < normalizedTime && normalizedTime <= _attackInfoData.ComboTransitionTime)
-                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;//
+            {
+                // if tryattacktime 보다 크면! bool 값을 설정해서 1회만 되도록!
+                _stateMachine.Player.Attack();
+                //_weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;//
+            }
 
             if (normalizedTime >= _attackInfoData.ComboTransitionTime)
                 TryComboAttack();

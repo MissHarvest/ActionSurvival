@@ -9,7 +9,8 @@ public class MeleeMonster : Monster
     protected override void Awake()
     {
         base.Awake();
-        if(_monsterWeapon)
+        _monsterWeapon = GetComponentInChildren<MonsterWeapon>();
+        if (_monsterWeapon)
         {
             _monsterWeapon.Owner = this;
         }

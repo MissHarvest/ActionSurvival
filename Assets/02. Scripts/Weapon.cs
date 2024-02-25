@@ -17,7 +17,7 @@ public class Weapon : MonoBehaviour, IAttack
 
     private void OnTriggerEnter(Collider other)
     {
-        Attack(other.GetComponent<IHit>());
+        //Attack(other.GetComponent<IHit>());
     }
 
     public void Attack(IHit target)
