@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Pool;
 
 public class SoundManager
 {
     private AudioSource _bgmSource;
     private GameObject _root;
     private AudioMixer _audioMixer;
-    private Stack<SFXSound> _inactivated = new Stack<SFXSound>();
     private Dictionary <string, float> _bgmContanier = new Dictionary<string, float>();
+    private IObjectPool<SFXSound> _sfxSounds;
+    private GameObject _sfxSoundPrefab;
+    private Transform _sfxRoot;    
 
     public void Init()
     {
@@ -21,6 +24,7 @@ public class SoundManager
         _bgmContanier.TryAdd("IceIslandBGM", 0.2f);
         _bgmContanier.TryAdd("FireIslandBGM", 0.2f);
 
+        _sfxSounds = new ObjectPool<SFXSound>(CreateSFX, OnGetSFX, OnReleaseSFX, OnDestroySFX, maxSize: 20);
 
         CreateBgmPlayer();
         CreateSFXPlayers();
@@ -38,19 +42,9 @@ public class SoundManager
 
     private void CreateSFXPlayers()
     {
-        var soundBox = new GameObject("@SFX");
-        soundBox.transform.parent = _root.transform;
-
-        for(int i = 0; i < 30; ++i)
-        {
-            var soundPrefab = Managers.Resource.GetCache<GameObject>("SFXSound.prefab");
-            var go = Object.Instantiate(soundPrefab, soundBox.transform); // [ true / false ]
-            go.SetActive(false);
-            var sfxsound = go.GetComponent<SFXSound>();
-            sfxsound.AudioSource.outputAudioMixerGroup = _audioMixer.FindMatchingGroups("SFX")[0];
-            sfxsound.OnPlayEnd += PushInActivatedObject;
-            _inactivated.Push(sfxsound);
-        }
+        _sfxRoot = new GameObject("@SFX").transform;
+        _sfxRoot.parent = _root.transform;
+        _sfxSoundPrefab = Managers.Resource.GetCache<GameObject>("SFXSound.prefab");
     }
 
     public void PlayBGM(string bgmName, float volume = 1.0f)
@@ -67,20 +61,16 @@ public class SoundManager
         PlayBGM(bgmName, 0.2f);
     }
 
-    public void PlayEffectSound(Vector3 position, string effectName, float volume = 0.3f)
+    public void PlayEffectSound(string sfxName, float volume = 0.3f, bool loop = false)
     {
-        if (_inactivated.Count <= 0) return;
-        var sound = _inactivated.Pop();
-        sound.AudioSource.volume = volume;
-        sound.transform.position = position;
-        var clip = Managers.Resource.GetCache<AudioClip>($"{effectName}.wav");
-        sound.Play(clip);
+        PlayEffectSound(null, sfxName, volume, loop);
     }
 
-    private void PushInActivatedObject(SFXSound sfx)
+    public void PlayEffectSound(Vector3? position, string sfxName, float volume, bool loop)
     {
-        sfx.gameObject.SetActive(false);
-        _inactivated.Push(sfx);
+        var sound = _sfxSounds.Get();
+        var clip = Managers.Resource.GetCache<AudioClip>($"{sfxName}.wav");
+        sound.PlaySound(position, clip, volume, loop);
     }
 
     public void Set(string group, float volume)
@@ -88,4 +78,29 @@ public class SoundManager
         _audioMixer.SetFloat(group, volume);
         PlayerPrefs.SetFloat($"{group}Volume", volume);
     }
+
+    #region Object Pooling
+    private SFXSound CreateSFX()
+    {
+        SFXSound sfx = Object.Instantiate(_sfxSoundPrefab, _sfxRoot).GetComponent<SFXSound>();
+        sfx.SetManagedPool(_sfxSounds);
+        sfx.AudioSource.outputAudioMixerGroup = _audioMixer.FindMatchingGroups("SFX")[0];
+        return sfx;
+    }
+
+    private void OnGetSFX(SFXSound sfx)
+    {
+        sfx.gameObject.SetActive(true);
+    }
+
+    private void OnReleaseSFX(SFXSound sfx)
+    {
+        sfx.gameObject.SetActive(false);
+    }
+
+    private void OnDestroySFX(SFXSound sfx)
+    {
+        Object.Destroy(sfx.gameObject);
+    }
+    #endregion
 }

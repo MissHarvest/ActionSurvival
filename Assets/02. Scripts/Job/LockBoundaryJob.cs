@@ -145,6 +145,7 @@ public struct LockBoundaryJob : IJob
         }
         var result = (temp, _result[0]);
         _points.Dispose();
+        _result.Dispose();
         return result;
     }
 }

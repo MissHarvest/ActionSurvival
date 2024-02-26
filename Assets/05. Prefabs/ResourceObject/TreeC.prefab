@@ -147,6 +147,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 4
+  _toolDurabilityReduceAmount: 0.3
+  _interactTime: 1
 --- !u!23 &5687926750999797601
 MeshRenderer:
   m_ObjectHideFlags: 0

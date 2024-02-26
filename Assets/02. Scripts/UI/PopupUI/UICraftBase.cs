@@ -9,13 +9,13 @@ public abstract class UICraftBase : UIPopup
 {
     protected enum Gameobjects
     {
+        Block,
         Content,
         Confirm,
         Contents,
         YesButton,
         MinusButton,
         PlusButton,
-        Exit,
     }
 
     enum Texts
@@ -56,7 +56,7 @@ public abstract class UICraftBase : UIPopup
         base.Initialize();
         Bind<GameObject>(typeof(Gameobjects));
         Bind<TextMeshProUGUI>(typeof(Texts));
-        Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) =>
+        Get<GameObject>((int)Gameobjects.Block).BindEvent((x) =>
         {
             _confirm.gameObject.SetActive(false);
             Managers.UI.ClosePopupUI(this);

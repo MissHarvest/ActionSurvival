@@ -15,6 +15,7 @@ public class MonsterPatrolState : MonsterBaseState
 
     public override void Enter()
     {
+        _stateMachine.isBattle = false;
         _stateMachine.MovementSpeedModifier = _stateMachine.Monster.Data.MovementData.WalkSpeedModifier;
         _stateMachine.DetectionDistModifier = _stateMachine.Monster.Data.AttackData.DefaultDetectionDistModifier;
 

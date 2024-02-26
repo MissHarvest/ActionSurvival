@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.42158535, g: 0.6455763, b: 0.7898356, a: 1}
+  m_IndirectSpecularColor: {r: 0.42156693, g: 0.64556944, b: 0.7898304, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -804,6 +804,10 @@ PrefabInstance:
     - target: {fileID: 5452070692134942814, guid: f948498afcbc5694096d083896b081ab, type: 3}
       propertyPath: m_Name
       value: Plane
+      objectReference: {fileID: 0}
+    - target: {fileID: 6965789260552448760, guid: f948498afcbc5694096d083896b081ab, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

@@ -15,39 +15,24 @@ public class PlayerFallState : PlayerGroundedState
         _stateMachine.IsFalling = true;
         _stateMachine.MovementSpeedModifier = 0f;        
         _alreadyAppliedForce = false;
-        StartAnimation(_stateMachine.Player.AnimationData.fallParameterHash);
+        StartAnimation(_stateMachine.Player.AnimationData.FallParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
         _stateMachine.IsFalling = false;
-        StopAnimation(_stateMachine.Player.AnimationData.fallParameterHash);
+        StopAnimation(_stateMachine.Player.AnimationData.FallParameterHash);
     }
 
     public override void Update()
     {
         base.Update();
-        WeaponItemData weaponItem = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
 
         TryApplyForce();
 
         if (_stateMachine.Player.Controller.isGrounded)
-        {
-            if (weaponItem.isTwoHandedTool == true)
-            {
-                _stateMachine.ChangeState(_stateMachine.TwoHandedToolIdleState);
-            }
-            else if (weaponItem.isTwinTool == true)
-            {
-                _stateMachine.ChangeState(_stateMachine.TwinToolIdleState);
-            }
-            else
-            {
-                _stateMachine.ChangeState(_stateMachine.IdleState);
-            }
-            return;
-        }
+            _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 
     protected override void Rotate(Vector3 movementDirection)

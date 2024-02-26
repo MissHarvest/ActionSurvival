@@ -59,6 +59,10 @@ public class MainScene : MonoBehaviour
 
                         watch.Stop();
                         UnityEngine.Debug.Log($"Game Generated {watch.ElapsedMilliseconds} ms");
+
+#if UNITY_EDITOR
+                        GameManager.Instance.Player.Inventory.AddDefaultToolAsTest();
+#endif
                     });
                 });
             }

@@ -7,6 +7,7 @@ public class WeaponItemData : ToolItemData
 {
     public bool isTwoHandedTool;
     public bool isTwinTool;
-    public int attackPower;
     public int damage;
+
+    [field : SerializeField] public PlayerAttackData WeaponAttackData { get; private set; }
 }

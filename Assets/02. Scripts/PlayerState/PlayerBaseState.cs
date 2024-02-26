@@ -12,7 +12,6 @@ public class PlayerBaseState : IState
     {
         _stateMachine = playerStateMachine;
         _groundData = _stateMachine.Player.Data.GroundedData;
-
         _buildingSystem = _stateMachine.Player.Building;
     }
 
@@ -149,24 +148,7 @@ public class PlayerBaseState : IState
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
         if (_stateMachine.IsFalling) return;
-        
-        Debug.Log("Player Interact");
-
-        var itemData = _stateMachine.Player.EquippedItem.itemSlot.itemData;// as ToolItemData;
-
-        if (itemData is WeaponItemData)
-        {
-            _stateMachine.IsAttacking = true;
-            _stateMachine.ChangeState(_stateMachine.ComboAttackState);
-        }
-        else if (itemData is ToolItemData tool && tool.displayName == "망치")
-        {
-            _stateMachine.ChangeState(_stateMachine.DestroyState);
-        }
-        else //씨앗심기
-        {
-            _stateMachine.ChangeState(_stateMachine.InteractState);
-        }
+        _stateMachine.InteractSystem.TryInteractSequence();
     }
 
     protected virtual void OnInteractCanceled(InputAction.CallbackContext context)
@@ -192,9 +174,6 @@ public class PlayerBaseState : IState
 
     private void OnInventoryShowAndHide(InputAction.CallbackContext context)
     {
-        // UICooking 등의 팝업이 활성화된 경우 모든 팝업을 닫은 후 Inventory 팝업 열기
-        Managers.UI.CloseAllPopupUI();
-
         var ui = Managers.UI.GetPopupUI<UIInventory>();
         
         if (ui.gameObject.activeSelf)
@@ -223,11 +202,15 @@ public class PlayerBaseState : IState
 
     private void PauseGame(InputAction.CallbackContext context)
     {
-        var ui = Managers.UI.GetPopupUI<UIPauseGame>();
-        if (!ui.gameObject.activeSelf)
+        var count = Managers.UI.GetActivatedPopupCount();
+        if(count > 0)
         {
-            Managers.UI.ShowPopupUI<UIPauseGame>();
-        }      
+            Managers.UI.ClosePopupUI();
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UIPauseGame>(pause: true);
+        }
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)

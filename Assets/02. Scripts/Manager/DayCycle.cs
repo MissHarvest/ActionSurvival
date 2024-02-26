@@ -30,6 +30,7 @@ public class DayCycle
 
     public event Action<int> OnDateUpdated;    
     public event Action OnTimeUpdated;
+    public event Action<int, int> OnUpdated;
 
     public void Init()
     {
@@ -61,18 +62,13 @@ public class DayCycle
         switch((TimeZone)_currentTimeZone)
         {
             case TimeZone.Morning:
-                OnDateUpdated?.Invoke(++Date);
                 _time = 0;
+                OnDateUpdated?.Invoke(++Date);                
                 Save();
                 OnMorningCame?.Invoke();
                 break;
 
             case TimeZone.Evening:
-                Managers.UI.ShowPopupUI<UIWarning>().
-                    SetWarning("밤이되면 몬스터 웨이브가 옵니다.\n 무기를 제작해서 전투를 준비하세요.",
-                    UIWarning.Type.YesOnly,
-                    () => { Managers.UI.ClosePopupUI(); },
-                    true);
                 OnEveningCame?.Invoke();
                 break;
 
@@ -92,6 +88,8 @@ public class DayCycle
             _currentTimeZone = (_currentTimeZone + 1) % (int)TimeZone.Max;
             BroadCast();
         }
+
+        OnUpdated?.Invoke(Date, _time);
     }
 
     private void Load()
