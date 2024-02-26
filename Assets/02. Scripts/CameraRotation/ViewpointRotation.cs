@@ -1,58 +1,38 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 // 2024. 02. 24 Byun Jeongmin
 public class ViewPointRotation : MonoBehaviour
 {
-    [SerializeField] private float _rotationSpeed = 1f;
-    [SerializeField] private RectTransform _rotationArea;
-    private string _rotationAreaObjectName = "ViewRotationArea";
+    [SerializeField] private float _rotationSpeed = 0.04f;
+    [SerializeField] private Transform _virtualCamera;
 
     private void Start()
     {
-        StartCoroutine(WaitForUIMainScene());
+        FindVirtualCamera();
+
+        UIBase.BindEvent(gameObject, HandleDrag, UIBase.UIEvents.Drag);
     }
 
-    private void Update()
+    private void FindVirtualCamera()
     {
-        if (_rotationArea != null && Input.GetMouseButton(1)) // 마우스 우클릭
+        GameObject virtualCameraObject = GameObject.Find("Virtual Camera");
+        if (virtualCameraObject != null)
         {
-            float mouseX = Input.GetAxis("Mouse X");
-
-            if (RectTransformUtility.RectangleContainsScreenPoint(_rotationArea, Input.mousePosition))
-            {
-                transform.Rotate(Vector3.up, mouseX * _rotationSpeed, Space.World);
-
-                // X축 회전 고정
-                float currentXRotation = transform.eulerAngles.x;
-                transform.rotation = Quaternion.Euler(currentXRotation, transform.eulerAngles.y, 0f);
-            }
+            _virtualCamera = virtualCameraObject.transform;
         }
     }
 
-    private IEnumerator WaitForUIMainScene()
+    private void HandleDrag(PointerEventData eventData)
     {
-        while (true)
+        if (_virtualCamera != null && eventData.button == PointerEventData.InputButton.Right)
         {
-            GameObject rotationAreaObject = GameObject.Find(_rotationAreaObjectName);
+            float mouseX = eventData.delta.x;
+            _virtualCamera.Rotate(Vector3.up, mouseX * _rotationSpeed, Space.World);
 
-            if (rotationAreaObject != null)
-            {
-                _rotationArea = rotationAreaObject.GetComponent<RectTransform>();
-            }
-            yield return null;
+            // X축 회전 고정
+            float currentXRotation = _virtualCamera.eulerAngles.x;
+            _virtualCamera.rotation = Quaternion.Euler(currentXRotation, _virtualCamera.eulerAngles.y, 0f);
         }
-
-        //while (Managers.UI.TryGetSceneUI<UIMainScene>(out UIMainScene sceneUI))
-        //{
-        //    _rotationArea = sceneUI.transform.Find(_rotationAreaObjectName)?.GetComponent<RectTransform>();
-
-        //    if (_rotationArea != null)
-        //    {
-        //        yield break;
-        //    }
-
-        //    yield return null;
-        //}
     }
 }

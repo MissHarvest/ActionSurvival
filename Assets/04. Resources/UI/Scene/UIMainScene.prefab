@@ -1044,6 +1044,7 @@ GameObject:
   - component: {fileID: 6413089210019717889}
   - component: {fileID: 7690037741676037040}
   - component: {fileID: 464242499829205095}
+  - component: {fileID: 5150875595504892931}
   m_Layer: 5
   m_Name: ViewRotationArea
   m_TagString: Untagged
@@ -1069,7 +1070,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1000, y: 950}
+  m_SizeDelta: {x: 1150, y: 950}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &7690037741676037040
 CanvasRenderer:
@@ -1109,6 +1110,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5150875595504892931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135246612955983351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d96a1d0c912b194e83f444ca93a4114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotationSpeed: 0.04
+  _virtualCamera: {fileID: 0}
 --- !u!1 &2196194976944945495
 GameObject:
   m_ObjectHideFlags: 0
@@ -5680,11 +5695,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7994729574101362313, guid: 032428d81191245d4ae5a23a0a301ae9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 800
+      value: 650
       objectReference: {fileID: 0}
     - target: {fileID: 7994729574101362313, guid: 032428d81191245d4ae5a23a0a301ae9, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 500
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 7994729574101362313, guid: 032428d81191245d4ae5a23a0a301ae9, type: 3}
       propertyPath: m_LocalScale.x
