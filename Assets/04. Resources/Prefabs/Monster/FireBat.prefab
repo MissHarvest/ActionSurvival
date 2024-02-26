@@ -278,10 +278,10 @@ MonoBehaviour:
     attackParameterName: Attack
     dieParamterName: Die
   <Sound>k__BackingField:
-    FindPlayer: InsectDetect
+    FindPlayer: BatDetect
     Attack: InsectAttack
     Hit: SlashHit
-    Die: InsectDie
+    Die: BatDie
   <Data>k__BackingField: {fileID: 0}
   looting:
     _lootings:

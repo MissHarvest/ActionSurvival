@@ -192,9 +192,6 @@ public class PlayerBaseState : IState
 
     private void OnInventoryShowAndHide(InputAction.CallbackContext context)
     {
-        // UICooking 등의 팝업이 활성화된 경우 모든 팝업을 닫은 후 Inventory 팝업 열기
-        Managers.UI.CloseAllPopupUI();
-
         var ui = Managers.UI.GetPopupUI<UIInventory>();
         
         if (ui.gameObject.activeSelf)

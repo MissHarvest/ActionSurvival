@@ -94,6 +94,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     public void Die()
     {
+        gameObject.layer = 14;
         Dead = true;
         _stateMachine.ChangeState(_stateMachine.DieState);
         looting.AddInventory(GameManager.Instance.Player.Inventory);
@@ -108,28 +109,15 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     public void Hit(IAttack attacker, float damage)
     {
-        //gameObject.layer = 14;
         HP.Subtract(damage);
         OnHit?.Invoke(attacker);
         Managers.Sound.PlayEffectSound(transform.position, Sound.Hit, 1.0f, false);
-        //if(HP.currentValue > 0) StartCoroutine(Avoid());
-    }
-
-    IEnumerator Avoid()
-    {
-        yield return new WaitForSeconds(0.55f);
-        gameObject.layer = 7;
     }
 
     public void SetBerserkMode()
     {
         Berserk = true;
         _stateMachine.DetectionDistModifier = 300;
-    }
-
-    public virtual void OffAttack()
-    {
-
     }
 
     private void OnHpUpdated(float amount)

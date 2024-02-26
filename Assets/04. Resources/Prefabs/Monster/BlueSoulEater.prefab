@@ -246,10 +246,10 @@ MonoBehaviour:
     attackParameterName: Attack
     dieParamterName: Die
   <Sound>k__BackingField:
-    FindPlayer: InsectDetect
+    FindPlayer: BlueSoulEaterDetect
     Attack: InsectAttack
     Hit: SlashHit
-    Die: InsectDie
+    Die: SoulEaterDie
   <Data>k__BackingField: {fileID: 0}
   looting:
     _lootings:
@@ -333,7 +333,6 @@ MonoBehaviour:
     maxValue: 0
     regenRate: 0
     decayRate: 0
-  _monsterWeapon: {fileID: 9042095020296099374}
 --- !u!135 &6406154325480590357
 SphereCollider:
   m_ObjectHideFlags: 0

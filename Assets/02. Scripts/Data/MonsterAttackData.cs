@@ -16,5 +16,5 @@ public class MonsterAttackData
     [field : SerializeField] public float AttackalbeDistance { get; private set; }
     [field: SerializeField] public float AttackInterval { get; private set; }
     [field: SerializeField] public float DelayedTimeColliderActivated { get; private set; }
-    [field: SerializeField] public float TimeColliderInactivated { get; private set; }    
+    [field: SerializeField] public float TimeColliderInactivated { get; private set; }
 }

@@ -167,6 +167,90 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a3d44abd336aee46a40b1038fa57a6a
+    m_Address: BatDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 39d2907d8f026a94d83aaf31ab9f765f
+    m_Address: BatDie.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42971485e9c282149adc851e65230b7b
+    m_Address: Skeleton.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7946477466e381241b9b9cf32d695f99
+    m_Address: ElementalDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88670f9a1f1b79a48b39d2db25dde86c
+    m_Address: ElementalDie.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2cc46cabf96c30b41aee8de58bffee1c
+    m_Address: ReadSoulEaterDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1d1d7a100a444dd4cb6497d4361b892b
+    m_Address: SoulEaterDie.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b7617f8b7d8ccb46a35ee3b291d568f
+    m_Address: BlueSoulEaterDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 461c75de4bf167a4688657a9c4bd432f
+    m_Address: FugaDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 048db73fda998474e8aec9825cbbaf5e
+    m_Address: FugaDie.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d2d043122db1794e913f04758b28ad9
+    m_Address: Rabbit.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3685314e6ac18641a640f2605a3256e
+    m_Address: IceSwarmDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b350a240b1da0a40a93aad79418e976
+    m_Address: FireSwarmDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 48c3db6698e958140ab198d3050467d1
+    m_Address: SlimeDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
   m_SchemaSet:
