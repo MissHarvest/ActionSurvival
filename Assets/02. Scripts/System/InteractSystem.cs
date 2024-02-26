@@ -32,10 +32,10 @@ public class InteractSystem
 
     public void TryInteractSequence()
     {
-        SearchAllObject(_transform.position);
-
         var tool = GetCurrentTool();
         var isWeapon = tool is WeaponItemData;
+
+        SearchAllObject(_transform.position);
 
         // # 1. 타게팅 공격
         if (isWeapon)
@@ -72,7 +72,29 @@ public class InteractSystem
         }
     }
 
-    public bool TryWeaponInteract(ToolItemData tool, bool force = false)
+    public void TryWeaponInteract()
+    {
+        var tool = GetCurrentTool();
+        var isWeapon = tool is WeaponItemData;
+
+        SearchObject(_transform.position, tool.range, _monsterLayerMask);
+
+        // # 1. 타게팅 공격
+        if (isWeapon)
+        {
+            if (TryWeaponInteract(tool))
+                return;
+        }
+
+        // # 2. 허공에 공격
+        if (isWeapon)
+        {
+            if (TryWeaponInteract(tool, true))
+                return;
+        }
+    }
+
+    private bool TryWeaponInteract(ToolItemData tool, bool force = false)
     {
         if (force)
         {
@@ -97,7 +119,7 @@ public class InteractSystem
         return false;
     }
 
-    public bool TryToolInteract(ToolItemData tool)
+    private bool TryToolInteract(ToolItemData tool)
     {
         foreach (var target in targets)
         {
@@ -116,7 +138,7 @@ public class InteractSystem
         return false;
     }
 
-    public bool TryToolDestruct(ToolItemData tool)
+    private bool TryToolDestruct(ToolItemData tool)
     {
         foreach (var target in targets)
         {
@@ -135,7 +157,7 @@ public class InteractSystem
         return false;
     }
 
-    public bool TryArchitectureInteract(ToolItemData tool)
+    private bool TryArchitectureInteract(ToolItemData tool)
     {
         foreach (var target in targets)
         {
