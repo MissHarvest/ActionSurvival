@@ -70,23 +70,24 @@ public class PlayerStateMachine : StateMachine
 
         InteractSystem = new();
         InteractSystem.OnWeaponInteract += TransitionComboAttack;
-        InteractSystem.OnToolInteract += TansitionInteract;
-        InteractSystem.OnToolDestruct += TansitionInteract;
-        InteractSystem.OnArchitectureInteract += TansitionInteract;
+        InteractSystem.OnToolInteract += TransitionInteract;
+        InteractSystem.OnToolDestruct += TransitionInteract;
+        InteractSystem.OnArchitectureInteract += TransitionInteract;
     }
 
-    private void TransitionComboAttack(IHit target, Vector3 targetPos)
+    public void TransitionComboAttack(Vector3 targetPos)
     {
+        ComboAttackState.SetTarget(targetPos);
         ChangeState(ComboAttackState);
     }
 
-    private void TansitionInteract(IInteractable target, string targetTag, Vector3 targetPos)
+    public void TransitionInteract(IInteractable target, string targetTag, Vector3 targetPos)
     {
         InteractState.SetTarget(target, targetTag, targetPos);
         ChangeState(InteractState);
     }
 
-    private void TansitionInteract(IDestructible target, string targetTag, Vector3 targetPos)
+    public void TransitionInteract(IDestructible target, string targetTag, Vector3 targetPos)
     {
         InteractState.SetTarget(target, targetTag, targetPos);
         ChangeState(InteractState);

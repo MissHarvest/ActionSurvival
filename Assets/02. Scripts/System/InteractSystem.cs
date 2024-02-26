@@ -14,7 +14,7 @@ public class InteractSystem
     private LayerMask _interactableAllLayerMask;
     private Collider[] targets;
 
-    public event Action<IHit, Vector3> OnWeaponInteract;
+    public event Action<Vector3> OnWeaponInteract;
     public event Action<IInteractable, string, Vector3> OnToolInteract;
     public event Action<IDestructible, string, Vector3> OnToolDestruct;
     public event Action<IInteractable, string, Vector3> OnArchitectureInteract;
@@ -76,7 +76,8 @@ public class InteractSystem
     {
         if (force)
         {
-            OnWeaponInteract?.Invoke(null, _transform.forward);
+            Debug.Log("?");
+            OnWeaponInteract?.Invoke(Vector3.zero);
             return true;
         }
 
@@ -90,7 +91,8 @@ public class InteractSystem
 
             if (target.TryGetComponent<IHit>(out var hit))
             {
-                OnWeaponInteract?.Invoke(hit, target.transform.position);
+                Debug.Log("!");
+                OnWeaponInteract?.Invoke(target.transform.position);
                 return true;
             }
         }

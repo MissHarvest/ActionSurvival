@@ -8,7 +8,7 @@ public class PlayerComboAttackState : PlayerAttackState
     private bool _alreadyAppliedForce;
     private bool _alreadyApplyCombo;
     private Weapon _weapon;
-    protected GameObject _target;
+    protected Vector3 _targetPosition;
     protected string _targetTag;
 
     private AttackInfoData _attackInfoData;
@@ -31,25 +31,27 @@ public class PlayerComboAttackState : PlayerAttackState
         _attackInfoData = _stateMachine.Player.Data.AttackData.GetAttackInfo(comboIndex);
         _stateMachine.Player.Animator.SetInteger("Combo", comboIndex);
 
-        ToolItemData tool = _stateMachine.Player.EquippedItem.itemSlot.itemData as ToolItemData;
-        if(tool is WeaponItemData == false)
-        {
-            _stateMachine.ChangeState(_stateMachine.IdleState);
-        }
+        RotateOfTarget();
 
-        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range * 1.5f, tool.targetLayers);
-        if (targets.Length == 0)
-        {
-            return;
-        }
+        //ToolItemData tool = _stateMachine.Player.EquippedItem.itemSlot.itemData as ToolItemData;
+        //if(tool is WeaponItemData == false)
+        //{
+        //    _stateMachine.ChangeState(_stateMachine.IdleState);
+        //}
 
-        if (targets[0].CompareTag(tool.targetTagName))
-        {
-            _target = targets[0].gameObject;
-            _targetTag = _target.tag;
-            RotateOfTarget();
-            return;
-        }
+        //var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range * 1.5f, tool.targetLayers);
+        //if (targets.Length == 0)
+        //{
+        //    return;
+        //}
+
+        //if (targets[0].CompareTag(tool.targetTagName))
+        //{
+        //    _target = targets[0].gameObject;
+        //    _targetTag = _target.tag;
+        //    RotateOfTarget();
+        //    return;
+        //}
     }
 
     public override void Exit()
@@ -57,7 +59,7 @@ public class PlayerComboAttackState : PlayerAttackState
         base.Exit();
         _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
         _weapon = null;
-        _target = null;
+        _targetPosition = Vector3.zero;
         StopAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
 
         if (!_alreadyApplyCombo)
@@ -92,7 +94,12 @@ public class PlayerComboAttackState : PlayerAttackState
 
     private void RotateOfTarget()
     {
-        var look = _target.transform.position - _stateMachine.Player.transform.position;
+        Debug.Log($"1: {_targetPosition}");
+        if (_targetPosition.Equals(Vector3.zero))
+            return;
+
+        Debug.Log($"2: {_targetPosition}");
+        var look = _targetPosition - _stateMachine.Player.transform.position;
         look.y = 0;
 
         var targetRotation = Quaternion.LookRotation(look);
@@ -114,7 +121,6 @@ public class PlayerComboAttackState : PlayerAttackState
 
         ForceMove();
 
-
         float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Attack");
         if (normalizedTime < 1f)
         {
@@ -122,7 +128,7 @@ public class PlayerComboAttackState : PlayerAttackState
                 TryApplyForce();
 
             if (_attackInfoData.ForceTransitionTime < normalizedTime && normalizedTime <= _attackInfoData.ComboTransitionTime)
-                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;//
+                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;
 
             if (normalizedTime >= _attackInfoData.ComboTransitionTime)
                 TryComboAttack();
@@ -132,11 +138,11 @@ public class PlayerComboAttackState : PlayerAttackState
             if (_alreadyApplyCombo)
             {
                 _stateMachine.ComboIndex = _attackInfoData.ComboStateIndex;
-                _stateMachine.ChangeState(_stateMachine.ComboAttackState);
+                _stateMachine.InteractSystem.TryInteractSequence();
             }
             else
             {
-                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;//
+                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
                 _stateMachine.ChangeState(_stateMachine.IdleState);
             }
         }
@@ -150,5 +156,10 @@ public class PlayerComboAttackState : PlayerAttackState
     protected override void OnQuickUseStarted(InputAction.CallbackContext context)
     {
         
+    }
+
+    public void SetTarget(Vector3 position)
+    {
+        _targetPosition = position;
     }
 }
