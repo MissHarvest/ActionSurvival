@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundedState
 {
-    private int _targetParameterHash;
-
     public PlayerIdleState(PlayerStateMachine playerStateMachine) :base(playerStateMachine)
     {
 
@@ -15,28 +13,13 @@ public class PlayerIdleState : PlayerGroundedState
     {
         _stateMachine.MovementSpeedModifier = 0f;
         base.Enter();
-
-        WeaponItemData hand = _stateMachine.Player.ToolSystem.EquippedTool.itemSlot.itemData as WeaponItemData;
-
-        if (hand != null)
-        {
-            if (hand.isTwoHandedTool)
-                _targetParameterHash = _stateMachine.Player.AnimationData.EquipTwoHandedToolIdleParameterHash;
-            else if (hand.isTwinTool)
-                _targetParameterHash = _stateMachine.Player.AnimationData.EquipTwinToolIdleParameterHash;
-            else
-                _targetParameterHash = _stateMachine.Player.AnimationData.IdleParameterHash;
-        }
-        else
-            _targetParameterHash = _stateMachine.Player.AnimationData.IdleParameterHash;
-
-        StartAnimation(_targetParameterHash);
+        StartAnimation(_stateMachine.Player.AnimationData.IdleParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(_targetParameterHash);
+        StopAnimation(_stateMachine.Player.AnimationData.IdleParameterHash);
     }
 
     public override void Update()

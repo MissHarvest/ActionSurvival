@@ -15,14 +15,14 @@ public class PlayerFallState : PlayerGroundedState
         _stateMachine.IsFalling = true;
         _stateMachine.MovementSpeedModifier = 0f;        
         _alreadyAppliedForce = false;
-        StartAnimation(_stateMachine.Player.AnimationData.fallParameterHash);
+        StartAnimation(_stateMachine.Player.AnimationData.FallParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
         _stateMachine.IsFalling = false;
-        StopAnimation(_stateMachine.Player.AnimationData.fallParameterHash);
+        StopAnimation(_stateMachine.Player.AnimationData.FallParameterHash);
     }
 
     public override void Update()

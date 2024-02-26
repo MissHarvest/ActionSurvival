@@ -112,7 +112,7 @@ public class PlayerComboAttackState : PlayerAttackState
                 if (_alreadyApplyCombo)
                 {
                     _stateMachine.ComboIndex = _attackInfoData.ComboStateIndex;
-                    _stateMachine.InteractSystem.TryInteractSequence();
+                    _stateMachine.InteractSystem.TryWeaponInteract();
                 }
             }
         }

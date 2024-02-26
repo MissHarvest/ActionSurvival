@@ -29,16 +29,7 @@ public class PlayerGroundedState : PlayerBaseState
         base.Update();
 
         if (_stateMachine.MovementInput == Vector2.zero)
-        {
-            ChangeIdleState();
-            return;
-        }
-
-        if (_stateMachine.IsAttacking)
-        {
-            OnAttack();
-            return;
-        }
+            _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 
     public override void PhysicsUpdate()
@@ -56,15 +47,15 @@ public class PlayerGroundedState : PlayerBaseState
     protected override void AddInputActionsCallbacks()
     {
         base.AddInputActionsCallbacks();
-        _stateMachine.Player.ToolSystem.OnEquip += OnEquipTypeOfTool;
-        //Managers.Game.Player.ToolSystem.OnUnEquip += OnUnEquipTypeOfTool;
+        _stateMachine.Player.ToolSystem.OnEquip += OnChangedEquipTool;
+        _stateMachine.Player.ToolSystem.OnUnEquip += OnChangedEquipTool;
     }
 
     protected override void RemoveInputActionsCallbacks()
     {
         base.RemoveInputActionsCallbacks();
-        _stateMachine.Player.ToolSystem.OnEquip -= OnEquipTypeOfTool;
-        //Managers.Game.Player.ToolSystem.OnUnEquip -= OnUnEquipTypeOfTool;
+        _stateMachine.Player.ToolSystem.OnEquip -= OnChangedEquipTool;
+        _stateMachine.Player.ToolSystem.OnUnEquip -= OnChangedEquipTool;
     }
 
     protected virtual void OnMove()
@@ -72,23 +63,25 @@ public class PlayerGroundedState : PlayerBaseState
         _stateMachine.ChangeState(_stateMachine.RunState);
     }
 
-    protected virtual void OnAttack()
+    protected virtual void OnChangedEquipTool(QuickSlot quickSlot) 
     {
-        _stateMachine.ChangeState(_stateMachine.ComboAttackState);
-    }
+        WeaponItemData hand = quickSlot.itemSlot.itemData as WeaponItemData;
 
-    protected virtual void OnEquipTypeOfTool(QuickSlot quickSlot)
-    {        
-        ChangeIdleState();
-    }
-
-    protected void ChangeIdleState()
-    {
-        _stateMachine.ChangeState(_stateMachine.IdleState);
-    }
-
-    protected virtual void OnUnEquipTypeOfTool(QuickSlot quickSlot)
-    {
-        _stateMachine.ChangeState(_stateMachine.IdleState);
+        if (hand != null)
+        {
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwoHandedToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped);
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwinToolParameterHash, hand.isTwinTool && quickSlot.itemSlot.equipped);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipDefaultToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped || hand.isTwinTool && quickSlot.itemSlot.equipped ? 0f : 1f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwoHandedToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped ? 1f : 0f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwinToolParameterHash, hand.isTwinTool && quickSlot.itemSlot.equipped ? 1f : 0f);
+        }
+        else
+        {
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwoHandedToolParameterHash, false);
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwinToolParameterHash, false);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipDefaultToolParameterHash, 1f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwoHandedToolParameterHash, 0f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwinToolParameterHash, 0f);
+        }
     }
 }
