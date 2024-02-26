@@ -12,7 +12,6 @@ public class PlayerBaseState : IState
     {
         _stateMachine = playerStateMachine;
         _groundData = _stateMachine.Player.Data.GroundedData;
-
         _buildingSystem = _stateMachine.Player.Building;
     }
 
@@ -149,24 +148,7 @@ public class PlayerBaseState : IState
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
         if (_stateMachine.IsFalling) return;
-        
-        Debug.Log("Player Interact");
-
-        var itemData = _stateMachine.Player.EquippedItem.itemSlot.itemData;// as ToolItemData;
-
-        if (itemData is WeaponItemData)
-        {
-            _stateMachine.IsAttacking = true;
-            _stateMachine.ChangeState(_stateMachine.ComboAttackState);
-        }
-        else if (itemData is ToolItemData tool && tool.displayName == "망치")
-        {
-            _stateMachine.ChangeState(_stateMachine.DestroyState);
-        }
-        else //씨앗심기
-        {
-            _stateMachine.ChangeState(_stateMachine.InteractState);
-        }
+        _stateMachine.InteractSystem.TryInteractSequence();
     }
 
     protected virtual void OnInteractCanceled(InputAction.CallbackContext context)

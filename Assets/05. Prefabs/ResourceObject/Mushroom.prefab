@@ -125,6 +125,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 4
+  _toolDurabilityReduceAmount: 0
+  _interactTime: 1
 --- !u!65 &8070743111693645962
 BoxCollider:
   m_ObjectHideFlags: 0

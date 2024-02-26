@@ -13,7 +13,7 @@ public class Chunk
     private MeshRenderer _meshRenderer;
     private MeshFilter _meshFilter;
     private ChunkCoord _coord;
-    private Dictionary<Vector3Int, WorldMapData> _localMap = new();
+    private Dictionary<Vector3Int, WorldMapData> _localMap = new(comparer: new Vector3IntEqualityComparer());
     private bool _isActive;
 
     private int _vertexIdx = 0;

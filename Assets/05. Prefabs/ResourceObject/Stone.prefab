@@ -171,6 +171,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 4
+  _toolDurabilityReduceAmount: 0
+  _interactTime: 1
 --- !u!135 &7947317314813096681
 SphereCollider:
   m_ObjectHideFlags: 0

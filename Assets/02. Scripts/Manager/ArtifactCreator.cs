@@ -99,13 +99,13 @@ public class ArtifactCreator
     public void Create(ArtifactSaveData.Data loadData)
     {
         Island island;
-        if (loadData.islandName == "IceIsland")
+        if (loadData.islandName == GameManager.Instance.IceIsland.Name)
         {
             _data.Artifact.SetSharedMesh(_data.Model[1]);
             _data.Artifact.SetDropTable(_data.LootingData[1]);
             island = GameManager.Instance.IceIsland;
         }
-        else if (loadData.islandName == "FireIsland")
+        else if (loadData.islandName == GameManager.Instance.FireIsland.Name)
         {
             _data.Artifact.SetSharedMesh(_data.Model[0]);
             _data.Artifact.SetDropTable(_data.LootingData[0]);
