@@ -26,14 +26,18 @@ public class ViewPointRotation : MonoBehaviour
 
     private void HandleDrag(PointerEventData eventData)
     {
-        if (_virtualCamera != null && eventData.button == PointerEventData.InputButton.Right)
+        if (_virtualCamera != null && eventData.button == PointerEventData.InputButton.Left)
         {
-            float mouseX = eventData.delta.x;
-            _virtualCamera.Rotate(Vector3.up, mouseX * _rotationSpeed, Space.World);
-
-            // X축 회전 고정
-            float currentXRotation = _virtualCamera.eulerAngles.x;
-            _virtualCamera.rotation = Quaternion.Euler(currentXRotation, _virtualCamera.eulerAngles.y, 0f);
+            RotateCamAngle(eventData.delta.x);
         }
+    }
+
+    private void RotateCamAngle(float mouseX)
+    {
+        _virtualCamera.Rotate(Vector3.up, mouseX * _rotationSpeed, Space.World);
+
+        // X축 회전 고정
+        float currentXRotation = _virtualCamera.eulerAngles.x;
+        _virtualCamera.rotation = Quaternion.Euler(currentXRotation, _virtualCamera.eulerAngles.y, 0f);
     }
 }
