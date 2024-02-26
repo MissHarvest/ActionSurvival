@@ -58,7 +58,7 @@ public class MeteorObject : MonoBehaviour
         var hittable = other.GetComponent<IHit>();
         if (hittable != null)
         {
-            Owner.Attack(hittable);
+            Owner.Attack(new AttackInfo(hittable, 0));
         }
         Destroy();        
     }

@@ -129,9 +129,9 @@ public class Disaster : IAttack
         }
     }
 
-    public void Attack(IHit target)
+    public void Attack(AttackInfo attackData)
     {
-        target.Hit(this, _damage);
+        attackData.target.Hit(this, _damage);
     }
 
     #region Object Pooling

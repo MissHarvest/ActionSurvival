@@ -101,18 +101,18 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         Habitat?.DiedMonsters.Add(this.gameObject);
     }
 
-    public void Attack(IHit target)
-    {        
-        target.Hit(this, Data.AttackData.Atk);
+    public void Attack(AttackInfo attackData)
+    {
+        attackData.target.Hit(this, Data.AttackData.Atk);
     }
 
     public void Hit(IAttack attacker, float damage)
     {
-        gameObject.layer = 14;
+        //gameObject.layer = 14;
         HP.Subtract(damage);
         OnHit?.Invoke(attacker);
         Managers.Sound.PlayEffectSound(transform.position, Sound.Hit, 1.0f, false);
-        if(HP.currentValue > 0) StartCoroutine(Avoid());
+        //if(HP.currentValue > 0) StartCoroutine(Avoid());
     }
 
     IEnumerator Avoid()

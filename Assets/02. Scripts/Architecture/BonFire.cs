@@ -11,7 +11,7 @@ public class BonFire : MonoBehaviour, IInteractable
         Managers.Sound.PlayEffectSound(
             transform.position,
             clipName,
-            1.0f,
+            0.7f,
             true);
     }
 
