@@ -23,5 +23,24 @@ MonoBehaviour:
   targetTagName: Monster
   isTwoHandedTool: 1
   isTwinTool: 0
-  attackPower: 1
   damage: 5
+  <WeaponAttackData>k__BackingField:
+    <AttackInfoDatas>k__BackingField:
+    - <AttackName>k__BackingField: "\uAE30\uBCF8 1\uD0C0"
+      <ComboStateIndex>k__BackingField: 1
+      <ComboTransitionTime>k__BackingField: 0.5
+      <ForceTransitionTime>k__BackingField: 0.1
+      <Force>k__BackingField: 1
+      <Damage>k__BackingField: 1
+    - <AttackName>k__BackingField: "\uAE30\uBCF8 2\uD0C0"
+      <ComboStateIndex>k__BackingField: 2
+      <ComboTransitionTime>k__BackingField: 0.44
+      <ForceTransitionTime>k__BackingField: 0.1
+      <Force>k__BackingField: 1
+      <Damage>k__BackingField: 1
+    - <AttackName>k__BackingField: "\uAE30\uBCF8 3\uD0C0"
+      <ComboStateIndex>k__BackingField: -1
+      <ComboTransitionTime>k__BackingField: 0.57
+      <ForceTransitionTime>k__BackingField: 0.1
+      <Force>k__BackingField: 1
+      <Damage>k__BackingField: 2

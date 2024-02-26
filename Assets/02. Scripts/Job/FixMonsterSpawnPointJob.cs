@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,22 +13,21 @@ public struct FixMonsterSpawnPointJob : IJob
 {
     private NativeArray<bool> _points;
     private NativeArray<Vector3> _result;
+    public NativeArray<int> whileCount;
     private int _field;
     private int _monsterCount;
     private int _monsterInterval;
     private int _arraySize;
     private int _hash;
     private int _interval;
-    private Vector3 _offset;
 
-    public FixMonsterSpawnPointJob(bool[,] points, int field, int monsterCount, int monsterinterval, int interval, Vector3 offset, int hash)
+    public FixMonsterSpawnPointJob(bool[,] points, int field, int monsterCount, int monsterinterval, int interval, int hash)
     {
         this._field = field;
         this._monsterCount = monsterCount;
         this._monsterInterval = monsterinterval;
         this._hash = hash;
         this._interval = interval;
-        this._offset = offset;
 
         var row = points.GetLength(0);
         var col = points.GetLength(1);
@@ -43,6 +43,7 @@ public struct FixMonsterSpawnPointJob : IJob
         }
 
         _result = new NativeArray<Vector3>(monsterCount, Allocator.TempJob);
+        whileCount = new NativeArray<int>(1, Allocator.TempJob);
     }
 
     public void Execute()
@@ -65,13 +66,14 @@ public struct FixMonsterSpawnPointJob : IJob
                 Save(list);
             }
         }
+        whileCount[0] = (int)count;
     }
 
     private void Save(List<Vector2> list)
     {
         for(int i= 0; i < list.Count; ++i)
         {
-            _result[i] = new Vector3(list[i].x * _interval, 10, list[i].y * _interval) - _offset;
+            _result[i] = new Vector3(list[i].x * _interval, 10, list[i].y * _interval);
         }
     }
 
@@ -107,9 +109,9 @@ public struct FixMonsterSpawnPointJob : IJob
         
         for (int i = 0; i < 2; ++i)
         {
-            var rnd = new Unity.Mathematics.Random(seed * (uint)field * (uint)cnt + (uint)i + (uint)_hash);
-            var ran = rnd.NextFloat(0.0f, 1.0f); 
-
+            var rSeed = seed * (uint)field * (uint)cnt + (uint)i + (uint)_hash;
+            var rnd = new Unity.Mathematics.Random(rSeed);
+            var ran = rnd.NextFloat(0.0f, 1.0f);
             if (percent >= ran) return true;
         }
         return false;
@@ -143,6 +145,7 @@ public struct FixMonsterSpawnPointJob : IJob
     {
         var result = _result.ToArray();
         _result.Dispose();
+        _points.Dispose();
         return result;
     }
 }

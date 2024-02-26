@@ -24,8 +24,8 @@ public class QuickSlotSystem : MonoBehaviour
             _slots[i] = new QuickSlot();
         }
 
-        Load();
         _player = GetComponentInParent<Player>();
+        Load();
         GameManager.Instance.OnSaveCallback += Save;
     }
 

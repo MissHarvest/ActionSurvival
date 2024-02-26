@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour, IHit
+public class Player : MonoBehaviour, IAttack, IHit
 {
     #region Components
     [field: Header("Animations")]
@@ -38,6 +39,8 @@ public class Player : MonoBehaviour, IHit
 
     private PlayerStateMachine _stateMachine;
 
+    private GameObject _listener;
+
     [field: SerializeField] public string StandingIslandName { get; set; } = "CenterIsland";
 
     private void Awake()
@@ -51,6 +54,9 @@ public class Player : MonoBehaviour, IHit
         Data = Managers.Resource.GetCache<PlayerSO>("PlayerSO.data");
 
         ViewPoint = Utility.FindChild<Transform>(gameObject, "ViewPoint");
+
+        var listener = Managers.Resource.GetCache<GameObject>("@PlayerAudioListener.prefab");
+        _listener = Instantiate(listener);
 
         _stateMachine = new PlayerStateMachine(this);
 
@@ -97,6 +103,32 @@ public class Player : MonoBehaviour, IHit
         _stateMachine.PhysicsUpdate();
     }
 
+    public void Attack(float damage)
+    {
+        var hits = Physics.BoxCastAll(transform.position + transform.forward * 0.5f,
+            Vector3.one * 0.5f, 
+            Vector3.up,
+            transform.rotation,
+            0,
+            1 << 7);
+
+        Debug.Log($"[BoxCast] {hits.Length}");
+        for(int i = 0; i < hits.Length; ++i)
+        {
+            var target = hits[i].collider.GetComponent<IHit>();
+            if (target == null) continue;
+            AttackInfo attackData = new AttackInfo(target, damage);
+            Attack(attackData);
+        }
+    }
+
+    public void Attack(AttackInfo attack)
+    {
+        if (attack.target == null) return;
+        attack.target.Hit(this, attack.damage);
+        Inventory.TrySubtractDurability(EquippedItem.targetIndex, 1.0f);
+    }
+
     public void Hit(IAttack attacker, float damage)
     {
         int armorDefense = ArmorSystem.GetDefense();
@@ -113,7 +145,7 @@ public class Player : MonoBehaviour, IHit
             ConditionHandler.HP.Subtract(1f);
         }
 
-        Managers.Sound.PlayEffectSound(transform.position, "Hit");
+        Managers.Sound.PlayEffectSound(transform.position, "Hit", 1.0f, false);
         Debug.Log($"[ Attacked by ] {attacker}");
     }
 
@@ -145,5 +177,11 @@ public class Player : MonoBehaviour, IHit
             transform.position = new Vector3(-40f, 1f, 22f);
             Controller.enabled = true;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position + transform.forward * 0.5f, Vector3.one * 0.5f);
     }
 }

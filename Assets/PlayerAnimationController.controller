@@ -245,7 +245,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WGS_attackA1
-  m_Speed: 1
+  m_Speed: 1.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4547654508195918244}
@@ -298,7 +298,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WGS_attackA2
-  m_Speed: 1
+  m_Speed: 1.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5269494567245421231}
@@ -975,6 +975,19 @@ AnimatorStateMachine:
   m_EntryTransitions:
   - {fileID: -689960670246040182}
   m_StateMachineTransitions:
+  - first: {fileID: -9303126409443890}
+    second:
+    - {fileID: 5416819117267067944}
+    - {fileID: -200199024100722204}
+  - first: {fileID: 4882428846851831248}
+    second:
+    - {fileID: -8469998547077282015}
+  - first: {fileID: -9042788560780870431}
+    second:
+    - {fileID: 3073721666966401492}
+  - first: {fileID: -8024538078851108307}
+    second:
+    - {fileID: -7903042285299692020}
   - first: {fileID: -6496443284698962254}
     second:
     - {fileID: 2678402980887876940}
@@ -984,9 +997,6 @@ AnimatorStateMachine:
     - {fileID: 5373545061704496674}
     - {fileID: 5462130125227871788}
     - {fileID: 4615445843797511916}
-  - first: {fileID: 8644996344561054594}
-    second:
-    - {fileID: 5208998122742151188}
   - first: {fileID: -156304739758523850}
     second:
     - {fileID: -78209632468210562}
@@ -994,19 +1004,9 @@ AnimatorStateMachine:
     second:
     - {fileID: 5610323722881144909}
     - {fileID: 3336264836392965528}
-  - first: {fileID: -8024538078851108307}
+  - first: {fileID: 8644996344561054594}
     second:
-    - {fileID: -7903042285299692020}
-  - first: {fileID: -9303126409443890}
-    second:
-    - {fileID: 5416819117267067944}
-    - {fileID: -200199024100722204}
-  - first: {fileID: -9042788560780870431}
-    second:
-    - {fileID: 3073721666966401492}
-  - first: {fileID: 4882428846851831248}
-    second:
-    - {fileID: -8469998547077282015}
+    - {fileID: 5208998122742151188}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
@@ -1737,7 +1737,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WGS_attackA3
-  m_Speed: 1
+  m_Speed: 1.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1384686528119116535}
@@ -1807,7 +1807,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WTD_AttackA1 np
-  m_Speed: 1
+  m_Speed: 1.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7168609081533472090}
@@ -2496,7 +2496,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WTD_AttackA2 np
-  m_Speed: 1
+  m_Speed: 1.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4666356272144114745}
@@ -2601,7 +2601,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WTD_AttackA3 np
-  m_Speed: 1
+  m_Speed: 1.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5772491845554325477}

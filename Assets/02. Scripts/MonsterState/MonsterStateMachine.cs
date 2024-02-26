@@ -13,7 +13,8 @@ public class MonsterStateMachine : StateMachine
     public float DetectionDist { get; private set; }
     public float DetectionDistModifier { get; set; } = 1.0f;
     public bool canAttack = true;
-    
+    public bool isBattle = false;
+
     // State Branch
     public MonsterIdleState IdleState {get;}
     public MonsterPatrolState PatrolState { get; }

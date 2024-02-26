@@ -72,7 +72,7 @@ public class BossBreathState : BossAttackState
             direction.y = 0;
             direction.Normalize();
 
-            Managers.Sound.PlayEffectSound(headPosition, "DragonBreath", 0.6f);
+            Managers.Sound.PlayEffectSound(headPosition, "DragonBreath", 0.6f, false);
             meteor.Fire(headPosition, direction, 25.0f, _reach);
 
             var indicator = _indicators.Get();

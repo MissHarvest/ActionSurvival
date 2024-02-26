@@ -6,7 +6,7 @@ public class UIMinimap : UIPopup
 {
     enum GameObjects
     {
-        Exit,
+        Block,
     }
 
     enum Texts
@@ -19,7 +19,7 @@ public class UIMinimap : UIPopup
         base.Initialize();
         Bind<GameObject>(typeof(GameObjects));
         Bind<TextMeshProUGUI>(typeof(Texts));
-        Get<GameObject>((int)GameObjects.Exit).BindEvent((x) => { Managers.UI.ClosePopupUI(this); });
+        Get<GameObject>((int)GameObjects.Block).BindEvent((x) => { Managers.UI.ClosePopupUI(this); });
     }
 
     private void Awake()

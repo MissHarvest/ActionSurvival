@@ -11,7 +11,6 @@ public class PlayerTwoHandedToolIdleState : PlayerGroundedState
 
     public override void Enter()
     {
-        Debug.Log("Player Enter State [ Two Hand Idle ]");
         _stateMachine.MovementSpeedModifier = 0f;
         base.Enter();
         StartAnimation(_stateMachine.Player.AnimationData.EquipTwoHandedToolIdleParameterHash);
