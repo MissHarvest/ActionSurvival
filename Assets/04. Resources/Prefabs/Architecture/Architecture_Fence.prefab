@@ -52,6 +52,7 @@ MonoBehaviour:
   _renderer: {fileID: 3799373325706518410}
   redMat: {fileID: 2100000, guid: 4cea252e4cd4c1241bbe5bf6a09e2e64, type: 2}
   blueMat: {fileID: 2100000, guid: 3ccf5f2feeac4154b9a14ef7ae1f6693, type: 2}
+  otherCollider: {fileID: 0}
   <HP>k__BackingField:
     currentValue: 0
     maxValue: 0
@@ -220,6 +221,10 @@ PrefabInstance:
     - target: {fileID: 7644457256920113912, guid: c18a6eef91ff5054f8573da86366edc3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7704041377582962035, guid: c18a6eef91ff5054f8573da86366edc3, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

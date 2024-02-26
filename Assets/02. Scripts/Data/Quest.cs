@@ -22,16 +22,6 @@ public class Quest
         if (questSO.type == QuestSO.QuestType.Using) // 장착 퀘스트일 경우
         {
             return itemSlot.itemData == questSO.requiredItems[0].item && itemSlot.equipped;
-            //if (itemSlot.itemData == questSO.requiredItems[0].item)
-            //if (Managers.Game.Player.Inventory.Get(index).itemData is ToolItemData)
-            //{
-            //    for (int i = 0; i < Managers.Game.Player.QuickSlot.slots.Length; i++)
-            //    {
-            //        if (index == Managers.Game.Player.QuickSlot._slots[i].targetIndex)
-            //            if (Managers.Game.Player.QuickSlot._slots[i].itemSlot.itemData.name == questSO.requiredItems[0].item.name)
-            //                return true;
-            //    }
-            //}
         }
         else // 제작 퀘스트일 경우
         {
