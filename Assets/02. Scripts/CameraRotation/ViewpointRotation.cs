@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -16,7 +17,7 @@ public class ViewPointRotation : MonoBehaviour
 
     private void FindVirtualCamera()
     {
-        GameObject virtualCameraObject = GameObject.Find("Virtual Camera");
+        var virtualCameraObject = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
         if (virtualCameraObject != null)
         {
             _virtualCamera = virtualCameraObject.transform;

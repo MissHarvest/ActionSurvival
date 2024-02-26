@@ -8,12 +8,6 @@ using UnityEngine;
 // 2024. 01. 29 Byun Jeongmin
 public class Tutorial : MonoBehaviour
 {
-    public enum QuestType
-    {
-        Summer,
-        Winter
-    }
-
     [SerializeField] private List<Quest> _quests; // 아직 클리어하지 않은 퀘스트 리스트
     [SerializeField] private List<Quest> _activeQuests = new List<Quest>(); // 현재 활성화된 퀘스트 리스트
     private List<Vector3> artifactPositions = new List<Vector3>();
@@ -26,7 +20,6 @@ public class Tutorial : MonoBehaviour
     public Collider[] groups;
 
     private Player _player;
-    private ArtifactCreator _artifactCreator;
 
     public List<Quest> ActiveQuests
     {
@@ -195,7 +188,7 @@ public class Tutorial : MonoBehaviour
             var allHits = Physics.SphereCastAll(transform.position, 50.0f, Vector3.up, 0, targetLayer, QueryTriggerInteraction.Collide);
             var validHits = allHits.Where(hit =>
             {
-                if (targetLayer == LayerMask.GetMask("Resources") || targetName == "Artifact")
+                if (targetLayer == LayerMask.GetMask("Resources"))
                 {
                     var targetTransform = hit.transform.parent;
                     if (targetTransform != null)
