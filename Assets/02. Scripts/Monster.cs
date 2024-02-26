@@ -109,7 +109,6 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     public void Hit(IAttack attacker, float damage)
     {
-        gameObject.layer = 14;
         HP.Subtract(damage);
         OnHit?.Invoke(attacker);
         Managers.Sound.PlayEffectSound(transform.position, Sound.Hit, 1.0f, false);
