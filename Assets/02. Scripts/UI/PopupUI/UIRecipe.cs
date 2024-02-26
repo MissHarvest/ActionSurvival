@@ -19,4 +19,9 @@ public class UIRecipe : UICraftBase
         _recipeOrCookingList = Managers.Data.recipeDataList;
         _craftBase = GameManager.Instance.Player.Recipe;
     }
+
+    protected override string GetConfirmationText(string displayName, int itemQuantity, int craftCount)
+    {
+        return $"{displayName}을(를) {itemQuantity} X {craftCount}개\n제작하시겠습니까?";
+    }
 }

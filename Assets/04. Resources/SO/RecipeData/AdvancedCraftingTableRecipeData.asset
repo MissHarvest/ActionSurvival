@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feededd13c148ab41a55e68ae3f83574, type: 3}
   m_Name: AdvancedCraftingTableRecipeData
   m_EditorClassIdentifier: 
-  itemName: HighCraftingTable
-  recipeID: 16
+  itemName: AdvancedCraftingTable
   completedItemData: {fileID: 11400000, guid: 3fb66fc46b208e9439c06b1915a77671, type: 2}
   recipeLevel: 3
   Quantity: 1

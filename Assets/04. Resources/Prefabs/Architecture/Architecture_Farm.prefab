@@ -59,7 +59,7 @@ MonoBehaviour:
   <RemainingTime>k__BackingField: 0
   looting:
     _lootings:
-    - _item: {fileID: 11400000, guid: 0e99452afc6013a46b0fcaa854d7a0e0, type: 2}
+    - _item: {fileID: 11400000, guid: eaac63f19a4e191489080679244faec7, type: 2}
       _distribution:
         serializedVersion: 2
         m_Curve:

@@ -7,13 +7,20 @@ using UnityEngine;
 public class CraftBase : MonoBehaviour
 {
     protected int _count = 1;
+    protected int _maxCount = 1;
 
-    public event Action<int> CountChanged;
+    public event Action<int> OnCountChanged;
 
     public int Count
     {
         get { return _count; }
         private set { _count = value; }
+    }
+
+    public int MaxCount
+    {
+        get { return _maxCount; }
+        private set { _maxCount = value; }
     }
 
     public virtual void Awake()
@@ -30,7 +37,12 @@ public class CraftBase : MonoBehaviour
     public void InitializeCount()
     {
         _count = 1;
-        OnCountChanged();
+        OnCraftCountChanged();
+    }
+
+    public void SetMaxCount(int maxCount)
+    {
+        _maxCount = maxCount;
     }
 
     public void OnMinusQuantity()
@@ -38,23 +50,39 @@ public class CraftBase : MonoBehaviour
         if (_count > 1)
         {
             _count--;
-            OnCountChanged();
+            OnCraftCountChanged();
         }
     }
 
-    public void OnPlusQuantity()
+    public virtual void OnPlusQuantity()
     {
-        // 한 번에 20개까지만 제작 가능
-        if (_count < 20)
+        if (_count < _maxCount)
         {
             _count++;
-            OnCountChanged();
+            OnCraftCountChanged();
         }
     }
 
-    private void OnCountChanged()
+    private void OnCraftCountChanged()
     {
-        CountChanged?.Invoke(_count);
+        OnCountChanged?.Invoke(_count);
+    }
+
+    public int GetMaxCraftableCount(List<RecipeSO.Ingredient> items)
+    {
+        int maxCraftableCount = GameManager.Instance.Player.Inventory.maxCapacity * items[0].item.MaxStackCount;
+
+        foreach (var item in items)
+        {
+            int requiredQuantity = item.quantity;
+
+            // 최대 제작 가능 수량
+            int maxAvailableCount = GameManager.Instance.Player.Inventory.GetItemCount(item.item) / requiredQuantity;
+
+            // 제작에 필요한 재료들로 만들 수 있는 아이템의 최솟값
+            maxCraftableCount = Mathf.Min(maxCraftableCount, maxAvailableCount);
+        }
+        return maxCraftableCount;
     }
 
     public virtual bool CheckItems(List<RecipeSO.Ingredient> items)
@@ -64,21 +92,20 @@ public class CraftBase : MonoBehaviour
             int requiredQuantity = item.quantity * _count;
 
             // 재료 아이템이 부족하면 false 반환
-            if (!GameManager.Instance.Player.Inventory.TryConsumeQuantity(item.item, requiredQuantity))
-            {
-                // false 되기 전까지 소모한 재료들을 돌려줌
-                foreach (var consumedItem in items)
-                {
-                    if (consumedItem == item)
-                        break;
-
-                    int consumedQuantity = consumedItem.quantity * _count;
-                    GameManager.Instance.Player.Inventory.TryAddItem(consumedItem.item, consumedQuantity);
-                }
+            if (GameManager.Instance.Player.Inventory.GetItemCount(item.item) < requiredQuantity)
                 return false;
-            }
         }
         return true;
+    }
+
+    public virtual void ConsumeItems(List<RecipeSO.Ingredient> items)
+    {
+        foreach (var item in items)
+        {
+            int requiredQuantity = item.quantity * _count;
+
+            GameManager.Instance.Player.Inventory.TryConsumeQuantity(item.item, requiredQuantity);
+        }
     }
 
     public virtual void AddItems(List<RecipeSO.Ingredient> items)

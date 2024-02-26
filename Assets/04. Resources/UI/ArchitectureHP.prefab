@@ -254,6 +254,7 @@ GameObject:
   - component: {fileID: 8213006166753665187}
   - component: {fileID: 7704041377582962035}
   - component: {fileID: 8276596509919254015}
+  - component: {fileID: 6075221671275030637}
   m_Layer: 11
   m_Name: ArchitectureHP
   m_TagString: Untagged
@@ -327,7 +328,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &8276596509919254015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +339,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb6fcc4d3b3514e43af133202c7ec943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6075221671275030637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7437886353793855669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50e3eb162e7976468657bcf0fcb4c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7602394412250140094

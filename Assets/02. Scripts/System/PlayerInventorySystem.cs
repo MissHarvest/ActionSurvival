@@ -71,6 +71,14 @@ public class PlayerInventorySystem : InventorySystem
 
     private void UseArchitectureItem(int index)
     {
+        StartCoroutine(DelayedUseArchitectureItem(index));
+    }
+
+    private IEnumerator DelayedUseArchitectureItem(int index)
+    {
+        float delayInSeconds = 0.3f;
+        yield return new WaitForSeconds(delayInSeconds);
+
         TryConsumeQuantity(index, 1);
     }
 
