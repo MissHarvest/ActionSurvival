@@ -1,3 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 ActionSurvival filter=lfs diff=lfs merge=lfs -text
+FirebaseCppApp-11_7_0.bundle filter=lfs diff=lfs merge=lfs -text
