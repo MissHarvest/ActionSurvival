@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: GrilledRabbitMeatCookingData
   m_EditorClassIdentifier: 
   itemName: GrilledRabbitMeat
-  recipeID: 13
   completedItemData: {fileID: 11400000, guid: 734f198f0f1019b43ad400a2ab3ece89, type: 2}
   recipeLevel: 1
   Quantity: 1
+  maxTimeRequiredToCook: 2
   requiredItems:
   - item: {fileID: 11400000, guid: bed610c1a20f3414fbd5391e41dfa0d9, type: 2}
     quantity: 1

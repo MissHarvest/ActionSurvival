@@ -52,6 +52,8 @@ public class InventorySystem : MonoBehaviour
         TryAddItem(itemData, 10);
         itemData = Managers.Resource.GetCache<ItemData>("RabbitMeatItemData.data");
         TryAddItem(itemData, 10);
+        itemData = Managers.Resource.GetCache<ItemData>("BatMeatItemData.data");
+        TryAddItem(itemData, 10);
     }
 
     public void SetCapacity(int capacity)

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class Cooking : CraftBase
 {
-    //recipe data 장작으로 넘겨주기
     public Player Owner { get; private set; }
 
     public override void Awake()

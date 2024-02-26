@@ -160,10 +160,19 @@ MonoBehaviour:
     <currentDurability>k__BackingField: 0
     <equipped>k__BackingField: 0
     <registed>k__BackingField: 0
+  recipeRequiredItemSlots: []
+  cookedFoodItems: []
+  recipes: []
+  _cookingSlotsUI: []
+  _capacity: 4
   _count: 0
   _maxCount: 0
   _index: 0
   _firePowerGauge: 0
+  _currentTimeRequiredToCook: 0
+  _haveFirewood: 0
+  _startCooking: 0
+  cookingDone: 0
 --- !u!1001 &2732944119319688650
 PrefabInstance:
   m_ObjectHideFlags: 0

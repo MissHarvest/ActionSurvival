@@ -24572,11 +24572,70 @@ MonoBehaviour:
     <currentDurability>k__BackingField: 0
     <equipped>k__BackingField: 0
     <registed>k__BackingField: 0
-  _recipeRequiredItem: []
+  recipeRequiredItemSlots:
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  cookedFoodItems:
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  - <itemName>k__BackingField: 
+    <quantity>k__BackingField: 0
+    <currentDurability>k__BackingField: 0
+    <equipped>k__BackingField: 0
+    <registed>k__BackingField: 0
+  recipes: []
+  _cookingSlot: []
+  _capacity: 2
   _count: 0
   _maxCount: 0
   _index: 0
   _firePowerGauge: 0
+  _currentTimeRequiredToCook: 0
+  _haveFirewood: 0
+  _startCooking: 0
+  cookingDone: 0
+  _cookingSlotUI: {fileID: 0}
 --- !u!1 &6059971187151584573
 GameObject:
   m_ObjectHideFlags: 0

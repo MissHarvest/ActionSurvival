@@ -9,6 +9,7 @@ using static UnityEditor.Progress;
 public class UICooking : UICraftBase
 {
     private Ignition _ignition;
+    private UIIgnition _uiIIgnition;
 
     public override void Awake()
     {
@@ -20,6 +21,12 @@ public class UICooking : UICraftBase
         base.OnEnable();
         SetAdvancedRecipeUIActive(0);
         _ignition = GameManager.Instance.Player.Ignition;
+        _ignition.recipes = _recipeOrCookingList;
+    }
+
+    private void Start()
+    {
+        _uiIIgnition = Managers.UI.GetPopupUI<UIIgnition>();
     }
 
     protected override void GetData()
@@ -50,11 +57,14 @@ public class UICooking : UICraftBase
                 if (_craftBase.CheckItems(items))
                 {
                     int totalQuantity = _craftBase.Count * SelectedRecipe.Quantity;
-                    for (int i = 0; i < _ignition.recipeRequiredItemSlots.Length; i++)
+                    for (int index = 0; index < _ignition.recipeRequiredItemSlots.Length; index++)
                     {
-                        if (_ignition.recipeRequiredItemSlots[i].itemData == null)
+                        if (_ignition.recipeRequiredItemSlots[index].itemData == null)
                         {
-                            _ignition.recipeRequiredItemSlots[i].Set(completedItemData, totalQuantity);
+                            _ignition.recipeRequiredItemSlots[index].Set(completedItemData, totalQuantity);
+                            _uiIIgnition.Set(index);
+                            //_ignition._startCooking = true;
+                            _confirm.gameObject.SetActive(false);
                             return;
                         }
                     }
