@@ -30,36 +30,11 @@ public class PlayerInteractState : PlayerBaseState
         RotateOfTarget();
 
         _progressTime = _interactable?.GetInteractTime() ?? _destructible?.GetDestructTime() ?? 0f;
-
-        //var tool = _stateMachine.Player.EquippedItem.itemSlot.itemData as ToolItemData;
-
-        //var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers, QueryTriggerInteraction.Collide);
-        //if (targets.Length == 0)
-        //{
-        //    _stateMachine.ChangeState(_stateMachine.MakeState);
-        //    return;
-        //}
-
-        //if (targets[0].CompareTag(tool.targetTagName) || targets[0].CompareTag("Gather"))
-        //{
-        //    _target = targets[0].gameObject;            
-        //    targetTag = _target.tag;
-        //    _repeatCount = targetTag == "Gather" ? 1 : 3;
-
-        //    RotateOfTarget();
-        //    _stateMachine.Player.Animator.SetBool(targetTag, true);
-        //    return;
-        //}
     }
 
     public override void Exit()
     {
         base.Exit();
-        //if(_target != null)
-        //{
-        //    _stateMachine.Player.Animator.SetBool(targetTag, false);
-        //    _target = null;
-        //}
         _stateMachine.Player.Animator.SetBool(_targetTag, false);
         _interactable = null;
         _destructible = null;

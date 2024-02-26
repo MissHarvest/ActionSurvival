@@ -7,13 +7,11 @@ public class PlayerBaseState : IState
     protected readonly PlayerGroundData _groundData;
 
     private BuildingSystem _buildingSystem;
-    private ToolItemData _emptyHandData;
 
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
         _stateMachine = playerStateMachine;
         _groundData = _stateMachine.Player.Data.GroundedData;
-        _emptyHandData = Managers.Resource.GetCache<ToolItemData>("EmptyHandItemData.data");
         _buildingSystem = _stateMachine.Player.Building;
     }
 
@@ -150,77 +148,7 @@ public class PlayerBaseState : IState
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
         if (_stateMachine.IsFalling) return;
-
-        // ================================= TEST =====================================
         _stateMachine.InteractSystem.TryInteractSequence();
-
-        //Collider[] targets;
-        //var hand = _stateMachine.Player.EquippedItem.itemSlot.itemData;
-
-        //if (hand is WeaponItemData)
-        //{
-        //    _stateMachine.ChangeState(_stateMachine.ComboAttackState);
-        //    return;
-        //}
-        //if (hand is ToolItemData tool)
-        //{
-        //    targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers, QueryTriggerInteraction.Collide);
-        //    foreach (var target in targets)
-        //    {
-        //        if (target.TryGetComponent<IDestructible>(out var destructible))
-        //        {
-        //            _stateMachine.InteractState.SetTarget(destructible, tool.targetTagName, target.transform.position);
-        //            _stateMachine.ChangeState(_stateMachine.InteractState);
-        //            return;
-        //        }
-        //    }
-        //    foreach (var target in targets)
-        //    {
-        //        if (!target.CompareTag(tool.targetTagName))
-        //            continue;
-
-        //        if (target.TryGetComponent<IInteractable>(out var interactable))
-        //        {
-        //            _stateMachine.InteractState.SetTarget(interactable, tool.targetTagName, target.transform.position);
-        //            _stateMachine.ChangeState(_stateMachine.InteractState);
-        //            return;
-        //        }
-        //    }
-        //}
-        //targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, _emptyHandData.range, LayerMask.GetMask("Architecture"), QueryTriggerInteraction.Collide);
-        //foreach (var target in targets)
-        //{
-        //    _stateMachine.InteractState.SetTarget(target.GetComponent<IInteractable>(), "", target.transform.position);
-        //    _stateMachine.ChangeState(_stateMachine.InteractState);
-        //    return;
-        //}
-        //targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, _emptyHandData.range, _emptyHandData.targetLayers, QueryTriggerInteraction.Collide);
-        //foreach (var target in targets)
-        //{
-        //    if (target.CompareTag(_emptyHandData.targetTagName))
-        //    {
-        //        _stateMachine.InteractState.SetTarget(target.GetComponent<IInteractable>(), target.tag, target.transform.position);
-        //        _stateMachine.ChangeState(_stateMachine.InteractState);
-        //        return;
-        //    }
-        //}
-        // ============================================================================
-
-
-        //var itemData = _stateMachine.Player.EquippedItem.itemSlot.itemData;// as ToolItemData;
-        //if (itemData is WeaponItemData)
-        //{
-        //    _stateMachine.IsAttacking = true;
-        //    _stateMachine.ChangeState(_stateMachine.ComboAttackState);
-        //}
-        //else if (itemData.displayName == "망치")
-        //{
-        //    _stateMachine.ChangeState(_stateMachine.DestroyState);
-        //}
-        //else //씨앗심기
-        //{
-        //    _stateMachine.ChangeState(_stateMachine.InteractState);
-        //}
     }
 
     protected virtual void OnInteractCanceled(InputAction.CallbackContext context)

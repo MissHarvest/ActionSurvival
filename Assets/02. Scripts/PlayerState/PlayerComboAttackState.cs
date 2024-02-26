@@ -32,26 +32,6 @@ public class PlayerComboAttackState : PlayerAttackState
         _stateMachine.Player.Animator.SetInteger("Combo", comboIndex);
 
         RotateOfTarget();
-
-        //ToolItemData tool = _stateMachine.Player.EquippedItem.itemSlot.itemData as ToolItemData;
-        //if(tool is WeaponItemData == false)
-        //{
-        //    _stateMachine.ChangeState(_stateMachine.IdleState);
-        //}
-
-        //var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range * 1.5f, tool.targetLayers);
-        //if (targets.Length == 0)
-        //{
-        //    return;
-        //}
-
-        //if (targets[0].CompareTag(tool.targetTagName))
-        //{
-        //    _target = targets[0].gameObject;
-        //    _targetTag = _target.tag;
-        //    RotateOfTarget();
-        //    return;
-        //}
     }
 
     public override void Exit()
@@ -59,7 +39,6 @@ public class PlayerComboAttackState : PlayerAttackState
         base.Exit();
         _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
         _weapon = null;
-        _targetPosition = Vector3.zero;
         StopAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
 
         if (!_alreadyApplyCombo)
@@ -94,18 +73,15 @@ public class PlayerComboAttackState : PlayerAttackState
 
     private void RotateOfTarget()
     {
-        Debug.Log($"1: {_targetPosition}");
         if (_targetPosition.Equals(Vector3.zero))
             return;
 
-        Debug.Log($"2: {_targetPosition}");
         var look = _targetPosition - _stateMachine.Player.transform.position;
         look.y = 0;
 
         var targetRotation = Quaternion.LookRotation(look);
 
         _stateMachine.Player.transform.rotation = targetRotation;
-        //_stateMachine.Player.transform.rotation = Quaternion.Slerp(_stateMachine.Player.transform.rotation, Quaternion.LookRotation(look), Time.deltaTime);
     }
 
     public override void Update()
@@ -131,20 +107,19 @@ public class PlayerComboAttackState : PlayerAttackState
                 _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;
 
             if (normalizedTime >= _attackInfoData.ComboTransitionTime)
+            {
                 TryComboAttack();
+                if (_alreadyApplyCombo)
+                {
+                    _stateMachine.ComboIndex = _attackInfoData.ComboStateIndex;
+                    _stateMachine.InteractSystem.TryInteractSequence();
+                }
+            }
         }
         else
         {
-            if (_alreadyApplyCombo)
-            {
-                _stateMachine.ComboIndex = _attackInfoData.ComboStateIndex;
-                _stateMachine.InteractSystem.TryInteractSequence();
-            }
-            else
-            {
-                _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
-                _stateMachine.ChangeState(_stateMachine.IdleState);
-            }
+            _weapon.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
+            _stateMachine.ChangeState(_stateMachine.IdleState);
         }
     }
 

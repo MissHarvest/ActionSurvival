@@ -108,17 +108,17 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     public void Hit(IAttack attacker, float damage)
     {
-        gameObject.layer = 14;
+        //gameObject.layer = 14;
         HP.Subtract(damage);
         OnHit?.Invoke(attacker);
-        if(HP.currentValue > 0) StartCoroutine(Avoid());
+        //if(HP.currentValue > 0) StartCoroutine(Avoid());
     }
 
-    IEnumerator Avoid()
-    {
-        yield return new WaitForSeconds(0.55f);
-        gameObject.layer = 7;
-    }
+    //IEnumerator Avoid()
+    //{
+    //    yield return new WaitForSeconds(0.55f);
+    //    gameObject.layer = 7;
+    //}
 
     public void SetBerserkMode()
     {

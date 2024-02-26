@@ -76,7 +76,6 @@ public class InteractSystem
     {
         if (force)
         {
-            Debug.Log("?");
             OnWeaponInteract?.Invoke(Vector3.zero);
             return true;
         }
@@ -91,7 +90,6 @@ public class InteractSystem
 
             if (target.TryGetComponent<IHit>(out var hit))
             {
-                Debug.Log("!");
                 OnWeaponInteract?.Invoke(target.transform.position);
                 return true;
             }
