@@ -46,13 +46,15 @@ public class MainScene : MonoBehaviour
 
                     Managers.Data.InitializeRecipeData();
                     Managers.Sound.Init();
-
+                    UnityEngine.Debug.Log($"Managers Init {watch.ElapsedMilliseconds} ms");
                     GameManager.Instance.GenerateNavMeshAsync(callback: op =>
                     {
                         // 4. NavMesh 생성
                         SpawnPlayer();
                         UIInitialize();
+                        UnityEngine.Debug.Log($"UI Init {watch.ElapsedMilliseconds} ms");
                         GameManager.Instance.Init();
+                        UnityEngine.Debug.Log($"Game Init {watch.ElapsedMilliseconds} ms");
 
                         var camera = Managers.Resource.GetCache<GameObject>("MinimapCamera.prefab");
                         Instantiate(camera);

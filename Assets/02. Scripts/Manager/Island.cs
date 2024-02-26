@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Unity.Jobs;
 using UnityEngine;
@@ -240,7 +241,7 @@ public class Island
     private void LoopFixMonsterSpawnPoint(bool[,] points, int field)
     {
         UsableMonsterSpawnPoints _usablePoints = new();
-
+        /*
         FixMonsterSpawnPointJob job = new FixMonsterSpawnPointJob(
             points,
             field,
@@ -252,20 +253,21 @@ public class Island
         var handle = job.Schedule();
         handle.Complete();
 
-        Debug.Log($"[While Count]{job.whileCount[0]}");
+        UnityEngine.Debug.Log($"[While Count]{job.whileCount[0]}");
 
         var result = job.GetResult();
         if (result[0] == Vector3.zero)
         {
             result = _usablePoints.Get();
         }
-
+        */
+        var result = _usablePoints.Get();
         for (int i = 0; i < result.Length; ++i)
         {
             _spawnablePoints.Add(new SpawnPoint(
                 result[i] - _islandSO.Property.Offset));
         }
-        job.whileCount.Dispose();
+        //job.whileCount.Dispose();
     }
 
     private void SetSpawnPointRank()
@@ -299,8 +301,13 @@ public class Island
     public void Load()
     {
         SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, Name);
+        Stopwatch watch = new();
+        watch.Start();
+        UnityEngine.Debug.Log("[Algorithm Start]");
         CheckSpawnablePoint();
+        UnityEngine.Debug.Log($"[Check Spawnable Point End]{watch.ElapsedMilliseconds} ms");
         CreateMonsters();
+        UnityEngine.Debug.Log($"[Create Monster End]{watch.ElapsedMilliseconds} ms");
         CreateBossMonster();
     }
 
