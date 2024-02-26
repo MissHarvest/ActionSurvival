@@ -4,15 +4,15 @@ using UnityEngine;
 public class BonFire : MonoBehaviour, IInteractable
 {
     [SerializeField] private int _cookingLevel = 0;
-    private AudioSource _audioSource;
+    public string clipName = "BonFire";
 
-    private void Awake()
+    private void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
-        _audioSource.loop = true;
-        var clip = Managers.Resource.GetCache<AudioClip>("BonFire.wav");
-        _audioSource.clip = clip;
-        _audioSource.Play();
+        Managers.Sound.PlayEffectSound(
+            transform.position,
+            clipName,
+            0.7f,
+            true);
     }
 
     public void Interact(Player player)

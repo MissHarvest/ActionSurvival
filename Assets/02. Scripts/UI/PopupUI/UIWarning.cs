@@ -26,8 +26,6 @@ public class UIWarning : UIPopup
         NoButton,
     }
 
-    private HashSet<string> _onceWarnings = new();
-    [SerializeField] private List<string> _save = new();
     private bool _show = false;
 
     public override void Initialize()
@@ -41,7 +39,7 @@ public class UIWarning : UIPopup
     private void Awake()
     {
         Initialize();
-        Load();
+        //Load();
         gameObject.SetActive(false);
     }
 
@@ -59,7 +57,7 @@ public class UIWarning : UIPopup
     private void PrintWarning(string warning)
     {
         Get<TextMeshProUGUI>((int)Texts.WarningText).text = warning;
-        Managers.Sound.PlayEffectSound(transform.position, "Warning");
+        Managers.Sound.PlayEffectSound("Warning");
     }
 
     private void SetButtonsActive(Type type)
@@ -90,34 +88,27 @@ public class UIWarning : UIPopup
             Close();
             yesAction.Invoke();
         });
-        Time.timeScale = 0.0f;
     }
 
     public void SetWarning(string warning, Type type, UnityAction yesAction, bool once)
     {
         if(once)
         {
-            if(!_onceWarnings.Contains(warning))
-            {
-                AddWarning(warning);
-                SetWarning(warning, type, yesAction);
-                StartCoroutine(Save());
-            }
-            else
-            {
-                Close();
-            }
+            //if(!_onceWarnings.Contains(warning))
+            //{
+            //    AddWarning(warning);
+            //    SetWarning(warning, type, yesAction);
+            //    StartCoroutine(Save());
+            //}
+            //else
+            //{
+            //    Close();
+            //}
         }
         else
         {
-            SetWarning(warning, yesAction);
+            //SetWarning(warning, yesAction);
         }
-    }
-
-    private void AddWarning(string warning)
-    {
-        _onceWarnings.Add(warning);
-        _save.Add(warning);
     }
 
     private void OnDisable()
@@ -130,24 +121,5 @@ public class UIWarning : UIPopup
     {
         _show = false;
         Managers.UI.ClosePopupUI(this);
-        Time.timeScale = 1.0f;
-    }
-
-    IEnumerator Save()
-    {
-        yield return null;
-        var json = JsonUtility.ToJson(this);
-        SaveGame.CreateJsonFile("Guide", json, SaveGame.SaveType.Other);
-    }
-
-    private void Load()
-    {
-        if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Other, "Guide"))
-        {
-            foreach(var warning in _save)
-            {
-                _onceWarnings.Add(warning);
-            }
-        }
     }
 }

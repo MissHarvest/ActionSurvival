@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     private ArtifactCreator _artifactCreator;
     private WorldNavMeshBuilder _worldNavmeshBuilder;
     private ResourceObjectSpawner _resourceObjectSpawner = new();
+    private PlayerHelper _playerHelper = new();
     #endregion
 
     #region Property 
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
     public static ObjectManager ObjectManager => _instance._objectManager;
     public static DayCycle DayCycle => _instance._daycycle;
     public static Season Season => _instance._season;
+    public static ArtifactCreator ArtifactCreator => _instance._artifactCreator;
     public static ResourceObjectSpawner ResourceObjectSpawner => _instance._resourceObjectSpawner;
     public World World { get; private set; }
     public Player Player { get; set; }
@@ -93,7 +95,7 @@ public class GameManager : MonoBehaviour
         InitIslands();
         _artifactCreator = new(this);
         Temperature.Init(this);
-
+        _playerHelper.Init();
         Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
 
         IsRunning = true;

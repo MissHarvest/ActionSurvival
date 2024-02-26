@@ -593,7 +593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d852ce5160cb14c9ef96c27a8c203d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerDefense: 0
   <StandingIslandName>k__BackingField: CenterIsland
 --- !u!114 &787385280888539790
 MonoBehaviour:
@@ -639,6 +638,11 @@ MonoBehaviour:
     regenRate: 0
     decayRate: 0
   <Hunger>k__BackingField:
+    currentValue: 0
+    maxValue: 0
+    regenRate: 0
+    decayRate: 0
+  <Temperature>k__BackingField:
     currentValue: 0
     maxValue: 0
     regenRate: 0
@@ -3264,7 +3268,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <maxCapacity>k__BackingField: 30
-  <slots>k__BackingField: []
+  _slots: []
+  _emptySlotCount: 0
+  test_item: {fileID: 0}
+  test_quantity: 0
 --- !u!114 &6613559552095951977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3289,30 +3296,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 538c69b79a079944cb32d10bb46a5843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ItemInUse>k__BackingField:
-    <itemName>k__BackingField: 
-    <quantity>k__BackingField: 0
-    <currentDurability>k__BackingField: 0
-    <equipped>k__BackingField: 0
-    <registed>k__BackingField: 0
   handPosition: {fileID: 3925956172773519372}
   leftHandPosition: {fileID: 4378630651380572091}
-  Equipments:
-  - itemSlot:
-      <itemName>k__BackingField: 
-      <quantity>k__BackingField: 0
-      <currentDurability>k__BackingField: 0
-      <equipped>k__BackingField: 0
-      <registed>k__BackingField: 0
-    targetIndex: -1
-  - itemSlot:
-      <itemName>k__BackingField: 
-      <quantity>k__BackingField: 0
-      <currentDurability>k__BackingField: 0
-      <equipped>k__BackingField: 0
-      <registed>k__BackingField: 0
-    targetIndex: -1
-  - itemSlot:
+  EquippedTool:
+    itemSlot:
       <itemName>k__BackingField: 
       <quantity>k__BackingField: 0
       <currentDurability>k__BackingField: 0
@@ -3331,7 +3318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8b844620312d54282d0db352b3518c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots:
+  _slots:
   - itemSlot:
       <itemName>k__BackingField: 
       <quantity>k__BackingField: 0
@@ -3360,7 +3347,7 @@ MonoBehaviour:
       <equipped>k__BackingField: 0
       <registed>k__BackingField: 0
     targetIndex: -1
-  <IndexInUse>k__BackingField: -1
+  _indexInUse: -1
 --- !u!114 &5718102191932996010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3430,7 +3417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defense: 0
-  _linkedSlots: []
+  _equippedArmors: []
 --- !u!1 &7392496694934527924
 GameObject:
   m_ObjectHideFlags: 0

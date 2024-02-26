@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +10,9 @@ public class UIManager
 
     // Sort Order
     private int _order = 10;
-    
+
     // Popup Management
-    private Stack<UIPopup> _activatedPopups = new Stack<UIPopup>();
+    private Stack<(UIPopup popup, bool pause)> _activatedPopups = new();
     private Dictionary<string, GameObject> _popups = new Dictionary<string, GameObject>();
 
     // Scenes Overlay
@@ -58,6 +59,7 @@ public class UIManager
             name = typeof(T).Name;
 
         _popups.Clear();
+        _activatedPopups.Clear();
 
         var gameObject = Managers.Resource.GetCache<GameObject>($"{name}.prefab");
         gameObject = Object.Instantiate(gameObject);
@@ -83,7 +85,7 @@ public class UIManager
 
     #region Popup UI
 
-    public T ShowPopupUI<T>(string name = null) where T : UIPopup
+    public T ShowPopupUI<T>(string name = null, bool pause= false) where T : UIPopup
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
@@ -106,9 +108,10 @@ public class UIManager
         }
 
         var popupUI = Utility.GetOrAddComponent<T>(go);
-        _activatedPopups.Push(popupUI);
+        _activatedPopups.Push((popupUI, pause));
 
         Cursor.lockState = CursorLockMode.None;
+        if (pause) Time.timeScale = 0.0f;
         return popupUI;
     }
 
@@ -129,7 +132,8 @@ public class UIManager
     {
         if (_activatedPopups.Count == 0) return;
 
-        if (_activatedPopups.Peek() != popup)
+        var data = _activatedPopups.Peek();
+        if (data.popup != popup)
         {
             Debug.LogWarning("Close Popup failed"); 
             return;
@@ -142,11 +146,13 @@ public class UIManager
     {
         if (_activatedPopups.Count == 0) return;
 
-        var popup = _activatedPopups.Pop();
+        var data = _activatedPopups.Pop();
 
-        popup.gameObject.SetActive(false);
+        data.popup.gameObject.SetActive(false);
 
         _order -= 1;
+
+        Time.timeScale = _activatedPopups.Count != 0 && _activatedPopups.Peek().pause ? 0.0f : 1.0f;
 
         if (_order == 0)
             Cursor.lockState = CursorLockMode.Locked;
@@ -158,9 +164,9 @@ public class UIManager
             ClosePopupUI();
     }
 
-    public bool Check(UIPopup popup)
+    public int GetActivatedPopupCount()
     {
-        return false;// _popups.Contains(popup);
+        return _activatedPopups.Count;// _popups.Contains(popup);
     }
 
     #endregion

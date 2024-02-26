@@ -131,6 +131,7 @@ public class BuildableObject : MonoBehaviour, IHit, IDestructible
 
     public void Hit(IAttack attacker, float damage)
     {
+        if (_collider.isTrigger) return;
         HP.Subtract(damage);
         OnHit?.Invoke(HP.GetPercentage());
     }

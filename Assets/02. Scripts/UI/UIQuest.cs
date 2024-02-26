@@ -38,7 +38,7 @@ public class UIQuest : UIBase
         var handler = gameObject.GetOrAddComponent<UIEventHandler>();
         handler.OnClickEvent = null; // Set �� �ι��Ǽ�
 
-        gameObject.BindEvent((x) =>
+        gameObject.GetComponent<Button>().onClick.AddListener(() =>
         {
             SetFunction(activeQuest, tutorial);
         });

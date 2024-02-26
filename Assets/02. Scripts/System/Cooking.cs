@@ -22,6 +22,11 @@ public class Cooking : CraftBase
         return base.CheckItems(items);
     }
 
+    public override void ConsumeItems(List<RecipeSO.Ingredient> items)
+    {
+        base.ConsumeItems(items);
+    }
+
     public override void AddItems(List<RecipeSO.Ingredient> items)
     {
         base.AddItems(items);

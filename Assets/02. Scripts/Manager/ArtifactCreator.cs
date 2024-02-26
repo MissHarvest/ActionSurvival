@@ -76,7 +76,7 @@ public class ArtifactCreator
     }
 
     public bool IsValidPosition(ref Vector3 pos)
-    {
+    {        
         pos += Vector3.up * 50f;
         if (Physics.Raycast(pos, Vector3.down, out var hit, 100f, int.MaxValue, QueryTriggerInteraction.Collide))
         {

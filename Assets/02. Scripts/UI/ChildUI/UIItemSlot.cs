@@ -18,9 +18,7 @@ public class UIItemSlot : UIBase
     public int Index { get; private set; }
     public UIItemSlotContainer Container { get; private set; }
     public RectTransform RectTransform { get; private set; }
-    public Image Icon => Get<Image>((int)Images.Icon);
-    protected TextMeshProUGUI Quantity => Get<TextMeshProUGUI>((int)Texts.Quantity);
-
+        
     public override void Initialize()
     {
         Bind<Image>(typeof(Images));
@@ -72,7 +70,7 @@ public class UIItemSlot : UIBase
     {
         gameObject.BindEvent((x) =>
         {
-            if (Icon.gameObject.activeSelf)
+            if (Get<Image>((int)Images.Icon).gameObject.activeSelf)
             {
                 action(this);
             }

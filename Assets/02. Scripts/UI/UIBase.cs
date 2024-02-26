@@ -95,9 +95,7 @@ public abstract class UIBase : MonoBehaviour
         {
             if (_bindObjects.TryGetValue(typeof(T), out Object[] value))
             {
-                var list = value.ToList();
-                list.AddRange(objects);
-                value = list.ToArray();
+                _bindObjects[typeof(T)] = objects;
             }
         }
     }

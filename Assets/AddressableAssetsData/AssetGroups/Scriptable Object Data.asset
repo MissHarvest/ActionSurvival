@@ -162,7 +162,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c49ca04a991b85646b2ccba8f7b75f1d
-    m_Address: Architecture/BonFireItemData.data
+    m_Address: BonFireItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -606,7 +606,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5fded2f244d0fab48b7df97ca5686ed5
-    m_Address: RabbitLeather.data
+    m_Address: Rabbitleather.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
@@ -1039,6 +1039,18 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b950ab64111bf7f4fac97e1fda6277b1
     m_Address: CenterIsland.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6de01058c5855234c8f177f221f14603
+    m_Address: Tips.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc0cfbd15c1da8446a87bd558384c08d
+    m_Address: SlimeMucus.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

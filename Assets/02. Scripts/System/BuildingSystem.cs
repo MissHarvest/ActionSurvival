@@ -56,7 +56,11 @@ public class BuildingSystem : MonoBehaviour
 
             string prefabName = "Architecture_" + itemNameWithoutItemData + ".prefab";
             var prefab = Managers.Resource.GetCache<GameObject>(prefabName);
-            _buildableObject = Instantiate(prefab, hit.point, Quaternion.identity).GetComponent<BuildableObject>();
+
+            // 청사진 생성 시 카메라의 y축 회전값 적용
+            Quaternion rotation = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0);
+
+            _buildableObject = Instantiate(prefab, hit.point, rotation).GetComponent<BuildableObject>();
             _buildableObject.Create(_buildableLayer);
             OnBuildRequested?.Invoke(index);
         }
@@ -85,11 +89,11 @@ public class BuildingSystem : MonoBehaviour
     public void SetObjPosition()
     {
         Vector3 _location = new Vector3(
-            Mathf.Round(_rayPointer.transform.position.x / _gridSize) * _gridSize,
+            /*Mathf.Round*/(_rayPointer.transform.position.x / _gridSize) * _gridSize,
             _buildableObject.gameObject.transform.position.y,
-            Mathf.Round(_rayPointer.transform.position.z / _gridSize) * _gridSize
+            /*Mathf.Round*/(_rayPointer.transform.position.z / _gridSize) * _gridSize
             );
-
+        //Debug.Log($"{_location.x}, {_location.y}, {_location.z}");
         _buildableObject.gameObject.transform.position = _location;
     }
 
@@ -100,9 +104,13 @@ public class BuildingSystem : MonoBehaviour
 
         // 현재 위치 저장
         Vector3 currentPosition = _rayPointer.transform.position;
-        var nextPosition = currentPosition + new Vector3(joystickInput.x * movementSpeed * Time.deltaTime, 0, joystickInput.y * movementSpeed * Time.deltaTime);
 
-        if(IsWithinBuildZone(nextPosition))
+        // 카메라 방향 고려
+        Vector3 moveDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * new Vector3(joystickInput.x, 0, joystickInput.y);
+
+        var nextPosition = currentPosition + moveDirection * movementSpeed * Time.deltaTime;
+
+        if (IsWithinBuildZone(nextPosition))
         {
             _rayPointer.transform.position = nextPosition;
         }
@@ -147,9 +155,6 @@ public class BuildingSystem : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(_rayPointer.transform.position, buildableObjectCollider.bounds.size);
-
-        //DrawRaycastGizmo(buildableObjectCollider.bounds.min, ref _leftEdgeHitY);
-        //DrawRaycastGizmo(buildableObjectCollider.bounds.max, ref _rightEdgeHitY);
     }
 
     private void DrawRaycastGizmo(Vector3 origin, ref float hitY)

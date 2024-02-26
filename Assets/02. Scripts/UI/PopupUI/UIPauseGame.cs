@@ -8,6 +8,7 @@ public class UIPauseGame : UIPopup
     enum Buttons
     {
         SoundButton,
+        GameHelperButton,
         ExitButton,
     }
 
@@ -34,21 +35,16 @@ public class UIPauseGame : UIPopup
         gameObject.SetActive(false);
     }
 
-    private void OnEnable()
-    {
-        Time.timeScale = 0.0f;
-    }
-
-    private void OnDisable()
-    {
-        Time.timeScale = 1.0f;
-    }
-
     private void BindEventOfButtons()
     {
         Get<Button>((int)Buttons.SoundButton).gameObject.BindEvent((x) =>
         {
             Managers.UI.ShowPopupUI<UISoundSetting>();
+        });
+
+        Get<Button>((int)Buttons.GameHelperButton).gameObject.BindEvent((x) =>
+        {
+            Managers.UI.ShowPopupUI<UITipInformation>();
         });
 
         Get<Button>((int)Buttons.ExitButton).gameObject.BindEvent((x) =>

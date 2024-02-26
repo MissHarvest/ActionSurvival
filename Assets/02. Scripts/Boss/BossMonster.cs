@@ -80,9 +80,9 @@ public class BossMonster : MonoBehaviour, IAttack, IHit
         _stateMachine.ChangeState(_stateMachine.DieState);
     }
 
-    public void Attack(IHit target)
+    public void Attack(AttackInfo attackData)
     {
-        target.Hit(this, 35);
+        attackData.target.Hit(this, 35);
     }
 
     public void Hit(IAttack attacker, float damage)

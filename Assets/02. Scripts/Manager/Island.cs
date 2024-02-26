@@ -127,18 +127,21 @@ public class Island
         for (int i = 0; i < _spawnablePoints.Count; ++i)
         {
             var pos = _spawnablePoints[i].point;
+            //Debug.Log($"[Monster] |{_islandSO.Property.name}||SpawnablePoint| {pos}");
             pos.y = 50;
             RaycastHit hit;
             if (Physics.Raycast(pos, Vector3.down, out hit, 100.0f, 1 << 12))
             {
-                pos = hit.point;
-                pos.y += 0.5f;
-
+                var point = hit.point;
+                point.y += 0.5f;
+                //Debug.Log($"[Monster] |RayCast||SpawnablePoint| {point}");
                 var mon = _monsterGroups[(int)_spawnablePoints[i].level].Get();
-                var go = Object.Instantiate(mon, pos, Quaternion.identity);
+                var go = Object.Instantiate(mon, point, Quaternion.identity);
                 go.transform.SetParent(SpawnMonsterRoot);
                 go.GetComponent<Monster>().SetIsland(this);
                 go.name = $"{mon.name}[{_spawnablePoints[i].level}]";
+
+                //Debug.Log($"[Monster] |{go.name}|{point}");
             }
         }
     }
@@ -236,23 +239,33 @@ public class Island
 
     private void LoopFixMonsterSpawnPoint(bool[,] points, int field)
     {
+        UsableMonsterSpawnPoints _usablePoints = new();
+
         FixMonsterSpawnPointJob job = new FixMonsterSpawnPointJob(
             points,
             field,
             _islandSO.Monster.SpawnData.MonsterCount,
             _islandSO.Monster.SpawnData.Monsterinterval,
             _islandSO.Monster.SpawnData.Interval,
-            _islandSO.Property.Offset,
             GetHashCode());
 
         var handle = job.Schedule();
         handle.Complete();
 
+        Debug.Log($"[While Count]{job.whileCount[0]}");
+
         var result = job.GetResult();
-        for(int i = 0; i < result.Length; ++i)
+        if (result[0] == Vector3.zero)
         {
-            _spawnablePoints.Add(new SpawnPoint(result[i]));
+            result = _usablePoints.Get();
         }
+
+        for (int i = 0; i < result.Length; ++i)
+        {
+            _spawnablePoints.Add(new SpawnPoint(
+                result[i] - _islandSO.Property.Offset));
+        }
+        job.whileCount.Dispose();
     }
 
     private void SetSpawnPointRank()

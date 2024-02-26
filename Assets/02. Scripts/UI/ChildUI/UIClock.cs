@@ -54,11 +54,5 @@ public class UIClock : UIBase
         _angle = Mathf.Min(_angle + _intervalAngle, _maxAngle);
         if (_angle >= _maxAngle) _angle = 0.0f;
         Get<GameObject>((int)GameObjects.Pivot).transform.rotation = Quaternion.Euler(0, 0, -_angle);
-
-        Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
-            "무엇을 해야할지 모르겠다면,\n퀘스트를 하나씩 해결해보세요.\n좌측의 퀘스트를 클릭해보세요.",
-            UIWarning.Type.YesOnly,
-            () => { Managers.UI.ClosePopupUI(); },
-            true);
     }
 }
