@@ -8,12 +8,7 @@ public class PlayerComboAttackState : PlayerAttackState
     private bool _alreadyAppliedForce;
     private bool _alreadyApplyCombo;
     private bool _hit;
-    protected GameObject target;
-    protected string targetTag;
-    
-    protected Vector3 _targetPosition;
-    protected string _targetTag;
-
+    private Vector3 _targetPosition;
     private WeaponItemData _weaponData;
     private AttackInfoData _attackInfoData;
 
@@ -42,7 +37,6 @@ public class PlayerComboAttackState : PlayerAttackState
     public override void Exit()
     {
         base.Exit();
-        target = null;
         StopAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
 
         if (!_alreadyApplyCombo)
