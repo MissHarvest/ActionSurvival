@@ -38,7 +38,7 @@ public class UIStoreFirewoodHelper : UIBase
 
     private Image _icon;
 
-    private Ignition _ignition;
+    public Ignition ignition;
 
     public override void Initialize()
     {
@@ -57,21 +57,19 @@ public class UIStoreFirewoodHelper : UIBase
 
         _icon = Get<Image>((int)Images.Icon);
 
-        _minusButton.BindEvent((x) => { _ignition.OnMinusQuantity(); });
-        _plusButton.BindEvent((x) => { _ignition.OnPlusQuantity(); });
-        _takeoutButton.BindEvent((x) => { _ignition.OnTakeoutQuantity(); });
-        _storeButton.BindEvent((x) => { _ignition.OnStoreQuantity(); });
+        _minusButton.BindEvent((x) => { ignition.OnMinusQuantity(); });
+        _plusButton.BindEvent((x) => { ignition.OnPlusQuantity(); });
+        _takeoutButton.BindEvent((x) => { ignition.OnTakeoutQuantity(); });
+        _storeButton.BindEvent((x) => { ignition.OnStoreQuantity(); });
         gameObject.BindEvent((x) => { gameObject.SetActive(false); });
     }
 
     private void OnEnable()
     {
-        _ignition = GameManager.Instance.Player.Ignition;
-
         Initialize();
 
-        _ignition.OnUpdatedCount += UpdateCountUI;
-        _ignition.OnUpdatedUI += OnTurnOffPopup;
+        ignition.OnUpdatedCount += UpdateCountUI;
+        ignition.OnUpdatedUI += OnTurnOffPopup;
     }
 
     private void Start()
@@ -82,26 +80,25 @@ public class UIStoreFirewoodHelper : UIBase
     public void ShowOption(ItemSlot selectedSlot, Vector3 position, int index)
     {
         int FirewoodHaveInventory = GameManager.Instance.Player.Inventory.GetItemCount(selectedSlot.itemData);
-        _ignition._maxCount = FirewoodHaveInventory;
+        ignition.maxCount = FirewoodHaveInventory;
 
         gameObject.SetActive(true);
         if (gameObject.activeSelf)
         {
-            _ignition._count = 0;
-            UpdateCountUI(_ignition._count);
+            ignition.firewoodStoreCount = 0;
+            UpdateCountUI(ignition.firewoodStoreCount);
         }
 
         _icon.sprite = selectedSlot.itemData.iconSprite;
         _quantityHaveText.text = "보유:" + FirewoodHaveInventory.ToString();
 
         _container.transform.position = position;
-        _ignition._index = index;
+        ignition.firewoodItemIndex = index;
     }    
 
     public void UpdateCountUI(int count)
     {
         _quantityText.text = count.ToString();
-        Debug.Log(count);
     }
 
     private void OnTurnOffPopup()

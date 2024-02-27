@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // 2024. 01. 16 Byun Jeongmin
@@ -6,6 +7,8 @@ public class BonFire : MonoBehaviour, IInteractable
     [SerializeField] private int _cookingLevel = 0;
     private AudioSource _audioSource;
     private Ignition _ignition;
+    private UIIgnition _ignitionUI;
+    private UICooking _cookingUI;
 
     private void Awake()
     {
@@ -19,9 +22,16 @@ public class BonFire : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        //var ui = Managers.UI.ShowPopupUI<UICooking>();
-        //ui.SetAdvancedRecipeUIActive(_cookingLevel);
-        GameManager.Instance.Player.Ignition = _ignition;
+        _ignitionUI = Managers.UI.GetPopupUI<UIIgnition>();
+        _ignitionUI.ignition = _ignition;
+
+        if (!_ignitionUI.ignitionDic.ContainsKey(gameObject.name))
+        {
+            _ignitionUI.ignitionDic.Add(gameObject.name, _ignition);
+        }
+        
+        _cookingUI = Managers.UI.GetPopupUI<UICooking>();
+        _cookingUI.ignition = _ignition;
         Managers.UI.ShowPopupUI<UIIgnition>();
     }
 }

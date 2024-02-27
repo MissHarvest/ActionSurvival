@@ -170,6 +170,7 @@ MonoBehaviour:
   _index: 0
   _firePowerGauge: 0
   _currentTimeRequiredToCook: 0
+  cookingLevel: 1
   _haveFirewood: 0
   _startCooking: 0
   cookingDone: 0

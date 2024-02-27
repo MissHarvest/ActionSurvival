@@ -10,17 +10,19 @@ public class Ignition : MonoBehaviour
     public ItemSlot[] recipeRequiredItemSlots;
     public ItemSlot[] cookedFoodItems;
     public List<RecipeSO> recipes = new List<RecipeSO>();
-    public List<UICookingSlot> _cookingSlotsUI = new List<UICookingSlot>();
+    public List<UICookingSlot> cookingSlotsUI = new List<UICookingSlot>();
 
     [SerializeField] private int _capacity = 0;
-    public int _count = 0;
-    public int _maxCount;
-    public int _index;
-    public int _firePowerGauge;
-    public int _currentTimeRequiredToCook;
+    public int firewoodStoreCount = 0;
+    public int maxCount;
+    public int firewoodItemIndex;
+    public int firePowerGauge;
+    public int currentTimeRequiredToCook;
+    public int cookingLevel = 0;
+    public int cookingSlotIndex;
 
-    public bool _haveFirewood = false;
-    public bool _startCooking = false;
+    public bool haveFirewood = false;
+    public bool startCooking = false;
     public bool cookingDone = false;
 
     private DayCycle _dayCycle;
@@ -30,13 +32,13 @@ public class Ignition : MonoBehaviour
     public event Action<int> OnUpdateQuantity;
     public void StartCookingButton()
     {
-        _startCooking = true;
+        startCooking = true;
         StartAFire();
     }
 
     public void StopCookingButton()
     {
-        _startCooking = false;
+        startCooking = false;
     }
 
     private void Awake()
@@ -46,8 +48,8 @@ public class Ignition : MonoBehaviour
 
         GetFirewoodItems();
 
-        _currentTimeRequiredToCook = 0;
-        _firePowerGauge = 0;
+        currentTimeRequiredToCook = 0;
+        firePowerGauge = 0;
 
         for (int i = 0; i < recipeRequiredItemSlots.Length; i++)
         {
@@ -63,103 +65,98 @@ public class Ignition : MonoBehaviour
         _dayCycle.OnTimeUpdated += OnStartCooking;
     }
 
-    private void StartAFire()
-    {        
-        if (_startCooking)
+    public void StartAFire()
+    {
+        if (startCooking && firePowerGauge < 1)
         {
             for (int i = 0; i < firewoodItemSlots.Length; i++)
             {
                 if (firewoodItemSlots[i].quantity > 0)
                 {
                     firewoodItemSlots[i].SubtractFirewoodItemQuantity(1);
-                    _firePowerGauge = i == 0 ? 2 : 3;
+                    firePowerGauge = i == 0 ? 2 : 3;
                     OnUpdatedUI?.Invoke();
 
-                    _haveFirewood = true;
+                    haveFirewood = true;
                     return;
                 }
-            }            
-        }       
+            }
+        }
     }
 
     public void OnConsumeFirePowerGauge()
     {
         //daycycle에서 이벤트 호출되면 일정 수치 만큼 깎는다.
-        if (_haveFirewood)
+        if (haveFirewood)
         {
-            _firePowerGauge -= 1;
+            firePowerGauge -= 1;
+        }
+        else
+        {
+            return;
         }
 
-        if (_firePowerGauge < 1)
+        if (firePowerGauge < 1)
         {
             StartAFire();
         }
 
-        for (int i = 0; i < recipeRequiredItemSlots.Length; i++)
+        if (Array.TrueForAll(recipeRequiredItemSlots, x => x.itemData == null))
         {
-            if (recipeRequiredItemSlots[i].itemData != null)
-            {
-                _startCooking = true;
-                break;
-            }
-            else
-            {
-                _startCooking = false;
-            }
+            startCooking = false;
         }
 
-        if (_firePowerGauge == 0 && firewoodItemSlots[0].quantity == 0 && firewoodItemSlots[1].quantity == 0)
+        if (firePowerGauge == 0 && firewoodItemSlots[0].quantity == 0 && firewoodItemSlots[1].quantity == 0)
         {
             //_startCooking = false;
-            _haveFirewood = false;
+            haveFirewood = false;
         }
     }
 
     public void OnStartCooking()
     {
-        if (!_startCooking) return;
+        if (!startCooking || !haveFirewood) return;
 
-        for (int i = 0; i < _cookingSlotsUI.Count; i++)
+        for (int i = 0; i < recipeRequiredItemSlots.Length; i++)
         {
-            if (_cookingSlotsUI[i] != null)
+            if (recipeRequiredItemSlots[i].itemData != null)
             {
-                _cookingSlotsUI[i].GetComponent<UICookingSlot>();
+                cookingSlotsUI[i].GetComponent<UICookingSlot>();
+                cookingSlotIndex = i;
                 break;
             }
         }
-        
 
-        _currentTimeRequiredToCook += 1;
-        _cookingSlotsUI[0].UpdatedTimeTakenToCookSlider(_currentTimeRequiredToCook);//
+        currentTimeRequiredToCook += 1;
+        cookingSlotsUI[cookingSlotIndex].UpdatedTimeTakenToCookSlider(currentTimeRequiredToCook);
 
-        if (_currentTimeRequiredToCook >= _cookingSlotsUI[0]._maxTimeRequiredToCook)//
+        if (currentTimeRequiredToCook >= cookingSlotsUI[cookingSlotIndex].maxTimeRequiredToCook)
         {
-            for (int i = 0; i < cookedFoodItems.Length; i++)
+            if (cookedFoodItems[cookingSlotIndex].itemData == recipeRequiredItemSlots[cookingSlotIndex].itemData)
             {
-                if (cookedFoodItems[i].itemData == recipeRequiredItemSlots[i].itemData)
-                {
-                    cookedFoodItems[i].AddQuantity(1);
-                    recipeRequiredItemSlots[i].SubtractQuantity(1);
-                    if (recipeRequiredItemSlots[i].itemData == null) cookingDone = true;
-                    OnUpdateQuantity?.Invoke(i);
-                    break;
-                }
+                cookedFoodItems[cookingSlotIndex].AddQuantity(1);
+                recipeRequiredItemSlots[cookingSlotIndex].SubtractQuantity(1);
+                if (recipeRequiredItemSlots[cookingSlotIndex].itemData == null) cookingDone = true;
+                OnUpdateQuantity?.Invoke(cookingSlotIndex);
+            }
 
-                if (cookedFoodItems[i].itemData == null)
-                {
-                    cookedFoodItems[i].Set(recipeRequiredItemSlots[i].itemData, 1);
-                    recipeRequiredItemSlots[i].SubtractQuantity(1);
-                    if (recipeRequiredItemSlots[i].itemData == null) cookingDone = true;
-                    OnUpdateQuantity?.Invoke(i);
-                    break;
-                }
-            }            
-            _currentTimeRequiredToCook = 0;
-            _cookingSlotsUI[0].UpdatedTimeTakenToCookSlider(_currentTimeRequiredToCook);
+            if (cookedFoodItems[cookingSlotIndex].itemData == null)
+            {
+                cookedFoodItems[cookingSlotIndex].Set(recipeRequiredItemSlots[cookingSlotIndex].itemData, 1);
+                recipeRequiredItemSlots[cookingSlotIndex].SubtractQuantity(1);
+                if (recipeRequiredItemSlots[cookingSlotIndex].itemData == null) cookingDone = true;
+                OnUpdateQuantity?.Invoke(cookingSlotIndex);
+            }
+
+            if (Array.TrueForAll(recipeRequiredItemSlots, x => x.itemData == null))
+            {
+                startCooking = false;
+            }
+
+            currentTimeRequiredToCook = 0;
+            cookingSlotsUI[cookingSlotIndex].UpdatedTimeTakenToCookSlider(currentTimeRequiredToCook);
         }
     }
-
-
 
     private void GetFirewoodItems()
     {
@@ -171,16 +168,16 @@ public class Ignition : MonoBehaviour
 
     public void OnTakeoutQuantity()
     {
-        var itemSlots = firewoodItemSlots[_index];
+        var itemSlots = firewoodItemSlots[firewoodItemIndex];
 
         if (itemSlots.quantity > 0)
         {
             GameManager.Instance.Player.Inventory.TryAddItem(itemSlots.itemData, itemSlots.quantity);
-            firewoodItemSlots[_index].SubtractFirewoodItemQuantity(itemSlots.quantity);
+            firewoodItemSlots[firewoodItemIndex].SubtractFirewoodItemQuantity(itemSlots.quantity);
 
-            if (firewoodItemSlots[0].itemData == null && firewoodItemSlots[1].itemData == null)
+            if (firewoodItemSlots[0].quantity == 0 && firewoodItemSlots[1].quantity == 0)
             {
-                _haveFirewood = false;
+                haveFirewood = false;
             }
 
             OnUpdatedUI?.Invoke();
@@ -189,36 +186,36 @@ public class Ignition : MonoBehaviour
 
     public void OnStoreQuantity()
     {
-        if (_count > 0)
+        if (firewoodStoreCount > 0)
         {
-            firewoodItemSlots[_index].AddQuantity(_count);
-            GameManager.Instance.Player.Inventory.TryConsumeQuantity(firewoodItemSlots[_index].itemData, _count);
-            _haveFirewood = true;
-
+            firewoodItemSlots[firewoodItemIndex].AddQuantity(firewoodStoreCount);
+            GameManager.Instance.Player.Inventory.TryConsumeQuantity(firewoodItemSlots[firewoodItemIndex].itemData, firewoodStoreCount);
+            haveFirewood = true;
+            StartAFire();
             OnUpdatedUI?.Invoke();
         }
     }
 
     public void OnMinusQuantity()
     {
-        if (_count > 0)
+        if (firewoodStoreCount > 0)
         {
-            _count--;
+            firewoodStoreCount--;
             UpdateCountUI();
         }
     }
 
     public void OnPlusQuantity()
     {
-        if (_count < _maxCount)
+        if (firewoodStoreCount < maxCount)
         {
-            _count++;
+            firewoodStoreCount++;
             UpdateCountUI();
         }
     }
 
     private void UpdateCountUI()
     {
-        OnUpdatedCount?.Invoke(_count);
+        OnUpdatedCount?.Invoke(firewoodStoreCount);
     }
 }

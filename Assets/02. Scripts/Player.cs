@@ -26,7 +26,6 @@ public class Player : MonoBehaviour, IHit
     public BuildingSystem Building { get; private set; }
     public Tutorial Tutorial { get; private set; }
     public ArmorSystem ArmorSystem { get; private set; }
-    public Ignition Ignition { get; set; }
     public ItemUsageHelper ItemUsageHelper { get; private set; }
     public PlayerConditionHandler ConditionHandler { get; private set; }
     #endregion

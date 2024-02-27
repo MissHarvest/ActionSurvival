@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq.Expressions;
 using static UnityEditor.Progress;
+using UnityEngine;
 
 
 // 2024. 01. 16 Byun Jeongmin
 public class UICooking : UICraftBase
 {
-    private Ignition _ignition;
+    public Ignition ignition;
     private UIIgnition _uiIIgnition;
+    private int _index;
 
     public override void Awake()
     {
@@ -20,8 +21,7 @@ public class UICooking : UICraftBase
     {
         base.OnEnable();
         SetAdvancedRecipeUIActive(0);
-        _ignition = GameManager.Instance.Player.Ignition;
-        _ignition.recipes = _recipeOrCookingList;
+        ignition.recipes = _recipeOrCookingList;
     }
 
     private void Start()
@@ -44,11 +44,14 @@ public class UICooking : UICraftBase
             ItemData completedItemData = SelectedRecipe.completedItemData;
 
             bool checkEmptySlots = false;
-            foreach (var slot in _ignition.recipeRequiredItemSlots)
+
+            for (int i = 0; i < ignition.recipeRequiredItemSlots.Length; i++)
             {
-                if (slot.itemData == null)
+                if (ignition.recipeRequiredItemSlots[i].itemData == null && ignition.cookedFoodItems[i].itemData == null)
                 {
                     checkEmptySlots = true;
+                    _index = i;
+                    break;
                 }
             }
 
@@ -57,18 +60,20 @@ public class UICooking : UICraftBase
                 if (_craftBase.CheckItems(items))
                 {
                     int totalQuantity = _craftBase.Count * SelectedRecipe.Quantity;
-                    for (int index = 0; index < _ignition.recipeRequiredItemSlots.Length; index++)
+
+                    ignition.recipeRequiredItemSlots[_index].Set(completedItemData, totalQuantity);
+                    _uiIIgnition.Set(_index);
+                    ignition.startCooking = true;
+                    if (ignition.haveFirewood)
                     {
-                        if (_ignition.recipeRequiredItemSlots[index].itemData == null)
-                        {
-                            _ignition.recipeRequiredItemSlots[index].Set(completedItemData, totalQuantity);
-                            _uiIIgnition.Set(index);
-                            //_ignition._startCooking = true;
-                            _confirm.gameObject.SetActive(false);
-                            return;
-                        }
+                        ignition.StartAFire();
                     }
+                    _confirm.gameObject.SetActive(false);
                 }
+            }
+            else
+            {
+                Debug.Log("asd");
             }
         }
     }

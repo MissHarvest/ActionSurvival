@@ -28,10 +28,12 @@ public class UIIgnition : UIPopup
     private UIStoreFirewoodHelper _firewoodHelper;
     private Slider _firePowerGaugeSlider;
     private DayCycle _dayCycle;
-    private Ignition _ignition;
+    public Ignition ignition;
+
+    [SerializeField] private int _cookingLevel;
 
     private List<GameObject> _itemUIList = new List<GameObject>();
-    public List<GameObject> _cookingSlot = new List<GameObject>();
+    public Dictionary<string, Ignition> ignitionDic = new Dictionary<string, Ignition>();
 
     public override void Initialize()
     {
@@ -49,28 +51,44 @@ public class UIIgnition : UIPopup
 
         _functionsUseFireSlotButton.BindEvent((x) => { ShowCookingUIPopup(); });
         _firePowerGaugeSlider = GetComponentInChildren<Slider>();
+
+        _dayCycle = GameManager.DayCycle;
+        _cookingLevel = ignition.cookingLevel;
+
+        foreach (var dic in ignitionDic)
+        {
+            Debug.Log(dic.Key);
+        }
     }
 
     private void OnEnable()
     {
-        _ignition = GameManager.Instance.Player.Ignition;
-        _dayCycle = GameManager.DayCycle;
-
+        //활성화 됐을 떄 동작하게
+        //이건 데이터를 가져와서 그리기만 한다
         Initialize();
 
         _firewoodItems = Get<GameObject>((int)GameObjects.FirewoodItems).transform;
         _content = Get<GameObject>((int)GameObjects.Content).transform;
         _firewoodHelper = Get<UIStoreFirewoodHelper>((int)Helper.UIStoreFirewoodHelper);
+        _firewoodHelper.ignition = ignition;
 
-        _ignition.OnUpdatedUI += OnSetIngredients;
-        _ignition.OnUpdatedUI += OnUpdateFirePowerGaugeSlider;
-        _dayCycle.OnTimeUpdated += OnUpdateFirePowerGaugeSlider;
-        //_dayCycle.OnTimeUpdated += OnUpdatedTimeTakenToCookSlider;
-        _ignition.OnUpdateQuantity += OnUpdateQuantity;
-        _ignition.OnUpdateQuantity += OnUpdateList;
+        ignition.OnUpdatedUI += OnSetIngredients;
+        ignition.OnUpdatedUI += OnUpdateFirePowerGaugeSlider;
+        ignition.OnUpdateQuantity += OnUpdateQuantity;
+        //구독해지
 
         OnSetIngredients();
         CreatCookingSlot();
+        ShowCookingSlots(_cookingLevel);
+        OnUpdatedTimeTakenToCookSlider();
+    }
+
+    private void OnDisable()
+    {
+        for (int i = 0; i < ignition.cookingSlotsUI.Count; i++)
+        {
+            ignition.cookingSlotsUI[i].gameObject.SetActive(false);
+        }
     }
 
     private void Start()
@@ -80,14 +98,14 @@ public class UIIgnition : UIPopup
 
     private void OnUpdateFirePowerGaugeSlider()
     {
-        _firePowerGaugeSlider.value = _ignition._firePowerGauge;
+        _firePowerGaugeSlider.value = ignition.firePowerGauge;
     }
 
     public void OnSetIngredients()
     {
         ClearItems();
 
-        foreach (var item in _ignition.firewoodItemSlots)
+        foreach (var item in ignition.firewoodItemSlots)
         {
             var prefab = Managers.Resource.GetCache<GameObject>("UIFirewoodSlot.prefab");
             GameObject itemUI = Instantiate(prefab, _firewoodItems);
@@ -105,101 +123,90 @@ public class UIIgnition : UIPopup
 
     public void CreatCookingSlot()
     {
-        if (_ignition._cookingSlotsUI.Count == 0)
-        {            
-            for (int i = 0; i < _ignition.recipeRequiredItemSlots.Length; i++)
+        if (ignition.cookingSlotsUI.Count == 0)
+        {
+            for (int i = 0; i < ignition.recipeRequiredItemSlots.Length; i++)
             {
                 var prefab = Managers.Resource.GetCache<GameObject>("UICookingSlot.prefab");
                 GameObject itemUI = Instantiate(prefab, _content);
                 var cookingSlot = itemUI.GetComponent<UICookingSlot>();
 
-                cookingSlot.Set(_ignition.recipeRequiredItemSlots[i]);
-                cookingSlot._cookedFoodItemQuantity.text = "0";
+                cookingSlot.Set(ignition.recipeRequiredItemSlots[i]);
+                cookingSlot.cookedFoodItemQuantity.text = "0";
                 cookingSlot.index = i;
+                cookingSlot.cookingLevel = _cookingLevel;
 
-                itemUI.BindEvent((x) => DeliverFoodItemsToInventory(_ignition._cookingSlotsUI[i].index));
+                itemUI.BindEvent((x) => DeliverFoodItemsToInventory(cookingSlot.index));
 
-                _ignition._cookingSlotsUI.Add(cookingSlot);
+                ignition.cookingSlotsUI.Add(cookingSlot);
+                ignition.cookingSlotsUI[i].gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    private void ShowCookingSlots(int cookingLevel)
+    {
+        for (int i = 0; i < ignition.cookingSlotsUI.Count; i++)
+        {
+            if (ignition.cookingSlotsUI[i].cookingLevel == cookingLevel)
+            {
+                ignition.cookingSlotsUI[i].gameObject.SetActive(true);
             }
         }
     }
 
     public void Set(int index)
     {
-        foreach (var recipe in _ignition.recipes)
+        foreach (var recipe in ignition.recipes)
         {
-            if (recipe.completedItemData == _ignition.recipeRequiredItemSlots[index].itemData)
+            if (recipe.completedItemData == ignition.recipeRequiredItemSlots[index].itemData)
             {
-                var cookingSlot = _ignition._cookingSlotsUI[index];
-                cookingSlot.Set(_ignition.recipeRequiredItemSlots[index]);
+                var cookingSlot = ignition.cookingSlotsUI[index];
+                cookingSlot.Set(ignition.recipeRequiredItemSlots[index]);
                 cookingSlot.SetMaxTimeTakenToCookSlider(recipe.maxTimeRequiredToCook);
-                _ignition._cookingSlotsUI[index]._maxTimeRequiredToCook = recipe.maxTimeRequiredToCook;
+                ignition.cookingSlotsUI[index].maxTimeRequiredToCook = recipe.maxTimeRequiredToCook;
             }
         }
     }
 
     private void OnUpdateQuantity(int index)
     {
-        if (_ignition._cookingSlotsUI[index] == null) return;
+        if (ignition.cookingSlotsUI[index] == null) return;
 
-        var cookingSlot = _ignition._cookingSlotsUI[index].GetComponent<UICookingSlot>();
-        cookingSlot.Set(_ignition.recipeRequiredItemSlots[index]);
-        cookingSlot.CookedFoodItemQuantitySet(_ignition.cookedFoodItems[index]);
+        var cookingSlot = ignition.cookingSlotsUI[index].GetComponent<UICookingSlot>();
+        cookingSlot.Set(ignition.recipeRequiredItemSlots[index]);
+        cookingSlot.CookedFoodItemQuantitySet(ignition.cookedFoodItems[index]);
     }
 
     public void OnUpdatedTimeTakenToCookSlider()
     {
-        if (_ignition._cookingSlotsUI.Count == 0) return;
+        if (ignition.cookingSlotsUI.Count == 0) return;
 
-        for (int i = 0; i < _ignition._cookingSlotsUI.Count; i++)
-        {
-            if (_ignition._cookingSlotsUI[i] != null)
-            {
-                var cookingSlot = _ignition._cookingSlotsUI[i].GetComponent<UICookingSlot>();
-                cookingSlot.UpdatedTimeTakenToCookSlider(_ignition._currentTimeRequiredToCook);
-            }            
-        }        
+        var cookingSlot = ignition.cookingSlotsUI[ignition.cookingSlotIndex].GetComponent<UICookingSlot>();
+        cookingSlot.UpdatedTimeTakenToCookSlider(ignition.currentTimeRequiredToCook);
+        OnUpdateQuantity(ignition.cookingSlotIndex);
     }
 
-    public void OnUpdateList(int index)
-    {
-
-    }
-
-    private void DeliverFoodItemsToInventory(int index)//
+    private void DeliverFoodItemsToInventory(int index)
     {
         //_ignition.cookedFoodItems 에서 Inventory로 넘겨주기
-        GameManager.Instance.Player.Inventory.TryAddItem(_ignition.cookedFoodItems[index].itemData, _ignition.cookedFoodItems[index].quantity);
-        _ignition.cookedFoodItems[index].SubtractQuantity(_ignition.cookedFoodItems[index].quantity);
-        var cookingSlot = _cookingSlot[index].GetComponent<UICookingSlot>();
-        cookingSlot.CookedFoodItemQuantitySet(_ignition.cookedFoodItems[index]);
-
-        if (_ignition.recipeRequiredItemSlots[index].itemData == null)
-        {
-            Destroy(_cookingSlot[index]);
-            _cookingSlot[index] = null;
-
-            for (int i = 0; i < _cookingSlot.Count; i++)
-            {
-                if (_ignition._cookingSlotsUI[i] == null)
-                {
-                    _ignition._cookingSlotsUI.Remove(_ignition._cookingSlotsUI[i]);
-                }
-                if (_cookingSlot[i] == null)
-                {
-                    _cookingSlot.Remove(_cookingSlot[i]);
-                }
-            }
-        }
+        GameManager.Instance.Player.Inventory.TryAddItem(ignition.cookedFoodItems[index].itemData, ignition.cookedFoodItems[index].quantity);
+        ignition.cookedFoodItems[index].SubtractQuantity(ignition.cookedFoodItems[index].quantity);
+        var cookingSlot = ignition.cookingSlotsUI[index].GetComponent<UICookingSlot>();
+        cookingSlot.CookedFoodItemQuantitySet(ignition.cookedFoodItems[index]);
     }
 
     private void ShowStoreFirewoodPopupUI(ItemSlot itemSlot)
     {
         int index = 0;
 
-        for (int i = 0; i < _ignition.firewoodItemSlots.Length; i++)
+        for (int i = 0; i < ignition.firewoodItemSlots.Length; i++)
         {
-            if (_ignition.firewoodItemSlots[i].itemData == itemSlot.itemData)
+            if (ignition.firewoodItemSlots[i].itemData == itemSlot.itemData)
             {
                 index = i;
             }
@@ -210,12 +217,10 @@ public class UIIgnition : UIPopup
         _firewoodHelper.ShowOption(itemSlot, pos, index);
     }
 
-
-
     private void ShowCookingUIPopup()
     {
         var ui = Managers.UI.ShowPopupUI<UICooking>();
-        //ui.SetAdvancedRecipeUIActive(_cookingLevel);
+        ui.SetAdvancedRecipeUIActive(ignition.cookingLevel);
     }
 
     private void ClearItems()

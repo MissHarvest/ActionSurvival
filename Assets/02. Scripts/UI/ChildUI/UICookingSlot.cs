@@ -24,11 +24,12 @@ public class UICookingSlot : UIBase
     }
 
     private TextMeshProUGUI _requiredQuantity;
-    public TextMeshProUGUI _cookedFoodItemQuantity;
+    public TextMeshProUGUI cookedFoodItemQuantity;
     private TextMeshProUGUI _text;
     private Slider _timeTakenToCookSlider;
-    public int _maxTimeRequiredToCook;
+    public int maxTimeRequiredToCook;
     public int index;//인덱스를 넘겨야겠네
+    public int cookingLevel = 0;
 
     public override void Initialize()
     {
@@ -39,11 +40,11 @@ public class UICookingSlot : UIBase
         Get<Image>((int)Images.CookedFoodItemIcon).raycastTarget = false;
 
         _requiredQuantity = Get<TextMeshProUGUI>((int)Quantity.RequiredQuantity);
-        _cookedFoodItemQuantity = Get<TextMeshProUGUI>((int)Quantity.CookedFoodItemQuantity);
+        cookedFoodItemQuantity = Get<TextMeshProUGUI>((int)Quantity.CookedFoodItemQuantity);
         _text = Get<TextMeshProUGUI>((int)Texts.Text);
 
         _requiredQuantity.raycastTarget = false;
-        _cookedFoodItemQuantity.raycastTarget = false;
+        cookedFoodItemQuantity.raycastTarget = false;
         _text.raycastTarget = false;
 
         _timeTakenToCookSlider = GetComponentInChildren<Slider>();
@@ -69,8 +70,8 @@ public class UICookingSlot : UIBase
 
     public void CookedFoodItemQuantitySet(ItemSlot itemSlot)//완성 아이템 배열의 데이터를 가지고 와서 업데이트
     {
-        if (itemSlot.itemData == null) _cookedFoodItemQuantity.text = "0";
-        _cookedFoodItemQuantity.text = itemSlot.quantity.ToString();
+        if (itemSlot.itemData == null) cookedFoodItemQuantity.text = "0";
+        cookedFoodItemQuantity.text = itemSlot.quantity.ToString();
     }
 
     public void SetMaxTimeTakenToCookSlider(int maxTimeRequiredToCook)
