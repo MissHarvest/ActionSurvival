@@ -14,10 +14,10 @@ public class InteractSystem
     private LayerMask _interactableAllLayerMask;
     private InteractableTarget[] _targets;
 
-    public struct InteractableTarget
+    public readonly struct InteractableTarget
     {
         public readonly Collider targetCollider;
-        public readonly float closestPoint;
+        public readonly float distance;
 
         public readonly GameObject gameObject => targetCollider.gameObject;
         public readonly Transform transform => targetCollider.transform;
@@ -26,7 +26,7 @@ public class InteractSystem
         public InteractableTarget(Collider targetCollider, Vector3 searchOrigin)
         {
             this.targetCollider = targetCollider;
-            closestPoint = Vector3.SqrMagnitude(targetCollider.transform.position - targetCollider.ClosestPoint(searchOrigin));
+            distance = Vector3.SqrMagnitude(targetCollider.transform.position - targetCollider.ClosestPoint(searchOrigin));
         }
 
         public readonly bool CompareTag(string tag) => targetCollider.CompareTag(tag);
@@ -126,7 +126,7 @@ public class InteractSystem
             if (!target.CompareTag("Monster") || (1 << target.gameObject.layer & tool.targetLayers) == 0)
                 continue;
 
-            if (target.closestPoint > tool.range * tool.range)
+            if (target.distance > tool.range * tool.range)
                 break;
 
             if (target.TryGetComponent<IHit>(out var hit))
@@ -145,8 +145,8 @@ public class InteractSystem
             if (!target.CompareTag(tool.targetTagName) || (1 << target.gameObject.layer & tool.targetLayers) == 0)
                 continue;
 
-            if (target.closestPoint > tool.range * tool.range)
-                    break;
+            if (target.distance > tool.range * tool.range)
+                break;
 
             if (target.TryGetComponent<IInteractable>(out var interactable))
             {
@@ -164,7 +164,7 @@ public class InteractSystem
             if ((1 << target.gameObject.layer & tool.targetLayers) == 0)
                 continue;
 
-            if (target.closestPoint > tool.range * tool.range)
+            if (target.distance > tool.range * tool.range)
                 break;
 
             if (target.TryGetComponent<IDestructible>(out var IDestructible))
@@ -183,7 +183,7 @@ public class InteractSystem
             if ((1 << target.gameObject.layer & _architectureLayerMask) == 0)
                 continue;
 
-            if (target.closestPoint > tool.range * tool.range)
+            if (target.distance > tool.range * tool.range)
                 break;
 
             if (target.TryGetComponent<IInteractable>(out var interactable))
@@ -201,7 +201,7 @@ public class InteractSystem
     public void SearchObject(Vector3 position, float maxRange, LayerMask targetLayers)
     {
         var colliders = Physics.OverlapSphere(position, maxRange, targetLayers, QueryTriggerInteraction.Collide);
-        _targets = colliders.Select(x => new InteractableTarget(x, position)).OrderBy(x => x.closestPoint).ToArray();
+        _targets = colliders.Select(x => new InteractableTarget(x, position)).OrderBy(x => x.distance).ToArray();
     }
 
     private float GetMaxRange()
