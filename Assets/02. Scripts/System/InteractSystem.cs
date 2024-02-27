@@ -202,7 +202,6 @@ public class InteractSystem
     {
         var colliders = Physics.OverlapSphere(position, maxRange, targetLayers, QueryTriggerInteraction.Collide);
         _targets = colliders.Select(x => new InteractableTarget(x, position)).OrderBy(x => x.closestPoint).ToArray();
-        Debug.Log(string.Join(", ", _targets.Select(x => x.closestPoint)));
     }
 
     private float GetMaxRange()

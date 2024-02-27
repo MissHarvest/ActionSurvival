@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,21 +51,33 @@ public class ItemUsageHelper : MonoBehaviour
 
     private void EquipTool(int index, ItemSlot itemSlot)
     {
+        if (_player.StateMachine.IsAttackState)
+            return;
+
         _player.ToolSystem.Equip(index, itemSlot);
     }
 
     private void EquipWeapon(int index, ItemSlot itemSlot)
     {
+        if (_player.StateMachine.IsAttackState)
+            return;
+
         _player.ToolSystem.Equip(index, itemSlot);
     }
 
     private void EquipArmor(int index, ItemSlot itemSlot)
     {
+        if (_player.StateMachine.IsAttackState)
+            return;
+
         _player.ArmorSystem.Equip(index, itemSlot);
     }
 
     private void Build(int index, ItemSlot itemSlot)
     {
+        if (_player.StateMachine.IsAttackState)
+            return;
+
         _player.Building.CreateArchitecture(index, itemSlot);
     }
 }

@@ -39,7 +39,7 @@ public class PlayerComboAttackState : PlayerAttackState
         base.Exit();
         StopAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
 
-        if (!_alreadyApplyCombo)
+        if (!_alreadyApplyCombo || _stateMachine.Player.EquippedItem.itemSlot.itemData is not WeaponItemData)
             _stateMachine.ComboIndex = 0;
     }
 

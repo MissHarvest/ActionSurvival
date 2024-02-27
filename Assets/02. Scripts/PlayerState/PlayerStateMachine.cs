@@ -23,6 +23,7 @@ public class PlayerStateMachine : StateMachine
     public float JumpForce { get; set; }
     public Transform MainCameraTransform { get; set; }
     public InteractSystem InteractSystem { get; private set; }
+    public bool IsAttackState => currentState is PlayerAttackState;
 
     public PlayerStateMachine(Player player)
     {
