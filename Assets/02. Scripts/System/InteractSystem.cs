@@ -12,7 +12,26 @@ public class InteractSystem
     private LayerMask _monsterLayerMask;
     private LayerMask _resourcesLayerMask;
     private LayerMask _interactableAllLayerMask;
-    private Collider[] targets;
+    private InteractableTarget[] _targets;
+
+    public readonly struct InteractableTarget
+    {
+        public readonly Collider targetCollider;
+        public readonly float distance;
+
+        public readonly GameObject gameObject => targetCollider.gameObject;
+        public readonly Transform transform => targetCollider.transform;
+        public readonly string tag => targetCollider.tag;
+
+        public InteractableTarget(Collider targetCollider, Vector3 searchOrigin)
+        {
+            this.targetCollider = targetCollider;
+            distance = Vector3.SqrMagnitude(targetCollider.transform.position - targetCollider.ClosestPoint(searchOrigin));
+        }
+
+        public readonly bool CompareTag(string tag) => targetCollider.CompareTag(tag);
+        public readonly bool TryGetComponent<T>(out T component) => targetCollider.TryGetComponent(out component);
+    }
 
     public event Action<Vector3> OnWeaponInteract;
     public event Action<IInteractable, string, Vector3> OnToolInteract;
@@ -102,12 +121,12 @@ public class InteractSystem
             return true;
         }
 
-        foreach (var target in targets)
+        foreach (var target in _targets)
         {
             if (!target.CompareTag("Monster") || (1 << target.gameObject.layer & tool.targetLayers) == 0)
                 continue;
 
-            if (Vector3.SqrMagnitude(target.transform.position - _transform.position) > tool.range * tool.range)
+            if (target.distance > tool.range * tool.range)
                 break;
 
             if (target.TryGetComponent<IHit>(out var hit))
@@ -121,12 +140,12 @@ public class InteractSystem
 
     private bool TryToolInteract(ToolItemData tool)
     {
-        foreach (var target in targets)
+        foreach (var target in _targets)
         {
             if (!target.CompareTag(tool.targetTagName) || (1 << target.gameObject.layer & tool.targetLayers) == 0)
                 continue;
 
-            if (Vector3.SqrMagnitude(target.transform.position - _transform.position) > tool.range * tool.range)
+            if (target.distance > tool.range * tool.range)
                 break;
 
             if (target.TryGetComponent<IInteractable>(out var interactable))
@@ -140,12 +159,12 @@ public class InteractSystem
 
     private bool TryToolDestruct(ToolItemData tool)
     {
-        foreach (var target in targets)
+        foreach (var target in _targets)
         {
             if ((1 << target.gameObject.layer & tool.targetLayers) == 0)
                 continue;
 
-            if (Vector3.SqrMagnitude(target.transform.position - _transform.position) > tool.range * tool.range)
+            if (target.distance > tool.range * tool.range)
                 break;
 
             if (target.TryGetComponent<IDestructible>(out var IDestructible))
@@ -159,12 +178,12 @@ public class InteractSystem
 
     private bool TryArchitectureInteract(ToolItemData tool)
     {
-        foreach (var target in targets)
+        foreach (var target in _targets)
         {
             if ((1 << target.gameObject.layer & _architectureLayerMask) == 0)
                 continue;
 
-            if (Vector3.SqrMagnitude(target.transform.position - _transform.position) > tool.range * tool.range)
+            if (target.distance > tool.range * tool.range)
                 break;
 
             if (target.TryGetComponent<IInteractable>(out var interactable))
@@ -181,8 +200,8 @@ public class InteractSystem
 
     public void SearchObject(Vector3 position, float maxRange, LayerMask targetLayers)
     {
-        targets = Physics.OverlapSphere(position, maxRange, targetLayers, QueryTriggerInteraction.Collide);
-        targets = targets.OrderBy(x => Vector3.SqrMagnitude(position - x.transform.position)).ToArray();
+        var colliders = Physics.OverlapSphere(position, maxRange, targetLayers, QueryTriggerInteraction.Collide);
+        _targets = colliders.Select(x => new InteractableTarget(x, position)).OrderBy(x => x.distance).ToArray();
     }
 
     private float GetMaxRange()

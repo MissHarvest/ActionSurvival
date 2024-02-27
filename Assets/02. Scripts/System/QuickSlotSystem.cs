@@ -64,6 +64,9 @@ public class QuickSlotSystem : MonoBehaviour
         {
             if (_slots[i].itemSlot.itemData != null && _slots[i].targetIndex == index)
             {
+                if (_player.StateMachine.IsAttackState && _indexInUse == i)
+                    return;
+
                 _slots[i].itemSlot.SetRegist(false);
                 OnUnRegisted?.Invoke(_slots[i]);
                 _slots[i].Clear();
@@ -77,6 +80,7 @@ public class QuickSlotSystem : MonoBehaviour
     private void UnRegist(int index, bool indexInUseStay)
     {
         if (_slots[index].itemSlot.itemData == null) return;
+
         _slots[index].itemSlot.SetRegist(false);
         OnUnRegisted?.Invoke(_slots[index]);
         _slots[index].Clear();
@@ -106,10 +110,10 @@ public class QuickSlotSystem : MonoBehaviour
         
         _indexInUse = index;
         _player.ItemUsageHelper.Use(_slots[index].targetIndex);
-        if (_slots[index].itemSlot.itemData is ToolItemData)
-        {
-            _indexInUse = index;
-        }        
+        //if (_slots[index].itemSlot.itemData is ToolItemData)
+        //{
+        //    _indexInUse = index;
+        //}
     }
 
     private void QuickUse()

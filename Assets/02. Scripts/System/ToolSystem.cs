@@ -137,6 +137,9 @@ public class ToolSystem : MonoBehaviour
 
     private void OnItemUnregisted()
     {
+        if (_player.StateMachine.IsAttackState)
+            return;
+
         UnEquip();
     }
 
