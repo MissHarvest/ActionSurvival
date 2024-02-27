@@ -106,10 +106,10 @@ public class QuickSlotSystem : MonoBehaviour
         
         _indexInUse = index;
         _player.ItemUsageHelper.Use(_slots[index].targetIndex);
-        if (_slots[index].itemSlot.itemData is ToolItemData)
-        {
-            _indexInUse = index;
-        }        
+        //if (_slots[index].itemSlot.itemData is ToolItemData)
+        //{
+        //    _indexInUse = index;
+        //}
     }
 
     private void QuickUse()

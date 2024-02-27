@@ -96,12 +96,12 @@ public class PlayerComboAttackState : PlayerAttackState
 
             if (normalizedTime >= _attackInfoData.ComboTransitionTime)
             {
+                TryComboAttack();
                 if (!_hit)
                 {
                     _hit = true;
                     _stateMachine.Player.Attack(_weaponData.damage * _attackInfoData.Damage);
                 }
-                TryComboAttack();
                 if (_alreadyApplyCombo)
                 {
                     _stateMachine.ComboIndex = _attackInfoData.ComboStateIndex;
@@ -118,11 +118,6 @@ public class PlayerComboAttackState : PlayerAttackState
     protected override void OnInteractStarted(InputAction.CallbackContext context)
     {
         _stateMachine.IsAttacking = true;
-    }
-
-    protected override void OnQuickUseStarted(InputAction.CallbackContext context)
-    {
-        
     }
 
     public void SetTarget(Vector3 position)
