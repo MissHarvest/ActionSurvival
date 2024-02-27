@@ -92,11 +92,32 @@ public class DayCycle
         OnUpdated?.Invoke(Date, _time);
     }
 
-    private void Load()
+    //private void Load()
+    //{
+    //    if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "WorldDate") == false)
+    //    {
+    //        Date = 1;
+    //    }
+    //    OnDateUpdated?.Invoke(Date);
+    //}
+
+    //private void Save()
+    //{
+    //    var json = JsonUtility.ToJson(this);
+    //    SaveGame.CreateJsonFile("WorldDate", json, SaveGame.SaveType.Runtime);
+    //}
+
+    private async void Load()
     {
-        if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "WorldDate") == false)
+        bool firebaseDataExists = await SaveGameUsingFirebase.CheckIfDataExists();
+
+        if (firebaseDataExists == false)
         {
             Date = 1;
+        }
+        else
+        {
+            SaveGameUsingFirebase.LoadFromFirebase<DayCycle>("WorldDate", this);
         }
         OnDateUpdated?.Invoke(Date);
     }
@@ -104,7 +125,7 @@ public class DayCycle
     private void Save()
     {
         var json = JsonUtility.ToJson(this);
-        SaveGame.CreateJsonFile("WorldDate", json, SaveGame.SaveType.Runtime);
+        SaveGameUsingFirebase.SaveToFirebase("WorldDate", json);
     }
 
 #if UNITY_EDITOR

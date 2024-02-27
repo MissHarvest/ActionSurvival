@@ -296,9 +296,23 @@ public class Island
     }
     #endregion
 
+    //public void Load()
+    //{
+    //    SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, Name);
+    //    CheckSpawnablePoint();
+    //    CreateMonsters();
+    //    CreateBossMonster();
+    //}
+
+    //private void Save()
+    //{
+    //    string json = JsonUtility.ToJson(this);
+    //    SaveGame.CreateJsonFile($"{Name}", json, SaveGame.SaveType.Runtime);
+    //}
+
     public void Load()
     {
-        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, Name);
+        SaveGameUsingFirebase.LoadFromFirebase<Island>(Name, this);
         CheckSpawnablePoint();
         CreateMonsters();
         CreateBossMonster();
@@ -307,6 +321,6 @@ public class Island
     private void Save()
     {
         string json = JsonUtility.ToJson(this);
-        SaveGame.CreateJsonFile($"{Name}", json, SaveGame.SaveType.Runtime);
+        SaveGameUsingFirebase.SaveToFirebase($"{Name}", json);
     }
 }

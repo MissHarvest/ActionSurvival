@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -29,17 +27,7 @@ public class UITitleScene : UIScene
 
         Get<Button>((int)Buttons.NewGameButton).onClick.AddListener(() =>
         {
-            if(SaveGame.ExistFiles())
-            {
-                var ui = Managers.UI.ShowPopupUI<UIWarning>(pause:true);
-                ui.SetWarning("세이브 파일이 있습니다.\n 정말 새로 시작하나요?",
-                    UIWarning.Type.YesNo,
-                    StartNewGame);
-            }
-            else
-            {
-                StartNewGame();
-            }
+            CheckFirebaseDataAndStartNewGame();
         });
 
         Get<Button>((int)Buttons.NewGameButton).gameObject.BindEvent((x) =>
@@ -91,6 +79,25 @@ public class UITitleScene : UIScene
     private void StartNewGame()
     {
         SaveGame.DeleteAllFiles();
+        SaveGameUsingFirebase.DeleteAllFirebaseData();
         SceneManager.LoadScene("Main Scene");
+    }
+
+    private async void CheckFirebaseDataAndStartNewGame()
+    {
+        bool firebaseDataExists = await SaveGameUsingFirebase.CheckIfDataExists();
+        bool localDataExists = SaveGame.ExistFiles();
+
+        if (firebaseDataExists && localDataExists)
+        {
+            var ui = Managers.UI.ShowPopupUI<UIWarning>(pause:true);
+            ui.SetWarning("세이브 파일이 있습니다.\n 정말 새로 시작하나요?",
+                UIWarning.Type.YesNo,
+                StartNewGame);
+        }
+        else
+        {
+            StartNewGame();
+        }
     }
 }

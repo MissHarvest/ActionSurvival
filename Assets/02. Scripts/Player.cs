@@ -4,9 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour, IAttack, IHit
 {
@@ -153,23 +155,57 @@ public class Player : MonoBehaviour, IAttack, IHit
     {
         _stateMachine.ChangeState(_stateMachine.DieState);
         SaveGame.DeleteAllFiles();
+        SaveGameUsingFirebase.DeleteAllFirebaseData();
         Managers.UI.ShowPopupUI<UIDeath>();
     }
 
-    public void Save()
+    //public void Save()
+    //{
+    //    var json = JsonUtility.ToJson(transform.position);
+    //    SaveGame.CreateJsonFile("PlayerPosition", json, SaveGame.SaveType.Runtime);
+    //    PlayerPrefs.SetString("IslandName", StandingIslandName);
+    //}
+
+    //public void Load()
+    //{
+    //    if (SaveGame.TryLoadJsonFile<Vector3>(SaveGame.SaveType.Runtime, "PlayerPosition", out Vector3 pos))
+    //    {
+    //        Controller.enabled = false;
+    //        transform.position = pos;
+    //        Controller.enabled = true;
+    //    }
+    //    else
+    //    {
+    //        Controller.enabled = false;
+    //        transform.position = new Vector3(-40f, 1f, 22f);
+    //        Controller.enabled = true;
+    //    }
+    //}
+
+    private void Save()
     {
         var json = JsonUtility.ToJson(transform.position);
-        SaveGame.CreateJsonFile("PlayerPosition", json, SaveGame.SaveType.Runtime);
+        SaveGameUsingFirebase.SaveToFirebase("PlayerPosition", json);
         PlayerPrefs.SetString("IslandName", StandingIslandName);
     }
 
-    public void Load()
+    //public void Load()
+    //{
+    //    SaveGameUsingFirebase.LoadFromFirebase<Vector3>("PlayerPosition", this.transform.position);
+    //}
+
+    public async void Load()
     {
-        if (SaveGame.TryLoadJsonFile<Vector3>(SaveGame.SaveType.Runtime, "PlayerPosition", out Vector3 pos))
+        bool firebaseDataExists = await SaveGameUsingFirebase.CheckIfDataExists();
+
+        if (firebaseDataExists)
         {
-            Controller.enabled = false;
-            transform.position = pos;
-            Controller.enabled = true;
+            Debug.Log("파이어베이스 데이터 가져옴");
+            SaveGameUsingFirebase.LoadFromFirebase<Vector3>("PlayerPosition", this.transform.position, this.transform);
+
+            //Controller.enabled = false;
+            //transform.position = position;
+            //Controller.enabled = true;
         }
         else
         {

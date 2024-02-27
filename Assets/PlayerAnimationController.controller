@@ -897,20 +897,20 @@ AnimatorStateMachine:
   m_EntryTransitions:
   - {fileID: -689960670246040182}
   m_StateMachineTransitions:
-  - first: {fileID: 8644996344561054594}
-    second:
-    - {fileID: 5208998122742151188}
   - first: {fileID: -6496443284698962254}
     second:
     - {fileID: 3812574593420429817}
     - {fileID: 570451963313729233}
     - {fileID: 4615445843797511916}
-  - first: {fileID: 4882428846851831248}
-    second:
-    - {fileID: -8469998547077282015}
   - first: {fileID: -156304739758523850}
     second:
     - {fileID: -78209632468210562}
+  - first: {fileID: 4882428846851831248}
+    second:
+    - {fileID: -8469998547077282015}
+  - first: {fileID: 8644996344561054594}
+    second:
+    - {fileID: 5208998122742151188}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
@@ -1337,7 +1337,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: Combo
     m_Type: 3

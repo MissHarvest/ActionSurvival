@@ -77,17 +77,6 @@ public class PlayerConditionHandler : MonoBehaviour
         SetTemperature(temperature);
     }
 
-    //private void Load()
-    //{
-    //    SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"PlayerConditions");
-    //}
-
-    //private void Save()
-    //{
-    //    var json = JsonUtility.ToJson(this);
-    //    SaveGame.CreateJsonFile($"PlayerConditions", json, SaveGame.SaveType.Runtime);
-    //}
-
     private void Save()
     {
         var json = JsonUtility.ToJson(this);
@@ -96,14 +85,6 @@ public class PlayerConditionHandler : MonoBehaviour
 
     private void Load()
     {
-        SaveGameUsingFirebase.LoadFromFirebase<PlayerConditionHandler>("PlayerConditions", data => {
-            if (data != null)
-            {
-                Debug.Log($"허기:{data.Hunger.currentValue}");
-                HP.currentValue = data.HP.currentValue;
-                Hunger.currentValue = data.Hunger.currentValue;
-                Temperature.currentValue = data.Temperature.currentValue;
-            }
-        });
+        SaveGameUsingFirebase.LoadFromFirebase<PlayerConditionHandler>("PlayerConditions", this);
     }
 }
