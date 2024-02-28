@@ -14,6 +14,8 @@ public class UIMinimap : UIPopup
         CoordinatesText,
     }
 
+    private Camera _minimapCam;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -28,9 +30,30 @@ public class UIMinimap : UIPopup
         gameObject.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        if (_minimapCam == null)
+            FindMinimapCamera();
+        _minimapCam.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        if (_minimapCam != null)
+            _minimapCam.enabled = false;
+    }
+
     private void Update()
     {
         UpdateCoordinatesText();
+    }
+
+    private void FindMinimapCamera()
+    {
+        var _minimapCamGO = GameObject.FindObjectOfType<MapIlluminator>();
+
+        if (_minimapCamGO != null)
+            _minimapCam = _minimapCamGO.GetComponent<Camera>();
     }
 
     private void UpdateCoordinatesText()
