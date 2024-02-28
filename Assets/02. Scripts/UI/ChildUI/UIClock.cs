@@ -31,17 +31,20 @@ public class UIClock : UIBase
     private void Awake()
     {
         Initialize();
-        Debug.Log($"UIClock Awake [{_bindObjects.Count}]");
-    }
-
-    private void Start()
-    {
         var dayCycle = GameManager.DayCycle;
 
+        dayCycle.OnStarted += OnDayStarted;
         dayCycle.OnDateUpdated += OnDateUpdated;
-        OnDateUpdated(dayCycle.Date);
-
         dayCycle.OnTimeUpdated += OnTimeUpdated;
+    }
+
+    private void OnDayStarted(DayInfo day)
+    {
+        Debug.Log("[Day]" + GameManager.DayCycle.Day);
+        _intervalAngle = 360.0f / GameManager.DayCycle.Day;
+        OnDateUpdated(day.date);
+        _angle = _intervalAngle * day.time;
+        Get<GameObject>((int)GameObjects.Pivot).transform.rotation = Quaternion.Euler(0, 0, -_angle);
     }
 
     private void OnDateUpdated(int date)

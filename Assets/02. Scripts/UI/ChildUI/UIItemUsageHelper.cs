@@ -74,6 +74,7 @@ public class UIItemUsageHelper : UIItemHelper
 
         var arrowUI = Managers.UI.ShowPopupUI<UITutorialArrow>();
         var pos = go.transform.position;
+        if (arrowUI == null) return;
 
         arrowUI.ActivateArrow(pos, new Vector2(xOffset, 0));
         go.BindEvent((x) =>

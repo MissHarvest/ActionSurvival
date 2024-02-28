@@ -50,7 +50,6 @@ public class UIItemSlotContainer : UIBase
 
     public void HighLight(int index)
     {
-        Debug.Log("[index] " + index);
         var go = _uiItemSlots[index].gameObject;
 
         int xOffset = 40;
@@ -69,7 +68,7 @@ public class UIItemSlotContainer : UIBase
         var yPosition = yOffset + (row + 1) * (yHeight + ySpace);
 
         var arrowUI = Managers.UI.ShowPopupUI<UITutorialArrow>();
-
+        if (arrowUI == null) return;
         arrowUI.ActivateArrow(gameObject.transform.position, new Vector2(xPosition, yPosition));
         go.BindEvent((x) =>
         {

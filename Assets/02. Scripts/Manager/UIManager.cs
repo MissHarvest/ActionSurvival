@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+//using UnityEngine.UIElements;
 
 public class UIManager
 {
@@ -89,6 +90,14 @@ public class UIManager
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
+
+        if (_activatedPopups.TryPeek(out var popup))
+        {
+            if (popup.popup.GetType() == typeof(T))
+            {
+                return (T)popup.popup;
+            }
+        }
 
         if (_popups.TryGetValue(name, out GameObject go))
         {

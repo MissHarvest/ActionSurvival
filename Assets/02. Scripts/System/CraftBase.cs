@@ -23,17 +23,6 @@ public class CraftBase : MonoBehaviour
         private set { _maxCount = value; }
     }
 
-    public virtual void Awake()
-    {
-        Debug.Log($"{GetType().Name} Awake");
-    }
-
-    public virtual void Start()
-    {
-
-        Debug.Log($"{GetType().Name} Start");
-    }
-
     public void InitializeCount()
     {
         _count = 1;

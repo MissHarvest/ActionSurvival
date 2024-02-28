@@ -40,6 +40,12 @@ public class SFXSound : MonoBehaviour
         }
     }
 
+    public void StopSound()
+    {
+        AudioSource.Stop();
+        _managedPool.Release(this);
+    }
+
     IEnumerator ReturnToManager(float time)
     {
         yield return new WaitForSeconds(time);
