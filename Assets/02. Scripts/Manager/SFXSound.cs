@@ -1,29 +1,54 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
 
 // 2024. 01. 25 Park Jun Uk
 public class SFXSound : MonoBehaviour
 {
     public AudioSource AudioSource { get; private set; }
-    public event Action<SFXSound> OnPlayEnd;
+    private IObjectPool<SFXSound> _managedPool;
+
     private void Awake()
     {
         AudioSource = GetComponent<AudioSource>();
     }
 
-    public void Play(AudioClip clip)
+    public void SetManagedPool(IObjectPool<SFXSound> managedPool)
     {
-        gameObject.SetActive(true);
-        AudioSource.PlayOneShot(clip);
-        float length = clip.length;
-        StartCoroutine(ReturnToManager(length));
+        _managedPool = managedPool;
+    }
+
+    public void PlaySound(Vector3? position, AudioClip clip, float volume, bool loop)
+    {
+        AudioSource.spatialBlend = position == null ? 0.0f : 1.0f;
+        if (position != null) transform.position = position.Value;        
+        AudioSource.volume = volume;
+        AudioSource.loop = loop;
+        if(loop)
+        {
+            AudioSource.clip = clip;
+            AudioSource.Play();           
+        }
+        else
+        {
+            AudioSource.PlayOneShot(clip);
+            var length = clip.length;
+            StartCoroutine(ReturnToManager(length));
+        }
+    }
+
+    public void StopSound()
+    {
+        AudioSource.Stop();
+        _managedPool.Release(this);
     }
 
     IEnumerator ReturnToManager(float time)
     {
         yield return new WaitForSeconds(time);
-        OnPlayEnd?.Invoke(this);
+        _managedPool.Release(this);
     }
 }

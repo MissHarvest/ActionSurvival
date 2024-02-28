@@ -19,21 +19,16 @@ public class CopyPosition : MonoBehaviour
             yield return null;
         }
         _target = GameManager.Instance.Player.transform;
-        StartCoroutine(UpdatePosition());
     }
 
-    private IEnumerator UpdatePosition()
+    private void Update()
     {
-        while (true)
+        if (_target != null)
         {
-            if (_target != null)
-            {
-                transform.position = new Vector3(
-                    (_positionX ? _target.position.x : transform.position.x),
-                    (_positionY ? _target.position.y : transform.position.y),
-                    (_positionZ ? _target.position.z : transform.position.z));
-            }
-            yield return null;
+            transform.position = new Vector3(
+                (_positionX ? _target.position.x : transform.position.x),
+                (_positionY ? _target.position.y : transform.position.y),
+                (_positionZ ? _target.position.z : transform.position.z));
         }
     }
 }

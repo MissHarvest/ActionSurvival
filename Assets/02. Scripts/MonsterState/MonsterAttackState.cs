@@ -38,7 +38,6 @@ public class MonsterAttackState : MonsterBaseState
         float normalizedTime = GetNormalizedTime(_stateMachine.Monster.Animator, "Attack");
         if (normalizedTime >= 1.0f)
         {
-            _stateMachine.Monster.OffAttack();
             if (TryDetectPlayer())
             {
                 _stateMachine.ChangeState(_stateMachine.StayState);
@@ -49,7 +48,7 @@ public class MonsterAttackState : MonsterBaseState
                 _stateMachine.ChangeState(_stateMachine.PatrolState);
             }
         }
-        else if(normalizedTime >= _stateMachine.Monster.attackTime && !_isAttacking)
+        else if(normalizedTime >= _stateMachine.Monster.Data.AttackData.DelayedTimeColliderActivated && !_isAttacking)
         {
             _isAttacking = true;
             _stateMachine.Monster.TryAttack();

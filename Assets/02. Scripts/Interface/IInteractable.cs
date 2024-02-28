@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public interface IInteractable
 {
+    float GetInteractTime();
     void Interact(Player player);
 }

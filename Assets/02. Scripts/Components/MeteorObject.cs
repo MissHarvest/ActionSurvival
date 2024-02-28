@@ -58,14 +58,14 @@ public class MeteorObject : MonoBehaviour
         var hittable = other.GetComponent<IHit>();
         if (hittable != null)
         {
-            Owner.Attack(hittable);
+            Owner.Attack(new AttackInfo(hittable, 0));
         }
         Destroy();        
     }
 
     private void Destroy()
     {        
-        Managers.Sound.PlayEffectSound(transform.position, "Explosion", 0.12f);
+        Managers.Sound.PlayEffectSound(transform.position, "Explosion", 1.0f, false);
         Collider.enabled = false;
         _managedPool.Release(this);
     }

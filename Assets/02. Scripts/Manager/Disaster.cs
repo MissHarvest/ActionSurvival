@@ -25,10 +25,11 @@ public class Disaster : IAttack
     private bool _active = false;
     private Vector3[] _points;
 
-    public void Init(Player player)
+    public void Init()
     {
+        _points = new Vector3[10];
+
         ObjectPoolContainer = new GameObject("@ObjectPoolContainer");
-        _target = player.transform;
         _meteorPrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");
         _meteores = new ObjectPool<MeteorObject>(CreateMeteor, OnGetMeteor, OnReleaseMeteor, OnDestroyMeteor, maxSize: 30);
 
@@ -37,11 +38,14 @@ public class Disaster : IAttack
 
         _indicatorPrefab = Managers.Resource.GetCache<GameObject>("CircleAttackIndicator.prefab");
         _indicatores = new ObjectPool<AttackIndicatorCircle>(CreateIndicator, OnGetIndicator, OnReleaseIndicator, OnDestroyIndicator, maxSize: 30);
+    }
 
+    public void BindEvent()
+    {
+        _target = GameManager.Instance.Player.transform;
+        
         GameManager.DayCycle.OnTimeUpdated += Fall;
         GameManager.Season.OnSeasonChanged += OnSeasonChanged;
-
-        _points = new Vector3[10];
     }
 
     private void OnSeasonChanged(Season.State state)
@@ -49,19 +53,9 @@ public class Disaster : IAttack
         switch (state)
         {
             case Season.State.Summer:
-                Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
-                    "여름이 시작되었습니다.\n용암섬에서 아티팩트를 제거해서 피해를 줄이세요.",
-                    UIWarning.Type.YesOnly,
-                    (() => { Managers.UI.ClosePopupUI(); }),
-                    true);
                 OnEnterSummer();
                 break;
             case Season.State.Winter:
-                Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
-                    "겨울이 시작되었습니다.\n빙하섬에서 아티팩트를 제거해서 피해를 줄이세요.",
-                    UIWarning.Type.YesOnly,
-                    (() => { Managers.UI.ClosePopupUI(); }),
-                    true);
                 OnEnterWinter();
                 break;
             default:
@@ -104,7 +98,7 @@ public class Disaster : IAttack
 
         if (point.Length <= 0) yield break;
 
-        Managers.Sound.PlayEffectSound(_target.transform.position, "Falling", 0.15f);
+        Managers.Sound.PlayEffectSound("Falling", 0.15f);
 
         for (int i = 0; i < point.Length; ++i)
         {
@@ -139,9 +133,9 @@ public class Disaster : IAttack
         }
     }
 
-    public void Attack(IHit target)
+    public void Attack(AttackInfo attackData)
     {
-        target.Hit(this, _damage);
+        attackData.target.Hit(this, _damage);
     }
 
     #region Object Pooling

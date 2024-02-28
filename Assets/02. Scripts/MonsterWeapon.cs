@@ -15,15 +15,10 @@ public class MonsterWeapon : MonoBehaviour
         _projectile = GetComponent<Projectile>();
     }
 
-    private void OnEnable()
-    {
-        Collider.enabled = true;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
-        Collider.isTrigger = true;
+        Collider.isTrigger = true;        
         Collider.enabled = _projectile != null;
         gameObject.layer = 10;
     }
@@ -33,21 +28,29 @@ public class MonsterWeapon : MonoBehaviour
         Collider.enabled = true;
     }
 
+    public void ActivateWeapon(float time)
+    {
+        Debug.Log("[Melee Attack On]");
+        Collider.enabled = true;
+        Invoke("InactivateWeapon", time);
+    }
+
     public void InactivateWeapon()
     {
         Collider.enabled = false;
+        Debug.Log("[Melee Attack Off]");
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         var hittable = other.GetComponent<IHit>();
         if (hittable != null)
         {
-            Owner.Attack(hittable);
+            Owner.Attack(new AttackInfo(hittable, 0));
+            Collider.enabled = false;
         }
-        Collider.enabled = false;
-        
-        if(_projectile)
+
+        if (_projectile)
         {
             _projectile.Destroy();
         }

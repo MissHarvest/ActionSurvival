@@ -277,6 +277,11 @@ MonoBehaviour:
     runParameterName: Run
     attackParameterName: Attack
     dieParamterName: Die
+  <Sound>k__BackingField:
+    FindPlayer: BatDetect
+    Attack: InsectAttack
+    Hit: SlashHit
+    Die: BatDie
   <Data>k__BackingField: {fileID: 0}
   looting:
     _lootings:
@@ -387,11 +392,11 @@ MonoBehaviour:
     maxValue: 0
     regenRate: 0
     decayRate: 0
-  attackTime: 0.45
   fireTransform: {fileID: 2338449885660382938}
   targetLayers:
     serializedVersion: 2
     m_Bits: 512
+  projectileSpeed: 3
 --- !u!136 &7994647981088800305
 CapsuleCollider:
   m_ObjectHideFlags: 0

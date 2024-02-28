@@ -79,7 +79,7 @@ MonoBehaviour:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: 2
           inSlope: 0
           outSlope: 0
           tangentMode: 136
@@ -88,7 +88,7 @@ MonoBehaviour:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 2
+          value: 4
           inSlope: 0
           outSlope: 0
           tangentMode: 136
@@ -98,6 +98,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 4
+  _toolDurabilityReduceAmount: 1
+  _interactTime: 3
 --- !u!114 &1355799557485142592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,8 +220,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6, y: 10.049201, z: 0.25406647}
-  m_Center: {x: -0.05178237, y: 4.4019427, z: 2.335312}
+  m_Size: {x: 3, y: 10.049201, z: 3}
+  m_Center: {x: -0.05178237, y: 4.4019427, z: 0}
 --- !u!1 &5857904143503529434
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,7 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 0
-  _respawnTime: 330
+  _respawnTime: 170
 --- !u!114 &5996084161760343507
 MonoBehaviour:
   m_ObjectHideFlags: 0

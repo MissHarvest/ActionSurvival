@@ -5,6 +5,11 @@ public class CraftingTable : MonoBehaviour, IInteractable
 {
     [SerializeField] private int _recipeLevel = 1;
 
+    public float GetInteractTime()
+    {
+        return 0f;
+    }
+
     // Level
     public void Interact(Player player)
     {

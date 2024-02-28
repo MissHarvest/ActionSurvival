@@ -16,7 +16,7 @@ MonoBehaviour:
   <MovementData>k__BackingField:
     <BaseSpeed>k__BackingField: 0.7
     <WalkSpeedModifier>k__BackingField: 1
-    <ChaseSpeedModifier>k__BackingField: 7
+    <ChaseSpeedModifier>k__BackingField: 5
     <PatrolRadius>k__BackingField: 10
   <AttackData>k__BackingField:
     <Atk>k__BackingField: 5
@@ -24,4 +24,6 @@ MonoBehaviour:
     <DefaultDetectionDistModifier>k__BackingField: 1
     <ChaseDectionDistModifier>k__BackingField: 1.5
     <AttackalbeDistance>k__BackingField: 1
-    <AttackDelay>k__BackingField: 2.2
+    <AttackInterval>k__BackingField: 2
+    <DelayedTimeColliderActivated>k__BackingField: 0.35
+    <TimeColliderInactivated>k__BackingField: 0.2

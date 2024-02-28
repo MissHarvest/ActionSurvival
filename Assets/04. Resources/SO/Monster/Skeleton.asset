@@ -24,4 +24,6 @@ MonoBehaviour:
     <DefaultDetectionDistModifier>k__BackingField: 1
     <ChaseDectionDistModifier>k__BackingField: 1.5
     <AttackalbeDistance>k__BackingField: 0.5
-    <AttackDelay>k__BackingField: 0.7
+    <AttackInterval>k__BackingField: 1
+    <DelayedTimeColliderActivated>k__BackingField: 0.2
+    <TimeColliderInactivated>k__BackingField: 0.2

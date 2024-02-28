@@ -27,9 +27,6 @@ public class PlayerIdleState : PlayerGroundedState
         base.Update();
 
         if (_stateMachine.MovementInput != Vector2.zero)
-        {
             OnMove();
-            return;
-        }        
     }
 }

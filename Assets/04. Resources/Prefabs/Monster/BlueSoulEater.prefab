@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2975043582451772820
+--- !u!1 &1592638146976531904
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9038968310368811818}
-  - component: {fileID: 5328688828498850214}
-  - component: {fileID: 4476897243529845847}
-  m_Layer: 17
-  m_Name: Cylinder
+  - component: {fileID: 96981536180593455}
+  - component: {fileID: 4211436222073651109}
+  - component: {fileID: 1086928599629875355}
+  - component: {fileID: 5833455598623190506}
+  m_Layer: 7
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &9038968310368811818
+  m_IsActive: 1
+--- !u!4 &96981536180593455
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2975043582451772820}
+  m_GameObject: {fileID: 1592638146976531904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 0.5, z: 2}
+  m_LocalPosition: {x: -0, y: 1, z: 2.849}
+  m_LocalScale: {x: 2, y: 2, z: 2.5298}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 105282784490744100}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5328688828498850214
+--- !u!33 &4211436222073651109
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2975043582451772820}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &4476897243529845847
+  m_GameObject: {fileID: 1592638146976531904}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1086928599629875355
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2975043582451772820}
+  m_GameObject: {fileID: 1592638146976531904}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1c49785f3d2e8774981b3c0541aca11b, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,6 +84,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5833455598623190506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592638146976531904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b1222dacdf253341853a2d181643836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3165598110832015629
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,8 +212,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2064822600489467696}
-  - {fileID: 9038968310368811818}
   - {fileID: 7866975919170317031}
+  - {fileID: 96981536180593455}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -245,6 +258,11 @@ MonoBehaviour:
     runParameterName: Run
     attackParameterName: Attack
     dieParamterName: Die
+  <Sound>k__BackingField:
+    FindPlayer: BlueSoulEaterDetect
+    Attack: InsectAttack
+    Hit: SlashHit
+    Die: SoulEaterDie
   <Data>k__BackingField: {fileID: 0}
   looting:
     _lootings:
@@ -328,8 +346,6 @@ MonoBehaviour:
     maxValue: 0
     regenRate: 0
     decayRate: 0
-  attackTime: 0.13
-  _monsterWeapon: {fileID: 9042095020296099374}
 --- !u!135 &6406154325480590357
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -682,54 +698,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7698556714987879841, guid: 46f5c004c20094c49889487b4f6d72c6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9042095020296099374}
-    - targetCorrespondingSourceObject: {fileID: 7698556714987879841, guid: 46f5c004c20094c49889487b4f6d72c6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6912577704301531341}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46f5c004c20094c49889487b4f6d72c6, type: 3}
 --- !u!4 &2064822600489467696 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 697721053865966269, guid: 46f5c004c20094c49889487b4f6d72c6, type: 3}
   m_PrefabInstance: {fileID: 1515871036328019341}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &9214277040913414188 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7698556714987879841, guid: 46f5c004c20094c49889487b4f6d72c6, type: 3}
-  m_PrefabInstance: {fileID: 1515871036328019341}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &9042095020296099374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9214277040913414188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b733474ce4e91bf45996fbe748119e72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!135 &6912577704301531341
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9214277040913414188}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 135
-  m_Center: {x: 0, y: -47.5, z: 0}

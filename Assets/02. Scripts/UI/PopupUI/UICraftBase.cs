@@ -9,13 +9,13 @@ public abstract class UICraftBase : UIPopup
 {
     protected enum Gameobjects
     {
+        Block,
         Content,
         Confirm,
         Contents,
         YesButton,
         MinusButton,
         PlusButton,
-        Exit,
     }
 
     enum Texts
@@ -56,7 +56,7 @@ public abstract class UICraftBase : UIPopup
         base.Initialize();
         Bind<GameObject>(typeof(Gameobjects));
         Bind<TextMeshProUGUI>(typeof(Texts));
-        Get<GameObject>((int)Gameobjects.Exit).BindEvent((x) =>
+        Get<GameObject>((int)Gameobjects.Block).BindEvent((x) =>
         {
             _confirm.gameObject.SetActive(false);
             Managers.UI.ClosePopupUI(this);
@@ -82,7 +82,7 @@ public abstract class UICraftBase : UIPopup
 
         GetData();
 
-        _craftBase.CountChanged += OnCraftBaseCountChanged;
+        _craftBase.OnCountChanged += OnCraftBaseCountChanged;
 
         // 비활성화 상태에서 시작
         _confirm.gameObject.SetActive(false);
@@ -95,6 +95,8 @@ public abstract class UICraftBase : UIPopup
     }
 
     protected abstract void GetData();
+
+    protected abstract string GetConfirmationText(string displayName, int itemQuantity, int craftCount);
 
     private void OnCraftBaseCountChanged(int count)
     {
@@ -118,7 +120,7 @@ public abstract class UICraftBase : UIPopup
                 craftSlot?.Set(dataList[i].completedItemData, dataList[i]);
 
                 // 아이템 클릭 시 Confirm 띄우기
-                craftSlotGO.BindEvent((x) =>
+                craftSlotGO.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     if (craftSlotGO.activeSelf)
                     {
@@ -126,11 +128,11 @@ public abstract class UICraftBase : UIPopup
                         _craftBase.InitializeCount();
                         var craftItemName = dataList[craftSlot.Index].completedItemData.displayName;
                         var craftItemQuantity = dataList[craftSlot.Index].Quantity;
-                        Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를) {craftItemQuantity} X {_craftBase.Count}개\n제작하시겠습니까?";
+                        Get<TextMeshProUGUI>((int)Texts.AskingText).text = GetConfirmationText(craftItemName, craftItemQuantity, _craftBase.Count);
 
                         // 선택한 레시피의 재료를 가져와서 Confirm에 전달
                         SetIngredients(dataList[craftSlot.Index].requiredItems, craftSlot.Index);
-
+                        _craftBase.SetMaxCount(_craftBase.GetMaxCraftableCount(dataList[craftSlot.Index].requiredItems));
                         UpdateCraftUI();
                     }
                 });
@@ -159,6 +161,7 @@ public abstract class UICraftBase : UIPopup
             // 플레이어 인벤토리에서 아이템 확인 및 소모
             if (_craftBase.CheckItems(items)) 
             {
+                _craftBase.ConsumeItems(items);
                 int totalQuantity = _craftBase.Count * SelectedRecipe.Quantity;
                 if (GameManager.Instance.Player.Inventory.TryAddItem(completedItemData, totalQuantity))
                 {
@@ -170,6 +173,8 @@ public abstract class UICraftBase : UIPopup
                     _craftBase.AddItems(items);
                 }
             }
+            else
+                Managers.UI.ShowPopupUI<UIWarning>().SetWarning("아이템 수량이 부족합니다.");
 
             _confirm.gameObject.SetActive(false);
             _craftBase.InitializeCount();
@@ -185,8 +190,8 @@ public abstract class UICraftBase : UIPopup
             var craftItemName = SelectedRecipe.completedItemData.displayName;
             var initialQuantity = SelectedRecipe.Quantity;
 
-            // UI에 수량 업데이트
-            Get<TextMeshProUGUI>((int)Texts.AskingText).text = $"{craftItemName}을(를) {initialQuantity} X {_craftBase.Count}개\n제작하시겠습니까?";
+            //// UI에 수량 업데이트
+            Get<TextMeshProUGUI>((int)Texts.AskingText).text = GetConfirmationText(craftItemName, initialQuantity, _craftBase.Count);
             Get<TextMeshProUGUI>((int)Texts.QuantityText).text = _craftBase.Count.ToString();
         }
     }
@@ -232,6 +237,7 @@ public abstract class UICraftBase : UIPopup
             }
 
             SetIngredientUI(items[i], items[i].quantity, _craftBase.Count, itemUI);
+            
             itemUI.SetActive(true);
         }
 

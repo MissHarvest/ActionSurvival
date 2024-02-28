@@ -3,13 +3,26 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+public struct DayInfo
+{
+    public int date;
+    public int time;
+    public DayCycle.TimeZone zone;
+
+    public DayInfo(int date, int time, DayCycle.TimeZone zone)
+    {
+        this.date = date;
+        this.time = time;
+        this.zone = zone;
+    }
+}
 
 [System.Serializable]
 public class DayCycle
 {
-    enum TimeZone
+    public enum TimeZone
     {
         Morning,
         Evening,
@@ -17,12 +30,13 @@ public class DayCycle
         Max,
     }
 
-    private int[] _cycle = { 300, 60, 120 };
+    private int[] _cycle = { 180, 60, 120 };
+    public int Day { get; private set; }
     private int[] _eventCount = new int[3];
-    [field:SerializeField] public int Date { get; private set; } = 1;
-    private int _time = 0;
-    private int _currentTimeZone = 0;
-    private int _eventInterval = 10;
+    [SerializeField] private int _date = 1;
+    [SerializeField] private int _time = 0;
+    [SerializeField] private int _currentTimeZone = 0;
+    private int _eventInterval = 5;
 
     public event Action OnMorningCame;
     public event Action OnEveningCame;
@@ -30,11 +44,11 @@ public class DayCycle
 
     public event Action<int> OnDateUpdated;    
     public event Action OnTimeUpdated;
+    public event Action<int, int> OnUpdated;
+    public event Action<DayInfo> OnStarted;
 
     public void Init()
     {
-        CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
-
         var dayLight = Managers.Resource.GetCache<GameObject>("DayLight.prefab");
         dayLight = UnityEngine.Object.Instantiate(dayLight);
         dayLight.name = "@DayLight";
@@ -44,8 +58,14 @@ public class DayCycle
         {
             _eventCount[i] = _eventCount[i - 1] + _cycle[i] / _eventInterval;
         }
+        Day = _eventCount[2];
         Load();
     }    
+
+    public void BindEvent()
+    {
+        GameManager.Instance.OnSaveCallback += Save;
+    }
 
     IEnumerator StartDayCycle()
     {
@@ -56,23 +76,24 @@ public class DayCycle
         }
     }
 
+    public void Start()
+    {
+        CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
+        Debug.Log($"[Day Cycle Start]{_date}/{_time}");
+        OnStarted?.Invoke(new DayInfo(_date, _time, (TimeZone)_currentTimeZone));        
+    }
+
     private void BroadCast()
     {
         switch((TimeZone)_currentTimeZone)
         {
             case TimeZone.Morning:
-                OnDateUpdated?.Invoke(++Date);
                 _time = 0;
-                Save();
+                OnDateUpdated?.Invoke(++_date);
                 OnMorningCame?.Invoke();
                 break;
 
             case TimeZone.Evening:
-                Managers.UI.ShowPopupUI<UIWarning>().
-                    SetWarning("밤이되면 몬스터 웨이브가 옵니다.\n 무기를 제작해서 전투를 준비하세요.",
-                    UIWarning.Type.YesOnly,
-                    () => { Managers.UI.ClosePopupUI(); },
-                    true);
                 OnEveningCame?.Invoke();
                 break;
 
@@ -92,15 +113,13 @@ public class DayCycle
             _currentTimeZone = (_currentTimeZone + 1) % (int)TimeZone.Max;
             BroadCast();
         }
+
+        OnUpdated?.Invoke(_date, _time);
     }
 
     private void Load()
     {
-        if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "WorldDate") == false)
-        {
-            Date = 1;
-        }
-        OnDateUpdated?.Invoke(Date);
+        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "WorldDate");
     }
 
     private void Save()

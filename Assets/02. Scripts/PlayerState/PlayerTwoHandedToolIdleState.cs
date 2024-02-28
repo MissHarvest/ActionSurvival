@@ -1,36 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-public class PlayerTwoHandedToolIdleState : PlayerGroundedState
-{
-    public PlayerTwoHandedToolIdleState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
-    {
+//public class PlayerTwoHandedToolIdleState : PlayerGroundedState
+//{
+//    public PlayerTwoHandedToolIdleState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+//    {
 
-    }
+//    }
 
-    public override void Enter()
-    {
-        Debug.Log("Player Enter State [ Two Hand Idle ]");
-        _stateMachine.MovementSpeedModifier = 0f;
-        base.Enter();
-        StartAnimation(_stateMachine.Player.AnimationData.EquipTwoHandedToolIdleParameterHash);
-    }
+//    public override void Enter()
+//    {
+//        Debug.Log("Player Enter State [ Two Hand Idle ]");
+//        _stateMachine.MovementSpeedModifier = 0f;
+//        base.Enter();
+//        StartAnimation(_stateMachine.Player.AnimationData.EquipTwoHandedToolIdleParameterHash);
+//    }
 
-    public override void Exit()
-    {
-        base.Exit();
-        StopAnimation(_stateMachine.Player.AnimationData.EquipTwoHandedToolIdleParameterHash);
-    }
+//    public override void Exit()
+//    {
+//        base.Exit();
+//        StopAnimation(_stateMachine.Player.AnimationData.EquipTwoHandedToolIdleParameterHash);
+//    }
 
-    public override void Update()
-    {
-        base.Update();
+//    public override void Update()
+//    {
+//        base.Update();
 
-        if (_stateMachine.MovementInput != Vector2.zero)
-        {
-            OnMove();
-            return;
-        }
-    }
-}
+//        if (_stateMachine.MovementInput != Vector2.zero)
+//        {
+//            OnMove();
+//            return;
+//        }
+//    }
+//}

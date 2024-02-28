@@ -97,7 +97,7 @@ public class BossMeteorState : BossAttackState
 
     IEnumerator FallMeteor()
     {
-        Managers.Sound.PlayEffectSound(_stateMachine.Target.transform.position, "Falling", 0.15f);
+        Managers.Sound.PlayEffectSound("Falling", 0.15f);
         while (true)
         {
             var sec = Random.Range(0.1f, 1.0f);

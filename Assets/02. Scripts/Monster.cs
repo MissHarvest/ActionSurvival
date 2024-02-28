@@ -11,6 +11,8 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     [SerializeField] protected string _name = string.Empty;
     [field: SerializeField] public MonsterAnimationData AnimationData { get; private set; }
 
+    [field: SerializeField] public MonsterSound Sound {get; private set;}
+
     protected MonsterStateMachine _stateMachine;
     public Animator Animator { get; private set; }
     [field: SerializeField] public MonsterSO Data { get; private set; }
@@ -29,10 +31,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
     public Island Habitat { get; private set; } = null;
 
     public event Action<IAttack> OnHit;
-
-    [Header("Attack")]
-    public float attackTime;
-
+        
     public GameObject Target =>_stateMachine.Target;
 
     protected virtual void Awake()
@@ -41,8 +40,9 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         AnimationData.Initialize();
         Animator = GetComponentInChildren<Animator>();
 
-        var name = _name == string.Empty ? this.GetType().Name : _name;
-        Data = Managers.Resource.GetCache<MonsterSO>($"{name}.data");
+        _name = gameObject.name.Split("(Clone)")[0];
+        //var name = _name == string.Empty ? this.GetType().Name : _name;
+        Data = Managers.Resource.GetCache<MonsterSO>($"{_name}.data");
         _stateMachine = new MonsterStateMachine(this);
 
         NavMeshAgent = Utility.GetOrAddComponent<NavMeshAgent>(gameObject);
@@ -94,6 +94,7 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
 
     public void Die()
     {
+        gameObject.layer = 14;
         Dead = true;
         _stateMachine.ChangeState(_stateMachine.DieState);
         looting.AddInventory(GameManager.Instance.Player.Inventory);
@@ -101,34 +102,22 @@ public abstract class Monster : MonoBehaviour, IAttack, IHit
         Habitat?.DiedMonsters.Add(this.gameObject);
     }
 
-    public void Attack(IHit target)
-    {        
-        target.Hit(this, Data.AttackData.Atk);
+    public void Attack(AttackInfo attackData)
+    {
+        attackData.target.Hit(this, Data.AttackData.Atk);
     }
 
     public void Hit(IAttack attacker, float damage)
     {
-        gameObject.layer = 14;
         HP.Subtract(damage);
         OnHit?.Invoke(attacker);
-        if(HP.currentValue > 0) StartCoroutine(Avoid());
-    }
-
-    IEnumerator Avoid()
-    {
-        yield return new WaitForSeconds(0.55f);
-        gameObject.layer = 7;
+        Managers.Sound.PlayEffectSound(transform.position, Sound.Hit, 1.0f, false);
     }
 
     public void SetBerserkMode()
     {
         Berserk = true;
         _stateMachine.DetectionDistModifier = 300;
-    }
-
-    public virtual void OffAttack()
-    {
-
     }
 
     private void OnHpUpdated(float amount)

@@ -31,17 +31,20 @@ public class UIClock : UIBase
     private void Awake()
     {
         Initialize();
-        Debug.Log($"UIClock Awake [{_bindObjects.Count}]");
-    }
-
-    private void Start()
-    {
         var dayCycle = GameManager.DayCycle;
 
+        dayCycle.OnStarted += OnDayStarted;
         dayCycle.OnDateUpdated += OnDateUpdated;
-        OnDateUpdated(dayCycle.Date);
-
         dayCycle.OnTimeUpdated += OnTimeUpdated;
+    }
+
+    private void OnDayStarted(DayInfo day)
+    {
+        Debug.Log("[Day]" + GameManager.DayCycle.Day);
+        _intervalAngle = 360.0f / GameManager.DayCycle.Day;
+        OnDateUpdated(day.date);
+        _angle = _intervalAngle * day.time;
+        Get<GameObject>((int)GameObjects.Pivot).transform.rotation = Quaternion.Euler(0, 0, -_angle);
     }
 
     private void OnDateUpdated(int date)
@@ -54,11 +57,5 @@ public class UIClock : UIBase
         _angle = Mathf.Min(_angle + _intervalAngle, _maxAngle);
         if (_angle >= _maxAngle) _angle = 0.0f;
         Get<GameObject>((int)GameObjects.Pivot).transform.rotation = Quaternion.Euler(0, 0, -_angle);
-
-        Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
-            "무엇을 해야할지 모르겠다면,\n퀘스트를 하나씩 해결해보세요.\n좌측의 퀘스트를 클릭해보세요.",
-            UIWarning.Type.YesOnly,
-            () => { Managers.UI.ClosePopupUI(); },
-            true);
     }
 }

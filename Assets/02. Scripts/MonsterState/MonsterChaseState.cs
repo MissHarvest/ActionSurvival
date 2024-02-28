@@ -3,6 +3,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MonsterChaseState : MonsterBaseState
@@ -15,8 +16,16 @@ public class MonsterChaseState : MonsterBaseState
     }
 
     public override void Enter()
-    {   
+    {
         // Speed Up
+        if(!_stateMachine.isBattle)
+        {
+            _stateMachine.isBattle = true;
+
+            Managers.Sound.PlayEffectSound(_stateMachine.Monster.transform.position,
+                _stateMachine.Monster.Sound.FindPlayer, 1.0f, false);
+
+        }
         _stateMachine.MovementSpeedModifier = _stateMachine.Monster.Data.MovementData.ChaseSpeedModifier;
         
         // 탐지 범위 증가
@@ -24,7 +33,7 @@ public class MonsterChaseState : MonsterBaseState
             = _stateMachine.Monster.Berserk ? 300 : _stateMachine.Monster.Data.AttackData.ChaseDectionDistModifier;
         
         base.Enter();
-        _stateMachine.Target = _stateMachine.Target == null ?GameManager.Instance.Player.gameObject : _stateMachine.Target;
+        _stateMachine.Target = _stateMachine.Target == null ? GameManager.Instance.Player.gameObject : _stateMachine.Target;
         _stateMachine.Monster.NavMeshAgent.SetDestination(_stateMachine.Target.transform.position);
         if (_stateMachine.Monster.NavMeshAgent.remainingDistance == 0)
         {

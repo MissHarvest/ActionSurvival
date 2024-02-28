@@ -12,7 +12,6 @@ public class PlayerBaseState : IState
     {
         _stateMachine = playerStateMachine;
         _groundData = _stateMachine.Player.Data.GroundedData;
-
         _buildingSystem = _stateMachine.Player.Building;
     }
 
@@ -74,9 +73,6 @@ public class PlayerBaseState : IState
         if (Physics.Raycast(_stateMachine.Player.transform.position, Vector3.down, out hit, 0.1f, 1 | 1 << 12 | 1 << 15))
             movementDirection = Vector3.ProjectOnPlane(movementDirection, hit.normal).normalized;
 
-        Debug.DrawRay(_stateMachine.Player.transform.position, movementDirection, Color.red);
-        Debug.DrawRay(hit.point, hit.normal, Color.black);
-
         float movementSpeed = GetMovementSpeed();
         _stateMachine.Player.Controller.Move(
             ((movementDirection * movementSpeed) +
@@ -124,6 +120,9 @@ public class PlayerBaseState : IState
 
         input.PlayerActions.Esc.started += PauseGame;
         _buildingSystem.OnBuildRequested += OnBuildRequested;
+
+        _stateMachine.Player.ToolSystem.OnEquip += OnChangedEquipTool;
+        _stateMachine.Player.ToolSystem.OnUnEquip += OnChangedEquipTool;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
@@ -139,6 +138,31 @@ public class PlayerBaseState : IState
 
         input.PlayerActions.Esc.started -= PauseGame;
         _buildingSystem.OnBuildRequested -= OnBuildRequested;
+
+        _stateMachine.Player.ToolSystem.OnEquip -= OnChangedEquipTool;
+        _stateMachine.Player.ToolSystem.OnUnEquip -= OnChangedEquipTool;
+    }
+
+    protected virtual void OnChangedEquipTool(QuickSlot quickSlot)
+    {
+        WeaponItemData hand = quickSlot.itemSlot.itemData as WeaponItemData;
+
+        if (hand != null)
+        {
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwoHandedToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped);
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwinToolParameterHash, hand.isTwinTool && quickSlot.itemSlot.equipped);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipDefaultToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped || hand.isTwinTool && quickSlot.itemSlot.equipped ? 0f : 1f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwoHandedToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped ? 1f : 0f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwinToolParameterHash, hand.isTwinTool && quickSlot.itemSlot.equipped ? 1f : 0f);
+        }
+        else
+        {
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwoHandedToolParameterHash, false);
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwinToolParameterHash, false);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipDefaultToolParameterHash, 1f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwoHandedToolParameterHash, 0f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwinToolParameterHash, 0f);
+        }
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
@@ -149,24 +173,7 @@ public class PlayerBaseState : IState
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
         if (_stateMachine.IsFalling) return;
-        
-        Debug.Log("Player Interact");
-
-        var itemData = _stateMachine.Player.EquippedItem.itemSlot.itemData;// as ToolItemData;
-
-        if (itemData is WeaponItemData)
-        {
-            _stateMachine.IsAttacking = true;
-            _stateMachine.ChangeState(_stateMachine.ComboAttackState);
-        }
-        else if (itemData is ToolItemData tool && tool.displayName == "망치")
-        {
-            _stateMachine.ChangeState(_stateMachine.DestroyState);
-        }
-        else //씨앗심기
-        {
-            _stateMachine.ChangeState(_stateMachine.InteractState);
-        }
+        _stateMachine.InteractSystem.TryInteractSequence();
     }
 
     protected virtual void OnInteractCanceled(InputAction.CallbackContext context)
@@ -192,9 +199,6 @@ public class PlayerBaseState : IState
 
     private void OnInventoryShowAndHide(InputAction.CallbackContext context)
     {
-        // UICooking 등의 팝업이 활성화된 경우 모든 팝업을 닫은 후 Inventory 팝업 열기
-        Managers.UI.CloseAllPopupUI();
-
         var ui = Managers.UI.GetPopupUI<UIInventory>();
         
         if (ui.gameObject.activeSelf)
@@ -223,11 +227,15 @@ public class PlayerBaseState : IState
 
     private void PauseGame(InputAction.CallbackContext context)
     {
-        var ui = Managers.UI.GetPopupUI<UIPauseGame>();
-        if (!ui.gameObject.activeSelf)
+        var count = Managers.UI.GetActivatedPopupCount();
+        if(count > 0)
         {
-            Managers.UI.ShowPopupUI<UIPauseGame>();
-        }      
+            Managers.UI.ClosePopupUI();
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UIPauseGame>(pause: true);
+        }
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)

@@ -105,5 +105,8 @@ public class UICooking : UICraftBase
             _craftBase.InitializeCount();
             return;
         }
+    protected override string GetConfirmationText(string displayName, int itemQuantity, int craftCount)
+    {
+        return $"{displayName}을(를) {itemQuantity} X {craftCount}개\n요리하시겠습니까?";
     }
 }

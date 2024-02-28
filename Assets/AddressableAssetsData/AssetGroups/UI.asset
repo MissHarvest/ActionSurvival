@@ -198,18 +198,24 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 15db016ee90cb9846970d69d9ad905d6
     m_Address: UIPopUp_UIIgnition.prefab
+  - m_GUID: 95edc0e2ad49e0b4e813c7617023c348
+    m_Address: UIPopUp_UITip.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3dcd604d528257046af7176fa8db10a5
     m_Address: UIFirewoodSlot.prefab
+  - m_GUID: 333157471c8fd414a8913a232a152798
+    m_Address: UITipSlot.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 274a9ecc53e822240ab738a10dea9590
     m_Address: UICookingSlot.prefab
+  - m_GUID: 796d00cc66d763543aceec8b0c17477e
+    m_Address: UIPopUp_UITipInformation.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

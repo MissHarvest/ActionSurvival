@@ -24,14 +24,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 629039827185455485}
-  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6326747753772982578}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &8765774311319962816
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51,8 +51,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5.3863716, y: 4.6225553, z: 0.2715778}
-  m_Center: {x: 0.19884217, y: 3.7959783, z: 0.46301883}
+  m_Size: {x: 5.5, y: 4, z: 5}
+  m_Center: {x: 0.19884217, y: 4.13, z: -0.54}
 --- !u!1 &1136732407553036353
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +216,7 @@ MonoBehaviour:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: 2
           inSlope: 0
           outSlope: 0
           tangentMode: 136
@@ -225,7 +225,7 @@ MonoBehaviour:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 2
+          value: 4
           inSlope: 0
           outSlope: 0
           tangentMode: 136
@@ -235,6 +235,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 4
+  _toolDurabilityReduceAmount: 1
+  _interactTime: 3
 --- !u!114 &5345412286509698188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,7 +426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toObjectID: 0
-  _respawnTime: 330
+  _respawnTime: 170
 --- !u!114 &8045222565640756299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,7 +440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 6572011551440521037, guid: 92f64a14234031344b215e65fbb8d605, type: 3}
-  _distribution: 0.02
+  _distribution: 0.1
   _maxRange: 1
   _minRange: 0
   _maxCreateCount: 3

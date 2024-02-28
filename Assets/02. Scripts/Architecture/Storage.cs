@@ -21,4 +21,9 @@ public class Storage : MonoBehaviour, IInteractable
         var ui = Managers.UI.ShowPopupUI<UIStorage>();
         ui.SetStorage(this);
     }
+
+    public float GetInteractTime()
+    {
+        return 0f;
+    }
 }

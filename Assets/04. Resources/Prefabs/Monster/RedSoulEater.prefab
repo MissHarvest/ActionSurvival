@@ -139,6 +139,11 @@ MonoBehaviour:
     runParameterName: Run
     attackParameterName: Attack
     dieParamterName: Die
+  <Sound>k__BackingField:
+    FindPlayer: RedSoulEaterDetect
+    Attack: InsectAttack
+    Hit: SlashHit
+    Die: SoulEaterDie
   <Data>k__BackingField: {fileID: 0}
   looting:
     _lootings: []
@@ -147,11 +152,11 @@ MonoBehaviour:
     maxValue: 0
     regenRate: 0
     decayRate: 0
-  attackTime: 0.45
   fireTransform: {fileID: 8197502211002789674}
   targetLayers:
     serializedVersion: 2
     m_Bits: 512
+  projectileSpeed: 10
 --- !u!195 &7285319032723581233
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class UIPauseGame : UIPopup
     enum Buttons
     {
         SoundButton,
+        GameHelperButton,
         ExitButton,
     }
 
@@ -34,16 +35,6 @@ public class UIPauseGame : UIPopup
         gameObject.SetActive(false);
     }
 
-    private void OnEnable()
-    {
-        Time.timeScale = 0.0f;
-    }
-
-    private void OnDisable()
-    {
-        Time.timeScale = 1.0f;
-    }
-
     private void BindEventOfButtons()
     {
         Get<Button>((int)Buttons.SoundButton).gameObject.BindEvent((x) =>
@@ -51,13 +42,25 @@ public class UIPauseGame : UIPopup
             Managers.UI.ShowPopupUI<UISoundSetting>();
         });
 
+        Get<Button>((int)Buttons.GameHelperButton).gameObject.BindEvent((x) =>
+        {
+            Managers.UI.ShowPopupUI<UITipInformation>();
+        });
+
         Get<Button>((int)Buttons.ExitButton).gameObject.BindEvent((x) =>
         {
+            Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
+                "게임을 종료하시겠습니까?",
+                UIWarning.Type.YesNo,
+                () =>
+                {
+                    GameManager.Instance.SaveGameData();
 #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+                    UnityEditor.EditorApplication.isPlaying = false;
 #else
             Application.Quit();
 #endif
+                });
         });
     }
 }

@@ -5,19 +5,22 @@ using UnityEngine;
 public class BonFire : MonoBehaviour, IInteractable
 {
     [SerializeField] private int _cookingLevel = 0;
-    private AudioSource _audioSource;
-    private Ignition _ignition;
-    private UIIgnition _ignitionUI;
-    private UICooking _cookingUI;
+    public string clipName = "BonFire";
+    private SFXSound _sound;
 
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
-        _ignition = GetComponent<Ignition>();
-        _audioSource.loop = true;
-        var clip = Managers.Resource.GetCache<AudioClip>("BonFire.wav");
-        _audioSource.clip = clip;
-        _audioSource.Play();
+        var buildableObject = GetComponent<BuildableObject>();
+        buildableObject.OnDestroyed += OnDestruct;
+    }
+
+    private void Start()
+    {
+        _sound = Managers.Sound.PlayEffectSound(
+            transform.position,
+            clipName,
+            0.7f,
+            true);
     }
 
     public void Interact(Player player)
@@ -27,5 +30,15 @@ public class BonFire : MonoBehaviour, IInteractable
         _cookingUI = Managers.UI.GetPopupUI<UICooking>();
         _cookingUI.ignition = _ignition;
         Managers.UI.ShowPopupUI<UIIgnition>();
+    }
+
+    public void OnDestruct()
+    {
+        _sound.StopSound();
+    }
+
+    public float GetInteractTime()
+    {
+        return 0f;
     }
 }
