@@ -140,9 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d811601c2279046a3ed2cbe4bb3ee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cookedFoodItemQuantity: {fileID: 0}
-  _maxTimeRequiredToCook: 0
-  index: 0
+  cookedFoodItemQuantity: {fileID: 0}
 --- !u!1 &2136568551389900557
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,7 +787,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1802372472393734396}
+        m_TargetAssemblyTypeName: UICookingSlot, Assembly-CSharp
+        m_MethodName: OnSliderIsFull
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7890006142436909834
 GameObject:
   m_ObjectHideFlags: 0

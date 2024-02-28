@@ -23,13 +23,7 @@ public class BonFire : MonoBehaviour, IInteractable
     public void Interact(Player player)
     {
         _ignitionUI = Managers.UI.GetPopupUI<UIIgnition>();
-        _ignitionUI.ignition = _ignition;
-
-        if (!_ignitionUI.ignitionDic.ContainsKey(gameObject.name))
-        {
-            _ignitionUI.ignitionDic.Add(gameObject.name, _ignition);
-        }
-        
+        _ignitionUI.ignition = _ignition;        
         _cookingUI = Managers.UI.GetPopupUI<UICooking>();
         _cookingUI.ignition = _ignition;
         Managers.UI.ShowPopupUI<UIIgnition>();

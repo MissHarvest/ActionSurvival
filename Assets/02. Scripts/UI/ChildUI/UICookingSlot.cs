@@ -26,16 +26,18 @@ public class UICookingSlot : UIBase
     private TextMeshProUGUI _requiredQuantity;
     public TextMeshProUGUI cookedFoodItemQuantity;
     private TextMeshProUGUI _text;
+    private Image _icon;
     private Slider _timeTakenToCookSlider;
-    public int maxTimeRequiredToCook;
-    public int index;//인덱스를 넘겨야겠네
-    public int cookingLevel = 0;
+    public int index;
 
     public override void Initialize()
     {
         Bind<Image>(typeof(Images));
         Bind<TextMeshProUGUI>(typeof(Quantity));
         Bind<TextMeshProUGUI>(typeof(Texts));
+
+        _icon = Get<Image>((int)Images.CookedFoodItemIcon);
+        _icon.gameObject.SetActive(false);
 
         Get<Image>((int)Images.CookedFoodItemIcon).raycastTarget = false;
 
@@ -59,18 +61,36 @@ public class UICookingSlot : UIBase
     {
         if (itemSlot.itemData == null)
         {
+            _icon.gameObject.SetActive(false);
             _requiredQuantity.text = "0";
             return;
         }
 
-        Get<Image>((int)Images.CookedFoodItemIcon).sprite = itemSlot.itemData.iconSprite;
+        _icon.gameObject.SetActive(true);
+        _icon.sprite = itemSlot.itemData.iconSprite;
 
         _requiredQuantity.text = itemSlot.quantity.ToString();
+        
     }
 
-    public void CookedFoodItemQuantitySet(ItemSlot itemSlot)//완성 아이템 배열의 데이터를 가지고 와서 업데이트
+    public void SetCookedFoodIcon(ItemSlot itemSlot)
     {
-        if (itemSlot.itemData == null) cookedFoodItemQuantity.text = "0";
+        _icon.gameObject.SetActive(true);
+        _icon.sprite = itemSlot.itemData.iconSprite;
+    }
+
+    public void SetDisableIcon()
+    {
+        _icon.gameObject.SetActive(false);
+    }
+
+    public void SetCookedFoodItemQuantity(ItemSlot itemSlot)
+    {
+        if (itemSlot.itemData == null)
+        {
+            cookedFoodItemQuantity.text = "0";
+            return;
+        }
         cookedFoodItemQuantity.text = itemSlot.quantity.ToString();
     }
 

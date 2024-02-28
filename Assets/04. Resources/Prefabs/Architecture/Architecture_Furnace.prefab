@@ -163,16 +163,18 @@ MonoBehaviour:
   recipeRequiredItemSlots: []
   cookedFoodItems: []
   recipes: []
-  _cookingSlotsUI: []
-  _capacity: 4
-  _count: 0
-  _maxCount: 0
-  _index: 0
-  _firePowerGauge: 0
-  _currentTimeRequiredToCook: 0
+  cookingSlotsUI: []
+  capacity: 4
+  _maxCookingSlot: 6
+  firewoodStoreCount: 0
+  maxCount: 0
+  firewoodItemIndex: 0
+  firePowerGauge: 0
+  currentTimeRequiredToCook: 0
   cookingLevel: 1
-  _haveFirewood: 0
-  _startCooking: 0
+  cookingSlotIndex: 0
+  haveFirewood: 0
+  startCooking: 0
   cookingDone: 0
 --- !u!1001 &2732944119319688650
 PrefabInstance:

@@ -47,7 +47,8 @@ public class UICooking : UICraftBase
 
             for (int i = 0; i < ignition.recipeRequiredItemSlots.Length; i++)
             {
-                if (ignition.recipeRequiredItemSlots[i].itemData == null && ignition.cookedFoodItems[i].itemData == null)
+                if (i > ignition.capacity - 1) break;
+                if (ignition.recipeRequiredItemSlots[i].itemData == null && ignition.cookedFoodItemSlots[i].itemData == null)
                 {
                     checkEmptySlots = true;
                     _index = i;
@@ -62,7 +63,7 @@ public class UICooking : UICraftBase
                     int totalQuantity = _craftBase.Count * SelectedRecipe.Quantity;
 
                     ignition.recipeRequiredItemSlots[_index].Set(completedItemData, totalQuantity);
-                    _uiIIgnition.Set(_index);
+                    _uiIIgnition.SetCookingData(_index);
                     ignition.startCooking = true;
                     if (ignition.haveFirewood)
                     {
