@@ -21,6 +21,7 @@ public struct SaveMonster
 public class MonsterContainer
 {
     [SerializeField] public List<SaveMonster> monsters = new();
+    [SerializeField] public int delayTime = 0;
 }
 
 // 2024. 01. 20 Park Jun Uk
@@ -33,6 +34,7 @@ public class MonsterWave
     public Stack<Vector3> wavePoints = new Stack<Vector3>();
     private MonsterGroup _defaultMonsters;
     public List<Monster> monsters = new();
+    private int _waveDelayTime = 0;
 
     public MonsterWave()
     {
@@ -43,8 +45,13 @@ public class MonsterWave
                 Managers.Resource.GetCache<GameObject>("Bat.prefab")
             }, 2);
         Load();
+    }
 
+    public void BindEvent()
+    {
         GameManager.Instance.OnSaveCallback += Save;
+        GameManager.DayCycle.OnNightCame += SetCountDown;
+        GameManager.DayCycle.OnTimeUpdated += CountDown;
     }
 
     public void AddOverFlowedMonster(GameObject monster)
@@ -96,9 +103,20 @@ public class MonsterWave
         }
     }
 
-    public void Start(float delayTime)
+    private void CountDown()
     {
-        CoroutineManagement.Instance.StartCoroutine(MonsterWaveCoroutine(delayTime));
+        if (_waveDelayTime <= 0) return;
+        --_waveDelayTime;
+        if(0 >= _waveDelayTime)
+        {
+            _waveDelayTime = 0;
+            Start();
+        }
+    }
+
+    private void SetCountDown()
+    {
+        _waveDelayTime = Random.Range(1, 13);
     }
 
     private IEnumerator MonsterWaveCoroutine(float delayTime)
@@ -115,10 +133,6 @@ public class MonsterWave
     private int CalculateNumberOfOverFlowMonsterToUse()
     {
         return overflowMonsters.Count;
-        //var date = Managers.Game.DayCycle.Date;
-        //if (date % 8 == 7) return overflowMonsters.Count;
-        //if (date % 8 % 3 == 0) return 1;
-        //return 0;
     }
 
     private void CalcalateWavePoint(int count)
@@ -151,6 +165,11 @@ public class MonsterWave
                 monster.SetBerserkMode();
                 monsters.Add(monster);
             }
+
+            if(container.delayTime > 0)
+            {
+                _waveDelayTime = container.delayTime;
+            }
         }
     }
 
@@ -166,7 +185,7 @@ public class MonsterWave
 
             container.monsters.Add(new SaveMonster(name, pos));
         }
-
+        container.delayTime = _waveDelayTime;
         var json = JsonUtility.ToJson(container);
         SaveGame.CreateJsonFile("MonsterWave", json, SaveGame.SaveType.Runtime);
     }

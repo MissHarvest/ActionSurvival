@@ -977,7 +977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  monsterPrefab: {fileID: 3258334115992696807, guid: f9f849b96a2e5ee4cb0a89de30ba5ec3, type: 3}
+  monsterPrefab: {fileID: 5045475273313045350, guid: dd030e30aa17ff84987abf058ead4dd5, type: 3}
   monster: {fileID: 0}
 --- !u!23 &473930079
 MeshRenderer:
@@ -1429,6 +1429,8 @@ MonoBehaviour:
   _toObjectID: 0
   _itemTable:
     _lootings: []
+  _toolDurabilityReduceAmount: 0
+  _interactTime: 0
 --- !u!1 &829301634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1961,6 +1963,8 @@ MonoBehaviour:
   _toObjectID: 0
   _itemTable:
     _lootings: []
+  _toolDurabilityReduceAmount: 0
+  _interactTime: 0
 --- !u!1 &933769316
 GameObject:
   m_ObjectHideFlags: 0
@@ -4894,6 +4898,8 @@ MonoBehaviour:
   _toObjectID: 0
   _itemTable:
     _lootings: []
+  _toolDurabilityReduceAmount: 0
+  _interactTime: 0
 --- !u!1 &1991922258
 GameObject:
   m_ObjectHideFlags: 0

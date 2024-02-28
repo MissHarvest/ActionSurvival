@@ -16,7 +16,6 @@ public class QuickSlotSystem : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("QuickSystem Awake");
         for (int i = 0; i < capacity; ++i)
         {
             _slots[i] = new QuickSlot();
@@ -29,7 +28,6 @@ public class QuickSlotSystem : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("QuickSystem Start");
         _player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
@@ -49,7 +47,7 @@ public class QuickSlotSystem : MonoBehaviour
         OnUpdated?.Invoke(index, slot.itemSlot);
         OnRegisted?.Invoke(slot);
 
-        if (index == _indexInUse)
+        if (index == _indexInUse && _slots[index].itemSlot.itemData is WeaponItemData)
         {
             QuickUse(_indexInUse);
         }
@@ -160,7 +158,7 @@ public class QuickSlotSystem : MonoBehaviour
                 _slots[i].itemSlot.LoadData();
             }
 
-            if (_indexInUse != -1 && _slots[_indexInUse].itemSlot.itemData is ToolItemData)
+            if (_indexInUse != -1 && _slots[_indexInUse].itemSlot.itemData is WeaponItemData)
             {
                 QuickUse();
             }
