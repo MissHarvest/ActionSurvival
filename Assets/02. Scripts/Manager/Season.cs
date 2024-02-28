@@ -27,7 +27,13 @@ public class Season
 
     public void BindEvent()
     {
+        GameManager.DayCycle.OnStarted += Update;
         GameManager.DayCycle.OnDateUpdated += Update;
+    }
+
+    private void Update(DayInfo dayinfo)
+    {
+        Update(dayinfo.date);
     }
 
     public void Update(int date)

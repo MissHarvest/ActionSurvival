@@ -56,6 +56,7 @@ public abstract class UIItemHelper : UIBase
     public void SetItemName(string name)
     {
         Get<TextMeshProUGUI>((int)Texts.ItemName).text = name;
+        Get<TextMeshProUGUI>((int)Texts.ItemName).gameObject.SetActive(true);
     }
 
     protected void ShowButton(string name)
@@ -69,5 +70,6 @@ public abstract class UIItemHelper : UIBase
         {
             go.SetActive(false);
         }
+        Get<TextMeshProUGUI>((int)Texts.ItemName).gameObject.SetActive(false);
     }
 }

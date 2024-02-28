@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -76,7 +77,6 @@ public class GameManager : MonoBehaviour
         Player.Load();
         Player.ConditionHandler.HP.OnBelowedToZero += (() => { IsRunning = false; });
         InitIslands();
-
         InitSystems();
         BindEvent();
 
