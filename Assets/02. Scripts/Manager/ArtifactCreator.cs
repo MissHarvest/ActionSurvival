@@ -96,6 +96,7 @@ public class ArtifactCreator
         var obj = UnityEngine.Object.Instantiate(_data.Prefab).GetComponent<Artifact>();
         obj.SetInfo(island, spawnPosition, _root, _data);
         obj.RaiseInfluence();
+        obj.SpawnOverflowedMonster();
         Artifacts.Add(obj);
         obj.OnDestroy += x => Artifacts.Remove(x);
     }
