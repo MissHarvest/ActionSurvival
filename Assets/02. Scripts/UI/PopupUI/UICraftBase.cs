@@ -174,7 +174,9 @@ public abstract class UICraftBase : UIPopup
                 }
             }
             else
+            {
                 Managers.UI.ShowPopupUI<UIWarning>().SetWarning("아이템 수량이 부족합니다.");
+            }
 
             _confirm.gameObject.SetActive(false);
             _craftBase.InitializeCount();

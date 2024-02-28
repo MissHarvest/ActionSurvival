@@ -60,6 +60,7 @@ public class UICooking : UICraftBase
             {
                 if (_craftBase.CheckItems(items))
                 {
+                    _craftBase.ConsumeItems(items);
                     int totalQuantity = _craftBase.Count * SelectedRecipe.Quantity;
 
                     ignition.recipeRequiredItemSlots[_index].Set(completedItemData, totalQuantity);
@@ -69,42 +70,18 @@ public class UICooking : UICraftBase
                     {
                         ignition.StartAFire();
                     }
-                    _confirm.gameObject.SetActive(false);
+                    var confirm = Managers.UI.ShowPopupUI<UICraftConfirm>();
+                    confirm.SetCraft($"{completedItemData.displayName} 요리 등록!");
                 }
             }
             else
             {
-                Debug.Log("asd");
+                Managers.UI.ShowPopupUI<UIWarning>().SetWarning("요리 슬롯이 부족합니다.");
             }
+            _confirm.gameObject.SetActive(false);
         }
     }
 
-    void Reference()
-    {
-        if (SelectedRecipe != null)
-        {
-            List<RecipeSO.Ingredient> items = SelectedRecipe.requiredItems;
-            ItemData completedItemData = SelectedRecipe.completedItemData;
-
-            // 플레이어 인벤토리에서 아이템 확인 및 소모
-            if (_craftBase.CheckItems(items))
-            {
-                int totalQuantity = _craftBase.Count * SelectedRecipe.Quantity;
-                if (GameManager.Instance.Player.Inventory.TryAddItem(completedItemData, totalQuantity))
-                {
-                    var confirm = Managers.UI.ShowPopupUI<UICraftConfirm>();
-                    confirm.SetCraft($"{completedItemData.displayName} 제작 완료!");
-                }
-                else // 재료가 충분하고 소모도 했는데 아이템 들어갈 공간이 없을 경우 재료를 돌려줘야함
-                {
-                    _craftBase.AddItems(items);
-                }
-            }
-
-            _confirm.gameObject.SetActive(false);
-            _craftBase.InitializeCount();
-            return;
-        }
     protected override string GetConfirmationText(string displayName, int itemQuantity, int craftCount)
     {
         return $"{displayName}을(를) {itemQuantity} X {craftCount}개\n요리하시겠습니까?";

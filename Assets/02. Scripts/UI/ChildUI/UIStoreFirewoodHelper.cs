@@ -68,8 +68,11 @@ public class UIStoreFirewoodHelper : UIBase
     {
         Initialize();
 
-        ignition.OnUpdatedCount += UpdateCountUI;
-        ignition.OnUpdateFirewoodUI += OnTurnOffPopup;
+        if (ignition != null)
+        {
+            ignition.OnUpdatedCount += UpdateCountUI;
+            ignition.OnClosePopup += OnTurnOffPopup;
+        }
     }
 
     private void Start()

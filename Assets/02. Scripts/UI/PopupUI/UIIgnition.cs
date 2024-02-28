@@ -13,7 +13,7 @@ public class UIIgnition : UIPopup
 {
     private enum GameObjects
     {
-        Exit,
+        Block,
         UIFunctionsUseFireSlot,
         FirewoodItems,
         Content
@@ -44,7 +44,7 @@ public class UIIgnition : UIPopup
         Bind<GameObject>(typeof(GameObjects));
         Bind<UIStoreFirewoodHelper>(typeof(Helper));
 
-        Get<GameObject>((int)GameObjects.Exit).BindEvent((x) =>
+        Get<GameObject>((int)GameObjects.Block).BindEvent((x) =>
         {
             Managers.UI.ClosePopupUI(this);
         });
@@ -54,54 +54,60 @@ public class UIIgnition : UIPopup
         _functionsUseFireSlotButton.BindEvent((x) => { ShowCookingUIPopup(); });
         _firePowerGaugeSlider = GetComponentInChildren<Slider>();
 
-        _cookingLevel = ignition.cookingLevel;
-        _capacity = ignition.capacity;
+        if (ignition != null)
+        {
+            _cookingLevel = ignition.cookingLevel;
+            _capacity = ignition.capacity;
+        }
     }
 
     private void OnEnable()
     {
-        //활성화 됐을 떄 동작하게
-        //이건 데이터를 가져와서 그리기만 한다
         Initialize();
 
         _firewoodItems = Get<GameObject>((int)GameObjects.FirewoodItems).transform;
         _content = Get<GameObject>((int)GameObjects.Content).transform;
         _firewoodHelper = Get<UIStoreFirewoodHelper>((int)Helper.UIStoreFirewoodHelper);
-        _firewoodHelper.ignition = ignition;
 
-        ignition.OnUpdateFirewoodUI += OnUpdateFirePowerGaugeSlider;
-        ignition.OnUpdateFirewoodUI += OnUpdateFirewoodItemQuantity;
-        ignition.OnUpdateQuantity += OnUpdateQuantity;
-        ignition.OnUpdateSlider += OnUpdatedTimeTakenToCookSlider;
-        //구독해지
 
-        CreatCookingSlot();
-        CreatFirewoodSlot();
-        ShowCookingSlots();
-        OnUpdateFirewoodItemQuantity();
-        OnUpdateFirePowerGaugeSlider();
-
-        for (int i = 0; i < cookingSlots.Count; i++)
+        if (ignition != null)
         {
-            OnUpdatedTimeTakenToCookSlider(i, ignition.currentTimeRequiredToCook[i]);
-        }
+            _firewoodHelper.ignition = ignition;
+            ignition.OnUpdateFirewoodUI += OnUpdateFirePowerGaugeSlider;
+            ignition.OnUpdateFirewoodUI += OnUpdateFirewoodItemQuantity;
+            ignition.OnUpdateQuantity += OnUpdateQuantity;
+            ignition.OnUpdateSlider += OnUpdatedTimeTakenToCookSlider;
+            CreatCookingSlot();
+            CreatFirewoodSlot();
+            ShowCookingSlots();
+            OnUpdateFirewoodItemQuantity();
+            OnUpdateFirePowerGaugeSlider();
 
-        UpdateQuantityOnEnable();
+            for (int i = 0; i < cookingSlots.Count; i++)
+            {
+                OnUpdatedTimeTakenToCookSlider(i, ignition.currentTimeRequiredToCook[i]);
+            }
+
+            UpdateQuantityOnEnable();
+        }
     }
 
     private void OnDisable()
     {
-        ignition.OnUpdateFirewoodUI -= OnUpdateFirePowerGaugeSlider;
-        ignition.OnUpdateFirewoodUI -= OnUpdateFirewoodItemQuantity;
-        ignition.OnUpdateQuantity -= OnUpdateQuantity;
-        ignition.OnUpdateSlider -= OnUpdatedTimeTakenToCookSlider;
-
-        for (int i = 0; i < cookingSlots.Count; i++)
+        if (ignition != null)
         {
-            cookingSlots[i].SetDisableIcon();
-            cookingSlots[i].gameObject.SetActive(false);
+            ignition.OnUpdateFirewoodUI -= OnUpdateFirePowerGaugeSlider;
+            ignition.OnUpdateFirewoodUI -= OnUpdateFirewoodItemQuantity;
+            ignition.OnUpdateQuantity -= OnUpdateQuantity;
+            ignition.OnUpdateSlider -= OnUpdatedTimeTakenToCookSlider;
+
+            for (int i = 0; i < cookingSlots.Count; i++)
+            {
+                cookingSlots[i].SetDisableIcon();
+                cookingSlots[i].gameObject.SetActive(false);
+            }
+            ignition = null;
         }
-        ignition = null;
     }
 
     private void Start()
@@ -136,7 +142,7 @@ public class UIIgnition : UIPopup
         else
         {
             return;
-        }        
+        }
     }
 
     private void OnUpdateFirewoodItemQuantity()
@@ -191,6 +197,7 @@ public class UIIgnition : UIPopup
                 cookingSlot.Set(ignition.recipeRequiredItemSlots[index]);
                 cookingSlot.SetCookedFoodItemQuantity(ignition.cookedFoodItemSlots[index]);
                 cookingSlot.SetMaxTimeTakenToCookSlider(recipe.maxTimeRequiredToCook);
+                cookingSlot.SetText("요리 대기");
             }
         }
     }
@@ -209,6 +216,7 @@ public class UIIgnition : UIPopup
         {
             cookingSlots[index].Set(ignition.recipeRequiredItemSlots[index]);
             cookingSlots[index].SetCookedFoodIcon(ignition.cookedFoodItemSlots[index]);
+            cookingSlots[index].SetText("요리 완료");
         }
         else
         {
@@ -221,14 +229,21 @@ public class UIIgnition : UIPopup
     public void OnUpdatedTimeTakenToCookSlider(int index, int currentTime)
     {
         cookingSlots[index].UpdatedTimeTakenToCookSlider(currentTime);
-        OnUpdateQuantity(index);
+        if (currentTime > 0)
+        {
+            cookingSlots[index].SetText("요리 중...");
+        }
     }
 
     private void DeliverFoodItemsToInventory(int index)
     {
-        GameManager.Instance.Player.Inventory.TryAddItem(ignition.cookedFoodItemSlots[index].itemData, ignition.cookedFoodItemSlots[index].quantity);
-        ignition.cookedFoodItemSlots[index].SubtractQuantity(ignition.cookedFoodItemSlots[index].quantity);
-        OnUpdateQuantity(index);
+        if (ignition.cookedFoodItemSlots[index].itemData != null)
+        {
+            GameManager.Instance.Player.Inventory.TryAddItem(ignition.cookedFoodItemSlots[index].itemData, ignition.cookedFoodItemSlots[index].quantity);
+            ignition.cookedFoodItemSlots[index].SubtractQuantity(ignition.cookedFoodItemSlots[index].quantity);
+            OnUpdateQuantity(index);
+            cookingSlots[index].SetText("요리 슬롯");
+        }
     }
 
     private void ShowStoreFirewoodPopupUI(ItemSlot itemSlot)

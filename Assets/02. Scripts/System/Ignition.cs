@@ -10,6 +10,7 @@ public class Ignition : MonoBehaviour
     public ItemSlot[] recipeRequiredItemSlots;
     public ItemSlot[] cookedFoodItemSlots;
     public List<RecipeSO> recipes = new List<RecipeSO>();
+    public int[] currentTimeRequiredToCook;
 
     public int capacity = 0;
     [SerializeField] private int _maxCookingSlot = 6;
@@ -17,7 +18,6 @@ public class Ignition : MonoBehaviour
     public int maxCount;
     public int firewoodItemIndex;
     public int firePowerGauge;
-    public int[] currentTimeRequiredToCook;
     public int cookingLevel = 0;
     public int cookingSlotIndex;
     private int _maxTime;
@@ -31,6 +31,7 @@ public class Ignition : MonoBehaviour
     public event Action OnUpdateFirewoodUI;
     public event Action<int, int> OnUpdateSlider;
     public event Action<int> OnUpdateQuantity;
+    public event Action OnClosePopup;
 
     public void StartCookingButton()
     {
@@ -59,6 +60,8 @@ public class Ignition : MonoBehaviour
             cookedFoodItemSlots[i] = new ItemSlot();
             currentTimeRequiredToCook[i] = 0;
         }
+
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     private void Start()
@@ -77,7 +80,7 @@ public class Ignition : MonoBehaviour
                 if (firewoodItemSlots[i].quantity > 0)
                 {
                     firewoodItemSlots[i].SubtractFirewoodItemQuantity(1);
-                    firePowerGauge = i == 0 ? 2 : 3;
+                    firePowerGauge = i == 0 ? 10 : 20;
                     OnUpdateFirewoodUI?.Invoke();
 
                     haveFirewood = true;
@@ -195,6 +198,7 @@ public class Ignition : MonoBehaviour
             }
 
             OnUpdateFirewoodUI?.Invoke();
+            OnClosePopup?.Invoke();
         }
     }
 
@@ -207,6 +211,7 @@ public class Ignition : MonoBehaviour
             haveFirewood = true;
             StartAFire();
             OnUpdateFirewoodUI?.Invoke();
+            OnClosePopup?.Invoke();
         }
     }
 
@@ -231,5 +236,11 @@ public class Ignition : MonoBehaviour
     private void UpdateCountUI()
     {
         OnUpdatedCount?.Invoke(firewoodStoreCount);
+    }
+
+    private void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile("Ignition", json, SaveGame.SaveType.Runtime);
     }
 }

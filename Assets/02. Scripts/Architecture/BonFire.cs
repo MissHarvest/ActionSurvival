@@ -7,9 +7,13 @@ public class BonFire : MonoBehaviour, IInteractable
     [SerializeField] private int _cookingLevel = 0;
     public string clipName = "BonFire";
     private SFXSound _sound;
+    private UIIgnition _ignitionUI;
+    private UICooking _cookingUI;
+    private Ignition _ignition;
 
     private void Awake()
     {
+        _ignition = GetComponent<Ignition>();
         var buildableObject = GetComponent<BuildableObject>();
         buildableObject.OnDestroyed += OnDestruct;
     }
@@ -26,7 +30,7 @@ public class BonFire : MonoBehaviour, IInteractable
     public void Interact(Player player)
     {
         _ignitionUI = Managers.UI.GetPopupUI<UIIgnition>();
-        _ignitionUI.ignition = _ignition;        
+        _ignitionUI.ignition = _ignition;
         _cookingUI = Managers.UI.GetPopupUI<UICooking>();
         _cookingUI.ignition = _ignition;
         Managers.UI.ShowPopupUI<UIIgnition>();

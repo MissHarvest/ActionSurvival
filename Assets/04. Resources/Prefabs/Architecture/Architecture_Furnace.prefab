@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6648864155571984680}
   - component: {fileID: 3681638505986134066}
   - component: {fileID: 7222832045175803795}
-  - component: {fileID: 7829268308491558440}
+  - component: {fileID: -5001479347827009755}
   m_Layer: 11
   m_Name: Architecture_Furnace
   m_TagString: Make
@@ -138,8 +138,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cookingLevel: 1
---- !u!82 &-5255943375136458061
-AudioSource:
+  clipName: BonFire
+--- !u!114 &-5001479347827009755
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -162,136 +163,19 @@ AudioSource:
     <equipped>k__BackingField: 0
     <registed>k__BackingField: 0
   recipeRequiredItemSlots: []
-  cookedFoodItems: []
+  cookedFoodItemSlots: []
   recipes: []
-  cookingSlotsUI: []
   capacity: 4
   _maxCookingSlot: 6
   firewoodStoreCount: 0
   maxCount: 0
   firewoodItemIndex: 0
   firePowerGauge: 0
-  currentTimeRequiredToCook: 0
+  currentTimeRequiredToCook: 
   cookingLevel: 1
   cookingSlotIndex: 0
   haveFirewood: 0
   startCooking: 0
-  cookingDone: 0
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8d97fd5d1ab1a414f85bf0d270312403, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 20
-  Pan2D: 0
-  rolloffMode: 2
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.06666667
-      value: 1
-      inSlope: -15.005997
-      outSlope: -15.005997
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.13333334
-      value: 0.5
-      inSlope: -3.7514992
-      outSlope: -3.7514992
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.26666668
-      value: 0.25
-      inSlope: -0.9378748
-      outSlope: -0.9378748
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5419851
-      value: 0.09101868
-      inSlope: -0.43464908
-      outSlope: -0.43464908
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.3059635
-    - serializedVersion: 3
-      time: 0.9942322
-      value: 0
-      inSlope: -0.06669331
-      outSlope: -0.06669331
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &2732944119319688650
 PrefabInstance:
   m_ObjectHideFlags: 0

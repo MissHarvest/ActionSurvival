@@ -12,19 +12,15 @@ public class UICookingSlot : UIBase
         CookedFoodItemIcon
     }
 
-    enum Quantity
-    {
-        RequiredQuantity,
-        CookedFoodItemQuantity
-    }
-
     enum Texts
     {
+        RequiredQuantity,
+        CookedFoodItemQuantity,
         Text
     }
 
     private TextMeshProUGUI _requiredQuantity;
-    public TextMeshProUGUI cookedFoodItemQuantity;
+    private TextMeshProUGUI _cookedFoodItemQuantity;
     private TextMeshProUGUI _text;
     private Image _icon;
     private Slider _timeTakenToCookSlider;
@@ -33,7 +29,6 @@ public class UICookingSlot : UIBase
     public override void Initialize()
     {
         Bind<Image>(typeof(Images));
-        Bind<TextMeshProUGUI>(typeof(Quantity));
         Bind<TextMeshProUGUI>(typeof(Texts));
 
         _icon = Get<Image>((int)Images.CookedFoodItemIcon);
@@ -41,12 +36,12 @@ public class UICookingSlot : UIBase
 
         Get<Image>((int)Images.CookedFoodItemIcon).raycastTarget = false;
 
-        _requiredQuantity = Get<TextMeshProUGUI>((int)Quantity.RequiredQuantity);
-        cookedFoodItemQuantity = Get<TextMeshProUGUI>((int)Quantity.CookedFoodItemQuantity);
+        _requiredQuantity = Get<TextMeshProUGUI>((int)Texts.RequiredQuantity);
+        _cookedFoodItemQuantity = Get<TextMeshProUGUI>((int)Texts.CookedFoodItemQuantity);
         _text = Get<TextMeshProUGUI>((int)Texts.Text);
 
         _requiredQuantity.raycastTarget = false;
-        cookedFoodItemQuantity.raycastTarget = false;
+        _cookedFoodItemQuantity.raycastTarget = false;
         _text.raycastTarget = false;
 
         _timeTakenToCookSlider = GetComponentInChildren<Slider>();
@@ -69,8 +64,7 @@ public class UICookingSlot : UIBase
         _icon.gameObject.SetActive(true);
         _icon.sprite = itemSlot.itemData.iconSprite;
 
-        _requiredQuantity.text = itemSlot.quantity.ToString();
-        
+        _requiredQuantity.text = itemSlot.quantity.ToString();        
     }
 
     public void SetCookedFoodIcon(ItemSlot itemSlot)
@@ -88,10 +82,10 @@ public class UICookingSlot : UIBase
     {
         if (itemSlot.itemData == null)
         {
-            cookedFoodItemQuantity.text = "0";
+            _cookedFoodItemQuantity.text = "0";
             return;
         }
-        cookedFoodItemQuantity.text = itemSlot.quantity.ToString();
+        _cookedFoodItemQuantity.text = itemSlot.quantity.ToString();
     }
 
     public void SetMaxTimeTakenToCookSlider(int maxTimeRequiredToCook)
@@ -102,5 +96,10 @@ public class UICookingSlot : UIBase
     public void UpdatedTimeTakenToCookSlider(int currentTime)
     {
         _timeTakenToCookSlider.value = currentTime;
+    }
+
+    public void SetText(string text)
+    {
+        _text.text = text;
     }
 }

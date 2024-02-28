@@ -43,7 +43,6 @@ public class InventorySystem : MonoBehaviour
         var itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
         TryAddItem(itemData, 2);
         itemData = Managers.Resource.GetCache<ItemData>("FurnaceItemData.data");
-        var itemData = Managers.Resource.GetCache<ItemData>("EnchantedAxeItemData.data");
         TryAddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("EnchantedPickAxeItemData.data");
         TryAddItem(itemData, 1);
