@@ -33,11 +33,12 @@ public class Player : MonoBehaviour, IAttack, IHit
 
     public QuickSlot EquippedItem => ToolSystem.EquippedTool;
 
+    public PlayerStateMachine StateMachine { get; private set; }
+
     [field: Header("References")]
     public PlayerSO Data { get; private set; }
     public event Action OnHit;
 
-    private PlayerStateMachine _stateMachine;
 
     private GameObject _listener;
 
@@ -58,7 +59,7 @@ public class Player : MonoBehaviour, IAttack, IHit
         var listener = Managers.Resource.GetCache<GameObject>("@PlayerAudioListener.prefab");
         _listener = Instantiate(listener);
 
-        _stateMachine = new PlayerStateMachine(this);
+        StateMachine = new PlayerStateMachine(this);
 
         GameManager.Instance.OnSaveCallback += Save;
 
@@ -89,18 +90,18 @@ public class Player : MonoBehaviour, IAttack, IHit
 
     private void Start()
     {
-        _stateMachine.ChangeState(_stateMachine.IdleState);
+        StateMachine.ChangeState(StateMachine.IdleState);
     }
 
     private void Update()
     {
-        _stateMachine.HandleInput();
-        _stateMachine.Update();
+        StateMachine.HandleInput();
+        StateMachine.Update();
     }
 
     private void FixedUpdate()
     {
-        _stateMachine.PhysicsUpdate();
+        StateMachine.PhysicsUpdate();
     }
 
     public void Attack(float damage)
@@ -151,7 +152,7 @@ public class Player : MonoBehaviour, IAttack, IHit
 
     public void Die()
     {
-        _stateMachine.ChangeState(_stateMachine.DieState);
+        StateMachine.ChangeState(StateMachine.DieState);
         SaveGame.DeleteAllFiles();
         Managers.UI.ShowPopupUI<UIDeath>();
     }

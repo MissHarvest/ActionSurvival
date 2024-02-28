@@ -8,12 +8,7 @@ public class PlayerComboAttackState : PlayerAttackState
     private bool _alreadyAppliedForce;
     private bool _alreadyApplyCombo;
     private bool _hit;
-    protected GameObject target;
-    protected string targetTag;
-    
-    protected Vector3 _targetPosition;
-    protected string _targetTag;
-
+    private Vector3 _targetPosition;
     private WeaponItemData _weaponData;
     private AttackInfoData _attackInfoData;
 
@@ -42,10 +37,9 @@ public class PlayerComboAttackState : PlayerAttackState
     public override void Exit()
     {
         base.Exit();
-        target = null;
         StopAnimation(_stateMachine.Player.AnimationData.ComboAttackParameterHash);
 
-        if (!_alreadyApplyCombo)
+        if (!_alreadyApplyCombo || _stateMachine.Player.EquippedItem.itemSlot.itemData is not WeaponItemData)
             _stateMachine.ComboIndex = 0;
     }
 
@@ -102,12 +96,12 @@ public class PlayerComboAttackState : PlayerAttackState
 
             if (normalizedTime >= _attackInfoData.ComboTransitionTime)
             {
+                TryComboAttack();
                 if (!_hit)
                 {
                     _hit = true;
                     _stateMachine.Player.Attack(_weaponData.damage * _attackInfoData.Damage);
                 }
-                TryComboAttack();
                 if (_alreadyApplyCombo)
                 {
                     _stateMachine.ComboIndex = _attackInfoData.ComboStateIndex;
@@ -124,11 +118,6 @@ public class PlayerComboAttackState : PlayerAttackState
     protected override void OnInteractStarted(InputAction.CallbackContext context)
     {
         _stateMachine.IsAttacking = true;
-    }
-
-    protected override void OnQuickUseStarted(InputAction.CallbackContext context)
-    {
-        
     }
 
     public void SetTarget(Vector3 position)

@@ -23,6 +23,7 @@ public class PlayerStateMachine : StateMachine
     public float JumpForce { get; set; }
     public Transform MainCameraTransform { get; set; }
     public InteractSystem InteractSystem { get; private set; }
+    public bool IsAttackState => currentState is PlayerAttackState;
 
     public PlayerStateMachine(Player player)
     {
@@ -48,20 +49,20 @@ public class PlayerStateMachine : StateMachine
         InteractSystem.OnArchitectureInteract += TransitionInteract;
     }
 
-    public void TransitionComboAttack(Vector3 targetPos)
+    private void TransitionComboAttack(Vector3 targetPos)
     {
         IsAttacking = true;
         ComboAttackState.SetTarget(targetPos);
         ChangeState(ComboAttackState);
     }
 
-    public void TransitionInteract(IInteractable target, string targetTag, Vector3 targetPos)
+    private void TransitionInteract(IInteractable target, string targetTag, Vector3 targetPos)
     {
         InteractState.SetTarget(target, targetTag, targetPos);
         ChangeState(InteractState);
     }
 
-    public void TransitionInteract(IDestructible target, string targetTag, Vector3 targetPos)
+    private void TransitionInteract(IDestructible target, string targetTag, Vector3 targetPos)
     {
         InteractState.SetTarget(target, targetTag, targetPos);
         ChangeState(InteractState);
