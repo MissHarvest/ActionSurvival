@@ -34,7 +34,7 @@ public class Island
     private GameObject _bossMonster;
     private MonsterGroup[] _monsterGroups = new MonsterGroup[3];    
     private List<SpawnPoint> _spawnablePoints = new List<SpawnPoint>();
-    public List<GameObject> DiedMonsters = new List<GameObject>(); // >> 오브젝 풀링
+    private List<GameObject> _diedMonsters = new List<GameObject>(); // >> 오브젝 풀링
     
     [SerializeField] private float _temperature;
     [SerializeField] private float _influence;
@@ -106,14 +106,19 @@ public class Island
     private void RespawnMonsters()
     {
         // [ Do ] // Set Monster RespawnDuration. (day)
-        if (DiedMonsters.Count == 0) return;
-
-        for (int i = 0; i < DiedMonsters.Count; ++i)
+        if (_diedMonsters.Count == 0) return;
+        
+        for (int i = 0; i < _diedMonsters.Count; ++i)
         {
-            DiedMonsters[i].SetActive(true);
-            DiedMonsters[i].GetComponent<Monster>().Respawn();
+            _diedMonsters[i].SetActive(true);
+            _diedMonsters[i].GetComponent<Monster>().Respawn();
         }
-        DiedMonsters.Clear();
+        _diedMonsters.Clear();
+    }
+
+    public void Release(GameObject gameObject)
+    {
+        _diedMonsters.Add(gameObject);
     }
 
     #region SpawnPoint

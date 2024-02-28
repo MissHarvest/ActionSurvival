@@ -15,6 +15,7 @@ MonoBehaviour:
   displayName: "\uAD6C\uC6B4 \uBC15\uC950 \uACE0\uAE30"
   description: 
   iconSprite: {fileID: 21300000, guid: 1689b8d4a533571489aecb849c650490, type: 3}
+  <MaxDurability>k__BackingField: 0
   conditionModifier:
   - Condition: 1
-    value: 7
+    value: 5

@@ -50,7 +50,7 @@ public class UIPauseGame : UIPopup
         Get<Button>((int)Buttons.ExitButton).gameObject.BindEvent((x) =>
         {
             Managers.UI.ShowPopupUI<UIWarning>().SetWarning(
-                "게임을 종료하시겠습니까?",
+                "저장 후 게임을 종료하시겠습니까?",
                 UIWarning.Type.YesNo,
                 () =>
                 {
