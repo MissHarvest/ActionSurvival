@@ -103,7 +103,7 @@ public class Tutorial : MonoBehaviour
             if (isEnoughRequirementsFunc(activeQuest))
             {
                 activeQuest.CompleteQuest();
-                _quests.Remove(activeQuest);
+                RemoveActiveQuest(activeQuest);
                 return true;
             }
             return false;
@@ -117,6 +117,18 @@ public class Tutorial : MonoBehaviour
             }
         }
         OnActiveQuestsUpdated?.Invoke();
+    }
+
+    private void RemoveActiveQuest(Quest activeQuest)
+    {
+        foreach (var quest in _quests)
+        {
+            if (activeQuest.questName == quest.questName)
+            {
+                _quests.Remove(quest);
+                break;
+            }
+        }
     }
 
     private bool IsQuestInActiveQuests(Quest quest)
