@@ -41,20 +41,18 @@ public class MainScene : MonoBehaviour
 
                     // Player 정보 로드
                     // SaveData.CheckPlayerData
-                    UnityEngine.Debug.Log($"Game Init Start {watch.ElapsedMilliseconds} ms");
                     loadingUI.ReceiveCallbacks($"Game Initialize ...");
 
                     Managers.Data.InitializeRecipeData();
                     Managers.Sound.Init();
-                    UnityEngine.Debug.Log($"Managers Init {watch.ElapsedMilliseconds} ms");
+                    UnityEngine.Debug.Log($"NavMesh Before {watch.ElapsedMilliseconds} ms");
                     GameManager.Instance.GenerateNavMeshAsync(callback: op =>
                     {
+                        UnityEngine.Debug.Log($"NavMesh After {watch.ElapsedMilliseconds} ms");
                         // 4. NavMesh 생성
                         SpawnPlayer();
                         UIInitialize();
-                        UnityEngine.Debug.Log($"UI Init {watch.ElapsedMilliseconds} ms");
-                        GameManager.Instance.Init();
-                        UnityEngine.Debug.Log($"Game Init {watch.ElapsedMilliseconds} ms");
+                        GameManager.Instance.StartGame();
 
                         var camera = Managers.Resource.GetCache<GameObject>("MinimapCamera.prefab");
                         Instantiate(camera);
@@ -63,7 +61,7 @@ public class MainScene : MonoBehaviour
                         UnityEngine.Debug.Log($"Game Generated {watch.ElapsedMilliseconds} ms");
 
 #if UNITY_EDITOR
-                        GameManager.Instance.Player.Inventory.AddDefaultToolAsTest();
+                        //GameManager.Instance.Player.Inventory.AddDefaultToolAsTest();
 #endif
                     });
                 });

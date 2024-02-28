@@ -312,6 +312,7 @@ MonoBehaviour:
   targetLayers:
     serializedVersion: 2
     m_Bits: 2560
+  projectileSpeed: 3
 --- !u!136 &3562854123597171965
 CapsuleCollider:
   m_ObjectHideFlags: 0

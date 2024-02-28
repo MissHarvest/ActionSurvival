@@ -9,6 +9,7 @@ public class RangeMonster : Monster
     private GameObject _projectileWeapon;
     public Transform fireTransform;
     public LayerMask targetLayers;
+    public float projectileSpeed;
 
     protected override void Awake()
     {
@@ -29,6 +30,6 @@ public class RangeMonster : Monster
 
         var projectile = go.GetComponent<Projectile>();
         var dir = Target.transform.position - fireTransform.position;
-        projectile.Fire(fireTransform.position, dir, 3.0f,Data.AttackData.AttackalbeDistance);
+        projectile.Fire(fireTransform.position, dir, projectileSpeed, Data.AttackData.AttackalbeDistance);
     }
 }

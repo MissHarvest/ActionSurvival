@@ -1,9 +1,7 @@
 // 작성 날짜 : 2024. 01. 11
 // 작성자 : Park Jun Uk
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -27,6 +25,11 @@ public class DayLight : MonoBehaviour
         Light.shadowStrength = 0.8f;
         RenderSettings.skybox = skyMaterial;
         RenderSettings.sun = Light;
+
+        GameManager.DayCycle.OnStarted += SetEnviroment;
+        GameManager.DayCycle.OnMorningCame += OnMorningCame;
+        GameManager.DayCycle.OnEveningCame += OnEveningCame;
+        GameManager.DayCycle.OnNightCame += OnNightCame;
     }
 
     // Start is called before the first frame update
@@ -37,12 +40,13 @@ public class DayLight : MonoBehaviour
         {
             Destroy(go);
         }
+    }
 
-        GameManager.DayCycle.OnMorningCame += OnMorningCame;
-        GameManager.DayCycle.OnEveningCame += OnEveningCame;
-        GameManager.DayCycle.OnNightCame += OnNightCame;
-
-        OnMorningCame();
+    private void SetEnviroment(DayInfo day)
+    {
+        Light.color = lightColors[(int)day.zone];
+        RenderSettings.skybox.SetColor("_Tint", skyColors[(int)day.zone]);
+        RenderSettings.fogColor = fogColors[(int)day.zone];
     }
     
     private void OnMorningCame()

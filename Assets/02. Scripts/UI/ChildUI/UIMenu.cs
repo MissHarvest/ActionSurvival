@@ -67,6 +67,7 @@ public class UIMenu : UIBase
         var rect = go.GetComponent<RectTransform>();
 
         var arrowUI = Managers.UI.ShowPopupUI<UITutorialArrow>();
+        if (arrowUI == null) return;
         arrowUI.ActivateArrow(go.transform.position, new Vector2(0, rect.sizeDelta.y));
         go.BindEvent((x) =>
         {

@@ -83,7 +83,7 @@ MonoBehaviour:
     FindPlayer: FireSwarmDetect
     Attack: InsectAttack
     Hit: SlashHit
-    Die: RabbitDie
+    Die: Rabbit
   <Data>k__BackingField: {fileID: 0}
   looting:
     _lootings:

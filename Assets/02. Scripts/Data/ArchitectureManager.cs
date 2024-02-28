@@ -46,7 +46,10 @@ public class ArchitectureManager
                 }
             }
         }
+    }
 
+    public void BindEvent()
+    {
         GameManager.Instance.OnSaveCallback += Save;
     }
 

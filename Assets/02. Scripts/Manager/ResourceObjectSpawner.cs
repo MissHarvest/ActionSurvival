@@ -11,7 +11,7 @@ public class ResourceObjectSpawner
 
     [field: SerializeField] public List<ResourceObjectParent> _resourceObjects { get; set; } = new();
 
-    public void Initialize()
+    public void Init()
     {
         _spawnData = Managers.Resource.GetCache<ResourceObjectSpawnData>("ResourceObjectSpawnData.data");
         _resourceObjectRoot = new GameObject("ResourceObjectRoot").transform;

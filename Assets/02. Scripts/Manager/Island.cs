@@ -303,11 +303,8 @@ public class Island
         SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, Name);
         Stopwatch watch = new();
         watch.Start();
-        UnityEngine.Debug.Log("[Algorithm Start]");
         CheckSpawnablePoint();
-        UnityEngine.Debug.Log($"[Check Spawnable Point End]{watch.ElapsedMilliseconds} ms");
         CreateMonsters();
-        UnityEngine.Debug.Log($"[Create Monster End]{watch.ElapsedMilliseconds} ms");
         CreateBossMonster();
     }
 
