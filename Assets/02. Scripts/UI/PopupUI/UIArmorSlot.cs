@@ -10,6 +10,8 @@ using UnityEngine.UI;
 
 public class UIArmorSlot : UIItemSlot
 {
+    public Sprite[] sprites;
+
     enum Images
     {
         Icon,
@@ -38,6 +40,6 @@ public class UIArmorSlot : UIItemSlot
 
     public override void Clear()
     {
-        Get<Image>((int)Images.Icon).gameObject.SetActive(false);
+        Get<Image>((int)Images.Icon).sprite = sprites[(int)part];
     }
 }
