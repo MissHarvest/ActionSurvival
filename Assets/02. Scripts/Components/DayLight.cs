@@ -23,7 +23,7 @@ public class DayLight : MonoBehaviour
         
         Light = GetComponent<Light>();
         Light.shadowStrength = 0.8f;
-        RenderSettings.skybox = skyMaterial;
+        RenderSettings.skybox = new(skyMaterial);
         RenderSettings.sun = Light;
 
         GameManager.DayCycle.OnStarted += SetEnviroment;
