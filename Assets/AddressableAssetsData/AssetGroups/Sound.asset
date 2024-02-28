@@ -198,7 +198,7 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2cc46cabf96c30b41aee8de58bffee1c
-    m_Address: ReadSoulEaterDetect.wav
+    m_Address: RedSoulEaterDetect.wav
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

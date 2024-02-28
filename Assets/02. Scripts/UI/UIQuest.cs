@@ -16,11 +16,13 @@ public class UIQuest : UIBase
         QuestName,
     }
 
+    private Button _button;
+
     public override void Initialize()
     {
         Bind<Image>(typeof(Images));
         Bind<TextMeshProUGUI>(typeof(Texts));
-
+        _button = GetComponent<Button>();
         Get<Image>((int)Images.Icon).raycastTarget = false;
         Get<TextMeshProUGUI>((int)Texts.QuestName).raycastTarget = false;
     }
@@ -35,10 +37,8 @@ public class UIQuest : UIBase
         Get<Image>((int)Images.Icon).sprite = activeQuest.questSO.requiredItems[0].item.iconSprite;
         Get<TextMeshProUGUI>((int)Texts.QuestName).text = activeQuest.questSO.questUIName;
 
-        var handler = gameObject.GetOrAddComponent<UIEventHandler>();
-        handler.OnClickEvent = null; // Set �� �ι��Ǽ�
-
-        gameObject.GetComponent<Button>().onClick.AddListener(() =>
+        _button.onClick.RemoveAllListeners();
+        _button.onClick.AddListener(() =>
         {
             SetFunction(activeQuest, tutorial);
         });

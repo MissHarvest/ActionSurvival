@@ -61,16 +61,17 @@ public class SoundManager
         PlayBGM(bgmName, 0.2f);
     }
 
-    public void PlayEffectSound(string sfxName, float volume = 0.3f, bool loop = false)
+    public SFXSound PlayEffectSound(string sfxName, float volume = 0.3f, bool loop = false)
     {
-        PlayEffectSound(null, sfxName, volume, loop);
+        return PlayEffectSound(null, sfxName, volume, loop);
     }
 
-    public void PlayEffectSound(Vector3? position, string sfxName, float volume, bool loop)
+    public SFXSound PlayEffectSound(Vector3? position, string sfxName, float volume, bool loop)
     {
         var sound = _sfxSounds.Get();
         var clip = Managers.Resource.GetCache<AudioClip>($"{sfxName}.wav");
         sound.PlaySound(position, clip, volume, loop);
+        return sound;
     }
 
     public void Set(string group, float volume)

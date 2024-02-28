@@ -96,8 +96,8 @@ public class Tutorial : MonoBehaviour
     //인벤토리나 건축이 업데이트되면 클리어 조건 확인
     private void OnInventoryOrBuildUpdated(Func<Quest, bool> isEnoughRequirementsFunc)
     {
-        List<Quest> questsToRemove = new List<Quest>();
-
+        Debug.Log("Check Quest Clear");
+        
         _activeQuests.RemoveAll(activeQuest =>
         {
             if (isEnoughRequirementsFunc(activeQuest))
@@ -109,6 +109,7 @@ public class Tutorial : MonoBehaviour
             return false;
         });
 
+        
         foreach (var quest in _quests)
         {
             if (!IsQuestInActiveQuests(quest) && IsPreQuestsCleared(quest) && !quest.questSO.canBeAddedWithoutPreQuests)

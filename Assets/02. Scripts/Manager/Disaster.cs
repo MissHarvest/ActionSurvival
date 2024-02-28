@@ -25,10 +25,11 @@ public class Disaster : IAttack
     private bool _active = false;
     private Vector3[] _points;
 
-    public void Init(Player player)
+    public void Init()
     {
+        _points = new Vector3[10];
+
         ObjectPoolContainer = new GameObject("@ObjectPoolContainer");
-        _target = player.transform;
         _meteorPrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");
         _meteores = new ObjectPool<MeteorObject>(CreateMeteor, OnGetMeteor, OnReleaseMeteor, OnDestroyMeteor, maxSize: 30);
 
@@ -37,11 +38,14 @@ public class Disaster : IAttack
 
         _indicatorPrefab = Managers.Resource.GetCache<GameObject>("CircleAttackIndicator.prefab");
         _indicatores = new ObjectPool<AttackIndicatorCircle>(CreateIndicator, OnGetIndicator, OnReleaseIndicator, OnDestroyIndicator, maxSize: 30);
+    }
 
+    public void BindEvent()
+    {
+        _target = GameManager.Instance.Player.transform;
+        
         GameManager.DayCycle.OnTimeUpdated += Fall;
         GameManager.Season.OnSeasonChanged += OnSeasonChanged;
-
-        _points = new Vector3[10];
     }
 
     private void OnSeasonChanged(Season.State state)

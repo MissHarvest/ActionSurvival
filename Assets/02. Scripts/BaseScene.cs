@@ -13,7 +13,7 @@ public class BaseScene : MonoBehaviour
         {
             if (count == total)
             {
-                GameManager.Instance.Init();
+                GameManager.Instance.StartGame();
 
                 var player = Managers.Resource.GetCache<GameObject>("Player.prefab");
                 player = Instantiate(player);

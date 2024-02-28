@@ -20,7 +20,7 @@ MonoBehaviour:
     <PatrolRadius>k__BackingField: 10
   <AttackData>k__BackingField:
     <Atk>k__BackingField: 25
-    <DetectionDistance>k__BackingField: 3
+    <DetectionDistance>k__BackingField: 4
     <DefaultDetectionDistModifier>k__BackingField: 1
     <ChaseDectionDistModifier>k__BackingField: 1.5
     <AttackalbeDistance>k__BackingField: 1.3
