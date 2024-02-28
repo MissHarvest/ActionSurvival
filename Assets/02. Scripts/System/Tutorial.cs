@@ -96,8 +96,6 @@ public class Tutorial : MonoBehaviour
     //인벤토리나 건축이 업데이트되면 클리어 조건 확인
     private void OnInventoryOrBuildUpdated(Func<Quest, bool> isEnoughRequirementsFunc)
     {
-        Debug.Log("Check Quest Clear");
-        
         _activeQuests.RemoveAll(activeQuest =>
         {
             if (isEnoughRequirementsFunc(activeQuest))

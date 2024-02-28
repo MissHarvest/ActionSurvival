@@ -188,7 +188,7 @@ public class InteractSystem
 
             if (target.TryGetComponent<IInteractable>(out var interactable))
             {
-                OnArchitectureInteract?.Invoke(interactable, "Make", target.transform.position);
+                OnArchitectureInteract?.Invoke(interactable, target.tag, target.transform.position);
                 return true;
             }
         }

@@ -39,9 +39,8 @@ public class PlayerHelper
         _datePairKeyword.TryAdd((1, Evening), Tip.MonsterWave);
         _datePairKeyword.TryAdd((4, Morning), Tip.Summer);
         _datePairKeyword.TryAdd((4, Evening), Tip.LavaArtifact);
-        // 여름 끝나는 것
-        // 겨울 끝나는 것
-        // 겨울 시작하는 것
+        _datePairKeyword.TryAdd((12, Morning), Tip.Winter);
+        _datePairKeyword.TryAdd((12, Evening), Tip.GlacierArtifact);
     }
 
     public void BindEvent()

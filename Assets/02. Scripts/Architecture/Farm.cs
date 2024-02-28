@@ -73,15 +73,6 @@ public class Farm : MonoBehaviour, IInteractable
         if (_needItemData == null) return false;
 
         return inventory.TryConsumeQuantity(_needItemData, 1);
-        //for (int i = 0; i < inventory.slots.Length; i++)
-        //{
-        //    if (Managers.Game.Player.Inventory._slots[i].itemData != null && Managers.Game.Player.Inventory._slots[i].itemData.name == "SeedItemData")
-        //    {
-        //        Managers.Game.Player.Inventory.RemoveItem(Managers.Game.Player.Inventory._slots[i].itemData, 1);
-        //        return true;
-        //    }
-        //}
-        //return false;
     }
 
     public float GetInteractTime()
