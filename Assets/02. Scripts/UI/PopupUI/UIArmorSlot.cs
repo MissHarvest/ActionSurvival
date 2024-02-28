@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
@@ -11,6 +12,7 @@ using UnityEngine.UI;
 public class UIArmorSlot : UIItemSlot
 {
     public Sprite[] sprites;
+    public Color emptyState;
 
     enum Images
     {
@@ -22,7 +24,7 @@ public class UIArmorSlot : UIItemSlot
     public override void Initialize()
     {
         Bind<Image>(typeof(Images));
-        Get<Image>((int)Images.Icon).gameObject.SetActive(false);
+        Clear();
         Get<Image>((int)Images.Icon).raycastTarget = false;
     }
 
@@ -31,9 +33,20 @@ public class UIArmorSlot : UIItemSlot
         Initialize();
     }
 
+    public void SetPart(ItemParts part)
+    {
+        this.part = part;
+        Clear();
+    }
+
     public override void Set(ItemSlot itemSlot)
     {
-        if (itemSlot.itemData == null) return;
+        if (itemSlot.itemData == null)
+        {
+            Clear();
+            return;
+        }
+        Get<Image>((int)Images.Icon).color = Color.white;
         Get<Image>((int)Images.Icon).sprite = itemSlot.itemData.iconSprite;
         Get<Image>((int)Images.Icon).gameObject.SetActive(true);
     }
@@ -41,5 +54,6 @@ public class UIArmorSlot : UIItemSlot
     public override void Clear()
     {
         Get<Image>((int)Images.Icon).sprite = sprites[(int)part];
+        Get<Image>((int)Images.Icon).color = emptyState;
     }
 }
