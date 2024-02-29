@@ -8,7 +8,7 @@ public class UIStorage : UIPopup
 {
     enum GameObjects
     {
-        Exit
+        Block,
     }
 
     enum Container
@@ -32,7 +32,7 @@ public class UIStorage : UIPopup
         Bind<UIItemSlotContainer>(typeof(Container));
         Bind<UIItemTransitionHelper>(typeof(Helper));
 
-        Get<GameObject>((int)GameObjects.Exit).BindEvent((x) => { Managers.UI.ClosePopupUI(this); });
+        Get<GameObject>((int)GameObjects.Block).BindEvent((x) => { Managers.UI.ClosePopupUI(this); });
     }
 
     private void Awake()
