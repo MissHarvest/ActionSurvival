@@ -12,7 +12,7 @@ public class FarmHarvestState : FarmBaseState
     {
         _stateMachine.Farm.ChangeObject(2);
         _stateMachine.Farm.State = 2;
-        _stateMachine.Farm.gameObject.layer = 6;
+        //_stateMachine.Farm.gameObject.layer = 6;
     }
 
     // Interact > change State (Grow)

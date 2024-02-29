@@ -36,7 +36,7 @@ public class ResourceObjectParent : MonoBehaviour
     {
         if (_debris.TryGetValue(CurrentState, out var debris))
         {
-            RemainingTime--;
+            --RemainingTime;
             if (RemainingTime <= 0)
                 debris.Respawn();
         }

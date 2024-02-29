@@ -76,13 +76,6 @@ public class UIItemUsageHelper : UIItemHelper
         if (arrowUI == null) return;
 
         arrowUI.ActivateArrow(pos, new Vector2(xOffset, 0));
-        go.BindEvent((x) =>
-        {
-            Managers.UI.ClosePopupUI(arrowUI);
-
-            var evtHandler = Utility.GetOrAddComponent<UIEventHandler>(go);
-            evtHandler.OnPointerDownEvent = null;
-        }, UIEvents.PointerDown);
     }
 
     #region ShowButton

@@ -23,6 +23,7 @@ public class UITipInformation : UIPopup
     enum Texts
     {
         Text,
+        SubTitle,
     }
 
     private List<TipData> _tips;
@@ -71,6 +72,7 @@ public class UITipInformation : UIPopup
         Debug.Log($"[Show Inform]{index}");
         Get<Image>((int)Images.Image).sprite = _tips[index].sprite;
         Get<TextMeshProUGUI>((int)Texts.Text).text = _tips[index].information;
+        Get<TextMeshProUGUI>((int)Texts.SubTitle).text = _tips[index].displayTitle;
         Get<GameObject>((int)GameObjects.Information).SetActive(true);
     }
 }

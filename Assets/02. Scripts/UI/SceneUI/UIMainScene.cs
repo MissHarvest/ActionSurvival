@@ -7,7 +7,6 @@ public class UIMainScene : UIScene
 
     enum GameObjects
     {
-        QuickSlotController,
         PC,
         HpSlider,
         Menu,

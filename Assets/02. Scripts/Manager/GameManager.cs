@@ -81,6 +81,8 @@ public class GameManager : MonoBehaviour
         BindEvent();
 
         Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
+        var go = new GameObject();
+        go.AddComponent<FrameCounter>();
 
         DayCycle.Start();
         IsRunning = true;

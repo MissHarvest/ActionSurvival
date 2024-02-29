@@ -17,7 +17,8 @@ public class BossMeteorState : BossAttackState
     private GameObject _indicatorPrefab;
     private IObjectPool<MeteorObject> _meteores;
     private IObjectPool<AttackIndicatorCircle> _indicatores;
-    
+    private WaitForSeconds _delay;
+
     private State _currentState = State.TakeOff;
     private List<Coroutine> _coroutines = new List<Coroutine>();
 
@@ -25,6 +26,7 @@ public class BossMeteorState : BossAttackState
     {
         _reach = 50.0f;
         weight = 9999.0f;
+        _delay = new WaitForSeconds(0.25f);
 
         _meteorPrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");
         _meteores = new ObjectPool<MeteorObject>(CreateMeteor, OnGetMeteor, OnReleaseMeteor, OnDestroyMeteor, maxSize: 30);
@@ -111,7 +113,7 @@ public class BossMeteorState : BossAttackState
         int time = 0;
         while (time != 40)
         {
-            yield return new WaitForSeconds(0.25f);
+            yield return _delay;
             ++time;
 
             FireMeteorToTarget();            

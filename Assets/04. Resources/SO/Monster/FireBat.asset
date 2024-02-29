@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MaxHP>k__BackingField: 5
   <MovementData>k__BackingField:
-    <BaseSpeed>k__BackingField: 1
+    <BaseSpeed>k__BackingField: 0.6
     <WalkSpeedModifier>k__BackingField: 1
-    <ChaseSpeedModifier>k__BackingField: 10
+    <ChaseSpeedModifier>k__BackingField: 7
     <PatrolRadius>k__BackingField: 10
   <AttackData>k__BackingField:
     <Atk>k__BackingField: 5
