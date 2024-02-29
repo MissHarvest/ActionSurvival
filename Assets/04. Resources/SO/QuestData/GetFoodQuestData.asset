@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
   m_Name: GetFoodQuestData
   m_EditorClassIdentifier: 
-  questUIName: "\uC74C\uC2DD\uC744 \uC81C\uC791\uD558\uC138\uC694."
-  questID: 14
+  questUIName: "\uAD6C\uC6B4 \uBC84\uC12F\uC744 \uC694\uB9AC\uD558\uC138\uC694."
+  canBeAddedWithoutPreQuests: 0
   preQuests:
   - {fileID: 11400000, guid: da8a62d672b334745b80036b36d81c4d, type: 2}
   requiredItems:
@@ -22,5 +22,5 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 2048
-  targetName: BonFire
+  targetObject: 7
   type: 0

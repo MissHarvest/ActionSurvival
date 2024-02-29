@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetRopeQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uBC27\uC904\uC744 \uC81C\uC791\uD558\uC138\uC694."
-  questID: 16
+  canBeAddedWithoutPreQuests: 0
   preQuests:
   - {fileID: 11400000, guid: 1dbfa73b255a57548bbace7686d65218, type: 2}
   requiredItems:
@@ -23,4 +23,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   targetName: Crafting
+  targetObject: 6
   type: 0

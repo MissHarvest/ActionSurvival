@@ -23,4 +23,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   targetName: Artifact
+  targetObject: 10
   type: 0
