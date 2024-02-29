@@ -28,7 +28,8 @@ public class PlayerInventorySystem : InventorySystem
     {
         if (_itemDic.TryGetValue(itemData, out List<int> list) && list.Count > 0) //BJM
         {
-            return list[0];
+            if(list.Count > 0)
+                return list[0];
         }
         return -1;
     }

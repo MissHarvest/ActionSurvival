@@ -35,7 +35,7 @@ public class UIArmorSlotContainer : MonoBehaviour
 
     private void SetParts(UIArmorSlot armorSlotUI, int index)
     {
-        armorSlotUI.part = (ItemParts)index;
+        armorSlotUI.SetPart((ItemParts)index);
     }
 
     public void EquipArmor(QuickSlot quickSlot)
