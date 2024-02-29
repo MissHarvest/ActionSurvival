@@ -69,9 +69,10 @@ public class DayCycle
 
     IEnumerator StartDayCycle()
     {
-        while(true)
+        var obj = new WaitForSeconds(_eventInterval);
+        while (true)
         {
-            yield return new WaitForSeconds(_eventInterval);
+            yield return obj;
             FlowTime();
         }
     }

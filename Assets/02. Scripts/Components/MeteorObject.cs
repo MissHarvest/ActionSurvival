@@ -46,6 +46,13 @@ public class MeteorObject : MonoBehaviour
         }
     }
 
+    public void Fall(Vector3 start, float speed, RaycastHit hit)
+    {
+        Collider.enabled = true;
+        _projectile.Fire(start, Vector3.down, speed, hit.distance);
+        Destination = hit.point;
+    }
+
     public void Fire(Vector3 start, Vector3 direction, float speed, float maxDistance)
     {
         Collider.enabled = true;

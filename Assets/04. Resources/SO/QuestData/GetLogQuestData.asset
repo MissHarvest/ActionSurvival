@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetLogQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uC7A5\uC791\uC744 \uD68D\uB4DD\uD558\uC138\uC694."
-  questID: 5
+  canBeAddedWithoutPreQuests: 0
   preQuests:
   - {fileID: 11400000, guid: 943339e4a535326469f37be5fbdfe780, type: 2}
   requiredItems:
@@ -23,4 +23,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   targetName: TreeA
+  targetObject: 1
   type: 0

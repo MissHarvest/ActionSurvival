@@ -145,9 +145,10 @@ public class MonsterWave
             direction.y = 50;
             var playerPos = GameManager.Instance.Player.transform.position;
             RaycastHit hit;
-            if (Physics.BoxCast(playerPos + direction, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, 70.0f, 1 << 12))
+            if (Physics.BoxCast(playerPos + direction, Vector3.one * 0.5f, Vector3.down, out hit, Quaternion.identity, 70.0f))
             {
-                wavePoints.Push(hit.point);
+                if(hit.collider.gameObject.layer == 12)
+                    wavePoints.Push(hit.point);
             }
         }
     }

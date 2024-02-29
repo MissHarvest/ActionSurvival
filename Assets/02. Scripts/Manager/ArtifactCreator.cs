@@ -28,13 +28,18 @@ public class ArtifactCreator
         _data = Managers.Resource.GetCache<ArtifactData>("ArtifactData.data");
         _root = new GameObject("Artifact Root").transform;        
         Artifacts = new();
-        Load();
     }
 
     public void BindEvent()
     {
+        GameManager.DayCycle.OnStarted += OnDayStarted;
         GameManager.DayCycle.OnEveningCame += TryCreate;
         GameManager.Instance.OnSaveCallback += Save;
+    }
+
+    private void OnDayStarted(DayInfo info)
+    {
+        Load();
     }
 
     public void TryCreate()

@@ -46,10 +46,12 @@ public class UIQuest : UIBase
 
     private void SetFunction(Quest activeQuest,Tutorial tutorial)
     {
+        var targetObject = activeQuest.questSO.targetObject;
+        var targetName = GameManager.Instance.Player.Tutorial.GetTargetNameToString(targetObject);
         switch (activeQuest.questSO.type)
         {
             case QuestSO.QuestType.Finding:
-                if (activeQuest.questSO.targetName == string.Empty) return;
+                if (targetName == string.Empty) return;
                 tutorial.PathFinding(activeQuest);
                 break;
 
@@ -60,7 +62,7 @@ public class UIQuest : UIBase
 
             case QuestSO.QuestType.Using:
                 Debug.Log("Call using tutorial");// ���⿡ �߰������� �ݹ� �־, ����Ʈ Ŭ���..
-                tutorial.StartInvnetoryGuide(activeQuest.questSO.requiredItems[0].item);
+                tutorial.StartInventoryGuide(activeQuest.questSO.requiredItems[0].item);
                 break;
         }
     }

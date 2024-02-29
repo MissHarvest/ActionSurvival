@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetHammerQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uB9DD\uCE58\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 29
+  canBeAddedWithoutPreQuests: 0
   preQuests:
   - {fileID: 11400000, guid: e1cdeb553f9568642920a378ac9dbfb8, type: 2}
   requiredItems:
@@ -23,4 +23,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   targetName: Crafting
+  targetObject: 6
   type: 0

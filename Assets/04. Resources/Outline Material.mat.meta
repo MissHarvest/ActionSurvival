@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/04. Resources/Outline Material.mat.meta
 guid: c81745b39212411419adbb708b9c3a52
 NativeFormatImporter:
+========
+guid: c02115676f7269745a089f76ca6addc7
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> Develop1.1:Assets/Simple Fantasy GUI.meta
   externalObjects: {}
   mainObjectFileID: 2100000
   userData: 
