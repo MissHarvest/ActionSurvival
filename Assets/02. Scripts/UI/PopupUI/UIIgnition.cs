@@ -242,7 +242,15 @@ public class UIIgnition : UIPopup
             GameManager.Instance.Player.Inventory.TryAddItem(ignition.cookedFoodItemSlots[index].itemData, ignition.cookedFoodItemSlots[index].quantity);
             ignition.cookedFoodItemSlots[index].SubtractQuantity(ignition.cookedFoodItemSlots[index].quantity);
             OnUpdateQuantity(index);
-            cookingSlots[index].SetText("요리 슬롯");
+
+            if (ignition.recipeRequiredItemSlots[index].itemData == null)
+            {
+                cookingSlots[index].SetText("요리 슬롯");
+            }
+            else
+            {
+                cookingSlots[index].SetText("요리 대기");
+            }
         }
     }
 

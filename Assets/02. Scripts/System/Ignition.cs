@@ -61,6 +61,8 @@ public class Ignition : MonoBehaviour
             currentTimeRequiredToCook[i] = 0;
         }
 
+        Load();
+
         GameManager.Instance.OnSaveCallback += Save;
     }
 
@@ -120,10 +122,12 @@ public class Ignition : MonoBehaviour
         }
     }
 
-    public void OnStartCooking()
+    private void SetCookingSlotIndex()
     {
-        if (!startCooking || !haveFirewood) return;
-
+        if (recipeRequiredItemSlots[cookingSlotIndex].itemData != null)
+        {
+            return;
+        }
         if (Array.TrueForAll(currentTimeRequiredToCook, x => x == 0))
         {
             for (int i = 0; i < recipeRequiredItemSlots.Length; i++)
@@ -134,7 +138,14 @@ public class Ignition : MonoBehaviour
                     break;
                 }
             }
-        } 
+        }
+    }
+
+    public void OnStartCooking()
+    {
+        if (!startCooking || !haveFirewood) return;
+
+        SetCookingSlotIndex();
 
         foreach (var recipe in recipes)
         {
@@ -238,9 +249,28 @@ public class Ignition : MonoBehaviour
         OnUpdatedCount?.Invoke(firewoodStoreCount);
     }
 
+    private void Load()
+    {
+        if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"{gameObject.name}Ignition"))
+        {
+            Debug.LogWarning("TryLoadJsonToObject");
+            for (int i = 0; i < firewoodItemSlots.Length; i++)
+            {                
+                firewoodItemSlots[i].LoadData();
+            }
+            Debug.LogWarning("firewoodslotload");
+            for (int i = 0; i < recipeRequiredItemSlots.Length; i++)
+            {
+                recipeRequiredItemSlots[i].LoadData();
+                cookedFoodItemSlots[i].LoadData();
+            }
+            Debug.LogWarning("recipeRequiredItemSlotsLoad");
+        }
+    }
+
     private void Save()
     {
         var json = JsonUtility.ToJson(this);
-        SaveGame.CreateJsonFile("Ignition", json, SaveGame.SaveType.Runtime);
+        SaveGame.CreateJsonFile($"{gameObject.name}Ignition", json, SaveGame.SaveType.Runtime);
     }
 }
