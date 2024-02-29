@@ -1050,7 +1050,13 @@ MonoBehaviour:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bc0cfbd15c1da8446a87bd558384c08d
-    m_Address: SlimeMucus.data
+    m_Address: SlimeMucusItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc97d2b9c6847c944b99d4efece5316f
+    m_Address: MetalonHornItemData.data
     m_ReadOnly: 0
     m_SerializedLabels:
     - MainScene

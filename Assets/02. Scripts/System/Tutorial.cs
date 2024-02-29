@@ -12,8 +12,8 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private List<Quest> _activeQuests = new List<Quest>(); // 현재 활성화된 퀘스트 리스트
     private List<Vector3> artifactPositions = new List<Vector3>();
 
-    private bool isSummerQuestAdded = false;
-    private bool isWinterQuestAdded = false;
+    [SerializeField] private bool _isSummerQuestAdded = false;
+    [SerializeField] private bool _isWinterQuestAdded = false;
 
     public event Action OnActiveQuestsUpdated;
     private PathFinder _pathFinder;
@@ -142,15 +142,15 @@ public class Tutorial : MonoBehaviour
 
     public void OnAddSeasonQuestUpdated()
     {
-        if (GameManager.Season.IsFireIslandActive && !isSummerQuestAdded)
+        if (GameManager.Season.IsFireIslandActive && !_isSummerQuestAdded)
         {
             AddSeasonQuest("DestroyFireArtifactQuestData");
-            isSummerQuestAdded = true;
+            _isSummerQuestAdded = true;
         }
-        else if (GameManager.Season.IsIceIslandActive && !isWinterQuestAdded)
+        else if (GameManager.Season.IsIceIslandActive && !_isWinterQuestAdded)
         {
             AddSeasonQuest("DestroyIceArtifactQuestData");
-            isWinterQuestAdded = true;
+            _isWinterQuestAdded = true;
         }
     }
 
