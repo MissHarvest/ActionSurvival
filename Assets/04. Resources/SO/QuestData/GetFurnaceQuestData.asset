@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetFurnaceQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uD654\uB85C\uB97C \uC81C\uC791\uD558\uC138\uC694."
-  questID: 26
+  canBeAddedWithoutPreQuests: 0
   preQuests:
   - {fileID: 11400000, guid: dd28de99046b5574bb78512e8d81d908, type: 2}
   requiredItems:
@@ -23,4 +23,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   targetName: Usable
+  targetObject: 9
   type: 0

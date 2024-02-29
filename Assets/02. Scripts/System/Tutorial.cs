@@ -167,9 +167,10 @@ public class Tutorial : MonoBehaviour
     public void PathFinding(Quest quest)
     {
         var targetLayer = quest.questSO.targetLayer;
-        var targetName = quest.questSO.targetName;
+        var targetObject = quest.questSO.targetObject;
+        var targetName = GetTargetNameToString(targetObject);
 
-        if (targetName == "Artifact")
+        if (targetObject == QuestSO.TargetObject.Artifact)
         {
             artifactPositions.Clear();
 
@@ -199,7 +200,11 @@ public class Tutorial : MonoBehaviour
             var allHits = Physics.SphereCastAll(transform.position, 50.0f, Vector3.up, 0, targetLayer, QueryTriggerInteraction.Collide);
             var validHits = allHits.Where(hit =>
             {
-                if (targetLayer == LayerMask.GetMask("Resources"))
+                if (targetLayer == LayerMask.GetMask("Monster"))
+                {
+                    return true;
+                }
+                else if (targetLayer == LayerMask.GetMask("Resources"))
                 {
                     var targetTransform = hit.transform.parent;
                     if (targetTransform != null)
@@ -222,13 +227,48 @@ public class Tutorial : MonoBehaviour
             else
             {
                 var ui = Managers.UI.ShowPopupUI<UIWarning>();
-                var findObjectName = quest.questSO.requiredItems[0].item.displayName;
-                ui.SetWarning($"퀘스트 진행에 필요한 {findObjectName}가 주변에 존재하지 않습니다.");
+                var findObjectName = (targetObject == QuestSO.TargetObject.None)
+                    ? quest.questSO.requiredItems[0].item.displayName
+                    : GetEnumMapping(targetObject);
+
+                ui.SetWarning($"퀘스트 진행에 필요한 {findObjectName}이(가) 주변에 존재하지 않습니다.");
             }
         }
     }
 
-    public void StartInvnetoryGuide(ItemData itemData/* Craft/Inventory , target Item info */)
+    public string GetTargetNameToString(QuestSO.TargetObject targetName)
+    {
+        return targetName.ToString();
+    }
+
+    private string GetEnumMapping(QuestSO.TargetObject targetName)
+    {
+        switch (targetName)
+        {
+            case QuestSO.TargetObject.TreeA:
+                return "나무";
+            case QuestSO.TargetObject.Fruit:
+                return "사과나무";
+            case QuestSO.TargetObject.Stone:
+                return "돌멩이";
+            case QuestSO.TargetObject.Rock:
+                return "돌";
+            case QuestSO.TargetObject.Mushroom:
+                return "버섯";
+            case QuestSO.TargetObject.Crafting:
+                return "제작대";
+            case QuestSO.TargetObject.BonFire:
+                return "모닥불";
+            case QuestSO.TargetObject.Farm:
+                return "밭";
+            case QuestSO.TargetObject.Usable:
+                return "쓸만한 제작대";
+            default:
+                return string.Empty;
+        }
+    }
+
+    public void StartInventoryGuide(ItemData itemData/* Craft/Inventory , target Item info */)
     {
         StartCoroutine(GuideInventroy(itemData));
     }
@@ -236,6 +276,7 @@ public class Tutorial : MonoBehaviour
     IEnumerator GuideInventroy(ItemData itemData)
     {
         int index = _player.Inventory.GetIndexOfItem(itemData);
+
         if (index == -1)
         {
             var warning = Managers.UI.ShowPopupUI<UIWarning>();

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetBranchQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uB098\uBB47\uAC00\uC9C0\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
-  questID: 15
+  canBeAddedWithoutPreQuests: 0
   preQuests:
   - {fileID: 11400000, guid: c85e57a057909654c851d5519053d1cc, type: 2}
   requiredItems:
@@ -23,4 +23,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   targetName: Fruit
+  targetObject: 2
   type: 0

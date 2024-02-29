@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MineStoneQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uB3CC\uBA69\uC774\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
-  questID: 10
+  canBeAddedWithoutPreQuests: 0
   preQuests:
   - {fileID: 11400000, guid: d88b7317b33daa34293d07e9280acd25, type: 2}
   requiredItems:
@@ -23,4 +23,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   targetName: Rock
+  targetObject: 4
   type: 0

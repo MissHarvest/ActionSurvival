@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetBonFireQuestData
   m_EditorClassIdentifier: 
   questUIName: "\uBAA8\uB2E5\uBD88\uC744 \uC81C\uC791\uD558\uC138\uC694."
-  questID: 11
+  canBeAddedWithoutPreQuests: 0
   preQuests:
   - {fileID: 11400000, guid: 969d6bb569150a54bb82e791f6c013c4, type: 2}
   - {fileID: 11400000, guid: 558394e37be806943a6dba1552de5b2d, type: 2}
@@ -24,4 +24,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   targetName: Crafting
+  targetObject: 6
   type: 0
