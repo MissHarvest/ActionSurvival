@@ -46,6 +46,10 @@ public class UITutorialArrow : UIPopup
     {
         if (!gameObject.activeSelf) return;
         Get<GameObject>((int)GameObjects.Arrow).transform.Rotate(Vector3.up, 3.0f);
+        if(Input.GetMouseButtonDown(0))
+        {
+            Managers.UI.ClosePopupUI(this);
+        }
     }
 
     public void ActivateArrow(Vector3 pos, Vector2 offset)

@@ -3,7 +3,6 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class TemperatureManager
 {
@@ -12,18 +11,19 @@ public class TemperatureManager
 
     private Island _iceIsland;
     private Island _fireIsland;
-
+    private float[] _temperatureByTime = new float[3] { 8.0f, 3.0f, 0.0f };
     public event Action OnChanged;
 
-    public void Init(GameManager gameManager)
+    public void Init()
     {
-        OnMorningCame();
-        _iceIsland = gameManager.IceIsland;
-        _fireIsland = gameManager.FireIsland;
-
+        _iceIsland = GameManager.Instance.IceIsland;
+        _fireIsland = GameManager.Instance.FireIsland;
         _influenceCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+    }
 
-        // 시간대 콜백
+    public void BindEvent()
+    {
+        GameManager.DayCycle.OnStarted += OnTimeInitialized;
         GameManager.DayCycle.OnMorningCame += OnMorningCame;
         GameManager.DayCycle.OnEveningCame += OnEveningCame;
         GameManager.DayCycle.OnNightCame += OnNightCame;
@@ -54,18 +54,28 @@ public class TemperatureManager
         OnChanged?.Invoke();
     }
 
+    public void OnTimeInitialized(DayInfo day)
+    {
+        SetEnviromentTemperature((int)day.zone);
+    }
+
     private void OnMorningCame()
     {
-        _environmentTemperature = 8f;
+        SetEnviromentTemperature(0);
     }
 
     private void OnEveningCame()
     {
-        _environmentTemperature = 3f;
+        SetEnviromentTemperature(1);
     }
 
     private void OnNightCame()
     {
-        _environmentTemperature = 0f;
+        SetEnviromentTemperature(2);
+    }
+
+    private void SetEnviromentTemperature(int timezone)
+    {
+        _environmentTemperature = _temperatureByTime[timezone];
     }
 }

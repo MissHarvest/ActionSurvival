@@ -46,8 +46,7 @@ public struct ItemSlot
 
     public int AddQuantity(int amount)
     {
-        this.quantity += amount;
-        Debug.Log($"[Max Stack Count] {itemData.MaxStackCount}");
+        this.quantity += amount;        
         var remain = this.quantity > itemData.MaxStackCount ? this.quantity - itemData.MaxStackCount : 0;
         this.quantity -= remain;
         return remain;
@@ -69,7 +68,6 @@ public struct ItemSlot
     {
         if (itemName == string.Empty) return;
         var path = $"{itemName}.data";
-        Debug.Log($"[{path}] Finding");
         itemData = Managers.Resource.GetCache<ItemData>(path);
     }
 

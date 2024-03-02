@@ -1,7 +1,4 @@
-using OpenCover.Framework.Model;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class UsableMonsterSpawnPoints
@@ -23,12 +20,13 @@ public class UsableMonsterSpawnPoints
 
     private void Load()
     {
-        if(SaveGame.TryLoadJsonFile(SaveGame.SaveType.Compile, _savePath, out SaveArray2 data2))
+        var data = Managers.Resource.GetCache<TextAsset>("UsableMonsterSpawnPoints.data");
+        if (data == null) return;
+        var data2 = JsonUtility.FromJson<SaveArray2>(data.text);
+
+        for (int i = 0; i < data2._serailList.Count; ++i)
         {
-            for (int i = 0; i < data2._serailList.Count; ++i)
-            {
-                _usablePointGroup.Add(data2._serailList[i]._serailList.ToArray());
-            }
+            _usablePointGroup.Add(data2._serailList[i]._serailList.ToArray());
         }
     }
 }

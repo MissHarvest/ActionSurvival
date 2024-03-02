@@ -16,7 +16,6 @@ public class QuickSlotSystem : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("QuickSystem Awake");
         for (int i = 0; i < capacity; ++i)
         {
             _slots[i] = new QuickSlot();
@@ -29,7 +28,6 @@ public class QuickSlotSystem : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("QuickSystem Start");
         _player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
@@ -49,7 +47,7 @@ public class QuickSlotSystem : MonoBehaviour
         OnUpdated?.Invoke(index, slot.itemSlot);
         OnRegisted?.Invoke(slot);
 
-        if (index == _indexInUse)
+        if (index == _indexInUse && _slots[index].itemSlot.itemData is WeaponItemData)
         {
             QuickUse(_indexInUse);
         }
@@ -62,6 +60,9 @@ public class QuickSlotSystem : MonoBehaviour
         {
             if (_slots[i].itemSlot.itemData != null && _slots[i].targetIndex == index)
             {
+                if (_player.StateMachine.IsAttackState && _indexInUse == i)
+                    return;
+
                 _slots[i].itemSlot.SetRegist(false);
                 OnUnRegisted?.Invoke(_slots[i]);
                 _slots[i].Clear();
@@ -75,6 +76,7 @@ public class QuickSlotSystem : MonoBehaviour
     private void UnRegist(int index, bool indexInUseStay)
     {
         if (_slots[index].itemSlot.itemData == null) return;
+
         _slots[index].itemSlot.SetRegist(false);
         OnUnRegisted?.Invoke(_slots[index]);
         _slots[index].Clear();
@@ -104,10 +106,10 @@ public class QuickSlotSystem : MonoBehaviour
         
         _indexInUse = index;
         _player.ItemUsageHelper.Use(_slots[index].targetIndex);
-        if (_slots[index].itemSlot.itemData is ToolItemData)
-        {
-            _indexInUse = index;
-        }        
+        //if (_slots[index].itemSlot.itemData is ToolItemData)
+        //{
+        //    _indexInUse = index;
+        //}
     }
 
     private void QuickUse()
@@ -156,7 +158,7 @@ public class QuickSlotSystem : MonoBehaviour
                 _slots[i].itemSlot.LoadData();
             }
 
-            if (_indexInUse != -1 && _slots[_indexInUse].itemSlot.itemData is ToolItemData)
+            if (_indexInUse != -1 && _slots[_indexInUse].itemSlot.itemData is WeaponItemData)
             {
                 QuickUse();
             }

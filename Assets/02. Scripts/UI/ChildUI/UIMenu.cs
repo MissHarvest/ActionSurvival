@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -67,15 +63,8 @@ public class UIMenu : UIBase
         var rect = go.GetComponent<RectTransform>();
 
         var arrowUI = Managers.UI.ShowPopupUI<UITutorialArrow>();
+        if (arrowUI == null) return;
         arrowUI.ActivateArrow(go.transform.position, new Vector2(0, rect.sizeDelta.y));
-        go.BindEvent((x) =>
-        {
-            // arrow UI 가 닫히는 것과 CraftButton 으로 UI 가 열리는 것의 순서가 어떻게 정해질까
-            Managers.UI.ClosePopupUI(arrowUI);
-
-            var evtHandler = Utility.GetOrAddComponent<UIEventHandler>(go);
-            evtHandler.OnPointerDownEvent = null;
-        }, UIEvents.PointerDown);
     }
 
     public void ShowMenu()

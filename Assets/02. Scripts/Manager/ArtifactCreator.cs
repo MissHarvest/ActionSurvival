@@ -23,13 +23,22 @@ public class ArtifactCreator
     private ArtifactData _data;
     public HashSet<Artifact> Artifacts { get; private set; }
 
-    public ArtifactCreator(GameManager manager)
+    public void Init()
     {
         _data = Managers.Resource.GetCache<ArtifactData>("ArtifactData.data");
-        _root = new GameObject("Artifact Root").transform;
-        GameManager.DayCycle.OnEveningCame += TryCreate;
+        _root = new GameObject("Artifact Root").transform;        
         Artifacts = new();
-        manager.OnSaveCallback += Save;
+    }
+
+    public void BindEvent()
+    {
+        GameManager.DayCycle.OnStarted += OnDayStarted;
+        GameManager.DayCycle.OnEveningCame += TryCreate;
+        GameManager.Instance.OnSaveCallback += Save;
+    }
+
+    private void OnDayStarted(DayInfo info)
+    {
         Load();
     }
 
@@ -92,6 +101,7 @@ public class ArtifactCreator
         var obj = UnityEngine.Object.Instantiate(_data.Prefab).GetComponent<Artifact>();
         obj.SetInfo(island, spawnPosition, _root, _data);
         obj.RaiseInfluence();
+        obj.SpawnOverflowedMonster();
         Artifacts.Add(obj);
         obj.OnDestroy += x => Artifacts.Remove(x);
     }

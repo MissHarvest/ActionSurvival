@@ -156,6 +156,7 @@ MonoBehaviour:
   targetLayers:
     serializedVersion: 2
     m_Bits: 512
+  projectileSpeed: 10
 --- !u!195 &7285319032723581233
 NavMeshAgent:
   m_ObjectHideFlags: 0

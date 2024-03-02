@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4146233390708876985}
   - component: {fileID: 527948081070969016}
   - component: {fileID: 1019692511563897889}
+  - component: {fileID: 7564309469192169165}
   m_Layer: 0
   m_Name: '@PlayerAudioListener'
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &527948081070969016
 MonoBehaviour:
@@ -57,3 +58,20 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6393497816493754788}
   m_Enabled: 1
+--- !u!114 &7564309469192169165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6393497816493754788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7a5a062206ae649942e32ac39b5038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isPlayerTarget: 1
+  _rotationX: 1
+  _rotationY: 1
+  _rotationZ: 1
+  _target: {fileID: 0}

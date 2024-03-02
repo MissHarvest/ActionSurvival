@@ -26,7 +26,10 @@ public class MapIlluminator : MonoBehaviour
     private VerticesArray[] _verticesArray;
     [SerializeField] private ColorsArray[] _colorsArray;
 
+    private Vector3 _lastUpdatedPlayerPosition;
+
     private float _shadowRadius = 250f;
+    private float _updateThreshold = 3f;
     private int _numPlanesX = 11;
     private int _numPlanesZ = 3;
     private float _radiusCircle { get { return _shadowRadius; } }
@@ -71,11 +74,28 @@ public class MapIlluminator : MonoBehaviour
     private void Start()
     {
         _player = GameManager.Instance.Player.transform;
+        _lastUpdatedPlayerPosition = _player.position;
         Load();
+        UpdateMapIllumination();
         GameManager.Instance.OnSaveCallback += Save;
     }
 
     private void Update()
+    {
+        CheckDistance(_player.position);
+    }
+
+    private void CheckDistance(Vector3 newPosition)
+    {
+        float distance = Vector3.Distance(newPosition, _lastUpdatedPlayerPosition);
+        if (distance >= _updateThreshold)
+        {
+            UpdateMapIllumination();
+            _lastUpdatedPlayerPosition = newPosition;
+        }
+    }
+
+    private void UpdateMapIllumination()
     {
         Ray ray = new Ray(_player.position, Vector3.up);
         RaycastHit hit;

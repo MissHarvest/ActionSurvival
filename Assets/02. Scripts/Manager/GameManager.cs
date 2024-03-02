@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -20,16 +16,16 @@ public class GameManager : MonoBehaviour
 
     private static GameManager GetInstance()
     {
-        if(_instance == null )
+        if (_instance == null)
         {
             _instance = FindObjectOfType<GameManager>();
-            if(_instance == null)
+            if (_instance == null)
             {
                 var go = new GameObject("[Singleton] GameManager");
                 _instance = go.AddComponent<GameManager>();
             }
         }
-        return  _instance;
+        return _instance;
     }
     #endregion
 
@@ -40,7 +36,7 @@ public class GameManager : MonoBehaviour
     private Season _season = new();
     private Disaster _disaster = new();
     private ObjectManager _objectManager = new();
-    private ArtifactCreator _artifactCreator;
+    private ArtifactCreator _artifactCreator = new();
     private WorldNavMeshBuilder _worldNavmeshBuilder;
     private ResourceObjectSpawner _resourceObjectSpawner = new();
     private PlayerHelper _playerHelper = new();
@@ -72,33 +68,51 @@ public class GameManager : MonoBehaviour
     public bool IsRunning { get; private set; } = false;
     #endregion
 
+    private int _saveInterval = 12;
+    private int _saveStack = 0;
     public event Action OnSaveCallback;
 
-    public void Init()
+    public void StartGame()
     {
         Player.Load();
         Player.ConditionHandler.HP.OnBelowedToZero += (() => { IsRunning = false; });
-
-        MonsterWave = new MonsterWave();
-
-        DayCycle.Init();
-        DayCycle.OnNightCame += () => { MonsterWave.Start(UnityEngine.Random.Range(0, 60f)); };
-        DayCycle.OnMorningCame += SaveCallback;
-        DayCycle.OnDateUpdated += Season.Update;
-        Season.Initialize(DayCycle.Date);
-        _disaster.Init(Player);
-
-        Architecture.Init();
-
-        _resourceObjectSpawner.Initialize();
-        
         InitIslands();
-        _artifactCreator = new(this);
-        Temperature.Init(this);
-        _playerHelper.Init();
-        Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
+        InitSystems();
+        BindEvent();
 
+        Managers.Sound.PlayIslandBGM(Player.StandingIslandName);
+        var go = new GameObject();
+        go.AddComponent<FrameCounter>();
+
+        DayCycle.Start();
         IsRunning = true;
+    }
+
+    private void InitSystems()
+    {
+        MonsterWave = new();
+        _disaster.Init();
+        _daycycle.Init();
+        _season.Init();
+        _playerHelper.Init();
+        _resourceObjectSpawner.Init();
+        _artifactCreator.Init();
+        _temperature.Init();
+        _architecture.Init();
+    }
+
+    private void BindEvent()
+    {
+        _disaster.BindEvent();
+        _season.BindEvent();
+        _artifactCreator.BindEvent();
+        _playerHelper.BindEvent();
+        _temperature.BindEvent();
+        _architecture.BindEvent();
+        _daycycle.BindEvent();
+        MonsterWave.BindEvent();
+
+        DayCycle.OnTimeUpdated += SaveCallback;
     }
 
     public void GenerateWorldAsync(Action<float, string> progressCallback = null, Action completedCallback = null)
@@ -128,6 +142,22 @@ public class GameManager : MonoBehaviour
     private void SaveCallback()
     {
         if (!IsRunning) return;
+        ++_saveStack;
+        if (_saveStack / _saveInterval == 1)
+        {
+            OnSaveCallback?.Invoke();
+            _saveStack = 0;
+        }
+    }
+
+    public void SaveGameData()
+    {
+        if (!IsRunning) return;
         OnSaveCallback?.Invoke();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveGameData();
     }
 }

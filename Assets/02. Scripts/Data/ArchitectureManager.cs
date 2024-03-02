@@ -46,7 +46,10 @@ public class ArchitectureManager
                 }
             }
         }
+    }
 
+    public void BindEvent()
+    {
         GameManager.Instance.OnSaveCallback += Save;
     }
 
@@ -100,10 +103,18 @@ public class ArchitectureManager
 
     public void Remove(BuildableObject architecture)
     {
+        if (architecture.gameObject.name.Contains("(Clone")) return;
+
         var data = architecture.gameObject.name.Split("-");
         var name = data[0];
         var number = data[1];
 
-        architectures[name].Remove(architecture.gameObject);
+        if (architectures.TryGetValue(name, out List<GameObject> list))
+        {
+            if(list.Contains(architecture.gameObject))
+            {
+                list.Remove(architecture.gameObject);
+            }
+        }
     }
 }

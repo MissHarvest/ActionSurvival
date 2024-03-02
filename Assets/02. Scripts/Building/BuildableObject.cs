@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,6 +27,7 @@ public class BuildableObject : MonoBehaviour, IHit, IDestructible
 
     public event Action OnRenamed;
     public event Action<float> OnHit;
+    public event Action OnDestroyed;
 
     [field:SerializeField] public Condition HP { get; private set; }
 
@@ -71,6 +73,7 @@ public class BuildableObject : MonoBehaviour, IHit, IDestructible
 
     public void Build()
     {
+        GameManager.Architecture.Add(this);
         _collider.isTrigger = false;
         _rigidbody.useGravity = true;
         StopCoroutine(StartBuild());
@@ -85,10 +88,10 @@ public class BuildableObject : MonoBehaviour, IHit, IDestructible
 
     private void Start()
     {
-        if (gameObject.name.Contains("(Clone)"))
-        {
-            GameManager.Architecture.Add(this);
-        }
+        //if (gameObject.name.Contains("(Clone)"))
+        //{
+        //    GameManager.Architecture.Add(this);
+        //}
         OnRenamed?.Invoke();
     }
 
@@ -96,6 +99,7 @@ public class BuildableObject : MonoBehaviour, IHit, IDestructible
     {
         GameManager.Architecture.Remove(this);
         StopCoroutine(StartBuild());
+        OnDestroyed?.Invoke();
         Destroy(gameObject);
     }
 

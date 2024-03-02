@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static Tutorial;
 
 // 2024. 01. 29 Byun Jeongmin
 [CreateAssetMenu(fileName = "NewQuest", menuName = "Quest/New Quest")]
@@ -10,6 +11,21 @@ public class QuestSO : ScriptableObject
         Finding,
         Crafting,
         Using,
+    }
+
+    public enum TargetObject
+    {
+        None,
+        TreeA,
+        Fruit,
+        Stone,
+        Rock,
+        Mushroom,
+        Crafting,
+        BonFire,
+        Farm,
+        Usable,
+        Artifact
     }
 
     public string questUIName;
@@ -26,6 +42,6 @@ public class QuestSO : ScriptableObject
 
     [Header("Tutorial")]
     public LayerMask targetLayer;
-    public string targetName;
+    public TargetObject targetObject;
     public QuestType type;
 }

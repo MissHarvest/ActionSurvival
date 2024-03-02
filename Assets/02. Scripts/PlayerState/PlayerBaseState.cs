@@ -73,9 +73,6 @@ public class PlayerBaseState : IState
         if (Physics.Raycast(_stateMachine.Player.transform.position, Vector3.down, out hit, 0.1f, 1 | 1 << 12 | 1 << 15))
             movementDirection = Vector3.ProjectOnPlane(movementDirection, hit.normal).normalized;
 
-        Debug.DrawRay(_stateMachine.Player.transform.position, movementDirection, Color.red);
-        Debug.DrawRay(hit.point, hit.normal, Color.black);
-
         float movementSpeed = GetMovementSpeed();
         _stateMachine.Player.Controller.Move(
             ((movementDirection * movementSpeed) +
@@ -120,9 +117,13 @@ public class PlayerBaseState : IState
         input.PlayerActions.QuickSlot.started += OnQuickUseStarted;
         input.PlayerActions.Inventory.started += OnInventoryShowAndHide;
         input.PlayerActions.Recipe.started += OnRecipeShowAndHide;
+        input.PlayerActions.Minimap.started += OnMinimapShowAndHide;
 
         input.PlayerActions.Esc.started += PauseGame;
         _buildingSystem.OnBuildRequested += OnBuildRequested;
+
+        _stateMachine.Player.ToolSystem.OnEquip += OnChangedEquipTool;
+        _stateMachine.Player.ToolSystem.OnUnEquip += OnChangedEquipTool;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
@@ -135,9 +136,35 @@ public class PlayerBaseState : IState
         input.PlayerActions.QuickSlot.started -= OnQuickUseStarted;
         input.PlayerActions.Inventory.started -= OnInventoryShowAndHide;
         input.PlayerActions.Recipe.started -= OnRecipeShowAndHide;
+        input.PlayerActions.Minimap.started -= OnMinimapShowAndHide;
 
         input.PlayerActions.Esc.started -= PauseGame;
         _buildingSystem.OnBuildRequested -= OnBuildRequested;
+
+        _stateMachine.Player.ToolSystem.OnEquip -= OnChangedEquipTool;
+        _stateMachine.Player.ToolSystem.OnUnEquip -= OnChangedEquipTool;
+    }
+
+    protected virtual void OnChangedEquipTool(QuickSlot quickSlot)
+    {
+        WeaponItemData hand = quickSlot.itemSlot.itemData as WeaponItemData;
+
+        if (hand != null)
+        {
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwoHandedToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped);
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwinToolParameterHash, hand.isTwinTool && quickSlot.itemSlot.equipped);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipDefaultToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped || hand.isTwinTool && quickSlot.itemSlot.equipped ? 0f : 1f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwoHandedToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped ? 1f : 0f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwinToolParameterHash, hand.isTwinTool && quickSlot.itemSlot.equipped ? 1f : 0f);
+        }
+        else
+        {
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwoHandedToolParameterHash, false);
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwinToolParameterHash, false);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipDefaultToolParameterHash, 1f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwoHandedToolParameterHash, 0f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwinToolParameterHash, 0f);
+        }
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
@@ -197,6 +224,20 @@ public class PlayerBaseState : IState
         else
         {
             Managers.UI.ShowPopupUI<UIRecipe>();
+        }
+    }
+
+    private void OnMinimapShowAndHide(InputAction.CallbackContext context)
+    {
+        var ui = Managers.UI.GetPopupUI<UIMinimap>();
+
+        if (ui.gameObject.activeSelf)
+        {
+            Managers.UI.ClosePopupUI(ui);
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UIMinimap>();
         }
     }
 

@@ -30,8 +30,8 @@ public class PlayerHelper
     private Dictionary<int, TipData> _tipDic = new();
     private Dictionary<(int, int), Tip> _datePairKeyword = new();
     private static int Morning = 0;
-    private static int Evening = 31;
-    private static int Night = 37;
+    private static int Evening = 37;
+    private static int Night = 49;
 
     public void Init()
     {
@@ -39,9 +39,12 @@ public class PlayerHelper
         _datePairKeyword.TryAdd((1, Evening), Tip.MonsterWave);
         _datePairKeyword.TryAdd((4, Morning), Tip.Summer);
         _datePairKeyword.TryAdd((4, Evening), Tip.LavaArtifact);
-        // 여름 끝나는 것
-        // 겨울 끝나는 것
-        // 겨울 시작하는 것
+        _datePairKeyword.TryAdd((12, Morning), Tip.Winter);
+        _datePairKeyword.TryAdd((12, Evening), Tip.GlacierArtifact);
+    }
+
+    public void BindEvent()
+    {        
         GameManager.DayCycle.OnUpdated += OnTimeUpdated;
         GameManager.Instance.Player.ConditionHandler.Hunger.OnBelowedToZero += OnHungerZero;
         GameManager.Instance.Player.ConditionHandler.Hunger.OnRecovered += OnHungerRecovered;

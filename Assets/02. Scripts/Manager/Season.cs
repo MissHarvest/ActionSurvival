@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-//using static UnityEditorInternal.VersionControl.ListControl;
 
 // 2024-02-14 WJY
 public class Season
@@ -21,10 +20,20 @@ public class Season
     public bool IsFireIslandActive => _value >= Data.FireIslandActivateThreshold;
     public bool IsIceIslandActive => _value <= Data.IceIslandActivateThreshold;
 
-    public void Initialize(int date)
+    public void Init()
     {
         Data = Managers.Resource.GetCache<SeasonData>("SeasonData.data");
-        Update(date);
+    }
+
+    public void BindEvent()
+    {
+        GameManager.DayCycle.OnStarted += Update;
+        GameManager.DayCycle.OnDateUpdated += Update;
+    }
+
+    private void Update(DayInfo dayinfo)
+    {
+        Update(dayinfo.date);
     }
 
     public void Update(int date)
@@ -37,6 +46,7 @@ public class Season
         {
             _lastState = currentState;
             OnSeasonChanged?.Invoke(currentState);
+            UnityEngine.Debug.Log($"[Season Changed]{currentState.ToString()}");
         }
     }
 

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1999198218867128357}
   - component: {fileID: 5291787235389981194}
+  - component: {fileID: 858492791223619918}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -47,6 +48,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5f464e0652702748b86be7291843595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &858492791223619918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280263763435499951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13694b3d5358c1f40b04f0e8af032f3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 423278244797550588, guid: aab8bae050afe1142bd35c0489849e52, type: 3}
+  _distribution: 0.2
+  _maxRange: 1.5
+  _minRange: 1
+  _maxCreateCount: 1
 --- !u!1 &2552736102038371157
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,6 +241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8696299640212205851}
   - component: {fileID: 7665129486934080521}
+  - component: {fileID: 7754575406448383084}
   m_Layer: 17
   m_Name: MinimapPoint
   m_TagString: Untagged
@@ -239,7 +258,7 @@ Transform:
   m_GameObject: {fileID: 4543782857121657013}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1999198218867128357}
@@ -286,8 +305,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8f66c60fb167a0f4299a9865ef4badc9, type: 3}
-  m_Color: {r: 0.4740605, g: 1, b: 0.45660377, a: 1}
+  m_Sprite: {fileID: 21300000, guid: de3410f85f18e774794d77ea68a08aca, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -297,6 +316,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7754575406448383084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543782857121657013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7a5a062206ae649942e32ac39b5038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isPlayerTarget: 0
+  _rotationX: 0
+  _rotationY: 1
+  _rotationZ: 0
+  _target: {fileID: 0}
 --- !u!1 &5143830225490225162
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +345,6 @@ GameObject:
   - component: {fileID: 189976153243750345}
   - component: {fileID: 6277494406164256111}
   - component: {fileID: 9154797355837263597}
-  - component: {fileID: 4606426415804028703}
   - component: {fileID: 5697029715808203273}
   m_Layer: 6
   m_Name: gathering
@@ -426,23 +461,6 @@ MonoBehaviour:
         m_RotationOrder: 4
   _toolDurabilityReduceAmount: 1
   _interactTime: 3
---- !u!114 &4606426415804028703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5143830225490225162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13694b3d5358c1f40b04f0e8af032f3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefab: {fileID: 423278244797550588, guid: aab8bae050afe1142bd35c0489849e52, type: 3}
-  _distribution: 0.25
-  _maxRange: 1.5
-  _minRange: 1
-  _maxCreateCount: 1
 --- !u!208 &5697029715808203273
 NavMeshObstacle:
   m_ObjectHideFlags: 0

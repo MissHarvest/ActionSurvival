@@ -51,7 +51,7 @@ public class UIWarning : UIPopup
     IEnumerator HideAfterSec(float sec)
     {
         yield return new WaitForSeconds(sec);
-        Managers.UI.ClosePopupUI(this);
+        Close();
     }
 
     private void PrintWarning(string warning)
@@ -90,26 +90,6 @@ public class UIWarning : UIPopup
         });
     }
 
-    public void SetWarning(string warning, Type type, UnityAction yesAction, bool once)
-    {
-        if(once)
-        {
-            //if(!_onceWarnings.Contains(warning))
-            //{
-            //    AddWarning(warning);
-            //    SetWarning(warning, type, yesAction);
-            //    StartCoroutine(Save());
-            //}
-            //else
-            //{
-            //    Close();
-            //}
-        }
-        else
-        {
-            //SetWarning(warning, yesAction);
-        }
-    }
 
     private void OnDisable()
     {

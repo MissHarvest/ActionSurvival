@@ -20,15 +20,17 @@ public class Disaster : IAttack
     private float _meteorTemp = 20.0f;
     private float _blizardTemp = -10.0f;
     private float _damage = 10.0f;
-
+    private WaitForSeconds _interval;
     private System.Action _fallDisaster;
     private bool _active = false;
     private Vector3[] _points;
 
-    public void Init(Player player)
+    public void Init()
     {
+        _points = new Vector3[10];
+        _interval = new WaitForSeconds(0.25f);
+
         ObjectPoolContainer = new GameObject("@ObjectPoolContainer");
-        _target = player.transform;
         _meteorPrefab = Managers.Resource.GetCache<GameObject>("TerrorBringerMeteor.prefab");
         _meteores = new ObjectPool<MeteorObject>(CreateMeteor, OnGetMeteor, OnReleaseMeteor, OnDestroyMeteor, maxSize: 30);
 
@@ -37,11 +39,14 @@ public class Disaster : IAttack
 
         _indicatorPrefab = Managers.Resource.GetCache<GameObject>("CircleAttackIndicator.prefab");
         _indicatores = new ObjectPool<AttackIndicatorCircle>(CreateIndicator, OnGetIndicator, OnReleaseIndicator, OnDestroyIndicator, maxSize: 30);
+    }
 
+    public void BindEvent()
+    {
+        _target = GameManager.Instance.Player.transform;
+        
         GameManager.DayCycle.OnTimeUpdated += Fall;
         GameManager.Season.OnSeasonChanged += OnSeasonChanged;
-
-        _points = new Vector3[10];
     }
 
     private void OnSeasonChanged(Season.State state)
@@ -98,15 +103,18 @@ public class Disaster : IAttack
 
         for (int i = 0; i < point.Length; ++i)
         {
-            yield return new WaitForSeconds(0.25f);
-            var meteor = pool.Get();
-            meteor.Fall(point[i] + Vector3.up * 40.0f, 25);
-
-            var indicator = _indicatores.Get();
-            if (meteor.Collider is SphereCollider collider)
+            yield return _interval;
+            if (Physics.Raycast(point[i] + Vector3.up * 40.0f, Vector3.down, out RaycastHit hit, 100.0f, 1 << 12))
             {
-                indicator.Activate(meteor.Destination, meteor.Speed, meteor.MaxDistance, collider);
-            }
+                var meteor = pool.Get();
+                meteor.Fall(point[i] + Vector3.up * 40.0f, 25, hit);
+
+                var indicator = _indicatores.Get();
+                if (meteor.Collider is SphereCollider collider)
+                {
+                    indicator.Activate(meteor.Destination, meteor.Speed, meteor.MaxDistance, collider);
+                }
+            }            
         }
     }
 

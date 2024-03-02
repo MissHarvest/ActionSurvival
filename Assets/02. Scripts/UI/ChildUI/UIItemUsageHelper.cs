@@ -36,9 +36,8 @@ public class UIItemUsageHelper : UIItemHelper
     public override void ShowOption(ItemSlot selectedSlot, Vector3 position)
     {
         Clear();
-        gameObject.SetActive(true);
-        SetItemName(selectedSlot.itemData.displayName);
 
+        SetItemName(selectedSlot.itemData.displayName);
         Container.transform.position = position;
         
         switch (selectedSlot.itemData)
@@ -63,7 +62,7 @@ public class UIItemUsageHelper : UIItemHelper
         }
         ShowButtonByEnum(Functions.Destroy);
 
-        // Set My Size
+        gameObject.SetActive(true);
     }
 
     public void HighLight(Functions function)
@@ -74,15 +73,9 @@ public class UIItemUsageHelper : UIItemHelper
 
         var arrowUI = Managers.UI.ShowPopupUI<UITutorialArrow>();
         var pos = go.transform.position;
+        if (arrowUI == null) return;
 
         arrowUI.ActivateArrow(pos, new Vector2(xOffset, 0));
-        go.BindEvent((x) =>
-        {
-            Managers.UI.ClosePopupUI(arrowUI);
-
-            var evtHandler = Utility.GetOrAddComponent<UIEventHandler>(go);
-            evtHandler.OnPointerDownEvent = null;
-        }, UIEvents.PointerDown);
     }
 
     #region ShowButton

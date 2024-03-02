@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Unity.Jobs;
 using UnityEngine;
@@ -33,7 +34,7 @@ public class Island
     private GameObject _bossMonster;
     private MonsterGroup[] _monsterGroups = new MonsterGroup[3];    
     private List<SpawnPoint> _spawnablePoints = new List<SpawnPoint>();
-    public List<GameObject> DiedMonsters = new List<GameObject>(); // >> 오브젝 풀링
+    private List<GameObject> _diedMonsters = new List<GameObject>(); // >> 오브젝 풀링
     
     [SerializeField] private float _temperature;
     [SerializeField] private float _influence;
@@ -105,14 +106,19 @@ public class Island
     private void RespawnMonsters()
     {
         // [ Do ] // Set Monster RespawnDuration. (day)
-        if (DiedMonsters.Count == 0) return;
-
-        for (int i = 0; i < DiedMonsters.Count; ++i)
+        if (_diedMonsters.Count == 0) return;
+        
+        for (int i = 0; i < _diedMonsters.Count; ++i)
         {
-            DiedMonsters[i].SetActive(true);
-            DiedMonsters[i].GetComponent<Monster>().Respawn();
+            _diedMonsters[i].SetActive(true);
+            _diedMonsters[i].GetComponent<Monster>().Respawn();
         }
-        DiedMonsters.Clear();
+        _diedMonsters.Clear();
+    }
+
+    public void Release(GameObject gameObject)
+    {
+        _diedMonsters.Add(gameObject);
     }
 
     #region SpawnPoint
@@ -240,7 +246,7 @@ public class Island
     private void LoopFixMonsterSpawnPoint(bool[,] points, int field)
     {
         UsableMonsterSpawnPoints _usablePoints = new();
-
+        /*
         FixMonsterSpawnPointJob job = new FixMonsterSpawnPointJob(
             points,
             field,
@@ -252,20 +258,21 @@ public class Island
         var handle = job.Schedule();
         handle.Complete();
 
-        Debug.Log($"[While Count]{job.whileCount[0]}");
+        UnityEngine.Debug.Log($"[While Count]{job.whileCount[0]}");
 
         var result = job.GetResult();
         if (result[0] == Vector3.zero)
         {
             result = _usablePoints.Get();
         }
-
+        */
+        var result = _usablePoints.Get();
         for (int i = 0; i < result.Length; ++i)
         {
             _spawnablePoints.Add(new SpawnPoint(
                 result[i] - _islandSO.Property.Offset));
         }
-        job.whileCount.Dispose();
+        //job.whileCount.Dispose();
     }
 
     private void SetSpawnPointRank()
@@ -312,7 +319,9 @@ public class Island
 
     public void Load()
     {
-        SaveGameUsingFirebase.LoadFromFirebase<Island>(Name, this);
+        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, Name);
+        Stopwatch watch = new();
+        watch.Start();
         CheckSpawnablePoint();
         CreateMonsters();
         CreateBossMonster();

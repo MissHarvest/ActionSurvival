@@ -20,7 +20,6 @@ public class MonsterWeapon : MonoBehaviour
     {
         Collider.isTrigger = true;        
         Collider.enabled = _projectile != null;
-        Debug.Log($"{Collider.enabled} /{_projectile != null}");
         gameObject.layer = 10;
     }
 
