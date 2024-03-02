@@ -243,29 +243,19 @@ public class Tutorial : MonoBehaviour
 
     private string GetEnumMapping(QuestSO.TargetObject targetName)
     {
-        switch (targetName)
+        return targetName switch
         {
-            case QuestSO.TargetObject.TreeA:
-                return "나무";
-            case QuestSO.TargetObject.Fruit:
-                return "사과나무";
-            case QuestSO.TargetObject.Stone:
-                return "돌멩이";
-            case QuestSO.TargetObject.Rock:
-                return "돌";
-            case QuestSO.TargetObject.Mushroom:
-                return "버섯";
-            case QuestSO.TargetObject.Crafting:
-                return "제작대";
-            case QuestSO.TargetObject.BonFire:
-                return "모닥불";
-            case QuestSO.TargetObject.Farm:
-                return "밭";
-            case QuestSO.TargetObject.Usable:
-                return "쓸만한 제작대";
-            default:
-                return string.Empty;
-        }
+            QuestSO.TargetObject.TreeA => "나무",
+            QuestSO.TargetObject.Fruit => "사과나무",
+            QuestSO.TargetObject.Stone => "돌멩이",
+            QuestSO.TargetObject.Rock => "돌",
+            QuestSO.TargetObject.Mushroom => "버섯",
+            QuestSO.TargetObject.Crafting => "제작대",
+            QuestSO.TargetObject.BonFire => "모닥불",
+            QuestSO.TargetObject.Farm => "밭",
+            QuestSO.TargetObject.Usable => "쓸만한 제작대",
+            _ => string.Empty,
+        };
     }
 
     public void StartInventoryGuide(ItemData itemData/* Craft/Inventory , target Item info */)

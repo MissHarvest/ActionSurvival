@@ -91,6 +91,7 @@ public class UITitleScene : UIScene
     private void StartNewGame()
     {
         SaveGame.DeleteAllFiles();
+        //SaveGame.DeleteSensitivitySetting();
         SceneManager.LoadScene("Main Scene");
     }
 }
