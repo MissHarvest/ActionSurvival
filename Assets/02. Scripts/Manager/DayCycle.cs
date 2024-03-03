@@ -120,11 +120,7 @@ public class DayCycle
 
     //private void Load()
     //{
-    //    if(SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "WorldDate") == false)
-    //    {
-    //        Date = 1;
-    //    }
-    //    OnDateUpdated?.Invoke(Date);
+    //    SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "WorldDate");
     //}
 
     //private void Save()
@@ -135,8 +131,37 @@ public class DayCycle
 
     private async void Load()
     {
-        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "WorldDate");
+        bool firebaseDataExists = await SaveGameUsingFirebase.CheckIfDataExists();
+        if (firebaseDataExists)
+            SaveGameUsingFirebase.LoadJsonFromFirebase("WorldDate", this);
     }
+
+
+    //private async void Load()
+    //{
+    //    var loadedData = await SaveGameUsingFirebase.LoadFromFirebase<DayCycle>("WorldDate");
+    //    if (loadedData != null)
+    //    {
+    //        _date = loadedData._date;
+    //        _time = loadedData._time;
+    //        _currentTimeZone = loadedData._currentTimeZone;
+
+    //        OnDateUpdated?.Invoke(_date);
+    //        OnTimeUpdated?.Invoke();
+    //        OnUpdated?.Invoke(_date, _time);
+    //    }
+    //    else
+    //    {
+    //        _date = 1;
+    //        _time = 0;
+    //        _currentTimeZone = 0;
+
+    //        OnDateUpdated?.Invoke(_date);
+    //        OnTimeUpdated?.Invoke();
+    //        OnUpdated?.Invoke(_date, _time);
+    //    }
+    //}
+
 
     private void Save()
     {

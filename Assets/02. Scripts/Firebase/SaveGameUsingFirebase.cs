@@ -32,16 +32,53 @@ public class SaveGameUsingFirebase : MonoBehaviour
                 //Debug.Log($"로드된 JSON 값: {jsonValue}");
                 string snapshotValue = snapshot.Value.ToString();
                 Debug.Log($"JSON Value값: {snapshotValue}");
-                if (transform != null)
-                {
-                    Vector3 pos = JsonUtility.FromJson<Vector3>(snapshotValue);
-                    transform.position = pos;
-                }
+                //if (transform != null)
+                //{
+                //    Vector3 pos = JsonUtility.FromJson<Vector3>(snapshotValue);
+                //    transform.position = pos;
+                //    Debug.Log($"저장된 위치:{transform.position}");
+                //}
                 //Debug.Log($"스냅샷 자식의 수: {snapshot.ChildrenCount}");
 
                 JsonUtility.FromJsonOverwrite(snapshotValue, existingData);
             }
         });
+    }
+
+    public static void LoadJsonFromFirebase(string node, object obj)
+    {
+        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference.Child(node);
+        reference.GetValueAsync().ContinueWithOnMainThread(task => {
+            if (task.IsCompleted && !task.IsFaulted)
+            {
+                DataSnapshot snapshot = task.Result;
+
+                //string jsonValue = snapshot.GetRawJsonValue();
+                //Debug.Log($"로드된 JSON 값: {jsonValue}");
+                string snapshotValue = snapshot.Value.ToString();
+                Debug.Log($"JSON Value값: {snapshotValue}");
+
+                JsonUtility.FromJsonOverwrite(snapshotValue, obj);
+            }
+        });
+    }
+
+    public static async Task<T> LoadFromFirebase<T>(string node)
+    {
+        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference.Child(node);
+        var snapshot = await reference.GetValueAsync();
+
+        if (snapshot != null && snapshot.Exists)
+        {
+            string snapshotValue = snapshot.Value.ToString();
+            Debug.Log($"JSON Value값: {snapshotValue}");
+            T loadedData = JsonUtility.FromJson<T>(snapshotValue);
+            return loadedData;
+        }
+        else
+        {
+            return default(T);
+        }
     }
 
     // 특정 데이터만 지움
@@ -69,14 +106,6 @@ public class SaveGameUsingFirebase : MonoBehaviour
             }
         });
     }
-
-    //public static bool CheckIfDataExists() // 무한루프 걸림
-    //{
-    //    DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
-    //    DataSnapshot snapshot = reference.GetValueAsync().Result;
-
-    //    return snapshot.Value != null;
-    //}
 
     public static async Task<bool> CheckIfDataExists()
     {

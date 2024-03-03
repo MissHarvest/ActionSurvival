@@ -195,6 +195,27 @@ public class Player : MonoBehaviour, IAttack, IHit
     //    SaveGameUsingFirebase.LoadFromFirebase<Vector3>("PlayerPosition", this.transform.position);
     //}
 
+    //public async void Load()
+    //{
+    //    bool firebaseDataExists = await SaveGameUsingFirebase.CheckIfDataExists();
+
+    //    if (firebaseDataExists)
+    //    {
+    //        Debug.Log("파이어베이스 데이터 가져옴");
+    //        SaveGameUsingFirebase.LoadFromFirebase<Vector3>("PlayerPosition", this.transform.position, this.transform);
+
+    //        //Controller.enabled = false;
+    //        //transform.position = position;
+    //        //Controller.enabled = true;
+    //    }
+    //    else
+    //    {
+    //        Controller.enabled = false;
+    //        transform.position = new Vector3(-40f, 1f, 22f);
+    //        Controller.enabled = true;
+    //    }
+    //}
+
     public async void Load()
     {
         bool firebaseDataExists = await SaveGameUsingFirebase.CheckIfDataExists();
@@ -202,11 +223,10 @@ public class Player : MonoBehaviour, IAttack, IHit
         if (firebaseDataExists)
         {
             Debug.Log("파이어베이스 데이터 가져옴");
-            SaveGameUsingFirebase.LoadFromFirebase<Vector3>("PlayerPosition", this.transform.position, this.transform);
-
-            //Controller.enabled = false;
-            //transform.position = position;
-            //Controller.enabled = true;
+            Vector3 position = await SaveGameUsingFirebase.LoadFromFirebase<Vector3>("PlayerPosition");
+            Controller.enabled = false;
+            transform.position = position;
+            Controller.enabled = true;
         }
         else
         {

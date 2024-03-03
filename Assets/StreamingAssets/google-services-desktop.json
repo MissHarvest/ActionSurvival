@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "850878432614",
+    "firebase_url": "https://disaster-of-island-default-rtdb.firebaseio.com",
+    "project_id": "disaster-of-island",
+    "storage_bucket": "disaster-of-island.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850878432614:android:645b030e79d7e37898f4a7",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.DisasterOfIsland"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo97JJO-cjp0YdNmPXO8z6iwnSEbvJ6ZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
