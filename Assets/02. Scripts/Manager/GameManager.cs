@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         var go = new GameObject();
         go.AddComponent<FrameCounter>();
 
-        DayCycle.Start();
+        //DayCycle.Start();
         IsRunning = true;
     }
 

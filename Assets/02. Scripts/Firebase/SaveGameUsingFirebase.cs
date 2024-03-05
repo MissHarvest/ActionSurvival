@@ -1,6 +1,7 @@
 using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ public class SaveGameUsingFirebase : MonoBehaviour
         reference.SetValueAsync(json);
     }
 
-    public static void LoadFromFirebase<T>(string node, T existingData, Transform transform = null) // void 말고 T로 바꿔보기
+    public static void LoadFromFirebase<T>(string node, T existingData, Action callback = null) // void 말고 T로 바꿔보기
     {
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference.Child(node);
         reference.GetValueAsync().ContinueWithOnMainThread(task => {
@@ -41,11 +42,12 @@ public class SaveGameUsingFirebase : MonoBehaviour
                 //Debug.Log($"스냅샷 자식의 수: {snapshot.ChildrenCount}");
 
                 JsonUtility.FromJsonOverwrite(snapshotValue, existingData);
+                callback?.Invoke();
             }
         });
     }
 
-    public static void LoadJsonFromFirebase(string node, object obj)
+    public static void LoadFileFromFirebase(string node, object obj)
     {
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference.Child(node);
         reference.GetValueAsync().ContinueWithOnMainThread(task => {
@@ -114,6 +116,23 @@ public class SaveGameUsingFirebase : MonoBehaviour
         DatabaseReference rootReference = FirebaseDatabase.DefaultInstance.RootReference;
 
         await rootReference.GetValueAsync().ContinueWithOnMainThread(task => {
+            if (task.IsCompleted && !task.IsFaulted)
+            {
+                DataSnapshot snapshot = task.Result;
+                dataExists = snapshot.Exists;
+            }
+        });
+
+        return dataExists;
+    }
+
+    public static async Task<bool> CheckIfNodeDataExists(string node)
+    {
+        bool dataExists = false;
+
+        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference.Child(node);
+
+        await reference.GetValueAsync().ContinueWithOnMainThread(task => {
             if (task.IsCompleted && !task.IsFaulted)
             {
                 DataSnapshot snapshot = task.Result;

@@ -77,13 +77,6 @@ public class DayCycle
         }
     }
 
-    public void Start()
-    {
-        CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
-        Debug.Log($"[Day Cycle Start]{_date}/{_time}");
-        OnStarted?.Invoke(new DayInfo(_date, _time, (TimeZone)_currentTimeZone));        
-    }
-
     private void BroadCast()
     {
         switch((TimeZone)_currentTimeZone)
@@ -131,11 +124,24 @@ public class DayCycle
 
     private async void Load()
     {
-        bool firebaseDataExists = await SaveGameUsingFirebase.CheckIfDataExists();
+        bool firebaseDataExists = await SaveGameUsingFirebase.CheckIfNodeDataExists("WorldDate");
         if (firebaseDataExists)
-            SaveGameUsingFirebase.LoadJsonFromFirebase("WorldDate", this);
-    }
+            SaveGameUsingFirebase.LoadFromFirebase<DayCycle>("WorldDate", this, () => {
+                OnDateUpdated?.Invoke(_date);
+                OnTimeUpdated?.Invoke();
+                OnUpdated?.Invoke(_date, _time);
 
+                CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
+                Debug.Log($"[Day Cycle Start]{_date}/{_time}");
+                OnStarted?.Invoke(new DayInfo(_date, _time, (TimeZone)_currentTimeZone));
+            });
+        else
+        {
+            CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
+            Debug.Log($"[Day Cycle Start]{_date}/{_time}");
+            OnStarted?.Invoke(new DayInfo(_date, _time, (TimeZone)_currentTimeZone));
+        }
+    }
 
     //private async void Load()
     //{
