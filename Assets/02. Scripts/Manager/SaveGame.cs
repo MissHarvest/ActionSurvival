@@ -163,6 +163,15 @@ public class SaveGame
 
         return volumes;
     }
+
+    public static float GetSensitivitySetting()
+    {
+        if (PlayerPrefs.HasKey("Sensitivity"))
+        {
+            return PlayerPrefs.GetFloat("Sensitivity");
+        }
+        return 0.04f;
+    }
     #endregion
 }
 

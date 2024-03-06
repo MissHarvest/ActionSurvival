@@ -7,7 +7,7 @@ public class MinimapCamViewRotation : MonoBehaviour
 
     private void Start()
     {
-        GameObject mainCameraObject = GameObject.FindGameObjectWithTag("MainCamera");
+        var mainCameraObject = Camera.main;
         mainCameraTransform = mainCameraObject.transform;
     }
 
