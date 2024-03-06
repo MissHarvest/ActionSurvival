@@ -60,6 +60,7 @@ public class CopyRotation : MonoBehaviour
 
     private void OnDestroy()
     {
-        _uiMinimap.OnMinimapEnable -= RotateMinimapPoint;
+        if (_uiMinimap != null)
+            _uiMinimap.OnMinimapEnable -= RotateMinimapPoint;
     }
 }
