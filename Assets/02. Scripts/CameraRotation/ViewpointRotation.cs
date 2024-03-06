@@ -13,6 +13,9 @@ public class ViewPointRotation : MonoBehaviour
         FindVirtualCamera();
 
         UIBase.BindEvent(gameObject, HandleDrag, UIBase.UIEvents.Drag);
+
+        var sensitivity = SaveGame.GetSensitivitySetting();
+        SetRotationSpeed(sensitivity);
     }
 
     private void FindVirtualCamera()
@@ -39,5 +42,11 @@ public class ViewPointRotation : MonoBehaviour
         // X축 회전 고정
         float currentXRotation = _virtualCamera.eulerAngles.x;
         _virtualCamera.rotation = Quaternion.Euler(currentXRotation, _virtualCamera.eulerAngles.y, 0f);
+    }
+
+    public void SetRotationSpeed(float newRotationSpeed)
+    {
+        _rotationSpeed = newRotationSpeed;
+        PlayerPrefs.SetFloat($"Sensitivity", _rotationSpeed);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class CopyRotation : MonoBehaviour
     [SerializeField] private bool _rotationX, _rotationY, _rotationZ;
     [SerializeField] private Transform _target;
 
+    private UIMinimap _uiMinimap;
+
     private void Start()
     {
         if (_isPlayerTarget)
@@ -16,8 +19,12 @@ public class CopyRotation : MonoBehaviour
         }
         else
         {
-            StartCoroutine(WaitForMinimapCamera());
+            var mainCameraObject = Camera.main;
+            _target = mainCameraObject.transform;
         }
+
+        _uiMinimap = Managers.UI.GetPopupUI<UIMinimap>();
+        _uiMinimap.OnMinimapEnable += RotateMinimapPoint;
     }
 
     private IEnumerator WaitForPlayer()
@@ -29,17 +36,18 @@ public class CopyRotation : MonoBehaviour
         _target = GameManager.Instance.Player.transform;
     }
 
-    private IEnumerator WaitForMinimapCamera()
+    private void Update()
     {
-        var minimapCamGO = GameObject.FindObjectOfType<MapIlluminator>();
-        while (minimapCamGO == null)
-        {
-            yield return null;
-        }
-        _target = minimapCamGO.transform;
+        if (_isPlayerTarget)
+            RotateTarget();
     }
 
-    private void Update()
+    private void RotateMinimapPoint()
+    {
+        RotateTarget();
+    }
+
+    private void RotateTarget()
     {
         if (_target != null)
         {
@@ -48,5 +56,11 @@ public class CopyRotation : MonoBehaviour
                 (_rotationY ? _target.rotation.eulerAngles.y : transform.rotation.eulerAngles.y),
                 (_rotationZ ? _target.rotation.eulerAngles.z : transform.rotation.eulerAngles.z));
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (_uiMinimap != null)
+            _uiMinimap.OnMinimapEnable -= RotateMinimapPoint;
     }
 }
