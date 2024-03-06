@@ -67,6 +67,13 @@ public class DayCycle
         GameManager.Instance.OnSaveCallback += Save;
     }
 
+    private void StartCycle()
+    {
+        CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
+        Debug.Log($"[Day Cycle Start]{_date}/{_time}");
+        OnStarted?.Invoke(new DayInfo(_date, _time, (TimeZone)_currentTimeZone));
+    }
+
     IEnumerator StartDayCycle()
     {
         var obj = new WaitForSeconds(_eventInterval);
@@ -127,19 +134,15 @@ public class DayCycle
         bool firebaseDataExists = await SaveGameUsingFirebase.CheckIfNodeDataExists("WorldDate");
         if (firebaseDataExists)
             SaveGameUsingFirebase.LoadFromFirebase<DayCycle>("WorldDate", this, () => {
-                OnDateUpdated?.Invoke(_date);
-                OnTimeUpdated?.Invoke();
-                OnUpdated?.Invoke(_date, _time);
+                //OnDateUpdated?.Invoke(_date);
+                //OnTimeUpdated?.Invoke();
+                //OnUpdated?.Invoke(_date, _time);
 
-                CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
-                Debug.Log($"[Day Cycle Start]{_date}/{_time}");
-                OnStarted?.Invoke(new DayInfo(_date, _time, (TimeZone)_currentTimeZone));
+                StartCycle();
             });
         else
         {
-            CoroutineManagement.Instance.StartCoroutine(StartDayCycle());
-            Debug.Log($"[Day Cycle Start]{_date}/{_time}");
-            OnStarted?.Invoke(new DayInfo(_date, _time, (TimeZone)_currentTimeZone));
+            StartCycle();
         }
     }
 
