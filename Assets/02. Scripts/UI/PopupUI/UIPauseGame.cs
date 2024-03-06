@@ -8,6 +8,7 @@ public class UIPauseGame : UIPopup
     enum Buttons
     {
         SoundButton,
+        SensitivityButton,
         GameHelperButton,
         ExitButton,
     }
@@ -40,6 +41,11 @@ public class UIPauseGame : UIPopup
         Get<Button>((int)Buttons.SoundButton).gameObject.BindEvent((x) =>
         {
             Managers.UI.ShowPopupUI<UISoundSetting>();
+        });
+
+        Get<Button>((int)Buttons.SensitivityButton).gameObject.BindEvent((x) =>
+        {
+            Managers.UI.ShowPopupUI<UISensitivitySetting>();
         });
 
         Get<Button>((int)Buttons.GameHelperButton).gameObject.BindEvent((x) =>
