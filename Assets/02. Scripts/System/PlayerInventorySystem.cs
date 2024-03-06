@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -71,17 +72,9 @@ public class PlayerInventorySystem : InventorySystem
         TryConsumeQuantity(index, quantity);
     }
 
-    private void UseArchitectureItem(int index)
+    private void UseArchitectureItem(ArchitectureItemData architectureItemData)
     {
-        StartCoroutine(DelayedUseArchitectureItem(index));
-    }
-
-    private IEnumerator DelayedUseArchitectureItem(int index)
-    {
-        float delayInSeconds = 0.3f;
-        yield return new WaitForSeconds(delayInSeconds);
-
-        TryConsumeQuantity(index, 1);
+        TryConsumeQuantity(architectureItemData, 1);
     }
 
     private void OnItemEquipped(QuickSlot slot)

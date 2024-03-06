@@ -18,10 +18,11 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private float _maxBuildDistanceSideways = 5.0f;
 
     private int _inventoryIndex;
+    private ArchitectureItemData _architectureItemData;
     private BuildableObject _buildableObject;
 
     public event Action<int> OnBuildRequested;
-    public event Action<int> OnBuildCompleted;
+    public event Action<ArchitectureItemData> OnBuildCompleted;
 
     public Player Owner { get; private set; }
 
@@ -51,6 +52,7 @@ public class BuildingSystem : MonoBehaviour
         if (Physics.Raycast(_rayPointer.transform.position, Vector3.down, out RaycastHit hit, 100, _buildableLayer))
         {
             _inventoryIndex = index;
+            _architectureItemData = architecture;
 
             string itemNameWithoutItemData = architecture.name.Replace("ItemData", "");
 
@@ -71,7 +73,7 @@ public class BuildingSystem : MonoBehaviour
         if (_buildableObject.CanBuild() == false) return false;
 
         _buildableObject.Build();
-        OnBuildCompleted?.Invoke(_inventoryIndex);
+        OnBuildCompleted?.Invoke(_architectureItemData);
         _rayPointer.SetActive(false);
         _buildableObject = null;
         
