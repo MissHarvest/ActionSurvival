@@ -28,6 +28,7 @@ public class PlayerBaseState : IState
     public virtual void Update()
     {
         Move();
+        _stateMachine.InteractSystem.SearchInteractableObjectsSequence();
     }
 
     public virtual void HandleInput()
@@ -175,7 +176,7 @@ public class PlayerBaseState : IState
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
         if (_stateMachine.IsFalling) return;
-        _stateMachine.InteractSystem.TryInteractSequence();
+        _stateMachine.InteractSystem.TryInteract();
     }
 
     protected virtual void OnInteractCanceled(InputAction.CallbackContext context)

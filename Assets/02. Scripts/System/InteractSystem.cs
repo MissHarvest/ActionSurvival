@@ -13,15 +13,39 @@ public class InteractSystem
     private LayerMask _resourcesLayerMask;
     private LayerMask _interactableAllLayerMask;
     private InteractableTarget[] _targets;
+    private Action _onInteract;
+    private InteractableTarget? _currentHighlightTarget;
 
     public readonly struct InteractableTarget
     {
         public readonly Collider targetCollider;
         public readonly float distance;
 
-        public readonly GameObject gameObject => targetCollider.gameObject;
-        public readonly Transform transform => targetCollider.transform;
-        public readonly string tag => targetCollider.tag;
+        public readonly GameObject gameObject
+        {
+            get
+            {
+                if (targetCollider == null) return null;
+                else return targetCollider.gameObject; 
+            }
+        }
+
+        public readonly Transform transform
+        {
+            get
+            {
+                if (targetCollider == null) return null;
+                else return targetCollider.transform;
+            }
+        }
+        public readonly string tag
+        {
+            get
+            {
+                if (targetCollider == null) return null;
+                else return targetCollider.tag;
+            }
+        }
 
         public InteractableTarget(Collider targetCollider, Vector3 searchOrigin)
         {
@@ -49,7 +73,12 @@ public class InteractSystem
         _interactableAllLayerMask = _architectureLayerMask | _monsterLayerMask | _resourcesLayerMask;
     }
 
-    public void TryInteractSequence()
+    public void TryInteract()
+    {
+        _onInteract?.Invoke();
+    }
+
+    public void SearchInteractableObjectsSequence()
     {
         var tool = GetCurrentTool();
         var isWeapon = tool is WeaponItemData;
@@ -59,7 +88,7 @@ public class InteractSystem
         // # 1. 타게팅 공격
         if (isWeapon)
         {
-            if (TryWeaponInteract(tool))
+            if (SearchWeaponInteract(tool))
                 return;
         }
 
@@ -67,31 +96,34 @@ public class InteractSystem
         if (tool != _emptyHand)
         {
             // # 2-1. 파괴
-            if (TryToolDestruct(tool))
+            if (SearchToolDestruct(tool))
                 return;
 
             // # 2-2. 벌목, 채광
-            if (TryToolInteract(tool))
+            if (SearchToolInteract(tool))
                 return;
         }
 
         // # 3. 구조물 상호작용
-        if (TryArchitectureInteract(_emptyHand))
+        if (SearchArchitectureInteract(_emptyHand))
             return;
 
         // # 4. 채집 상호작용
-        if (TryToolInteract(_emptyHand))
+        if (SearchToolInteract(_emptyHand))
             return;
 
         // # 5. 허공에 공격
         if (isWeapon)
         {
-            if (TryWeaponInteract(tool, true))
+            if (SearchWeaponInteract(tool, true))
                 return;
         }
+
+        _onInteract = null;
+        HighlightTarget(null);
     }
 
-    public void TryWeaponInteract()
+    public void SearchWeaponInteract()
     {
         var tool = GetCurrentTool();
         var isWeapon = tool is WeaponItemData;
@@ -101,23 +133,24 @@ public class InteractSystem
         // # 1. 타게팅 공격
         if (isWeapon)
         {
-            if (TryWeaponInteract(tool))
+            if (SearchWeaponInteract(tool))
                 return;
         }
 
         // # 2. 허공에 공격
         if (isWeapon)
         {
-            if (TryWeaponInteract(tool, true))
+            if (SearchWeaponInteract(tool, true))
                 return;
         }
     }
 
-    private bool TryWeaponInteract(ToolItemData tool, bool force = false)
+    private bool SearchWeaponInteract(ToolItemData tool, bool force = false)
     {
         if (force)
         {
-            OnWeaponInteract?.Invoke(Vector3.zero);
+            _onInteract = () => OnWeaponInteract?.Invoke(Vector3.zero);
+            //OnWeaponInteract?.Invoke(Vector3.zero);
             return true;
         }
 
@@ -131,14 +164,16 @@ public class InteractSystem
 
             if (target.TryGetComponent<IHit>(out var hit))
             {
-                OnWeaponInteract?.Invoke(target.transform.position);
+                _onInteract = () => OnWeaponInteract?.Invoke(target.transform.position);
+                HighlightTarget(target);
+                //OnWeaponInteract?.Invoke(target.transform.position);
                 return true;
             }
         }
         return false;
     }
 
-    private bool TryToolInteract(ToolItemData tool)
+    private bool SearchToolInteract(ToolItemData tool)
     {
         foreach (var target in _targets)
         {
@@ -150,14 +185,16 @@ public class InteractSystem
 
             if (target.TryGetComponent<IInteractable>(out var interactable))
             {
-                OnToolInteract?.Invoke(interactable, target.tag, target.transform.position);
+                _onInteract = () => OnToolInteract?.Invoke(interactable, target.tag, target.transform.position);
+                HighlightTarget(target);
+                //OnToolInteract?.Invoke(interactable, target.tag, target.transform.position);
                 return true;
             }
         }
         return false;
     }
 
-    private bool TryToolDestruct(ToolItemData tool)
+    private bool SearchToolDestruct(ToolItemData tool)
     {
         foreach (var target in _targets)
         {
@@ -169,14 +206,16 @@ public class InteractSystem
 
             if (target.TryGetComponent<IDestructible>(out var IDestructible))
             {
-                OnToolDestruct?.Invoke(IDestructible, tool.targetTagName, target.transform.position);
+                _onInteract = () => OnToolDestruct?.Invoke(IDestructible, tool.targetTagName, target.transform.position);
+                HighlightTarget(target);
+                //OnToolDestruct?.Invoke(IDestructible, tool.targetTagName, target.transform.position);
                 return true;
             }
         }
         return false;
     }
 
-    private bool TryArchitectureInteract(ToolItemData tool)
+    private bool SearchArchitectureInteract(ToolItemData tool)
     {
         foreach (var target in _targets)
         {
@@ -188,7 +227,9 @@ public class InteractSystem
 
             if (target.TryGetComponent<IInteractable>(out var interactable))
             {
-                OnArchitectureInteract?.Invoke(interactable, target.tag, target.transform.position);
+                _onInteract = () => OnArchitectureInteract?.Invoke(interactable, target.tag, target.transform.position);
+                HighlightTarget(target);
+                //OnArchitectureInteract?.Invoke(interactable, target.tag, target.transform.position);
                 return true;
             }
         }
@@ -212,5 +253,16 @@ public class InteractSystem
     private ToolItemData GetCurrentTool()
     {
         return _toolSystem.EquippedTool.itemSlot.itemData as ToolItemData;
+    }
+
+    private void HighlightTarget(InteractableTarget? target)
+    {
+        if (_currentHighlightTarget?.targetCollider != null)
+        {
+            if (target?.targetCollider != _currentHighlightTarget?.targetCollider)
+                _currentHighlightTarget?.targetCollider?.GetComponentInChildren<CustomOutlineDrawer>(true)?.SetActive(false);
+        }
+        target?.targetCollider?.GetComponentInChildren<CustomOutlineDrawer>(true)?.SetActive(true);
+        _currentHighlightTarget = target;
     }
 }

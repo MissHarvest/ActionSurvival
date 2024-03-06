@@ -192,21 +192,6 @@ public class World : MonoBehaviour
     }
 }
 
-public class Vector3IntEqualityComparer : IEqualityComparer<Vector3Int>
-{
-    public bool Equals(Vector3Int lhs, Vector3Int rhs)
-    {
-        return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
-    }
-
-    public int GetHashCode(Vector3Int obj)
-    {
-        int hashCode = obj.y.GetHashCode();
-        int hashCode2 = obj.z.GetHashCode();
-        return obj.x.GetHashCode() ^ (hashCode << 4) ^ (hashCode >> 28) ^ (hashCode2 >> 4) ^ (hashCode2 << 28);
-    }
-}
-
 public class WorldMapData
 {
     public BlockType type;

@@ -316,12 +316,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MainScene
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c81745b39212411419adbb708b9c3a52
-    m_Address: OutlineMaterial.mat
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MainScene
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5ea5ded74e67c9f4f8a5eb16c85a960d
     m_Address: UsableMonsterSpawnPoints.data
     m_ReadOnly: 0
