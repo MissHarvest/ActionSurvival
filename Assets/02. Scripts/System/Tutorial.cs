@@ -87,9 +87,9 @@ public class Tutorial : MonoBehaviour
         OnInventoryOrBuildUpdated(isEnoughRequirementsFunc);
     }
 
-    private void OnBuildUpdated(int index)
+    private void OnBuildUpdated(ArchitectureItemData architectureItemData)
     {
-        Func<Quest, bool> isBuiltFunc = (activeQuest) => activeQuest.IsBuilt(index);
+        Func<Quest, bool> isBuiltFunc = (activeQuest) => activeQuest.IsBuilt(architectureItemData);
         OnInventoryOrBuildUpdated(isEnoughRequirementsFunc: isBuiltFunc);
     }
 

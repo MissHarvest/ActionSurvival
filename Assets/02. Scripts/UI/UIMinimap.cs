@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class UIMinimap : UIPopup
         CoordinatesText,
     }
 
+    public Action OnMinimapEnable;
     private Camera _minimapCam;
 
     public override void Initialize()
@@ -35,6 +37,7 @@ public class UIMinimap : UIPopup
         if (_minimapCam == null)
             FindMinimapCamera();
         _minimapCam.enabled = true;
+        OnMinimapEnable?.Invoke();
     }
 
     private void OnDisable()

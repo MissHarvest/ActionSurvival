@@ -37,15 +37,12 @@ public class Quest
         return false;
     }
 
-    public bool IsBuilt(int index) // 건축 퀘스트일 경우
+    public bool IsBuilt(ArchitectureItemData architectureItemData) // 건축 퀘스트일 경우
     {
         if (questSO.type == QuestSO.QuestType.Using)
         {
-            if (GameManager.Instance.Player.Inventory.Get(index).itemData is ArchitectureItemData)
-            {
-                if (GameManager.Instance.Player.Inventory.Get(index).itemData.name == questSO.requiredItems[0].item.name)
-                    return true;
-            }
+            if (architectureItemData.name == questSO.requiredItems[0].item.name)
+                return true;
         }
         return false;
     }
