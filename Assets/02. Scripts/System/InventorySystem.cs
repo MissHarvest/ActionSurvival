@@ -40,21 +40,23 @@ public class InventorySystem : MonoBehaviour
 
     public void AddDefaultToolAsTest()
     {
-        var itemData = Managers.Resource.GetCache<ItemData>("EnchantedAxeItemData.data");
+        var itemData = Managers.Resource.GetCache<ItemData>("BonFireItemData.data");
         TryAddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("EnchantedPickAxeItemData.data");
-        TryAddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("HammerItemData.data");
-        TryAddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("ChestItemData.data");
+        TryAddItem(itemData, 20);
+        itemData = Managers.Resource.GetCache<ItemData>("FarmItemData.data");
+        TryAddItem(itemData, 20);
         itemData = Managers.Resource.GetCache<ItemData>("FenceItemData.data");
+        TryAddItem(itemData, 20);
+        itemData = Managers.Resource.GetCache<ItemData>("FridgeItemData.data");
+        TryAddItem(itemData, 1);
+        itemData = Managers.Resource.GetCache<ItemData>("FurnaceItemData.data");
         TryAddItem(itemData, 1);
         itemData = Managers.Resource.GetCache<ItemData>("MasterCraftingTableItemData.data");
         TryAddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("EnchantedGreatswordItemData.data");
+        itemData = Managers.Resource.GetCache<ItemData>("StoveItemData.data");
         TryAddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("EnchantedTwinDaggerItemData.data");
-        TryAddItem(itemData, 1);
-        itemData = Managers.Resource.GetCache<ItemData>("FarmItemData.data");
+        itemData = Managers.Resource.GetCache<ItemData>("StoveItemData.data");
         TryAddItem(itemData, 1);
     }
 
