@@ -57,4 +57,9 @@ public class CopyRotation : MonoBehaviour
                 (_rotationZ ? _target.rotation.eulerAngles.z : transform.rotation.eulerAngles.z));
         }
     }
+
+    private void OnDestroy()
+    {
+        _uiMinimap.OnMinimapEnable -= RotateMinimapPoint;
+    }
 }
