@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feededd13c148ab41a55e68ae3f83574, type: 3}
+  m_Name: MasterCraftingTableRecipeData
+  m_EditorClassIdentifier: 
+  itemName: MasterCraftingTable
+  recipeID: 21
+  completedItemData: {fileID: 11400000, guid: 6a4a7cd2ad368464baf36138e6d6ffe7, type: 2}
+  recipeLevel: 4
+  Quantity: 1
+  requiredItems:
+  - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
+    quantity: 10
+  - item: {fileID: 11400000, guid: 86b1f80ae679e07429a2900ae75ea4c0, type: 2}
+    quantity: 30
+  - item: {fileID: 11400000, guid: 9515422e7b608cd4ea5174facd473388, type: 2}
+    quantity: 10
+  - item: {fileID: 11400000, guid: 6da7e8dc2cbba744da724536ad72f584, type: 2}
+    quantity: 10
+  - item: {fileID: 11400000, guid: a1020833cf086984eaddf8c111fc9f94, type: 2}
+    quantity: 15
+  - item: {fileID: 11400000, guid: 63dea3e71c2076f4db8b39eb918c5d69, type: 2}
+    quantity: 10
+  - item: {fileID: 11400000, guid: c601c478c90291d49be434a5fa75759d, type: 2}
+    quantity: 10

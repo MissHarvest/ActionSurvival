@@ -8,42 +8,83 @@ public class PlayerConditionHandler : MonoBehaviour
     public Player Player { get; private set; }
     [field: SerializeField] public Condition HP { get; private set; }
     [field: SerializeField] public Condition Hunger { get; private set; }
+    [field: SerializeField] public Condition Temperature { get; private set; }
 
-    private bool _isFull;
+    private float _full = 0.7f;
+    private float _hpRegenOfFullState = 0.2f;
 
     private void Awake()
     {
         Player = GetComponent<Player>();
 
-        HP = new Condition(100);
+        HP = new Condition(200);
+        HP.regenRate = _hpRegenOfFullState;
+        HP.OnBelowedToZero += Player.Die;
 
         Hunger = new Condition(100);
-        Hunger.decayRate = 0.1f;
+        Hunger.decayRate = 0.2f;
         Hunger.OnRecovered += OnHungerRecevered;
         Hunger.OnDecreased += OnHungerDecrease;
+        Hunger.OnBelowedToZero += OnHungerZero;
+
+        Temperature = new(100);
+
+        Load();
+
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
-    public void OnHungerDecrease(float amount)
+    private void OnHungerDecrease(float amount)
     {
-        if(Hunger.GetPercentage() < 0.7f && _isFull)
+        if(amount < _full)
         {
-            _isFull = false;
-            Hunger.regenRate -= 5;
+            HP.regenRate = 0.0f;
         }
     }
 
-    public void OnHungerRecevered(float amout)
+    private void OnHungerRecevered(float amount)
     {
-        if(Hunger.GetPercentage() > 0.7f &&!_isFull)
+        if(amount >= _full)
         {
-            _isFull = true;
-            HP.regenRate += 5;
+            HP.regenRate = _hpRegenOfFullState;
         }
+        HP.decayRate = 0;
+    }
+
+    private void OnHungerZero()
+    {
+        HP.decayRate = 2.0f;
     }
 
     private void Update()
     {
+        if (!GameManager.Instance.IsRunning) return;
+
         HP.Update();
         Hunger.Update();
+        UpdateTemperature();
+    }
+
+    public void SetTemperature(float temperature)
+    {
+        Temperature.currentValue = temperature;
+        Temperature.OnUpdated?.Invoke(Temperature.GetPercentage());
+    }
+
+    private void UpdateTemperature()
+    {
+        float temperature = GameManager.Temperature.GetTemperature(Player.transform.position);
+        SetTemperature(temperature);
+    }
+
+    private void Load()
+    {
+        SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"PlayerConditions");
+    }
+
+    private void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile($"PlayerConditions", json, SaveGame.SaveType.Runtime);
     }
 }

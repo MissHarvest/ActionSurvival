@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feededd13c148ab41a55e68ae3f83574, type: 3}
+  m_Name: FarmRecipeData
+  m_EditorClassIdentifier: 
+  itemName: Farm
+  recipeID: 10
+  completedItemData: {fileID: 11400000, guid: 4ea0bcc177295b140b190876be587bfe, type: 2}
+  recipeLevel: 2
+  Quantity: 1
+  requiredItems:
+  - item: {fileID: 11400000, guid: 7a9d537521742c04fb514243c69531da, type: 2}
+    quantity: 7
+  - item: {fileID: 11400000, guid: 9515422e7b608cd4ea5174facd473388, type: 2}
+    quantity: 4
+  - item: {fileID: 11400000, guid: 6da7e8dc2cbba744da724536ad72f584, type: 2}
+    quantity: 1
+  - item: {fileID: 11400000, guid: c48d0f569a835d44fa7bd6c45421d9ff, type: 2}
+    quantity: 4

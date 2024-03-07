@@ -6,42 +6,65 @@ public class PlayerStateMachine : StateMachine
 {
     public Player Player { get; }
     public PlayerIdleState IdleState { get; }
-    public PlayerWalkState WalkState { get; }
     public PlayerRunState RunState { get; }
+    public PlayerFallState FallState { get; }
     public PlayerInteractState InteractState { get; }
-
-    // public PlayerJumpState JumpState { get; }
-    
-    // public PlayerFallState FallState { get; }
+    public PlayerBuildState BuildState { get; }
     public PlayerComboAttackState ComboAttackState { get; }
+    public PlayerDieState DieState { get; }
 
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; private set; }
     public float RotationDamping { get; private set; }
     public float MovementSpeedModifier { get; set; } = 1f;
     public bool IsAttacking { get; set; }
+    public bool IsFalling { get; set; }
     public int ComboIndex { get; set; }
-
-
     public float JumpForce { get; set; }
-    
     public Transform MainCameraTransform { get; set; }
+    public InteractSystem InteractSystem { get; private set; }
+    public bool IsAttackState => currentState is PlayerAttackState;
 
     public PlayerStateMachine(Player player)
     {
         this.Player = player;
 
         IdleState = new PlayerIdleState(this);
-        WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
+        FallState = new PlayerFallState(this);
         InteractState = new PlayerInteractState(this);
-        //JumpState = new PlayerJumpState(this);
-        //FallState = new PlayerFallState(this);
-        //ComboAttackState = new PlayerComboAttackState(this);
+        BuildState = new PlayerBuildState(this);
+        ComboAttackState = new PlayerComboAttackState(this);
+        DieState = new PlayerDieState(this);
 
         MainCameraTransform = Camera.main.transform;
 
         MovementSpeed = player.Data.GroundedData.BaseSpeed;
         RotationDamping = player.Data.GroundedData.BaseRotationDamping;
+
+        InteractSystem = new();
+        InteractSystem.OnWeaponInteract += TransitionComboAttack;
+        InteractSystem.OnToolInteract += TransitionInteract;
+        InteractSystem.OnToolDestruct += TransitionInteract;
+        InteractSystem.OnArchitectureInteract += TransitionInteract;
+    }
+
+    private void TransitionComboAttack(Vector3 targetPos)
+    {
+        IsAttacking = true;
+        ComboAttackState.SetTarget(targetPos);
+        ChangeState(ComboAttackState);
+    }
+
+    private void TransitionInteract(IInteractable target, string targetTag, Vector3 targetPos)
+    {
+        InteractState.SetTarget(target, targetTag, targetPos);
+        ChangeState(InteractState);
+    }
+
+    private void TransitionInteract(IDestructible target, string targetTag, Vector3 targetPos)
+    {
+        InteractState.SetTarget(target, targetTag, targetPos);
+        ChangeState(InteractState);
     }
 }

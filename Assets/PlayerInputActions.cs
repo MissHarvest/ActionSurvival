@@ -80,6 +80,51 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Recipe"",
+                    ""type"": ""Button"",
+                    ""id"": ""2ef9b1ba-c9cf-477f-8eb3-5e4867c2f1cf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateArchitectureLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""ccfdd6c8-a752-45e1-aa3e-d6c42b9960be"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateArchitectureRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""0f7c5e3d-1ef6-4fe8-8285-5be67cba171e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Esc"",
+                    ""type"": ""Value"",
+                    ""id"": ""82f9d3c7-f678-401b-988c-cebe9e8df95b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Minimap"",
+                    ""type"": ""Button"",
+                    ""id"": ""5cec0ede-6f0c-42c5-8d64-b6adeaa40b13"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -229,7 +274,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b7403afa-ae49-414b-a67c-caaa119f02ea"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
@@ -283,23 +328,67 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f9b0e44e-8dbf-47a7-8208-743a5e7ea491"",
-                    ""path"": ""<Keyboard>/5"",
-                    ""interactions"": ""Press(pressPoint=0.5)"",
-                    ""processors"": ""Scale(factor=5)"",
-                    ""groups"": """",
-                    ""action"": ""QuickSlot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""fd8ef15f-7578-4b4c-a69c-d2070beeb494"",
                     ""path"": ""<Keyboard>/i"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0bf2e46a-1b9d-4634-af77-82b91c357432"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Recipe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""21977c6c-bcd8-4164-88ab-b3315c6cfeb2"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateArchitectureLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31a5eea8-e970-4b7d-9fa5-69d14f827388"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateArchitectureRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f8f4c78-f651-4b8e-ba90-cb6e99c49944"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Esc"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4b1f424-c956-4259-87ee-5ad6b9262d29"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Minimap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -364,6 +453,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_QuickSlot = m_Player.FindAction("QuickSlot", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
+        m_Player_Recipe = m_Player.FindAction("Recipe", throwIfNotFound: true);
+        m_Player_RotateArchitectureLeft = m_Player.FindAction("RotateArchitectureLeft", throwIfNotFound: true);
+        m_Player_RotateArchitectureRight = m_Player.FindAction("RotateArchitectureRight", throwIfNotFound: true);
+        m_Player_Esc = m_Player.FindAction("Esc", throwIfNotFound: true);
+        m_Player_Minimap = m_Player.FindAction("Minimap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -431,6 +525,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_QuickSlot;
     private readonly InputAction m_Player_Inventory;
+    private readonly InputAction m_Player_Recipe;
+    private readonly InputAction m_Player_RotateArchitectureLeft;
+    private readonly InputAction m_Player_RotateArchitectureRight;
+    private readonly InputAction m_Player_Esc;
+    private readonly InputAction m_Player_Minimap;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -441,6 +540,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @QuickSlot => m_Wrapper.m_Player_QuickSlot;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
+        public InputAction @Recipe => m_Wrapper.m_Player_Recipe;
+        public InputAction @RotateArchitectureLeft => m_Wrapper.m_Player_RotateArchitectureLeft;
+        public InputAction @RotateArchitectureRight => m_Wrapper.m_Player_RotateArchitectureRight;
+        public InputAction @Esc => m_Wrapper.m_Player_Esc;
+        public InputAction @Minimap => m_Wrapper.m_Player_Minimap;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -468,6 +572,21 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @Recipe.started += instance.OnRecipe;
+            @Recipe.performed += instance.OnRecipe;
+            @Recipe.canceled += instance.OnRecipe;
+            @RotateArchitectureLeft.started += instance.OnRotateArchitectureLeft;
+            @RotateArchitectureLeft.performed += instance.OnRotateArchitectureLeft;
+            @RotateArchitectureLeft.canceled += instance.OnRotateArchitectureLeft;
+            @RotateArchitectureRight.started += instance.OnRotateArchitectureRight;
+            @RotateArchitectureRight.performed += instance.OnRotateArchitectureRight;
+            @RotateArchitectureRight.canceled += instance.OnRotateArchitectureRight;
+            @Esc.started += instance.OnEsc;
+            @Esc.performed += instance.OnEsc;
+            @Esc.canceled += instance.OnEsc;
+            @Minimap.started += instance.OnMinimap;
+            @Minimap.performed += instance.OnMinimap;
+            @Minimap.canceled += instance.OnMinimap;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -490,6 +609,21 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @Recipe.started -= instance.OnRecipe;
+            @Recipe.performed -= instance.OnRecipe;
+            @Recipe.canceled -= instance.OnRecipe;
+            @RotateArchitectureLeft.started -= instance.OnRotateArchitectureLeft;
+            @RotateArchitectureLeft.performed -= instance.OnRotateArchitectureLeft;
+            @RotateArchitectureLeft.canceled -= instance.OnRotateArchitectureLeft;
+            @RotateArchitectureRight.started -= instance.OnRotateArchitectureRight;
+            @RotateArchitectureRight.performed -= instance.OnRotateArchitectureRight;
+            @RotateArchitectureRight.canceled -= instance.OnRotateArchitectureRight;
+            @Esc.started -= instance.OnEsc;
+            @Esc.performed -= instance.OnEsc;
+            @Esc.canceled -= instance.OnEsc;
+            @Minimap.started -= instance.OnMinimap;
+            @Minimap.performed -= instance.OnMinimap;
+            @Minimap.canceled -= instance.OnMinimap;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -551,5 +685,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnQuickSlot(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnRecipe(InputAction.CallbackContext context);
+        void OnRotateArchitectureLeft(InputAction.CallbackContext context);
+        void OnRotateArchitectureRight(InputAction.CallbackContext context);
+        void OnEsc(InputAction.CallbackContext context);
+        void OnMinimap(InputAction.CallbackContext context);
     }
 }

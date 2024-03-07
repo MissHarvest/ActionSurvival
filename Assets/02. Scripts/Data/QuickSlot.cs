@@ -11,7 +11,7 @@ public class QuickSlot
     public void Set(int target, ItemSlot itemSlot)
     {
         this.targetIndex = target;
-        this.itemSlot.Set(itemSlot);
+        this.itemSlot = itemSlot;
     }
 
     public void Clear()

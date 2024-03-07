@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class UIToolRegistSlot : UIItemSlot
 {
     public UIToolRegister UIToolRegister { get; private set; }
-    public int index { get; private set; }
 
     private void Awake()
     {
@@ -13,7 +13,7 @@ public class UIToolRegistSlot : UIItemSlot
 
         gameObject.BindEvent((x) =>
         {
-            Managers.Game.Player.QuickSlot.Regist(index, UIToolRegister.SelectedSlot);
+            GameManager.Instance.Player.QuickSlot.Regist(Index, UIToolRegister.SelectedSlot);
             Managers.UI.ClosePopupUI(UIToolRegister);
         });
     }
@@ -21,13 +21,13 @@ public class UIToolRegistSlot : UIItemSlot
     public void Init(UIToolRegister toolRegisterUI, int index, ItemSlot itemSlot)
     {
         UIToolRegister = toolRegisterUI;
-        this.index = index;
+        BindGroup(null, index);
         Set(itemSlot);
     }
 
     public override void Set(ItemSlot itemSlot)
     {
-        if(itemSlot == null)
+        if(itemSlot.itemData == null)
         {
             Clear();
             return;

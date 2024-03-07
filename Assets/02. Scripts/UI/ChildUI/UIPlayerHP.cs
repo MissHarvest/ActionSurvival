@@ -3,25 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UIPlayerHP : MonoBehaviour
+public class UIPlayerHP : UIPlayerCondition
 {
-    private TextMeshProUGUI HPText { get; }
-    private float _playerMaxHP;
-
-    public UIPlayerHP()
+    protected override void BindToPlayerCondition()
     {
-        HPText = GetComponent<TextMeshProUGUI>();
-    }
-
-    private void Awake()
-    {
-        var playerConditions = GameObject.Find("Player").GetComponent<PlayerConditionHandler>();
-        playerConditions.HP.OnUpdated += PrintHP;
-        _playerMaxHP = playerConditions.HP.maxValue;
-    }
-
-    private void PrintHP(float percentage)
-    {
-        HPText.text = $"{(int)Mathf.Round(_playerMaxHP * percentage)}";
+        var hp = GameObject.Find("Player").GetComponent<PlayerConditionHandler>().HP;
+        _maxConditionValue = hp.maxValue;
+        hp.OnUpdated += OnConditionUpdated;
+        OnConditionUpdated(hp.GetPercentage());
     }
 }

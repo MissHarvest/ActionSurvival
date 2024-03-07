@@ -23,9 +23,9 @@ public class PlayerRunState : PlayerGroundedState
         StopAnimation(_stateMachine.Player.AnimationData.RunParameterHash);
     }
 
-    protected override void OnRunCanceled(InputAction.CallbackContext context)
+    protected override void OnMovementCanceled(InputAction.CallbackContext context)
     {
-        base.OnRunCanceled(context);
-        _stateMachine.ChangeState(_stateMachine.WalkState);
+        base.OnMovementCanceled(context);
+        _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 }

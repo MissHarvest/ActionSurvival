@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
+  m_Name: GetChestQuestData
+  m_EditorClassIdentifier: 
+  questUIName: "\uBCF4\uAD00\uD568\uC744 \uC81C\uC791\uD558\uC138\uC694."
+  canBeAddedWithoutPreQuests: 0
+  preQuests:
+  - {fileID: 11400000, guid: 8543ba92286b3344d9f3946e8e2aa30b, type: 2}
+  requiredItems:
+  - item: {fileID: 11400000, guid: 2e4efea51c34bf849872835056fa0318, type: 2}
+    quantity: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  targetName: Crafting
+  targetObject: 6
+  type: 0

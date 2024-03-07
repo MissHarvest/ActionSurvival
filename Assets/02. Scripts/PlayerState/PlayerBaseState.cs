@@ -1,19 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class PlayerBaseState : IState
 {
     protected PlayerStateMachine _stateMachine;
     protected readonly PlayerGroundData _groundData;
-    
+
+    private BuildingSystem _buildingSystem;
+
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
-        _stateMachine  = playerStateMachine;
+        _stateMachine = playerStateMachine;
         _groundData = _stateMachine.Player.Data.GroundedData;
+        _buildingSystem = _stateMachine.Player.Building;
     }
 
     public virtual void Enter()
@@ -31,7 +30,7 @@ public class PlayerBaseState : IState
         Move();
     }
 
-    public virtual void HandleInput() 
+    public virtual void HandleInput()
     {
         ReadMovementInput();
     }
@@ -43,13 +42,12 @@ public class PlayerBaseState : IState
 
     private void ReadMovementInput()
     {
-        _stateMachine.MovementInput = _stateMachine.Player.Input.PlayerActions.Move.ReadValue<Vector2>();
+        _stateMachine.MovementInput = _stateMachine.Player.Input.PlayerActions.Move.ReadValue<Vector2>().normalized;
     }
 
     private void Move()
     {
         Vector3 movementDirection = GetMovementDirection();
-
         Rotate(movementDirection);
 
         Move(movementDirection);
@@ -58,9 +56,7 @@ public class PlayerBaseState : IState
     private Vector3 GetMovementDirection()
     {
         Vector3 forward = _stateMachine.MainCameraTransform.forward;
-        //Vector3 forward = _stateMachine.Player.transform.forward;
         Vector3 right = _stateMachine.MainCameraTransform.right;
-        //Vector3 right = _stateMachine.Player.transform.right;
 
         forward.y = 0;
         right.y = 0;
@@ -73,6 +69,10 @@ public class PlayerBaseState : IState
 
     private void Move(Vector3 movementDirection)
     {
+        RaycastHit hit;
+        if (Physics.Raycast(_stateMachine.Player.transform.position, Vector3.down, out hit, 0.1f, 1 | 1 << 12 | 1 << 15))
+            movementDirection = Vector3.ProjectOnPlane(movementDirection, hit.normal).normalized;
+
         float movementSpeed = GetMovementSpeed();
         _stateMachine.Player.Controller.Move(
             ((movementDirection * movementSpeed) +
@@ -80,10 +80,10 @@ public class PlayerBaseState : IState
             * Time.deltaTime
             );
     }
-    
-    private void Rotate(Vector3 movementDirection)
+
+    protected virtual void Rotate(Vector3 movementDirection)
     {
-        if(movementDirection != Vector3.zero)
+        if (movementDirection != Vector3.zero)
         {
             Transform playerTransform = _stateMachine.Player.transform;
             Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
@@ -111,62 +111,87 @@ public class PlayerBaseState : IState
     {
         PlayerInput input = _stateMachine.Player.Input;
         input.PlayerActions.Move.canceled += OnMovementCanceled;
-        input.PlayerActions.Run.started += OnRunStarted;
-        input.PlayerActions.Run.canceled += OnRunCanceled;
-        //input.PlayerActions.Jump.started += OnJumpStarted;
-        input.PlayerActions.Attack.performed += OnAttackPerformed;
-        input.PlayerActions.Attack.canceled += OnAttackCanceled;
-        
+
         input.PlayerActions.Interact.started += OnInteractStarted;
+        input.PlayerActions.Interact.canceled += OnInteractCanceled;
+        input.PlayerActions.QuickSlot.started += OnQuickUseStarted;
+        input.PlayerActions.Inventory.started += OnInventoryShowAndHide;
+        input.PlayerActions.Recipe.started += OnRecipeShowAndHide;
+        input.PlayerActions.Minimap.started += OnMinimapShowAndHide;
+
+        input.PlayerActions.Esc.started += PauseGame;
+        _buildingSystem.OnBuildRequested += OnBuildRequested;
+
+        _stateMachine.Player.ToolSystem.OnEquip += OnChangedEquipTool;
+        _stateMachine.Player.ToolSystem.OnUnEquip += OnChangedEquipTool;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
     {
         PlayerInput input = _stateMachine.Player.Input;
         input.PlayerActions.Move.canceled -= OnMovementCanceled;
-        input.PlayerActions.Run.started -= OnRunStarted;
-        input.PlayerActions.Run.canceled -= OnRunCanceled;
-        //input.PlayerActions.Jump.started -= OnJumpStarted;
-        input.PlayerActions.Attack.performed -= OnAttackPerformed;
-        input.PlayerActions.Attack.canceled -= OnAttackCanceled;
 
         input.PlayerActions.Interact.started -= OnInteractStarted;
+        input.PlayerActions.Interact.canceled -= OnInteractCanceled;
+        input.PlayerActions.QuickSlot.started -= OnQuickUseStarted;
+        input.PlayerActions.Inventory.started -= OnInventoryShowAndHide;
+        input.PlayerActions.Recipe.started -= OnRecipeShowAndHide;
+        input.PlayerActions.Minimap.started -= OnMinimapShowAndHide;
+
+        input.PlayerActions.Esc.started -= PauseGame;
+        _buildingSystem.OnBuildRequested -= OnBuildRequested;
+
+        _stateMachine.Player.ToolSystem.OnEquip -= OnChangedEquipTool;
+        _stateMachine.Player.ToolSystem.OnUnEquip -= OnChangedEquipTool;
     }
 
-    protected virtual void OnRunStarted(InputAction.CallbackContext context)
+    protected virtual void OnChangedEquipTool(QuickSlot quickSlot)
     {
-       
-    }
+        WeaponItemData hand = quickSlot.itemSlot.itemData as WeaponItemData;
 
-    protected virtual void OnRunCanceled(InputAction.CallbackContext context)
-    {
-
+        if (hand != null)
+        {
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwoHandedToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped);
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwinToolParameterHash, hand.isTwinTool && quickSlot.itemSlot.equipped);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipDefaultToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped || hand.isTwinTool && quickSlot.itemSlot.equipped ? 0f : 1f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwoHandedToolParameterHash, hand.isTwoHandedTool && quickSlot.itemSlot.equipped ? 1f : 0f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwinToolParameterHash, hand.isTwinTool && quickSlot.itemSlot.equipped ? 1f : 0f);
+        }
+        else
+        {
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwoHandedToolParameterHash, false);
+            _stateMachine.Player.Animator.SetBool(_stateMachine.Player.AnimationData.EquipTwinToolParameterHash, false);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipDefaultToolParameterHash, 1f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwoHandedToolParameterHash, 0f);
+            _stateMachine.Player.Animator.SetFloat(_stateMachine.Player.AnimationData.BlendEquipTwinToolParameterHash, 0f);
+        }
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
-    {
-        
-    }
-
-    protected virtual void OnJumpStarted(InputAction.CallbackContext context)
     {
 
     }
 
     protected virtual void OnInteractStarted(InputAction.CallbackContext context)
     {
-        if (_stateMachine.Player.EquippedItem == null) return;
+        if (_stateMachine.IsFalling) return;
+        _stateMachine.InteractSystem.TryInteractSequence();
+    }
 
-        var tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
-        if (tool.isWeapon)
-        {
-            // _stateMachine.ChangeState(_stateMachine.AttackState);
-        }
-        else
-        {
-            _stateMachine.ChangeState(_stateMachine.InteractState);
-        }        
-        Debug.Log("Player Interact");
+    protected virtual void OnInteractCanceled(InputAction.CallbackContext context)
+    {
+        _stateMachine.IsAttacking = false;
+    }
+
+    protected virtual void OnQuickUseStarted(InputAction.CallbackContext context)
+    {
+        _stateMachine.Player.QuickSlot.OnQuickUseInput((int)context.ReadValue<float>() - 1);
+    }
+
+    private void OnBuildRequested(int index)
+    {
+        //Debug.Log("빌드 모드 진입: " + index);
+        _stateMachine.ChangeState(_stateMachine.BuildState);
     }
 
     protected void ForceMove()
@@ -174,14 +199,59 @@ public class PlayerBaseState : IState
         _stateMachine.Player.Controller.Move(_stateMachine.Player.ForceReceiver.Movement * Time.deltaTime);
     }
 
-    protected void OnAttackPerformed(InputAction.CallbackContext context)
+    private void OnInventoryShowAndHide(InputAction.CallbackContext context)
     {
-        _stateMachine.IsAttacking = true;
+        var ui = Managers.UI.GetPopupUI<UIInventory>();
+        
+        if (ui.gameObject.activeSelf)
+        {
+            Managers.UI.ClosePopupUI(ui);
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UIInventory>();
+        }
     }
 
-    protected void OnAttackCanceled(InputAction.CallbackContext context)
+    private void OnRecipeShowAndHide(InputAction.CallbackContext context)
     {
-        _stateMachine.IsAttacking = false;
+        var ui = Managers.UI.GetPopupUI<UIRecipe>();
+
+        if (ui.gameObject.activeSelf)
+        {
+            Managers.UI.ClosePopupUI(ui);
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UIRecipe>();
+        }
+    }
+
+    private void OnMinimapShowAndHide(InputAction.CallbackContext context)
+    {
+        var ui = Managers.UI.GetPopupUI<UIMinimap>();
+
+        if (ui.gameObject.activeSelf)
+        {
+            Managers.UI.ClosePopupUI(ui);
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UIMinimap>();
+        }
+    }
+
+    private void PauseGame(InputAction.CallbackContext context)
+    {
+        var count = Managers.UI.GetActivatedPopupCount();
+        if(count > 0)
+        {
+            Managers.UI.ClosePopupUI();
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UIPauseGame>(pause: true);
+        }
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)
@@ -189,11 +259,11 @@ public class PlayerBaseState : IState
         AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
         AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(0);
 
-        if(animator.IsInTransition(0) && nextInfo.IsTag(tag))
+        if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
         {
             return nextInfo.normalizedTime;
         }
-        else if(!animator.IsInTransition(0) && currentInfo.IsTag(tag))
+        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
         {
             return currentInfo.normalizedTime;
         }

@@ -1,0 +1,259 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sound
+  m_EditorClassIdentifier: 
+  m_GroupName: Sound
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c6aff80ba2674374f8673c7f14ce1b8d
+  m_SerializeEntries:
+  - m_GUID: 585d6ca6ae45d1949b2c5191281f4c15
+    m_Address: TitleBGM.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b9c195a73b97384c86596b08585da88
+    m_Address: Mine.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df7087e4d8a8bb546bc08ce68632903f
+    m_Address: FootStep.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ffb159a21c8a04135a5616979c828fab
+    m_Address: Tip.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf6c0e7fbef9449c98a0cdb5ea0c4d9f
+    m_Address: Looting2.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79180f511d89441b9aa23ccae1992fe0
+    m_Address: Looting3.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 29bde6326b4c34ad8a12da475f79b50a
+    m_Address: Looting4.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d46323e22e74e46baa241cbf48c85671
+    m_Address: Swing.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 69c9a9fffd602ee43a60df4ea572155c
+    m_Address: Fell.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d97fd5d1ab1a414f85bf0d270312403
+    m_Address: BonFire.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6647d95cb13f24a49aa1581f390547f5
+    m_Address: AudioMixer.mixer
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe0b1f9aeb45b41b089175aeeabd5d95
+    m_Address: Swing2.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ed8fb76fc64e4e46847348138782234
+    m_Address: Warning.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b23b175a78d6b5458322e3a6c9905d0
+    m_Address: Hit.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac14fb247ba2ff143bbc2a9e8417e216
+    m_Address: FireIslandBGM.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 877c538ed56cfaa419eb897df7b5ae90
+    m_Address: CenterIslandBGM.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce9b98ba572ca214e88e53dff27d395b
+    m_Address: IceIslandBGM.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13af2eac59c0f8347abefca083d3c785
+    m_Address: Scream.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a652877b012108e41871f867ada9f176
+    m_Address: DragonBreath.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6265a71f30a4f9f43a36dbb9b93cb20a
+    m_Address: Falling.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d1698dd553af8ef4d887bc83b9687173
+    m_Address: Explosion.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 86211679397d6f041ab20bf366a12fa6
+    m_Address: InsectDie.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e8b6eabdbaacefc4d94a781dbae09fa1
+    m_Address: InsectAttack.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70857a4bad8d14b49ad276d9c611a12b
+    m_Address: InsectDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56703418e3aed4c47a5f6622816b8e41
+    m_Address: SlashHit.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a3d44abd336aee46a40b1038fa57a6a
+    m_Address: BatDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 39d2907d8f026a94d83aaf31ab9f765f
+    m_Address: BatDie.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42971485e9c282149adc851e65230b7b
+    m_Address: Skeleton.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7946477466e381241b9b9cf32d695f99
+    m_Address: ElementalDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88670f9a1f1b79a48b39d2db25dde86c
+    m_Address: ElementalDie.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2cc46cabf96c30b41aee8de58bffee1c
+    m_Address: RedSoulEaterDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1d1d7a100a444dd4cb6497d4361b892b
+    m_Address: SoulEaterDie.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b7617f8b7d8ccb46a35ee3b291d568f
+    m_Address: BlueSoulEaterDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 461c75de4bf167a4688657a9c4bd432f
+    m_Address: FugaDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 048db73fda998474e8aec9825cbbaf5e
+    m_Address: FugaDie.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d2d043122db1794e913f04758b28ad9
+    m_Address: Rabbit.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3685314e6ac18641a640f2605a3256e
+    m_Address: IceSwarmDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b350a240b1da0a40a93aad79418e976
+    m_Address: FireSwarmDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 48c3db6698e958140ab198d3050467d1
+    m_Address: SlimeDetect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4d73640383f87594a95912d9791fa96e, type: 2}
+    - {fileID: 11400000, guid: b87c3c2b0a59258449c48ca9f483f9bb, type: 2}

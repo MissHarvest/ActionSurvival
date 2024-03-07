@@ -1,7 +1,9 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+//using UnityEngine.UIElements;
 
 public class UIManager
 {
@@ -9,18 +11,14 @@ public class UIManager
 
     // Sort Order
     private int _order = 10;
-    
+
     // Popup Management
-    private Stack<UIPopup> _activatedPopups = new Stack<UIPopup>();
+    private Stack<(UIPopup popup, bool pause)> _activatedPopups = new();
     private Dictionary<string, GameObject> _popups = new Dictionary<string, GameObject>();
 
     // Scenes Overlay
     private UIScene _scene;
-
-    public bool isLoaded = false;
     #endregion
-
-
 
     #region Properties => Set Root UI
 
@@ -41,12 +39,10 @@ public class UIManager
 
     #endregion
 
-
-
     public void LoadPopupUIs()
     {
-        var popups = Managers.Resource.GetPrefabs(Literals.PATH_POPUPUI);
-        for(int i = 0; i < popups.Length; ++i)
+        var popups = Managers.Resource.GetCacheGroup<GameObject>("UIPopUp_");
+        for (int i = 0; i < popups.Length; ++i)
         {
             var obj = Object.Instantiate(popups[i], Root.transform);
             if (_popups.TryAdd(popups[i].name, obj))
@@ -63,48 +59,92 @@ public class UIManager
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        var gameObject = Managers.Resource.Instantiate(name, Literals.PATH_UI);
+        _popups.Clear();
+        _activatedPopups.Clear();
+
+        var gameObject = Managers.Resource.GetCache<GameObject>($"{name}.prefab");
+        gameObject = Object.Instantiate(gameObject);
         var sceneUI = Utility.GetOrAddComponent<T>(gameObject);
         
         gameObject.transform.SetParent(Root.transform);
 
+        if (_scene != null)
+            Object.Destroy(_scene.gameObject); // [WJY]: UILoadingScene -> UIMainScene 교체
         _scene = sceneUI;
 
         return sceneUI;
     }
 
+    // [WJY]: 현재 씬 UI에 접근하기 위해 작성
+    public bool TryGetSceneUI<T>(out T sceneUI) where T : UIScene
+    {
+        sceneUI = _scene as T;
+        return sceneUI != null;
+    }
+
     #endregion
-
-
 
     #region Popup UI
 
-    public T ShowPopupUI<T>(string name = null) where T : UIPopup
+    public T ShowPopupUI<T>(string name = null, bool pause= false) where T : UIPopup
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        if(_popups.TryGetValue(name, out GameObject go))
+        if (_activatedPopups.TryPeek(out var popup))
+        {
+            if (popup.popup.GetType() == typeof(T))
+            {
+                return (T)popup.popup;
+            }
+        }
+
+        if (_popups.TryGetValue(name, out GameObject go))
         {
             var canvas = go.GetOrAddComponent<Canvas>();
             SetOrder(canvas);
             go.SetActive(true);
         }
-                
+
+        if(go == null)
+        {
+            var prefab = Managers.Resource.GetCache<GameObject>($"UIPopUp_{name}.prefab");
+            go = Object.Instantiate(prefab, Root.transform);
+            var canvas = go.GetOrAddComponent<Canvas>();
+            SetOrder(canvas);
+            go.SetActive(true);
+            _popups.TryAdd(name, go);
+        }
+
         var popupUI = Utility.GetOrAddComponent<T>(go);
-        _activatedPopups.Push(popupUI);
+        _activatedPopups.Push((popupUI, pause));
 
         Cursor.lockState = CursorLockMode.None;
+        if (pause) Time.timeScale = 0.0f;
         return popupUI;
+    }
+
+    public T GetPopupUI<T>(string name = null) where T: UIPopup
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        if (_popups.TryGetValue(name, out GameObject go))
+        {
+            return go.GetComponent<T>();
+        }
+
+        return null;
     }
 
     public void ClosePopupUI(UIPopup popup)
     {
         if (_activatedPopups.Count == 0) return;
 
-        if (_activatedPopups.Peek() != popup)
+        var data = _activatedPopups.Peek();
+        if (data.popup != popup)
         {
-            Debug.LogWarning("Close Popup failed");
+            Debug.LogWarning("Close Popup failed"); 
             return;
         }
         
@@ -115,11 +155,13 @@ public class UIManager
     {
         if (_activatedPopups.Count == 0) return;
 
-        var popup = _activatedPopups.Pop();
+        var data = _activatedPopups.Pop();
 
-        popup.gameObject.SetActive(false);
+        data.popup.gameObject.SetActive(false);
 
         _order -= 1;
+
+        Time.timeScale = _activatedPopups.Count != 0 && _activatedPopups.Peek().pause ? 0.0f : 1.0f;
 
         if (_order == 0)
             Cursor.lockState = CursorLockMode.Locked;
@@ -131,9 +173,9 @@ public class UIManager
             ClosePopupUI();
     }
 
-    public bool Check(UIPopup popup)
+    public int GetActivatedPopupCount()
     {
-        return false;// _popups.Contains(popup);
+        return _activatedPopups.Count;// _popups.Contains(popup);
     }
 
     #endregion

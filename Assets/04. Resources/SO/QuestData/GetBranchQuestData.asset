@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f3a106b98101641bf1bea3bf1a09ac, type: 3}
+  m_Name: GetBranchQuestData
+  m_EditorClassIdentifier: 
+  questUIName: "\uB098\uBB47\uAC00\uC9C0\uB97C \uD68D\uB4DD\uD558\uC138\uC694."
+  canBeAddedWithoutPreQuests: 0
+  preQuests:
+  - {fileID: 11400000, guid: c85e57a057909654c851d5519053d1cc, type: 2}
+  requiredItems:
+  - item: {fileID: 11400000, guid: 11c3b7d1793a9a948a7291481d4514f6, type: 2}
+    quantity: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  targetName: Fruit
+  targetObject: 2
+  type: 0

@@ -1,12 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements.Experimental;
 
 public class PlayerInteractState : PlayerBaseState
 {
-    protected GameObject target;
+    protected IInteractable _interactable;
+    protected IDestructible _destructible;
+    protected float _progressTime;
+    protected string _targetTag;
+    protected Vector3 _targetPos;
+
     public PlayerInteractState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
 
@@ -14,40 +16,76 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void Enter()
     {
-        _stateMachine.MovementSpeedModifier = 0;
-        base.Enter();
-        
-        ToolItemData tool = _stateMachine.Player.EquippedItem.itemData as ToolItemData;
-        
-        var targets = Physics.OverlapSphere(_stateMachine.Player.transform.position, tool.range, tool.targetLayers);
-        if (targets.Length != 0 && (targets[0].CompareTag(tool.targetTagName) || targets[0].CompareTag("Gather")))
-        {
-            target = targets[0].gameObject;
-            Debug.Log($"target Name : {target.name}");
-            StartAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
-        }
-        else
+        if (_interactable == null && _destructible == null)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
-        }    
+            return;
+        }
+
+        _stateMachine.MovementSpeedModifier = 0;
+        base.Enter();
+        StartAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
+
+        _stateMachine.Player.Animator.SetBool(_targetTag, true);
+        RotateOfTarget();
+
+        _progressTime = _interactable?.GetInteractTime() ?? _destructible?.GetDestructTime() ?? 0f;
     }
 
     public override void Exit()
     {
         base.Exit();
+        _stateMachine.Player.Animator.SetBool(_targetTag, false);
+        _interactable = null;
+        _destructible = null;
+        _targetTag = string.Empty;
+
         StopAnimation(_stateMachine.Player.AnimationData.InteractParameterHash);
     }
 
     public override void Update()
     {
-        // exit Á¶°Ç ¼³Á¤
+        // exit ì¡°ê±´ ì„¤ì •
         float normalizedTime = GetNormalizedTime(_stateMachine.Player.Animator, "Interact");
-        
-        if(normalizedTime >= 1f)
+
+        if (normalizedTime >= _progressTime)
         {
-            if(target != null)
-                target.GetComponent<IInteractable>()?.Interact(_stateMachine.Player);
+            _interactable?.Interact(_stateMachine.Player);
+            _destructible?.Destruct(_stateMachine.Player);
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }
+    }
+
+    protected override void OnInteractStarted(InputAction.CallbackContext context)
+    {
+
+    }
+
+    protected override void OnQuickUseStarted(InputAction.CallbackContext context)
+    {
+
+    }
+
+    private void RotateOfTarget()
+    {
+        var look = _targetPos - _stateMachine.Player.transform.position;
+        look.y = 0;
+
+        var targetRotation = Quaternion.LookRotation(look);
+        _stateMachine.Player.transform.rotation = targetRotation;
+    }
+
+    public void SetTarget(IInteractable target, string tag, Vector3 position)
+    {
+        _interactable = target;
+        _targetPos = position;
+        _targetTag = tag;
+    }
+
+    public void SetTarget(IDestructible target, string tag, Vector3 position)
+    {
+        _destructible = target;
+        _targetPos = position;
+        _targetTag = tag;
     }
 }

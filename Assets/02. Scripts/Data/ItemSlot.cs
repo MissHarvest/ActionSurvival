@@ -1,68 +1,118 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 [Serializable]
-public class ItemSlot
+public struct ItemSlot
 {
-    public ItemData itemData { get; private set; } = null;
+    public ItemData itemData { get; private set; }
+    [field: SerializeField] public string itemName { get; private set; }
     [field: SerializeField] public int quantity { get; private set; }
-    // ³»±¸µµ 
+    
+    // ë‚´êµ¬ë„ êµ³ì´ float ì´ì–´ì•¼í•˜ë‚˜?
+    [field: SerializeField] public float currentDurability { get; private set; }
 
-    public bool equipped { get; private set; } = false;
-    public bool registed { get; private set; } = false;
+    [field: SerializeField] public bool equipped { get; private set; }
+    [field: SerializeField] public bool registed { get; private set; }
 
-    public ItemSlot()
+    public InventorySystem inventory { get; set; }
+
+    public ItemSlot(InventorySystem inventory)
     {
+        this.inventory = inventory;
+        this.itemName = string.Empty;
         this.itemData = null;
         this.quantity = 0;
+        this.currentDurability = 0.0f;
+        this.equipped = false;
+        this.registed = false;
     }
 
-    public ItemSlot(ItemData itemData, int quantity = 1)
+    /// <summary>
+    /// [ì‚¬ìš©í•˜ì§€ ì•ŠëŠ” ìƒì„±ì]
+    /// </summary>
+    /// <param name="itemData"></param>
+    public ItemSlot(ItemData itemData)
     {
+        this.inventory = null;
         this.itemData = itemData;
-        this.quantity = quantity;
+        this.itemName = itemData != null? itemData.name : string.Empty;
+        this.quantity = 0;
+        this.currentDurability = 0.0f;
+        this.equipped = false;
+        this.registed = false;
     }
 
-    public bool IsFull => this.quantity == ItemData.maxStackCount;
+    public bool IsFull => this.quantity == itemData.MaxStackCount;
 
-    public void AddQuantity(int amount)
+    public int AddQuantity(int amount)
     {
-        this.quantity = Math.Min(this.quantity + amount, ItemData.maxStackCount);        
+        this.quantity += amount;        
+        var remain = this.quantity > itemData.MaxStackCount ? this.quantity - itemData.MaxStackCount : 0;
+        this.quantity -= remain;
+        return remain;
     }
 
-    public void SubtractQuantity(int amount = 1)
+    public int SubtractQuantity(int amount = 1)
     {
-        this.quantity = Math.Max(this.quantity - amount, 0);
+        this.quantity -= amount;
+        var over = this.quantity < 0 ? -1 * this.quantity : 0;
+        this.quantity += over;
         if(quantity == 0)
         {
-            this.itemData = null;
+            Clear();
         }
-        // To Do ) ¼Ò¸ğÇØ¾ßÇÏ´Â ¾ç º¸´Ù °¡Áö°í ÀÖ´Â°Ô ÀûÀ¸¸é ½ÇÆĞÇÏ´Â ·ÎÁ÷
+        return over;
     }
 
-    public void Set(ItemData item, int quantity = 1)
+    public void LoadData()
+    {
+        if (itemName == string.Empty) return;
+        var path = $"{itemName}.data";
+        itemData = Managers.Resource.GetCache<ItemData>(path);
+    }
+
+    public void Set(ItemData item)
     {
         this.itemData = item;
+        this.itemName = item.name;
+        this.quantity = 0;
+        this.currentDurability = itemData.MaxDurability;
+    }
+
+    public void Set(ItemData itemData, float durability)
+    {
+        this.itemData = itemData;
+        this.itemName = itemData.name;
+        this.quantity = 0;
+        this.currentDurability = durability == 0.0f ? itemData.MaxDurability : durability;
+    }
+
+    public void Set(ItemData item, int quantity)
+    {
+        // [ Check ] // ë‚´êµ¬ë„ ë¶€ë¶„ì´ë‘ ë³‘í•© ì‹œ 
+        this.itemData = item;
+        this.itemName = item.name;
         this.quantity = quantity;
+        this.currentDurability = (itemData is EquipItemData toolItem) ? toolItem.MaxDurability : 0f;
     }
 
     public void Set(ItemSlot itemSlot)
     {
-        itemData = itemSlot.itemData;
-        quantity = itemSlot.quantity;
+        // [ Check ] // ë‚´êµ¬ë„ ë¶€ë¶„ì´ë‘ ë³‘í•© ì‹œ 
+        Set(itemSlot.itemData, itemSlot.quantity);
         registed = itemSlot.registed;
         equipped = itemSlot.equipped;
+        currentDurability = itemSlot.currentDurability;
     }
 
     public void Clear()
     {
         itemData = null;
+        itemName = string.Empty;
         quantity = 0;
         registed = false;
         equipped = false;
+        currentDurability = 0.0f;
     }
 
     public void SetRegist(bool value)
@@ -73,5 +123,20 @@ public class ItemSlot
     public void SetEquip(bool value)
     {
         this.equipped = value;
+    }
+
+    public void SetDurability(float value)
+    {
+        this.currentDurability = Mathf.Clamp(value, 0f, (itemData is EquipItemData toolItem) ? toolItem.MaxDurability : 0f);
+        if (currentDurability <= 0)
+            Clear();
+    }
+
+    public void SubtractDurability(float amount)
+    {
+        if (itemData.MaxDurability == 0.0f) return;
+        this.currentDurability -= amount;
+        if (this.currentDurability <= 0.0f)
+            Clear();
     }
 }

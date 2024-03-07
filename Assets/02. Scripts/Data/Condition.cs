@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.EnhancedTouch;
 
 [System.Serializable]
 public class Condition
@@ -29,6 +26,7 @@ public class Condition
 
         currentValue = Mathf.Min(currentValue + amount, maxValue);
         OnUpdated?.Invoke(GetPercentage());
+        OnRecovered?.Invoke(GetPercentage());
     }
 
     public void Subtract(float amount)
@@ -37,8 +35,11 @@ public class Condition
 
         currentValue = Mathf.Max(currentValue - amount, 0.0f);
         OnUpdated?.Invoke(GetPercentage());
-        if(currentValue == 0)
+        OnDecreased?.Invoke(GetPercentage());
+        if (currentValue == 0)
         {
+            // 추후 수정 //
+            regenRate = 0.0f;
             OnBelowedToZero?.Invoke();
         }
     }
@@ -50,7 +51,9 @@ public class Condition
 
     public void Update()
     {
-        Add(regenRate * Time.deltaTime);
-        Subtract(decayRate * Time.deltaTime);
+        if(regenRate != 0)
+            Add(regenRate * Time.deltaTime);
+        if(decayRate != 0)
+            Subtract(decayRate * Time.deltaTime);
     }
 }

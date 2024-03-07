@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feededd13c148ab41a55e68ae3f83574, type: 3}
+  m_Name: LuxuriousSetCookingData
+  m_EditorClassIdentifier: 
+  itemName: LuxuriousSet
+  recipeID: 20
+  completedItemData: {fileID: 11400000, guid: e24cec6279a69f94093c8834f2550ff0, type: 2}
+  recipeLevel: 3
+  Quantity: 1
+  requiredItems:
+  - item: {fileID: 11400000, guid: 68a9bba7c97dc024f84ab4c246757bad, type: 2}
+    quantity: 5
+  - item: {fileID: 11400000, guid: 4cd9d4b48a7918e40be7d99d3ef3e74d, type: 2}
+    quantity: 10
+  - item: {fileID: 11400000, guid: e52fd14ba5118174b89e456530a2ab8e, type: 2}
+    quantity: 5
+  - item: {fileID: 11400000, guid: fdfb6677cc678244ea9dcb9d2292074c, type: 2}
+    quantity: 5
+  - item: {fileID: 11400000, guid: 9910fbaa1ab0a0745900d8c7fc6f25f0, type: 2}
+    quantity: 1

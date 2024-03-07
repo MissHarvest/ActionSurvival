@@ -58,6 +58,51 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Recipe",
+                    "type": "Button",
+                    "id": "2ef9b1ba-c9cf-477f-8eb3-5e4867c2f1cf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateArchitectureLeft",
+                    "type": "Button",
+                    "id": "ccfdd6c8-a752-45e1-aa3e-d6c42b9960be",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateArchitectureRight",
+                    "type": "Button",
+                    "id": "0f7c5e3d-1ef6-4fe8-8285-5be67cba171e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Esc",
+                    "type": "Value",
+                    "id": "82f9d3c7-f678-401b-988c-cebe9e8df95b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Minimap",
+                    "type": "Button",
+                    "id": "5cec0ede-6f0c-42c5-8d64-b6adeaa40b13",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -207,7 +252,7 @@
                 {
                     "name": "",
                     "id": "b7403afa-ae49-414b-a67c-caaa119f02ea",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -261,23 +306,67 @@
                 },
                 {
                     "name": "",
-                    "id": "f9b0e44e-8dbf-47a7-8208-743a5e7ea491",
-                    "path": "<Keyboard>/5",
-                    "interactions": "Press(pressPoint=0.5)",
-                    "processors": "Scale(factor=5)",
-                    "groups": "",
-                    "action": "QuickSlot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "fd8ef15f-7578-4b4c-a69c-d2070beeb494",
                     "path": "<Keyboard>/i",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0bf2e46a-1b9d-4634-af77-82b91c357432",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Recipe",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "21977c6c-bcd8-4164-88ab-b3315c6cfeb2",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateArchitectureLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31a5eea8-e970-4b7d-9fa5-69d14f827388",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateArchitectureRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0f8f4c78-f651-4b8e-ba90-cb6e99c49944",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Esc",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f4b1f424-c956-4259-87ee-5ad6b9262d29",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Minimap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

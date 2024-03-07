@@ -1,0 +1,1069 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Scriptable Object Data
+  m_EditorClassIdentifier: 
+  m_GroupName: Scriptable Object Data
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c6b7f313ef980d2439488ae56f9d73c4
+  m_SerializeEntries:
+  - m_GUID: 8e5dd47e13158c848a660129f3fdf4d7
+    m_Address: WoodSwordItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d1627d26846139498a9b61e489f3f90
+    m_Address: EmptyHandItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a9d537521742c04fb514243c69531da
+    m_Address: LogItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4cd9d4b48a7918e40be7d99d3ef3e74d
+    m_Address: MushroomItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 86b1f80ae679e07429a2900ae75ea4c0
+    m_Address: StoneItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 169efef296147ff47aa012ef827c9305
+    m_Address: PickAxeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c85809597f1da54fbc98bcc3023a6b5
+    m_Address: AxeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e41ebaea4db39ab4bbb497ea8d7ca99d
+    m_Address: GreatswordItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9515422e7b608cd4ea5174facd473388
+    m_Address: StickItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5716f82e7588c074690eb57a71cffcb0
+    m_Address: CraftingTableItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ba221a72abf0e2c44940205624f41d47
+    m_Address: Skeleton.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c4724b3b40f67e04ca7bcf6639a6a910
+    m_Address: Slime.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c48d0f569a835d44fa7bd6c45421d9ff
+    m_Address: LowStoneItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0dba0a9670de084cb4c064344ac64ff
+    m_Address: WorldData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec403ad824d3eaf4295232bed0181b41
+    m_Address: Rabbit.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bed610c1a20f3414fbd5391e41dfa0d9
+    m_Address: RabbitMeatItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77362c327f216464fb463a8bdfa75f55
+    m_Address: TwinDaggerItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b961231c31972e74d831abe23475d2e7
+    m_Address: AxeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf91749ba0e9c584da4068fff40034f9
+    m_Address: PickAxeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8a35d21883198c4aac044270854808a
+    m_Address: WoodSwordRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0ef3ccdf598cd4b46a6ff339d1f94aaf
+    m_Address: CraftingTableRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5bb9e42324a34e4448569db84a69d470
+    m_Address: StickRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a57eafbf805db3848acbb94979b07be6
+    m_Address: GreatswordRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31568188c16c2c841b47200fde8f7878
+    m_Address: BonFireRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c49ca04a991b85646b2ccba8f7b75f1d
+    m_Address: BonFireItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 734f198f0f1019b43ad400a2ab3ece89
+    m_Address: GrilledRabbitMeatItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15a51d46266b53141b5f4f50693f151d
+    m_Address: VoxelData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 158d4f7d84d9c6d499040adb1431f7ef
+    m_Address: GrilledRabbitMeatCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a427d0dd2e1a7ae4384c7a781add4e62
+    m_Address: MushroomStewItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8471e74a0324d4e498468a0700535452
+    m_Address: MushroomStewCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1020833cf086984eaddf8c111fc9f94
+    m_Address: MiddleStoneItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad1b22b8f3b330d4d987f33be6a13778
+    m_Address: HighStoneItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ed9bb1dc6fbdb0241ae69201728809ae
+    m_Address: Beholder.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce54e921596bddb40aa157c4580950e0
+    m_Address: IceSwarm.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f84cc0eaf1a8184c9de36b79e85ff41
+    m_Address: FireSwarm.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f0fbe3355b3abc4db35d897feaaeb84
+    m_Address: IceSkeleton.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7c010fa273798d48a6ebe4c7576616a
+    m_Address: FireSkeleton.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0abae9ba55f51f4cb7703397749ee9b
+    m_Address: Bat.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7c73213da80f61e498dd9ac1e39f8fc5
+    m_Address: FireBat.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98c491827b21dec44b1777268e29a718
+    m_Address: IceBat.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71088cc1ab065df4b87727b8508df358
+    m_Address: RabbitMon.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 64d5a132d9268ec4dad1a3e6df90c443
+    m_Address: IceRabbitMon.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15d682d7a24c11e469c2b736888d56dc
+    m_Address: FireRabbitMon.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e16a46da3ea30cd4f8e7e762f8371cbe
+    m_Address: Fuga.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc4fa8459044ebe44948c3ae5d6a03ab
+    m_Address: RedFuga.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2d8bc52d84108fa428889d8e67c14ded
+    m_Address: BlueMetalon.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b3316f8a59f4254eb6fecf8af0043ad
+    m_Address: RedMetalon.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3c5041906cf69f4b9246444157cc0d3
+    m_Address: FireElemental.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9c5487c9399c5741bb7208bdff78be0
+    m_Address: IceElemental.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 353cf4e7eceb85440beda3fb9ce7fe85
+    m_Address: BlueSoulEater.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 14407b2c17a3dbe4a810689dba8c4789
+    m_Address: RedSoulEater.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d838ec4e05b8fa44ba2c5b8e3bcddea
+    m_Address: EnchantedPickAxeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52562f6422be7814a9c292b0f9e98cbd
+    m_Address: TwinDaggerRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3cfdfed5fdd1c4947bdbac8812fcca05
+    m_Address: EnchantedPickAxeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e4efea51c34bf849872835056fa0318
+    m_Address: ChestItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b10825306c09e244ead322ce2a6f02f6
+    m_Address: ChestRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9efb30a1af99d4648918261bb2556429
+    m_Address: EnchantedAxeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dde59db6b420ef7418e064ea6dea6287
+    m_Address: EnchantedAxeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13dbad5903b2f1845ba772ebf1829c78
+    m_Address: WebItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6da7e8dc2cbba744da724536ad72f584
+    m_Address: RopeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f10c8daece86fb14285d83b22b5642fa
+    m_Address: RopeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f0b539ecd5234f429756dae04402565
+    m_Address: FenceItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a27c36d4d0473d3439f8f530c0b3427a
+    m_Address: SwordItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31e3e346428c44f449ad739169c319f3
+    m_Address: SwordRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75c1b6f713fbe7c4aabd9d51ea110906
+    m_Address: EnchantedSwordItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71da600f1dd20f644aa42a79c809075e
+    m_Address: EnchantedSwordRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2f79c0e46221b88428cdd1de2c7d0258
+    m_Address: EnchantedGreatswordItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4bab64d3ab237854cb7e2f546ee3eb88
+    m_Address: EnchantedGreatswordRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dddb934b7bfaa8f4cb8feaf3d050adfa
+    m_Address: FurnaceItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd8d4ae17b870be499c90365b0b08a96
+    m_Address: FurnaceRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ca96c2cb81bda541b4f05314edc7c1e
+    m_Address: ResourceObjectSpawnData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9298f9989d0cf5f4ca96ac5ffde6eec0
+    m_Address: HammerItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2f9226107b14bf04d999cf232cea49f7
+    m_Address: HammerRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 65fdff280d7e09d469719278c6b0871d
+    m_Address: EnchantedTwinDaggerItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 06fe604fa8665ad41b0542b8c690b7e2
+    m_Address: EnchantedTwinDaggerRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cbb888e46821d3d41b6bd05183bc5ccf
+    m_Address: BatMeatItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15cd5a240bf6e9149bba27940cf9fa3e
+    m_Address: GrilledBatMeatItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ab6a5c398eba2746b0d9afafe4048fe
+    m_Address: GrilledBatMeatCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3721c8ba8e74a7442838a963bed67ed9
+    m_Address: DriedStingrayWingsItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fdfb6677cc678244ea9dcb9d2292074c
+    m_Address: InsectIntestinesItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9910fbaa1ab0a0745900d8c7fc6f25f0
+    m_Address: DragonMeatItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eaac63f19a4e191489080679244faec7
+    m_Address: CornerItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5dd63cd46cf3a174da82b9136f74f149
+    m_Address: CarrotItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: abeb64e4ea40d5e41bb8f69997bd6e01
+    m_Address: MeatballStewItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3697d8a35a1a1e7459dee7beab2c69a4
+    m_Address: MeatballStewCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4cf10e7e87f888e428fc93bca9417d49
+    m_Address: CornSaladItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7815ba250b922f44eb2f400b452acf5a
+    m_Address: CornSaladCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0bd31217bba863f4bb9b5461c806472b
+    m_Address: StewedStingrayWingsItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3e45a7a7ff805243bfc0fd8a91b2030
+    m_Address: StewedStingrayWingsCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1169faa730c754c4ea50756a8ba9fbe5
+    m_Address: SweetSaladItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99c1b56b41f827f48b9332e325a1dfbd
+    m_Address: SweetSaladCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e24cec6279a69f94093c8834f2550ff0
+    m_Address: LuxuriousSetItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df7dcb1c7df50a94b863b2d3d763d652
+    m_Address: LuxuriousSetCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a400f54997a10d4cad59cad838fc084
+    m_Address: FenceRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ea0bcc177295b140b190876be587bfe
+    m_Address: FarmItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2abc881539b10e64597e1dafe040dc89
+    m_Address: FarmRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b38d72cc702ef9246b1fac558030db92
+    m_Address: BatWingsData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 27833d5d5beb7894fad16781e70936c8
+    m_Address: InsectCarapaceData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5fded2f244d0fab48b7df97ca5686ed5
+    m_Address: Rabbitleather.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a53ebd078a840354baea2678453b9184
+    m_Address: DragonLeatherData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dbbe881e8e716df4e939280c25f7d288
+    m_Address: PoisonSacData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf3326ef4e6c80949ace164fc84c2731
+    m_Address: GetAppleQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d88b7317b33daa34293d07e9280acd25
+    m_Address: GetPickAxeQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81c9326ebffd4bc49b816e23a4699ba4
+    m_Address: GetAxeQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 969d6bb569150a54bb82e791f6c013c4
+    m_Address: GetCraftingTableQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 951d99c74b199684799b643be943524a
+    m_Address: GetBonFireQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99849d697b366074da034d10737ec315
+    m_Address: GetWoodSwordQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8bf882ed8e3b98f439d58740bfb516fc
+    m_Address: GetHammerQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 11c3b7d1793a9a948a7291481d4514f6
+    m_Address: BranchItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d06fe6f6fa0e9aa4a8cd70df2b9855ca
+    m_Address: GetLogQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 68a9bba7c97dc024f84ab4c246757bad
+    m_Address: AppleItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e660b44ce1e314c409f1ffcee0305bf9
+    m_Address: GetLowStoneQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 50c0ca6f51721744aac5c4c5ef72393a
+    m_Address: SeedItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: efe56df77ff0ab34da0563bbf7ed4504
+    m_Address: GetFarmQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1dbfa73b255a57548bbace7686d65218
+    m_Address: GetBranchQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c67d2e45d4622f54382b95b5c2ae9798
+    m_Address: TerrorBringer.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5c5d1a588de9154cb18e742d8f6a720
+    m_Address: GetStoneQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b70139d5f6d96a94bad599d9c8fee871
+    m_Address: SkeletonBoneItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 05943e4e8e57a2a48ab78d5dc8e9ae7a
+    m_Address: AdvancedStickRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8cd4271e8ea88b248bf96282f32c44d1
+    m_Address: GetStickQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c637d65c393ef214481f25dbc6261620
+    m_Address: BuildCraftingTableQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 558394e37be806943a6dba1552de5b2d
+    m_Address: MineStoneQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da8a62d672b334745b80036b36d81c4d
+    m_Address: GetMushroomQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c85e57a057909654c851d5519053d1cc
+    m_Address: GetFoodQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55dd3e196a74d4743a4212ed871117e6
+    m_Address: GetRopeQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 67c2cbba05993a54abf591346b1665c5
+    m_Address: GetFenceQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8543ba92286b3344d9f3946e8e2aa30b
+    m_Address: BuildFenceQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec8fc7171890a0642bfbf81f5483b777
+    m_Address: GetChestQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5c5531c0bec0ef4db3b5fc47e9acaa5
+    m_Address: BuildChestQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46d85273e74a00c48b1f33e3a0eaa1f5
+    m_Address: GetSeedQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1cdeb553f9568642920a378ac9dbfb8
+    m_Address: GetCornerQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 08bdf606eb7d88e4ab9a2890e0ab96b3
+    m_Address: UsableCraftingTableItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fb66fc46b208e9439c06b1915a77671
+    m_Address: AdvancedCraftingTableItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a4a7cd2ad368464baf36138e6d6ffe7
+    m_Address: MasterCraftingTableItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ca52aeae1f5cf84985e1d48b47dd7db
+    m_Address: UsableCraftingTableRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b663eea37764648429bbe3d275872bd5
+    m_Address: AdvancedCraftingTableRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79ef556ce621e4c49a3eef15501df988
+    m_Address: MasterCraftingTableRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 51f63e549ba0e584196fa32d386342e9
+    m_Address: EggplantItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e52fd14ba5118174b89e456530a2ab8e
+    m_Address: TomatoItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60dd9118767b00249add97e13f638595
+    m_Address: GrilledMushroomItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccf5243545194f44dac8e103fecffa8d
+    m_Address: GrilledEggplantItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95082fe7f9c814f4c8a51856c88fd52a
+    m_Address: GrilledCornerItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dac2a473a2b54c04bbcd712605b31b41
+    m_Address: BarbecueItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 49bbd8bab0f2a5a4eb822f0b058398b7
+    m_Address: GrilledMushroomCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7cdae2d8a3c80404985ca8d4f7ecf47b
+    m_Address: GrilledEggplantCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ba8b97559a5c8604cb3333fe058955dc
+    m_Address: GrilledCornerCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef86015c99d8f134ca4a4be52100ef02
+    m_Address: BarbecueCookingData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95be4be90d6aced47a130c48de1ec3ab
+    m_Address: FridgeItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3298bc7744048e48b4bd47447e06b92
+    m_Address: StoveRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c10eec0bf365c043ad238785cd2eaef
+    m_Address: FridgeRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c46e432f59110a46b708f8cb6252415
+    m_Address: SeasonData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 149c0e4060d770442b1b66f634a302ab
+    m_Address: ArtifactData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 943339e4a535326469f37be5fbdfe780
+    m_Address: EquipAxeQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90edbce390a4b8148beb59b39c7f9d55
+    m_Address: BuildBonFireQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 45c57b9497c0d5d4eb9de36721df4aa9
+    m_Address: DestroyFireArtifactQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 132c5ecc0ae3d574dab2181591b14775
+    m_Address: DestroyIceArtifactQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c1c9cd5af104be458227898d0abff31
+    m_Address: GetUsableCraftingTableQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd28de99046b5574bb78512e8d81d908
+    m_Address: BuildUsableCraftingTableQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3dce16dc5d9d24c4180e948a1d92bae1
+    m_Address: GetFurnaceQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f150045d3ba4fd54dbe0ba42af51f2aa
+    m_Address: BuildFurnaceQuestData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1fa651444036bc143bff01e72b2634d0
+    m_Address: WoodHelmetRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c601c478c90291d49be434a5fa75759d
+    m_Address: GlacierStone.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b4c6d9747d04a44a8938e868d54fff8
+    m_Address: WoodArmorRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 076181b5ba4dfbd46911d4683c4233ab
+    m_Address: IronHelmetRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 556388729fa1ac145a60ba2c2c3c74f5
+    m_Address: IronArmorRecipeData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 63dea3e71c2076f4db8b39eb918c5d69
+    m_Address: LavaStone.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2f68308d8544f4f458fcfef51bdea423
+    m_Address: BossRewardData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 412de64f4ac03bc4f905407632257b06
+    m_Address: StoveItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3c458f0a333e1994d89c6fa8e26f9ef9
+    m_Address: GlacierIsland.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 121533d9116a6d84cbf56855cbcdac74
+    m_Address: LavaIsland.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b950ab64111bf7f4fac97e1fda6277b1
+    m_Address: CenterIsland.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6de01058c5855234c8f177f221f14603
+    m_Address: Tips.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc0cfbd15c1da8446a87bd558384c08d
+    m_Address: SlimeMucusItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc97d2b9c6847c944b99d4efece5316f
+    m_Address: MetalonHornItemData.data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainScene
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: bdbe9aec9f16ba54489070c92fba3b1a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 393848174b5316341bdc62005f888d74, type: 2}
+    - {fileID: 11400000, guid: aff73479b1e488540a48405edbe677d7, type: 2}

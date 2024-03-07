@@ -1,19 +1,18 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class ToolSystem : MonoBehaviour
 {
-    public ItemSlot ItemInUse { get; private set; }
     public Transform handPosition;
-    public GameObject ItemObject { get; private set; }
+    public Transform leftHandPosition;
+    private Player _player;
 
-    public QuickSlot[] Equipments = new QuickSlot[(int)ItemParts.Max];
-    private QuickSlot EmptyHand = new QuickSlot();
+    public QuickSlot EquippedTool = new QuickSlot();
+    private ItemData _emptyhand;
 
     private Dictionary<string, GameObject> _tools = new Dictionary<string, GameObject>();
+    private Dictionary<string, GameObject> _twinTools = new Dictionary<string, GameObject>();
 
     public event Action<QuickSlot> OnEquip;
     public event Action<QuickSlot> OnUnEquip;
@@ -22,108 +21,142 @@ public class ToolSystem : MonoBehaviour
     {
         if (handPosition == null)
         {
-            Debug.LogWarning("handPosition is not allocated. Do Find [Hand R] / ToolSystem");
             this.enabled = false;
             return;
         }
+        _player = GetComponentInParent<Player>();
+        _emptyhand = Managers.Resource.GetCache<ItemData>("EmptyHandItemData.data");
 
-        for(int i = 0; i < Equipments.Length; ++i)
-        {
-            Equipments[i] = new QuickSlot();
-        }
-
-        EmptyHand.Set(-1, new ItemSlot((ItemData)Resources.Load<ScriptableObject>("SO/EmptyHandItemData")));
-
-        var tools = Managers.Resource.GetPrefabs(Literals.PATH_HANDABLE);
-        foreach(var tool in tools)
+        var tools = Managers.Resource.GetCacheGroup<GameObject>("Handable_");
+        foreach (var tool in tools)
         {
             var go = UnityEngine.Object.Instantiate(tool, handPosition);
             go.SetActive(false);
             _tools.TryAdd(tool.name, go);
         }
 
-        Equip(EmptyHand);
+        var twinTools = Managers.Resource.GetCacheGroup<GameObject>("Handable_L_"); //lgs 24.01.23 TwinTool의 왼 손 도구를 새로운 컬렉션에 저장한다.
+        foreach (var tool in twinTools)
+        {
+            var go = UnityEngine.Object.Instantiate(tool, leftHandPosition);
+            go.SetActive(false);
+            _twinTools.TryAdd(tool.name, go);
+        }
+
+        ClearHand();
+        EquippedTool.itemSlot.Set(_emptyhand);
+        Load();
+
+        GameManager.Instance.OnSaveCallback += Save;
     }
 
     private void Start()
     {
-        Managers.Game.Player.QuickSlot.OnUnRegisted += OnItemUnregisted;
+        _player.QuickSlot.OnClickEmptySlot += OnItemUnregisted;
+        _player.QuickSlot.OnUnRegisted += OnQuickSlotUnRegisted;
+        _player.Inventory.OnUpdated += OnInventoryUpdated;
     }
 
-    public void Equip(QuickSlot slot)
+    private void OnInventoryUpdated(int arg1, ItemSlot arg2)
     {
-        int part = GetPart(slot);
-        if (part == -1) return;
+        if (arg2.itemData != null) return;
+        if (EquippedTool.targetIndex != arg1) return;
 
-        UnEquip(part);
+        UnEquip();
+    }
+
+    private void OnQuickSlotUnRegisted(QuickSlot obj)
+    {
+        if(obj.targetIndex == EquippedTool.targetIndex &&
+            obj.itemSlot.itemData == EquippedTool.itemSlot.itemData)
+        {
+            UnEquip();
+        }
+    }
+
+    public void Equip(int index, ItemSlot itemSlot)
+    {
+        UnEquip();
+
+        itemSlot.SetEquip(true);
+        EquippedTool.Set(index, itemSlot);
+        OnEquip?.Invoke(EquippedTool);
+        SetToolActivate(true);
+    }
+
+    private void ClearHand()
+    {
+        EquippedTool.Clear();
+        EquippedTool.itemSlot.Set(_emptyhand);
+    }
+
+    public void UnEquip()
+    {
+        if (EquippedTool.itemSlot.itemData == null) return;
+        if (EquippedTool.itemSlot.itemData == _emptyhand) return;
         
-        Equipments[part].Set(slot.targetIndex, slot.itemSlot);
-        Equipments[part].itemSlot.SetEquip(true);
-        if (part == (int)ItemParts.Hand)
-        {
-            EquipTool(slot.itemSlot);
-        }
-
-        if (slot.itemSlot != EmptyHand.itemSlot)
-        {
-            Debug.Log($"Tool | R[{Equipments[part].itemSlot.registed}] E[{Equipments[part].itemSlot.equipped}]");
-            OnEquip?.Invoke(Equipments[part]);
-        }
-    }
-
-    private void EquipTool(ItemSlot itemSlot)
-    {
-        ItemInUse = itemSlot;
-        var toolName = GetToolName(itemSlot);
-        _tools[toolName].SetActive(true);
-    }
-
-    public void UnEquip(int part)
-    {
-        if (Equipments[part].itemSlot.itemData == null) return;
-
-        Equipments[part].itemSlot.SetEquip(false);
-        var toolName = GetToolName(Equipments[part].itemSlot);
-        _tools[toolName].SetActive(false);
-
-        if(-1 != Equipments[part].targetIndex)
-        {
-            OnUnEquip?.Invoke(Equipments[part]);
-        }
-        Equipments[part].Clear();
-    }
-
-    private string GetToolName(ItemSlot itemSlot)
-    {
-        return itemSlot.itemData.name.Replace("ItemData", "");
-    }
-
-    public void UnEquip(QuickSlot slot)
-    {
-        int part = GetPart(slot);
-        if (part == -1) return;
-
-        if (Equipments[part].itemSlot.itemData == slot.itemSlot.itemData)
-        {
-            UnEquip(part);
-        }        
-    }
-
-    private int GetPart(QuickSlot slot)
-    {
-        var itemData = slot.itemSlot.itemData as EquipItemData;
-        if (itemData == null) return -1;
-        return (int)itemData.part;
-    }
-
-    public void ClearHand()
-    {
-        Equip(EmptyHand);
-    }
-
-    private void OnItemUnregisted(QuickSlot slot)
-    {
-        UnEquip(slot);
+        EquippedTool.itemSlot.SetEquip(false);        
+        OnUnEquip?.Invoke(EquippedTool);
+        SetToolActivate(false);
         ClearHand();
+    }
+
+    private void SetToolActivate(bool value)
+    {
+        if (EquippedTool.itemSlot.itemData is ArchitectureItemData)
+        {
+            _tools["Handable_Base"].SetActive(value);
+        }
+        else
+        {
+            var toolName = GetToolName(EquippedTool.itemSlot);
+            _tools[toolName].SetActive(value);
+            _tools[toolName].GetComponent<Weapon>()?.Link(EquippedTool);//EquippedTool
+        }
+
+        if (EquippedTool.itemSlot.itemData.name.Contains("Twin")) // TwinTool의 왼 손 도구를 활성화한다.
+        {
+            var twinToolName = GetTwinToolLeftHandName(EquippedTool.itemSlot);
+            if (twinToolName.Contains("Handable_L_"))
+            {
+                _twinTools[twinToolName].SetActive(value);
+                _twinTools[twinToolName].GetComponent<Weapon>()?.Link(EquippedTool);
+            }
+        }
+    }
+
+    public string GetToolName(ItemSlot itemSlot)
+    {
+        return "Handable_" + itemSlot.itemData.name.Replace("ItemData", "");
+    }
+
+    public string GetTwinToolLeftHandName(ItemSlot itemSlot) //lgs 24.01.23 TwinTool의 왼 손 도구의 이름을 재정의한다.
+    {
+        return "Handable_L_" + itemSlot.itemData.name.Replace("ItemData", "");
+    }
+
+    private void OnItemUnregisted()
+    {
+        if (_player.StateMachine.IsAttackState)
+            return;
+
+        UnEquip();
+    }
+
+    private void Load()
+    {
+        if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, "ToolSystem"))
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                EquippedTool.itemSlot.LoadData();
+            }
+        }
+    }
+
+    private void Save()
+    {
+        var json = JsonUtility.ToJson(this);
+        SaveGame.CreateJsonFile("ToolSystem", json, SaveGame.SaveType.Runtime);
     }
 }

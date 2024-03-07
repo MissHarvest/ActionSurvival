@@ -5,11 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemData", menuName = "New Item/Equip", order = 2)]
 public class EquipItemData : ItemData
 {
-    [Header("Extra")]
     public ItemParts part;
+
+    public int defense;
     public EquipItemData()
     {
-        stackable = false;
-        registable = false;
+        _maxStackCount = 1;
     }
 }

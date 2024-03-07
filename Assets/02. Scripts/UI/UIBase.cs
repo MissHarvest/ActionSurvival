@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -58,7 +59,7 @@ public abstract class UIBase : MonoBehaviour
     {
         if (_bindObjects.TryGetValue(typeof(T), out var objects) == false)
             return null;
-
+        
         return objects[idx] as T;
     }
     
@@ -79,8 +80,6 @@ public abstract class UIBase : MonoBehaviour
         var objectNames = Enum.GetNames(type);
         var objects = new Object[objectNames.Length];
 
-        _bindObjects.Add(typeof(T), objects);
-
         for(var idx = 0; idx < objects.Length; ++idx)
         {
             if (typeof(T) == typeof(GameObject))
@@ -90,6 +89,14 @@ public abstract class UIBase : MonoBehaviour
 
             if (objects[idx] == null)
                 Debug.LogError(message: $"Failed to binding ({objectNames[idx]})");
+        }
+
+        if (_bindObjects.TryAdd(typeof(T), objects) == false)
+        {
+            if (_bindObjects.TryGetValue(typeof(T), out Object[] value))
+            {
+                _bindObjects[typeof(T)] = objects;
+            }
         }
     }
 

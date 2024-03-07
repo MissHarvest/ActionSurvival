@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIInventorySlot : UIItemSlot
 {
@@ -11,37 +9,20 @@ public class UIInventorySlot : UIItemSlot
         Regist,
     }
 
-    public int index { get; private set; }
-    public RectTransform RectTransform { get; private set; }
-    public UIInventory UIInventory { get; private set; }
+
+    private Slider durabilitySlider;
 
     public override void Initialize()
     {
         Bind<GameObject>(typeof(GameObjects));
-        base.Initialize();        
+        base.Initialize();
 
-        RectTransform = GetComponent<RectTransform>();
+        durabilitySlider = GetComponentInChildren<Slider>();
     }
 
     private void Awake()
     {
         Initialize();
-
-        gameObject.BindEvent((x) =>
-        {
-            if (Icon.gameObject.activeSelf)
-            {
-                var helper = Managers.UI.ShowPopupUI<UIItemUsageHelper>();
-                helper.ShowOption(index, new Vector3(transform.position.x + RectTransform.sizeDelta.x, transform.position.y));
-            }
-        });
-    }
-
-    public void Init(UIInventory inventoryUI, int index, ItemSlot itemSlot)
-    {
-        UIInventory = inventoryUI;
-        this.index = index;
-        Set(itemSlot);
     }
 
     public override void Set(ItemSlot itemSlot)
@@ -49,6 +30,48 @@ public class UIInventorySlot : UIItemSlot
         base.Set(itemSlot);
         Get<GameObject>((int)GameObjects.Equip).SetActive(itemSlot.equipped);
         Get<GameObject>((int)GameObjects.Regist).SetActive(itemSlot.registed);
+
+        UpdateDurabilityUI(itemSlot);
+    }
+
+    public void UpdateDurabilityUI(ItemSlot itemSlot)
+    {
+        if (itemSlot.itemData == null || itemSlot.itemData is ArchitectureItemData || itemSlot.itemData.MaxDurability == 0)
+        {
+            durabilitySlider.gameObject.SetActive(false);
+            return;
+        }
+
+        durabilitySlider.gameObject.SetActive(true);
+
+        float maxDurability = itemSlot.itemData.MaxDurability;
+        float currentDurability = itemSlot.currentDurability;
+
+        float durabilityPercentage = Mathf.Clamp01(currentDurability / maxDurability);
+        Color durabilityColor = GetDurabilityColor(durabilityPercentage);
+
+        durabilitySlider.value = durabilityPercentage;
+        durabilitySlider.fillRect.GetComponent<Image>().color = durabilityColor;
+    }
+
+    private Color GetDurabilityColor(float durabilityPercentage)
+    {
+        if (durabilityPercentage > 0.75f)
+        {
+            return Color.Lerp(Color.green, Color.yellow, (durabilityPercentage - 0.75f) * 1f);
+        }
+        else if (durabilityPercentage > 0.5f)
+        {
+            return Color.Lerp(Color.yellow, new Color(1f, 0.5f, 0f), (durabilityPercentage - 0.5f) * 1f);
+        }
+        else if (durabilityPercentage > 0.25f)
+        {
+            return Color.Lerp(new Color(1f, 0.5f, 0f), Color.red, (durabilityPercentage - 0.25f) * 1f);
+        }
+        else
+        {
+            return Color.red;
+        }
     }
 
     public override void Clear()

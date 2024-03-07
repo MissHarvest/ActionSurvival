@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,7 +9,7 @@ public class PlayerGroundedState : PlayerBaseState
 {
     public PlayerGroundedState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-
+        
     }
 
     public override void Enter()
@@ -27,38 +28,24 @@ public class PlayerGroundedState : PlayerBaseState
     {
         base.Update();
 
-        if(_stateMachine.IsAttacking)
-        {
-            // OnAttack();
-            return;
-        }
+        if (_stateMachine.MovementInput == Vector2.zero)
+            _stateMachine.ChangeState(_stateMachine.IdleState);
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
 
-        if(!_stateMachine.Player.Controller.isGrounded
-            && _stateMachine.Player.Controller.velocity.y < Physics.gravity.y * Time.fixedDeltaTime)
+        bool isHit = Physics.SphereCast(GameManager.Instance.Player.ViewPoint.transform.position, 0.5f, Vector3.down, out RaycastHit hit, 1f);
+
+        if (!isHit && _stateMachine.Player.Controller.velocity.y < Physics.gravity.y * Time.fixedDeltaTime)
         {
-            //_stateMachine.ChangeState(_stateMachine.FallState);
+            _stateMachine.ChangeState(_stateMachine.FallState);
         }
-    }
-
-    protected override void OnMovementCanceled(InputAction.CallbackContext context)
-    {
-        if(_stateMachine.MovementInput == Vector2.zero)
-        {
-            return;
-        }
-
-        _stateMachine.ChangeState(_stateMachine.IdleState);
-
-        base.OnMovementCanceled(context);
     }
 
     protected virtual void OnMove()
     {
-        _stateMachine.ChangeState(_stateMachine.WalkState);
+        _stateMachine.ChangeState(_stateMachine.RunState);
     }
 }

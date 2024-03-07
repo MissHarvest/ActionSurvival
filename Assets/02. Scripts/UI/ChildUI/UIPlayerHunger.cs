@@ -3,22 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UIPlayerHunger : MonoBehaviour
+public class UIPlayerHunger : UIPlayerCondition
 {
-    private TextMeshProUGUI hungerText;
-    private float _playerMaxHunger;
-
-    private void Awake()
+    protected override void BindToPlayerCondition()
     {
-        hungerText = GetComponent<TextMeshProUGUI>();
-
-        var playerConditions = GameObject.Find("Player").GetComponent<PlayerConditionHandler>();
-        playerConditions.Hunger.OnUpdated += PrintHunger;
-        _playerMaxHunger = playerConditions.HP.maxValue;
-    }
-
-    private void PrintHunger(float percentage)
-    {
-        hungerText.text = $"{(int)Mathf.Round(_playerMaxHunger * percentage)}";
+        var hunger = GameObject.Find("Player").GetComponent<PlayerConditionHandler>().Hunger;
+        _maxConditionValue = hunger.maxValue;
+        hunger.OnUpdated += OnConditionUpdated;
+        OnConditionUpdated(hunger.GetPercentage());
     }
 }

@@ -1,0 +1,66 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Rendering;
+
+public class MonsterAttackState : MonsterBaseState
+{
+    private bool _isAttacking;
+    public MonsterAttackState(MonsterStateMachine monsterStateMachine) : base(monsterStateMachine)
+    {
+
+    }
+
+    public override void Enter()
+    {
+        _stateMachine.MovementSpeedModifier = 0.0f;
+        _stateMachine.Monster.NavMeshAgent.velocity = Vector3.zero;
+        _stateMachine.canAttack = false;
+        _isAttacking = false;
+
+        base.Enter();
+        StartAnimation(_stateMachine.Monster.AnimationData.AttackParameterHash);
+    }
+
+    public override void Exit()
+    {        
+        base.Exit();
+        StopAnimation(_stateMachine.Monster.AnimationData.AttackParameterHash);
+    }
+
+    public override void Update()
+    {
+        if (_isAttacking == false)
+        {
+            Rotate();
+        }
+
+        float normalizedTime = GetNormalizedTime(_stateMachine.Monster.Animator, "Attack");
+        if (normalizedTime >= 1.0f)
+        {
+            if (TryDetectPlayer())
+            {
+                _stateMachine.ChangeState(_stateMachine.StayState);
+                return;
+            }
+            else
+            {
+                _stateMachine.ChangeState(_stateMachine.PatrolState);
+            }
+        }
+        else if(normalizedTime >= _stateMachine.Monster.Data.AttackData.DelayedTimeColliderActivated && !_isAttacking)
+        {
+            _isAttacking = true;
+            _stateMachine.Monster.TryAttack();
+        }
+    }
+
+    private void Rotate()
+    {
+        var look = _stateMachine.Target.transform.position - _stateMachine.Monster.transform.position;
+        look.y = 0;
+
+        var targetRotation = Quaternion.LookRotation(look);
+        _stateMachine.Monster.transform.rotation = targetRotation;
+    }
+}
