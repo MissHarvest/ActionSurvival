@@ -11,6 +11,7 @@ public class UITitleScene : UIScene
         NewGameButton,
         ContinueButton,
         SettingButton,
+        SignInGoogleButton,
     }
 
     enum GameObjects
@@ -52,6 +53,16 @@ public class UITitleScene : UIScene
         });
 
         Get<Button>((int)Buttons.SettingButton).gameObject.BindEvent((x) =>
+        {
+            Managers.Sound.PlayEffectSound("ButtonHover");
+        }, UIEvents.PointerEnter);
+
+        Get<Button>((int)Buttons.SignInGoogleButton).onClick.AddListener(() =>
+        {
+            GoogleSignIn.SignInWithGoogle();
+        });
+
+        Get<Button>((int)Buttons.SignInGoogleButton).gameObject.BindEvent((x) =>
         {
             Managers.Sound.PlayEffectSound("ButtonHover");
         }, UIEvents.PointerEnter);
