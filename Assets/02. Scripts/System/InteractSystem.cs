@@ -5,17 +5,6 @@ using UnityEngine;
 // 2024-02-23 WJY
 public class InteractSystem
 {
-    private ToolSystem _toolSystem;
-    private Transform _transform;
-    private ToolItemData _emptyHand;
-    private LayerMask _architectureLayerMask;
-    private LayerMask _monsterLayerMask;
-    private LayerMask _resourcesLayerMask;
-    private LayerMask _interactableAllLayerMask;
-    private InteractableTarget[] _targets;
-    private Action _onInteract;
-    private InteractableTarget? _currentHighlightTarget;
-
     public readonly struct InteractableTarget
     {
         public readonly Collider targetCollider;
@@ -26,7 +15,7 @@ public class InteractSystem
             get
             {
                 if (targetCollider == null) return null;
-                else return targetCollider.gameObject; 
+                else return targetCollider.gameObject;
             }
         }
 
@@ -50,12 +39,22 @@ public class InteractSystem
         public InteractableTarget(Collider targetCollider, Vector3 searchOrigin)
         {
             this.targetCollider = targetCollider;
-            distance = Vector3.SqrMagnitude(targetCollider.transform.position - targetCollider.ClosestPoint(searchOrigin));
+            distance = Vector3.SqrMagnitude(searchOrigin - targetCollider.ClosestPoint(searchOrigin));
         }
 
         public readonly bool CompareTag(string tag) => targetCollider.CompareTag(tag);
         public readonly bool TryGetComponent<T>(out T component) => targetCollider.TryGetComponent(out component);
     }
+
+    private ToolSystem _toolSystem;
+    private Transform _transform;
+    private ToolItemData _emptyHand;
+    private LayerMask _architectureLayerMask;
+    private LayerMask _monsterLayerMask;
+    private LayerMask _resourcesLayerMask;
+    private LayerMask _interactableAllLayerMask;
+    private InteractableTarget[] _targets;
+    private Action _onInteract;
 
     public event Action<Vector3> OnWeaponInteract;
     public event Action<IInteractable, string, Vector3> OnToolInteract;
@@ -112,15 +111,15 @@ public class InteractSystem
         if (SearchToolInteract(_emptyHand))
             return;
 
+        _onInteract = null;
+        HighlightTarget(null);
+
         // # 5. 허공에 공격
         if (isWeapon)
         {
             if (SearchWeaponInteract(tool, true))
                 return;
         }
-
-        _onInteract = null;
-        HighlightTarget(null);
     }
 
     public void SearchWeaponInteract()
@@ -257,12 +256,28 @@ public class InteractSystem
 
     private void HighlightTarget(InteractableTarget? target)
     {
-        if (_currentHighlightTarget?.targetCollider != null)
-        {
-            if (target?.targetCollider != _currentHighlightTarget?.targetCollider)
-                _currentHighlightTarget?.targetCollider?.GetComponentInChildren<OutlineDrawer>(true)?.SetActive(false);
-        }
-        target?.targetCollider?.GetComponentInChildren<OutlineDrawer>(true)?.SetActive(true);
-        _currentHighlightTarget = target;
+        GameManager.OutlineManager.TryHighlightObject(target?.targetCollider);
+
+        //var current = GameManager.OutlineManager.FindOutlineDrawer(target);
+        //var prev = GameManager.OutlineManager.FindOutlineDrawer(_currentHighlightTarget);
+
+        //if (current != prev)
+        //{
+        //    if (prev != null)
+        //        prev.SetActive(false);
+
+        //    if (current != null)
+        //        current.SetActive(true);
+        //}
+
+        //_currentHighlightTarget = target;
+
+        //if (_currentHighlightTarget?.targetCollider != null)
+        //{
+        //    if (target?.targetCollider != _currentHighlightTarget?.targetCollider)
+        //        _currentHighlightTarget?.targetCollider?.GetComponentInChildren<OutlineDrawer>(true)?.SetActive(false);
+        //}
+        //target?.targetCollider?.GetComponentInChildren<OutlineDrawer>(true)?.SetActive(true);
+        //_currentHighlightTarget = target;
     }
 }

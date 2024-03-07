@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     private WorldNavMeshBuilder _worldNavmeshBuilder;
     private ResourceObjectSpawner _resourceObjectSpawner = new();
     private PlayerHelper _playerHelper = new();
+    private OutlineManager _outlineManager = new();
     #endregion
 
     #region Property 
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour
     public static Season Season => _instance._season;
     public static ArtifactCreator ArtifactCreator => _instance._artifactCreator;
     public static ResourceObjectSpawner ResourceObjectSpawner => _instance._resourceObjectSpawner;
+    public static OutlineManager OutlineManager => _instance._outlineManager;
     public World World { get; private set; }
     public Player Player { get; set; }
     public WorldNavMeshBuilder WorldNavMeshBuilder
@@ -91,6 +93,7 @@ public class GameManager : MonoBehaviour
     private void InitSystems()
     {
         MonsterWave = new();
+        _outlineManager.Init();
         _disaster.Init();
         _daycycle.Init();
         _season.Init();

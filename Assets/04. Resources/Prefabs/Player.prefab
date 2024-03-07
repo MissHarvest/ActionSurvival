@@ -577,7 +577,7 @@ CharacterController:
   m_Height: 1
   m_Radius: 0.2
   m_SlopeLimit: 50
-  m_StepOffset: 0.2
+  m_StepOffset: 0.1
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.5, z: 0}
@@ -3403,6 +3403,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _quests: []
   _activeQuests: []
+  _isSummerQuestAdded: 0
+  _isWinterQuestAdded: 0
   groups: []
 --- !u!114 &4882961704473241515
 MonoBehaviour:

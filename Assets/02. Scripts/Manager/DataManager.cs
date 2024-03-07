@@ -15,7 +15,7 @@ public enum ItemDataType
 
 public class DataManager
 {
-    // 원본 메시 <-> 스무스 노말이 계산된 메시 딕셔너리
+    /// <summary> 원본 메시 -> 스무스 노말이 계산된 메시 딕셔너리 </summary>
     public Dictionary<Mesh, Mesh> smoothNormalMeshDictionary = new();
 
     // 제작 레시피 스크립터블 오브젝트를 저장할 리스트
