@@ -260,9 +260,9 @@ public class InteractSystem
         if (_currentHighlightTarget?.targetCollider != null)
         {
             if (target?.targetCollider != _currentHighlightTarget?.targetCollider)
-                _currentHighlightTarget?.targetCollider?.GetComponentInChildren<CustomOutlineDrawer>(true)?.SetActive(false);
+                _currentHighlightTarget?.targetCollider?.GetComponentInChildren<OutlineDrawer>(true)?.SetActive(false);
         }
-        target?.targetCollider?.GetComponentInChildren<CustomOutlineDrawer>(true)?.SetActive(true);
+        target?.targetCollider?.GetComponentInChildren<OutlineDrawer>(true)?.SetActive(true);
         _currentHighlightTarget = target;
     }
 }

@@ -4,13 +4,20 @@ using UnityEngine;
 // 2024-02-28 WJY
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
-public class CustomOutlineDrawer : MonoBehaviour
+public class OutlineDrawer : MonoBehaviour
 {
-    [SerializeField] private Material _outlineMaterial;
+    [HideInInspector] [SerializeField] private Material _outlineMaterial;
     [SerializeField] private Mesh _originMesh;
     private MeshRenderer _outlineRenderer;
     private MeshFilter _meshFilter;
 
+#if UNITY_EDITOR
+    private void Reset()
+    {
+        GetComponent<MeshRenderer>().sharedMaterial = _outlineMaterial;
+        GetComponent<MeshFilter>().sharedMesh = null;
+    }
+#endif
 
     private void Awake() => Initialize();
 
@@ -26,7 +33,7 @@ public class CustomOutlineDrawer : MonoBehaviour
             Managers.Data.smoothNormalMeshDictionary.Add(_originMesh, outlineMesh);
         }
         _meshFilter.mesh = outlineMesh;
-        _outlineRenderer.material = _outlineMaterial;
+        _outlineRenderer.sharedMaterial = _outlineMaterial;
     }
 
     public void SetActive(bool active)
