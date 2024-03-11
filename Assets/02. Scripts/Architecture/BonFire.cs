@@ -11,11 +11,16 @@ public class BonFire : MonoBehaviour, IInteractable
     private UICooking _cookingUI;
     private Ignition _ignition;
 
+    public BuildableObject BuildableObject { get; private set; }
+
     private void Awake()
     {
         _ignition = GetComponent<Ignition>();
         var buildableObject = GetComponent<BuildableObject>();
         buildableObject.OnDestroyed += OnDestruct;
+
+        BuildableObject = GetComponent<BuildableObject>();
+        BuildableObject.OnRenamed += _ignition.Load;
     }
 
     private void Start()

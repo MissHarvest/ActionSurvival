@@ -9,8 +9,9 @@ public class Ignition : MonoBehaviour
     public ItemSlot[] firewoodItemSlots = new ItemSlot[2];
     public ItemSlot[] recipeRequiredItemSlots;
     public ItemSlot[] cookedFoodItemSlots;
-    public List<RecipeSO> recipes = new List<RecipeSO>();
+    //public List<RecipeSO> recipes = new List<RecipeSO>();
     public int[] currentTimeRequiredToCook;
+    public Dictionary<ItemData, int> recipesDic = new Dictionary<ItemData, int>();//
 
     public int capacity = 0;
     [SerializeField] private int _maxCookingSlot = 6;
@@ -20,7 +21,7 @@ public class Ignition : MonoBehaviour
     public int firePowerGauge;
     public int cookingLevel = 0;
     public int cookingSlotIndex;
-    private int _maxTime;
+    [SerializeField] private int _maxTime;
 
     public bool haveFirewood = false;
     public bool startCooking = false;
@@ -61,8 +62,6 @@ public class Ignition : MonoBehaviour
             currentTimeRequiredToCook[i] = 0;
         }
 
-        Load();
-
         GameManager.Instance.OnSaveCallback += Save;
     }
 
@@ -71,6 +70,17 @@ public class Ignition : MonoBehaviour
         _dayCycle = GameManager.DayCycle;
         _dayCycle.OnTimeUpdated += OnConsumeFirePowerGauge;
         _dayCycle.OnTimeUpdated += OnStartCooking;
+    }
+
+    public void GetRecipe(List<RecipeSO> recipeSO)
+    {
+        if (recipesDic.Count == 0)
+        {
+            foreach (var recipe in recipeSO)
+            {
+                recipesDic.Add(recipe.completedItemData, recipe.maxTimeRequiredToCook);
+            }
+        }
     }
 
     public void StartAFire()
@@ -115,7 +125,7 @@ public class Ignition : MonoBehaviour
             startCooking = false;
         }
 
-        if (firePowerGauge == 0 && firewoodItemSlots[0].quantity == 0 && firewoodItemSlots[1].quantity == 0)
+        if (firePowerGauge == 0 && Array.TrueForAll(firewoodItemSlots, x => x.quantity == 0))
         {
             //_startCooking = false;
             haveFirewood = false;
@@ -147,13 +157,29 @@ public class Ignition : MonoBehaviour
 
         SetCookingSlotIndex();
 
-        foreach (var recipe in recipes)
+        //if (recipesDic.Count == 0)
+        //{
+        //    foreach (var recipe in recipes)
+        //    {
+        //        recipesDic.Add(recipe.completedItemData, recipe.maxTimeRequiredToCook);
+        //    }
+        //}
+
+        foreach (var recipeDic in recipesDic)
         {
-            if (recipe.completedItemData == recipeRequiredItemSlots[cookingSlotIndex].itemData)
+            if (recipeDic.Key == recipeRequiredItemSlots[cookingSlotIndex].itemData)
             {
-                _maxTime = recipe.maxTimeRequiredToCook;
+                _maxTime = recipeDic.Value;
             }
         }
+
+        //foreach (var recipe in recipes)
+        //{
+        //    if (recipe.completedItemData == recipeRequiredItemSlots[cookingSlotIndex].itemData)
+        //    {
+        //        _maxTime = recipe.maxTimeRequiredToCook;
+        //    }
+        //}
 
         currentTimeRequiredToCook[cookingSlotIndex] += 1;
         OnUpdateSlider?.Invoke(cookingSlotIndex, currentTimeRequiredToCook[cookingSlotIndex]);
@@ -249,28 +275,26 @@ public class Ignition : MonoBehaviour
         OnUpdatedCount?.Invoke(firewoodStoreCount);
     }
 
-    private void Load()
+    public void Load()
     {
         if (SaveGame.TryLoadJsonToObject(this, SaveGame.SaveType.Runtime, $"{gameObject.name}Ignition"))
         {
-            Debug.LogWarning("TryLoadJsonToObject");
             for (int i = 0; i < firewoodItemSlots.Length; i++)
-            {                
+            {
                 firewoodItemSlots[i].LoadData();
             }
-            Debug.LogWarning("firewoodslotload");
+
             for (int i = 0; i < recipeRequiredItemSlots.Length; i++)
             {
                 recipeRequiredItemSlots[i].LoadData();
                 cookedFoodItemSlots[i].LoadData();
             }
-            Debug.LogWarning("recipeRequiredItemSlotsLoad");
         }
     }
 
     private void Save()
     {
-        var json = JsonUtility.ToJson(this);
+        var json = JsonUtility.ToJson(this, true);
         SaveGame.CreateJsonFile($"{gameObject.name}Ignition", json, SaveGame.SaveType.Runtime);
     }
 }

@@ -21,7 +21,8 @@ public class UICooking : UICraftBase
     {
         base.OnEnable();
         SetAdvancedRecipeUIActive(0);
-        ignition.recipes = _recipeOrCookingList;
+        //ignition.recipes = _recipeOrCookingList;
+        ignition.GetRecipe(_recipeOrCookingList);
     }
 
     private void Start()

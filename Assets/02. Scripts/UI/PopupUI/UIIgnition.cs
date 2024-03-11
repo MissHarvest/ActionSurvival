@@ -189,14 +189,14 @@ public class UIIgnition : UIPopup
 
     public void SetCookingData(int index)
     {
-        foreach (var recipe in ignition.recipes)
+        foreach (var recipe in ignition.recipesDic)
         {
-            if (recipe.completedItemData == ignition.recipeRequiredItemSlots[index].itemData)
+            if (recipe.Key == ignition.recipeRequiredItemSlots[index].itemData)
             {
                 var cookingSlot = cookingSlots[index];
                 cookingSlot.Set(ignition.recipeRequiredItemSlots[index]);
                 cookingSlot.SetCookedFoodItemQuantity(ignition.cookedFoodItemSlots[index]);
-                cookingSlot.SetMaxTimeTakenToCookSlider(recipe.maxTimeRequiredToCook);
+                cookingSlot.SetMaxTimeTakenToCookSlider(recipe.Value);
                 cookingSlot.SetText("요리 대기");
             }
         }
