@@ -13,7 +13,12 @@
           "package_name": "com.DefaultCompany.DisasterOfIsland"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "850878432614-56hgi9dhhrehuqbalh4nerco0qgr2n5p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDo97JJO-cjp0YdNmPXO8z6iwnSEbvJ6ZA"
@@ -21,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "850878432614-56hgi9dhhrehuqbalh4nerco0qgr2n5p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
